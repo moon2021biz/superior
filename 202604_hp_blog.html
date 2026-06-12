@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARAS HP ブログ記事 ｜ 2026年4月 承認待ち</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: #0e0e0e;
+    color: #f0f0f0;
+    line-height: 1.8;
+  }
+  .page-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-bottom: 3px solid #C4A45A;
+    padding: 32px 40px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    color: #C4A45A;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #999;
+    margin-top: 6px;
+  }
+  .page-header .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #C4A45A;
+    color: #C4A45A;
+  }
+  .badge.warning { border-color: #f5a623; color: #f5a623; }
+
+  .container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    color: #777;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #333;
+  }
+
+  .article-card {
+    background: #1c1c1c;
+    border: 1px solid #2e2e2e;
+    border-radius: 12px;
+    margin-bottom: 36px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .article-card:hover { border-color: #C4A45A; }
+
+  .thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    overflow: hidden;
+    background: #111;
+  }
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .article-card:hover .thumb-wrap img { transform: scale(1.03); }
+  .thumb-dl {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(196,164,90,0.92);
+    color: #111;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .thumb-dl:hover { background: #fff; }
+
+  .card-header {
+    background: #252525;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid #333;
+  }
+  .week-badge {
+    background: #C4A45A;
+    color: #111;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .date-label {
+    font-size: 13px;
+    color: #aaa;
+  }
+  .target-tag {
+    margin-left: auto;
+    font-size: 11px;
+    color: #888;
+    border: 1px solid #444;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+
+  .card-body {
+    padding: 28px;
+  }
+
+  .article-title {
+    font-size: 19px;
+    color: #C4A45A;
+    font-weight: bold;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .copyable-box {
+    background: #141414;
+    border: 1px solid #2e2e2e;
+    border-left: 3px solid #C4A45A;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .copyable-box .box-label {
+    font-size: 11px;
+    color: #C4A45A;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .copyable-box .text-content {
+    font-size: 14px;
+    color: #e8e8e8;
+    line-height: 2;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #aaa;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #C4A45A; color: #111; border-color: #C4A45A; }
+
+  .score-bar {
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 13px;
+    color: #bbb;
+    margin-bottom: 16px;
+  }
+  .score-bar .score-num {
+    font-size: 22px;
+    font-weight: bold;
+    color: #C4A45A;
+    margin-right: 6px;
+  }
+  .score-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .score-item {
+    font-size: 12px;
+    color: #999;
+  }
+  .score-item .mark { color: #C4A45A; }
+  .score-item .ok { color: #6fcf97; }
+
+  .buzz-memo {
+    background: #1a1e14;
+    border: 1px solid #3a4a2a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #a0b090;
+    margin-top: 10px;
+  }
+  .buzz-memo strong { color: #88cc44; }
+
+  .char-count {
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  /* ===== メタ情報ボックス ===== */
+  .meta-section {
+    background: #0e1a2a;
+    border: 1px solid #2a4a6a;
+    border-radius: 10px;
+    margin: 18px 0 10px;
+    overflow: hidden;
+  }
+  .meta-section-title {
+    background: #1a3a5a;
+    padding: 8px 18px;
+    font-size: 11px;
+    color: #7ab8e8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .meta-row {
+    border-bottom: 1px solid #1a2e44;
+    padding: 12px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-label {
+    font-size: 11px;
+    color: #5a9fcf;
+    font-weight: bold;
+    min-width: 120px;
+    padding-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .meta-value {
+    font-size: 13px;
+    color: #c8dff0;
+    line-height: 1.7;
+    flex: 1;
+  }
+  .meta-copy-btn {
+    background: #1a3a5a;
+    border: 1px solid #3a6a9a;
+    color: #7ab8e8;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-top: 2px;
+    transition: background 0.2s;
+  }
+  .meta-copy-btn:hover { background: #2a5a8a; color: #fff; }
+  .meta-copy-btn.copied { background: #1a5a2a; border-color: #3a9a5a; color: #6fcf97; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid #2a2a2a;
+    font-size: 12px;
+    color: #555;
+    margin-top: 20px;
+  }
+  .footer span { color: #C4A45A; }
+
+  @media (max-width: 600px) {
+    .card-header { flex-wrap: wrap; gap: 8px; }
+    .target-tag { margin-left: 0; }
+    .page-header h1 { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>&#x1F4DD; CARAS HP ブログ記事 &#xFF5C; 2026年4月</h1>
+  <div class="meta">生成日: 2026-04-01 ／ 承認待ち ／ 自動生成: caras-hp-monthly-content</div>
+  <div class="badge-row">
+    <span class="badge">4本生成</span>
+    <span class="badge">金曜投稿: 4/3 · 4/10 · 4/17 · 4/24</span>
+    <span class="badge warning">&#x26A0;&#xFE0F; MOONさんの承認待ち</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <p class="section-title">April 2026 — Blog Posts</p>
+
+  <!-- ===== 第1金曜 ===== -->
+  <div class="article-card">
+    <div class="thumb-wrap">
+      <img src="202604_thumb_week1_golf.jpg" alt="第1週サムネイル：ゴルフ×体幹">
+      <a class="thumb-dl" href="202604_thumb_week1_golf.jpg" download>&#x2193; DL</a>
+    </div>
+    <div class="card-header">
+      <span class="week-badge">第1金曜</span>
+      <span class="date-label">2026年4月3日（金）投稿</span>
+      <span class="target-tag">&#x26F3; ゴルフ好きビジネスパーソン男性</span>
+    </div>
+    <div class="card-body">
+      <div class="article-title">【ゴルファー必見】飛距離を伸ばすカギは「体幹」にあった</div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ タイトル（コピー用）</div>
+        <div class="text-content">【ゴルファー必見】飛距離を伸ばすカギは「体幹」にあった</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+
+      <div class="meta-section">
+        <div class="meta-section-title">🔍 SEOメタ情報（smooooth入力用）</div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】タイトル</span>
+          <span class="meta-value" id="meta1-title">飛距離を伸ばすカギは「体幹」にあった｜パーソナルジムCARAS（西宮・夙川）</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta1-title')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】キーワード</span>
+          <span class="meta-value" id="meta1-kw">ゴルフ 体幹トレーニング, 飛距離アップ トレーニング, ゴルフ 腰痛 改善, パーソナルジム 西宮, CARAS パーソナルトレーニング</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta1-kw')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】ディスクリプション</span>
+          <span class="meta-value" id="meta1-desc">ゴルフの飛距離が伸びない・腰痛に悩むゴルファーへ。西宮・夙川のパーソナルジムCARASでは、元オリンピック選手のトレーナーがゴルフパフォーマンスに特化した体幹トレーニングをご提供。3ヶ月でスイングの安定と飛距離アップを実感。体験トレーニング受付中。</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta1-desc')">コピー</button>
+        </div>
+      </div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ 本文（コピー用）</div>
+        <div class="text-content" id="article1">&#x1F3CC; ゴルフのスコアが伸び悩んでいませんか？
+
+クラブを替えても、練習場で球数を打ち込んでも、なかなか変わらない——そんな方に知っていただきたいのが「体幹トレーニング」の力です。
+
+スイングの飛距離はインパクト瞬間の体の回旋によって生まれます。体幹が弱いと軸がブレ、腕だけで振っても飛距離は伸びません。一方で体幹をしっかり鍛えると、スイングが安定して飛距離が格段にアップします。&#x1F4AA;
+
+もう一つ、ゴルファーに多いお悩みが「腰痛」。スイングの反力が腰に集中してしまうのは、体幹が弱くて腰で力を逃している状態です。体幹を強化することで腰への負担が減り、腰痛の予防・改善にもつながります。
+
+CARASでは元オリンピック選手・日本代表アスリートのトレーナーが、ゴルフパフォーマンスに特化したオーダーメイドプログラムをご提供。3ヶ月の継続で、スイングの安定感と飛距離アップを実感していただいています。&#x26F3;
+
+「スコアを縮めたい」「腰を壊さず長くゴルフを楽しみたい」そんな目標がある方は、まずは体験トレーニングから。
+
+&#x1F449; ご予約・詳細はプロフィールのリンクから</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+      <div class="char-count" id="count1"></div>
+
+      <div class="score-bar">
+        <span class="score-num">87</span>点
+        <div class="score-detail">
+          <span class="score-item">フック: <span class="mark">◎</span>（問いかけ型）</span>
+          <span class="score-item">読みやすさ: <span class="ok">○</span></span>
+          <span class="score-item">CTA: <span class="mark">◎</span>（明確）</span>
+          <span class="score-item">ターゲット適合: <span class="mark">◎</span>（ゴルフ語彙・腰痛・体幹）</span>
+          <span class="score-item">ブランドトーン: <span class="ok">○</span>（継続強調）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 第2金曜 ===== -->
+  <div class="article-card">
+    <div class="thumb-wrap">
+      <img src="202604_thumb_week2_trainer.jpg" alt="第2週サムネイル：トレーナー紹介">
+      <a class="thumb-dl" href="202604_thumb_week2_trainer.jpg" download>&#x2193; DL</a>
+    </div>
+    <div class="card-header">
+      <span class="week-badge">第2金曜</span>
+      <span class="date-label">2026年4月10日（金）投稿</span>
+      <span class="target-tag">&#x1F465; 全ターゲット共通</span>
+    </div>
+    <div class="card-body">
+      <div class="article-title">【トレーナー紹介】元オリンピック選手が教えるパーソナルトレーニングとは</div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ タイトル（コピー用）</div>
+        <div class="text-content">【トレーナー紹介】元オリンピック選手が教えるパーソナルトレーニングとは</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+
+      <div class="meta-section">
+        <div class="meta-section-title">🔍 SEOメタ情報（smooooth入力用）</div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】タイトル</span>
+          <span class="meta-value" id="meta2-title">元オリンピック選手が教えるパーソナルトレーニングとは｜CARAS（西宮・夙川）</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta2-title')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】キーワード</span>
+          <span class="meta-value" id="meta2-kw">パーソナルトレーナー 西宮, 元オリンピック選手 トレーナー, パーソナルジム 夙川, CARAS トレーナー, 荻田大樹 パーソナル</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta2-kw')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】ディスクリプション</span>
+          <span class="meta-value" id="meta2-desc">棒高跳びオリンピック日本代表・荻田大樹をはじめ、全員がトップアスリートの実績を持つトレーナーが在籍。西宮・夙川のパーソナルジムCARASは継続利用率100%の完全個別プログラムで、一人ひとりの身体と目標に寄り添います。無料カウンセリング受付中。</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta2-desc')">コピー</button>
+        </div>
+      </div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ 本文（コピー用）</div>
+        <div class="text-content" id="article2">&#x1F3C5; CARASのトレーナーをご紹介します。
+
+代表の荻田大樹は、棒高跳でオリンピック日本代表・世界選手権代表として活躍した元アスリート。引退後は「アスリートの体づくりの知識を、一般の方の健康と日常生活に活かしたい」という思いからパーソナルトレーナーの道へ進みました。
+
+他のトレーナーも、国民体育大会準優勝・アジア選手権日本代表など、全員がトップアスリートとして活躍した実績を持っています。&#x1F4AA;
+
+でも、CARASのトレーニングはアスリート向けの厳しいものではありません。
+
+大切にしているのは「その人が一生続けられる身体づくり」。運動初心者の方、腰痛や肩こりにお悩みの方、子育て中で時間がない方まで、一人ひとりに合ったオーダーメイドのプログラムをご提案します。
+
+入会者の継続利用率は100%（2年経過時点）。マニュアルのない完全個別対応だから、同じプログラムは二つとありません。&#x2728;
+
+&#x1F449; まずは無料カウンセリングから。プロフィールのリンクよりお気軽にどうぞ。</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+      <div class="char-count" id="count2"></div>
+
+      <div class="score-bar">
+        <span class="score-num">86</span>点
+        <div class="score-detail">
+          <span class="score-item">フック: <span class="mark">◎</span>（権威性＋紹介型）</span>
+          <span class="score-item">読みやすさ: <span class="ok">○</span></span>
+          <span class="score-item">CTA: <span class="mark">◎</span>（無料カウンセリング）</span>
+          <span class="score-item">ターゲット適合: <span class="mark">◎</span>（USP全面訴求）</span>
+          <span class="score-item">ブランドトーン: <span class="mark">◎</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 第3金曜 ===== -->
+  <div class="article-card">
+    <div class="thumb-wrap">
+      <img src="202604_thumb_week3_madam.jpg" alt="第3週サムネイル：西宮マダム×春姿勢">
+      <a class="thumb-dl" href="202604_thumb_week3_madam.jpg" download>&#x2193; DL</a>
+    </div>
+    <div class="card-header">
+      <span class="week-badge">第3金曜</span>
+      <span class="date-label">2026年4月17日（金）投稿</span>
+      <span class="target-tag">&#x1F338; 西宮・夙川在住 40〜50代女性</span>
+    </div>
+    <div class="card-body">
+      <div class="article-title">【夙川・西宮の方へ】春こそ姿勢を整えよう。鏡の前でドキっとしたら読んで</div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ タイトル（コピー用）</div>
+        <div class="text-content">【夙川・西宮の方へ】春こそ姿勢を整えよう。鏡の前でドキっとしたら読んで</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+
+      <div class="meta-section">
+        <div class="meta-section-title">🔍 SEOメタ情報（smooooth入力用）</div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】タイトル</span>
+          <span class="meta-value" id="meta3-title">春こそ姿勢を整えよう｜夙川・西宮 40〜50代女性のパーソナルジムCARAS</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta3-title')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】キーワード</span>
+          <span class="meta-value" id="meta3-kw">姿勢改善 西宮, パーソナルジム 夙川 女性, 40代 ボディメイク, 50代 姿勢矯正, 阪急夙川 パーソナルジム</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta3-kw')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】ディスクリプション</span>
+          <span class="meta-value" id="meta3-desc">「鏡を見てドキっとした」——春は姿勢を整えるベストシーズン。阪急夙川駅徒歩5分の完全個室パーソナルジムCARASが、西宮・夙川の40〜50代女性のお悩みに丁寧にお応えします。無料カウンセリング受付中。</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta3-desc')">コピー</button>
+        </div>
+      </div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ 本文（コピー用）</div>
+        <div class="text-content" id="article3">&#x1F338; 新しい季節に向けて、身体のことを少し考えてみませんか？
+
+春は薄手の服やジャケット姿が増える季節。「なんとなく姿勢が気になる」「鏡で見た自分の後ろ姿にドキっとした」——そんな方は少なくありません。
+
+実は、姿勢の変化は見た目だけでなく、肩こり・腰痛・疲れやすさにも直結しています。正しい姿勢を取り戻すだけで、背がすらっと高く見え、首や肩のコリが軽くなり、1日の疲れ方も変わってきます。&#x1F4AB;
+
+CARASは西宮・夙川にある完全個室のパーソナルジム。阪急夙川駅から徒歩5分という立地で、プライベートな空間でじっくり身体と向き合えます。
+
+「体型を変えたい」「姿勢をよくしたい」「なんとなく動きづらい身体をなんとかしたい」——どんなお悩みもトレーナーが丁寧にお聞きします。
+
+40代・50代でも、身体は必ず変わります。続けられる仕組みを一緒につくりましょう。&#x1F33F;
+
+&#x1F449; ご体験・ご相談はプロフィールのリンクから。まずは無料カウンセリングへ。</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+      <div class="char-count" id="count3"></div>
+
+      <div class="score-bar">
+        <span class="score-num">89</span>点
+        <div class="score-detail">
+          <span class="score-item">フック: <span class="mark">◎</span>（共感型・ドキっと）</span>
+          <span class="score-item">読みやすさ: <span class="mark">◎</span></span>
+          <span class="score-item">CTA: <span class="mark">◎</span>（明確）</span>
+          <span class="score-item">ターゲット適合: <span class="mark">◎</span>（夙川・西宮・姿勢・背が高く）</span>
+          <span class="score-item">ブランドトーン: <span class="ok">○</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 第4金曜 ===== -->
+  <div class="article-card">
+    <div class="thumb-wrap">
+      <img src="202604_thumb_week4_trend.jpg" alt="第4週サムネイル：2026年トレンド">
+      <a class="thumb-dl" href="202604_thumb_week4_trend.jpg" download>&#x2193; DL</a>
+    </div>
+    <div class="card-header">
+      <span class="week-badge">第4金曜</span>
+      <span class="date-label">2026年4月24日（金）投稿</span>
+      <span class="target-tag">&#x2728; バズテーマ &#xFF5C; 30〜50代全般（女性寄り）</span>
+    </div>
+    <div class="card-body">
+      <div class="article-title">【2026年トレンド】「頑張らない」が続く秘密。継続率100%の理由</div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ タイトル（コピー用）</div>
+        <div class="text-content">【2026年トレンド】「頑張らない」が続く秘密。継続率100%の理由</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+
+      <div class="meta-section">
+        <div class="meta-section-title">🔍 SEOメタ情報（smooooth入力用）</div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】タイトル</span>
+          <span class="meta-value" id="meta4-title">「頑張らない」が続く秘密。継続率100%のパーソナルジムCARAS（西宮・夙川）</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta4-title')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】キーワード</span>
+          <span class="meta-value" id="meta4-kw">パーソナルジム 継続, 三日坊主 克服, ボディメイク 続かない, パーソナルトレーニング 西宮, CARAS 継続率100</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta4-kw')">コピー</button>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">【メタ】ディスクリプション</span>
+          <span class="meta-value" id="meta4-desc">続かないのは意志の問題ではありません。自分の生活に合ったオーダーメイドプログラムで「続く仕組み」をつくる西宮・夙川のパーソナルジムCARAS。入会者の継続利用率100%を誇る、完全個別パーソナルトレーニングです。</span>
+          <button class="meta-copy-btn" onclick="copyMeta(this,'meta4-desc')">コピー</button>
+        </div>
+      </div>
+
+      <div class="copyable-box">
+        <div class="box-label">▶ 本文（コピー用）</div>
+        <div class="text-content" id="article4">&#x1F4A1; 「また三日坊主に終わった」——そんな自分を責めていませんか？
+
+2026年のフィットネスキーワードは「頑張りすぎない」。無理して追い込む時代から、自分のペースで長く続けることが重視される時代に変わっています。
+
+実は、ボディメイクや体質改善に失敗する最大の原因は「意志の弱さ」ではなく、「自分の身体に合っていないプログラム」です。&#x1F4AA;
+
+CARASが入会者の継続利用率100%を誇る理由も、ここにあります。トレーニングのメニューは完全オーダーメイド。生活習慣の中に自然に組み込める身体づくりを、トレーナーと一緒に考えます。
+
+「3ヶ月続けられた」「毎日しっかり眠れるようになった」「動きが変わって運動が好きになった」——CARASに通うお客様からのそんな声が、私たちのいちばんの誇りです。&#x2728;
+
+身体を変えることより、「続けられる仕組み」をつくること。それがCARASのパーソナルトレーニングです。
+
+&#x1F449; 体験トレーニング・無料カウンセリングはプロフィールのリンクから</div>
+        <button class="copy-btn" onclick="copyText(this)">コピー</button>
+      </div>
+      <div class="char-count" id="count4"></div>
+
+      <div class="buzz-memo">
+        <strong>&#x1F4CA; バズ調査メモ（2026-04-01 実施）</strong><br>
+        2026年フィットネストレンド: 「頑張りすぎない×継続重視（JOMO）」が最注目キーワード。パーソナルジム市場は300億円突破・前年比+9.1%急成長中。CARASのUSP「継続率100%・オーダーメイド」と完全一致するため第4週テーマとして採用。ゴルフ・マダムキーワードより汎用性が高く、月末シメ記事として最適と判断。
+      </div>
+
+      <div class="score-bar" style="margin-top:16px">
+        <span class="score-num">88</span>点
+        <div class="score-detail">
+          <span class="score-item">フック: <span class="mark">◎</span>（共感型・問いかけ）</span>
+          <span class="score-item">読みやすさ: <span class="ok">○</span></span>
+          <span class="score-item">CTA: <span class="mark">◎</span>（体験＋カウンセリング）</span>
+          <span class="score-item">ターゲット適合: <span class="mark">◎</span>（2026トレンドと合致）</span>
+          <span class="score-item">ブランドトーン: <span class="mark">◎</span>（NGルール遵守・継続強調）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>CARAS HP ブログ記事 自動生成レポート &#xFF5C; <span>caras-hp-monthly-content</span><br>
+  生成: 2026-04-01 ／ 承認後、daily-morning-briefingで投稿リマインダーが表示されます</p>
+</div>
+
+<script>
+  function copyText(btn) {
+    var box = btn.closest('.copyable-box');
+    var text = box.querySelector('.text-content').innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'コピー済み ✓';
+      btn.style.background = '#C4A45A';
+      btn.style.color = '#111';
+      setTimeout(function() {
+        btn.textContent = 'コピー';
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2000);
+    });
+  }
+
+  function countChars(id, countId) {
+    var el = document.getElementById(id);
+    var countEl = document.getElementById(countId);
+    if (el && countEl) {
+      var len = el.innerText.replace(/\n/g, '').length;
+      var ok = len >= 500 && len <= 800;
+      countEl.innerHTML = '文字数: <strong style="color:' + (ok ? '#6fcf97' : '#f2994a') + '">' + len + '字</strong> ' + (ok ? '&#x2705; 仕様内' : '&#x26A0;&#xFE0F; 要確認（500〜800字）');
+    }
+  }
+
+  function copyMeta(btn, id) {
+    var text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'コピー済み ✓';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'コピー';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  window.addEventListener('load', function() {
+    ['1','2','3','4'].forEach(function(n) { countChars('article' + n, 'count' + n); });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026-04-11</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  line-height: 1.6;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header {
+  background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%);
+  color: white;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: 12px 12px 0 0;
+}
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+}
+.card h2 {
+  font-size: 1rem; font-weight: 700; color: #2d3748;
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex; align-items: center; gap: 8px;
+}
+.alert-banner {
+  background: #fff5f5; border: 2px solid #fc8181;
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
+}
+.alert-banner h3 { color: #c53030; font-size: 1rem; margin-bottom: 8px; }
+.alert-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 6px 0; border-bottom: 1px solid #fed7d7;
+  font-size: 0.9rem;
+}
+.alert-item:last-child { border-bottom: none; }
+.milestone-banner {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 2px solid #f59e0b; border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px; text-align: center;
+}
+.milestone-banner h3 { color: #92400e; font-size: 1.1rem; }
+.milestone-banner .milestone-content { color: #78350f; font-size: 0.95rem; margin-top: 6px; }
+.proj-row {
+  display: flex; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid #f7fafc; gap: 10px;
+}
+.proj-row:last-child { border-bottom: none; }
+.proj-name { font-weight: 600; font-size: 0.9rem; flex: 1; color: #2d3748; }
+.proj-pct {
+  font-size: 0.8rem; font-weight: 700; color: white;
+  background: #4299e1; border-radius: 20px; padding: 2px 10px;
+  min-width: 50px; text-align: center;
+}
+.proj-bar-bg {
+  flex: 2; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;
+}
+.proj-bar-fill { height: 100%; border-radius: 4px; }
+.proj-comment { font-size: 0.8rem; color: #718096; flex: 2; }
+.sns-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+}
+.sns-card {
+  background: #f7fafc; border-radius: 8px; padding: 12px; text-align: center;
+}
+.sns-card .platform { font-size: 0.75rem; color: #718096; font-weight: 600; }
+.sns-card .count { font-size: 1.4rem; font-weight: 700; color: #2d3748; }
+.sns-card .change { font-size: 0.8rem; }
+.change-up { color: #38a169; }
+.change-flat { color: #718096; }
+.trial-card {
+  background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 8px;
+  padding: 12px; margin-bottom: 8px;
+}
+.trial-today {
+  background: #fff5f5; border: 2px solid #fc8181; border-radius: 8px;
+  padding: 12px; margin-bottom: 8px;
+}
+.trial-new { background: #fffff0; border: 1px solid #fefcbf; }
+.cdst-row { padding: 6px 0; border-bottom: 1px solid #f0f4f8; font-size: 0.9rem; }
+.cdst-row:last-child { border-bottom: none; }
+.action-item {
+  display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+.action-item:last-child { border-bottom: none; }
+.action-num {
+  background: #4299e1; color: white; width: 28px; height: 28px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+}
+.synergy-item {
+  background: #ebf8ff; border-radius: 8px; padding: 12px; margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.footer {
+  text-align: center; font-size: 0.75rem; color: #a0aec0;
+  padding: 24px 0; margin-top: 16px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Morning Briefing</h1>
+  <div class="date">2026年4月11日（土）</div>
+  <div class="subtitle">全8PJ進捗 + SNS実数 + 体験管理 + CDST + 行政情報</div>
+</div>
+
+<!-- ALERTS -->
+<div class="alert-banner">
+  <h3>&#9888;&#65039; 要対応事項</h3>
+  <div class="alert-item">
+    <span>&#128308;</span>
+    <div><strong>【本日】SORA体験 2名</strong> — へいたくかんた（小3）9:30〜 / やまだゆずき（小4）11:00〜 ＠観音寺</div>
+  </div>
+  <div class="alert-item">
+    <span>&#128308;</span>
+    <div><strong>【本日】関学大 兵庫春季</strong> — 富永・川添・伊藤が出場（荻田不在、ポールは大輔）</div>
+  </div>
+  <div class="alert-item">
+    <span>&#128993;</span>
+    <div><strong>TrustFit PRISM CUP営業開始準備完了</strong> — 候補企業リスト18社・企画書LP・DMテンプレート全完成。Sランク企業からアプローチ開始待ち</div>
+  </div>
+  <div class="alert-item">
+    <span>&#128993;</span>
+    <div><strong>オギラボ TikTok +5人</strong>（1,073→1,078）— 5月noteオープンに向けた記事ストック作成が急務</div>
+  </div>
+  <div class="alert-item">
+    <span>&#128309;</span>
+    <div><strong>CARAS Instagram</strong> — GBP投稿継続中。リッチメニュー未設定</div>
+  </div>
+</div>
+
+<!-- MILESTONE -->
+<div class="milestone-banner">
+  <h3>&#127881; TrustFit PRISM CUP 営業準備完了！</h3>
+  <div class="milestone-content">候補企業18社リスト・企画書LP・DMテンプレート3種を完成。Sランク企業からアプローチ開始フェーズへ</div>
+</div>
+
+<!-- PJ PROGRESS -->
+<div class="card">
+  <h2>&#128202; PJ進捗サマリー</h2>
+
+  <div class="proj-row">
+    <div class="proj-name">1. オギラボ</div>
+    <div class="proj-pct">42%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:42%;background:#4299e1;"></div></div>
+    <div class="proj-comment">TikTok 1,078人（+5）/ 5月noteオープン確定 / 記事ストック作成へ</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">2. CARAS</div>
+    <div class="proj-pct">61%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:61%;background:#48bb78;"></div></div>
+    <div class="proj-comment">GBP投稿完了 / 広告運用中（ゴルフ10 click・マダム3 click）/ リッチメニュー未設定</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">3. 健康経営</div>
+    <div class="proj-pct">20%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:20%;background:#ed8936;"></div></div>
+    <div class="proj-comment">サービスパッケージ設計が最重要タスク（LP・提案資料の全前提）</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">4. SORA</div>
+    <div class="proj-pct">48%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:48%;background:#4299e1;"></div></div>
+    <div class="proj-comment">申込累計309件 / 本日体験2名@観音寺 / 4/18体験1名@高松</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">5. SUPERIOR</div>
+    <div class="proj-pct">52%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:52%;background:#48bb78;"></div></div>
+    <div class="proj-comment">申込累計102件 / 4/16生駒体験1名 / 関東展開（佐々木氏）準備中</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">6. むーん</div>
+    <div class="proj-pct">80%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:80%;background:#38a169;"></div></div>
+    <div class="proj-comment">定員9割稼働 / 新規4名中2名入会見込み / 処遇改善加算イ確定</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">7. 関学大陸上部</div>
+    <div class="proj-pct">0%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:0%;background:#a0aec0;"></div></div>
+    <div class="proj-comment">本日兵庫春季 / 4月KGAD報告書は4/25作成予定</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">8. TrustFit</div>
+    <div class="proj-pct">5%</div>
+    <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:5%;background:#e53e3e;"></div></div>
+    <div class="proj-comment">PRISM CUP営業準備完了 / 企画書・DM・候補18社リスト完成 / Sランクからアプローチ開始</div>
+  </div>
+</div>
+
+<!-- SNS -->
+<div class="card">
+  <h2>&#128241; SNSフォロワー実数</h2>
+  <div style="font-size:0.8rem;color:#718096;margin-bottom:10px;">TikTok: Countik実測(4/11) / その他: CONTEXT.md前回値（Computer Use無効のため直接確認不可）</div>
+  <div class="sns-grid">
+    <div class="sns-card">
+      <div class="platform">オギラボ TikTok</div>
+      <div class="count">1,078人</div>
+      <div class="change change-up">&#9650; +5（前回1,073）</div>
+    </div>
+    <div class="sns-card">
+      <div class="platform">オギラボ YouTube</div>
+      <div class="count">85人</div>
+      <div class="change change-flat">&#9644; ±0 / 動画11本</div>
+    </div>
+    <div class="sns-card">
+      <div class="platform">SORA Instagram</div>
+      <div class="count">514人</div>
+      <div class="change change-flat">&#9644; ±0 / 投稿282件</div>
+    </div>
+    <div class="sns-card">
+      <div class="platform">CARAS Instagram</div>
+      <div class="count">69人</div>
+      <div class="change change-flat">投稿84件</div>
+    </div>
+    <div class="sns-card">
+      <div class="platform">CARAS TikTok</div>
+      <div class="count">24人</div>
+      <div class="change change-flat">&#9644; ±0 / いいね187</div>
+    </div>
+    <div class="sns-card">
+      <div class="platform">SUPERIOR Instagram</div>
+      <div class="count">3人</div>
+      <div class="change change-flat">&#9644; ±0 / 投稿16件</div>
+    </div>
+  </div>
+</div>
+
+<!-- SORA TRIAL -->
+<div class="card">
+  <h2>&#127939; SORA 体験申込（累計309件）</h2>
+  <div style="font-size:0.8rem;color:#718096;margin-bottom:10px;">※ スプレッドシート直接確認不可（Computer Use無効）。CONTEXT.md記録値を表示</div>
+
+  <div class="trial-today">
+    <div style="font-weight:700;color:#c53030;margin-bottom:6px;">&#128680; 本日 4/11（土）— 2名体験予定</div>
+    <div style="padding:4px 0;">&#9312; <strong>へいたくかんた</strong>（小3）— 【観音寺】小学生コース 9:30〜10:30</div>
+    <div style="padding:4px 0;">&#9313; <strong>やまだゆずき</strong>（小4）— 【観音寺】専門基礎コース 11:00〜12:00 <span style="background:#f6e05e;padding:2px 6px;border-radius:4px;font-size:0.8rem;">NEW</span></div>
+  </div>
+
+  <div class="trial-card trial-new">
+    <div style="font-weight:600;margin-bottom:4px;">4/18（金）— 1名</div>
+    <div>&#9312; <strong>つじおかしんのすけ</strong>（小6）— 【高松】アスリート短距離コース <span style="background:#f6e05e;padding:2px 6px;border-radius:4px;font-size:0.8rem;">NEW</span></div>
+  </div>
+</div>
+
+<!-- SUPERIOR TRIAL -->
+<div class="card">
+  <h2>&#127947; SUPERIOR 体験申込（累計102件）</h2>
+  <div style="font-size:0.8rem;color:#718096;margin-bottom:10px;">※ スプレッドシート直接確認不可。CONTEXT.md記録値を表示</div>
+
+  <div class="trial-card">
+    <div style="font-weight:600;margin-bottom:4px;">4/16（水）— 生駒 1名</div>
+    <div>&#9312; <strong>ごとうりょうすけ</strong>（小3・男）— 生駒 小学生コース（16:45〜17:45）</div>
+  </div>
+
+  <div style="font-size:0.85rem;color:#718096;margin-top:8px;">
+    &#128221; 直近実績: 4/9（木）生駒 — まるやまとうま・かみよしあさ・やまざきゆうさ・てんまはやと（4名体験済み）
+  </div>
+</div>
+
+<!-- CDST -->
+<div class="card">
+  <h2>&#128197; 関学大 CDST（荻田予定表）</h2>
+  <div style="background:#f0fff4;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.9rem;">
+    &#9989; 前回スナップショット（4/10）との比較: <strong>変更確認不可（Computer Use無効）</strong>— 前回データを表示
+  </div>
+
+  <div style="font-size:0.85rem;color:#4a5568;">
+    <div class="cdst-row"><strong>4/11（土）本日</strong> — C: 兵庫春季 / D: 富永・川添、伊藤 / S: 荻田不在、ポールは当日大輔</div>
+    <div class="cdst-row"><strong>4/12（日）</strong> — S: 何時からやるの？</div>
+    <div class="cdst-row"><strong>4/14（火）</strong> — S: 家の都合で無理</div>
+    <div class="cdst-row"><strong>4/18（土）</strong> — C: 香川カーニバル / D: 伊藤 / S: いきますので跳躍で記録で関西インカレメンバー決めます *仕事なので12時には出ます</div>
+    <div class="cdst-row"><strong>4/19（日）</strong> — C: 兵庫リレーカーニバル、広島国スポ記録会 / D: 北田（幅）伊藤 / S: 北田帯同</div>
+    <div class="cdst-row"><strong>4/26（日）</strong> — C: 大阪カーニバル / D: 北田？ / S: グランド行きます</div>
+    <div class="cdst-row"><strong>4/28（火）</strong> — S: おそらく仕事なので水曜</div>
+    <div class="cdst-row"><strong>4/29（水）</strong> — S: 朝できるなら朝からで</div>
+    <div class="cdst-row"><strong>5/1〜6</strong> — 春合宿撤回。5/4のみ香川県選手権（北田・大西・杉本）。荻田は香川で仕事</div>
+    <div class="cdst-row"><strong>5/15-17</strong> — C: 関西インカレ / S: 東日本実業団を休んでいくよ。</div>
+  </div>
+</div>
+
+<!-- MUUN ADMIN -->
+<div class="card">
+  <h2>&#127970; むーん行政情報</h2>
+  <div style="font-size:0.85rem;color:#718096;margin-bottom:8px;">※ 本日は土曜日のため簡易チェック（WebSearch実施済み）</div>
+  <div style="font-size:0.9rem;">
+    <div style="padding:4px 0;">&#9989; <strong>処遇改善加算届出</strong>: 申請完了済み（4/4）— 4・5・6月の加算算定確保</div>
+    <div style="padding:4px 0;">&#9989; <strong>前年度実績届出</strong>: 申請完了済み（4/8）— 期限4/30前に完了</div>
+    <div style="padding:4px 0;">&#128204; 大阪市事業者向けお知らせ: 4/8以降の新規掲載なし（WebSearch確認済み）</div>
+  </div>
+  <div style="background:#f0fff4;border-radius:6px;padding:8px 12px;margin-top:10px;font-size:0.85rem;">
+    &#128161; 全行政手続き完了。新規4名中2名入会見込み。SK-3施設案内PDFが次の課題。
+  </div>
+</div>
+
+<!-- RECOMMENDED ACTIONS -->
+<div class="card">
+  <h2>&#127919; 推奨アクション TOP5</h2>
+  <div class="action-item">
+    <div class="action-num">1</div>
+    <div>
+      <strong>SORA 本日の体験フォロー</strong><br>
+      <span style="font-size:0.85rem;color:#718096;">へいたくかんた（9:30〜）& やまだゆずき（11:00〜）＠観音寺。体験後の入会フォロー準備を確認。</span>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">2</div>
+    <div>
+      <strong>TrustFit PRISM CUP — Sランク企業へのアプローチ開始</strong><br>
+      <span style="font-size:0.85rem;color:#718096;">企画書LP・DMテンプレート完成済み。Netlifyにアップ→URLを取得→DMテンプレートにURL差し替え→Sランク企業からDM送信開始。</span>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">3</div>
+    <div>
+      <strong>オギラボ NOTE記事ストック作成開始</strong><br>
+      <span style="font-size:0.85rem;color:#718096;">5月オープン確定。初月5本のタイトル確定済み→本文執筆を開始。無料パート＋有料パートの構成で書く。</span>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">4</div>
+    <div>
+      <strong>CARAS リッチメニュー設定</strong><br>
+      <span style="font-size:0.85rem;color:#718096;">LINE登録0件の改善。広告→LINE登録のCVR向上のためリッチメニュー設定が急務。</span>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">5</div>
+    <div>
+      <strong>関学大 兵庫春季の結果確認</strong><br>
+      <span style="font-size:0.85rem;color:#718096;">富永・川添・伊藤の試合結果を夕方以降に確認。KGAD報告書（4/25作成予定）の参考情報に。</span>
+    </div>
+  </div>
+</div>
+
+<!-- SYNERGY -->
+<div class="card">
+  <h2>&#128279; 今週のシナジーチャンス</h2>
+  <div class="synergy-item">
+    <strong>TrustFit PRISM CUP × SUPERIOR関東展開</strong><br>
+    佐々木理方氏がPRISM CUPのMC＋SUPERIOR関東展開の両方に関与。企業対抗運動会で接点を作りながら、関東でのかけっこスクール認知も同時獲得できる。
+  </div>
+  <div class="synergy-item">
+    <strong>SORA体験好調（累計309件）→ オギラボSNS発信ネタ</strong><br>
+    「AI×スポーツクラブ運営」の成功事例としてnote記事のネタに転用可能。5月noteオープンのコンテンツストックに。
+  </div>
+  <div class="synergy-item">
+    <strong>むーん新規入会見込み → CARAS保護者紹介</strong><br>
+    新規入会2名見込みの保護者に対してCARASのトレーニングプログラムを紹介できる機会。
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Generated by AI Organization System | 2026-04-11 09:00 JST</p>
+  <p>SNS注記: TikTokはCountik実測値。Instagram/YouTubeはCONTEXT.md前回値（Computer Use無効のため直接確認不可）</p>
+  <p>Next briefing: 2026-04-12（日）09:00</p>
+</div>
+
+</div>
+</body>
+</html>

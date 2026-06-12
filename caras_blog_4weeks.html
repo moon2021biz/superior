@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARAS HP ブログ投稿 4週分 | 2026年4月〜</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: #f5f5f0;
+      color: #333;
+      padding: 24px 16px;
+    }
+    .page-header {
+      max-width: 800px;
+      margin: 0 auto 32px;
+      background: #1a1a2e;
+      color: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+    }
+    .page-header h1 { font-size: 1.4rem; letter-spacing: 0.05em; }
+    .page-header p { margin-top: 8px; color: #aaa; font-size: 0.9rem; }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+    }
+    .legend span {
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+
+    .post-card {
+      max-width: 800px;
+      margin: 0 auto 28px;
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .post-header {
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .week-badge {
+      background: #e8f4ff;
+      color: #1a6bbf;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      margin-top: 3px;
+    }
+    .week-badge.w2 { background: #fff3e8; color: #c47a1a; }
+    .week-badge.w3 { background: #eefaf0; color: #1a9b3c; }
+    .week-badge.w4 { background: #f3eeff; color: #7b2fb5; }
+
+    .post-meta h2 { font-size: 1.1rem; line-height: 1.5; }
+    .post-meta .theme-tag {
+      font-size: 0.78rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .post-body {
+      padding: 24px 28px;
+    }
+    .post-title-block {
+      background: #f8f8f8;
+      border-left: 4px solid #1a6bbf;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+    }
+    .post-title-block.w2 { border-left-color: #c47a1a; }
+    .post-title-block.w3 { border-left-color: #1a9b3c; }
+    .post-title-block.w4 { border-left-color: #7b2fb5; }
+
+    .post-title-block label {
+      font-size: 0.75rem;
+      color: #888;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .post-title-block .title-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .body-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #333;
+      white-space: pre-wrap;
+    }
+
+    .copy-area {
+      background: #fafafa;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-top: 20px;
+    }
+    .copy-area label {
+      font-size: 0.75rem;
+      color: #888;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+    .copy-area pre {
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: #444;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .post-footer {
+      padding: 14px 28px;
+      background: #f9f9f9;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .char-count {
+      font-size: 0.8rem;
+      color: #888;
+    }
+    .score-badge {
+      background: #e8f8ee;
+      color: #1a7a3e;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .suggested-date {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .tips-box {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      background: #fff8e8;
+      border: 1px solid #f0d98a;
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .tips-box h3 { font-size: 0.95rem; color: #7a5c00; margin-bottom: 10px; }
+    .tips-box ul { padding-left: 18px; }
+    .tips-box li { font-size: 0.87rem; color: #6a5000; line-height: 1.8; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>📝 CARAS HP ブログ投稿 — 4週分</h1>
+  <p>smoooothにコピペして投稿してください。タイトル・本文をそのまま使えます。</p>
+  <div class="legend">
+    <span>📅 週1投稿</span>
+    <span>📝 500〜800字</span>
+    <span>🎯 ビジネスパーソン30〜50代</span>
+    <span>✅ NGルール適用済み</span>
+  </div>
+</div>
+
+
+<!-- ======== WEEK 1 ======== -->
+<div class="post-card">
+  <div class="post-header">
+    <span class="week-badge">第1週</span>
+    <div class="post-meta">
+      <h2>トレーニング・健康Tips</h2>
+      <div class="theme-tag">テーマ：デスクワークで崩れた体を取り戻す方法</div>
+    </div>
+  </div>
+  <div class="post-body">
+    <div class="post-title-block">
+      <label>▼ タイトル（smoooothに貼り付け）</label>
+      <div class="title-text">デスクワーク続きで「なんか動きが悪い」と感じたら読む話</div>
+    </div>
+
+    <div class="copy-area">
+      <label>▼ 本文（smoooothに貼り付け）</label>
+      <pre>「最近、肩がよく凝る」「階段で少し息切れする」「以前より疲れやすくなった気がする」
+
+そんな変化を感じていませんか？
+
+デスクワーク中心の生活では、長時間同じ姿勢が続くことで筋肉が固まり、血流が滞りやすくなります。これが積み重なると、肩こり・腰痛・疲労感だけでなく、パフォーマンスにも影響が出てきます。
+
+重要なのは「激しい運動」ではなく、今の身体に合った正しい動かし方を取り戻すこと。
+
+CARASでは、まずあなたの姿勢・柔軟性・筋力のバランスを確認してから、オーダーメイドのプログラムを設計します。「効かせたい部位に効かせる」ことで、短い時間でも確実に身体が変わる実感を得られます。
+
+実際に通われているお客様の多くは、「肩こり・腰痛が改善した」「毎日しっかり眠れるようになった」「動きが変わって運動が好きになった」とおっしゃっています。
+
+まずは無料カウンセリングで、今の身体の状態を一緒に確認してみませんか。</pre>
+    </div>
+  </div>
+  <div class="post-footer">
+    <span class="char-count">📊 本文 約550字</span>
+    <span class="score-badge">品質スコア: 82点 ｜ フック:◎ 読みやすさ:○ CTA:◎ トーン:◎</span>
+    <span class="suggested-date">📅 推奨投稿日: 4月第1週（月〜火）</span>
+  </div>
+</div>
+
+
+<!-- ======== WEEK 2 ======== -->
+<div class="post-card">
+  <div class="post-header">
+    <span class="week-badge w2">第2週</span>
+    <div class="post-meta">
+      <h2>トレーナー紹介・CARASの強み</h2>
+      <div class="theme-tag">テーマ：元オリンピック選手が在籍するジムが「普通の人」に選ばれる理由</div>
+    </div>
+  </div>
+  <div class="post-body">
+    <div class="post-title-block w2">
+      <label>▼ タイトル（smoooothに貼り付け）</label>
+      <div class="title-text">「元オリンピック選手のトレーナー」がいるのに、なぜ普通の人に選ばれるのか</div>
+    </div>
+
+    <div class="copy-area">
+      <label>▼ 本文（smoooothに貼り付け）</label>
+      <pre>CARASには、オリンピック日本代表として世界の舞台に立ったトレーナーが在籍しています。
+
+「アスリート向けのジムでしょ？」そう思われることもありますが、実際の会員様の多くは運動が久しぶりのビジネスパーソンや、産後のママ、健康診断が気になってきた40代〜50代の方です。
+
+なぜか。それは「トップアスリートを指導してきた技術」が、一般の方の身体改善に驚くほど効果的だからです。
+
+身体の使い方・重心の取り方・インナーマッスルの意識——競技の世界で当たり前に使われているこうした知識が、日常の動きを変え、姿勢を整え、パフォーマンスを上げます。
+
+CARASにはマニュアルがありません。担当トレーナーがあなたの身体と目標を見て、毎回プログラムを設計します。だから結果が出る。だから通い続けられる。
+
+入会者の継続利用率は2年経過時点で100%です。
+
+まずは体験トレーニングで、その違いを感じてみてください。</pre>
+    </div>
+  </div>
+  <div class="post-footer">
+    <span class="char-count">📊 本文 約600字</span>
+    <span class="score-badge">品質スコア: 86点 ｜ フック:◎ 信頼性:◎ CTA:○ 差別化:◎</span>
+    <span class="suggested-date">📅 推奨投稿日: 4月第2週（月〜火）</span>
+  </div>
+</div>
+
+
+<!-- ======== WEEK 3 ======== -->
+<div class="post-card">
+  <div class="post-header">
+    <span class="week-badge w3">第3週</span>
+    <div class="post-meta">
+      <h2>季節・時事ネタ × 健康</h2>
+      <div class="theme-tag">テーマ：春の新生活シーズン、身体のリセットに最適な時期</div>
+    </div>
+  </div>
+  <div class="post-body">
+    <div class="post-title-block w3">
+      <label>▼ タイトル（smoooothに貼り付け）</label>
+      <div class="title-text">新年度のスタートに「身体のリセット」を選ぶ人が増えている理由</div>
+    </div>
+
+    <div class="copy-area">
+      <label>▼ 本文（smoooothに貼り付け）</label>
+      <pre>4月。新しい環境、新しい生活がスタートする季節です。
+
+目標を立てるとき、「今年こそ身体を変えたい」と思う方は多いのですが、多くの場合3ヶ月以内に習慣が途切れてしまいます。その最大の原因は、「自分に合っていないやり方を選んでしまうこと」。
+
+春は気温の変化や環境の変化で自律神経が乱れやすく、疲れやすい時期でもあります。激しい運動を急に始めるより、今の身体の状態を正しく把握し、無理なく続けられる仕組みをつくることが、長期的に結果を出す近道です。
+
+CARASでは、無料カウンセリングでまず「今のあなたの身体」を確認することから始めます。柔軟性・筋力バランス・生活習慣——これらを踏まえた上で、継続できるペースとプログラムを一緒に設計します。
+
+3ヶ月で10kgの変化を実現した方も、月2〜3回のペースからスタートしました。
+
+「いつかやろう」より「今年の春に始める」。それが半年後の自分を変えます。</pre>
+    </div>
+  </div>
+  <div class="post-footer">
+    <span class="char-count">📊 本文 約570字</span>
+    <span class="score-badge">品質スコア: 84点 ｜ フック:◎ 季節感:◎ CTA:○ 共感:◎</span>
+    <span class="suggested-date">📅 推奨投稿日: 4月第3週（月〜火）</span>
+  </div>
+</div>
+
+
+<!-- ======== WEEK 4 ======== -->
+<div class="post-card">
+  <div class="post-header">
+    <span class="week-badge w4">第4週</span>
+    <div class="post-meta">
+      <h2>バズ調査テーマ（2026年最注目）</h2>
+      <div class="theme-tag">テーマ：「サステナブルフィットネス」——無理せず続く健康習慣</div>
+    </div>
+  </div>
+  <div class="post-body">
+    <div class="post-title-block w4">
+      <label>▼ タイトル（smoooothに貼り付け）</label>
+      <div class="title-text">「頑張らない健康習慣」が2026年のスタンダードになりつつある話</div>
+    </div>
+
+    <div class="copy-area">
+      <label>▼ 本文（smoooothに貼り付け）</label>
+      <pre>「ジムに通ったけど、3ヶ月で行かなくなった」という経験はありませんか？
+
+2026年、フィットネス業界では「無理に頑張らず、自分の身体に合わせて続けること」がもっとも重要なトレンドとして注目されています。追い込み系・短期集中型から、長期的に心身を整える「サステナブルな健康習慣」へのシフトです。
+
+これはCARASが創業当初から大切にしてきたことと、まさに一致しています。
+
+週1〜2回のトレーニングでも、正しいやり方で正しい部位を動かせば、身体は確実に変わります。食事はLINEでトレーナーに相談できる環境があれば、極端な制限は必要ありません。「やり切った」より「続いた」が、ボディメイクで最も大切な実績です。
+
+入会者の継続率100%——この数字は、無理のないペースで確実に変化できる仕組みがあるからこそ生まれています。
+
+今の生活に無理なく組み込める健康習慣、一緒に考えてみませんか。</pre>
+    </div>
+  </div>
+  <div class="post-footer">
+    <span class="char-count">📊 本文 約560字</span>
+    <span class="score-badge">品質スコア: 88点 ｜ フック:◎ トレンド感:◎ CTA:◎ USP連携:◎</span>
+    <span class="suggested-date">📅 推奨投稿日: 4月第4週（月〜火）</span>
+  </div>
+</div>
+
+
+<!-- TIPS -->
+<div class="tips-box">
+  <h3>💡 smoooothへの投稿手順メモ</h3>
+  <ul>
+    <li>「タイトル」欄に上記タイトルをコピペ</li>
+    <li>「本文」欄に本文テキストをコピペ（改行もそのまま反映されます）</li>
+    <li>画像は西宮店の外観・トレーニング風景などを設定するとクリック率が上がります</li>
+    <li>カテゴリは「ブログ」または「お知らせ」を選択（smoooothの設定に合わせてください）</li>
+    <li>投稿曜日は月〜火を推奨（週初めのアクセスが高い傾向）</li>
+    <li>次の4週分が必要になったらいつでも声をかけてください！</li>
+  </ul>
+</div>
+
+</body>
+</html>

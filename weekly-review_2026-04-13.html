@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>週次レビュー | 2026-04-13（月）</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #0f0f0f;
+      color: #e8e8e8;
+      line-height: 1.7;
+      padding: 20px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border: 1px solid #2a4a7a;
+      border-radius: 12px;
+      padding: 32px 36px;
+      margin-bottom: 28px;
+    }
+    .header h1 { font-size: 2rem; color: #7eb8f7; margin-bottom: 8px; }
+    .header .subtitle { color: #8899aa; font-size: 0.95rem; }
+    .header .date { color: #4fc3f7; font-size: 1.1rem; font-weight: 700; }
+
+    /* Section */
+    .section {
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 1.15rem;
+      color: #7eb8f7;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* PJ Cards */
+    .pj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .pj-card {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .pj-card h3 { font-size: 1rem; color: #e0e0e0; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .pj-name { font-size: 0.75rem; color: #888; font-weight: 400; }
+
+    .progress-bar-wrap { margin-bottom: 10px; }
+    .progress-label { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.82rem; }
+    .progress-label .label { color: #aaa; }
+    .progress-label .pct { color: #7eb8f7; font-weight: 700; }
+    .progress-bar {
+      height: 8px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.4s;
+    }
+    .fill-blue { background: linear-gradient(90deg, #1976d2, #42a5f5); }
+    .fill-green { background: linear-gradient(90deg, #2e7d32, #66bb6a); }
+    .fill-orange { background: linear-gradient(90deg, #e65100, #ff9800); }
+    .fill-purple { background: linear-gradient(90deg, #6a1b9a, #ab47bc); }
+    .fill-teal { background: linear-gradient(90deg, #00695c, #26a69a); }
+    .fill-red { background: linear-gradient(90deg, #b71c1c, #ef5350); }
+    .fill-gold { background: linear-gradient(90deg, #f57f17, #ffca28); }
+    .fill-grey { background: linear-gradient(90deg, #424242, #9e9e9e); }
+
+    .gauge {
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #ffca28;
+      margin: 8px 0 4px;
+    }
+    .gauge-note { font-size: 0.78rem; color: #888; }
+
+    .pj-meta { margin-top: 10px; font-size: 0.82rem; color: #999; }
+    .pj-meta .highlight { color: #66bb6a; }
+    .pj-meta .warn { color: #ff9800; }
+    .pj-meta .alert { color: #ef5350; }
+    .pj-meta .info { color: #42a5f5; }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 2px 2px 2px 0;
+    }
+    .tag-blue { background: #0d2a4a; color: #7eb8f7; border: 1px solid #1976d2; }
+    .tag-green { background: #0d2a1a; color: #66bb6a; border: 1px solid #2e7d32; }
+    .tag-orange { background: #2a1a00; color: #ff9800; border: 1px solid #e65100; }
+    .tag-red { background: #2a0d0d; color: #ef5350; border: 1px solid #b71c1c; }
+
+    /* Sprint Declaration */
+    .sprint-box {
+      background: linear-gradient(135deg, #1a1a0d, #2a2a0d);
+      border: 1px solid #4a4a00;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .sprint-rank { font-size: 1.4rem; margin-right: 8px; }
+    .sprint-title { font-size: 1rem; color: #ffca28; font-weight: 700; }
+    .sprint-reason { font-size: 0.88rem; color: #bbb; margin-top: 6px; line-height: 1.6; }
+
+    /* Action items */
+    .action-list { list-style: none; padding: 0; }
+    .action-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #222;
+      font-size: 0.9rem;
+    }
+    .action-list li:last-child { border-bottom: none; }
+    .action-num {
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #1976d2;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .action-content { flex: 1; color: #ddd; }
+    .action-pj { font-size: 0.75rem; color: #7eb8f7; margin-top: 2px; }
+
+    /* Block tasks */
+    .block-item {
+      background: #1e1e1e;
+      border-left: 3px solid #e65100;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      border-radius: 0 6px 6px 0;
+    }
+    .block-item .block-title { color: #ff9800; font-size: 0.9rem; font-weight: 700; }
+    .block-item .block-why { color: #888; font-size: 0.82rem; margin-top: 4px; }
+
+    /* Synergy */
+    .synergy-item {
+      background: #0d1a2a;
+      border: 1px solid #1976d2;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .synergy-from { font-size: 0.82rem; color: #7eb8f7; }
+    .synergy-arrow { color: #4fc3f7; font-size: 1rem; margin: 0 6px; }
+    .synergy-to { font-size: 0.82rem; color: #42a5f5; }
+    .synergy-detail { font-size: 0.85rem; color: #ccc; margin-top: 6px; }
+
+    /* Decision Log */
+    .decision-item {
+      background: #1a1a1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+    }
+    .decision-title { font-size: 0.9rem; color: #e0e0e0; }
+    .decision-meta { font-size: 0.78rem; color: #666; margin-top: 4px; }
+    .no-data { color: #555; font-size: 0.88rem; font-style: italic; }
+
+    /* Footer */
+    .footer { text-align: center; color: #444; font-size: 0.78rem; margin-top: 30px; padding: 16px; }
+
+    .chip { display: inline-block; background: #1a1a2a; border: 1px solid #2a4a7a; border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; color: #7eb8f7; margin-right: 6px; }
+
+    .alert-box {
+      background: #1a0d00;
+      border: 1px solid #e65100;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .alert-box h4 { color: #ff9800; margin-bottom: 6px; font-size: 0.9rem; }
+    .alert-box p { font-size: 0.85rem; color: #ccc; }
+
+    .success-box {
+      background: #0d1a0d;
+      border: 1px solid #2e7d32;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+    }
+    .success-box p { font-size: 0.85rem; color: #a5d6a7; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="date">📅 2026年4月13日（月）</div>
+    <h1>週次レビュー</h1>
+    <p class="subtitle">週次振り返り / 全PJ進捗確認 / 今週の優先アクション提案<br>
+      <span style="font-size:0.82rem;color:#556677;">自動実行: weekly-review スケジュールタスク</span>
+    </p>
+  </div>
+
+  <!-- STEP 1: 先週の振り返り -->
+  <div class="section">
+    <h2>📝 先週の振り返り（4/7〜4/12）</h2>
+    <div class="success-box"><p>✅ <strong>SORA</strong>: daily-morning-briefing継続実行。体験申込累計311件確認。4/18・4/25体験者データ取得完了。</p></div>
+    <div class="success-box"><p>✅ <strong>SUPERIOR</strong>: Instagram投稿（Week2 COACHING）承認・稼働。4/16生駒体験・4/21箕面体験（岸姉妹）確認。関東展開パートナー（佐々木理方氏）との協議が進展。</p></div>
+    <div class="success-box"><p>✅ <strong>CARAS</strong>: 4/11 GBP投稿完了（姿勢改善マダム向け）。4/8 Instagram GOLF投稿・4/10 RESULT投稿が公開済み。4月分ブログ全4回予約完了。</p></div>
+    <div class="success-box"><p>✅ <strong>オギラボ</strong>: TikTokフォロワー1,110人（2026-04-13確認）。1,000人目標継続達成中。noteメンバーシップ3プラン設定完了（非公開）。</p></div>
+    <div class="success-box"><p>✅ <strong>むーん</strong>: 行政情報モニタリング（4/13）→ 新着確認済み・新規未対応なし。前年度実績届出✅4/8完了済み。新規申込4名あり・2名入会見込み。</p></div>
+    <div class="success-box"><p>✅ <strong>TrustFit</strong>: 商談スクリプト3パターン完成。ポイントシステム詳細設計確定。佐々木氏との50-50収益分配モデル合意。</p></div>
+  </div>
+
+  <!-- STEP 2: 進捗チェック + STEP 3: 収益化ゲージ -->
+  <div class="section">
+    <h2>📊 各PJ進捗 & 収益化ゲージ</h2>
+    <div class="pj-grid">
+
+      <!-- オギラボ -->
+      <div class="pj-card">
+        <h3>🔬 オギラボ <span class="pj-name">オンラインサロン</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">42%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-blue" style="width:42%"></div></div>
+        </div>
+        <div class="gauge">収益化 [■■□□□] 8pt/20pt</div>
+        <div class="gauge-note">MG-2達成（TikTok 1,110人）/ MG-1未達（noteメンバーシップ公開待ち）</div>
+        <div class="pj-meta">
+          <div><span class="highlight">📱 TikTok: 1,110人（2026-04-13）</span></div>
+          <div>YouTube: 86人 / Note: 非公開</div>
+          <div class="warn">⏰ 5月公開目標 → 記事本文作成が急務</div>
+          <span class="tag tag-orange">note記事執筆急務</span>
+          <span class="tag tag-blue">5月公開目標</span>
+        </div>
+      </div>
+
+      <!-- CARAS -->
+      <div class="pj-card">
+        <h3>🏋️ CARAS <span class="pj-name">パーソナルジム</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">61%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-green" style="width:61%"></div></div>
+        </div>
+        <div class="gauge">収益化 [■□□□□] 4pt/20pt</div>
+        <div class="gauge-note">MG-1完了（既存顧客あり）/ MG-2〜確認中</div>
+        <div class="pj-meta">
+          <div>Instagram: 69人（2026-04-11）</div>
+          <div class="warn">ゴルフ診断広告: クリック10件 / LINE登録: 0件</div>
+          <div class="warn">⚠️ 広告→LINE登録CVR改善が必要</div>
+          <span class="tag tag-orange">LINE登録獲得急務</span>
+          <span class="tag tag-blue">リッチメニュー検討</span>
+        </div>
+      </div>
+
+      <!-- 健康経営 -->
+      <div class="pj-card">
+        <h3>🏥 健康経営 <span class="pj-name">B2B法人支援</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">20%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-purple" style="width:20%"></div></div>
+        </div>
+        <div class="gauge">収益化 [□□□□□] 0pt/20pt</div>
+        <div class="gauge-note">MG-1未達（LP制作待ち）</div>
+        <div class="pj-meta">
+          <div>SNS: なし（B2B事業）</div>
+          <div class="warn">サービスパッケージ設計完了が全前提</div>
+          <div class="alert">⚠️ 健康診断予約（3月末期限）状況要確認</div>
+          <span class="tag tag-red">設計最優先</span>
+        </div>
+      </div>
+
+      <!-- SORA -->
+      <div class="pj-card">
+        <h3>🌟 SORA <span class="pj-name">キッズ陸上（香川）</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">48%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-teal" style="width:48%"></div></div>
+        </div>
+        <div class="gauge">収益化 [■□□□□] 4pt/20pt</div>
+        <div class="gauge-note">MG-1達成（既存サイト+Instagram稼働）</div>
+        <div class="pj-meta">
+          <div><span class="highlight">Instagram: 515人（2026-04-12）</span></div>
+          <div>申込累計: 311件</div>
+          <div class="info">📅 4/18体験×2名 / 4/25体験×1名</div>
+          <span class="tag tag-green">SK完了</span>
+          <span class="tag tag-blue">体験フォロー継続</span>
+        </div>
+      </div>
+
+      <!-- SUPERIOR -->
+      <div class="pj-card">
+        <h3>⚡ SUPERIOR <span class="pj-name">キッズ陸上（関西）</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">52%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-orange" style="width:52%"></div></div>
+        </div>
+        <div class="gauge">収益化 [■□□□□] 4pt/20pt</div>
+        <div class="gauge-note">MG-1達成 / MG-2〜4確認中（申込実績あり）</div>
+        <div class="pj-meta">
+          <div>Instagram: 3人（2026-04-10）/ 申込累計: 103件</div>
+          <div class="info">📅 4/16生駒体験 / 4/21箕面体験（岸姉妹）</div>
+          <div class="highlight">🔗 関東展開：佐々木氏との50-50協議進展</div>
+          <span class="tag tag-orange">Instagram強化急務</span>
+          <span class="tag tag-green">関東展開開始</span>
+        </div>
+      </div>
+
+      <!-- TrustFit -->
+      <div class="pj-card">
+        <h3>🤝 TrustFit <span class="pj-name">トレーナー派遣PF</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">5%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-red" style="width:5%"></div></div>
+        </div>
+        <div class="gauge">収益化 [□□□□□] 0pt/20pt</div>
+        <div class="gauge-note">MG-1未達（設計フェーズ）</div>
+        <div class="pj-meta">
+          <div>商談スクリプト3パターン完成</div>
+          <div class="warn">1枚モノ提案書 → モニター企業アプローチが急務</div>
+          <span class="tag tag-red">提案書作成急務</span>
+          <span class="tag tag-orange">設計確定段階</span>
+        </div>
+      </div>
+
+      <!-- むーん -->
+      <div class="pj-card">
+        <h3>🌙 むーん <span class="pj-name">運動療育（大阪）</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">80%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-gold" style="width:80%"></div></div>
+        </div>
+        <div class="gauge">収益化 [■■■■■] 20pt/20pt 🎉</div>
+        <div class="gauge-note">全ステップ達成 / 定員9割稼働中</div>
+        <div class="pj-meta">
+          <div><span class="highlight">定員ほぼ満員・安定稼働</span></div>
+          <div>新規申込4名・2名入会見込み</div>
+          <div class="info">行政対応: 処遇改善届出・実績届出ともに完了</div>
+          <span class="tag tag-green">稼働安定</span>
+          <span class="tag tag-blue">SK-3施設案内PDF</span>
+        </div>
+      </div>
+
+      <!-- 関学 -->
+      <div class="pj-card">
+        <h3>🎓 関西学院大学陸上部 <span class="pj-name">法人業務</span></h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span class="label">進捗</span>
+            <span class="pct">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-grey" style="width:0%"></div></div>
+        </div>
+        <div class="gauge">収益化 [□□□□□] —</div>
+        <div class="gauge-note">初期セットアップフェーズ</div>
+        <div class="pj-meta">
+          <div>KGAD月次報告書フロー構築済み</div>
+          <div>次回: 4月分報告書（4月25日前後に実行）</div>
+          <span class="tag tag-blue">請求書・報告書管理</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 4: 週次スプリント宣言 -->
+  <div class="section">
+    <h2>🎯 今週の集中PJ提案（スプリント宣言）</h2>
+
+    <div class="sprint-box">
+      <div>
+        <span class="sprint-rank">🥇</span>
+        <span class="sprint-title">推奨1: オギラボ</span>
+      </div>
+      <div class="sprint-reason">
+        <strong>理由:</strong> 5月noteメンバーシップ公開まで約3週間。3ラボ（キッズ・パフォーマンス・ポール）の初月記事本文が未作成。公開日を決め、最低5本の記事を先に書かないと告知しても見せるものがない。TikTok 1,110人フォロワーという最高のタイミングを逃さないこと。<br>
+        <strong>今週のゴール:</strong> ①noteメンバーシップ公開日の確定 ②初月記事5本のうち2〜3本ドラフト完成
+      </div>
+    </div>
+
+    <div class="sprint-box">
+      <div>
+        <span class="sprint-rank">🥈</span>
+        <span class="sprint-title">推奨2: TrustFit</span>
+      </div>
+      <div class="sprint-reason">
+        <strong>理由:</strong> 設計はほぼ完了（評価10項目・価格設定・商談スクリプト3パターン・ポイントシステム）。あとは「1枚モノ提案書」を作るだけでモニター企業アプローチが始められる。設計を寝かせておくのは機会損失。<br>
+        <strong>今週のゴール:</strong> ①1枚モノ提案書（企業向けモニター用）PDF完成 ②初回モニター企業候補リスト作成
+      </div>
+    </div>
+
+    <p style="font-size:0.85rem;color:#666;margin-top:8px;">
+      ※ 今週集中PJを確定したい場合は「この2つで」「オギラボだけ」などとお知らせください。CLAUDE.mdを更新します。
+    </p>
+  </div>
+
+  <!-- STEP 5: ブロック中タスク -->
+  <div class="section">
+    <h2>🚧 ブロック中タスク（前提条件未完了）</h2>
+
+    <div class="block-item">
+      <div class="block-title">CARAS: LP / サービスメインページ制作</div>
+      <div class="block-why">ブロック原因: 「ターゲットペルソナ詳細設計」が未完了 → 広告運用は始まっているがLPが未整備のため離脱発生リスクあり。ペルソナ確定が先決。</div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-title">健康経営: 法人向けLP制作・提案資料（PPT）・契約書テンプレート</div>
+      <div class="block-why">ブロック原因: 「サービスパッケージ設計」が未完了。競合調査は完了しているが価格・提供範囲・差別化軸が未確定。これが完了しないと全後続タスクが進まない。</div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-title">TrustFit: ポイント管理・評価システムLP設計</div>
+      <div class="block-why">ブロック原因: 「ブランド名確定」が未完了（現在仮称TrustFit）。ただし1枚モノ提案書は仮称のまま進行可能。</div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-title">TrustFit: 初回モニター企業アプローチ</div>
+      <div class="block-why">ブロック原因: 「1枚モノ提案書完成」が前提。設計は全て揃っているため提案書さえ作れば即アプローチ可能。今週の最優先タスク。</div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-title">SORA: SUPERIOR合同イベント企画</div>
+      <div class="block-why">ブロック原因: 「体験会実績あり」という前提条件が確認待ち。申込311件あるため、実績が揃えば解除可能な状態。</div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-title">むーん: SK-4 公式LINE自動返信設定</div>
+      <div class="block-why">ブロック原因: 「SK-3 施設案内PDF完成」が前提。SK-3の作成が最優先タスク。</div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Decision Log -->
+  <div class="section">
+    <h2>🔄 Decision Log 再評価アラート</h2>
+    <p class="no-data">outputs/decisions/ ディレクトリにファイルは現在なし。Decision Logは各CONTEXT.mdに参照リストのみ存在。<br>
+    記録のある意思決定:
+    <ul style="list-style:none;margin-top:10px;">
+      <li style="padding:8px 0;border-bottom:1px solid #222;font-size:0.85rem;color:#aaa;">• CARAS (2026-03): 価格設定「新規+15〜20%・既存6ヶ月後+10%」→ 再評価期限: 2026-09頃</li>
+      <li style="padding:8px 0;border-bottom:1px solid #222;font-size:0.85rem;color:#aaa;">• 健康経営 (2026-03): ターゲット「中小企業主軸・大手パイロット並走」→ 実績3社揃った時点で再評価</li>
+      <li style="padding:8px 0;font-size:0.85rem;color:#aaa;">• オギラボ SNS戦略 (2026-03): Instagram主軸・TikTok実験 → 3ヶ月後再評価（2026-06頃）⚠️ 近い</li>
+    </ul>
+    </p>
+    <div class="alert-box" style="margin-top:14px;">
+      <h4>🔄 要再評価（2026-06月頃）</h4>
+      <p>オギラボ SNS戦略「Instagram主軸・TikTok実験（月2〜4本）」の3ヶ月評価時期が近づいています。TikTok 1,110人の実績を踏まえると、TikTokを主軸に格上げする判断を検討する価値があります。</p>
+    </div>
+  </div>
+
+  <!-- 推奨アクション TOP5 -->
+  <div class="section">
+    <h2>🚀 今週の推奨アクション TOP5</h2>
+    <ul class="action-list">
+      <li>
+        <div class="action-num">1</div>
+        <div class="action-content">
+          <strong>noteメンバーシップ公開日を確定する</strong><br>
+          5月いつ公開するか決定し、逆算でコンテンツ作成スケジュールを組む。TikTokフォロワー1,110人の今が最大の好機。
+          <div class="action-pj">📌 オギラボ / 優先度: 🔴高</div>
+        </div>
+      </li>
+      <li>
+        <div class="action-num">2</div>
+        <div class="action-content">
+          <strong>TrustFit 1枚モノ提案書を作成する</strong><br>
+          企業向けモニター用。プライバシー配慮型キャンペーン（動画なし版）の選択肢と自動停止の明記も含める。設計は完成しているので資料化するだけ。
+          <div class="action-pj">📌 TrustFit / 優先度: 🔴高</div>
+        </div>
+      </li>
+      <li>
+        <div class="action-num">3</div>
+        <div class="action-content">
+          <strong>CARAS: LINE登録CVR改善策を検討・リッチメニュー設定</strong><br>
+          広告クリック10件でLINE登録0件は改善の余地あり。リッチメニューなし状態が改善のボトルネックの可能性。設定を優先する。
+          <div class="action-pj">📌 CARAS / 優先度: 🟡中</div>
+        </div>
+      </li>
+      <li>
+        <div class="action-num">4</div>
+        <div class="action-content">
+          <strong>むーん SK-3: 相談支援専門員向け施設案内PDFを作成</strong><br>
+          紹介元（相談支援専門員・学校関係者）へのリーチに直結する重要資料。SK-4 LINE自動返信設定の前提条件でもある。
+          <div class="action-pj">📌 むーん / 優先度: 🔴高</div>
+        </div>
+      </li>
+      <li>
+        <div class="action-num">5</div>
+        <div class="action-content">
+          <strong>健康経営: サービスパッケージ設計を完了させる</strong><br>
+          LP・提案資料・契約書の全前提。競合調査完了済みのため、価格・提供範囲・差別化軸の3点を確定するだけ。
+          <div class="action-pj">📌 健康経営 / 優先度: 🔴高</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- シナジーチャンス -->
+  <div class="section">
+    <h2>🔗 今週のシナジーチャンス</h2>
+
+    <div class="synergy-item">
+      <div>
+        <span class="synergy-from">オギラボ（TikTok 1,110人達成）</span>
+        <span class="synergy-arrow">→</span>
+        <span class="synergy-to">SORA / SUPERIOR</span>
+      </div>
+      <div class="synergy-detail">おぎぃ。のフォロワー獲得ノウハウをSORA/SUPERIORのInstagram運用にも横展開する絶好のタイミング。「子ども陸上クラブの保護者向けコンテンツ」はTikTokで未開拓ブルーオーシャン。フォーマット転用提案が可能。</div>
+    </div>
+
+    <div class="synergy-item">
+      <div>
+        <span class="synergy-from">TrustFit（商談スクリプト・評価設計完了）</span>
+        <span class="synergy-arrow">→</span>
+        <span class="synergy-to">健康経営</span>
+      </div>
+      <div class="synergy-detail">TrustFitのB2B商談フレーミング（「健康経営認定 × 採用PR直結」）は健康経営プロジェクトのサービス設計にそのまま活用できる。1枚モノ提案書を健康経営法人向け資料の参考にする。</div>
+    </div>
+
+    <div class="synergy-item">
+      <div>
+        <span class="synergy-from">SUPERIOR（関東展開：佐々木理方氏）</span>
+        <span class="synergy-arrow">→</span>
+        <span class="synergy-to">TrustFit</span>
+      </div>
+      <div class="synergy-detail">佐々木氏のスポーツ業界人脈（Jリーグ・バスケ等）はTrustFitのトレーナー候補スカウトにも活用できる可能性。早い段階から連携確認を。</div>
+    </div>
+  </div>
+
+  <!-- 要対応サマリー -->
+  <div class="section">
+    <h2>⚠️ 要対応事項まとめ</h2>
+    <div class="alert-box">
+      <h4>🔴 緊急: 健康診断予約の状況確認</h4>
+      <p>健康経営プロジェクト「健康診断の予約」は3月末が期限でした。現在の状況を確認してください。</p>
+    </div>
+    <div class="alert-box">
+      <h4>🟡 重要: SUPERIOR Instagram強化が急務</h4>
+      <p>フォロワー3人・投稿16件は申込103件の規模に対して明らかに不足。Week3 ATHLETE投稿の準備を急ぐ必要があります。</p>
+    </div>
+    <div class="alert-box">
+      <h4>🟡 重要: オギラボ SNS戦略再評価（6月）</h4>
+      <p>2026-03決定の「Instagram主軸・TikTok実験」戦略の3ヶ月再評価期限が近づいています。TikTok 1,110人の実績を踏まえた方針見直しを今から準備してください。</p>
+    </div>
+    <div class="alert-box">
+      <h4>🟡 注意: SORA・SUPERIOR 進捗表記の整合確認</h4>
+      <p>SORA CONTEXT.md冒頭「48%」vs 進捗履歴「53%」、SUPERIOR「52%」vs「57%」に不一致があります。正確な数字をご確認ください。</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>📅 生成日時: 2026-04-13（月）| <span style="color:#555;">weekly-review 自動タスク実行</span></p>
+    <p style="margin-top:4px;color:#333;">AI組織 / 株式会社MOON / MOON</p>
+  </div>
+
+</div>
+</body>
+</html>

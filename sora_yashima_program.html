@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORA × 屋島レクザムフィールド プログラム設計</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 50%,var(--sky) 100%);color:#fff;padding:64px 24px;text-align:center;border-bottom:6px solid var(--gold);position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-30px;right:-30px;width:280px;height:280px;background:radial-gradient(circle,rgba(200,168,90,0.18) 0%,transparent 70%);}
+  .hero .badge{display:inline-block;background:var(--gold);color:var(--navy);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:bold;letter-spacing:0.1em;margin-bottom:18px}
+  .hero h1{font-size:32px;font-weight:700;letter-spacing:0.04em;margin-bottom:10px;position:relative}
+  .hero h1 .accent{color:var(--gold)}
+  .hero .sub{font-size:15px;opacity:0.9;max-width:760px;margin:14px auto 0;position:relative}
+  .hero .pillrow{margin-top:18px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+  .hero .pillrow span{background:rgba(255,255,255,0.12);padding:4px 12px;border-radius:14px;font-size:12px;border:1px solid rgba(255,255,255,0.25)}
+  .container{max-width:1080px;margin:0 auto;padding:36px 24px}
+  section{margin-bottom:48px;background:var(--card);border-radius:14px;padding:34px;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+  h2{font-size:23px;border-left:6px solid var(--gold);padding-left:14px;margin-bottom:22px;color:var(--navy);font-weight:700}
+  h3{font-size:18px;color:var(--navy);margin:22px 0 12px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:6px}
+  h4{font-size:15px;color:var(--gold-dark);margin:14px 0 8px;font-weight:700}
+  p{margin-bottom:12px}
+  ul,ol{padding-left:22px;margin-bottom:14px}
+  li{margin-bottom:5px}
+  .lead{font-size:16px;background:#fdf9ee;border-left:4px solid var(--gold);padding:18px 22px;border-radius:6px;margin-bottom:22px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:760px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+  .card{background:#fafafa;border:1px solid var(--line);border-radius:10px;padding:18px}
+  .card h4{margin-top:0}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+  tr:nth-child(even) td{background:#faf8f3}
+  .money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:14px;font-size:11px;font-weight:bold;margin-right:4px}
+  .pill.kids{background:#eaf3fb;color:#1f6fa6}
+  .pill.athlete{background:#fef0e8;color:var(--accent)}
+  .pill.pv{background:var(--gold);color:#fff}
+  .pill.safe{background:#e6f5ec;color:var(--green)}
+  .pill.warn{background:#fbe9e2;color:var(--red)}
+  .num{display:inline-block;width:28px;height:28px;background:var(--gold);color:var(--navy);border-radius:50%;text-align:center;line-height:28px;font-weight:bold;margin-right:8px;font-size:13px}
+  .quote{font-style:italic;color:var(--gold-dark);font-size:16px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0}
+  .toc{background:#fdfbf5;border:1px dashed var(--gold);padding:18px 22px;border-radius:8px;margin-bottom:28px}
+  .toc h3{border:none;padding:0;margin-bottom:8px}
+  .toc ol{padding-left:22px;margin:0}
+  .toc a{color:var(--navy);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:14px 18px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+  .alert.green{background:#e9f4ee;border-color:#a5cdb3}
+  .badge-pillar{display:inline-block;padding:4px 12px;border-radius:14px;font-size:12px;font-weight:bold;letter-spacing:0.05em;margin-bottom:8px}
+  .pillar-kids .badge-pillar{background:#1f6fa6;color:#fff}
+  .pillar-athlete .badge-pillar{background:var(--accent);color:#fff}
+  .pillar-pv .badge-pillar{background:var(--gold);color:var(--navy)}
+  .pillar-block{border-radius:12px;padding:24px;margin-bottom:22px;border:2px solid}
+  .pillar-kids{border-color:#1f6fa6;background:linear-gradient(135deg,#fff 0%,#f3f8fc 100%)}
+  .pillar-athlete{border-color:var(--accent);background:linear-gradient(135deg,#fff 0%,#fdf4ef 100%)}
+  .pillar-pv{border-color:var(--gold);background:linear-gradient(135deg,#fff 0%,#fdfae8 100%)}
+  .step{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;padding:14px;background:#fff;border-radius:8px;border:1px solid var(--line)}
+  .step-no{flex-shrink:0;width:42px;height:42px;background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
+  .step-body h4{margin:0 0 4px;color:var(--navy)}
+  .schedule{display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:12px 0;font-size:13px}
+  .schedule > div{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+  .schedule > div:nth-child(4n){border-right:none}
+  .schedule > div:nth-child(-n+4){background:var(--navy);color:#fff;font-weight:bold}
+  .schedule .day{background:#f5f1e6;font-weight:bold;color:var(--navy)}
+  .schedule .empty{background:#fafafa;color:#bbb;font-style:italic}
+  .icon-fac{display:inline-flex;align-items:center;gap:6px;background:#fdfbf5;border:1px solid var(--gold);padding:4px 10px;border-radius:14px;font-size:12px;margin:2px 3px 2px 0;color:var(--navy-light)}
+  .stack-bar{display:flex;height:34px;border-radius:6px;overflow:hidden;border:1px solid var(--line);margin:8px 0}
+  .stack-bar > div{display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:bold}
+  .check{color:var(--green);font-weight:bold;margin-right:6px}
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+  .small{font-size:12px;color:var(--muted)}
+  .price-row{display:grid;grid-template-columns:1fr 120px 100px;gap:0}
+  .price-row > div{padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px}
+  .price-row.head > div{background:var(--navy);color:#fff;font-weight:bold;font-size:12px}
+  .protocol-tag{display:inline-block;background:#fbeae5;color:var(--red);font-size:11px;padding:2px 8px;border-radius:10px;margin-right:4px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">SORA × YASHIMA REXXAM FIELD</div>
+  <h1>屋島レクザムフィールドを拠点に<br><span class="accent">「子どもの可能性」と「アスリートの覚悟」を両立</span>する</h1>
+  <div class="sub">
+    全国唯一クラスの「競技場併設・室内棒高跳び公認」施設を、SORAの本拠地に。<br>
+    キッズの遊び場であり、アスリートの聖地でもある。棒高跳びは元日本代表のオリンピアン直伝。
+  </div>
+  <div class="pillrow">
+    <span>第2種公認 400m 8レーン</span>
+    <span>室内棒高跳び（天井10m＋）</span>
+    <span>150m曲走路（屋内）</span>
+    <span>天然芝 106×69m</span>
+    <span>300台駐車場</span>
+    <span>夜間照明</span>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#s1">屋島レクザムフィールドの「資産価値」</a></li>
+    <li><a href="#s2">3層構造のコンテンツ設計（キッズ／アスリート／棒高跳び）</a></li>
+    <li><a href="#s3">【LAYER 1】キッズの可能性を引き出すコンテンツ</a></li>
+    <li><a href="#s4">【LAYER 2】アスリートが安心して取り組めるフロー</a></li>
+    <li><a href="#s5">【LAYER 3】棒高跳び専門プログラム「Yashima Pole Vault Academy」</a></li>
+    <li><a href="#s6">週次・年次の運営フロー</a></li>
+    <li><a href="#s7">施設利用コストと収益モデル</a></li>
+    <li><a href="#s8">安全管理プロトコル</a></li>
+    <li><a href="#s9">最初の一歩：屋島で「これだけはやる」</a></li>
+  </ol>
+</div>
+
+<!-- ========== 1 ========== -->
+<section id="s1">
+  <h2>1. 屋島レクザムフィールドの「資産価値」を再認識する</h2>
+  <p class="lead">
+    この施設は<strong>全国でも極めて希少</strong>な構成を持っている。SORAが拠点として使えるなら、それだけで他の地域クラブにはない「不可逆な差別化」が手に入る。
+  </p>
+
+  <h3>全国レベルで見ても希少な4つの設備</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4><span class="num">1</span>全国初の競技場併設「室内棒高跳び公認施設」</h4>
+      <p>バックスタンド〜西側スタンドにかけて併設。<strong>天井高10m以上</strong>を確保しており、子どもから大人まで対応可能。雨天・夏冬の悪天候を問わず公認競技ができるのは全国でも稀。</p>
+    </div>
+    <div class="card">
+      <h4><span class="num">2</span>屋内150m曲走路＋走幅跳・三段跳走路</h4>
+      <p>400mトラックと同じ曲率の曲走路を屋内に保有。<strong>悪天候でも本格的なスプリントトレーニング</strong>が可能。冬期の継続練習に圧倒的優位。</p>
+    </div>
+    <div class="card">
+      <h4><span class="num">3</span>第2種公認の主競技場＋天然芝</h4>
+      <p>400m 8レーン（メインスタンド側9レーン）の第2種公認施設。<strong>記録会・四国大会クラスの公式開催</strong>が可能。天然芝106×69mはサッカー・ラグビーとの共用も可。</p>
+    </div>
+    <div class="card">
+      <h4><span class="num">4</span>付帯設備の充実</h4>
+      <p>トレーニングルーム（マシン・フリーウェイト）／会議室4室／更衣室／シャワー／<strong>授乳室</strong>／夜間照明／300台駐車場。<strong>保護者・選手・子ども・大会運営すべてが快適に動ける</strong>。</p>
+    </div>
+  </div>
+
+  <h3>個別設備一覧</h3>
+  <div>
+    <span class="icon-fac">主競技場 第2種公認</span>
+    <span class="icon-fac">補助競技場 200m 6レーン</span>
+    <span class="icon-fac">室内競技場 棒高跳公認</span>
+    <span class="icon-fac">屋内150m曲走路</span>
+    <span class="icon-fac">屋内走幅跳・三段跳走路</span>
+    <span class="icon-fac">トレーニングルーム</span>
+    <span class="icon-fac">会議室4室（各58㎡/30名）</span>
+    <span class="icon-fac">更衣室＋シャワー</span>
+    <span class="icon-fac">授乳室（ベビーカーOK）</span>
+    <span class="icon-fac">夜間照明</span>
+    <span class="icon-fac">大型映像装置</span>
+    <span class="icon-fac">写真判定室</span>
+    <span class="icon-fac">300台駐車場</span>
+    <span class="icon-fac">バリアフリー対応</span>
+  </div>
+
+  <div class="alert green">
+    <strong>戦略的含意：</strong>「全国初」を掲げる施設＋オリンピック代表のコーチ＋姉妹クラブSUPERIORとの相互送客。<br>
+    この3つの組み合わせは、<strong>香川県内で再現不可能な独占ポジション</strong>を作る。SORAは「香川の陸上クラブ」ではなく「<strong>四国・西日本のポールヴォルト聖地</strong>」を名乗ってよい。
+  </div>
+</section>
+
+<!-- ========== 2 ========== -->
+<section id="s2">
+  <h2>2. 3層構造のコンテンツ設計</h2>
+  <p class="lead">屋島レクザムFという「公共施設＋公認施設」の特性を活かし、<strong>「広く・深く・尖って」</strong>の3層でプログラムを並べる。</p>
+
+  <div class="grid-3">
+    <div class="card pillar-kids" style="background:#f3f8fc;border:2px solid #1f6fa6;border-radius:12px;padding:18px">
+      <span class="badge-pillar" style="background:#1f6fa6;color:#fff">LAYER 1 / KIDS</span>
+      <h4 style="color:#1f6fa6">広く：可能性を引き出す</h4>
+      <p style="font-size:13px">小学生・園児〜中1。<strong>「楽しい」「もっとやりたい」</strong>を最大化。複数種目を体験して、自分の好きを見つける。</p>
+    </div>
+    <div class="card pillar-athlete" style="background:#fdf4ef;border:2px solid var(--accent);border-radius:12px;padding:18px">
+      <span class="badge-pillar" style="background:var(--accent);color:#fff">LAYER 2 / ATHLETE</span>
+      <h4 style="color:var(--accent)">深く：競技力を伸ばす</h4>
+      <p style="font-size:13px">中学・高校・大学・社会人。<strong>「安心して競技に没頭できる環境」</strong>を提供。データ・栄養・メンタル・進路までトータルサポート。</p>
+    </div>
+    <div class="card pillar-pv" style="background:#fdfae8;border:2px solid var(--gold);border-radius:12px;padding:18px">
+      <span class="badge-pillar" style="background:var(--gold);color:var(--navy)">LAYER 3 / POLE VAULT</span>
+      <h4 style="color:var(--gold-dark)">尖って：世界を目指す</h4>
+      <p style="font-size:13px">棒高跳び専門。<strong>オリンピアン直伝・全国唯一クラスの環境</strong>。県外・海外からの合宿受け入れも視野に。</p>
+    </div>
+  </div>
+
+  <h3>3層がどう繋がるか（人材パイプライン）</h3>
+  <div class="stack-bar">
+    <div style="background:#1f6fa6;width:50%">LAYER 1：キッズ（100名規模）</div>
+    <div style="background:var(--accent);width:30%">LAYER 2：競技者（30名）</div>
+    <div style="background:var(--gold);width:20%;color:var(--navy)">LAYER 3：棒高跳び（10名）</div>
+  </div>
+  <p class="small">→ 上位層に向けて自然と細くなる「ピラミッド型」を作る。下が広いほど、上に行く選手の質が上がる。</p>
+</section>
+
+<!-- ========== 3 ========== -->
+<section id="s3">
+  <h2>3.【LAYER 1】キッズの可能性を引き出すコンテンツ</h2>
+  <p class="lead">屋島レクザムFには「多種目を本格設備で試せる」という<strong>他にない強み</strong>がある。これを子ども向けプログラムの中核に据える。</p>
+
+  <h3>3-A. 既存「キッズコース」のリデザイン案</h3>
+  <table>
+    <tr><th>枠</th><th>従来</th><th>リデザイン案</th></tr>
+    <tr><td>小学生コース</td><td>走中心＋遊び</td><td><strong>4種目ローテーション制</strong>：走・跳・投・コーディネーションを週替わりで体験。施設の全部を使い倒す</td></tr>
+    <tr><td>専門基礎コース</td><td>競技向け基礎</td><td>「<strong>自分の好きを見つける学期</strong>」3ヶ月単位で1種目深掘り（春＝短距離／夏＝跳躍／秋＝投擲／冬＝棒高跳び）</td></tr>
+    <tr><td>アスリートコース</td><td>競技志向</td><td>個人カルテ＋月次フィードバック面談（保護者同席可）</td></tr>
+  </table>
+
+  <h3>3-B. キッズ向け新コンテンツ案</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4><span class="pill kids">月例</span>SORA CHALLENGE DAY</h4>
+      <p>月1回、土曜日にキッズ全員集合。<strong>50m走・立ち幅跳び・ボール投げ・ミニハードル</strong>の4種目をタイム計測。自己ベスト更新を全員で祝う「努力を見える化する日」。</p>
+      <p class="small">推奨：第3土曜・10:00〜12:00／主競技場 or 補助競技場</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill kids">年4回</span>OLYMPIAN'S TIME（オリンピアンの時間）</h4>
+      <p>四半期ごとに、荻田代表＋ゲストアスリートが登壇。<strong>本気の競技デモ＋質問タイム＋一緒に走る</strong>。子どもにとって「本物」に触れる原体験。</p>
+      <p class="small">推奨：3月・6月・9月・12月／会議室＋主競技場</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill kids">特別</span>POLE FUN（ポール体験会）</h4>
+      <p>室内棒高跳び施設を使い、<strong>子ども向けの軽量ポール＋低バー</strong>から始める安全な体験プログラム。「飛ぶ」という非日常体験で運動への興味を爆発させる。</p>
+      <p class="small">推奨：月1回・土曜午前／室内競技場／対象 小4〜中1</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill kids">通年</span>SORA KIDS パスポート</h4>
+      <p>会員に1冊配布。<strong>種目別ベスト記録・出席シール・コーチからのメッセージ</strong>を1年で1冊にまとめる成長記録ブック。卒業時にプレゼント。</p>
+      <p class="small">制作コスト：年1人500円程度／印刷ノベルティ</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill kids">親子</span>FAMILY DAY</h4>
+      <p>年2回、保護者も一緒に走れる日を設定。<strong>「親が見てるだけ」を超えて、一緒に挑戦する</strong>体験。授乳室・芝生席・300台駐車場が活きる。</p>
+      <p class="small">推奨：5月・10月／全施設開放</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill kids">アウトリーチ</span>学校・幼稚園出張プログラム</h4>
+      <p>ECCかけっこスクール（荻田監修）との連携で<strong>幼稚園・保育園→SORAキッズ</strong>への送客ファネル。年6回程度の出張無料体験。</p>
+      <p class="small">既に保有する関係資産を最大活用</p>
+    </div>
+  </div>
+
+  <h3>3-C. 「可能性を引き出す」ための運営原則</h3>
+  <ol>
+    <li><strong>勝ち負けより自己更新を称える</strong> — 月例CHALLENGE DAYで自己ベスト中心の表彰</li>
+    <li><strong>複数種目を必ず体験させる</strong> — 早期専門化を避ける（怪我リスク減・適性発見）</li>
+    <li><strong>大人が本気を見せる</strong> — オリンピアンの時間で「本物」を魅せる</li>
+    <li><strong>記録を残す・残せる</strong> — パスポート＋写真館で「自分の成長」を物語化</li>
+    <li><strong>保護者を巻き込む</strong> — FAMILY DAY＋面談で「親も一緒に育てる」</li>
+  </ol>
+</section>
+
+<!-- ========== 4 ========== -->
+<section id="s4">
+  <h2>4.【LAYER 2】アスリートが安心して取り組めるフロー</h2>
+  <p class="lead">「強くなる」と「ケガしない」は両立する。屋島の充実設備があれば、<strong>科学的・段階的・心理的安全</strong>の3軸でアスリートを支えられる。</p>
+
+  <h3>4-A. 「安心」を支える6つの柱</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h4><span class="pill safe">①</span>個別アセスメント</h4>
+      <p>入会時に体力測定・既往歴・目標ヒアリング。年2回の再測定で<strong>客観的に自分を知る</strong>。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill safe">②</span>個別年間計画</h4>
+      <p>大会日程から逆算したピリオダイゼーション。月単位のテーマと負荷管理を可視化。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill safe">③</span>動画分析＋データ管理</h4>
+      <p>大型映像装置・iPad＋アプリで<strong>自分のフォームを毎週見られる</strong>。蓄積データから改善点を抽出。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill safe">④</span>栄養・身体ケア</h4>
+      <p>提携管理栄養士の月1回の食事相談／整骨・トレーナーとのリファラル体制。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill safe">⑤</span>メンタルサポート</h4>
+      <p>大会前後の振り返り面談＋必要時に外部スポーツメンタルコーチへ繋ぐ。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill safe">⑥</span>進路・キャリア相談</h4>
+      <p>高校・大学進学／実業団／引退後のキャリアまで、<strong>「競技後の人生」も視野に入れた</strong>サポート。</p>
+    </div>
+  </div>
+
+  <h3>4-B. 1日の練習フロー（モデル例）</h3>
+  <div class="step">
+    <div class="step-no">1</div>
+    <div class="step-body">
+      <h4>17:30 — 集合・体調チェック（会議室）</h4>
+      <p>体重・睡眠・疲労・痛みを問診表に記入。<strong>「赤信号」は即・コーチ判断で練習内容を調整</strong>。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-no">2</div>
+    <div class="step-body">
+      <h4>17:45 — 動的ウォームアップ（補助競技場 or 室内150m）</h4>
+      <p>20分の動的可動域＋プライオメトリクス。怪我予防の最大ポイント。雨でも屋内で同じメニューが可能。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-no">3</div>
+    <div class="step-body">
+      <h4>18:05 — 種目別メイン練習（主競技場 / 室内競技場）</h4>
+      <p>個別カリキュラムに沿って実施。コーチ1人あたり最大5名を担当（密度を担保）。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-no">4</div>
+    <div class="step-body">
+      <h4>19:15 — 補強（トレーニングルーム）</h4>
+      <p>マシン・フリーウェイト・体幹。週次プログラムで負荷を管理。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-no">5</div>
+    <div class="step-body">
+      <h4>19:45 — クールダウン＋振り返り（芝生席 or 会議室）</h4>
+      <p>当日のキーログをノートに記録／週1回はコーチと1on1（5分）。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-no">6</div>
+    <div class="step-body">
+      <h4>20:00 — 解散／シャワー利用可（更衣室）</h4>
+      <p>シャワー200円・親送迎用に300台駐車場活用。<strong>遅い時間でも安全に帰れる動線</strong>。</p>
+    </div>
+  </div>
+
+  <h3>4-C. アスリートの年間サイクル</h3>
+  <table>
+    <tr><th>月</th><th>フェーズ</th><th>主な内容</th></tr>
+    <tr><td>11〜2月</td><td>準備期（基礎構築）</td><td>屋内競技場・150m曲走路フル活用／補強重視／フォーム見直し</td></tr>
+    <tr><td>3〜4月</td><td>移行期</td><td>主競技場再開／専門種目の練習量増／春季記録会</td></tr>
+    <tr><td>5〜7月</td><td>試合期（前半）</td><td>県大会・記録会／個別調整／合宿（夏前）</td></tr>
+    <tr><td>8月</td><td>夏合宿</td><td>SORA夏合宿（屋島中心）／県外・全国強化合宿への派遣</td></tr>
+    <tr><td>9〜10月</td><td>試合期（後半）</td><td>新人戦・国体予選／フォーム微調整</td></tr>
+    <tr><td>11月</td><td>振り返り＋次年度計画</td><td>個別面談・栄養指導・進路相談</td></tr>
+  </table>
+</section>
+
+<!-- ========== 5 ========== -->
+<section id="s5">
+  <h2>5.【LAYER 3】棒高跳び専門プログラム「Yashima Pole Vault Academy」</h2>
+  <p class="lead">
+    <strong>全国唯一クラスの「屋内棒高跳び公認施設 × オリンピアン指導 × キッズ〜トップ一貫」</strong>を強みに、棒高跳びの専門プログラムを立ち上げる。<br>
+    SORA本体とは別ブランドの「Yashima Pole Vault Academy（YPV）」として、県外・四国全域から集める設計に。
+  </p>
+
+  <h3>5-A. プログラムの4段階</h3>
+
+  <div class="step">
+    <div class="step-no">1</div>
+    <div class="step-body">
+      <h4><span class="pill pv">STEP 1</span>POLE FUN（小4〜中1）</h4>
+      <p><strong>「棒高跳びってこういう感じ」を安全に体験する入口</strong>。軽量ジュニアポール（FRP製2.4〜3.1m）＋低バー＋公認マット使用。マット上での倒立・ぶら下がり・体操動作で基礎の身体操作。3ヶ月〜半年で次へ移行。</p>
+      <p class="small">月2回／90分／月会費 4,400円／定員6名</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-no">2</div>
+    <div class="step-body">
+      <h4><span class="pill pv">STEP 2</span>BASIC POLE VAULT（中学・高校初心者）</h4>
+      <p>短助走（4〜6歩）でのプラントとスイング、低バー（〜2.5m）。<strong>動画分析を週1回フィードバック</strong>。体格・体力に応じたポール選定（3.4〜4.0m）。大会出場は半年後を目処に。</p>
+      <p class="small">週1回／120分／月会費 8,800円／定員8名</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-no">3</div>
+    <div class="step-body">
+      <h4><span class="pill pv">STEP 3</span>COMPETITIVE POLE VAULT（高校・大学）</h4>
+      <p>中助走〜全助走（10〜14歩）。<strong>個別年間計画＋バイオメカ分析＋ピリオダイゼーション</strong>。県・四国大会レベルへの定着。月1回の個別面談。</p>
+      <p class="small">週2回／150分／月会費 16,500円／定員6名</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-no">4</div>
+    <div class="step-body">
+      <h4><span class="pill pv">STEP 4</span>ELITE PROGRAM（記録挑戦選手）</h4>
+      <p>全国・国際大会レベル。<strong>完全個別契約／海外遠征同行可能／大会同行コーチング／スポンサーマッチング</strong>。荻田代表の現役時代のネットワークを最大活用。</p>
+      <p class="small">完全カスタム／月10〜30万円（スポンサーシップで一部相殺）</p>
+    </div>
+  </div>
+
+  <h3>5-B. 棒高跳びを「安全に」学べる仕組み</h3>
+  <table>
+    <tr><th>項目</th><th>具体策</th></tr>
+    <tr><td>マット規格</td><td>WA規定準拠の公認マット（屋島レクザムF設置済）／月1回マット状態目視点検＋年1回業者点検</td></tr>
+    <tr><td>ポール選定</td><td>体重・身長・技術レベルに応じて<strong>選手1人につき3〜4本のポール</strong>を準備。「合わないポールは絶対に使わせない」原則</td></tr>
+    <tr><td>段階的進級</td><td>低バー→中バー→自己ベスト挑戦という段階。<strong>進級判断は必ずコーチ2名以上の合議</strong></td></tr>
+    <tr><td>助走路チェック</td><td>練習開始前にスタッフが助走路の異物・水濡れを目視確認（チェックリスト運用）</td></tr>
+    <tr><td>ウォームアップ徹底</td><td>専用30分ウォームアップ（肩甲帯・体幹・股関節・短スプリント）。<strong>未実施で跳ばせない</strong></td></tr>
+    <tr><td>練習中ルール</td><td>1人跳んでる間は他選手は助走路に入らない／ピットへの飛び込み厳禁／コーチ不在で跳躍禁止</td></tr>
+    <tr><td>動画記録</td><td>全跳躍を動画記録（クラウド保存）。怪我発生時の原因究明・改善に活用</td></tr>
+    <tr><td>救急体制</td><td>AED設置場所の事前共有／救急搬送導線の練習（年2回）／全コーチ救命講習受講必須</td></tr>
+    <tr><td>保険</td><td>スポーツ安全保険全員加入／怪我発生時の連絡フロー文書化</td></tr>
+  </table>
+
+  <div class="alert red">
+    <strong><span class="protocol-tag">SAFETY-FIRST</span>「やめさせる勇気」を制度化：</strong><br>
+    体調・天候・施設状態・本人の集中力、<strong>どれか一つでも赤信号が出たらコーチ判断で即・跳躍中止</strong>。「もったいない」「次回まで」を許容する文化を作る。これは棒高跳び指導者として最重要のリーダーシップ。
+  </div>
+
+  <h3>5-C. 「Yashima Pole Vault Academy」の独自イベント</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4><span class="pill pv">月例</span>YPV月例記録会</h4>
+      <p>毎月最終土曜にミニ記録会。<strong>「跳躍する場面に慣れる」</strong>を主目的に、低バー〜挑戦バーまで全員参加可。動画＋計測データを各選手にフィードバック。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill pv">年2回</span>YPV合宿（夏・冬）</h4>
+      <p>3泊4日。<strong>四国・西日本から県外参加者を募集</strong>。技術＋体力＋メンタル＋栄養を集中強化。会議室で座学／室内競技場で実技／芝生席でアクティブリカバリー。1名4〜6万円。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill pv">年1回</span>YPV CHAMPIONSHIP（公開記録会）</h4>
+      <p>第2種公認施設で開催する小規模公認記録会。<strong>四国・西日本の棒高跳びコミュニティのハブ</strong>を目指す。スポンサー協賛で運営費を相殺。</p>
+    </div>
+    <div class="card">
+      <h4><span class="pill pv">特別</span>OGITA SESSION（オープンクリニック）</h4>
+      <p>年4回、荻田代表による外部開放クリニック。<strong>SORA非会員も参加可（1回8,000円）</strong>。新規会員獲得＋ブランド向上の両方を狙う。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6 ========== -->
+<section id="s6">
+  <h2>6. 週次・年次の運営フロー</h2>
+  <p class="lead">屋島レクザムFは火・金・土の夜が現在のSORA活動日。これをベースに、棒高跳び専門枠を追加する形で再設計する。</p>
+
+  <h3>6-A. 週次タイムテーブル（推奨）</h3>
+  <div class="schedule">
+    <div>時間</div><div>火曜</div><div>金曜</div><div>土曜</div>
+    <div class="day">9:30-11:00</div><div class="empty">—</div><div class="empty">—</div><div>キッズ集合練習＋月例CHALLENGE DAY（第3土）</div>
+    <div class="day">11:00-12:30</div><div class="empty">—</div><div class="empty">—</div><div>専門基礎コース／POLE FUN体験会</div>
+    <div class="day">13:30-15:00</div><div class="empty">—</div><div class="empty">—</div><div>アスリートコース／YPV月例記録会（最終土）</div>
+    <div class="day">17:00-18:00</div><div>小学生コース</div><div>小学生コース</div><div class="empty">—</div>
+    <div class="day">18:00-19:30</div><div>BASIC POLE VAULT</div><div>BASIC POLE VAULT</div><div>COMPETITIVE PV</div>
+    <div class="day">18:30-20:00</div><div>アスリートコース</div><div>アスリートコース＋大人スプリント</div><div>ELITE PROGRAM 個別</div>
+    <div class="day">20:00-21:00</div><div class="empty">—</div><div class="empty">—</div><div>コーチ研修・ミーティング</div>
+  </div>
+  <p class="small">※既存スケジュール（火・金・土）に棒高跳び専門枠を組み込む。土曜は終日活用がポイント。</p>
+
+  <h3>6-B. 年次イベントカレンダー</h3>
+  <table>
+    <tr><th>月</th><th>キッズ</th><th>アスリート</th><th>棒高跳び（YPV）</th></tr>
+    <tr><td>4月</td><td>新年度オリエンテーション／FAMILY DAY秋告知</td><td>年間目標面談</td><td>YPV年度キックオフ</td></tr>
+    <tr><td>5月</td><td>FAMILY DAY①</td><td>春季記録会出場</td><td>月例記録会</td></tr>
+    <tr><td>6月</td><td>オリンピアンの時間①</td><td>県大会</td><td>月例記録会／OGITA SESSION</td></tr>
+    <tr><td>7月</td><td>夏休み前体験会</td><td>四国大会</td><td>月例記録会</td></tr>
+    <tr><td>8月</td><td>SORAサマースクール</td><td>夏合宿</td><td>YPV夏合宿（3泊4日）</td></tr>
+    <tr><td>9月</td><td>新学期再開</td><td>新人戦</td><td>月例記録会／OGITA SESSION</td></tr>
+    <tr><td>10月</td><td>FAMILY DAY②</td><td>国体予選</td><td>月例記録会</td></tr>
+    <tr><td>11月</td><td>年間表彰＋パスポート贈呈</td><td>振り返り面談</td><td>YPV CHAMPIONSHIP</td></tr>
+    <tr><td>12月</td><td>クリスマス記録会</td><td>準備期入り</td><td>月例記録会／OGITA SESSION</td></tr>
+    <tr><td>1月</td><td>新年体験会</td><td>屋内強化期</td><td>月例記録会</td></tr>
+    <tr><td>2月</td><td>進級面談</td><td>準備期後半</td><td>YPV冬合宿（3泊4日）</td></tr>
+    <tr><td>3月</td><td>卒業式＋オリンピアンの時間④</td><td>移行期</td><td>OGITA SESSION／新年度準備</td></tr>
+  </table>
+</section>
+
+<!-- ========== 7 ========== -->
+<section id="s7">
+  <h2>7. 施設利用コストと収益モデル</h2>
+  <p class="lead">屋島レクザムFは<strong>料金が非常にリーズナブル</strong>。SORAは「競技協会・教育関係団体」枠での「学校等」料金が適用可能なケースが多い（要事前確認）。</p>
+
+  <h3>7-A. 主な施設利用料金（公式）</h3>
+  <div class="price-row head">
+    <div>区分</div><div>学校等</div><div>学校等以外</div>
+  </div>
+  <div class="price-row">
+    <div>主競技場 1時間専用</div><div>2,820円</div><div>5,650円</div>
+  </div>
+  <div class="price-row">
+    <div>室内競技場 1時間専用</div><div>540円</div><div>1,080円</div>
+  </div>
+  <div class="price-row">
+    <div>補助競技場 1時間専用</div><div>690円</div><div>1,390円</div>
+  </div>
+  <div class="price-row">
+    <div>会議室 1時間（1室）</div><div>390円</div><div>390円</div>
+  </div>
+  <div class="price-row">
+    <div>夜間照明 1時間</div><div>1,360円</div><div>1,360円</div>
+  </div>
+  <div class="price-row">
+    <div>個人利用 生徒・児童1回</div><div>150円</div><div>150円</div>
+  </div>
+  <div class="price-row">
+    <div>個人利用 一般1回</div><div>300円</div><div>300円</div>
+  </div>
+  <div class="price-row">
+    <div>シャワー1回</div><div>200円</div><div>200円</div>
+  </div>
+  <p class="small">出典：屋島レクザムフィールド公式 利用料金 / 「学校等」には競技協会・教育委員会・教育関係団体を含む。</p>
+
+  <h3>7-B. SORA運営の月次想定（学校等料金が適用される前提）</h3>
+  <table>
+    <tr><th>項目</th><th>使い方</th><th>月額目安</th></tr>
+    <tr><td>室内競技場 専用</td><td>火・金・土の夜 約3h × 月12回 = 36h</td><td class="money">¥19,440</td></tr>
+    <tr><td>主競技場 専用</td><td>土曜午後 4h × 月4回 = 16h</td><td class="money">¥45,120</td></tr>
+    <tr><td>夜間照明</td><td>月20h想定</td><td class="money">¥27,200</td></tr>
+    <tr><td>会議室 専用</td><td>月8h（コーチ会議・面談）</td><td class="money">¥3,120</td></tr>
+    <tr><td>備品消耗（タイマー・テープ等）</td><td>―</td><td class="money">¥10,000</td></tr>
+    <tr><td><strong>合計（施設関連 月）</strong></td><td>―</td><td class="money"><strong>約 ¥105,000</strong></td></tr>
+  </table>
+  <p class="small">→ 年 約126万円。学校等料金が適用されなかった場合は約2倍を見込む。</p>
+
+  <h3>7-C. 屋島起点の追加売上モデル（年間）</h3>
+  <table>
+    <tr><th>セグメント</th><th>規模</th><th>単価</th><th>年間売上</th></tr>
+    <tr><td>POLE FUN会員</td><td>6名</td><td>4,400円×12</td><td class="money">¥316,800</td></tr>
+    <tr><td>BASIC PV会員</td><td>8名</td><td>8,800円×12</td><td class="money">¥844,800</td></tr>
+    <tr><td>COMPETITIVE PV会員</td><td>6名</td><td>16,500円×12</td><td class="money">¥1,188,000</td></tr>
+    <tr><td>ELITE 個別契約</td><td>2名</td><td>200,000円×12</td><td class="money">¥4,800,000</td></tr>
+    <tr><td>YPV夏合宿</td><td>30名</td><td>50,000円</td><td class="money">¥1,500,000</td></tr>
+    <tr><td>YPV冬合宿</td><td>20名</td><td>50,000円</td><td class="money">¥1,000,000</td></tr>
+    <tr><td>YPV CHAMPIONSHIP（協賛＋参加）</td><td>―</td><td>―</td><td class="money">¥800,000</td></tr>
+    <tr><td>OGITA SESSION 年4回</td><td>20名×4回</td><td>8,000円</td><td class="money">¥640,000</td></tr>
+    <tr><td>キッズ追加（月例CHALLENGE等運営手数料）</td><td>―</td><td>―</td><td class="money">¥300,000</td></tr>
+    <tr><td><strong>合計</strong></td><td>―</td><td>―</td><td class="money"><strong>約 ¥11,390,000</strong></td></tr>
+  </table>
+  <p class="small">→ 既存SORA収益に上乗せ。Phase 1（2027年4月〜）の前半は半分程度の達成率を見込む（約560万円）。</p>
+
+  <h3>7-D. 収支シミュレーション（Phase 1初年度）</h3>
+  <table>
+    <tr><th>項目</th><th>金額</th></tr>
+    <tr><td>追加売上（達成率50%想定）</td><td class="money">¥5,700,000</td></tr>
+    <tr><td>施設利用料 年間</td><td class="money">▲¥1,260,000</td></tr>
+    <tr><td>追加コーチ人件費（棒高跳び専任サブ1名・週3日）</td><td class="money">▲¥1,800,000</td></tr>
+    <tr><td>マット・ポール初期投資（年按分）</td><td class="money">▲¥500,000</td></tr>
+    <tr><td>動画分析機材・備品</td><td class="money">▲¥300,000</td></tr>
+    <tr><td>合宿運営費（夏冬合算）</td><td class="money">▲¥1,200,000</td></tr>
+    <tr><td>広告宣伝（YPV立ち上げ）</td><td class="money">▲¥400,000</td></tr>
+    <tr><td><strong>差引</strong></td><td class="money"><strong>約 +¥240,000</strong></td></tr>
+  </table>
+  <p class="small">→ 初年度から微黒字。2年目以降は会員定着＋合宿リピートで大幅拡大が見込める。</p>
+</section>
+
+<!-- ========== 8 ========== -->
+<section id="s8">
+  <h2>8. 安全管理プロトコル（実運用文書のたたき）</h2>
+  <p class="lead">「アスリートが安心して取り組める」を具体に落とすチェックリスト。実際の運用文書として整備する前提。</p>
+
+  <h3>8-A. 練習日プロトコル（コーチ向け）</h3>
+  <ol>
+    <li><strong>30分前</strong>：施設到着・室内競技場マット状態確認（チェックリスト）／AED位置確認／救急動線再確認</li>
+    <li><strong>15分前</strong>：選手到着確認・体調問診（顔色・声色を含む）／天候・気温・湿度の確認</li>
+    <li><strong>練習開始時</strong>：今日のテーマ・注意点を全員に共有／2名以上のコーチ常駐</li>
+    <li><strong>練習中</strong>：1人練習禁止／棒高跳びはコーチ立ち会い必須／動画記録</li>
+    <li><strong>終了時</strong>：マット・ポールを所定位置／忘れ物確認／コーチ間で当日記録の共有</li>
+    <li><strong>事故・ヒヤリハット時</strong>：即時記録／24h以内に保護者連絡／週次でコーチ間レビュー</li>
+  </ol>
+
+  <h3>8-B. 棒高跳び専用：跳躍可否判断フロー</h3>
+  <ol>
+    <li>体調問診で「赤」が1つでもあれば跳躍中止（補強・ストレッチに変更）</li>
+    <li>ウォームアップ未完で跳躍させない</li>
+    <li>使用ポール選定はコーチが指定。<strong>選手の希望ではなく適合性で決める</strong></li>
+    <li>低バーから段階的に上げる。前回の自己ベストの90%以下からスタート</li>
+    <li>1セッション最大10本程度（個人差あり）。<strong>「もう1本」が出たら原則ストップ</strong></li>
+    <li>新技術習得時は<strong>必ず低バー＋助走短縮</strong>で複数回反復してから通常バーへ</li>
+  </ol>
+
+  <h3>8-C. 保護者・選手との合意文書</h3>
+  <ul>
+    <li>入会時に「安全宣誓書」（保護者署名）を交わす — 内容：練習中の安全配慮義務／保険／緊急連絡先／写真利用同意</li>
+    <li>毎年4月に更新（年齢・成長段階で内容を見直す）</li>
+    <li>棒高跳びは追加で「種目特性同意書」（リスクと対策の明示）</li>
+  </ul>
+
+  <h3>8-D. 緊急時連絡フロー（A4 1枚で掲示）</h3>
+  <ol>
+    <li>応急処置（コーチ）／119番判断（重症度に応じて即時）</li>
+    <li>保護者連絡（コーチ → 代表）</li>
+    <li>事故記録票記入（24h以内）</li>
+    <li>翌週コーチ会議で原因分析・再発防止策決定</li>
+    <li>1ヶ月後・3ヶ月後に経過確認連絡</li>
+  </ol>
+</section>
+
+<!-- ========== 9 ========== -->
+<section id="s9">
+  <h2>9. 最初の一歩：屋島で「これだけはやる」</h2>
+  <div class="lead">
+    全部を一度にやらない。<strong>最初の6ヶ月で「POLE FUN月1回」と「アスリートの個別カルテ運用」だけ</strong>始める。これだけで「他にはない屋島SORA」のブランドが立ち上がる。
+  </div>
+
+  <h3>2026年6月〜11月（最初の6ヶ月）の最小実装</h3>
+  <table>
+    <tr><th>月</th><th>やること</th></tr>
+    <tr><td>6月</td><td>屋島レクザムF管理事務所と「学校等」料金適用について協議／POLE FUNコンセプトα版作成</td></tr>
+    <tr><td>7月</td><td>第1回 POLE FUN体験会開催（無料／既存会員の小4〜中1対象）／アスリート個別カルテ運用開始（既存アスリートコース10名）</td></tr>
+    <tr><td>8月</td><td>夏合宿（既存）に「棒高跳び体験半日」を組み込み／第2回 POLE FUN／カルテ第1回振り返り</td></tr>
+    <tr><td>9月</td><td>POLE FUN正式コース化（月会費4,400円）／OGITA SESSION 第1回（プレ実施・有料）</td></tr>
+    <tr><td>10月</td><td>YPV月例記録会 第1回／FAMILY DAY②／メディア取材依頼（地元新聞・四国放送）</td></tr>
+    <tr><td>11月</td><td>初年度振り返り＋2027年4月のYPV本格スタート計画確定／補助金申請準備</td></tr>
+  </table>
+
+  <h3>初期投資の最小ライン（6ヶ月以内に必要な額）</h3>
+  <table>
+    <tr><th>項目</th><th>金額</th><th>備考</th></tr>
+    <tr><td>ジュニアポール 3本（軽量FRP）</td><td class="money">¥180,000</td><td>1本約6万円</td></tr>
+    <tr><td>低バー・ボックス補修</td><td class="money">¥80,000</td><td>必要に応じて</td></tr>
+    <tr><td>iPad＋動画分析アプリ年契約</td><td class="money">¥150,000</td><td>個別カルテ運用に必須</td></tr>
+    <tr><td>パンフレット・チラシ・LP更新</td><td class="money">¥150,000</td><td>POLE FUNとアスリートカルテの告知</td></tr>
+    <tr><td>救命講習（全コーチ）</td><td class="money">¥30,000</td><td>各人受講料3,000円程度</td></tr>
+    <tr><td>マット点検（業者）</td><td class="money">¥50,000</td><td>―</td></tr>
+    <tr><td>予備費</td><td class="money">¥60,000</td><td>―</td></tr>
+    <tr><td><strong>合計</strong></td><td class="money"><strong>¥700,000</strong></td><td>持続化補助金で2/3補助されれば自己負担 約23万円</td></tr>
+  </table>
+
+  <div class="quote" style="margin-top:24px">
+    「香川の屋島から、世界が見える環境を作る。<br>子どもには可能性を、アスリートには覚悟を、跳躍者には舞台を。」
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:13px">— SORA × Yashima Pole Vault Academy ビジョンステートメント</p>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜株式会社MOON 代表 荻田大樹｜SORA × 屋島レクザムフィールド プログラム設計 v1.0<br>
+  ※施設利用料金・「学校等」枠の適用条件は屋島レクザムフィールド管理事務所（TEL: 087-802-7350）で要確認。<br>
+  出典：屋島レクザムフィールド公式（yashima-f.jp）／高松市屋島競技場資料／2026年5月時点の公開情報。
+</div>
+
+</div>
+</body>
+</html>

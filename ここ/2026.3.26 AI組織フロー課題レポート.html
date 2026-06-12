@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織フロー 課題＆進化提案レポート v1 — 2026-03-26</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --accent4: #8b5cf6;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-mid: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    line-height: 1.6;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+    padding: 40px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; right: -80px; top: -80px;
+    width: 350px; height: 350px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+  }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.4);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; color: #a78bfa; margin-bottom: 16px;
+    letter-spacing: 0.08em;
+  }
+  .header h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .header p { font-size: 13px; color: var(--text-mid); max-width: 600px; line-height: 1.6; }
+  .header-meta { position: absolute; right: 40px; top: 40px; text-align: right; }
+  .header-meta .date { font-size: 12px; color: var(--text-dim); }
+  .header-meta .version {
+    display: inline-block; margin-top: 6px;
+    background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 8px; padding: 4px 10px; font-size: 11px; color: var(--accent3);
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* ─ SCORE BANNER ─ */
+  .score-banner {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-bottom: 32px;
+  }
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .score-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .score-card.red::before { background: var(--accent5); }
+  .score-card.orange::before { background: var(--accent3); }
+  .score-card.blue::before { background: var(--accent); }
+  .score-card.green::before { background: var(--accent2); }
+  .score-num { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .score-card.red .score-num { color: var(--accent5); }
+  .score-card.orange .score-num { color: var(--accent3); }
+  .score-card.blue .score-num { color: var(--accent); }
+  .score-card.green .score-num { color: var(--accent2); }
+  .score-label { font-size: 12px; color: var(--text-mid); }
+
+  /* ─ SECTION ─ */
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    color: var(--text-dim); text-transform: uppercase;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ─ ISSUE CARDS ─ */
+  .issue-grid { display: grid; gap: 16px; margin-bottom: 40px; }
+  .issue-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .issue-card:hover { transform: translateY(-2px); }
+  .issue-top {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .issue-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+  }
+  .issue-card.critical .issue-num { background: rgba(239,68,68,0.2); color: var(--accent5); border: 1px solid rgba(239,68,68,0.3); }
+  .issue-card.medium .issue-num { background: rgba(245,158,11,0.2); color: var(--accent3); border: 1px solid rgba(245,158,11,0.3); }
+  .issue-card.idea .issue-num { background: rgba(139,92,246,0.2); color: var(--accent4); border: 1px solid rgba(139,92,246,0.3); }
+  .issue-severity {
+    font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 12px; margin-left: auto;
+  }
+  .issue-card.critical .issue-severity { background: rgba(239,68,68,0.15); color: var(--accent5); }
+  .issue-card.medium .issue-severity { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .issue-card.idea .issue-severity { background: rgba(139,92,246,0.15); color: var(--accent4); }
+  .issue-title { font-size: 14px; font-weight: 700; }
+  .issue-body { padding: 14px 20px; }
+  .issue-desc { font-size: 13px; color: var(--text-mid); line-height: 1.7; margin-bottom: 12px; }
+  .issue-gap {
+    display: flex; gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .gap-label { font-size: 10px; font-weight: 700; flex-shrink: 0; padding-top: 1px; }
+  .issue-card.critical .gap-label { color: var(--accent5); }
+  .issue-card.medium .gap-label { color: var(--accent3); }
+  .issue-card.idea .gap-label { color: var(--accent4); }
+  .gap-text { font-size: 12px; color: var(--text-mid); }
+  .issue-fix {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    background: rgba(16,185,129,0.05);
+    border: 1px solid rgba(16,185,129,0.15);
+    border-radius: 8px;
+  }
+  .fix-label { font-size: 10px; font-weight: 700; color: var(--accent2); flex-shrink: 0; padding-top: 1px; }
+  .fix-text { font-size: 12px; color: #6ee7b7; }
+
+  /* ─ EVOLUTION FLOW ─ */
+  .evo-section {
+    background: var(--surface);
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .evo-section::before {
+    content: '✨ IDEAL';
+    position: absolute; right: 20px; top: 20px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--accent4); opacity: 0.6;
+  }
+  .evo-title { font-size: 17px; font-weight: 800; color: #c4b5fd; margin-bottom: 6px; }
+  .evo-sub { font-size: 12px; color: var(--text-dim); margin-bottom: 24px; }
+
+  .learn-loop {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    align-items: center;
+    position: relative;
+  }
+  .loop-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .loop-node.special { border-color: rgba(139,92,246,0.5); background: rgba(139,92,246,0.08); }
+  .loop-icon { font-size: 20px; margin-bottom: 6px; }
+  .loop-title { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+  .loop-desc { font-size: 10px; color: var(--text-dim); line-height: 1.5; }
+  .loop-arrow {
+    text-align: center; color: var(--accent4); font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .learn-detail {
+    margin-top: 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .learn-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .learn-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .learn-card h4.good { color: var(--accent2); }
+  .learn-card h4.ng { color: var(--accent5); }
+  .learn-card ul { list-style: none; padding: 0; }
+  .learn-card ul li {
+    font-size: 12px; color: var(--text-mid);
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .learn-card ul li:last-child { border-bottom: none; }
+  .learn-card ul li::before { content: '→'; color: var(--text-dim); flex-shrink: 0; }
+
+  /* ─ BEFORE AFTER ─ */
+  .ba-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch; margin-bottom: 32px; }
+  .ba-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px 24px;
+  }
+  .ba-box.before { border-color: rgba(239,68,68,0.3); }
+  .ba-box.after { border-color: rgba(16,185,129,0.3); }
+  .ba-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 12px; }
+  .ba-box.before .ba-label { color: var(--accent5); }
+  .ba-box.after .ba-label { color: var(--accent2); }
+  .ba-box h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .ba-box ul { list-style: none; padding: 0; }
+  .ba-box ul li { font-size: 12px; color: var(--text-mid); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .ba-box ul li:last-child { border-bottom: none; }
+  .ba-box.before ul li::before { content: '✗ '; color: var(--accent5); }
+  .ba-box.after ul li::before { content: '✓ '; color: var(--accent2); }
+  .ba-arrow { display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent3); }
+
+  /* ─ PRIORITY TABLE ─ */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--surface); color: var(--text-dim);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    padding: 10px 14px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .pri-tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+  .pri-tag.p1 { background: rgba(239,68,68,0.15); color: var(--accent5); }
+  .pri-tag.p2 { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .pri-tag.p3 { background: rgba(59,130,246,0.15); color: var(--accent); }
+  .pri-tag.idea { background: rgba(139,92,246,0.15); color: var(--accent4); }
+
+  .footer { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">
+    <div class="date">2026-03-26</div>
+    <div class="version">v1.0 初版</div>
+  </div>
+  <div class="header-badge">🔍 AI組織フロー 内部診断</div>
+  <h1>フロー課題レポート ＋ 自己進化設計</h1>
+  <p>現在の自動化フローの構造的な抜けを特定し、「使うほど賢くなる」自己学習ループへの改善提案を整理。</p>
+</div>
+
+<div class="container">
+
+  <!-- スコアサマリー -->
+  <div class="score-banner">
+    <div class="score-card red">
+      <div class="score-num">3</div>
+      <div class="score-label">最優先の構造的欠陥</div>
+    </div>
+    <div class="score-card orange">
+      <div class="score-num">5</div>
+      <div class="score-label">中優先の摩擦ポイント</div>
+    </div>
+    <div class="score-card blue">
+      <div class="score-num">2</div>
+      <div class="score-label">設計アイデア（追加機能）</div>
+    </div>
+    <div class="score-card green">
+      <div class="score-num">0</div>
+      <div class="score-label">GOODパターン蓄積（現在）</div>
+    </div>
+  </div>
+
+  <!-- ────────────── 最優先課題 ────────────── -->
+  <div class="section-header">
+    <span>⚠️ 最優先の構造的課題</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="issue-grid">
+
+    <div class="issue-card critical">
+      <div class="issue-top">
+        <div class="issue-num">1</div>
+        <div class="issue-title">フィードバックループが「失敗の記録」だけで、成功の学習がない</div>
+        <div class="issue-severity">最優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          現在のフィードバックループは「ユーザーの修正コメント → NGルール追記」という設計のみ。<br>
+          ユーザーが「これでOK」と承認した成果物の特徴を自動抽出して蓄積するフローが存在しない。<br>
+          結果として「何が良かったのか」がわからないまま次のコンテンツを作ることになり、品質が収束しない。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">現状の欠け</div>
+          <div class="gap-text">NGパターン（失敗）は蓄積。GOODパターン（成功）は蓄積ゼロ。<br>→ 「失敗を避ける」ことはできるが「成功を再現する」機能がない</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">承認時に自動抽出：文体・構成・フック・CTA・文字数などの特徴を「GOODパターン」として各CONTEXT.mdに追記。<br>
+          例：「承認されたInstagram投稿 ＝ フック1行＋改行多め＋体言止め＋絵文字3〜5個＋CTA1行」を記録。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card critical">
+      <div class="issue-top">
+        <div class="issue-num">2</div>
+        <div class="issue-title">スケジュールタスクの成果がCONTEXT.mdに自動反映されていない</div>
+        <div class="issue-severity">最優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          毎朝9時の morning-briefing・毎週月曜の buzz-research が自動実行されているが、<br>
+          その成果（バズTOP3・競合動向・SNSフォロワー変化）が CONTEXT.md に自動追記されていない。<br>
+          結果として、次のセッションで「前回のbrieifingで何が分かったか」を再調査するか、ユーザーの記憶に頼ることになる。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">現状の欠け</div>
+          <div class="gap-text">ブリーフィング → MOON承認 → そこで情報が止まる。<br>CONTEXT.mdの「競合調査ナレッジ」は手動更新 or タスク実行時のみ。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">スケジュールタスクの最後のステップに「CONTEXT.md自動更新」を追加。<br>
+          buzz-research → バズTOP3を competitorナレッジ欄に日付付きで追記 → SNSフォロワー数を更新する、まで自動化。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card critical">
+      <div class="issue-top">
+        <div class="issue-num">3</div>
+        <div class="issue-title">ディベートシステムの実施ログ・証跡がない</div>
+        <div class="issue-severity">最優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          CONTEXT.mdには「ディベート結論 2026-03」という記載があるが、<br>
+          実際にPRO5回・CON5回のラウンドが回ったのか、どんな議論があったのかの証跡がない。<br>
+          「ディベートで決めた」と書いてあっても、実際の議論プロセスが見えないと信頼性が下がる。<br>
+          また、結論だけ残してプロセスを捨てると「なぜこう決めたか」の再検討ができなくなる。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">現状の欠け</div>
+          <div class="gap-text">CONTEXT.mdの「ディベート結論」は結論のみ記載。PRO/CONの要点・採点スコア・統合案の根拠がなし。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">ディベート実施時は outputs/debate/YYYYMMDD_テーマ.md に要約を保存。<br>
+          CONTEXT.mdには「結論 + debate/ファイルへのリンク + PRO要点1行・CON要点1行」をテンプレートで追記。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ────────────── 中優先課題 ────────────── -->
+  <div class="section-header">
+    <span>🔶 中優先の摩擦・構造的ギャップ</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="issue-grid">
+
+    <div class="issue-card medium">
+      <div class="issue-top">
+        <div class="issue-num">4</div>
+        <div class="issue-title">ユーザー確認フロー（STEP1〜3）が全タスク一律で摩擦が大きい</div>
+        <div class="issue-severity">中優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          毎回サマリー提示→計画提示→承認待ち という3ステップを全タスクに義務付けているため、
+          日常的な繰り返しタスク（SNS投稿文1本、CONTEXT.md更新など）でも重い確認フローが発生する。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">問題</div>
+          <div class="gap-text">小さなタスクでも同じ重さの確認フロー → ユーザーが承認疲れを起こす → 大事な確認が形骸化するリスク。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">タスクを3段階に分類：<br>
+          🟢 ルーティン（SNS下書き、CONTEXT.md更新）→ 実行後に1行報告のみ<br>
+          🟡 重要（LP制作、価格改定メッセージ）→ STEP2まで（計画提示→承認）<br>
+          🔴 重大（ファイル移動、外部送信、ディベート）→ STEP1〜3フル実施</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card medium">
+      <div class="issue-top">
+        <div class="issue-num">5</div>
+        <div class="issue-title">クロスシナジー検知が「実行中のみ」で、先読み提案がない</div>
+        <div class="issue-severity">中優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          シナジー検知は「コンテンツ生成中に他PJへの転用チャンスを検知」という受動設計。
+          朝のブリーフィングにシナジーチャンスが含まれていないため、MOONさんが気づかないまま
+          転用チャンスを見逃すことがある。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">問題</div>
+          <div class="gap-text">今週CARASで作ったコンテンツがオギラボに使えるのに、先週のセッションが終わると気づかれない可能性。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">morning-briefingの最後に「今週のシナジーチャンス」として、前週の成果物から転用提案を1〜2個自動生成して提示する。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card medium">
+      <div class="issue-top">
+        <div class="issue-num">6</div>
+        <div class="issue-title">レビューエージェントの採点根拠がユーザーに見えない</div>
+        <div class="issue-severity">中優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          品質スコアカードで「70点以上→ユーザーへ提出」という設計だが、
+          ユーザーには「いくつだったか」も「何が良かったか」も伝わらないまま成果物が届く。
+          これでは採点が機能していても学習に繋がらない。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">問題</div>
+          <div class="gap-text">「なんとなくOKなコンテンツ」として承認されても、高評価の理由が蓄積されない。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">成果物と一緒に採点サマリーを1行で添付：<br>
+          例「📊 品質スコア: 82点｜フック◎ CTA○ ターゲット適合○ トーン△」<br>
+          ユーザーが承認 or 修正するたびに、その判断がGOOD/NGパターンに蓄積される。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card medium">
+      <div class="issue-top">
+        <div class="issue-num">7</div>
+        <div class="issue-title">エラーハンドリングのLEVEL3後の「学習フロー」が未定義</div>
+        <div class="issue-severity">中優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          失敗時のフォールバック（LEVEL1→2→3）は設計されているが、
+          LEVEL3でユーザーに報告した後、「この失敗からどう改善するか」の学習フローがない。
+          毎回同じ失敗が起きる可能性がある。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">問題</div>
+          <div class="gap-text">LEVEL3報告で終わり → CONTEXT.mdに記録とあるが、記録フォーマット・記録場所が未定義。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">LEVEL3到達時に自動的に「エラーログ」をCONTEXT.mdの「既知の失敗パターン」セクションに追記。<br>
+          次のセッション開始時にこのセクションを参照し「前回失敗したアプローチは使わない」を意識させる。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card medium">
+      <div class="issue-top">
+        <div class="issue-num">8</div>
+        <div class="issue-title">3サロン構想の優先順未決定によるコンテンツ散漫リスク</div>
+        <div class="issue-severity">中優先</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          オギラボで「①保護者向け②アスリート向け③棒高跳び特化」の3サロン構想があるが、
+          どれを先に立ち上げるか未決定。この状態でコンテンツ制作が走ると、
+          SNSのジャンル統一が崩れ（特にTikTokはジャンル統一必須）、アルゴリズムが評価しない投稿になるリスクがある。
+        </div>
+        <div class="issue-gap">
+          <div class="gap-label">問題</div>
+          <div class="gap-text">TikTokのアルゴリズムはジャンル統一を重視。保護者向けとアスリート向けを混在させると評価が下がる。</div>
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">改善案</div>
+          <div class="fix-text">今すぐMOONさんに確認が必要。決定後にCONTEXT.mdの「現在の最優先ターゲット」を明記 → 全コンテンツ制作の指針にする。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ────────────── 理想：自己進化フロー ────────────── -->
+  <div class="section-header">
+    <span>✨ 理想の自己進化フロー（ブラッシュアップ設計）</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="evo-section">
+    <div class="evo-title">「使うほどMOONさんの好みを学習し、指示なしに合わせていく」仕組み</div>
+    <div class="evo-sub">現状のNGパターン蓄積に加え、GOODパターンの自動抽出ループを追加する。</div>
+
+    <div class="learn-loop">
+      <div class="loop-node">
+        <div class="loop-icon">✍️</div>
+        <div class="loop-title">コンテンツ生成</div>
+        <div class="loop-desc">スコアカード×GOODパターン参照して生成</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node">
+        <div class="loop-icon">📊</div>
+        <div class="loop-title">採点サマリー添付</div>
+        <div class="loop-desc">82点｜フック◎ CTA○ など1行表示</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node special">
+        <div class="loop-icon">👤</div>
+        <div class="loop-title">MOONさん判断</div>
+        <div class="loop-desc">承認 / 修正 / 差し戻し</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node">
+        <div class="loop-icon">🧬</div>
+        <div class="loop-title">自動パターン抽出</div>
+        <div class="loop-desc">承認→GOOD追記<br>修正→NG更新<br>差し戻し→エラーログ</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node">
+        <div class="loop-icon">🚀</div>
+        <div class="loop-title">次回生成に反映</div>
+        <div class="loop-desc">GOODパターン参照で初回から精度UP</div>
+      </div>
+    </div>
+
+    <div class="learn-detail">
+      <div class="learn-card">
+        <h4 class="good">✓ 自動蓄積すべきGOODパターン（承認時）</h4>
+        <ul>
+          <li>フックの形式（問いかけ型 / 数字型 / 体言止め型）</li>
+          <li>文字数レンジ（SNS投稿：何文字で承認が多いか）</li>
+          <li>絵文字の使用数・種類傾向</li>
+          <li>改行パターン（何行ごとに改行しているか）</li>
+          <li>CTAのフォーマット（「→」「▷」「詳しくは」など）</li>
+          <li>カルーセルなら何枚構成・1枚の情報量</li>
+        </ul>
+      </div>
+      <div class="learn-card">
+        <h4 class="ng">✗ 既存NGパターンにプラスで追記すべき情報</h4>
+        <ul>
+          <li>「修正した箇所」を差分で記録（before/after）</li>
+          <li>「差し戻した理由」のカテゴリ分類（トーン / 構成 / 情報量）</li>
+          <li>修正前の特徴を「次回避けるパターン」として追加</li>
+          <li>同じNG指摘が2回以上出たら「重大NGルール」に昇格</li>
+          <li>プロジェクト別にNGの傾向を分けて記録</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────── Before / After ────────────── -->
+  <div class="section-header">
+    <span>📐 Before / After — フロー設計の変化</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="ba-grid">
+    <div class="ba-box before">
+      <div class="ba-label">BEFORE（現在）</div>
+      <h3>NGパターンのみ蓄積する一方向型</h3>
+      <ul>
+        <li>承認されても何も記録されない</li>
+        <li>ブリーフィング成果はセッション内で消える</li>
+        <li>全タスクに同じ重さの確認フロー</li>
+        <li>ディベートの証跡が残らない</li>
+        <li>採点スコアがユーザーに見えない</li>
+        <li>エラー後の学習フローがない</li>
+        <li>シナジーは偶発的に気づくだけ</li>
+      </ul>
+    </div>
+    <div class="ba-arrow">→</div>
+    <div class="ba-box after">
+      <div class="ba-label">AFTER（目指す姿）</div>
+      <h3>承認も拒否も全てが学習データになる双方向型</h3>
+      <ul>
+        <li>承認 → GOODパターン自動抽出・蓄積</li>
+        <li>ブリーフィング成果 → CONTEXT.md自動追記</li>
+        <li>タスク重要度に応じた3段階確認フロー</li>
+        <li>ディベートログ → outputs/debate/ に保存</li>
+        <li>採点サマリー1行を成果物に添付</li>
+        <li>エラー → 既知の失敗パターン欄に追記</li>
+        <li>朝のブリーフィングにシナジーチャンス自動生成</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ────────────── アイデア追加機能 ────────────── -->
+  <div class="section-header">
+    <span>💡 追加設計アイデア（中長期）</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="issue-grid">
+    <div class="issue-card idea">
+      <div class="issue-top">
+        <div class="issue-num">A</div>
+        <div class="issue-title">「MOONさんスタイルプロファイル」の自動構築</div>
+        <div class="issue-severity">アイデア</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          承認データを10〜20件蓄積した段階で、自動的に「MOONさんが好むコンテンツの傾向」をプロファイルとして可視化する。
+          例：「フック：問いかけ型85%」「文字数：150〜200字」「絵文字：2〜4個」「CTA：→アクション形式」
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">実装案</div>
+          <div class="fix-text">CLAUDE.mdまたはCONTEXT.mdに「MOONスタイルプロファイル」セクションを追加し、承認ごとに自動更新する。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue-card idea">
+      <div class="issue-top">
+        <div class="issue-num">B</div>
+        <div class="issue-title">「信頼スコア」で確認フローを自動調整</div>
+        <div class="issue-severity">アイデア</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-desc">
+          同じ種類のタスクを3回連続で無修正承認した場合、そのタスクカテゴリを「信頼済み」に格上げし、
+          以降はサマリー報告のみで自動実行に移行する。MOONさんの確認負荷が減り、重要な判断に集中できる。
+        </div>
+        <div class="issue-fix">
+          <div class="fix-label">実装案</div>
+          <div class="fix-text">タスクカテゴリ別の信頼スコアをCLAUDE.mdに記録。スコアに応じて確認フローのレベルが自動切り替わる。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────── 優先アクションまとめ ────────────── -->
+  <div class="section-header">
+    <span>🎯 実装優先度まとめ</span>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 32px;">
+    <table>
+      <tr>
+        <th>優先</th>
+        <th>改善項目</th>
+        <th>実装難度</th>
+        <th>効果</th>
+        <th>対象</th>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p1">P1</span></td>
+        <td>GOODパターン自動蓄積ループの追加</td>
+        <td>低（CLAUDE.mdに追記するだけ）</td>
+        <td>⭐⭐⭐⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p1">P1</span></td>
+        <td>スケジュールタスク → CONTEXT.md自動更新</td>
+        <td>低（既存タスクのpromptに追記）</td>
+        <td>⭐⭐⭐⭐⭐</td>
+        <td>daily / buzz</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p1">P1</span></td>
+        <td>ディベートログの保存先・フォーマット定義</td>
+        <td>低（テンプレート作るだけ）</td>
+        <td>⭐⭐⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p2">P2</span></td>
+        <td>タスク重要度3段階の確認フロー整理</td>
+        <td>中（CLAUDE.mdのルール改定）</td>
+        <td>⭐⭐⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p2">P2</span></td>
+        <td>採点サマリーの1行添付を標準化</td>
+        <td>低（レビューフォーマット追記）</td>
+        <td>⭐⭐⭐</td>
+        <td>コンテンツ系PJ</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p2">P2</span></td>
+        <td>シナジー提案をブリーフィングに追加</td>
+        <td>中（morning-briefingのprompt改修）</td>
+        <td>⭐⭐⭐</td>
+        <td>全PJ</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p2">P2</span></td>
+        <td>オギラボ3サロン優先順の決定</td>
+        <td>低（MOONさんへの確認のみ）</td>
+        <td>⭐⭐⭐⭐</td>
+        <td>オギラボ</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag p3">P3</span></td>
+        <td>エラーログの記録フォーマット定義</td>
+        <td>低</td>
+        <td>⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag idea">IDEA</span></td>
+        <td>MOONさんスタイルプロファイル自動構築</td>
+        <td>高（データ蓄積後）</td>
+        <td>⭐⭐⭐⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+      <tr>
+        <td><span class="pri-tag idea">IDEA</span></td>
+        <td>信頼スコアによる確認フロー自動調整</td>
+        <td>高</td>
+        <td>⭐⭐⭐⭐</td>
+        <td>全PJ共通</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    AI組織フロー 課題＆進化提案レポート v1.0 | 生成日: 2026-03-26 | 総括エージェント → MOONさん
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit ペルソナシミュレーション｜40代IT経営者・プリズムカップ経由</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    line-height: 1.8;
+  }
+
+  /* ヘッダー */
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 40px 40px 30px;
+    border-bottom: 2px solid #e94560;
+  }
+  header .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+  header .brand {
+    font-size: 13px;
+    color: #a0a0b0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  header .subtitle {
+    font-size: 13px;
+    color: #e94560;
+    letter-spacing: 1px;
+  }
+
+  /* レイアウト */
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+
+  /* セクションタイトル */
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #e94560;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 3px solid #e94560;
+  }
+
+  /* ペルソナカード */
+  .persona-card {
+    background: linear-gradient(135deg, #1e2a3a, #162033);
+    border: 1px solid #2a3a4a;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .persona-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #e94560, #f5a623, #7ed321);
+  }
+  .persona-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .persona-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e94560, #7b2d8b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+  .persona-name { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .persona-title { font-size: 14px; color: #a0aab4; }
+  .persona-meta { font-size: 12px; color: #e94560; margin-top: 4px; font-weight: 600; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+
+  .info-item {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .info-item .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #6a7a8a;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .info-item .value { font-size: 14px; color: #d0d8e0; }
+  .info-item .value strong { color: #fff; }
+
+  /* タイムライン */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline-item {
+    background: #161e2c;
+    border: 1px solid #2a3a4a;
+    border-radius: 14px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid #2a3a4a;
+  }
+  .step-badge {
+    background: #e94560;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .step-badge.b { background: #f5a623; color: #1a1a1a; }
+  .step-badge.c { background: #7ed321; color: #1a1a1a; }
+  .step-badge.d { background: #7b2d8b; }
+  .step-badge.e { background: #0f3460; border: 1px solid #4a6a9a; }
+  .step-badge.insight { background: #00b894; color: #1a1a1a; }
+
+  .step-title { font-size: 16px; font-weight: 700; color: #fff; }
+  .step-scene { font-size: 12px; color: #6a7a8a; margin-left: auto; flex-shrink: 0; }
+
+  .timeline-body { padding: 24px; }
+
+  /* 内なる声 */
+  .inner-voice {
+    background: rgba(233, 69, 96, 0.08);
+    border-left: 3px solid #e94560;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-style: italic;
+    color: #c0c8d0;
+    font-size: 14px;
+  }
+  .inner-voice::before {
+    content: '💭 ';
+  }
+
+  /* 会話 */
+  .conversation {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .bubble {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .bubble.user {
+    background: #1e3a5f;
+    border: 1px solid #2a5080;
+    color: #d0e0f0;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .bubble.user::before { content: '👔 田中 '; font-weight: 700; display: block; font-size: 11px; color: #6a9abf; margin-bottom: 4px; font-style: normal; }
+  .bubble.tf {
+    background: #1e2e1e;
+    border: 1px solid #2a4a2a;
+    color: #c0d8c0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble.tf::before { content: '🤖 TrustFit AI '; font-weight: 700; display: block; font-size: 11px; color: #6abf6a; margin-bottom: 4px; font-style: normal; }
+  .bubble.human {
+    background: #2e1e3e;
+    border: 1px solid #4a2a5a;
+    color: #d0c0e0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble.human::before { content: '📞 担当者（MOON） '; font-weight: 700; display: block; font-size: 11px; color: #9a6abf; margin-bottom: 4px; font-style: normal; }
+
+  /* インサイトボックス */
+  .insight-box {
+    background: linear-gradient(135deg, #0d2818, #0d1f2e);
+    border: 1px solid #2a5a3a;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 14px 0;
+  }
+  .insight-box .insight-title {
+    font-size: 11px;
+    color: #00b894;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .insight-box ul { padding-left: 0; list-style: none; }
+  .insight-box li { font-size: 13px; color: #a0c8b0; padding: 4px 0; }
+  .insight-box li::before { content: '▸ '; color: #00b894; }
+
+  /* 障壁・懸念 */
+  .barrier-box {
+    background: rgba(245, 166, 35, 0.08);
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .barrier-box .barrier-title {
+    font-size: 11px;
+    color: #f5a623;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  /* プロポーザル */
+  .proposal-card {
+    background: linear-gradient(135deg, #1a2a1a, #151f2e);
+    border: 1px solid #2a4a2a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .proposal-card .trainer-rank {
+    display: inline-block;
+    background: #f5a623;
+    color: #1a1a1a;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .proposal-card .trainer-rank.legend { background: #e94560; color: #fff; }
+  .proposal-card h4 { font-size: 15px; color: #fff; margin-bottom: 6px; }
+  .proposal-card .trainer-desc { font-size: 13px; color: #a0b0c0; }
+  .proposal-card .price-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #d0d8e0;
+    margin-top: 10px;
+  }
+
+  /* まとめ */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  @media (max-width: 600px) { .summary-grid { grid-template-columns: 1fr; } }
+
+  .summary-card {
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .summary-card.good {
+    background: rgba(0, 184, 148, 0.1);
+    border: 1px solid rgba(0, 184, 148, 0.3);
+  }
+  .summary-card.gap {
+    background: rgba(233, 69, 96, 0.1);
+    border: 1px solid rgba(233, 69, 96, 0.3);
+  }
+  .summary-card h4 {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .summary-card.good h4 { color: #00b894; }
+  .summary-card.gap h4 { color: #e94560; }
+  .summary-card ul { list-style: none; padding: 0; }
+  .summary-card li { font-size: 13px; color: #c0d0c8; padding: 4px 0; }
+  .summary-card.good li::before { content: '✓ '; color: #00b894; }
+  .summary-card.gap li::before { content: '→ '; color: #e94560; }
+
+  /* タグ */
+  .tag {
+    display: inline-block;
+    background: rgba(233,69,96,0.15);
+    border: 1px solid rgba(233,69,96,0.3);
+    color: #e94560;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px;
+  }
+
+  p { margin-bottom: 10px; font-size: 14px; color: #c0c8d4; }
+  hr { border: none; border-top: 1px solid #2a3a4a; margin: 28px 0; }
+
+  .note {
+    font-size: 12px;
+    color: #6a7a8a;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">TrustFit — Persona Simulation #01</div>
+  <h1>ペルソナシミュレーション｜40代IT経営者</h1>
+  <div class="subtitle">PRISM CUP 経由登録 ／ ニーズ：社員の覇気がない</div>
+</header>
+
+<div class="container">
+
+  <!-- ペルソナプロフィール -->
+  <div class="section-title" style="margin-bottom:16px;">PERSONA PROFILE</div>
+  <div class="persona-card">
+    <div class="persona-header">
+      <div class="persona-avatar">👔</div>
+      <div>
+        <div class="persona-name">田中 剛（たなか つよし）</div>
+        <div class="persona-title">44歳・男性｜SaaS系スタートアップ 代表取締役</div>
+        <div class="persona-meta">▸ PRISM CUP 参加者 → TrustFit接触ルート</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">会社</div>
+        <div class="value"><strong>ITスタートアップ（SaaS・HR系）</strong><br>社員 約60名・設立8年目</div>
+      </div>
+      <div class="info-item">
+        <div class="label">役職・意思決定権</div>
+        <div class="value"><strong>創業社長・全決裁権あり</strong><br>稟議なし・即決できる</div>
+      </div>
+      <div class="info-item">
+        <div class="label">年収・財務感覚</div>
+        <div class="value">個人年収 <strong>2,500〜3,000万円</strong><br>社員福利厚生：年間 100〜200万円予算</div>
+      </div>
+      <div class="info-item">
+        <div class="label">スポーツ歴</div>
+        <div class="value">大学まで<strong>フットサル・サッカー</strong><br>今もフットサル月2回継続</div>
+      </div>
+      <div class="info-item">
+        <div class="label">PRISM CUPとの接点</div>
+        <div class="value">ビジネスフットサル参加者として<strong>知人の紹介で出場</strong><br>イベント後の懇親会でTrustFitを知る</div>
+      </div>
+      <div class="info-item">
+        <div class="label">現在のコンディション</div>
+        <div class="value">本人は<strong>運動継続できている</strong>が<br>社員（特にエンジニア）は運動ゼロ・覇気なし</div>
+      </div>
+      <div class="info-item">
+        <div class="label">表向きのニーズ（言語化できている）</div>
+        <div class="value">「<strong>社員に覇気がない。何かしたい。</strong>」<br>← ざっくり・課題の深掘りはまだできていない</div>
+      </div>
+      <div class="info-item">
+        <div class="label">本音のニーズ（まだ言語化できていない）</div>
+        <div class="value">採用広報に使いたい・<strong>エース社員の離職を防ぎたい</strong>・<br>チームが「楽しそうに働く会社」に見せたい</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- タイムライン -->
+  <div class="section-title" style="margin-bottom:16px;">CUSTOMER JOURNEY SIMULATION</div>
+  <div class="timeline">
+
+    <!-- STEP 1 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge">STEP 01</span>
+        <span class="step-title">PRISM CUPでの接触</span>
+        <span class="step-scene">📍 フットサルコート / 懇親会</span>
+      </div>
+      <div class="timeline-body">
+        <p>社内の若手エンジニア5名と出場。チームワークは悪くないが、日頃から感じている「うちの社員、なんか覇気ないな」という感覚をこの日も改めて思う。</p>
+        <p>試合後の懇親会で、MOONさん（主催サイド）と自然に話す場面。</p>
+
+        <div class="conversation">
+          <div class="bubble user">今日楽しかったです。うちの社員、もともとこういうのあまりやらなくて…でもちょっとこういう機会必要だなと感じました。</div>
+          <div class="bubble human">ありがとうございます！普段はどんなお仕事されてるんですか？</div>
+          <div class="bubble user">ITです。SaaSやってます、社員60人くらいで。最近ちょっと…なんか社員が覇気ないというか、そういうの何かしたいなと思ってるんですよね。</div>
+          <div class="bubble human">わかります、それ。実は今「TrustFit」って企業向けのトレーナー派遣をやっていて、田中さんみたいな経営者の方が多く使ってくれてるんですよ。</div>
+        </div>
+
+        <div class="inner-voice">「トレーナー派遣？ジムじゃないの？会社に来てくれるの？少し気になるな。でも正直、"健康経営"とかいうやつって、形だけのものが多くてあんまり信用してないんだよな。」</div>
+
+        <div class="insight-box">
+          <div class="insight-title">✦ この瞬間のインサイト</div>
+          <ul>
+            <li>「覇気がない」という言葉は出るが、具体的に何が欲しいかは本人も分かっていない</li>
+            <li>フットサルで「楽しそうな自社社員」を見て、「もっとこういう状態にしたい」という感覚が生まれている</li>
+            <li>懐疑心あり → 「健康経営系のサービスは形だけ」という先入観がある</li>
+            <li>MOONさんのような実績ある人間が直接話すことで、一気に信頼度が上がる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge b">STEP 02</span>
+        <span class="step-title">TrustFitのLP / 説明を見る</span>
+        <span class="step-scene">📱 帰り道・スマホ</span>
+      </div>
+      <div class="timeline-body">
+        <p>QRコードをもらってその場でスキャン。電車の中でTrustFitのサイトを見始める。</p>
+
+        <div class="inner-voice">「"一流が来る。成果の分だけ払う。" ← これは分かりやすい。成果報酬型なの？ちょっと面白いな。」</div>
+
+        <p>ページを読み進めながら、頭の中でいくつかの計算と照合が走る。</p>
+
+        <div class="inner-voice">「ポイントで払う…評価スコアで報酬確定…うちのSaaS的な発想じゃん。これは分かる。</div>
+        <div class="inner-voice">でも、Elite 6万〜10万円/回か。1回だけなら試せるな。問題は継続できるかどうかだけど、最初はとにかく1回試してみたい。モニターがある？10万で100万pt？それはかなりお得じゃないか。」</div>
+
+        <div class="barrier-box">
+          <div class="barrier-title">⚠️ ここで浮かぶ疑問・障壁（LP/登録前の段階）</div>
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">① <strong>「うちに合うトレーナーいるの？IT系・エンジニア向けってある？」</strong></li>
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">② <strong>「1回試して終わりにならないの？継続のイメージが湧かない」</strong></li>
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">③ <strong>「社員が喜ぶの？強制にならない？」</strong> ← 会社が勝手に決めた施策→社員が冷める体験あり</li>
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">④ <strong>「ポイント買い切りって、使い切れなかったら？」</strong> ← 1年で失効のルール確認が必要</li>
+          </ul>
+        </div>
+
+        <div class="insight-box">
+          <div class="insight-title">✦ LPに対するフィードバック</div>
+          <ul>
+            <li>「成果の分だけ払う」コピーはIT経営者に刺さる（SaaS的思考と親和性高い）</li>
+            <li>ポイントシステムの説明は少し複雑 → ロック・返還・失効の流れを図解すると良い</li>
+            <li>「業種別のユースケース（IT系企業の活用事例）」があると一気に具体性が上がる</li>
+            <li>モニター特典の「10倍」は強い → でも「何のための撮影？」という不安も生まれる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge c">STEP 03</span>
+        <span class="step-title">登録 / 初回ヒアリング</span>
+        <span class="step-scene">💻 翌日・オフィス</span>
+      </div>
+      <div class="timeline-body">
+        <p>翌朝、仕事始める前に5分でとりあえず登録だけしてみる。フォームを入力しながら…</p>
+
+        <div class="inner-voice">「業種：IT / 社員数：60名 / 目的……"社員の覇気向上"って書いていいのかな。なんか漠然としてるけど、正直なとこ書くか。」</div>
+
+        <p>登録後、AIヒアリングが始まる想定で以下のような対話が発生。</p>
+
+        <div class="conversation">
+          <div class="bubble tf">ご登録ありがとうございます！田中様の会社に合ったプログラムをご提案するために、いくつかお聞きしてもいいですか？</div>
+          <div class="bubble user">どうぞ。</div>
+          <div class="bubble tf">「社員の覇気向上」とご記載いただきました。具体的にどんな場面で「覇気がない」と感じますか？たとえば①会議での発言が少ない ②残業が多くて疲弊している ③チームの士気が低い ④採用候補者への印象が悪い、どれに近いですか？</div>
+          <div class="bubble user">うーん…全部あるかも。特に②と③かな。あとなんか、楽しそうに働いてないんですよね。それが④にも影響してる気がして。</div>
+          <div class="bubble tf">ありがとうございます。「楽しそうに働く会社」を作りたい、という感じでしょうか。採用広報的な側面も意識されてますか？</div>
+          <div class="bubble user">あ、そうですね。言われてみれば。採用に使える動画とかも撮れると聞いたので、それも気になってます。</div>
+          <div class="bubble tf">なるほど！それなら①フィジカル系（疲弊解消・体づくり）と②マインドセット系（目標設定・チームビルディング）の組み合わせが効果的です。最初は1回の体験セッションから始めてみませんか？</div>
+        </div>
+
+        <div class="inner-voice">「これ、意外とちゃんと話を聞いてくれるな。"採用広報"って自分で言ってなかったのに、引き出してくれた。それ確かにあった。」</div>
+
+        <div class="insight-box">
+          <div class="insight-title">✦ ヒアリングで明確になった本音ニーズ（4層構造）</div>
+          <ul>
+            <li>【表面】社員の覇気がない → 何かしたい</li>
+            <li>【中層】疲弊しているチームを元気にしたい</li>
+            <li>【深層】「楽しそうに働く会社」に見せたい</li>
+            <li>【最深層】採用PR・エース社員の定着・会社のブランディング</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge d">STEP 04</span>
+        <span class="step-title">トレーナー提案・マッチング</span>
+        <span class="step-scene">📋 提案書 / オンライン面談</span>
+      </div>
+      <div class="timeline-body">
+        <p>ヒアリング結果をもとに、3名のトレーナーが提案される。</p>
+
+        <div class="proposal-card">
+          <div class="trainer-rank legend">🥇 LEGEND VIP</div>
+          <h4>荻田 大樹（オリンピアン・陸上短距離）</h4>
+          <div class="trainer-desc">「限界突破マインドセット」講演 × 体験型セッション。IT企業で"何かが変わった"と言わせる圧倒的なインパクト。採用PR動画にも最適。</div>
+          <div class="price-tag">💰 220,000〜300,000pt / 2h ｜ 全社向け（人数制限なし）</div>
+        </div>
+
+        <div class="proposal-card">
+          <div class="trainer-rank">🥈 ELITE VIP</div>
+          <h4>佐藤トレーナー（元プロアスリート・メンタルコーチ）</h4>
+          <div class="trainer-desc">中規模チーム向けの目標設定ワークショップ。エンジニアチームに「自分ごとの仕事の意味」を作る型。継続プログラムに繋がりやすい。</div>
+          <div class="price-tag">💰 60,000〜100,000pt / 2h ｜ 30名まで</div>
+        </div>
+
+        <div class="proposal-card">
+          <div class="trainer-rank">⚡ CHALLENGER</div>
+          <h4>山田トレーナー（若手フィジカルコーチ）</h4>
+          <div class="trainer-desc">週1回オフィス巡回型。15分ストレッチ × 全員参加型。継続的な疲弊解消・習慣化に強い。まず身体から変える戦略。</div>
+          <div class="price-tag">💰 15,000〜30,000pt / 1h ｜ オフィス巡回 月次</div>
+        </div>
+
+        <div class="inner-voice">「Legend（オリンピアン）が来るのか……これはちょっと社員が喜ぶかもしれない。インパクトあるな。でも25〜30万か。まあモニター価格なら試せる。採用動画撮れるならむしろ安い計算だな。」</div>
+
+        <div class="inner-voice">「継続のことを考えると、最初にLegendで"事件"を起こして、その後はEliteで月1回 → Challengerで週次巡回、みたいな組み合わせが面白いな。それ提案してほしい。」</div>
+
+        <div class="barrier-box">
+          <div class="barrier-title">⚠️ 意思決定前の最後の懸念</div>
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">「社員が冷めたらどうしよう。"また会社が変なことやってる"ってなるのが一番怖い。」</li>
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">「採用動画の撮影協力、社員に説明できるか？プレッシャーにならないか？」</li>
+            <li style="padding:4px 0;font-size:13px;color:#d0c080;">「継続の設計（誰をいつ呼ぶか）、全部自分でやらないといけない？そこが面倒だと続かない。」</li>
+          </ul>
+        </div>
+
+        <div class="conversation">
+          <div class="bubble user">Legendのオリンピアンが来るって、社員の反応ってどうなんですか？ちょっと怖くて。うちって、強制っぽいの嫌う文化なんですよね。</div>
+          <div class="bubble human">すごく大事な視点です。実は体験型にすることで「参加してよかった」という声が多くて、強制感が出ないんですよ。事前に"なぜやるか"を田中さんの言葉で一言社員に伝えるだけで全然違います。</div>
+          <div class="bubble user">なるほど。継続の設計って、自分でやらないといけないですか？</div>
+          <div class="bubble human">初回セッション後に「企業カルテ」を作成して、継続トレーナーの提案まで72時間以内にします。田中さんは最初だけ方向性を決めてもらえれば、あとは任せられる仕組みです。</div>
+          <div class="bubble user">それはいいですね。じゃあ、まずモニターで申し込んでみます。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge e">STEP 05</span>
+        <span class="step-title">モニター申込 → 意思決定</span>
+        <span class="step-scene">✅ 決断の瞬間</span>
+      </div>
+      <div class="timeline-body">
+        <p>モニター特典（¥10,000 → 100,000pt）で申込み。決定打は以下の3点。</p>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="label">決定打①</div>
+            <div class="value"><strong>成果報酬型</strong>だから失敗してもダメージが少ない。1万円なら試せる。</div>
+          </div>
+          <div class="info-item">
+            <div class="label">決定打②</div>
+            <div class="value"><strong>採用動画</strong>が撮れる → 福利厚生投資 + 採用PR費を兼ねられる（二重のROI）</div>
+          </div>
+          <div class="info-item">
+            <div class="label">決定打③</div>
+            <div class="value"><strong>継続設計を任せられる</strong> → 自分がやらなくていい。これが一番大きかった。</div>
+          </div>
+          <div class="info-item">
+            <div class="label">最終コメント（心の声）</div>
+            <div class="value">「<strong>オリンピアンが会社に来る</strong>って、うちの社員に自慢できるな。それだけで少し覇気が出そう笑」</div>
+          </div>
+        </div>
+
+        <div class="inner-voice">「申込完了。なんか久しぶりに、仕事以外で"いい買い物した"感があるな。社員にどう伝えようかな。」</div>
+      </div>
+    </div>
+
+    <!-- STEP 6 インサイト統合 -->
+    <div class="timeline-item">
+      <div class="timeline-header">
+        <span class="step-badge insight">INSIGHT</span>
+        <span class="step-title">シミュレーション総括 ／ TrustFitへの示唆</span>
+      </div>
+      <div class="timeline-body">
+
+        <div class="summary-grid">
+          <div class="summary-card good">
+            <h4>✓ TrustFitが機能したポイント</h4>
+            <ul>
+              <li>「成果の分だけ払う」コピーがIT系経営者の思考回路に刺さった</li>
+              <li>PRISM CUPという「共通体験の場」で接触できたこと（コンテキストが合っていた）</li>
+              <li>ヒアリングで「採用広報」という本音ニーズを引き出せた</li>
+              <li>「企業カルテ → 継続設計お任せ」が最後の意思決定を後押しした</li>
+              <li>VIP（オリンピアン）の「社員への話題性」が刺さった</li>
+            </ul>
+          </div>
+          <div class="summary-card gap">
+            <h4>→ 要改善・要追加のポイント</h4>
+            <ul>
+              <li>LP上に「IT企業でこんな変化が」という業種別事例が必要</li>
+              <li>ポイントロック・失効ルールの視覚的説明が不足（FAQ強化）</li>
+              <li>「社員が冷めたら？」という不安への先手のコンテンツが必要</li>
+              <li>「継続設計はお任せ」という安心感をLPでもっと前面に出すべき</li>
+              <li>採用PR動画活用のユースケースを事例として追加する</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="section-title" style="margin:0 0 12px;">KEY LEARNING — このペルソナが教えてくれること</div>
+
+        <p><strong style="color:#fff;">「覇気がない」は入口にすぎない。</strong>掘り下げると「採用PR・定着・ブランディング」という経営課題が出てくる。TrustFitはその全てに答えられるサービスなのに、現状のコピー・LP設計ではそこまで届いていない可能性がある。</p>
+
+        <p>田中さんのような経営者にとって最大のハードルは「社員が冷める」リスクへの不安。「トップダウン施策が嫌われる文化」は多くのIT系企業に共通しており、ここへの回答（体験設計・事前コミュニケーション）を標準化できると刺さる。</p>
+
+        <p>また、<strong style="color:#fff;">PRISM CUP → TrustFit</strong>という流れは非常に自然だった。フットサルで「会社のチームで楽しんでいる経営者」に接触するのは最高のタイミング。このルートを意図的に設計する価値がある。</p>
+
+        <div style="margin-top:20px;">
+          <span class="tag">#IT経営者</span>
+          <span class="tag">#採用PR兼用</span>
+          <span class="tag">#PRISM CUP流入</span>
+          <span class="tag">#継続設計お任せ</span>
+          <span class="tag">#覇気→採用ブランディング</span>
+          <span class="tag">#社員冷めリスク対策</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;padding:40px 0;font-size:12px;color:#4a5a6a;">
+    TrustFit ペルソナシミュレーション #01 ｜ 作成日: 2026-04-18 ｜ 株式会社MOON
+  </div>
+
+</div>
+</body>
+</html>

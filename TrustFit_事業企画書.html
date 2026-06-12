@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — 事業企画書 2026</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Helvetica Neue', Arial,'Hiragino Sans', sans-serif; background:#06080e; color:#dde4f0; line-height:1.75; }
+
+/* ── HERO ── */
+.hero {
+  position:relative; overflow:hidden;
+  padding:80px 40px 72px; text-align:center;
+  background:linear-gradient(160deg,#06080e 0%,#080c1a 60%,#06080e 100%);
+  border-bottom:1px solid rgba(0,140,255,.2);
+}
+.hero::before {
+  content:''; position:absolute; top:-20%; left:50%; transform:translateX(-50%);
+  width:80%; height:200%;
+  background:radial-gradient(ellipse, rgba(0,140,255,.1) 0%, rgba(0,80,200,.06) 40%, transparent 70%);
+  pointer-events:none;
+}
+.hero::after {
+  content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, rgba(0,140,255,.8), rgba(0,200,255,.8), rgba(0,140,255,.8), transparent);
+}
+
+.brand-tag { display:inline-flex; align-items:center; gap:8px; background:rgba(0,140,255,.1); border:1px solid rgba(0,140,255,.3); color:#55baff; font-size:11px; font-weight:700; letter-spacing:2px; padding:6px 18px; border-radius:30px; margin-bottom:24px; text-transform:uppercase; }
+.hero-title { font-size:clamp(40px,8vw,76px); font-weight:900; color:#fff; letter-spacing:-1px; line-height:1; margin-bottom:10px; }
+.hero-title .trust { color:#55baff; }
+.hero-title .fit { color:#fff; }
+.hero-tagline { font-size:clamp(15px,2vw,20px); color:#6880a8; margin-bottom:10px; }
+.hero-copy { font-size:clamp(14px,1.8vw,17px); font-weight:700; color:#d0dcf0; margin-bottom:28px; background:rgba(0,140,255,.06); border:1px solid rgba(0,140,255,.15); display:inline-block; padding:12px 28px; border-radius:8px; }
+
+.kpi-row { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
+.kpi-card { background:rgba(0,140,255,.08); border:1px solid rgba(0,140,255,.2); border-radius:14px; padding:16px 24px; text-align:center; min-width:140px; }
+.kpi-v { font-size:28px; font-weight:900; color:#55baff; line-height:1; display:block; }
+.kpi-l { font-size:11px; color:#5070a0; display:block; margin-top:4px; }
+
+/* ── LAYOUT ── */
+.container { max-width:980px; margin:0 auto; padding:60px 24px; }
+.section { margin-bottom:68px; }
+.sec-header { display:flex; align-items:flex-start; gap:16px; margin-bottom:30px; }
+.sec-badge { background:linear-gradient(135deg,#0090ff,#0050cc); color:#fff; font-size:10px; font-weight:800; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.sec-info { flex:1; }
+.sec-label { font-size:10px; font-weight:700; color:#0090ff; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:4px; }
+.sec-title { font-size:22px; font-weight:800; color:#fff; }
+
+/* ── CARDS ── */
+.card { background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:28px; margin-bottom:16px; }
+.card-blue   { background:rgba(0,140,255,.07);  border-color:rgba(0,140,255,.2); }
+.card-green  { background:rgba(0,210,120,.06);  border-color:rgba(0,210,120,.2); }
+.card-gold   { background:rgba(255,200,0,.06);  border-color:rgba(255,200,0,.2); }
+.card-red    { background:rgba(255,60,60,.05);   border-color:rgba(255,60,60,.17); }
+.card-teal   { background:rgba(0,200,200,.06);  border-color:rgba(0,200,200,.2); }
+.card h3 { font-size:16px; font-weight:700; color:#fff; margin-bottom:12px; }
+.card h4 { font-size:14px; font-weight:700; color:#c0cce0; margin-bottom:8px; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media(max-width:720px){ .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; } }
+
+/* ── HIGHLIGHT ── */
+.hl { background:rgba(0,140,255,.07); border:1px solid rgba(0,140,255,.22); border-left:4px solid #0090ff; border-radius:10px; padding:20px 24px; margin-bottom:18px; }
+.hl h4 { font-size:14px; font-weight:700; color:#55baff; margin-bottom:8px; }
+.hl p { font-size:13.5px; color:#8899bc; }
+
+/* ── TABLE ── */
+table { width:100%; border-collapse:collapse; font-size:13.5px; }
+th { background:rgba(0,140,255,.13); color:#55baff; font-size:11px; font-weight:700; letter-spacing:1px; padding:11px 14px; text-align:left; border-bottom:1px solid rgba(0,140,255,.25); }
+td { padding:13px 14px; border-bottom:1px solid rgba(255,255,255,.05); color:#aabac8; vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.018); }
+
+/* ── TAGS ── */
+.tag { display:inline-block; font-size:10.5px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.tag-b { background:rgba(0,140,255,.15); color:#55baff; border:1px solid rgba(0,140,255,.3); }
+.tag-g { background:rgba(0,210,120,.12); color:#4ddd90; border:1px solid rgba(0,210,120,.28); }
+.tag-o { background:rgba(255,140,0,.13); color:#ffaa40; border:1px solid rgba(255,140,0,.28); }
+.tag-p { background:rgba(138,90,255,.15); color:#b080ff; border:1px solid rgba(138,90,255,.3); }
+.tag-gold { background:rgba(255,200,0,.13); color:#ffc800; border:1px solid rgba(255,200,0,.28); }
+
+/* ── RANK CARDS ── */
+.rank-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media(max-width:800px){ .rank-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:500px){ .rank-grid{ grid-template-columns:1fr; } }
+.rank-card { border-radius:14px; padding:22px; border:1px solid; text-align:center; }
+.rk-std { background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.1); }
+.rk-ume { background:rgba(0,210,120,.07); border-color:rgba(0,210,120,.2); }
+.rk-take { background:rgba(0,140,255,.07); border-color:rgba(0,140,255,.2); }
+.rk-matsu { background:rgba(255,200,0,.07); border-color:rgba(255,200,0,.2); }
+.rank-icon { font-size:28px; margin-bottom:8px; display:block; }
+.rank-name { font-size:16px; font-weight:800; color:#fff; margin-bottom:4px; }
+.rank-sub { font-size:11px; color:#6070a0; margin-bottom:12px; }
+.rank-fee { font-size:11px; font-weight:700; margin-bottom:12px; padding:5px 10px; border-radius:6px; }
+.rf-std { background:rgba(255,255,255,.07); color:#8898b8; }
+.rf-ume { background:rgba(0,210,120,.1); color:#4ddd90; }
+.rf-take { background:rgba(0,140,255,.1); color:#55baff; }
+.rf-matsu { background:rgba(255,200,0,.1); color:#ffc800; }
+.rank-range { font-size:20px; font-weight:900; color:#fff; }
+.rank-range-sub { font-size:10px; color:#5070a0; margin-top:2px; }
+
+/* ── FLOW ── */
+.flow-row { display:flex; align-items:center; gap:0; }
+.flow-box { flex:1; text-align:center; background:rgba(0,140,255,.07); border:1px solid rgba(0,140,255,.2); border-radius:10px; padding:14px 10px; }
+.flow-box .fn { font-size:20px; margin-bottom:4px; display:block; }
+.flow-box .ft { font-size:12px; font-weight:700; color:#fff; }
+.flow-box .fd { font-size:11px; color:#6080a0; margin-top:3px; }
+.flow-arrow { font-size:20px; color:#0090ff; padding:0 8px; flex-shrink:0; }
+
+/* ── USP CARDS ── */
+.usp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:700px){ .usp-grid{ grid-template-columns:1fr; } }
+.usp-card { border-radius:14px; padding:26px; border:1px solid rgba(0,140,255,.2); background:rgba(0,140,255,.06); text-align:center; }
+.usp-num { font-size:36px; font-weight:900; color:#55baff; display:block; margin-bottom:8px; opacity:.4; }
+.usp-title { font-size:15px; font-weight:800; color:#fff; margin-bottom:10px; }
+.usp-desc { font-size:13px; color:#7888a4; }
+
+/* ── PERSONA CARD ── */
+.persona-card { background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:22px 26px; }
+.persona-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.persona-icon { font-size:32px; }
+.persona-name { font-size:16px; font-weight:800; color:#fff; }
+.persona-attr { font-size:11px; color:#5080a0; }
+.persona-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+.pr-box { background:rgba(255,255,255,.04); border-radius:8px; padding:10px 14px; }
+.pr-label { font-size:10px; font-weight:700; color:#5080a0; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.pr-val { font-size:12.5px; color:#c0cce0; }
+
+/* ── REVENUE ── */
+.revenue-bar { margin-bottom:10px; }
+.rb-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px; }
+.rb-label { color:#c0cce0; font-weight:600; }
+.rb-val { color:#55baff; font-weight:700; }
+.rb-track { background:rgba(255,255,255,.07); border-radius:50px; height:8px; overflow:hidden; }
+.rb-fill { border-radius:50px; height:8px; }
+
+/* ── UL ── */
+ul.plain { list-style:none; padding:0; }
+ul.plain li { padding:7px 0; padding-left:16px; font-size:13.5px; color:#8898be; border-bottom:1px solid rgba(255,255,255,.045); position:relative; }
+ul.plain li::before { content:'›'; position:absolute; left:0; color:#0090ff; font-weight:700; }
+ul.plain li:last-child { border-bottom:none; }
+strong { color:#d8e0f0; }
+
+/* ── SCORE BAR ── */
+.score-bar { display:flex; align-items:center; gap:20px; padding:26px 30px; background:rgba(0,140,255,.07); border:1px solid rgba(0,140,255,.22); border-radius:14px; }
+.score-num { font-size:52px; font-weight:900; color:#55baff; flex-shrink:0; line-height:1; }
+.score-label { font-size:14px; font-weight:700; color:#fff; margin-bottom:6px; }
+.score-detail { font-size:12px; color:#5070a0; }
+
+/* ── PHASE STEPPER ── */
+.phase-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+@media(max-width:700px){ .phase-row{ grid-template-columns:1fr; } }
+.phase-card { border-radius:14px; padding:22px; border:1px solid; }
+.pc-1 { background:rgba(0,210,120,.06); border-color:rgba(0,210,120,.2); }
+.pc-2 { background:rgba(0,140,255,.07); border-color:rgba(0,140,255,.2); }
+.pc-3 { background:rgba(255,200,0,.06); border-color:rgba(255,200,0,.2); }
+.phase-num { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
+.pn-1 { color:#4ddd90; }
+.pn-2 { color:#55baff; }
+.pn-3 { color:#ffc800; }
+.phase-name { font-size:17px; font-weight:800; color:#fff; margin-bottom:10px; }
+.phase-target { font-size:12px; margin-bottom:12px; padding:5px 10px; border-radius:6px; }
+.pt-1 { background:rgba(0,210,120,.1); color:#4ddd90; }
+.pt-2 { background:rgba(0,140,255,.1); color:#55baff; }
+.pt-3 { background:rgba(255,200,0,.1); color:#ffc800; }
+</style>
+</head>
+<body>
+
+<!-- ════ HERO ════ -->
+<div class="hero">
+  <div class="brand-tag">事業企画書 2026</div>
+  <div class="hero-title"><span class="trust">Trust</span><span class="fit">Fit</span></div>
+  <div class="hero-tagline">企業向けトレーナー派遣マッチングプラットフォーム（業務委託型）</div>
+  <div class="hero-copy">「一流が来る。成果の分だけ払う。」</div>
+  <div class="kpi-row">
+    <div class="kpi-card"><span class="kpi-v">5%</span><span class="kpi-l">現在進捗</span></div>
+    <div class="kpi-card"><span class="kpi-v">1pt=1円</span><span class="kpi-l">ウォレット方式</span></div>
+    <div class="kpi-card"><span class="kpi-v">50点満点</span><span class="kpi-l">評価スコア（双方）</span></div>
+    <div class="kpi-card"><span class="kpi-v">¥67万/年</span><span class="kpi-l">1社あたり収益目安</span></div>
+    <div class="kpi-card"><span class="kpi-v">10〜15社</span><span class="kpi-l">損益分岐目安</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 プロジェクト概要 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">01</div>
+      <div class="sec-info">
+        <span class="sec-label">OVERVIEW</span>
+        <h2 class="sec-title">プロジェクト概要</h2>
+      </div>
+    </div>
+
+    <div class="card card-blue" style="margin-bottom:16px">
+      <table>
+        <tbody>
+          <tr><td style="width:180px;color:#55baff;font-weight:700">サービス名</td><td>TrustFit（正式名称は今後決定）</td></tr>
+          <tr><td style="color:#55baff;font-weight:700">種別</td><td>企業向けトレーナー派遣マッチングプラットフォーム（業務委託型）</td></tr>
+          <tr><td style="color:#55baff;font-weight:700">運営会社</td><td>株式会社MOON</td></tr>
+          <tr><td style="color:#55baff;font-weight:700">コンセプト</td><td>評価連動型の完全成果報酬 × 双方評価でトレーナーと企業をつなぐプラットフォーム</td></tr>
+          <tr><td style="color:#55baff;font-weight:700">法的区分</td><td>「業務委託」として設計（労働者派遣業許可不要）</td></tr>
+          <tr><td style="color:#55baff;font-weight:700">現フェーズ</td><td>企画・設計期（モニター戦略準備中）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="usp-grid">
+      <div class="usp-card">
+        <span class="usp-num">01</span>
+        <div class="usp-title">評価連動型成果報酬</div>
+        <div class="usp-desc">業界初・50点満点の双方評価スコアで支払い額確定。払った分だけ価値があった体験に変える</div>
+      </div>
+      <div class="usp-card">
+        <span class="usp-num">02</span>
+        <div class="usp-title">VIPアスリート × 若手トレーナーの二層構造</div>
+        <div class="usp-desc">高品質なVIP単発体験 → 継続は若手が担当。高単価と継続性を両立するファネル設計</div>
+      </div>
+      <div class="usp-card">
+        <span class="usp-num">03</span>
+        <div class="usp-title">健康経営認定 × 採用PR直結設計</div>
+        <div class="usp-desc">投資対効果を可視化できる唯一のサービス。健康経営優良法人認定サポートとセットで提案可能</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 ビジネスモデル -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">02</div>
+      <div class="sec-info">
+        <span class="sec-label">BUSINESS MODEL</span>
+        <h2 class="sec-title">ビジネスモデル概要</h2>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>💡 全ての支払いはポイントで完結（1pt = 1円）</h4>
+      <p>現金・振込・カード決済はポイント購入時のみ。トレーナーへの報酬・固定ベース・交通費も全てウォレットのpt消費として処理。企業は事前にポイントを購入し、評価で確定した分だけ引き落とされる。余剰ptは即日返還。</p>
+    </div>
+
+    <div class="flow-row" style="margin-bottom:24px">
+      <div class="flow-box">
+        <span class="fn">🏢</span>
+        <div class="ft">企業がポイント購入</div>
+        <div class="fd">1pt = 1円（ウォレット）</div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-box">
+        <span class="fn">🔒</span>
+        <div class="ft">予約時にptロック</div>
+        <div class="fd">最大報酬分を仮押さえ</div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-box">
+        <span class="fn">⭐</span>
+        <div class="ft">セッション＋評価</div>
+        <div class="fd">50点満点の双方評価</div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-box">
+        <span class="fn">💰</span>
+        <div class="ft">評価スコアで確定払い</div>
+        <div class="fd">余剰ptは即日返還</div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-box">
+        <span class="fn">🔥</span>
+        <div class="ft">未使用pt 購入日から1年後の同日23:59失効</div>
+        <div class="fd">ウォレット燃焼モデル</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📊 ポイント購入ティア（企業向け）</h3>
+        <table>
+          <thead><tr><th>購入額</th><th>付与ポイント</th><th>ボーナス</th></tr></thead>
+          <tbody>
+            <tr><td>¥50,000</td><td>50,000pt</td><td>—</td></tr>
+            <tr><td>¥100,000</td><td>105,000pt</td><td>+5,000pt</td></tr>
+            <tr><td>¥300,000</td><td>320,000pt</td><td>+20,000pt</td></tr>
+            <tr><td>¥500,000+</td><td>540,000pt+</td><td>+40,000pt</td></tr>
+            <tr><td style="color:#ffc800;font-weight:700">初回モニター特典</td><td style="color:#ffc800;font-weight:700">¥10,000 → 100,000pt</td><td style="color:#ffc800;font-weight:700">10倍キャンペーン</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-teal">
+        <h3>🎯 コンテンツカテゴリ</h3>
+        <table>
+          <tbody>
+            <tr><td style="color:#55c8c8;font-weight:700">フィジカル・ヘルスケア</td><td>ストレッチ・トレーニング・身体機能改善・疲労撃退</td></tr>
+            <tr><td style="color:#55c8c8;font-weight:700">マインドセット</td><td>目標設定・メンタルコーチング・ストーリーテリング講演</td></tr>
+            <tr><td style="color:#55c8c8;font-weight:700">ファミリー</td><td>保護者向けトレーニング・企業内キッズスクール</td></tr>
+            <tr><td style="color:#55c8c8;font-weight:700">健康経営</td><td>健康経営優良法人認定サポート・法人向け研修</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 トレーナーランク制度 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">03</div>
+      <div class="sec-info">
+        <span class="sec-label">TRAINER RANK SYSTEM</span>
+        <h2 class="sec-title">トレーナーランク制度（Elite / Master / Legend）</h2>
+      </div>
+    </div>
+
+    <div class="rank-grid" style="margin-bottom:20px">
+      <div class="rank-card rk-std">
+        <span class="rank-icon">🆕</span>
+        <div class="rank-name">スタンダード</div>
+        <div class="rank-sub">非VIP・登録直後</div>
+        <div class="rank-fee rf-std">手数料 25%</div>
+        <div class="rank-range">10,000<br>〜50,000pt</div>
+        <div class="rank-range-sub">成果報酬のみ / 回</div>
+      </div>
+      <div class="rank-card rk-ume">
+        <span class="rank-icon">🥉</span>
+        <div class="rank-name">Elite（VIP下）</div>
+        <div class="rank-sub">VIP最初のランク</div>
+        <div class="rank-fee rf-ume">手数料 20%</div>
+        <div class="rank-range">60,000<br>〜100,000pt</div>
+        <div class="rank-range-sub">固定50,000pt + 成果 / 回</div>
+      </div>
+      <div class="rank-card rk-take">
+        <span class="rank-icon">🥈</span>
+        <div class="rank-name">Master（VIP中）</div>
+        <div class="rank-sub">高評価継続</div>
+        <div class="rank-fee rf-take">手数料 18%</div>
+        <div class="rank-range">120,000<br>〜200,000pt</div>
+        <div class="rank-range-sub">固定100,000pt + 成果 / 回</div>
+      </div>
+      <div class="rank-card rk-matsu">
+        <span class="rank-icon">🥇</span>
+        <div class="rank-name">Legend（VIP上）</div>
+        <div class="rank-sub">トップトレーナー</div>
+        <div class="rank-fee rf-matsu">手数料 15%</div>
+        <div class="rank-range">220,000<br>〜300,000pt</div>
+        <div class="rank-range-sub">固定200,000pt + 成果 / 回</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📋 昇格条件</h3>
+        <table>
+          <thead><tr><th>昇格ルート</th><th>累計</th><th>平均点</th></tr></thead>
+          <tbody>
+            <tr><td>Challenger → Elite</td><td>10回以上</td><td>累計400pt以上・低品質セッション（≤20pt）ゼロ必須</td></tr>
+            <tr><td>Elite → Master</td><td>20回以上</td><td>平均40pt以上 / 45ptを3回以上取得</td></tr>
+            <tr><td>Master → Legend</td><td>30回以上</td><td>平均40pt以上・45ポイントを3回以上</td></tr>
+            <tr><td><span class="tag tag-gold">スカウト → Elite VIP直接</span></td><td>不問</td><td>TrustFitからのオファーのみ・Elite VIPからスタート</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-gold">
+        <h3>⭐ スカウト枠（Eliteスタート）の設計</h3>
+        <ul class="plain">
+          <li>オリンピアン・日本代表選手・著名大学コーチ等は「Elite」からスタート</li>
+          <li>実績を積み上げてMaster→Legendへ昇格（実力主義の担保）</li>
+          <li>スカウトの目的はプラットフォームへの「看板」招待</li>
+          <li><strong>MOONさん自身は初期VIP Eliteとして出演・Legendを目指す</strong></li>
+          <li>降格ルール：直近3セッション連続で平均25pt以下 → 1ランク降格</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 評価システム -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">04</div>
+      <div class="sec-info">
+        <span class="sec-label">EVALUATION SYSTEM</span>
+        <h2 class="sec-title">評価スコアリングシステム（2026-04-06 確定）</h2>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>📊 10項目 × 5点満点 = 50点満点の双方評価</h4>
+      <p>低評価（1〜2点）は文字入力必須。双方が提出後に同時公開することで、一方が先に見て点数を合わせることを防止する設計。項目10（総合的な価値）がウォレット報酬確定に最も直結する。</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📝 評価10項目</h3>
+        <table>
+          <thead><tr><th>#</th><th>評価項目</th><th>カテゴリ</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>コンテンツの質・内容の専門性</td><td><span class="tag tag-b">技術</span></td></tr>
+            <tr><td>2</td><td>参加者の体感・満足度</td><td><span class="tag tag-p">体験</span></td></tr>
+            <tr><td>3</td><td>目標・課題へのフィット度</td><td><span class="tag tag-g">成果</span></td></tr>
+            <tr><td>4</td><td>コミュニケーション・説明力</td><td><span class="tag tag-b">対話</span></td></tr>
+            <tr><td>5</td><td>時間厳守・進行管理</td><td><span class="tag tag-o">プロ意識</span></td></tr>
+            <tr><td>6</td><td>安全配慮・リスク管理</td><td><span class="tag tag-o">安全</span></td></tr>
+            <tr><td>7</td><td>場の雰囲気づくり・場マネジメント</td><td><span class="tag tag-p">空間</span></td></tr>
+            <tr><td>8</td><td>準備・資料・道具の充実度</td><td><span class="tag tag-b">準備</span></td></tr>
+            <tr><td>9</td><td>継続・発展への提案力</td><td><span class="tag tag-g">継続</span></td></tr>
+            <tr><td style="color:#ffc800;font-weight:700">10</td><td style="color:#ffc800;font-weight:700">総合的な価値（コスト対効果）</td><td><span class="tag tag-gold">価値★</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-blue">
+        <h3>💰 スコア別 報酬レンジ</h3>
+        <table>
+          <thead><tr><th>ランク</th><th>合計レンジ（pt）</th></tr></thead>
+          <tbody>
+            <tr><td>スタンダード（非VIP）</td><td>10,000〜50,000pt</td></tr>
+            <tr><td style="color:#4ddd90">Elite（VIP下）</td><td style="color:#4ddd90">60,000〜100,000pt<br><small>固定50,000 + 成果最大50,000</small></td></tr>
+            <tr><td style="color:#55baff">Master（VIP中）</td><td style="color:#55baff">120,000〜200,000pt<br><small>固定100,000 + 成果最大100,000</small></td></tr>
+            <tr><td style="color:#ffc800;font-weight:700">Legend（VIP上）</td><td style="color:#ffc800;font-weight:700">220,000〜300,000pt<br><small>固定200,000 + 成果最大100,000</small></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;padding:10px 14px;background:rgba(0,140,255,.08);border-radius:8px;font-size:12px;color:#55baff">
+          💡 どのランクでも最低10,000ptは保証。予約時に最大報酬分をロックし、評価後に確定額のみ引き落とし。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 VIP → 通常トレーナーファネル -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">05</div>
+      <div class="sec-info">
+        <span class="sec-label">ACQUISITION FUNNEL</span>
+        <h2 class="sec-title">VIP単発 → 通常トレーナー年間継続ファネル</h2>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>🎯 VIPは「フロントエンド商品」として機能する</h4>
+      <p>稼働を絞って高単価を維持するVIPが企業に最初の感動体験を届ける。継続は若手トレーナーに引き継ぎ、企業は「VIPで体験 → 手頃な継続コスト」という導線で離脱しにくい設計。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3>🔄 VIP→通常引き継ぎフロー</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
+        <div style="flex:1;min-width:140px;background:rgba(255,200,0,.07);border:1px solid rgba(255,200,0,.2);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">①</div>
+          <div style="font-size:12px;font-weight:700;color:#ffc800">初回VIPセッション</div>
+          <div style="font-size:11px;color:#6070a0;margin-top:4px">感動体験を届ける</div>
+        </div>
+        <div style="font-size:20px;color:#0090ff;align-self:center;">›</div>
+        <div style="flex:1;min-width:140px;background:rgba(0,140,255,.07);border:1px solid rgba(0,140,255,.2);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">②</div>
+          <div style="font-size:12px;font-weight:700;color:#55baff">引き継ぎヒアリング</div>
+          <div style="font-size:11px;color:#6070a0;margin-top:4px">72時間以内に実施</div>
+        </div>
+        <div style="font-size:20px;color:#0090ff;align-self:center;">›</div>
+        <div style="flex:1;min-width:140px;background:rgba(0,210,120,.06);border:1px solid rgba(0,210,120,.2);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">③</div>
+          <div style="font-size:12px;font-weight:700;color:#4ddd90">継続トレーナー提案</div>
+          <div style="font-size:11px;color:#6070a0;margin-top:4px">3名マッチング</div>
+        </div>
+        <div style="font-size:20px;color:#0090ff;align-self:center;">›</div>
+        <div style="flex:1;min-width:140px;background:rgba(0,140,255,.07);border:1px solid rgba(0,140,255,.2);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">④</div>
+          <div style="font-size:12px;font-weight:700;color:#55baff">継続稼働開始</div>
+          <div style="font-size:11px;color:#6070a0;margin-top:4px">ウォレット燃焼サイクル</div>
+        </div>
+        <div style="font-size:20px;color:#0090ff;align-self:center;">›</div>
+        <div style="flex:1;min-width:140px;background:rgba(255,200,0,.06);border:1px solid rgba(255,200,0,.2);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">⑤</div>
+          <div style="font-size:12px;font-weight:700;color:#ffc800">VIPリレーション維持</div>
+          <div style="font-size:11px;color:#6070a0;margin-top:4px">年1〜2回スポット利用</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-teal">
+      <h3>📋 ポイント消費パターン別 推奨プラン</h3>
+      <table>
+        <thead><tr><th>パターン</th><th>想定企業</th><th>月間消費目安</th><th>主担当</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>A：オフィス特化</strong></td>
+            <td>ITベンチャー100名</td>
+            <td>5〜15万pt</td>
+            <td>VIP Legend/Master + Elite（月次）</td>
+          </tr>
+          <tr>
+            <td><strong>B：ファミリー特化</strong></td>
+            <td>製造業・地場企業80名</td>
+            <td>3〜10万pt</td>
+            <td>Eliteメイン + VIP Master（年2回）</td>
+          </tr>
+          <tr style="background:rgba(0,200,200,.05)">
+            <td><strong style="color:#55c8c8">C：経営陣特化 ★最推奨</strong></td>
+            <td>中堅企業</td>
+            <td>10〜30万pt</td>
+            <td>VIP Legendメイン + Elite（定期）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 06 ターゲット & ペルソナ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">06</div>
+      <div class="sec-info">
+        <span class="sec-label">TARGET & PERSONA</span>
+        <h2 class="sec-title">ターゲット企業 & ペルソナ設計</h2>
+      </div>
+    </div>
+
+    <div class="card card-blue" style="margin-bottom:20px">
+      <h3>🏢 ターゲット企業プロフィール</h3>
+      <div class="grid-3">
+        <div style="text-align:center;padding:12px">
+          <div style="font-size:28px;font-weight:900;color:#55baff">50〜200名</div>
+          <div style="font-size:12px;color:#5070a0">社員規模</div>
+        </div>
+        <div style="text-align:center;padding:12px">
+          <div style="font-size:28px;font-weight:900;color:#55baff">早い決裁</div>
+          <div style="font-size:12px;color:#5070a0">ITベンチャー・製造業・地場中堅企業</div>
+        </div>
+        <div style="text-align:center;padding:12px">
+          <div style="font-size:28px;font-weight:900;color:#55baff">採用課題</div>
+          <div style="font-size:12px;color:#5070a0">福利厚生への投資余地あり</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon">👔</div>
+          <div>
+            <div class="persona-name">ペルソナA：総務・人事部長（45歳男性）</div>
+            <div class="persona-attr">ITベンチャー100名規模</div>
+          </div>
+        </div>
+        <div class="persona-row">
+          <div class="pr-box">
+            <div class="pr-label">最大の悩み</div>
+            <div class="pr-val">使われない福利厚生にお金を払いたくない</div>
+          </div>
+          <div class="pr-box">
+            <div class="pr-label">購買トリガー</div>
+            <div class="pr-val">効果が出た分だけ払えばいいという安心感</div>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon">🏭</div>
+          <div>
+            <div class="persona-name">ペルソナB：創業社長・オーナー経営者（42歳男性）</div>
+            <div class="persona-attr">製造業80名・2代目</div>
+          </div>
+        </div>
+        <div class="persona-row">
+          <div class="pr-box">
+            <div class="pr-label">最大の悩み</div>
+            <div class="pr-val">ジム通いの時間がない・役員も疲弊している</div>
+          </div>
+          <div class="pr-box">
+            <div class="pr-label">購買トリガー</div>
+            <div class="pr-val">VIPアスリートが会社に来てくれる体験価値</div>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon">💪</div>
+          <div>
+            <div class="persona-name">ペルソナC：フリーランストレーナー（28歳男性）</div>
+            <div class="persona-attr">個人クライアント中心・月収30万円前後</div>
+          </div>
+        </div>
+        <div class="persona-row">
+          <div class="pr-box">
+            <div class="pr-label">最大の悩み</div>
+            <div class="pr-val">法人案件を取りたいが営業できない</div>
+          </div>
+          <div class="pr-box">
+            <div class="pr-label">参加トリガー</div>
+            <div class="pr-val">頑張れば評価が上がって報酬も上がる仕組み</div>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon">🏆</div>
+          <div>
+            <div class="persona-name">ペルソナD：元アスリート・引退選手（32歳男性）</div>
+            <div class="persona-attr">陸上・実業団引退後のキャリア移行期</div>
+          </div>
+        </div>
+        <div class="persona-row">
+          <div class="pr-box">
+            <div class="pr-label">最大の悩み</div>
+            <div class="pr-val">競技後のキャリアが不安</div>
+          </div>
+          <div class="pr-box">
+            <div class="pr-label">参加トリガー</div>
+            <div class="pr-val">競技実績が初期信頼になるスカウト枠の存在</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 収益モデル -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">07</div>
+      <div class="sec-info">
+        <span class="sec-label">REVENUE MODEL</span>
+        <h2 class="sec-title">収益モデル & スケール試算</h2>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card">
+        <h3>💰 4つの収益ストリーム</h3>
+        <table>
+          <thead><tr><th>#</th><th>収益源</th><th>タイミング</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>プラットフォーム手数料</strong><br><small>スタンダード25% / Elite20% / Master18% / Legend15%</small></td><td>月次</td></tr>
+            <tr><td>2</td><td><strong>ポイント失効益</strong><br><small>年間未使用ポイント推定10〜20%が収益に</small></td><td>年次</td></tr>
+            <tr><td>3</td><td><strong>企業サブスク</strong><br><small>VIPアクセス優先権 月額5,000pt〜年間45,000pt（現フェーズは保留）</small></td><td>月次固定</td></tr>
+            <tr><td>4</td><td><strong>初期導入費</strong><br><small>オンボーディング 30,000〜50,000pt</small></td><td>初回のみ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-green">
+        <h3>📈 スケール試算（パターンC・1社年間）</h3>
+        <div style="margin-bottom:16px">
+          <div class="revenue-bar">
+            <div class="rb-header"><span class="rb-label">年間ポイント購入</span><span class="rb-val">¥200万円</span></div>
+            <div class="rb-track"><div class="rb-fill" style="width:100%;background:linear-gradient(90deg,#0090ff,#00d278)"></div></div>
+          </div>
+          <div class="revenue-bar">
+            <div class="rb-header"><span class="rb-label">手数料収入 (17%)</span><span class="rb-val">¥28.9万円</span></div>
+            <div class="rb-track"><div class="rb-fill" style="width:43%;background:#0090ff"></div></div>
+          </div>
+          <div class="revenue-bar">
+            <div class="rb-header"><span class="rb-label">失効益 (15%)</span><span class="rb-val">¥30万円</span></div>
+            <div class="rb-track"><div class="rb-fill" style="width:45%;background:#00d278"></div></div>
+          </div>
+          <div class="revenue-bar">
+            <div class="rb-header"><span class="rb-label">サブスク</span><span class="rb-val">¥4.5万円</span></div>
+            <div class="rb-track"><div class="rb-fill" style="width:7%;background:#ffc800"></div></div>
+          </div>
+        </div>
+        <div style="background:rgba(0,210,120,.1);border-radius:8px;padding:12px 16px;text-align:center">
+          <div style="font-size:11px;color:#4ddd90;font-weight:700;letter-spacing:1px">1社あたり年間収益（概算）</div>
+          <div style="font-size:32px;font-weight:900;color:#fff">≒ ¥67万円</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-blue">
+      <h3>🚀 スケール試算</h3>
+      <table>
+        <thead><tr><th>フェーズ</th><th>社数</th><th>年間収益（概算）</th><th>目標</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-g">モニター期</span></td><td>5社</td><td style="color:#4ddd90;font-weight:700">≒¥335万円/年</td><td>初期実績・ケーススタディ獲得</td></tr>
+          <tr><td><span class="tag tag-b">初期成長</span></td><td>15社</td><td style="color:#55baff;font-weight:700">≒¥1,005万円/年</td><td><strong>損益分岐点到達目安</strong></td></tr>
+          <tr><td><span class="tag tag-gold">成長期</span></td><td>30社</td><td style="color:#ffc800;font-weight:700">≒¥2,010万円/年</td><td>プラットフォームとして自走化</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:14px;padding:10px 14px;background:rgba(0,140,255,.08);border-radius:8px;font-size:12px;color:#55baff">
+        💡 損益分岐目安: 10〜15社。モニター期5社が黒字化すれば自然に次のフェーズへ移行できる。
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 初期モニター戦略 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">08</div>
+      <div class="sec-info">
+        <span class="sec-label">LAUNCH STRATEGY</span>
+        <h2 class="sec-title">初期モニター戦略 & 商談スクリプト</h2>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:16px">
+      <h3>🎯 10倍ポイントモニターキャンペーン</h3>
+      <div class="grid-3">
+        <div style="text-align:center;padding:10px">
+          <div style="font-size:24px;font-weight:900;color:#ffc800">¥10,000</div>
+          <div style="font-size:11px;color:#6070a0">払う金額</div>
+        </div>
+        <div style="text-align:center;padding:10px;align-self:center;font-size:28px;color:#ffc800">→</div>
+        <div style="text-align:center;padding:10px">
+          <div style="font-size:24px;font-weight:900;color:#ffc800">100,000pt</div>
+          <div style="font-size:11px;color:#6070a0">受け取るポイント（10倍！）</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,200,0,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#c0a000;margin-top:8px">
+        <strong>条件:</strong> 撮影・PR動画制作への協力（採用PR動画として活用）。動画不可の場合は匿名スコアデータ提供のみでも10倍適用。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💬 商談スクリプト：めんどくさがり人事向け突破ロジック</h3>
+      <table>
+        <thead><tr><th>フェーズ</th><th>キーフレーミング</th></tr></thead>
+        <tbody>
+          <tr><td><strong>オープニング</strong></td><td>「業務を増やしにきたのではない。未来の無茶振りから守る保険の話です」</td></tr>
+          <tr><td><strong>提案</strong></td><td>「社長から突然『健康経営やれ』と来た時、すでに仕込んであると言えるアリバイ」</td></tr>
+          <tr><td><strong>反論：前例なし</strong></td><td>「ポイント買い切り（前払い）＝確定費として経理処理できます」</td></tr>
+          <tr><td><strong>反論：効果が不安</strong></td><td>「1万円→10万円分。消化率50%でも5倍のROI。端数は自動消化する」</td></tr>
+          <tr><td><strong>反論：撮影NG</strong></td><td>「動画不要。匿名スコアデータ＋匿名テキスト提供のみで10倍適用」</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 09 フェーズロードマップ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">09</div>
+      <div class="sec-info">
+        <span class="sec-label">ROADMAP</span>
+        <h2 class="sec-title">フェーズ別ロードマップ</h2>
+      </div>
+    </div>
+
+    <div class="phase-row">
+      <div class="phase-card pc-1">
+        <div class="phase-num pn-1">PHASE 1</div>
+        <div class="phase-name">モニター期<br>（現在〜3ヶ月）</div>
+        <div class="phase-target pt-1">目標: 5社・黒字化</div>
+        <ul class="plain">
+          <li>MOONの既存経営者クライアントを法人にスライド</li>
+          <li>プリズムカップで法人リード一括獲得</li>
+          <li>10倍ポイントキャンペーンで初回ハードルを下げる</li>
+          <li>ケーススタディ・評価データを蓄積</li>
+          <li>VIPトレーナー初期メンバーキャスティング</li>
+        </ul>
+      </div>
+      <div class="phase-card pc-2">
+        <div class="phase-num pn-2">PHASE 2</div>
+        <div class="phase-name">初期成長期<br>（3〜12ヶ月）</div>
+        <div class="phase-target pt-2">目標: 15社・損益分岐</div>
+        <ul class="plain">
+          <li>モニター事例をもとに法人営業を展開</li>
+          <li>プラットフォームの評価システム本格稼働</li>
+          <li>若手トレーナー登録者増加施策</li>
+          <li>企業サブスク（VIP優先権）の有料化検討</li>
+          <li>健康経営優良法人認定サポートをオプション展開</li>
+        </ul>
+      </div>
+      <div class="phase-card pc-3">
+        <div class="phase-num pn-3">PHASE 3</div>
+        <div class="phase-name">成長・自走化期<br>（1年〜）</div>
+        <div class="phase-target pt-3">目標: 30社・¥2,000万円</div>
+        <ul class="plain">
+          <li>プラットフォームとしてのブランド確立</li>
+          <li>スカウトトレーナー（オリンピアン・日本代表）の拡充</li>
+          <li>プリズムカップを年間4回開催の定番イベントに</li>
+          <li>採用PR × 健康経営の統合パッケージ販売</li>
+          <li>投資家・事業パートナーへのピッチ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 MOONさんの役割 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-badge">10</div>
+      <div class="sec-info">
+        <span class="sec-label">MOON's ROLE</span>
+        <h2 class="sec-title">MOONさん（荻田）の役割・提供コンテンツ</h2>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>🏃 陸上競技オリンピアン × TrustFit Eliteクラス（スカウト枠）</h4>
+      <p>MOONさん自身が初期VIP Elite（スカウト枠）として出演し、実績でLegendを目指す体制。TrustFitの「顔」として機能させつつ、実力主義の担保を体現する。</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <h3>⭐ 提供コンテンツ一覧</h3>
+        <ul class="plain">
+          <li>健康ストレッチ・トレーニング指導（実店舗CARASの実績あり）</li>
+          <li>メンタルコーチング・目標設定セッション</li>
+          <li>ストーリーテリング型公演・講演（実績あり）</li>
+          <li>健康経営優良法人 認定支援研修（コンテンツ作成予定）</li>
+          <li>オリンピアンとしての経験談・マインドセット提供</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🔗 他PJとの連携シナジー</h3>
+        <ul class="plain">
+          <li><strong>CARAS</strong>: MOONさん自身がVIP Legendクラスとして実績化</li>
+          <li><strong>健康経営</strong>: 健康経営優良法人コンテンツを法人研修として展開</li>
+          <li><strong>オギラボ</strong>: AI×法人トレーナーマッチングの事例として発信</li>
+          <li><strong>SORA/SUPERIOR</strong>: 保護者向けトレーニング紹介の接点</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="score-bar">
+    <div class="score-num">88</div>
+    <div>
+      <div class="score-label">📊 品質スコア: 88点 | TrustFit 事業企画書 v1</div>
+      <div class="score-detail">ビジネスモデル完成度:◎ &nbsp;|&nbsp; 評価設計:◎ &nbsp;|&nbsp; ターゲット明確さ:◎ &nbsp;|&nbsp; 収益試算:○ &nbsp;|&nbsp; 実行計画:○</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;padding:40px 24px;border-top:1px solid rgba(0,140,255,.1);color:#202840;font-size:11px;letter-spacing:1px">
+  TrustFit 事業企画書 ver.1 | 株式会社MOON © 2026
+</div>
+
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORA BASE 全機能複合 — 面積とコストの現実解</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 100%);color:#fff;padding:44px 24px;text-align:center;border-bottom:5px solid var(--red)}
+  .hero .badge{display:inline-block;background:var(--red);color:#fff;padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:10px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px}
+  .hero .sub{font-size:13px;color:#bdc4d0;max-width:720px;margin:8px auto 0}
+  .container{max-width:1040px;margin:0 auto;padding:30px 22px}
+
+  section{margin-bottom:36px;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+  h2{font-size:22px;border-left:5px solid var(--gold);padding-left:14px;margin-bottom:18px;color:var(--navy);font-weight:700}
+  h2.alert{border-color:var(--red)}
+  h3{font-size:17px;color:var(--navy);margin:20px 0 10px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:5px}
+  h4{font-size:14px;color:var(--gold-dark);margin:12px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+
+  .lead{font-size:15px;background:#fdf9ee;border-left:4px solid var(--gold);padding:14px 18px;border-radius:6px;margin-bottom:18px}
+  .lead.warn{background:#fbeae5;border-color:var(--red);color:#3a1a14}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+  td.money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);text-align:right}
+  td.center{text-align:center}
+
+  .big-comparison{background:#fbeae5;border:2px solid var(--red);border-radius:10px;padding:18px 22px;margin:14px 0;font-size:14px}
+  .big-comparison .title{font-weight:bold;color:var(--red);font-size:14px;margin-bottom:10px;letter-spacing:0.05em}
+  .big-comparison .stat{display:grid;grid-template-columns:1fr 100px 1fr;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #c1422e30}
+  .big-comparison .stat:last-child{border:none}
+  .big-comparison .left{text-align:right;font-size:13px;color:#3a1a14}
+  .big-comparison .mid{text-align:center;color:var(--red);font-weight:bold;font-size:18px}
+  .big-comparison .right{font-size:13px;color:#3a1a14}
+
+  /* 面積比較バー */
+  .area-bar-wrap{margin:14px 0}
+  .area-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px}
+  .area-bar .name{width:140px;color:var(--navy);font-weight:bold}
+  .area-bar .bar{flex:1;height:24px;background:#e8e1cf;border-radius:4px;position:relative;overflow:hidden}
+  .area-bar .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-size:11px;font-weight:bold}
+  .area-bar .num{width:80px;text-align:right;color:var(--navy);font-weight:bold;font-family:"Courier New",monospace}
+
+  /* プランカード */
+  .plan{border-radius:12px;padding:22px;margin-bottom:18px;border:2px solid;position:relative}
+  .plan-A{border-color:var(--green);background:linear-gradient(135deg,#fff,#f0f8f4)}
+  .plan-B{border-color:var(--accent);background:linear-gradient(135deg,#fff,#fdf4ef)}
+  .plan-C{border-color:var(--gold);background:linear-gradient(135deg,#fff,#fdfae8)}
+  .plan-D{border-color:var(--sky);background:linear-gradient(135deg,#fff,#f0f5fa)}
+  .plan-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px}
+  .plan-no{display:inline-block;font-size:11px;padding:3px 12px;border-radius:12px;color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:6px}
+  .plan-A .plan-no{background:var(--green)}
+  .plan-B .plan-no{background:var(--accent)}
+  .plan-C .plan-no{background:var(--gold);color:var(--navy)}
+  .plan-D .plan-no{background:var(--sky)}
+  .plan-title{font-size:18px;font-weight:700;color:var(--navy)}
+  .plan-price{text-align:right;flex-shrink:0}
+  .plan-price .total{font-size:22px;font-weight:bold;color:var(--navy);font-family:"Courier New",monospace}
+  .plan-price .label{font-size:11px;color:var(--muted)}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media(max-width:640px){.pros-cons{grid-template-columns:1fr}}
+  .pros, .cons{padding:12px 16px;border-radius:8px;font-size:13px}
+  .pros{background:#e9f4ee;border-left:3px solid var(--green)}
+  .cons{background:#fbeae5;border-left:3px solid var(--red)}
+  .pros strong, .cons strong{display:block;margin-bottom:6px;font-size:12px}
+  .pros ul, .cons ul{padding-left:18px;margin:0}
+
+  /* 建物のフロア構成 */
+  .building{margin:14px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+  .floor{display:grid;grid-template-columns:60px 1fr 100px;border-bottom:1px solid var(--line);font-size:13px}
+  .floor:last-child{border:none}
+  .floor > div{padding:10px 14px;display:flex;align-items:center}
+  .floor .level{background:var(--navy);color:#fff;font-weight:bold;justify-content:center}
+  .floor .level.roof{background:var(--gold);color:var(--navy)}
+  .floor .level.ground{background:var(--green)}
+  .floor .desc{font-size:13px}
+  .floor .area{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);justify-content:flex-end;font-size:12px}
+
+  /* SVG断面図用 */
+  .section-diagram{margin:14px 0;text-align:center}
+  .section-diagram svg{max-width:100%;height:auto;background:#fafafa;border:1px solid var(--line);border-radius:8px;padding:10px}
+
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+  .alert.green{background:#e9f4ee;border-color:#a5cdb3;color:#1f3a2a}
+
+  .quote{font-style:italic;color:var(--gold-dark);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .verdict{display:inline-block;font-weight:bold;padding:3px 10px;border-radius:12px;font-size:11px;margin-left:8px}
+  .verdict.ng{background:var(--red);color:#fff}
+  .verdict.ok{background:var(--green);color:#fff}
+  .verdict.iffy{background:var(--orange);color:#fff}
+
+  .key-fact{background:#1a2540;color:#fff;border-radius:10px;padding:20px 26px;margin:16px 0;text-align:center}
+  .key-fact .big{font-size:32px;font-weight:bold;color:var(--gold);font-family:"Courier New",monospace}
+  .key-fact .label{font-size:12px;color:#bdc4d0;margin-top:4px;letter-spacing:0.1em}
+
+  .options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+  .opt-box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+  .opt-box .opt-no{font-size:11px;color:var(--gold-dark);font-weight:bold;letter-spacing:0.1em}
+  .opt-box .opt-title{font-size:14px;font-weight:bold;color:var(--navy);margin:4px 0}
+  .opt-box .opt-meta{font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">FULL FACILITY FEASIBILITY / 結論：そのままは入りません</div>
+  <h1>宿泊・食事・会議・トレ・フットサル<br>SORA BASE 全機能複合の現実解</h1>
+  <div class="sub">100㎡×4-5階のビルに全部入れるのは物理的に不可能。<br>フットサルコート1個で他の全機能を超える面積が必要なため。</div>
+</div>
+
+<div class="container">
+
+<!-- 結論を先に -->
+<section>
+  <h2 class="alert">0. 結論：そのままでは入りません（数字で証明）</h2>
+
+  <p class="lead warn">
+    <strong>「100㎡×4-5階建てビル＝延床400-500㎡」</strong>に<strong>フットサルコート</strong>を入れるのは物理的に不可能です。<br>
+    フットサルコートは正規規格で<strong>800㎡（縦42m×横20m）</strong>、最小サイズでも<strong>375㎡（25m×15m）</strong>。フットサル1個でビル丸ごとを超えます。
+  </p>
+
+  <div class="big-comparison">
+    <div class="title">⚠ 面積で見るギャップ</div>
+    <div class="stat">
+      <div class="left">フットサル正規規格（42m×20m）</div>
+      <div class="mid">vs</div>
+      <div class="right">100㎡ × 4階 = 400㎡</div>
+    </div>
+    <div class="stat">
+      <div class="left"><strong>800㎡</strong></div>
+      <div class="mid">→</div>
+      <div class="right"><strong>400㎡</strong></div>
+    </div>
+    <div class="stat">
+      <div class="left" style="font-size:11px;color:#666">フットサルだけで延床の2倍必要</div>
+      <div class="mid">⚠</div>
+      <div class="right" style="font-size:11px;color:#666">残りの機能を入れる余地ゼロ</div>
+    </div>
+  </div>
+
+  <h3>各機能の必要面積（最小〜推奨）</h3>
+  <div class="area-bar-wrap">
+    <div class="area-bar">
+      <div class="name">フットサル(正規)</div>
+      <div class="bar"><div class="fill" style="background:var(--red);width:100%">800㎡</div></div>
+      <div class="num">800㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">フットサル(最小)</div>
+      <div class="bar"><div class="fill" style="background:#d4502a;width:46.9%">375㎡</div></div>
+      <div class="num">375㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">フットサル(ジュニア)</div>
+      <div class="bar"><div class="fill" style="background:#e89538;width:30%">200-300㎡</div></div>
+      <div class="num">200-300㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">宿泊20名</div>
+      <div class="bar"><div class="fill" style="background:#1f6fa6;width:22.5%">120-180㎡</div></div>
+      <div class="num">120-180㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">食事(厨房+食堂)</div>
+      <div class="bar"><div class="fill" style="background:#3d8b6b;width:16.25%">80-130㎡</div></div>
+      <div class="num">80-130㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">会議室2室</div>
+      <div class="bar"><div class="fill" style="background:#9c7f3d;width:12.5%">100㎡</div></div>
+      <div class="num">100㎡</div>
+    </div>
+    <div class="area-bar">
+      <div class="name">トレーニング</div>
+      <div class="bar"><div class="fill" style="background:#2c3a5e;width:18.75%">80-150㎡</div></div>
+      <div class="num">80-150㎡</div>
+    </div>
+  </div>
+
+  <div class="key-fact">
+    <div class="big">合計 約 760〜1,360㎡</div>
+    <div class="label">全機能 + フットサル最小規格 を入れた場合に必要な延床面積</div>
+  </div>
+
+  <p class="lead">
+    つまり、<strong>「100㎡×4-5階=400-500㎡」は元の想定の2〜3倍に広げる必要</strong>があります。<br>
+    あるいは<strong>「フットサルだけ別の場所」</strong>にすれば、ビルは元のサイズで他の全機能を入れられます。
+  </p>
+</section>
+
+<!-- 4プラン提示 -->
+<section>
+  <h2>1. 現実的な4プラン</h2>
+  <p class="lead">「フットサルをどう扱うか」で4パターンに分かれます。</p>
+
+  <!-- プランA -->
+  <div class="plan plan-A">
+    <div class="plan-head">
+      <div>
+        <span class="plan-no">PLAN A（推奨・最も現実的）</span>
+        <div class="plan-title">フットサルは別棟・隣接地に独立して建てる</div>
+      </div>
+      <div class="plan-price">
+        <div class="total">¥1.7〜2.5億</div>
+        <div class="label">敷地500-800㎡前提</div>
+      </div>
+    </div>
+    <p>ビル本体は元の構想通り「1フロア100㎡×4階」。隣接地（または同一敷地の余り部分）にフットサル別棟を建てる。<strong>機能分離で設計の自由度が最大</strong>。</p>
+
+    <h4>構成イメージ</h4>
+    <div class="building">
+      <div class="floor"><div class="level">4F</div><div class="desc">宿泊（20名分・個室4-6室＋ドミトリー）</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level">3F</div><div class="desc">食堂20席＋厨房（業務用）</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level">2F</div><div class="desc">会議室2室＋面談室＋多目的</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level ground">1F</div><div class="desc">受付・トレーニング（ウエイト）・更衣・シャワー</div><div class="area">100㎡</div></div>
+    </div>
+
+    <h4>フットサル別棟</h4>
+    <table>
+      <tr><th>選択肢</th><th>必要面積</th><th>建設費</th></tr>
+      <tr><td>屋外コート（人工芝・ナイター付）</td><td>375-600㎡</td><td class="money">500〜1,200万</td></tr>
+      <tr><td>屋根付き（テント膜構造）</td><td>同上</td><td class="money">3,000〜5,000万</td></tr>
+      <tr><td>屋根付き（鉄骨システム建築）</td><td>同上</td><td class="money">5,000〜8,000万</td></tr>
+    </table>
+
+    <h4>総予算（中央値ベース）</h4>
+    <table>
+      <tr><td>ビル本体（4階・延床400㎡・鉄骨造）</td><td class="money">1.3〜1.5億</td></tr>
+      <tr><td>土地（500-800㎡ × 5万/㎡）</td><td class="money">2,500〜4,000万</td></tr>
+      <tr><td>フットサル（屋外人工芝）</td><td class="money">800万</td></tr>
+      <tr><td>諸経費・許認可</td><td class="money">500万</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>約 1.7〜2.0億</strong></td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>ビル本体の設計自由度が高い</li>
+          <li>機能干渉なし（フットサルの音・振動が宿泊と干渉しない）</li>
+          <li>建設費を段階分けできる（先にビル、後でフットサル）</li>
+          <li>フットサル屋外型なら税制優遇あり</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>敷地500-800㎡が必要（屋島中町で2,500-4,000万）</li>
+          <li>適地探しが難航する可能性</li>
+          <li>屋外フットサルは雨天・夏冬に稼働率落ちる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- プランB -->
+  <div class="plan plan-B">
+    <div class="plan-head">
+      <div>
+        <span class="plan-no">PLAN B</span>
+        <div class="plan-title">ビル規模を大きくして1Fをフットサルに（吹き抜け）</div>
+      </div>
+      <div class="plan-price">
+        <div class="total">¥3.5〜5億</div>
+        <div class="label">大規模建築</div>
+      </div>
+    </div>
+    <p>1フロアを300㎡に拡大し、1Fをフットサル区画（300㎡＋吹き抜けで2階分の高さ）にする。2F以上に他機能を集約。<strong>1棟完結型</strong>。</p>
+
+    <h4>構成イメージ</h4>
+    <div class="building">
+      <div class="floor"><div class="level">4F</div><div class="desc">宿泊（20名・個室＋ドミトリー）</div><div class="area">300㎡</div></div>
+      <div class="floor"><div class="level">3F</div><div class="desc">食堂40席＋厨房＋会議室1室</div><div class="area">300㎡</div></div>
+      <div class="floor"><div class="level">2F</div><div class="desc">トレーニング＋会議室1室＋面談室</div><div class="area">300㎡</div></div>
+      <div class="floor"><div class="level ground">1F</div><div class="desc">フットサル（300㎡ミニ規格・吹き抜けで天井6m+）＋受付＋更衣</div><div class="area">300㎡</div></div>
+    </div>
+
+    <div class="alert red">
+      <strong>注意：</strong>1Fフットサルは<strong>300㎡だと公式規格に届かない</strong>（最小375㎡）。25m×12m=300㎡なら3-4人制のミニフットサル/個サル用途。本格的なフットサル大会開催は不可。
+    </div>
+
+    <h4>総予算</h4>
+    <table>
+      <tr><td>建築費（延床1,200㎡＝363坪 × 130万/坪）</td><td class="money">4.7億</td></tr>
+      <tr><td>土地（500㎡ × 5万）</td><td class="money">2,500万</td></tr>
+      <tr><td>設計・許認可・諸経費</td><td class="money">5,000万</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>約 5.5億</strong></td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>1棟で完結＝動線が良い</li>
+          <li>フラッグシップ感が強い</li>
+          <li>運営効率が高い（1か所で済む）</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>初期投資が5億超</li>
+          <li>フットサルが規格外サイズ</li>
+          <li>1Fフットサルの吹き抜けで2F以上の床面積が制約</li>
+          <li>フットサルの音・振動対策が必要</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- プランC -->
+  <div class="plan plan-C">
+    <div class="plan-head">
+      <div>
+        <span class="plan-no">PLAN C</span>
+        <div class="plan-title">複合施設として大規模化（フットサル正規・敷地1,000㎡+）</div>
+      </div>
+      <div class="plan-price">
+        <div class="total">¥6〜8億</div>
+        <div class="label">本格フラッグシップ</div>
+      </div>
+    </div>
+    <p>正規フットサル（42m×20m=800㎡）を1Fに、上階に他機能を全部集約。<strong>SORA BASE のフラッグシップとして地域シンボル化</strong>を狙う。</p>
+
+    <h4>構成イメージ</h4>
+    <div class="building">
+      <div class="floor"><div class="level">4F</div><div class="desc">宿泊（30名・個室＋ファミリールーム＋ドミトリー）</div><div class="area">400㎡</div></div>
+      <div class="floor"><div class="level">3F</div><div class="desc">食堂50席＋厨房＋会議2室</div><div class="area">400㎡</div></div>
+      <div class="floor"><div class="level">2F</div><div class="desc">トレーニング＋ストレッチ＋ロッカー＋会議1室</div><div class="area">400㎡</div></div>
+      <div class="floor"><div class="level ground">1F</div><div class="desc">フットサル正規（800㎡）＋受付＋観客席＋更衣</div><div class="area">1,000㎡</div></div>
+    </div>
+
+    <h4>総予算</h4>
+    <table>
+      <tr><td>土地（1,200㎡ × 5万）</td><td class="money">6,000万</td></tr>
+      <tr><td>1F フットサル区画（鉄骨・無柱構造）</td><td class="money">1.8億</td></tr>
+      <tr><td>2-4F 建築費（延床1,200㎡＝363坪 × 130万）</td><td class="money">4.7億</td></tr>
+      <tr><td>諸経費・設計・許認可</td><td class="money">6,000万</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>約 7.5億</strong></td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>正規フットサルで公式試合・大会開催可</li>
+          <li>地域シンボルとしての知名度</li>
+          <li>合宿・大会・教室を全部1か所で</li>
+          <li>メディア取材吸引力が圧倒的</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>投資額7-8億円。<strong>株式会社MOON単独では不可能</strong></li>
+          <li>VC・大型補助金・自治体PPP・スポンサー多層調達必須</li>
+          <li>運営失敗時の損失が致命的</li>
+          <li>運営に専属10名以上の人員必要</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- プランD -->
+  <div class="plan plan-D">
+    <div class="plan-head">
+      <div>
+        <span class="plan-no">PLAN D（賢い選択肢）</span>
+        <div class="plan-title">ビルは100㎡×4階のまま・フットサルは外部提携</div>
+      </div>
+      <div class="plan-price">
+        <div class="total">¥1.5〜2.0億 + 月10万</div>
+        <div class="label">フットサル提携料</div>
+      </div>
+    </div>
+    <p>ビル本体は元の構想通り（宿泊・食事・会議・トレ）。フットサルは<strong>香川県内の既存フットサル場と提携</strong>して時間枠を確保・送客契約を結ぶ。</p>
+
+    <h4>構成イメージ</h4>
+    <div class="building">
+      <div class="floor"><div class="level">4F</div><div class="desc">宿泊（20名）</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level">3F</div><div class="desc">食堂＋厨房</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level">2F</div><div class="desc">会議室＋トレーニング</div><div class="area">100㎡</div></div>
+      <div class="floor"><div class="level ground">1F</div><div class="desc">受付＋トレーニング（一部）＋更衣＋ラウンジ</div><div class="area">100㎡</div></div>
+    </div>
+
+    <h4>フットサル提携の選択肢</h4>
+    <ul>
+      <li><strong>高松市内のフットサル場と定額契約：</strong>週○時間枠を月10〜20万円で固定確保</li>
+      <li><strong>香川県内の総合運動公園との連携：</strong>公的施設のフットサルコート活用</li>
+      <li><strong>学校・大学の体育館・グランドとの提携：</strong>夜間・休日の遊休時間活用</li>
+    </ul>
+
+    <h4>総予算</h4>
+    <table>
+      <tr><td>ビル本体（4階・延床400㎡・鉄骨造）</td><td class="money">1.3〜1.5億</td></tr>
+      <tr><td>土地（250㎡ × 5万）</td><td class="money">1,250万</td></tr>
+      <tr><td>諸経費・許認可</td><td class="money">500万</td></tr>
+      <tr><td><strong>初期合計</strong></td><td class="money"><strong>約 1.5〜2.0億</strong></td></tr>
+      <tr><td>フットサル提携料（年額）</td><td class="money">120〜240万/年</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>投資額を半分以下に圧縮</li>
+          <li>フットサル運営の人員・管理コスト不要</li>
+          <li>ビル本体の設計自由度高い</li>
+          <li>フットサルが不要になっても損失なし</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>移動が必要（フットサルはビルから離れる）</li>
+          <li>提携先の都合に左右される</li>
+          <li>「SORA BASE 完結」の体験は提供できない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 比較表 -->
+<section>
+  <h2>2. 4プラン横比較</h2>
+  <table>
+    <tr>
+      <th></th>
+      <th>A. 別棟方式</th>
+      <th>B. 1棟拡大方式</th>
+      <th>C. 大規模フラッグシップ</th>
+      <th>D. 外部提携方式</th>
+    </tr>
+    <tr>
+      <td><strong>初期投資</strong></td>
+      <td class="money">1.7〜2.0億</td>
+      <td class="money">3.5〜5億</td>
+      <td class="money">6〜8億</td>
+      <td class="money">1.5〜2.0億</td>
+    </tr>
+    <tr>
+      <td><strong>必要敷地</strong></td>
+      <td>500〜800㎡</td>
+      <td>500㎡</td>
+      <td>1,200㎡</td>
+      <td>250㎡</td>
+    </tr>
+    <tr>
+      <td><strong>フットサル規格</strong></td>
+      <td>正規〜最小</td>
+      <td>規格外（ミニ）</td>
+      <td>正規</td>
+      <td>外部（正規可）</td>
+    </tr>
+    <tr>
+      <td><strong>1棟完結</strong></td>
+      <td>△（隣接別棟）</td>
+      <td>○</td>
+      <td>○</td>
+      <td>×</td>
+    </tr>
+    <tr>
+      <td><strong>段階建設可</strong></td>
+      <td>○</td>
+      <td>△</td>
+      <td>×</td>
+      <td>○</td>
+    </tr>
+    <tr>
+      <td><strong>運営人員</strong></td>
+      <td>5-7名</td>
+      <td>6-8名</td>
+      <td>10名以上</td>
+      <td>4-5名</td>
+    </tr>
+    <tr>
+      <td><strong>適フェーズ</strong></td>
+      <td>Phase 3</td>
+      <td>Phase 3-4</td>
+      <td>Phase 4以降</td>
+      <td>Phase 2-3</td>
+    </tr>
+    <tr>
+      <td><strong>リスク</strong></td>
+      <td>中</td>
+      <td>大</td>
+      <td class="center">★致命★</td>
+      <td>小</td>
+    </tr>
+  </table>
+</section>
+
+<!-- 推奨 -->
+<section>
+  <h2>3. 推奨：D → A の二段階アプローチ</h2>
+
+  <div class="alert green">
+    <strong>結論：</strong>Phase 2（2028-2029）で <strong>D. 外部提携方式</strong> で立ち上げ。<br>
+    実績が出てから Phase 3（2030+）で <strong>A. 別棟方式</strong> に切替えるのが最もリスクの低い順序。
+  </div>
+
+  <h3>なぜDから始めるべきか</h3>
+  <ol>
+    <li><strong>「フットサル運営」は別物のビジネス</strong>です。ピッチ管理・予約システム・夜間スタッフ・天気判断・芝メンテなど、陸上クラブとは異なるノウハウが必要。最初からやらない方が良い。</li>
+    <li>外部提携で<strong>フットサルの実需を検証</strong>できる。SORA会員にフットサルが本当に必要かをデータで確認してから内製化。</li>
+    <li><strong>投資額が半分以下</strong>で済む。同じ予算で他のことに回せる。</li>
+    <li>失敗時の<strong>撤退コストが少ない</strong>。提携解除すればフットサル機能はゼロに戻せる。</li>
+  </ol>
+
+  <h3>なぜCを避けるべきか（大規模フラッグシップ）</h3>
+  <p>初期投資6-8億円は<strong>株式会社MOON単独では絶対に不可能</strong>です。VC・自治体PPP・大型補助金・大企業スポンサーシップを全部組み合わせる必要があり、それぞれが半年〜2年の交渉期間。万一の運営失敗時の損失が致命的で、地方の収益施設としては<strong>回収不可能なリスク水準</strong>。「やる」と決めるなら、別法人（一般社団法人や PFI 事業体）として組成する必要があります。</p>
+</section>
+
+<!-- 4プランの構造比較イラスト -->
+<section>
+  <h2>4. 4プランの構造比較イラスト</h2>
+
+  <div class="section-diagram">
+    <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>4プランの建物・敷地構成イメージ</title>
+
+      <!-- Plan A -->
+      <g transform="translate(20, 20)">
+        <text x="100" y="0" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d8b6b">PLAN A：別棟</text>
+        <!-- ビル -->
+        <rect x="20" y="20" width="60" height="200" fill="#1a2540" stroke="#3d8b6b" stroke-width="2"/>
+        <text x="50" y="50" text-anchor="middle" font-size="10" fill="#fff">4F 宿泊</text>
+        <text x="50" y="100" text-anchor="middle" font-size="10" fill="#fff">3F 食</text>
+        <text x="50" y="150" text-anchor="middle" font-size="10" fill="#fff">2F 会議</text>
+        <text x="50" y="200" text-anchor="middle" font-size="10" fill="#fff">1F トレ</text>
+        <!-- フットサル -->
+        <rect x="90" y="120" width="100" height="100" fill="#5cb37a" stroke="#3d8b6b" stroke-width="2" rx="4"/>
+        <text x="140" y="155" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">フットサル</text>
+        <text x="140" y="170" text-anchor="middle" font-size="9" fill="#fff">別棟</text>
+        <text x="140" y="185" text-anchor="middle" font-size="9" fill="#fff">屋外/屋根付</text>
+        <text x="100" y="250" text-anchor="middle" font-size="10" fill="#666">敷地500-800㎡</text>
+        <text x="100" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#3d8b6b">1.7-2.0億</text>
+      </g>
+
+      <!-- Plan B -->
+      <g transform="translate(240, 20)">
+        <text x="100" y="0" text-anchor="middle" font-size="13" font-weight="bold" fill="#d4502a">PLAN B：1棟拡大</text>
+        <rect x="20" y="20" width="180" height="200" fill="#1a2540" stroke="#d4502a" stroke-width="2"/>
+        <text x="110" y="50" text-anchor="middle" font-size="11" fill="#fff">4F 宿泊（300㎡）</text>
+        <line x1="20" y1="65" x2="200" y2="65" stroke="#fff" stroke-width="0.5"/>
+        <text x="110" y="95" text-anchor="middle" font-size="11" fill="#fff">3F 食事（300㎡）</text>
+        <line x1="20" y1="110" x2="200" y2="110" stroke="#fff" stroke-width="0.5"/>
+        <text x="110" y="140" text-anchor="middle" font-size="11" fill="#fff">2F 会議＋トレ</text>
+        <line x1="20" y1="155" x2="200" y2="155" stroke="#fff" stroke-width="0.5"/>
+        <rect x="20" y="155" width="180" height="65" fill="#5cb37a" stroke="#fff" stroke-width="0.5"/>
+        <text x="110" y="190" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">1F フットサル(ミニ)</text>
+        <text x="110" y="205" text-anchor="middle" font-size="9" fill="#fff">＋吹き抜け</text>
+        <text x="110" y="250" text-anchor="middle" font-size="10" fill="#666">敷地500㎡</text>
+        <text x="110" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#d4502a">3.5-5億</text>
+      </g>
+
+      <!-- Plan C -->
+      <g transform="translate(470, 20)">
+        <text x="110" y="0" text-anchor="middle" font-size="13" font-weight="bold" fill="#c8a85a">PLAN C：フラッグシップ</text>
+        <rect x="10" y="20" width="220" height="200" fill="#1a2540" stroke="#c8a85a" stroke-width="2"/>
+        <text x="120" y="50" text-anchor="middle" font-size="11" fill="#fff">4F 宿泊30名</text>
+        <line x1="10" y1="65" x2="230" y2="65" stroke="#fff" stroke-width="0.5"/>
+        <text x="120" y="95" text-anchor="middle" font-size="11" fill="#fff">3F 食堂＋厨房</text>
+        <line x1="10" y1="110" x2="230" y2="110" stroke="#fff" stroke-width="0.5"/>
+        <text x="120" y="140" text-anchor="middle" font-size="11" fill="#fff">2F トレ＋会議</text>
+        <line x1="10" y1="155" x2="230" y2="155" stroke="#fff" stroke-width="0.5"/>
+        <rect x="10" y="155" width="220" height="65" fill="#5cb37a" stroke="#fff" stroke-width="0.5"/>
+        <text x="120" y="190" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">1F フットサル正規</text>
+        <text x="120" y="205" text-anchor="middle" font-size="9" fill="#fff">42m×20m</text>
+        <text x="120" y="250" text-anchor="middle" font-size="10" fill="#666">敷地1,200㎡</text>
+        <text x="120" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#c8a85a">6-8億</text>
+      </g>
+
+      <!-- Plan D -->
+      <g transform="translate(720, 20)">
+        <text x="80" y="0" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f6fa6">PLAN D：外部提携</text>
+        <rect x="40" y="20" width="60" height="200" fill="#1a2540" stroke="#1f6fa6" stroke-width="2"/>
+        <text x="70" y="50" text-anchor="middle" font-size="10" fill="#fff">4F 宿泊</text>
+        <text x="70" y="100" text-anchor="middle" font-size="10" fill="#fff">3F 食</text>
+        <text x="70" y="150" text-anchor="middle" font-size="10" fill="#fff">2F 会議</text>
+        <text x="70" y="200" text-anchor="middle" font-size="10" fill="#fff">1F トレ</text>
+        <text x="80" y="240" text-anchor="middle" font-size="9" fill="#1f6fa6" font-weight="bold">フットサルは</text>
+        <text x="80" y="252" text-anchor="middle" font-size="9" fill="#1f6fa6" font-weight="bold">外部提携 →</text>
+        <text x="80" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f6fa6">1.5-2.0億</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- 補足 -->
+<section>
+  <h2>5. 補足：その他検討すべき制約</h2>
+
+  <h3>用途地域の確認が必須</h3>
+  <p>屋島レクザムフィールド周辺は<strong>準工業地域・第二種住居地域</strong>が中心。宿泊・飲食・スポーツ施設の建築可否は地域により異なります。市役所都市計画課で<strong>地番ごとの用途確認</strong>が必要。</p>
+
+  <h3>必要な許認可</h3>
+  <table>
+    <tr><th>機能</th><th>必要な許認可</th><th>担当</th></tr>
+    <tr><td>宿泊</td><td>簡易宿所許可 or 旅館業</td><td>高松市保健所</td></tr>
+    <tr><td>食事（食堂）</td><td>飲食店営業許可</td><td>高松市保健所</td></tr>
+    <tr><td>食事（合宿時の自炊）</td><td>同上または許可不要（自炊なら）</td><td>同上</td></tr>
+    <tr><td>トレーニング</td><td>原則不要（フィットネスクラブ業）</td><td>―</td></tr>
+    <tr><td>フットサル屋外</td><td>建築確認・特定建築物該当</td><td>建築指導課</td></tr>
+    <tr><td>フットサル屋根付き</td><td>建築確認・防火</td><td>同上</td></tr>
+  </table>
+
+  <h3>運営面での想定スタッフ数</h3>
+  <ul>
+    <li><strong>Plan A/D：</strong>常勤4-5名（コーチ2名・運営2名・施設管理1名）＋パート</li>
+    <li><strong>Plan B：</strong>常勤6-8名（上記＋厨房1名・宿泊管理1名）</li>
+    <li><strong>Plan C：</strong>常勤10名以上＋シフトパート多数</li>
+  </ul>
+
+  <div class="quote">
+    「フットサルが欲しい気持ちは分かるけど、入れた瞬間にビジネスが別物になる。<br>陸上クラブの隣のフットサル運営は、別事業。」
+  </div>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜SORA BASE 全機能複合施設 面積とコスト試算 v1.0｜<br>
+  ※公示地価・建築費相場・フットサル規格情報からの机上試算。実物件・実見積もり時は± 30%の振れ幅あり。
+</div>
+
+</div>
+</body>
+</html>

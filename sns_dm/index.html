@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP CF｜SNS告知文 ＆ 事前DM文</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #0f0f1a; color: #e8e8f0; line-height: 1.7; }
+
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 36px 20px; text-align: center; border-bottom: 2px solid #e63946; }
+  .header .badge { display: inline-block; background: #e63946; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 4px 12px; border-radius: 2px; margin-bottom: 14px; text-transform: uppercase; }
+  .header h1 { font-size: clamp(18px, 3.5vw, 30px); font-weight: 900; color: #fff; line-height: 1.3; }
+  .header h1 span { color: #f4a261; }
+  .header .subtitle { font-size: 13px; color: #aaa; margin-top: 8px; }
+
+  .tab-nav { display: flex; background: #1a1a2e; border-bottom: 1px solid #333; overflow-x: auto; }
+  .tab-nav a { flex-shrink: 0; padding: 14px 20px; font-size: 13px; font-weight: 600; color: #999; text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+  .tab-nav a:hover { color: #f4a261; border-bottom-color: #f4a261; }
+
+  .section { max-width: 880px; margin: 0 auto; padding: 44px 20px; }
+  .section-title { font-size: clamp(16px, 2.5vw, 22px); font-weight: 800; color: #fff; margin-bottom: 8px; padding-left: 14px; border-left: 4px solid #e63946; }
+  .section-sub { font-size: 13px; color: #888; margin-bottom: 28px; padding-left: 18px; }
+
+  .post-block { background: #1e1e30; border: 1px solid #2e2e4a; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
+  .post-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: #252538; border-bottom: 1px solid #2e2e4a; }
+  .post-header .label { font-size: 12px; font-weight: 700; color: #f4a261; letter-spacing: 1px; }
+  .post-header .timing { font-size: 11px; color: #888; background: #1a1a2e; padding: 3px 10px; border-radius: 20px; }
+  .post-body { padding: 20px 24px; }
+  .post-text { background: #13131f; border: 1px solid #2e2e4a; border-radius: 8px; padding: 18px 20px; font-size: 14px; color: #ddd; line-height: 2; white-space: pre-wrap; font-family: 'Hiragino Sans', sans-serif; }
+  .post-note { margin-top: 12px; font-size: 12px; color: #888; padding-left: 4px; }
+  .post-note span { color: #f4a261; font-weight: 700; }
+
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px; }
+  .tag.inst { background: #2a1a30; color: #c77dff; border: 1px solid #c77dff; }
+  .tag.x { background: #1a1a1a; color: #aaa; border: 1px solid #555; }
+  .tag.line { background: #0a2a0a; color: #52b788; border: 1px solid #52b788; }
+  .tag.corp { background: #2a1f10; color: #f4a261; border: 1px solid #f4a261; }
+  .tag.personal { background: #1a2744; color: #4a9eff; border: 1px solid #4a9eff; }
+
+  .divider { border: none; border-top: 1px solid #2e2e4a; margin: 40px 0; }
+
+  .tip-box { background: linear-gradient(135deg, #0f2a1a, #0a1f15); border: 1px solid #52b788; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; font-size: 13px; color: #ccc; }
+  .tip-box strong { color: #52b788; }
+
+  .warn-box { background: linear-gradient(135deg, #2a1f10, #1a1500); border: 1px solid #f4a261; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; font-size: 13px; color: #ccc; }
+  .warn-box strong { color: #f4a261; }
+
+  .timeline-bar { display: flex; gap: 0; margin-bottom: 32px; overflow-x: auto; }
+  .tl-item { flex: 1; min-width: 120px; text-align: center; padding: 12px 8px; background: #1e1e30; border: 1px solid #2e2e4a; position: relative; }
+  .tl-item:not(:last-child)::after { content: '▶'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: #555; font-size: 12px; z-index: 1; }
+  .tl-item .tl-date { font-size: 11px; color: #f4a261; font-weight: 700; margin-bottom: 4px; }
+  .tl-item .tl-label { font-size: 12px; color: #ccc; line-height: 1.4; }
+  .tl-item.active { background: #1a2744; border-color: #4a9eff; }
+  .tl-item.active .tl-label { color: #fff; }
+
+  footer { background: #0a0a14; text-align: center; padding: 24px; font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">PRISM CUP 2026 × CAMPFIRE</div>
+  <h1>SNS告知文 ＆ 事前DM文<br><span>クラウドファンディング 告知テンプレート集</span></h1>
+  <p class="subtitle">5/6（水）スタート予定 ｜ 目標 ¥500,000 ｜ All-in形式</p>
+</div>
+
+<div class="tab-nav">
+  <a href="#timeline">📅 告知タイムライン</a>
+  <a href="#sns">📱 SNS告知文</a>
+  <a href="#dm-personal">💬 事前DM（個人）</a>
+  <a href="#dm-corp">🏢 事前DM（法人）</a>
+  <a href="#line">💚 LINE告知文</a>
+</div>
+
+<!-- ===== タイムライン ===== -->
+<div id="timeline" class="section">
+  <h2 class="section-title">📅 告知タイムライン</h2>
+  <p class="section-sub">CF開始前から終了まで、いつ・何を発信するかの全体設計</p>
+
+  <div class="timeline-bar">
+    <div class="tl-item active">
+      <div class="tl-date">今すぐ〜5/5</div>
+      <div class="tl-label">事前DM<br>仲間集め</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5/6（水）</div>
+      <div class="tl-label">CF公開日<br>解禁投稿</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5/7〜5/10</div>
+      <div class="tl-label">初速強化<br>拡散依頼</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5月中旬</div>
+      <div class="tl-label">中間報告<br>進捗シェア</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">6月上旬</div>
+      <div class="tl-label">ラストスパート<br>締切煽り</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">6/14前後</div>
+      <div class="tl-label">法人リターン<br>締切直前</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>🔑 CF初速の鉄則：開始48時間が全て</strong><br>
+    CAMPFIREのアルゴリズムは「開始直後の支援数」でランキングが決まります。5/6の公開と同時に、既存のコネクション（LINE友達・Instagram DM・X）へ一斉送信することが最優先です。目標は<strong>48時間以内に目標の30%達成</strong>。
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ 法人リターン（④⑤⑥）の締切は6/14が目安</strong><br>
+    チーム参加権（¥100,000）は人数確定・スケジュール調整が必要。6/20以降の申し込みは対応が困難になるため、法人向けDMは5月中に完了させること。
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ===== SNS告知文 ===== -->
+<div id="sns" class="section">
+  <h2 class="section-title">📱 SNS告知文</h2>
+  <p class="section-sub">Instagram / X（旧Twitter）用。コピーしてそのまま使えるテンプレ。</p>
+
+  <!-- POST 1 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag inst">Instagram</span>
+        <span class="tag x">X</span>
+        <span class="label">【解禁告知】CF公開日（5/6）</span>
+      </div>
+      <div class="timing">5/6 公開と同時に投稿</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">🔥 本日解禁です。
+
+「アスリートの経験を、働く人の力に変える場所をつくりたい。」
+
+PRISM CUP 2026 × クラウドファンディング、今日からスタートしました。
+
+2026年7月4日（土）横浜アソビルで開催する
+企業×プロアスリートのフットサルイベント。
+
+出演プロ：
+▶ 荻田大樹（陸上オリンピアン）
+▶ 佐藤和樹（元名古屋グランパス）
+▶ 山崎椋太（元Fリーグ選手）
+
+参加枠は残り6社。
+¥1,000から支援できます。
+
+→ プロフィールのリンクからどうぞ👆
+
+#PRISMCUP2026 #クラウドファンディング #CAMPFIRE #ウェルビーイング #チームビルディング #フットサル #アスリートセカンドキャリア</div>
+      <p class="post-note"><span>📸 推奨画像：</span>PRISM CUPロゴ＋出演者3名の顔写真コラージュ or イベントビジュアル</p>
+    </div>
+  </div>
+
+  <!-- POST 2 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag inst">Instagram</span>
+        <span class="tag x">X</span>
+        <span class="label">【WHY投稿】想いを語る（初動強化）</span>
+      </div>
+      <div class="timing">5/7〜5/9 いずれか</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">引退したアスリートが「自分には何もない」と感じる瞬間がある。
+
+10年以上、一つのことに全力を捧げた人が、競技を終えた途端に空白に直面する。
+そのことが、ずっと頭から離れませんでした。
+
+一方で、企業の方々からはこんな声を聞きます。
+「社員がイキイキしていない」
+「チームに一体感がない」
+「採用で苦労している」
+
+この2つ、実は同じ場所で解決できると思っています。
+
+それがPRISM CUPをつくった理由。
+
+プロアスリートの「経験・熱量・身体性」と
+企業の「仲間・課題・採用」を、1日でつなぐ場所。
+
+まだ支援いただける枠があります。
+プロフィールリンクからどうぞ👆
+
+#PRISMCUP2026 #アスリートセカンドキャリア #ウェルビーイング経営 #チームビルディング</div>
+      <p class="post-note"><span>📸 推奨画像：</span>荻田さんの表情が伝わる写真（競技中 or 経営者として話す場面）</p>
+    </div>
+  </div>
+
+  <!-- POST 3 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag inst">Instagram</span>
+        <span class="tag x">X</span>
+        <span class="label">【中間報告】進捗シェア</span>
+      </div>
+      <div class="timing">目標30〜50%達成時 / 5月中旬</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">PRISM CUP CF、開始__日で達成率__％になりました🙏
+
+支援してくれた皆さん、ありがとうございます。
+
+正直、こんなに早く広がると思っていなかった。
+
+ちょっとだけ裏話をすると——
+このイベントを作ろうと思ったのは、
+「引退後に居場所をなくしたアスリートの話」を聞いたことがきっかけでした。
+
+才能も熱量も持っている人が、
+「社会で使い方がわからない」という理由だけで埋もれていく。
+それがずっと悔しかった。
+
+PRISM CUPは、そのひとつの答えを出す場所にしたいと思っています。
+
+残り枠わずか。引き続き応援よろしくお願いします🔥
+
+プロフィールリンクからどうぞ👆
+
+#PRISMCUP2026 #クラウドファンディング</div>
+      <p class="post-note"><span>※</span>「__」の部分は実際の数字に差し替えてください</p>
+    </div>
+  </div>
+
+  <!-- POST 4 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag inst">Instagram</span>
+        <span class="tag x">X</span>
+        <span class="label">【ラスト告知】締切直前</span>
+      </div>
+      <div class="timing">CF終了3〜5日前</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">残り__日です。
+
+PRISM CUP 2026 クラウドファンディング、
+現在__円を達成しています（達成率__%）。
+
+法人でのチーム参加枠は残り__社。
+個人の観戦枠も残りわずかです。
+
+「迷ってた」という方、
+¥1,000からの応援枠もあります。
+気持ちが届くだけで本当に嬉しい。
+
+7月4日（土）横浜アソビル。
+本気で遊ぶ大人たちの場所を、一緒に作ってください。
+
+👇プロフィールリンク
+#PRISMCUP2026 #残りわずか #クラウドファンディング #CAMPFIRE</div>
+      <p class="post-note"><span>※</span>「__」の数字は実際の進捗に合わせて更新</p>
+    </div>
+  </div>
+
+  <!-- POST 5: TikTok/Reels用 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag inst">Reels / TikTok</span>
+        <span class="label">【動画用キャプション】</span>
+      </div>
+      <div class="timing">CF開始後 随時</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">オリンピアンがフットサルイベントを作る理由、話します。
+
+#PRISMCUP2026 #クラウドファンディング #アスリートセカンドキャリア #ウェルビーイング #フットサル #チームビルディング #荻田大樹</div>
+      <p class="post-note"><span>📱 動画内容案：</span>荻田さんが30〜60秒でWHYを語る縦型動画。「引退したアスリートが〜」から始める。顔出し・直接語りかけスタイルが最も拡散しやすい。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ===== 事前DM（個人向け） ===== -->
+<div id="dm-personal" class="section">
+  <h2 class="section-title">💬 事前DM文（個人向け）</h2>
+  <p class="section-sub">知人・友人・SNSフォロワーへの個別メッセージ。CF開始前（5/6より前）に送るのが効果的。</p>
+
+  <!-- DM1: 近い友人 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag personal">個人向け</span>
+        <span class="tag line">LINE / DM</span>
+        <span class="label">【パターンA】近しい友人・知人向け（カジュアル）</span>
+      </div>
+      <div class="timing">CF開始前日まで / 5/6〜</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【〇〇さんへ】
+
+こんにちは！荻田です。
+
+突然ですみません、実は5月6日からクラウドファンディングを始めます。
+
+7月4日に横浜で「PRISM CUP」というフットサルイベントを開催するんですが、
+元Jリーガーや元プロフットサル選手と一緒に企業チームが本気で戦う、
+ちょっと変わった企画です。笑
+
+支援は¥1,000から。
+まず応援してもらえるだけで本当に嬉しいです。
+
+明日（5/6）公開します。
+もしよければ見てみてください🙏
+
+CAMPFIRE: https://camp-fire.jp/projects/945642/
+（公開後にリンクが有効になります）</div>
+      <p class="post-note"><span>💡 ポイント：</span>「拡散してほしい」ではなく「まず見てほしい」というトーンが大事。義務感を与えない。</p>
+    </div>
+  </div>
+
+  <!-- DM2: アスリート仲間 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag personal">個人向け</span>
+        <span class="tag inst">Instagram DM</span>
+        <span class="label">【パターンB】アスリート・スポーツ関係者向け</span>
+      </div>
+      <div class="timing">CF開始前後</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【〇〇さんへ】
+
+荻田です。お世話になっています。
+
+5月6日から、PRISM CUPというプロジェクトのクラウドファンディングを始めます。
+
+引退後のアスリートが自分の力をビジネスの場で活かせる仕組みを作りたくて。
+その第一歩として、企業チームとプロアスリートが本気で戦うフットサルイベントを7月に横浜で開催します。
+
+〇〇さんにぜひ知っておいてもらいたくて連絡しました。
+
+支援というより、「こういうことやってる人がいる」と知ってもらえるだけでも嬉しいです。
+
+5/6以降、こちらから見られます：
+https://camp-fire.jp/projects/945642/
+
+もし周りに興味ありそうな企業の方がいれば紹介いただけると嬉しいです🙏</div>
+      <p class="post-note"><span>💡 ポイント：</span>アスリート仲間には「セカンドキャリア」の文脈で共感を引き出す。紹介を頼むなら最後の1行を追加。</p>
+    </div>
+  </div>
+
+  <!-- DM3: 拡散依頼 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag personal">個人向け</span>
+        <span class="tag x">X / Instagram</span>
+        <span class="label">【パターンC】拡散協力依頼（インフルエンサー・影響力ある知人）</span>
+      </div>
+      <div class="timing">CF開始後 2〜3日以内</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【〇〇さんへ】
+
+荻田です。いつもお世話になっています！
+
+実は今、クラウドファンディングをやっていまして。
+もしよければシェアしてもらえると嬉しいなと思ってご連絡しました。
+
+▶ PRISM CUP 2026 × CAMPFIRE
+https://camp-fire.jp/projects/945642/
+
+プロアスリートと企業が本気でフットサルで戦うイベントで、
+アスリートのセカンドキャリアと企業ウェルビーイングを1日でつなぐ企画です。
+
+シェアだけでも本当に助かります。
+もちろん強制ではないので、気が向いたらで全然大丈夫です😊
+
+いつもありがとうございます！</div>
+      <p class="post-note"><span>💡 ポイント：</span>「強制ではない」「気が向いたら」という一言が圧力を下げて承諾率が上がる。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ===== 事前DM（法人向け） ===== -->
+<div id="dm-corp" class="section">
+  <h2 class="section-title">🏢 事前DM文（法人向け）</h2>
+  <p class="section-sub">企業担当者・経営者向け。チーム参加権（¥100,000）とスポンサー（⑤⑥）獲得が目的。リスト取得（③ ¥30,000）も狙う。</p>
+
+  <div class="tip-box">
+    <strong>📋 送付先候補の優先順位</strong><br>
+    ① 過去に「チームビルディング・健康経営・採用」の話をしたことがある経営者・HR担当<br>
+    ② スポーツ系・フィットネス系の取引先<br>
+    ③ 社員数30〜200名規模の中小企業経営者（予算感が合う）<br>
+    ④ CARAS・TrustFitの既存コネクション
+  </div>
+
+  <!-- 法人DM1: チーム参加枠 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag corp">法人向け</span>
+        <span class="tag line">メール / LINE</span>
+        <span class="label">【パターンA】チーム参加枠（¥100,000）獲得を狙う</span>
+      </div>
+      <div class="timing">今すぐ〜5月末（6社限定のため早めに）</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【件名】7月4日、社員と一緒にプロと戦ってみませんか？
+
+〇〇様
+
+株式会社MOONの荻田大樹です。
+いつもお世話になっております。
+
+突然のご連絡となりますが、7月4日（土）に横浜アソビルにて
+企業×プロアスリートのフットサルイベント「PRISM CUP 2026」を開催します。
+
+━━━━━━━━━━━━━━━━━━
+PRISM CUP 2026
+─────────────────────
+📅 2026年7月4日（土）18:00〜22:00
+📍 アソビル（横浜）
+👥 企業チーム5〜8名 × プロアスリート
+━━━━━━━━━━━━━━━━━━
+
+出演プロ：
+・荻田大樹（陸上オリンピアン）
+・佐藤和樹（元名古屋グランパス・13年間プロ）
+・山崎椋太（元Fリーグ・デウソン神戸）
+・佐々木理方（元Jリーグ強化指定・MC）
+
+チーム参加枠は6社限定です。
+社員のチームビルディング・ウェルビーイング・採用PR素材としてお使いいただける1日を設計しています。
+
+現在クラウドファンディングで参加者を募集中です。
+▶ https://camp-fire.jp/projects/945642/
+
+もし御社でご興味があれば、
+詳細をご説明する機会をいただけますか？
+
+ご多忙の中恐れ入りますが、ご一読いただければ幸いです。
+
+─────────────────────
+荻田 大樹
+株式会社MOON / PRISM CUP HOST
+─────────────────────</div>
+      <p class="post-note"><span>💡 ポイント：</span>「参加を迫る」のではなく「詳細を話す機会をもらえますか」で終わる。返信ハードルを下げる。</p>
+    </div>
+  </div>
+
+  <!-- 法人DM2: 知っている経営者 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag corp">法人向け</span>
+        <span class="tag line">LINE / 対面後フォロー</span>
+        <span class="label">【パターンB】顔見知りの経営者・HR担当（カジュアル版）</span>
+      </div>
+      <div class="timing">5月中 / 既存コネクション優先</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">〇〇さん、荻田です！
+
+少しご連絡させてください。
+
+7月4日に横浜でフットサルイベントやるんですが、
+企業チームで参加しませんか？
+
+プロアスリート（元Jリーガー・Fリーガー）と一緒に本気で試合できる、
+チームビルディング×採用PR×ウェルビーイングを1日で体験できる企画です。
+
+5〜8名でチームを組んで参加できます。
+
+今、クラウドファンディングで参加枠を募集中で、
+6社限定（残り少ない）なのでご連絡しました。
+
+▶ https://camp-fire.jp/projects/945642/
+
+ご興味あれば30分お時間いただけますか？
+詳しくお話しします！</div>
+      <p class="post-note"><span>💡 ポイント：</span>既知の相手にはフランクに。「6社限定・残り少ない」の緊急性を添えると返信率UP。</p>
+    </div>
+  </div>
+
+  <!-- 法人DM3: ¥30,000リスト取得 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag corp">法人向け</span>
+        <span class="tag line">メール</span>
+        <span class="label">【パターンC】TrustFitベータ枠（¥30,000）狙い ＝ リスト取得</span>
+      </div>
+      <div class="timing">5月中旬〜6月上旬</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【件名】アスリートと企業をつなぐプラットフォーム、先行体験しませんか
+
+〇〇様
+
+荻田大樹です。いつもお世話になっております。
+
+現在、「アスリートと企業をつなぐマッチングプラットフォーム TrustFit」の
+ベータリリースに向けて準備を進めています。
+
+採用・健康経営・社員研修などの目的で
+プロレベルの元アスリートトレーナーを活用したい企業様に
+ご活用いただけるサービスです。
+
+現在、PRISM CUPのクラウドファンディングで
+「TrustFitベータ参加優先権」（¥30,000）をご案内しています。
+
+正式リリース前に最優先でご案内 ＋ 次回PRISM CUP先行招待も含まれます。
+
+もしご関心があれば、一度詳細をご説明させていただけますか？
+
+▶ CF詳細：https://camp-fire.jp/projects/945642/
+
+ご検討のほどよろしくお願いいたします。
+
+─────────────────────
+荻田 大樹｜株式会社MOON
+─────────────────────</div>
+      <p class="post-note"><span>💡 ポイント：</span>このDMは「リスト取得」が目的。支援してもらえれば連絡先が取れる。強引に売り込まず「ご関心があれば」トーンを維持する。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ===== LINE告知文 ===== -->
+<div id="line" class="section">
+  <h2 class="section-title">💚 LINE告知文</h2>
+  <p class="section-sub">LINE友達・グループへの一斉告知用。短く・読みやすく。</p>
+
+  <!-- LINE1: 一斉告知 -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag line">LINE</span>
+        <span class="label">【一斉告知】CF公開日（5/6）</span>
+      </div>
+      <div class="timing">5/6 公開と同時</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【ご報告とお願い】
+
+荻田大樹です🙏
+
+本日よりクラウドファンディングを始めました！
+
+7月4日に横浜でフットサルイベント「PRISM CUP」を開催します。
+元Jリーガー・プロフットサル選手と一緒に企業チームが本気で戦う、
+チームビルディング×アスリートセカンドキャリアの企画です。
+
+支援は¥1,000から。シェアだけでも嬉しいです😊
+
+▼ CAMPFIRE
+https://camp-fire.jp/projects/945642/
+
+よろしくお願いします！</div>
+      <p class="post-note"><span>💡 ポイント：</span>LINEは短く。URLを貼るだけでいい。「シェアだけでも」を添えると気軽に転送してもらいやすい。</p>
+    </div>
+  </div>
+
+  <!-- LINE2: ラスト -->
+  <div class="post-block">
+    <div class="post-header">
+      <div>
+        <span class="tag line">LINE</span>
+        <span class="label">【ラスト告知】終了3日前</span>
+      </div>
+      <div class="timing">CF終了3日前</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">【残り3日です🔥】
+
+PRISM CUP クラウドファンディング、
+おかげさまで現在__％達成しています！
+
+支援してくれた方、シェアしてくれた方、
+本当にありがとうございます😭
+
+あと3日。
+チーム参加枠は残り__社です。
+
+▼ まだ見ていない方はこちら
+https://camp-fire.jp/projects/945642/
+
+最後まで応援よろしくお願いします！</div>
+      <p class="post-note"><span>※</span>「__」部分は実際の数字に差し替えてください。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" style="padding-top: 20px; padding-bottom: 40px;">
+  <div class="tip-box" style="margin-bottom: 16px;">
+    <strong>✅ 送付前チェックリスト</strong><br>
+    □ CAMPFIREのURLが有効になっていることを確認（5/6公開後）<br>
+    □ 法人DMは送付先リストを作り、送った相手・日付を記録する<br>
+    □ 「拡散してください」という直接的な表現は避ける（義務感を与えない）<br>
+    □ 返信があった相手には24時間以内にお礼返信<br>
+    □ 支援してくれた人へは個別にお礼DM（開始後3日以内）
+  </div>
+</div>
+
+<footer>
+  PRISM CUP × クラウドファンディング 告知テンプレ集 ｜ TrustFit / 株式会社MOON ｜ 2026-04-17
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康経営優良法人2026 ギャップ分析レポート</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      background: #f5f7fa;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+      color: white;
+      padding: 36px 48px;
+    }
+    .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .header .meta { font-size: 13px; opacity: 0.8; }
+    .summary-bar {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 48px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .summary-item .num {
+      font-size: 28px;
+      font-weight: 800;
+    }
+    .summary-item .label {
+      font-size: 11px;
+      color: #718096;
+      text-align: center;
+    }
+    .num.ok { color: #38a169; }
+    .num.warn { color: #d69e2e; }
+    .num.danger { color: #e53e3e; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+    /* SECTION */
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a365d;
+      border-left: 4px solid #2b6cb0;
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* CARD */
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .card-header {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-header.green { background: #f0fff4; color: #276749; border-bottom: 1px solid #c6f6d5; }
+    .card-header.red { background: #fff5f5; color: #9b2c2c; border-bottom: 1px solid #fed7d7; }
+    .card-header.orange { background: #fffaf0; color: #7b341e; border-bottom: 1px solid #feebc8; }
+    .card-header.blue { background: #ebf8ff; color: #2c5282; border-bottom: 1px solid #bee3f8; }
+    .card-body { padding: 16px 20px; }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      background: #f7fafc;
+      color: #4a5568;
+      font-weight: 600;
+      padding: 10px 12px;
+      border-bottom: 2px solid #e2e8f0;
+      text-align: left;
+      white-space: nowrap;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f4f8;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f7fafc; }
+
+    /* STATUS BADGES */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-done { background: #c6f6d5; color: #276749; }
+    .badge-todo { background: #fed7d7; color: #9b2c2c; }
+    .badge-warn { background: #feebc8; color: #7b341e; }
+    .badge-missing { background: #fed7d7; color: #9b2c2c; }
+    .badge-required { background: #bee3f8; color: #2c5282; }
+    .badge-optional { background: #e9d8fd; color: #553c9a; }
+    .badge-urgent { background: #e53e3e; color: white; }
+
+    /* GAP TABLE */
+    .gap-row td:first-child { font-weight: 600; color: #9b2c2c; }
+
+    /* ALERT BOX */
+    .alert {
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .alert.urgent { background: #fff5f5; border-left: 4px solid #e53e3e; }
+    .alert.warn { background: #fffaf0; border-left: 4px solid #d69e2e; }
+    .alert.info { background: #ebf8ff; border-left: 4px solid #3182ce; }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .alert-body { font-size: 13px; color: #4a5568; }
+
+    /* PROGRESS */
+    .progress-wrap { background: #e2e8f0; border-radius: 99px; height: 10px; overflow: hidden; margin-top: 6px; }
+    .progress-bar { height: 10px; border-radius: 99px; }
+    .progress-bar.green { background: #38a169; }
+    .progress-bar.orange { background: #dd6b20; }
+    .progress-bar.red { background: #e53e3e; }
+
+    /* PHASE LABEL */
+    .phase-label {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .phase-prep { background: #bee3f8; color: #2c5282; }
+    .phase-action { background: #c6f6d5; color: #276749; }
+    .phase-apply { background: #feebc8; color: #7b341e; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; }
+    .checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon { flex-shrink: 0; }
+
+    /* RECOMMENDATION */
+    .rec-item {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .rec-num {
+      background: #2b6cb0;
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .rec-body .rec-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .rec-body .rec-desc { font-size: 13px; color: #4a5568; }
+    .rec-body .rec-tag { margin-top: 6px; }
+
+    footer {
+      background: #1a365d;
+      color: rgba(255,255,255,0.6);
+      padding: 20px 48px;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏥 健康経営優良法人2026 ギャップ分析レポート</h1>
+  <div class="meta">対象：MOON社（中小規模法人部門）｜分析日：2026-03-28｜申請期限：2025年8月18日〜10月17日</div>
+</div>
+
+<!-- SUMMARY BAR -->
+<div class="summary-bar">
+  <div class="summary-item">
+    <span class="num ok">4</span>
+    <span class="label">完了タスク</span>
+  </div>
+  <div class="summary-item">
+    <span class="num danger">10</span>
+    <span class="label">未完了タスク<br>（スプレッドシート内）</span>
+  </div>
+  <div class="summary-item">
+    <span class="num danger">8</span>
+    <span class="label">スプレッドシートに<br>未記載の必要項目</span>
+  </div>
+  <div class="summary-item">
+    <span class="num warn">3</span>
+    <span class="label">⚠️ 記載内容の<br>補強が必要な項目</span>
+  </div>
+  <div class="summary-item">
+    <span class="num danger">1</span>
+    <span class="label">🔴 期限超過<br>（健康診断の予約 3月末）</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- URGENT ALERT -->
+  <div class="alert urgent">
+    <div class="alert-icon">🚨</div>
+    <div>
+      <div class="alert-title">【緊急】健康診断の予約が期限超過（3月末）</div>
+      <div class="alert-body">行6「健康診断の予約」が3月末期限で未完了のまま。4〜6月受診を目標に、今週中に全従業員（役員含む）の健診を予約してください。未受診のまま7月を超えると申請要件「定期健康診断の受診率100%」が満たせなくなります。</div>
+    </div>
+  </div>
+
+  <div class="alert warn">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <div class="alert-title">スプレッドシートは現状14項目。公式要件を充足するには追加対応が必要です。</div>
+      <div class="alert-body">健康経営優良法人2026（中小規模法人部門）の公式要件（経済産業省）は必須6項目＋選択評価項目から一定数の達成が必要です。現状のスプレッドシートには、必須項目の一部・評価・改善プロセス・申請業務の詳細が抜けています。</div>
+    </div>
+  </div>
+
+  <!-- CURRENT STATUS TABLE -->
+  <div class="section">
+    <div class="section-title">📋 現状スプレッドシート 14項目 照合結果</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>行</th>
+            <th>タスク名</th>
+            <th>期限</th>
+            <th>ステータス</th>
+            <th>公式要件との対応</th>
+            <th>判定</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3</td>
+            <td><strong>健康宣言の施行</strong></td>
+            <td>即時</td>
+            <td><span class="badge badge-done">完了</span></td>
+            <td>必須①：健康宣言の社内外への発信<br><small style="color:#718096">※「経営者自身の健診受診」がセット要件</small></td>
+            <td><span class="badge badge-warn">⚠️ 半分</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>gBizIDプライムの取得</strong></td>
+            <td>3月末</td>
+            <td><span class="badge badge-done">完了</span></td>
+            <td>申請システムへのログインID（手続き上の必要事項）</td>
+            <td><span class="badge badge-done">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>担当者の決定</strong></td>
+            <td>3月末</td>
+            <td><span class="badge badge-done">完了</span></td>
+            <td>必須②：健康づくり担当者の設置</td>
+            <td><span class="badge badge-done">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>健康診断の予約</strong></td>
+            <td><strong style="color:#e53e3e">3月末🚨</strong></td>
+            <td><span class="badge badge-urgent">期限超過</span></td>
+            <td>必須①・法令遵守：経営者自身の健診受診 ＋ 定期健診の準備</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><strong>定期健康診断の実施</strong></td>
+            <td>6月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>法令遵守：全従業員の受診率100%（必達）</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>再検査・精密検査の追跡</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>評価項目②：二次健診（再検査）の受診勧奨</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><strong>40歳以上のデータ提供</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>必須③：40歳以上の従業員の健診データを保険者へ提供</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><strong>具体的な推進計画の策定</strong></td>
+            <td>5月末</td>
+            <td><span class="badge badge-done">完了</span></td>
+            <td>必須⑤・⑥：健康課題に基づく目標設定＋推進計画策定<br><small style="color:#718096">※「健康課題の把握」プロセスが明示されているかを確認</small></td>
+            <td><span class="badge badge-warn">⚠️ 要確認</span></td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td><strong>ストレスチェックの実施</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>評価項目（選択）：メンタルヘルス対策の一部<br><small style="color:#718096">※50名未満は努力義務。実施で加点あり。</small></td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td><strong>ヘルスリテラシー教育</strong></td>
+            <td>5・7月2回</td>
+            <td><span class="badge badge-warn">要確認</span></td>
+            <td>評価項目⑥〜⑧：生活習慣改善（ヘルスリテラシー向上施策）</td>
+            <td><span class="badge badge-warn">⚠️ 実施確認</span></td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td><strong>運動機会の増進施策</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>評価項目⑥：運動習慣改善に向けた取り組み</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td><strong>食生活の改善施策</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>評価項目⑤：食習慣改善に向けた取り組み</td>
+            <td><span class="badge badge-todo">❌ 未完了</span></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td><strong>受動喫煙対策</strong></td>
+            <td>7月末</td>
+            <td><span class="badge badge-done">完了</span></td>
+            <td>評価項目⑦⑭：禁煙・受動喫煙対策</td>
+            <td><span class="badge badge-done">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td><strong>申請書のダウンロード</strong></td>
+            <td>8/18〜</td>
+            <td><span class="badge badge-todo">未完了</span></td>
+            <td>申請業務（開始のみ）<br><small style="color:#718096">※申請書記入・提出・調査票回答・保険者確認が未記載</small></td>
+            <td><span class="badge badge-warn">⚠️ 不完全</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GAP ITEMS -->
+  <div class="section">
+    <div class="section-title">🔴 スプレッドシートに未記載の必要項目（8件）</div>
+    <div class="alert info">
+      <div class="alert-icon">ℹ️</div>
+      <div class="alert-body">以下の項目は公式認定要件に含まれますが、スプレッドシートに登録されていません。スプレッドシートに追加して管理することを推奨します。</div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>未記載項目</th>
+            <th>種別</th>
+            <th>対応推奨時期</th>
+            <th>補足・具体的アクション</th>
+          </tr>
+        </thead>
+        <tbody class="gap-row">
+          <tr>
+            <td>①</td>
+            <td><strong>経営者自身の健診受診</strong></td>
+            <td><span class="badge badge-required">必須</span></td>
+            <td>4〜6月</td>
+            <td>「健康宣言の施行」（行3）とセットの必須要件。代表者（MOON本人）が定期健康診断を受診し、結果を保存する。現状の行3は「宣言書の提出」のみで経営者受診が明示されていない。</td>
+          </tr>
+          <tr>
+            <td>②</td>
+            <td><strong>健康課題の把握・分析</strong></td>
+            <td><span class="badge badge-required">必須</span></td>
+            <td>4〜5月</td>
+            <td>必須④「従業員の健康課題の把握と必要な対策の検討」。健診結果・アンケート等から課題を抽出し、文書化する。行10「推進計画」の前提作業だが、プロセスとして独立した項目が必要。</td>
+          </tr>
+          <tr>
+            <td>③</td>
+            <td><strong>健康課題に基づく目標設定</strong></td>
+            <td><span class="badge badge-required">必須</span></td>
+            <td>5月</td>
+            <td>必須⑤「健康課題に基づいた具体的な目標の設定」。「健診受診率100%」「ストレスチェック実施率○%」などの数値目標を明文化する。行10の推進計画とは別に目標シートが必要。</td>
+          </tr>
+          <tr>
+            <td>④</td>
+            <td><strong>過重労働防止対策</strong></td>
+            <td><span class="badge badge-optional">選択</span></td>
+            <td>5〜7月</td>
+            <td>評価項目⑪：時間外労働の上限管理、36協定の締結・遵守確認。月次の残業時間を記録・管理し、過重労働者への面談を実施するフローを整備する。</td>
+          </tr>
+          <tr>
+            <td>⑤</td>
+            <td><strong>メンタルヘルス不調者への対応</strong></td>
+            <td><span class="badge badge-optional">選択</span></td>
+            <td>5〜7月</td>
+            <td>評価項目⑫：相談窓口の設置・復職支援方針の策定。ストレスチェック（行11）とは別に「不調者への対応手順」を文書化する必要あり。</td>
+          </tr>
+          <tr>
+            <td>⑥</td>
+            <td><strong>感染症予防対策</strong></td>
+            <td><span class="badge badge-optional">選択</span></td>
+            <td>5〜7月</td>
+            <td>評価項目⑨：インフルエンザ等の予防接種費用補助、手洗い・換気の徹底方針策定。簡単な対策文書で対応可。</td>
+          </tr>
+          <tr>
+            <td>⑦</td>
+            <td><strong>女性の健康に関する取り組み</strong></td>
+            <td><span class="badge badge-optional">選択</span></td>
+            <td>5〜7月</td>
+            <td>評価項目⑬：婦人科系健診（子宮頸がん・乳がん）の受診勧奨。女性従業員が少ない場合も「勧奨の仕組み」があればOK。</td>
+          </tr>
+          <tr>
+            <td>⑧</td>
+            <td><strong>申請業務（詳細）</strong></td>
+            <td><span class="badge badge-required">必須</span></td>
+            <td>8月〜10月</td>
+            <td>行16「申請書ダウンロード」以降の全ステップが未記載。<br>①申請書の記入（法人情報・取り組み内容）<br>②健康経営度調査票への回答（オンライン）<br>③保険者（協会けんぽ）への確認・承認依頼<br>④gBizIDでオンライン申請システムにログイン・提出<br>⑤申請後の認定通知受領・活用</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ITEMS NEEDING STRENGTHEN -->
+  <div class="section">
+    <div class="section-title">⚠️ スプレッドシート記載済みだが補強が必要な項目（3件）</div>
+    <div class="grid-2">
+
+      <div class="card">
+        <div class="card-header orange">⚠️ 行3「健康宣言の施行」— 経営者健診の明示が必要</div>
+        <div class="card-body">
+          <p style="font-size:13px; color:#4a5568; margin-bottom:12px;">現状：「保険者にFAX/郵送で宣言書を提出」のみ記録<br>不足：経営者（MOON本人）自身が定期健康診断を受診することが、行3と同じ必須①要件として求められています。</p>
+          <p style="font-size:13px;"><strong>追加すべき備考：</strong>「代表者の受診証明（健診結果）を保存・提出できる状態にする」</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header orange">⚠️ 行10「推進計画の策定」— 健康課題把握・目標設定が未分離</div>
+        <div class="card-body">
+          <p style="font-size:13px; color:#4a5568; margin-bottom:12px;">現状：推進計画＝健康課題の把握＋目標設定＋計画書 が1行にまとまっています。<br>公式要件では「課題把握」「目標設定」「推進計画」が別項目として評価されます。</p>
+          <p style="font-size:13px;"><strong>推奨：</strong>行10を3行に分割し、それぞれ「健康課題把握シートの作成」「KPI数値目標の明文化」「推進計画書の確定」として管理する。</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header orange">⚠️ 行16「申請書ダウンロード」— 申請業務の全ステップが未登録</div>
+        <div class="card-body">
+          <p style="font-size:13px; color:#4a5568; margin-bottom:12px;">現状：「申請書をダウンロードする」のみ<br>申請業務はダウンロード後に5ステップ以上あります。全ステップが未登録のため、申請期直前に抜け漏れが発生するリスクが高い。</p>
+          <p style="font-size:13px;"><strong>追加推奨：</strong>申請書記入→調査票回答→保険者確認→オンライン提出→認定受領の5行を追加。</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header orange">⚠️ 行12「ヘルスリテラシー教育」— 実施記録の保存方法が不明</div>
+        <div class="card-body">
+          <p style="font-size:13px; color:#4a5568; margin-bottom:12px;">現状：5月・7月に2回実施予定。備考に「YouTubeを視聴？」「社内チャットに残す」の候補が記載されている状態。<br>申請時には「実施した証拠（写真・記録）」の提出が必要になります。</p>
+          <p style="font-size:13px;"><strong>追加推奨：</strong>「実施記録の保存方法」を今のうちに確定し、備考欄に明記する。（例：動画視聴履歴のスクリーンショット＋参加者リスト）</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REQUIREMENT COVERAGE -->
+  <div class="section">
+    <div class="section-title">📊 必須項目 充足状況（6/6 が必達）</div>
+    <div class="card">
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>必須項目</th>
+              <th>スプレッドシートの対応行</th>
+              <th>充足状況</th>
+              <th>補足</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>①健康宣言の社内外発信＋<strong>経営者の健診受診</strong></td>
+              <td>行3・行6</td>
+              <td><span class="badge badge-warn">⚠️ 半分のみ</span></td>
+              <td>宣言書はFAX済み。経営者受診が未記載。</td>
+            </tr>
+            <tr>
+              <td>②健康づくり担当者の設置</td>
+              <td>行5</td>
+              <td><span class="badge badge-done">✅ 完了</span></td>
+              <td>担当者決定済み</td>
+            </tr>
+            <tr>
+              <td>③40歳以上の健診データ提供</td>
+              <td>行9</td>
+              <td><span class="badge badge-todo">❌ 未完了</span></td>
+              <td>7月末期限。健診実施後に対応。</td>
+            </tr>
+            <tr>
+              <td>④従業員の健康課題の把握</td>
+              <td>（行10に一部含む）</td>
+              <td><span class="badge badge-warn">⚠️ 要分離</span></td>
+              <td>課題把握が独立した項目として未登録</td>
+            </tr>
+            <tr>
+              <td>⑤健康課題に基づく目標設定</td>
+              <td>（行10に一部含む）</td>
+              <td><span class="badge badge-warn">⚠️ 要分離</span></td>
+              <td>KPI数値目標の明文化が必要</td>
+            </tr>
+            <tr>
+              <td>⑥健康経営の推進計画の策定</td>
+              <td>行10</td>
+              <td><span class="badge badge-done">✅ 完了</span></td>
+              <td>「貼り出しOK」と備考あり</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;">
+          <div style="font-size:13px; color:#718096; margin-bottom:6px;">必須項目充足率（概算）</div>
+          <div class="progress-wrap">
+            <div class="progress-bar orange" style="width:50%"></div>
+          </div>
+          <div style="font-size:12px; color:#718096; margin-top:4px;">約50%（現状2〜3/6） → 目標：7月末までに6/6充足</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFICIAL REQUIREMENTS vs COVERAGE -->
+  <div class="section">
+    <div class="section-title">📐 公式評価項目マッピング（中小規模法人部門）</div>
+    <div class="card">
+      <div class="card-header blue">公式の評価項目グループ → スプレッドシートの対応状況</div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>評価項目グループ</th>
+              <th>達成条件</th>
+              <th>スプレッドシート対応</th>
+              <th>充足見込み</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>健診関連①〜②</strong><br><small>受診勧奨・再検査追跡</small></td>
+              <td>2項目中<br>2項目以上</td>
+              <td>行7（定期健診）・行8（再検査追跡）</td>
+              <td><span class="badge badge-done">✅ 2/2 対応済み</span></td>
+            </tr>
+            <tr>
+              <td><strong>生活習慣改善③〜⑧</strong><br><small>食事・運動・禁煙・睡眠等</small></td>
+              <td>4項目中<br>2項目以上</td>
+              <td>行14（食生活）・行13（運動）・行15（受動喫煙）・行12（ヘルスリテラシー）</td>
+              <td><span class="badge badge-done">✅ 4/4 対応済み</span></td>
+            </tr>
+            <tr>
+              <td><strong>総合的施策⑨〜⑮</strong><br><small>感染症・メンタル・女性・過重労働等</small></td>
+              <td>7項目中<br>3項目以上</td>
+              <td>行11（ストレスチェック）→1項目のみ<br>⚠️ 感染症・女性・過重労働は未記載</td>
+              <td><span class="badge badge-danger" style="background:#fed7d7;color:#9b2c2c;">⚠️ 1〜2/3 不足気味</span></td>
+            </tr>
+            <tr>
+              <td><strong>評価・改善</strong><br><small>結果の把握・次年度反映</small></td>
+              <td>取り組み評価の<br>実施</td>
+              <td>❌ 未登録</td>
+              <td><span class="badge badge-todo">❌ 未対応</span></td>
+            </tr>
+            <tr>
+              <td><strong>法令遵守</strong><br><small>受診率100%・労基法違反なし</small></td>
+              <td>全て満たす</td>
+              <td>行7で対応。労基法違反確認は未登録。</td>
+              <td><span class="badge badge-warn">⚠️ 要確認</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="section">
+    <div class="section-title">🎯 推奨アクション（優先度順）</div>
+
+    <div class="rec-item">
+      <div class="rec-num">1</div>
+      <div class="rec-body">
+        <div class="rec-title">🚨 今週中：健康診断を予約する（期限超過）</div>
+        <div class="rec-desc">全従業員（役員含む）の健診を4〜6月で予約。代表者（MOON本人）の健診も必ず含める。予約完了後にスプレッドシートの行6を「完了」にする。</div>
+        <div class="rec-tag"><span class="badge badge-urgent">最優先</span> <span class="phase-label phase-prep">準備期</span></div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">2</div>
+      <div class="rec-body">
+        <div class="rec-title">📝 4月中：スプレッドシートに不足6項目を追加登録</div>
+        <div class="rec-desc">「健康課題の把握」「目標設定（KPI）」「過重労働防止」「メンタルヘルス対応方針」「感染症予防策」「女性の健康施策」を行として追加し、担当・期限・アクションを設定する。</div>
+        <div class="rec-tag"><span class="badge badge-required">必須＋選択</span> <span class="phase-label phase-prep">準備期〜実践期</span></div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">3</div>
+      <div class="rec-body">
+        <div class="rec-title">📊 5月：健康課題把握シートの作成＋KPI目標明文化</div>
+        <div class="rec-desc">健診結果・アンケートから健康課題を抽出し、A4一枚の「健康課題把握シート」を作成。「受診率100%」「ストレスチェック実施率○%」などの数値目標を推進計画書に明記する。</div>
+        <div class="rec-tag"><span class="badge badge-required">必須</span> <span class="phase-label phase-action">実践期</span></div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">4</div>
+      <div class="rec-body">
+        <div class="rec-title">📋 申請期（8月）に向けて申請業務5ステップを追加登録</div>
+        <div class="rec-desc">行16の後に「①申請書記入 ②健康経営度調査票回答 ③保険者確認 ④オンライン申請提出 ⑤認定受領・活用」を追加し、それぞれに期限と担当を設定する。</div>
+        <div class="rec-tag"><span class="badge badge-required">必須</span> <span class="phase-label phase-apply">申請期</span></div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">5</div>
+      <div class="rec-body">
+        <div class="rec-title">✍️ 7月末：取り組み評価レポートを作成（評価・改善）</div>
+        <div class="rec-desc">実践期（4〜7月）の各施策の実施結果を1枚にまとめた「健康経営取り組み評価シート」を作成する。次年度の改善計画への反映も記録しておく（申請書類の一部として使用可能）。</div>
+        <div class="rec-tag"><span class="badge badge-required">必須</span> <span class="phase-label phase-action">実践期末</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="section-title">📅 追加対応を含めた推奨スケジュール</div>
+    <div class="card">
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>時期</th>
+              <th>対応事項</th>
+              <th>種別</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff5f5;">
+              <td><strong>今週中</strong></td>
+              <td>🚨 健康診断の予約（代表者含む全員）</td>
+              <td><span class="badge badge-urgent">期限超過</span></td>
+            </tr>
+            <tr>
+              <td><strong>4月</strong></td>
+              <td>スプレッドシートに不足6項目を追加登録 / 健康課題把握の着手</td>
+              <td><span class="badge badge-required">必須</span></td>
+            </tr>
+            <tr>
+              <td><strong>4〜6月</strong></td>
+              <td>全従業員の定期健康診断を実施・受診率100%を確保</td>
+              <td><span class="badge badge-required">必須・法令</span></td>
+            </tr>
+            <tr>
+              <td><strong>5月</strong></td>
+              <td>健康課題把握シート完成 / KPI目標明文化 / ヘルスリテラシー教育（1回目）</td>
+              <td><span class="badge badge-required">必須</span></td>
+            </tr>
+            <tr>
+              <td><strong>5〜7月</strong></td>
+              <td>過重労働防止・メンタルヘルス・感染症・女性の健康の施策を実施・記録</td>
+              <td><span class="badge badge-optional">選択</span></td>
+            </tr>
+            <tr>
+              <td><strong>7月</strong></td>
+              <td>再検査追跡完了 / 40歳以上データ提供 / ストレスチェック / ヘルスリテラシー（2回目）</td>
+              <td><span class="badge badge-todo">実践期締め</span></td>
+            </tr>
+            <tr>
+              <td><strong>7月末</strong></td>
+              <td>取り組み評価レポート作成（評価・改善）</td>
+              <td><span class="badge badge-required">必須</span></td>
+            </tr>
+            <tr>
+              <td><strong>8月上旬</strong></td>
+              <td>申請書記入 / 健康経営度調査票の回答 / 保険者確認</td>
+              <td><span class="badge badge-required">申請</span></td>
+            </tr>
+            <tr>
+              <td><strong>8/18〜10/17</strong></td>
+              <td>🎯 オンライン申請（gBizIDで提出）→ 認定通知を待つ</td>
+              <td><span class="badge badge-done">申請期</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="section">
+    <div class="section-title">📊 品質スコア</div>
+    <div class="alert info">
+      <div>
+        <div class="alert-title">📊 品質スコア: 78点 ｜ 現状把握:◎ 必須項目カバー:△ 申請準備:△ 緊急対応:✅</div>
+        <div class="alert-body" style="margin-top:6px;">スプレッドシートの現状は「実践期の施策管理」に強く、「必須項目の分解管理」「評価改善」「申請業務の詳細化」に改善余地あり。上記8項目を追加すれば認定取得の確度が大幅に上がります。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  健康経営優良法人2026 ギャップ分析レポート | MOON AI組織 生成 | 2026-03-28
+</footer>
+
+</body>
+</html>

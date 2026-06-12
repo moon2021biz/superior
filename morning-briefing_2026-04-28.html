@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026-04-28</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 12px; margin-bottom: 16px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.88rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+.alert-banner { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+.alert-banner h3 { color: #c53030; font-size: 1rem; margin-bottom: 10px; }
+.alert-item { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #fed7d7; font-size: 0.88rem; }
+.alert-item:last-child { border-bottom: none; }
+.milestone-banner { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #f59e0b; border-radius: 12px; padding: 14px 20px; margin-bottom: 16px; }
+.milestone-banner h3 { color: #92400e; font-size: 0.95rem; margin-bottom: 4px; }
+.milestone-content { color: #78350f; font-size: 0.88rem; }
+.badge-tiktok { background: #000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-yt { background: #ff0000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-note { background: #41c9b4; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.sns-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.sns-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.sns-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; color: #2d3748; }
+.sns-table tr:last-child td { border-bottom: none; }
+.school-card { background: #f7fafc; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; border-left: 4px solid #4299e1; }
+.school-card:last-child { margin-bottom: 0; }
+.school-header { font-weight: 700; font-size: 0.88rem; color: #2b6cb0; margin-bottom: 8px; }
+.trial-row { display: flex; gap: 10px; align-items: flex-start; padding: 5px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.87rem; }
+.trial-row:last-child { border-bottom: none; }
+.trial-date { font-weight: 700; color: #276749; min-width: 90px; flex-shrink: 0; }
+.trial-name { font-weight: 600; color: #2d3748; min-width: 100px; flex-shrink: 0; }
+.trial-course { color: #718096; flex: 1; }
+.no-schedule { color: #a0aec0; font-size: 0.85rem; padding: 4px 0; }
+.task-item { padding: 10px 0; border-bottom: 1px solid #f7fafc; font-size: 0.88rem; }
+.task-item:last-child { border-bottom: none; }
+.task-item strong { color: #2d3748; }
+.chip { display: inline-block; background: #edf2f7; border-radius: 20px; padding: 2px 10px; font-size: 0.78rem; color: #4a5568; margin: 2px; }
+.chip-green { background: #f0fff4; color: #276749; }
+.chip-red { background: #fff5f5; color: #c53030; }
+.chip-yellow { background: #fffbeb; color: #92400e; }
+.alert-orange { color: #c05621; font-weight: 700; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-green { color: #276749; font-weight: 700; }
+.alert-blue { color: #2b6cb0; font-weight: 700; }
+.footer { text-align: center; color: #a0aec0; font-size: 0.78rem; padding: 20px; margin-top: 10px; }
+ul { padding-left: 0; list-style: none; }
+ul li { padding: 6px 0; border-bottom: 1px solid #f7fafc; font-size: 0.88rem; }
+ul li:last-child { border-bottom: none; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🌅 Morning Briefing</h1>
+  <div class="date">2026年4月28日（火）</div>
+  <div class="subtitle">SORA申込317件(+2)・CARAS Instagram -1⚠️・SORA Instagram +1🎉・CDST変化なし・むーん行政情報チェック実施</div>
+</div>
+
+<div class="milestone-banner">
+  <h3>🎯 本日のハイライト</h3>
+  <div class="milestone-content">
+    SORA 新体験予定 <strong>5/26 つじおかしんのすけ（小6）追加</strong> ｜ SORA Instagram <strong>516人(+1)</strong>・申込累計 <strong>317件(+2)</strong>🎉 ｜
+    CARAS Instagram <strong>69人(-1)⚠️</strong> ｜ オギラボ noteメンバーシップ公開まで残り <strong>9日</strong>（5/7確定）
+  </div>
+</div>
+
+<div class="alert-banner">
+  <h3>⚠️ 要対応事項</h3>
+  <div class="alert-item"><span>🔴</span><span><strong>【CARAS Instagram -1】</strong> フォロワー 70人→69人に減少。原因確認・コンテンツ見直しを。</span></div>
+  <div class="alert-item"><span>🔴</span><span><strong>【オギラボ noteメンバーシップ】</strong> 5/7(木)公開まで残り<strong>9日</strong>。記事5本準備・告知ショート撮影を今週着手。</span></div>
+  <div class="alert-item"><span>🟡</span><span><strong>【SUPERIOR Instagram Week4 TRIAL】</strong> 91点承認済み投稿が手動投稿待ち継続。<strong>本日中に投稿推奨</strong>（4/29 Week1 GROWTH自動生成前）。</span></div>
+  <div class="alert-item"><span>🟡</span><span><strong>【SORA 新体験追加🆕】</strong> 5/26 つじおかしんのすけ（小6）が新規追加。案内送付を確認。</span></div>
+  <div class="alert-item"><span>🟡</span><span><strong>【関学CDST KGAD報告書】</strong> 提出期限 5/7(木)（残り9日）。荻田さん5/1〜5/4 香川不在のため今週中に作成推奨。</span></div>
+  <div class="alert-item"><span>🔵</span><span><strong>【むーん 行政情報モニタリング（火曜実施）】</strong> 大阪市 障害福祉サービス関連新規通知なし（本日確認済み）。</span></div>
+</div>
+
+<div class="card">
+  <h2>📊 各PJ進捗サマリー</h2>
+  <p><strong>【オギラボ】</strong> TikTok <strong>1,296人</strong>（取得不可・前回値）・YouTube 90人/12本（変化なし）・Note 0人/記事12本（変化なし）。noteメンバーシップ3プラン設定完了・5/7公開確定（残り9日）。<br>🎯 次のアクション: 5/7公開記事5本の本文執筆。告知用TikTok/YouTubeショートの撮影準備。</p><p><strong>【CARAS】</strong> Instagram <strong>69人（-1）</strong>・87件（変化なし）。TikTok 24人/いいね188（変化なし）。4月HPブログ全4回投稿完了。広告運用継続中。<br>🎯 次のアクション: フォロワー減少の原因分析・コンテンツ品質確認。5/7(水)奇数週Instagram VOICE生成。</p><p><strong>【SORA】</strong> 申込累計<strong>317件</strong>（実取得値・+2）。Instagram <strong>516人（+1）</strong>・<strong>284件（+1）</strong>。今後の体験予定: 5/2 たかたえり（小6）・5/9 おおじ兄弟2名・<strong>5/26 つじおかしんのすけ（小6）新規追加</strong>。<br>🎯 次のアクション: 5/2体験（たかたえり）の事前フォロー連絡（残り4日）。5/9おおじ兄弟同日2名の会場・定員確認。5/26つじおかの案内送付。</p><p><strong>【SUPERIOR】</strong> Instagram 4人・17件（変化なし）。生駒 5/7体験: まつもとゆうせい（小2・男）。箕面は近日体験なし。スプレッド累計: 生駒25件・箕面51件・計76件。<br>🎯 次のアクション: Week4 TRIAL投稿（手動・承認済み）を本日中に実行。4/29(水)はWeek1 GROWTH自動生成。5/7生駒体験フォロー連絡準備。</p><p><strong>【健康経営】</strong> サービスパッケージ設計中。西宮市スポーツ振興基金事業との協力方向で合意済み。<br>🎯 次のアクション: 健康診断予約の進捗確認。エビスバスケ塚本氏との日程調整詰め。</p><p><strong>【むーん】</strong> 定員9割稼働中・安定運営継続。令和8年度全届出完了済み。本日（火曜）行政情報モニタリング実施・新規通知なし。<br>🎯 次のアクション: 相談支援専門員向け施設案内PDF（SK-3）の作成着手。</p><p><strong>【TrustFit / PRISM CUP】</strong> 用語「キャスト」に統一確定。設計フェーズ継続中。<br>🎯 次のアクション: ロスターページ・LP制作。5月末フロム・シェフMTGに向けた資料準備を逆算スケジュール化。</p><p><strong>【関学陸上部】</strong> KGAD 4月分報告書作成が必要（期限5/7残り9日）。5/1〜5/4で荻田さん香川（香川県選手権）。本日CDST変化なし。<br>🎯 次のアクション: 4/30(木)までにスプレッドシートのオレンジ日確認 → generate_kgad_report.py 実行 → MOONさんへ提出。</p>
+</div>
+
+<div class="card">
+  <h2>📱 SNSフォロワー実数（本日取得）</h2>
+  <table><thead><tr><th>PJ</th><th>媒体</th><th>フォロワー</th><th>前回比</th><th>確認日</th></tr></thead><tbody><tr><td>オギラボ</td><td>TikTok</td><td>1,296人（前回値）</td><td>取得不可</td><td>4/28</td></tr><tr><td>オギラボ</td><td>YouTube</td><td>90人 / 12本</td><td>±0</td><td>4/28</td></tr><tr><td>オギラボ</td><td>Note</td><td>0人 / 記事12本</td><td>±0</td><td>4/28</td></tr><tr><td>CARAS</td><td>Instagram</td><td><strong>69人</strong> / 87件</td><td><span style='color:#e53e3e'>-1人 ⚠️</span></td><td>4/28</td></tr><tr><td>CARAS</td><td>TikTok</td><td>24人 / いいね188</td><td>±0</td><td>4/28</td></tr><tr><td>SORA</td><td>Instagram</td><td><strong>516人 / 284件</strong></td><td><span style='color:#38a169'>+1人 / +1件</span></td><td>4/28</td></tr><tr><td>SUPERIOR</td><td>Instagram</td><td>4人 / 17件</td><td>±0</td><td>4/28</td></tr></tbody></table>
+</div>
+
+<div class="card">
+  <h2>🏃 体験申込スケジュール</h2>
+  <div class='school-card'><div class='school-header'>🏃 SORA（申込累計317件・実取得）| 今後の体験予定</div><div class='trial-row'><span class='trial-date'>5/2 (土)</span><span class='trial-name'>たかた えり</span><span class='trial-course'>小6 / 観音寺 小学生コース（9:30〜10:30）</span></div><div class='trial-row'><span class='trial-date'>5/9 (土)</span><span class='trial-name'>おおじ たくま</span><span class='trial-course'>小3 / 観音寺 小学生コース（9:30〜10:30）</span></div><div class='trial-row'><span class='trial-date'>5/9 (土)</span><span class='trial-name'>おおじ いくま</span><span class='trial-course'>小1 / 観音寺 小学生コース（9:30〜10:30）</span></div><div class='trial-row' style='background:#f0fff4'><span class='trial-date'>5/26 (火) 🆕</span><span class='trial-name'>つじおか しんのすけ</span><span class='trial-course'>小6 / 小山コーチスタート講習</span></div></div><div class='school-card'><div class='school-header'>🏃 SUPERIOR 生駒（申込累計25件）| 今後の体験予定</div><div class='trial-row'><span class='trial-date'>5/7 (木)</span><span class='trial-name'>まつもと ゆうせい</span><span class='trial-course'>小2・男 / 生駒 小学生コース（16:50〜17:50）</span></div></div><div class='school-card'><div class='school-header'>🏢 SUPERIOR 箕面（申込累計51件）| 今後の体験予定</div><div class='no-schedule'>予定なし</div></div>
+</div>
+
+<div class="card">
+  <h2>📅 関西学院大学陸上部 CDST（本日確認）</h2>
+  <ul><li>✅ <strong>本日（4/28）変更なし</strong> — 全主要列スキャン完了（4/28〜5/30）</li><li>📌 <strong>4/29(水)</strong> T=朝に練習します(富永)（4/27既報・変化なし）</li><li>✅ <strong>5/1(金)</strong> S=荻田香川休み / T=大西香川帰省（変化なし）</li><li>✅ <strong>5/2(土)</strong> C=広島記録会 / D=伊藤（変化なし）</li><li>✅ <strong>5/4(月)</strong> C=香川県選手権 / D=北田、大西、杉本（変化なし）</li><li>✅ <strong>5/6(水)</strong> T=大西香川から帰る（変化なし）</li><li>✅ <strong>5/15〜17(金〜日)</strong> 関西インカレ / S=東日本実業団休み出場（変化なし）</li><li>✅ <strong>5/23(土)〜5/24(日)</strong> C=関西実業団（open有）/ S=ここでるか？（変化なし）</li><li>✅ <strong>5/30(土)</strong> C=東大阪記録会（変化なし）</li><li>⏰ <strong>KGAD報告書 提出期限</strong>: MOONさん→ 5/7(木)（残り9日）/ KGAD→ 5/15(金)</li></ul>
+  <p style="font-size:0.8rem;color:#718096;margin-top:8px;">⏰ KGAD報告書提出期限: MOONさん→ <strong>5/7(木)・残り9日</strong> / KGAD→ 5/15(金)</p>
+</div>
+
+<div class="card">
+  <h2>🎯 今日の推奨アクション</h2>
+  <div class='task-item'><strong>① オギラボ: noteメンバーシップ公開記事5本の準備【最優先】</strong><br>5/7(木)公開まで残り9日。今週中に記事本文の執筆＋告知ショート撮影に着手。TikTok取得不可（エラー）だが前回+28人と好調なので告知タイミングを逃さないこと。</div><div class='task-item'><strong>② SUPERIOR: Instagram Week4 TRIAL を本日中に手動投稿【本日締切】</strong><br>91点承認済みの画像が未投稿継続。4/29(水)Week1 GROWTH自動生成前に必ず投稿。</div><div class='task-item'><strong>③ 関学CDST: KGAD 4月分報告書作成（5/7期限・残り9日）</strong><br>5/1〜5/4は荻田さん香川不在。今週木〜金（4/30まで）に作成・提出が理想。スプレッドシートのオレンジ日確認 → generate_kgad_report.py を実行。</div><div class='task-item'><strong>④ SORA体験フォロー: 5/2 たかたえり（残り4日）・5/9 おおじ兄弟・5/26 つじおかしんのすけ（新規）</strong><br>5/2の事前フォロー連絡を本日〜明日中に。5/26つじおかの案内送付も確認。</div><div class='task-item'><strong>⑤ CARAS Instagram フォロワー減少確認</strong><br>70人→69人（-1）。原因不明のため投稿内容・頻度・ハッシュタグを確認。コンテンツ改善方向を検討。</div><div class='task-item'><strong>⑥ むーん SK-3: 相談支援専門員向け施設案内PDF 作成着手</strong><br>行政情報新規通知なし。次の優先タスクはSK-3。専門家向け資料を整備し紹介ルートを増やす。</div>
+</div>
+
+<div class="card">
+  <h2>🔗 今週のシナジーチャンス</h2>
+  <ul><li>🔗 <strong>オギラボ TikTok好調 → note公開告知</strong>: 1,296人（取得不可だが前週+28人の追い風）を活かし、5/7 noteメンバーシップ公開直前にTikTokで集中告知。GW中に記事仕上げ → 5/6〜7に告知ピーク。</li><li>🔗 <strong>SORA/SUPERIOR → オギラボ TikTok</strong>: GW（5/3〜5/5）運動会シーズン本番。「運動会まで○日！小学生の走りが変わる○秒の習慣」短尺シリーズをSORA申込317件・SUPERIORの実績とともに展開。</li><li>🔗 <strong>CARAS → TrustFit</strong>: Instagram-1のタイミングで投稿内容を見直し、同ターゲット（30〜50代経営者）向けTrustFit告知への動線強化も検討。</li><li>🔗 <strong>むーん → SORA/SUPERIOR</strong>: SK-3施設案内PDF完成後、SORA/SUPERIORコーチとの合同コンテンツ（発達支援×陸上指導）を制作。相談支援専門員への紹介資料としても活用可。</li><li>🔗 <strong>関学陸上部 → オギラボ Note</strong>: 5/4香川県選手権・5/15関西インカレ・5/23-24関西実業団の実績をオギラボNote記事に。5/7公開ラインナップのコンテンツ補強として活用可能。</li></ul>
+</div>
+
+<div class="footer">
+  <p>Daily Morning Briefing | 2026-04-28（火）| AI組織 自動生成</p>
+  <p style="margin-top:4px;">
+    <span class="chip chip-green">✅ SORA 317件(+2)</span>
+    <span class="chip chip-green">✅ SORA Instagram 516人(+1)</span>
+    <span class="chip chip-red">⚠️ CARAS -1</span>
+    <span class="chip chip-green">✅ 5/26 新体験追加</span>
+    <span class="chip chip-green">✅ CDST変化なし</span>
+    <span class="chip chip-green">✅ むーん行政情報チェック実施</span>
+  </p>
+</div>
+
+</div>
+</body>
+</html>

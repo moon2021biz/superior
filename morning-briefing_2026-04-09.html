@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朝のブリーフィング 2026-04-09</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 0 0 16px 16px; margin-bottom: 24px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+.alert-banner { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+.alert-banner h3 { color: #c53030; font-size: 1rem; margin-bottom: 10px; }
+.alert-item { padding: 6px 0; border-bottom: 1px solid #fed7d7; font-size: 0.88rem; }
+.alert-item:last-child { border-bottom: none; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-yellow { color: #92400e; font-weight: 700; }
+.new-badge { background: #e53e3e; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.7rem; font-weight: 700; margin-left: 6px; }
+.proj-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f7fafc; gap: 10px; }
+.proj-row:last-child { border-bottom: none; }
+.proj-name { font-weight: 600; font-size: 0.9rem; flex: 1; color: #2d3748; }
+.proj-pct { font-size: 0.8rem; font-weight: 700; color: white; background: #4299e1; border-radius: 20px; padding: 2px 10px; }
+.proj-status { font-size: 0.82rem; color: #718096; flex: 2; }
+.progress-bar-wrap { width: 80px; height: 6px; background: #e2e8f0; border-radius: 3px; flex-shrink: 0; }
+.progress-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #4299e1, #63b3ed); }
+.sns-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.sns-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.sns-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; color: #2d3748; }
+.sns-table tr:last-child td { border-bottom: none; }
+.sns-up { color: #38a169; font-weight: 700; }
+.sns-same { color: #718096; }
+.badge-tiktok { background: #000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-yt { background: #ff0000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+.school-card { background: #f0fff4; border: 1px solid #9ae6b4; border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
+.school-card-red { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
+.school-header { font-weight: 700; font-size: 0.88rem; color: #276749; margin-bottom: 8px; }
+.school-header-red { font-weight: 700; font-size: 0.88rem; color: #c53030; margin-bottom: 8px; }
+.trial-row { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; font-size: 0.84rem; }
+.trial-date { font-weight: 700; color: #276749; min-width: 140px; }
+.trial-date-red { font-weight: 700; color: #c53030; min-width: 140px; }
+.trial-name { color: #2d3748; }
+.trial-detail { color: #718096; font-size: 0.8rem; }
+.no-schedule { color: #a0aec0; font-size: 0.84rem; padding: 4px 0; }
+.today-alert { background: #fff5f5; border: 2px solid #e53e3e; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; }
+.today-alert-title { color: #c53030; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+.today-person { display: flex; gap: 6px; align-items: center; padding: 3px 0; font-size: 0.84rem; }
+.num-badge { width: 22px; height: 22px; background: #e53e3e; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+.schedule-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+.schedule-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.schedule-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; }
+.schedule-table tr:last-child td { border-bottom: none; }
+.event-tag { background: #e53e3e; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; font-weight: 600; }
+.note-tag { background: #ed8936; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; }
+.change-tag { background: #e53e3e; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; font-weight: 700; }
+.change-row { background: #fff5f5; }
+.action-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f7fafc; }
+.action-item:last-child { border-bottom: none; }
+.action-num { width: 26px; height: 26px; border-radius: 50%; background: #2b6cb0; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+.action-content { flex: 1; }
+.action-title { font-weight: 600; font-size: 0.9rem; color: #2d3748; }
+.action-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+.priority-high { border-left: 3px solid #e53e3e; padding-left: 10px; }
+.priority-mid { border-left: 3px solid #ed8936; padding-left: 10px; }
+.synergy-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f7fafc; }
+.synergy-item:last-child { border-bottom: none; }
+.synergy-icon { font-size: 1.2rem; flex-shrink: 0; }
+.synergy-content .synergy-from { font-weight: 600; font-size: 0.88rem; color: #2d3748; }
+.synergy-content .synergy-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+.footer { text-align: center; color: #a0aec0; font-size: 0.78rem; padding: 20px; margin-top: 10px; }
+.del-text { text-decoration: line-through; color: #a0aec0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌅 朝のブリーフィング</h1>
+  <div class="date">2026年4月9日（木）</div>
+  <div class="subtitle">全プロジェクト自動チェック完了 | daily-morning-briefing v2</div>
+</div>
+<div class="container">
+
+<!-- ⚠️ アラートバナー -->
+<div class="alert-banner">
+  <h3>⚠️ 要対応事項</h3>
+  <div class="alert-item">🔴 <span class="alert-red">【SUPERIOR 本日】</span> 生駒スクール 16:45〜17:45 — <strong>4名体験！</strong> まるやまとうま（小4）・かみよしあさ（小2）・やまざきゆうさ（小2）・てんまはやと（小4）。写真撮影→コンテンツ化チャンス。</div>
+  <div class="alert-item">🔴 <span class="alert-red">【関学大 CDST 新変化】</span> 4/11(土) 兵庫春季・4/12(日) 大阪カーニバル が削除されました（C/D/S列全て空欄に）。スナップショット更新済み。</div>
+  <div class="alert-item">🟡 <span class="alert-yellow">【むーん】</span> SK-3 相談支援専門員向け施設案内PDF が未着手（最優先）。</div>
+  <div class="alert-item">🟡 <span class="alert-yellow">【CARAS】</span> ターゲットペルソナ詳細設計が最優先TODO（全タスクの前提）。</div>
+  <div class="alert-item">🟡 <span class="alert-yellow">【健康経営】</span> サービスパッケージ設計が次ステップ。</div>
+</div>
+
+<!-- 📊 PJ進捗 -->
+<div class="card">
+  <h2>📊 各PJ進捗</h2>
+  <div class="proj-row">
+    <div class="proj-name">オギラボ</div>
+    <div class="proj-pct">42%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:42%"></div></div>
+    <div class="proj-status">TikTok 1,052人（+1🎉）/ YouTube 84人・11本。🎯 noteメンバーシップ設定開始</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">CARAS</div>
+    <div class="proj-pct">61%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:61%"></div></div>
+    <div class="proj-status">Instagram 69人・83件。🎯 ターゲットペルソナ詳細設計（最優先・未着手）</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">健康経営</div>
+    <div class="proj-pct">20%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:20%"></div></div>
+    <div class="proj-status">B2B法人向け。🎯 サービスパッケージ設計完了</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">SORA</div>
+    <div class="proj-pct">48%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:48%"></div></div>
+    <div class="proj-status">Instagram 514人・281件。4/11 観音寺体験1名。🎯 4/11体験準備（へいたくかんた・小3）</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">SUPERIOR</div>
+    <div class="proj-pct">52%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:52%"></div></div>
+    <div class="proj-status">Instagram 3人・16件。<strong>本日生駒4名体験！</strong>🎯 写真撮影→Week2コンテンツ化</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">TrustFit</div>
+    <div class="proj-pct">5%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:5%"></div></div>
+    <div class="proj-status">評価スコアリング確定（4/6）。VIP松竹梅報酬確定。🎯 モニター戦略・LP設計</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">むーん</div>
+    <div class="proj-pct">0%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div>
+    <div class="proj-status">前年度実績届出完了（4/8）・処遇改善加算申請完了（4/4）。🎯 SK-3 施設案内PDF（最優先）</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-name">関西学院大</div>
+    <div class="proj-pct">0%</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div>
+    <div class="proj-status">CDST変化2件検知（4/11・4/12）。KGAD報告書は4/25作成予定。</div>
+  </div>
+</div>
+
+<!-- 📱 SNSフォロワー -->
+<div class="card">
+  <h2>📱 SNSフォロワー実数（本日取得）</h2>
+  <table class="sns-table">
+    <tr><th>PJ</th><th>プラットフォーム</th><th>フォロワー</th><th>投稿数</th><th>前回比</th><th>確認日</th></tr>
+    <tr>
+      <td>オギラボ</td>
+      <td><span class="badge-tiktok">TikTok</span></td>
+      <td><strong>1,052人</strong></td>
+      <td>—</td>
+      <td class="sns-up">+1 🎉</td>
+      <td>04-09</td>
+    </tr>
+    <tr>
+      <td>オギラボ</td>
+      <td><span class="badge-yt">YouTube</span></td>
+      <td>84人</td>
+      <td>11本</td>
+      <td class="sns-same">±0</td>
+      <td>04-07</td>
+    </tr>
+    <tr>
+      <td>CARAS</td>
+      <td><span class="badge-ig">Instagram</span></td>
+      <td>69人</td>
+      <td>83件</td>
+      <td class="sns-same">±0</td>
+      <td>04-09</td>
+    </tr>
+    <tr>
+      <td>SORA</td>
+      <td><span class="badge-ig">Instagram</span></td>
+      <td>514人</td>
+      <td>281件</td>
+      <td class="sns-same">±0</td>
+      <td>04-09</td>
+    </tr>
+    <tr>
+      <td>SUPERIOR</td>
+      <td><span class="badge-ig">Instagram</span></td>
+      <td>3人</td>
+      <td>16件</td>
+      <td class="sns-same">±0</td>
+      <td>04-09</td>
+    </tr>
+  </table>
+</div>
+
+<!-- 2カラム: CDST + 体験申込 -->
+<div class="grid-2">
+
+  <!-- 関学CDST -->
+  <div class="card">
+    <h2>🏃 関学大 CDSTスケジュール</h2>
+    <table class="schedule-table">
+      <tr><th>日付</th><th>試合・合宿等</th><th>備考</th></tr>
+      <tr class="change-row">
+        <td>4/11(土)</td>
+        <td><span class="del-text">兵庫春季</span><br><span class="change-tag">削除 🆕</span></td>
+        <td><span class="del-text">荻田不在、ポール当日大輔</span></td>
+      </tr>
+      <tr class="change-row">
+        <td>4/12(日)</td>
+        <td><span class="del-text">大阪カーニバル</span><br><span class="change-tag">削除 🆕</span></td>
+        <td><span class="del-text">跳躍するならいきますが…</span></td>
+      </tr>
+      <tr><td>4/18(土)</td><td>香川カーニバル<br><small style="color:#718096;">D: 伊藤</small></td><td>午後仕事です。</td></tr>
+      <tr><td>4/19(日)</td><td>兵庫リレーカーニバル<br>広島国スポ記録会<br><small style="color:#718096;">D: 北田(幅)・伊藤 / S: 北田帯同</small></td><td>T: 伊藤就活説明会帰省</td></tr>
+      <tr><td>4/20(月)</td><td>高松室内</td><td>—</td></tr>
+      <tr><td>4/21(火)</td><td>高松室内</td><td>北田</td></tr>
+      <tr><td>4/22(水)</td><td>高松室内</td><td>—</td></tr>
+      <tr><td>4/25(土)</td><td>—</td><td>10時からwebミーティング</td></tr>
+      <tr><td>4/27(月)</td><td>—</td><td>荻田沖縄入り</td></tr>
+      <tr><td>5/1〜6</td><td><span class="event-tag">春合宿</span></td><td>軽め→跳躍→オフ→跳躍→スプリント→おもひで作り</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:0.78rem;color:#718096;">📅 KGAD報告書: 4/25に請求書と同時作成予定（MOON提出期限5/7）</div>
+  </div>
+
+  <!-- SORA + SUPERIOR体験 -->
+  <div>
+    <!-- SORA -->
+    <div class="card" style="margin-bottom:0;">
+      <h2>🏃 SORA 体験申込（申込累計: 307件）</h2>
+      <div class="school-card">
+        <div class="school-header">📍 観音寺スクール</div>
+        <div class="trial-row">
+          <div class="trial-date">4/11(土) 9:30〜10:30</div>
+          <div>
+            <div class="trial-name">へいたく かんた</div>
+            <div class="trial-detail">小3 / 小学生コース</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="card" style="margin-top:16px;margin-bottom:0;">
+      <h2>⚡ SUPERIOR 体験申込（申込累計: 102件）</h2>
+      <!-- 本日4名 -->
+      <div class="today-alert">
+        <div class="today-alert-title">🚨 本日 16:45〜17:45 — 4名体験予定！ 生駒スクール</div>
+        <div class="today-person"><span class="num-badge">①</span> まるやま とうま（小4・男）</div>
+        <div class="today-person"><span class="num-badge">②</span> かみよし あさ（小2・女）</div>
+        <div class="today-person"><span class="num-badge">③</span> やまざき ゆうさ（小2・男）</div>
+        <div class="today-person"><span class="num-badge">④</span> てんま はやと（小4・男）</div>
+      </div>
+      <div class="school-card">
+        <div class="school-header">📍 生駒スクール | 近日予定</div>
+        <div class="trial-row">
+          <div class="trial-date">4/16(木) 16:45〜17:45</div>
+          <div>
+            <div class="trial-name">ごとう りょうすけ</div>
+            <div class="trial-detail">小3・男 / 小学生コース</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#f7fafc;border-radius:8px;padding:8px 12px;font-size:0.83rem;color:#a0aec0;">
+        📍 箕面スクール — 近日予定なし
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🎯 推奨アクション -->
+<div class="card">
+  <h2>🎯 推奨アクション TOP3</h2>
+  <div class="action-item">
+    <div class="action-num">1</div>
+    <div class="action-content priority-high">
+      <div class="action-title">【最優先】SUPERIOR本日体験4名 — 生駒スクール16:45〜17:45</div>
+      <div class="action-desc">まるやまとうま・かみよしあさ・やまざきゆうさ・てんまはやとの4名。体験写真を撮影してWeek2 COACHINGコンテンツに活用。体験後フォロー連絡の準備も忘れずに。</div>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">2</div>
+    <div class="action-content priority-high">
+      <div class="action-title">【関学大 CDST変化確認】4/11兵庫春季・4/12大阪カーニバル 削除</div>
+      <div class="action-desc">本日の確認で4/11兵庫春季と4/12大阪カーニバルのC/D/S列が全て削除されています。スナップショット更新済み。内容に誤りがないかご確認ください。</div>
+    </div>
+  </div>
+  <div class="action-item">
+    <div class="action-num">3</div>
+    <div class="action-content priority-mid">
+      <div class="action-title">SORA 4/11体験準備（へいたくかんた・小3）</div>
+      <div class="action-desc">観音寺スクール 9:30〜10:30。事前連絡・当日の体験案内準備を。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 🔗 シナジー -->
+<div class="card">
+  <h2>🔗 今週のシナジーチャンス</h2>
+  <div class="synergy-item">
+    <div class="synergy-icon">🔗</div>
+    <div class="synergy-content">
+      <div class="synergy-from">SUPERIOR本日体験 → オギラボSNS</div>
+      <div class="synergy-desc">4名体験の様子を「AI×陸上育成の現場レポート」としてオギラボTikTok/Noteコンテンツに転用可能。TikTok 1,052人突破記念の特別コンテンツとしても活用できる。</div>
+    </div>
+  </div>
+  <div class="synergy-item">
+    <div class="synergy-icon">🔗</div>
+    <div class="synergy-content">
+      <div class="synergy-from">春合宿（5/1〜5/6）→ 関学大KGAD報告書</div>
+      <div class="synergy-desc">5/1〜5/6の春合宿はC列「春合宿」として記録済み。4/25のKGAD報告書作成時に合宿日程を含めて記入。</div>
+    </div>
+  </div>
+  <div class="synergy-item">
+    <div class="synergy-icon">🔗</div>
+    <div class="synergy-content">
+      <div class="synergy-from">オギラボTikTok 1,052人突破 → noteメンバーシップ</div>
+      <div class="synergy-desc">1,000人超えを機に「1,000人達成後の正直な気持ち」をnote最初の記事として投稿→メンバーシップ告知へ。</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  🤖 daily-morning-briefing | 2026-04-09 (木) 自動実行 | 株式会社MOON AI組織
+</div>
+</div>
+</body>
+</html>

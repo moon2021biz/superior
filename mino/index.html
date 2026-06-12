@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>箕面フットサル企業交流会 実施計画書｜2026年7月末開催</title>
+<style>
+  :root {
+    --black: #111111;
+    --white: #FAFAFA;
+    --accent: #E8501A;
+    --accent2: #1A6EE8;
+    --grey: #555555;
+    --light: #F2F2F2;
+    --border: #DDDDDD;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif; background: var(--white); color: var(--black); line-height: 1.7; }
+
+  /* HEADER */
+  header {
+    background: var(--black);
+    color: white;
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 400px; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, rgba(232,80,26,0.15) 50%);
+  }
+  .header-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  header h1 span { color: var(--accent); }
+  .header-sub {
+    font-size: 14px;
+    color: #aaa;
+    margin-top: 12px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #ddd;
+  }
+  .header-meta-item .label { color: #888; font-size: 11px; display: block; margin-bottom: 2px; }
+  .header-meta-item .val { font-weight: 700; color: white; }
+
+  /* LAYOUT */
+  main { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+  section { margin-bottom: 48px; }
+  h2 {
+    font-size: 20px;
+    font-weight: 900;
+    border-left: 4px solid var(--accent);
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--grey);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  p { margin-bottom: 10px; font-size: 14px; }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .card .card-label {
+    font-size: 11px;
+    color: var(--grey);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .card .card-value {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.3;
+  }
+  .card .card-sub { font-size: 12px; color: var(--grey); margin-top: 4px; }
+  .card.accent-card {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .card.accent-card .card-label { color: rgba(255,255,255,0.7); }
+  .card.accent-card .card-value { color: white; }
+  .card.accent-card .card-sub { color: rgba(255,255,255,0.8); }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--black);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--light); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 10px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: var(--light);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px; top: 20px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .timeline-item.special::before { background: var(--accent2); box-shadow: 0 0 0 2px var(--accent2); }
+  .timeline-time {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .timeline-item.special .timeline-time { color: var(--accent2); }
+  .timeline-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .timeline-desc { font-size: 12px; color: var(--grey); }
+
+  /* COST BOX */
+  .cost-box {
+    background: var(--black);
+    color: white;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-top: 16px;
+  }
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 13px;
+  }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-row .cost-label { color: #bbb; }
+  .cost-row .cost-val { font-weight: 700; }
+  .cost-row.total .cost-label { color: white; font-weight: 700; font-size: 14px; }
+  .cost-row.total .cost-val { color: var(--accent); font-size: 22px; font-weight: 900; }
+  .cost-row.revenue .cost-val { color: #4CAF50; }
+  .cost-row.profit .cost-val { color: #FFD700; font-size: 18px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--light);
+    border: 1px solid var(--border);
+    color: var(--grey);
+  }
+  .badge.red { background: #FFF0EC; border-color: #FFCCBB; color: var(--accent); }
+  .badge.blue { background: #ECF3FF; border-color: #BBD3FF; color: var(--accent2); }
+  .badge.green { background: #ECFFF0; border-color: #BBFFCC; color: #1a8c3a; }
+
+  /* TODO */
+  .todo-list { list-style: none; }
+  .todo-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .todo-list li:last-child { border-bottom: none; }
+  .todo-check {
+    width: 20px; height: 20px;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .todo-priority { font-size: 11px; color: var(--accent); font-weight: 700; }
+  .todo-owner { font-size: 11px; color: var(--accent2); font-weight: 700; }
+
+  /* INFO BLOCK */
+  .info-block {
+    background: var(--light);
+    border-left: 4px solid var(--accent2);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .info-block strong { color: var(--accent2); }
+
+  /* VENUE */
+  .venue-card {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 600px) { .venue-card { grid-template-columns: 1fr; } }
+  .venue-item .vlabel { font-size: 11px; color: var(--grey); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .venue-item .vval { font-size: 14px; font-weight: 700; }
+
+  /* SYNERGY */
+  .synergy-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--light);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .arrow { font-size: 18px; color: var(--accent); }
+
+  /* PARTNER */
+  .partner-card {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .partner-name { font-size: 15px; font-weight: 900; margin-bottom: 4px; }
+  .partner-role { font-size: 12px; color: var(--grey); margin-bottom: 8px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    margin-top: 60px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">🏃 Internal Plan Document — CONFIDENTIAL</div>
+  <h1>箕面フットサル<span>企業交流会</span></h1>
+  <p style="color:#aaa; margin-top:8px; font-size:15px;">TrustFit × フロム・シェフ 共同企画 | 池田・北摂エリア B2B 新規事業</p>
+  <div class="header-meta">
+    <div class="header-meta-item">
+      <div><span class="label">目標開催日</span><span class="val">2026年7月末</span></div>
+    </div>
+    <div class="header-meta-item">
+      <div><span class="label">会場</span><span class="val">RANDC（箕面市）</span></div>
+    </div>
+    <div class="header-meta-item">
+      <div><span class="label">コート時間</span><span class="val">17:45 〜 19:15（90分）</span></div>
+    </div>
+    <div class="header-meta-item">
+      <div><span class="label">集客パートナー</span><span class="val">フロム・シェフ 青井さん</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SECTION 1: サマリー -->
+  <section>
+    <h2>📋 イベント概要サマリー</h2>
+    <div class="card-grid">
+      <div class="card accent-card">
+        <div class="card-label">目標開催日</div>
+        <div class="card-value">2026.7末</div>
+        <div class="card-sub">7月最終土曜 or 金曜夕方</div>
+      </div>
+      <div class="card">
+        <div class="card-label">コート規模</div>
+        <div class="card-value">1面</div>
+        <div class="card-sub">RANDC フルコート（人工芝）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">利用時間</div>
+        <div class="card-value">90分</div>
+        <div class="card-sub">17:45〜19:15</div>
+      </div>
+      <div class="card">
+        <div class="card-label">想定参加人数</div>
+        <div class="card-value">20〜30名</div>
+        <div class="card-sub">4〜5チーム × 5〜6人</div>
+      </div>
+      <div class="card">
+        <div class="card-label">参加費（テスト）</div>
+        <div class="card-value">5,000円</div>
+        <div class="card-sub">個人参加費（税込）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">懇親会</div>
+        <div class="card-value">RANDC café</div>
+        <div class="card-sub">隣接カフェに移動（任意）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: 会場情報 -->
+  <section>
+    <h2>📍 会場情報 — RANDC（箕面）</h2>
+    <div class="venue-card">
+      <div class="venue-item">
+        <div class="vlabel">施設名</div>
+        <div class="vval">RANDC（ランドシー）</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">住所</div>
+        <div class="vval">〒562-0034 大阪府箕面市西宿2丁目20-6</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">アクセス</div>
+        <div class="vval">阪急箕面萱野駅 徒歩5分（南口より）</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">コート</div>
+        <div class="vval">高密度ショートパイル人工芝（全天候型・空調4台）</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">隣接施設</div>
+        <div class="vval">randc cafe（懇親会に最適）</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">近隣施設</div>
+        <div class="vval">キューズモール（参加者の帰りに便利）</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">駐車場</div>
+        <div class="vval">無料駐車場あり</div>
+      </div>
+      <div class="venue-item">
+        <div class="vlabel">設備</div>
+        <div class="vval">Wi-Fi完備・モニター・着替えスペース</div>
+      </div>
+    </div>
+    <div class="info-block" style="margin-top:16px;">
+      <strong>🔑 ポイント:</strong> RANDCはSUPERIOR箕面スクールが毎週火曜日に使用中の会場。月3回クラスで空いている枠（1回）を活用する設計。施設担当との関係構築済みのため交渉がスムーズ。
+    </div>
+  </section>
+
+  <!-- SECTION 3: タイムライン -->
+  <section>
+    <h2>⏱ 当日タイムライン（90分）</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">17:30〜17:45</div>
+        <div class="timeline-title">受付・着替え</div>
+        <div class="timeline-desc">参加者受付 / ビブス配布 / チーム分け発表 / 軽いストレッチ</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">17:45〜17:55</div>
+        <div class="timeline-title">オープニング（10分）</div>
+        <div class="timeline-desc">荻田代表によるウェルカム挨拶 / 趣旨説明 / 企業間自己紹介タイム（30秒×全チーム）</div>
+      </div>
+      <div class="timeline-item accent-card" style="background:#FFF7F4; border-color:#FFCCBB;">
+        <div class="timeline-time">17:55〜18:45</div>
+        <div class="timeline-title">🏃 フットサルリーグ戦（50分）</div>
+        <div class="timeline-desc">4〜5チームによる総当たり or トーナメント / 各ゲーム8〜10分 / MC実況あり（盛り上がり演出）</div>
+      </div>
+      <div class="timeline-item special">
+        <div class="timeline-time">18:45〜19:00</div>
+        <div class="timeline-title">🏥 健康経営クリニック（15分）</div>
+        <div class="timeline-desc">体組成測定（体脂肪率・筋肉量）/ 荻田代表による「運動×仕事パフォーマンス」ミニトーク（5分） / 健康経営コンサルへの導線</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">19:00〜19:15</div>
+        <div class="timeline-title">表彰・名刺交換タイム（15分）</div>
+        <div class="timeline-desc">MVP表彰 / ベストゴール表彰 / 名刺交換 / RANDC caféへの案内 / TrustFit・次回イベントの案内</div>
+      </div>
+      <div class="timeline-item special">
+        <div class="timeline-time">19:15〜21:00</div>
+        <div class="timeline-title">🍺 懇親会（任意）— randc café</div>
+        <div class="timeline-desc">隣接カフェにそのまま移動 / 参加者同士のビジネス交流 / フロム・シェフ・TrustFitサービスの自然なご紹介</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: ターゲット -->
+  <section>
+    <h2>🎯 ターゲット層</h2>
+    <table>
+      <thead>
+        <tr><th>属性</th><th>詳細</th><th>なぜ刺さるか</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>二代目・三代目経営者</strong></td>
+          <td>30代前後 / 企業規模20〜30名 / 事業承継予定</td>
+          <td>横のつながりニーズ大 / 「他の後継者と話したい」という需要が強い</td>
+        </tr>
+        <tr>
+          <td><strong>JC・JADAN会員</strong></td>
+          <td>青年会議所 / 後継者コミュニティ（JADAN）</td>
+          <td>フットサルをやるメンバーが多い。既存コミュニティ内での拡散効果あり</td>
+        </tr>
+        <tr>
+          <td><strong>大阪産業創造館・大商会員</strong></td>
+          <td>中小企業オーナー / 商工会議所加盟企業</td>
+          <td>交流会ニーズが高い。チラシ・DM配布チャネルとして活用可</td>
+        </tr>
+        <tr>
+          <td><strong>夫婦参加型（社長夫妻）</strong></td>
+          <td>経営者夫婦でのご参加も歓迎</td>
+          <td>夫婦で参加できる希少なビジネスイベント。社長夫人向けエクササイズも併設検討</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-block" style="margin-top:16px;">
+      <strong>💡 訴求ポイント:</strong> 「法人経費で落とせる交流会」「フットサルが参加ハードル低い」「普通の名刺交換会より盛り上がる」「健康経営に取り組んでいる姿をPRできる」
+    </div>
+  </section>
+
+  <!-- SECTION 5: 参加費・収支 -->
+  <section>
+    <h2>💰 参加費設定と収支試算</h2>
+    <p style="font-size:13px; color:var(--grey); margin-bottom:16px;">テスト開催（第1回）を想定した保守的な試算です。</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div>
+        <h3>参加費（テスト設定）</h3>
+        <table>
+          <thead><tr><th>プラン</th><th>金額</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td>個人参加費</td><td><strong>5,000円</strong></td><td>テスト開催の設定</td></tr>
+            <tr><td>懇親会（任意）</td><td>2,000〜3,000円</td><td>RANDC café 実費</td></tr>
+            <tr><td>将来的な設定</td><td>1チーム 10万円</td><td>プリズムカップ基準（将来）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>コスト概算（1回）</h3>
+        <table>
+          <thead><tr><th>項目</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td>コート料金（1面・90分）</td><td>約 13,000円</td></tr>
+            <tr><td>体組成測定機器（CARASより借用）</td><td>0円</td></tr>
+            <tr><td>参加賞・賞品</td><td>3,000〜5,000円</td></tr>
+            <tr><td>MC・進行</td><td>0円（荻田代表）</td></tr>
+            <tr><td>チラシ・告知</td><td>〜2,000円</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cost-box" style="margin-top:20px;">
+      <div style="font-size:12px; color:#888; margin-bottom:12px; letter-spacing:1px;">■ 収支シミュレーション（参加20名・個人5,000円）</div>
+      <div class="cost-row"><span class="cost-label">参加費収入（20名×5,000円）</span><span class="cost-val revenue">¥100,000</span></div>
+      <div class="cost-row"><span class="cost-label">コート料金</span><span class="cost-val">−¥13,000</span></div>
+      <div class="cost-row"><span class="cost-label">備品・賞品等</span><span class="cost-val">−¥7,000</span></div>
+      <div class="cost-row total"><span class="cost-label">収支（概算）</span><span class="cost-val profit">+¥80,000</span></div>
+      <div style="font-size:11px; color:#888; margin-top:12px;">※ 懇親会は別精算のため収支に含まず。15名参加でも+¥55,000で黒字。</div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: 集客計画 -->
+  <section>
+    <h2>📣 集客計画（ステップ別）</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>チャネル</th><th>担当</th><th>目標人数</th><th>コスト</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 最優先</strong></td>
+          <td>JC（青年会議所）・JADAN 経由<br><span class="badge blue">青井さん集客支援</span></td>
+          <td>青井さん（フロム・シェフ）</td>
+          <td>10〜15名</td>
+          <td>交流会参加費程度</td>
+        </tr>
+        <tr>
+          <td><strong>②</strong></td>
+          <td>MOON既存人脈（経営者クライアント）<br><span class="badge red">最高確度</span></td>
+          <td>荻田代表</td>
+          <td>5〜8名</td>
+          <td>ゼロ</td>
+        </tr>
+        <tr>
+          <td><strong>③</strong></td>
+          <td>フロム・シェフ HowsportS 会員（池田市）<br><span class="badge green">親和性高い</span></td>
+          <td>青井さん・矢澤さん</td>
+          <td>3〜5名</td>
+          <td>ゼロ</td>
+        </tr>
+        <tr>
+          <td><strong>④</strong></td>
+          <td>大阪産業創造館・大阪商工会議所チラシ</td>
+          <td>共同</td>
+          <td>2〜5名</td>
+          <td>〜2,000円</td>
+        </tr>
+        <tr>
+          <td><strong>⑤</strong></td>
+          <td>Instagram DM・Peatix掲載</td>
+          <td>MOON側</td>
+          <td>2〜5名</td>
+          <td>ゼロ〜無料</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-block" style="margin-top:16px;">
+      <strong>🎯 目標:</strong> 第1回は <strong>20〜25名で黒字開催</strong> を最低ラインとする。青井さんの二代目コミュニティ経由が核。人数より「来てほしい質の参加者」を優先。
+    </div>
+  </section>
+
+  <!-- SECTION 7: パートナー体制 -->
+  <section>
+    <h2>🤝 パートナー体制</h2>
+    <div class="partner-card">
+      <div class="partner-name">フロム・シェフ株式会社 <span class="badge blue">共同企画者・集客パートナー</span></div>
+      <div class="partner-role">ビジョン: スポーツと健康を通じて社会を豊かにする</div>
+      <table style="margin-top:8px;">
+        <tr><td style="width:100px; color:var(--grey); font-size:12px;">担当</td><td>青井さん（箕面スクール担当）/ 矢澤さん（横浜市場）</td></tr>
+        <tr><td style="color:var(--grey); font-size:12px;">事業</td><td>スポーツコンサルティング / フィットネス事業（HowsportS / 池田市）/ 健康経営コンサルティング</td></tr>
+        <tr><td style="color:var(--grey); font-size:12px;">役割</td><td>JC・JADAN等コミュニティ経由の集客支援 / RANDC会場のコネクション / 懇親会設計</td></tr>
+        <tr><td style="color:var(--grey); font-size:12px;">次回MTG</td><td>2026年5月末予定</td></tr>
+      </table>
+    </div>
+    <div class="partner-card">
+      <div class="partner-name">株式会社MOON（荻田代表）<span class="badge red">主催・コンテンツ担当</span></div>
+      <div class="partner-role">陸上オリンピアン / TrustFit設計者 / SUPERIOR代表</div>
+      <table style="margin-top:8px;">
+        <tr><td style="width:100px; color:var(--grey); font-size:12px;">役割</td><td>MC・進行 / 健康経営クリニック（ミニ講演）/ 運営統括 / TrustFit案内</td></tr>
+        <tr><td style="color:var(--grey); font-size:12px;">強み</td><td>オリンピアンとしての知名度で参加者の満足度・SNS拡散価値が上がる</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 8: シナジー設計 -->
+  <section>
+    <h2>🔗 事業シナジー設計（TrustFit バックエンド導線）</h2>
+    <div class="synergy-row">
+      <div>🏃 <strong>フットサル参加</strong></div>
+      <div class="arrow">→</div>
+      <div>🏥 <strong>体組成測定・健康クリニック</strong>（当日体験）</div>
+      <div class="arrow">→</div>
+      <div>💼 <strong>TrustFitサービスの自然な紹介</strong>（懇親会）</div>
+    </div>
+    <div class="synergy-row">
+      <div>🤝 <strong>経営者ネットワーキング</strong></div>
+      <div class="arrow">→</div>
+      <div>📊 <strong>健康経営コンサルへの関心</strong></div>
+      <div class="arrow">→</div>
+      <div>📝 <strong>法人契約・TrustFit導入</strong></div>
+    </div>
+    <div class="synergy-row">
+      <div>📸 <strong>イベント写真・動画</strong></div>
+      <div class="arrow">→</div>
+      <div>📱 <strong>SNS発信（Instagram/TikTok）</strong></div>
+      <div class="arrow">→</div>
+      <div>🎯 <strong>次回参加者の集客</strong>（口コミ拡散）</div>
+    </div>
+    <div class="synergy-row">
+      <div>🏫 <strong>SUPERIOR箕面スクール（子ども）</strong></div>
+      <div class="arrow">→</div>
+      <div>👨‍💼 <strong>大人向けイベント（同会場）</strong></div>
+      <div class="arrow">→</div>
+      <div>🔄 <strong>保護者層へのCARAS紹介</strong></div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: 将来ロードマップ -->
+  <section>
+    <h2>📅 ロードマップ</h2>
+    <table>
+      <thead><tr><th>時期</th><th>マイルストーン</th><th>目標</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>2026年4〜5月</strong></td>
+          <td>企画詳細確定 / 告知準備</td>
+          <td>日程確定・チラシ作成・青井さんとLINEでアイデア共有</td>
+        </tr>
+        <tr>
+          <td><strong>2026年6月</strong></td>
+          <td>集客開始 / 申込受付</td>
+          <td>JC・JADAN・既存人脈にアプローチ。目標: 20名確定</td>
+        </tr>
+        <tr>
+          <td><strong>2026年7月末</strong> 🎯</td>
+          <td><strong>第1回 箕面フットサル企業交流会</strong></td>
+          <td>20〜25名・黒字開催・SNS発信・TrustFit導線確立</td>
+        </tr>
+        <tr>
+          <td><strong>2026年8月〜</strong></td>
+          <td>月1回定期開催へ</td>
+          <td>RANDCの空き枠を活用した定期イベント化。参加費を段階的に引き上げ</td>
+        </tr>
+        <tr>
+          <td><strong>2026年下半期</strong></td>
+          <td>横浜（プリズムカップ）との2拠点展開</td>
+          <td>関西（箕面）× 関東（横浜）の2拠点でTrustFit B2Bマーケティング基盤を構築</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 10: TODO -->
+  <section>
+    <h2>✅ アクションアイテム</h2>
+    <ul class="todo-list">
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>開催日の確定</strong> — 7月末の土曜日or金曜夕方で候補日を2〜3つ絞る</div>
+          <div><span class="todo-priority">🔴 最優先</span> <span class="todo-owner">MOON + 青井さん</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>RANDCに1面コート予約</strong> — 17:45〜19:15（90分）の枠を確保</div>
+          <div><span class="todo-priority">🔴 最優先</span> <span class="todo-owner">MOON（SUPERIOR担当ルートで）</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>告知チラシ・申込フォーム作成</strong> — 1枚モノ + Peatix or Google フォーム</div>
+          <div><span class="todo-priority">🟡 重要</span> <span class="todo-owner">MOON（Claude作成）</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>青井さん・矢澤さんへ告知素材を共有</strong> — LINEでJC・JADAN向けに展開してもらう</div>
+          <div><span class="todo-priority">🟡 重要</span> <span class="todo-owner">MOON → 青井さん</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>体組成測定機器の手配確認</strong> — CARASから借用 or レンタル</div>
+          <div><span class="todo-priority">🟡 重要</span> <span class="todo-owner">MOON</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>randc café に懇親会スペース確認</strong> — 人数・料金・予約方法</div>
+          <div><span class="todo-priority">🟢 中</span> <span class="todo-owner">MOON or 青井さん</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>5月末にフロム・シェフとMTG設定</strong> — 進捗確認 + SUPERIOR更新判断</div>
+          <div><span class="todo-priority">🟡 重要</span> <span class="todo-owner">MOON + 青井さん</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="todo-check"></div>
+        <div>
+          <div><strong>健康経営認定企業リストへのDM送付</strong> — イベント告知として活用</div>
+          <div><span class="todo-priority">🟢 中</span> <span class="todo-owner">MOON（フロム・シェフと共同）</span></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <div style="background:var(--light); border-radius:8px; padding:20px; font-size:12px; color:var(--grey); border:1px solid var(--border);">
+    <strong>作成日:</strong> 2026-04-15 ／ <strong>作成者:</strong> Claude（株式会社MOON AI組織）<br>
+    このドキュメントはTrustFit/CONTEXT.mdおよびSUPERIOR/CONTEXT.mdと連動しています。
+  </div>
+
+</main>
+
+<footer>
+  TrustFit × フロム・シェフ｜箕面フットサル企業交流会 実施計画書 — Internal Use Only — 2026-04-15
+</footer>
+
+</body>
+</html>

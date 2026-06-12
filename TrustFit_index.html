@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit & PRISM CUP — ドキュメント一覧</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --gold: #C4A45A;
+    --gold-light: #e0c478;
+    --white: #F8F8F8;
+    --grey: #888;
+    --prism1: #ff6b6b;
+    --prism2: #ffa500;
+    --prism3: #ffe066;
+    --prism4: #51cf66;
+    --prism5: #339af0;
+    --prism6: #9775fa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── ヘッダー ── */
+  header {
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1208 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 200px;
+    background: radial-gradient(ellipse, rgba(196,164,90,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .logo-prism {
+    height: 64px;
+    width: auto;
+  }
+  .header-divider {
+    width: 1px;
+    height: 50px;
+    background: var(--border);
+  }
+  .brand-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+  .brand-sub {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--grey);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  .header-tagline {
+    font-size: 13px;
+    color: var(--grey);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .header-tagline span {
+    color: var(--gold-light);
+  }
+
+  /* ── メインコンテンツ ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── セクション ── */
+  .section {
+    margin-bottom: 52px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    font-size: 20px;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .section-count {
+    font-size: 11px;
+    color: var(--grey);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+
+  /* ── カードグリッド ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    border-color: var(--gold);
+    background: var(--surface2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196,164,90,0.12);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  /* PRISMカードのアクセントカラー */
+  .card.prism::before { background: linear-gradient(180deg, var(--prism1), var(--prism2), var(--prism3), var(--prism4), var(--prism5), var(--prism6)); }
+  .card.prism:hover { border-color: var(--prism3); box-shadow: 0 8px 24px rgba(255,224,102,0.12); }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(196,164,90,0.1);
+    border: 1px solid rgba(196,164,90,0.25);
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    width: fit-content;
+  }
+  .card-badge.prism {
+    color: var(--prism3);
+    background: rgba(255,224,102,0.08);
+    border-color: rgba(255,224,102,0.2);
+  }
+  .card-badge.external {
+    color: #51cf66;
+    background: rgba(81,207,102,0.08);
+    border-color: rgba(81,207,102,0.2);
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--white);
+  }
+  .card-desc {
+    font-size: 11px;
+    color: var(--grey);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+  .card-arrow {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 11px;
+    color: var(--grey);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+  }
+  .card:hover .card-arrow { color: var(--gold); }
+
+  /* ── 注目カード（フル幅） ── */
+  .card-featured {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #1a1208, #111111);
+    border-color: rgba(196,164,90,0.4);
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+  }
+  .card-featured .card-text { flex: 1; }
+  .card-featured .card-title { font-size: 16px; }
+  .card-featured .card-arrow { padding-top: 0; }
+
+  /* ── フッター ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 600px) {
+    .cards { grid-template-columns: 1fr; }
+    .card-featured { flex-direction: column; }
+    .header-divider { display: none; }
+    .brand-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <img src="prism cup logo.png" alt="PRISM CUP" class="logo-prism" onerror="this.style.display='none'">
+    <div class="header-divider"></div>
+    <div>
+      <div class="brand-title">TRUSTFIT</div>
+      <div class="brand-sub">Corporate Trainer Matching Platform</div>
+    </div>
+  </div>
+  <div class="header-tagline">「一流が来る。成果の分だけ払う。」— <span>全ドキュメント一覧</span></div>
+</header>
+
+<main>
+
+  <!-- ① コア企画書 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">📋</span>
+      <span class="section-title">コア企画書 · 全体まとめ</span>
+      <span class="section-count">4点</span>
+    </div>
+    <div class="cards">
+      <a href="TrustFit_全体まとめ.html" class="card card-featured">
+        <div class="card-text">
+          <div class="card-badge">⭐ MASTER</div>
+          <div class="card-title">TrustFit — プロジェクト全体まとめ</div>
+          <div class="card-desc">ビジネスモデル・ランク制度・収益設計・ペルソナ・ロードマップを一括収録。最新同期 2026-04-16</div>
+        </div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_事業企画書.html" class="card">
+        <div class="card-badge">企画書</div>
+        <div class="card-title">TrustFit — 事業企画書 2026</div>
+        <div class="card-desc">プロジェクト概要・市場定義・ビジネスモデルの正式企画書</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_全体設計まとめ_20260405.html" class="card">
+        <div class="card-badge">設計書</div>
+        <div class="card-title">全体設計まとめ（内部確認用）</div>
+        <div class="card-desc">2026-04-05時点の全体設計・内部検討用ドキュメント</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_site.html" class="card">
+        <div class="card-badge">サイト</div>
+        <div class="card-title">TrustFit 公式サイト（案）</div>
+        <div class="card-desc">「一流が来る。成果の分だけ払う。」メインLP・公開用</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ② 営業・提案書 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🎯</span>
+      <span class="section-title">営業 · 提案書</span>
+      <span class="section-count">5点</span>
+    </div>
+    <div class="cards">
+      <a href="trustfit-proposal-lp.html" class="card">
+        <div class="card-badge">企業向け LP</div>
+        <div class="card-title">企業向けサービス提案書 LP</div>
+        <div class="card-desc">「一流が来る。成果の分だけ払う。」コンセプトを訴求するLP形式提案書</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_モニター提案書.html" class="card">
+        <div class="card-badge">モニター</div>
+        <div class="card-title">企業向けモニター提案書</div>
+        <div class="card-desc">初期10倍ポイントキャンペーン・モニター企業アプローチ用</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_三者分析_戦略提案.html" class="card">
+        <div class="card-badge">戦略分析</div>
+        <div class="card-title">三者分析 × 戦略提案</div>
+        <div class="card-desc">企業・トレーナー・プラットフォーム三者の課題と価値設計</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_B2B営業戦略/index.html" class="card">
+        <div class="card-badge">営業戦略</div>
+        <div class="card-title">B2B営業戦略</div>
+        <div class="card-desc">「それなら欲しい」を設計する — 人事・社長・社員3パターン商談フレーミング</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_籠谷様_提案書.html" class="card">
+        <div class="card-badge">個別提案</div>
+        <div class="card-title">籠谷様 ご提案書</div>
+        <div class="card-desc">TrustFit × 籠谷様へのパートナー提案書（採用・人材連携）</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ③ サービス設計・分析 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">⚙️</span>
+      <span class="section-title">サービス設計 · 分析レポート</span>
+      <span class="section-count">4点</span>
+    </div>
+    <div class="cards">
+      <a href="TrustFit_サービス設計深掘り_20260404.html" class="card">
+        <div class="card-badge">設計書</div>
+        <div class="card-title">サービス設計 深掘りレポート</div>
+        <div class="card-desc">評価システム・VIPランク・セッション設計・ファネル設計の詳細</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_ポイント設計_収益モデル_20260404.html" class="card">
+        <div class="card-badge">収益モデル</div>
+        <div class="card-title">ポイント詳細設計 × 収益モデル</div>
+        <div class="card-desc">ウォレット設計・4収益ストリーム・スケール試算</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_新機能要件ロードマップ.html" class="card">
+        <div class="card-badge">ロードマップ</div>
+        <div class="card-title">新機能要件 深掘りロードマップ</div>
+        <div class="card-desc">端数消化・匿名予約・エグゼクティブ枠・カルテ等7要件の設計</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_ウェルビーイング経営シナジー.html" class="card">
+        <div class="card-badge">シナジー分析</div>
+        <div class="card-title">ウェルビーイング経営 シナジー分析</div>
+        <div class="card-desc">TrustFit × ウェルビーイング経営の接続と訴求設計</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ④ コンテンツ設計・運営 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">📝</span>
+      <span class="section-title">コンテンツ設計 · 運営資料</span>
+      <span class="section-count">4点</span>
+    </div>
+    <div class="cards">
+      <a href="TrustFit_content_fulldesign.html" class="card">
+        <div class="card-badge">コンテンツ設計</div>
+        <div class="card-title">コンテンツ全体設計書</div>
+        <div class="card-desc">TrustFitプラットフォームのコンテンツカテゴリ・配信設計の全体像</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="TrustFit_content_structure.html" class="card">
+        <div class="card-badge">構造提案</div>
+        <div class="card-title">MOONコンテンツ構造提案</div>
+        <div class="card-desc">MOONとしての提供コンテンツの構造・カテゴリ設計</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="trustfit-content-menu-v2.html" class="card">
+        <div class="card-badge">メニュー表</div>
+        <div class="card-title">コンテンツメニュー v2</div>
+        <div class="card-desc">トレーナー向けコンテンツメニュー・料金・ランク別一覧</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="trustfit-terms.html" class="card">
+        <div class="card-badge">利用規約</div>
+        <div class="card-title">TrustFit 利用規約</div>
+        <div class="card-desc">企業・トレーナー向け利用規約ドラフト</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ⑤ PRISM CUP -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🏆</span>
+      <span class="section-title">PRISM CUP 2026</span>
+      <span class="section-count">9点</span>
+    </div>
+    <div class="cards">
+      <a href="prismcup-master.html" class="card prism card-featured">
+        <div class="card-text">
+          <div class="card-badge prism">⭐ MASTER DASHBOARD</div>
+          <div class="card-title">PRISM CUP — マスターダッシュボード</div>
+          <div class="card-desc">7月4日（土）アソビル ／ 全体進捗・TO DO・各資料へのリンク集</div>
+        </div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup-proposal.html" class="card prism">
+        <div class="card-badge prism">企業向け案内</div>
+        <div class="card-title">PRISM CUP — 企業向け案内書</div>
+        <div class="card-desc">「仕事仲間と本気で遊ぶ」 — 参加企業向けイベント概要・参加費10万円の価値設計</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup_proposal.html" class="card prism">
+        <div class="card-badge prism">協力者向け</div>
+        <div class="card-title">PRISM CUP — 企画書（協力者向け）</div>
+        <div class="card-desc">キャスト・パートナー向けのプロジェクト概要・協力依頼書</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup-timeschedule.html" class="card prism">
+        <div class="card-badge prism">当日進行</div>
+        <div class="card-title">タイムスケジュール</div>
+        <div class="card-desc">当日18:00〜22:00のタイムライン・進行表</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup_cast_guide.html" class="card prism">
+        <div class="card-badge prism">キャスト向け</div>
+        <div class="card-title">出演者・キャスト向け案内</div>
+        <div class="card-desc">佐々木さん・岩本さん・脇坂さん・荻田代表等キャスト用ガイド</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup_company_notice.html" class="card prism">
+        <div class="card-badge prism">参加企業</div>
+        <div class="card-title">参加企業向け正式案内状</div>
+        <div class="card-desc">参加確定企業へ送付する正式案内・注意事項・当日準備事項</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup_participant_guide.html" class="card prism">
+        <div class="card-badge prism">参加者</div>
+        <div class="card-title">参加者ガイド</div>
+        <div class="card-desc">選手・参加メンバー向けの当日ガイド・持ち物・注意事項</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup_sponsor.html" class="card prism">
+        <div class="card-badge prism">スポンサー</div>
+        <div class="card-title">協賛スポンサー募集</div>
+        <div class="card-desc">AKTR・各社向けスポンサーメニュー・露出プラン</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+      <a href="prismcup-dm-templates.html" class="card prism">
+        <div class="card-badge prism">DM テンプレ</div>
+        <div class="card-title">DM テンプレート集</div>
+        <div class="card-desc">集客DM・スポンサーDM・パートナーアプローチ用テンプレ一式</div>
+        <div class="card-arrow">開く →</div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  TrustFit / PRISM CUP — Document Index ｜ 株式会社MOON ｜ trustfit.biz@moontf.com
+</footer>
+
+</body>
+</html>

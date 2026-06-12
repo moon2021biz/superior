@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP — DM文章テンプレート集</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+:root {
+  --primary: #0d1b2a;
+  --accent: #e63946;
+  --accent2: #457b9d;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #1d3557;
+  --muted: #6c757d;
+  --gold: #f4a261;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+.header { background: linear-gradient(135deg, var(--primary) 0%, var(--accent2) 100%); color: #fff; padding: 40px 24px; text-align: center; }
+.header h1 { font-size: 24px; font-weight: 900; letter-spacing: 2px; margin-bottom: 8px; }
+.header p { font-size: 13px; opacity: 0.8; }
+.container { max-width: 900px; margin: 0 auto; padding: 32px 16px; }
+
+.usage-box { background: var(--card); border-radius: 12px; padding: 24px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--gold); }
+.usage-box h2 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+.usage-box p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.usage-box code { background: #edf2f4; padding: 2px 8px; border-radius: 4px; font-size: 13px; color: var(--accent); }
+
+.template-section { margin-bottom: 40px; }
+.template-label { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; }
+.template-label.email { background: var(--accent2); }
+.template-label.instagram { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+.template-label.phone { background: #2d6a4f; }
+
+.template-card { background: var(--card); border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 20px; }
+.template-header { padding: 16px 24px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.template-header h3 { font-size: 16px; font-weight: 700; }
+.template-tag { display: inline-block; background: #edf2f4; padding: 2px 10px; border-radius: 4px; font-size: 11px; color: var(--accent2); font-weight: 600; }
+.template-body { padding: 24px; position: relative; }
+.template-body pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--text);
+  background: #fafbfc;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+}
+.copy-btn {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 1;
+}
+.copy-btn:hover { background: var(--accent); }
+.copy-btn.copied { background: #2d6a4f; }
+
+.placeholder { background: #fff3cd; padding: 1px 6px; border-radius: 3px; font-weight: 700; color: #856404; }
+.note { font-size: 13px; color: var(--muted); padding: 12px 24px 20px; border-top: 1px dashed #eee; }
+.note strong { color: var(--primary); }
+
+.tips-box { background: linear-gradient(135deg, var(--primary) 0%, #1d3557 100%); color: #fff; border-radius: 12px; padding: 28px 24px; margin-top: 32px; }
+.tips-box h2 { font-size: 18px; margin-bottom: 16px; }
+.tips-box ul { padding-left: 20px; }
+.tips-box li { font-size: 14px; margin-bottom: 10px; opacity: 0.9; line-height: 1.7; }
+
+.footer { text-align: center; padding: 32px 20px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="text-align:center; padding:0 0 16px;">
+    <img src="prism cup logo.png" alt="PRISM CUP" style="height:80px; width:auto; display:inline-block;">
+  </div>
+  <h1>PRISM CUP — DM文章テンプレート集</h1>
+  <p>メール / Instagram DM / 電話フォロー の3パターン</p>
+</div>
+
+<div class="container">
+
+  <!-- 使い方 -->
+  <div class="usage-box">
+    <h2>使い方</h2>
+    <p><code class="placeholder">【企業名】</code> <code class="placeholder">【社長名/担当者名】</code> <code class="placeholder">【キラーワード】</code> の部分を、候補リストの情報に差し替えてください。</p>
+    <p><code class="placeholder">【企画書URL】</code> は Netlifyに公開した prismcup-proposal.html のURLに差し替えてください。</p>
+    <p>各テンプレートの右上「コピー」ボタンでクリップボードにコピーできます。</p>
+  </div>
+
+  <!-- ===== PATTERN 1: メール ===== -->
+  <div class="template-section">
+    <div class="template-label email">📧 PATTERN 1 — メール</div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>初回アプローチメール（汎用版）</h3>
+        <span class="template-tag">初回接触</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="email-general">件名：【ご招待】プロアスリートと対戦する企業フットサルイベント｜PRISM CUP 2026
+
+<span class="placeholder">【社長名/担当者名】</span> 様
+
+突然のご連絡失礼いたします。
+株式会社MOON 代表の荻田と申します。
+
+この度、2026年7月4日（金）に横浜アソビルにて
+企業対抗フットサルイベント「PRISM CUP 2026」を開催いたします。
+
+元Jリーガー・オリンピアン・五輪トレーナーなどのプロフェッショナルが
+各チームに参加し、一緒にプレーする招待制のイベントです。
+
+<span class="placeholder">【企業名】</span> 様にお声がけした理由は、
+<span class="placeholder">【キラーワード（例：健康経営優良法人の認定実績がおありで、社員の健康促進に積極的な企業文化に共感したため）】</span>です。
+
+▼ イベント詳細はこちら
+<span class="placeholder">【企画書URL】</span>
+
+【参加概要】
+・日時：2026年7月4日（金）18:00〜22:00
+・会場：横浜アソビル（横浜駅東口 徒歩2分）
+・参加費：10万円/チーム（5〜8名1チーム）
+・含まれるもの：撮影データ納品・健康経営クリニック・企業間ネットワーキング等
+
+限定10社の招待制となっております。
+ご興味がございましたら、本メールへのご返信で構いません。
+
+ご多忙のところ恐れ入りますが、
+ご検討いただけますと幸いです。
+
+━━━━━━━━━━━━━━━━━━
+株式会社MOON
+代表 荻田大樹
+Mail: trustfit.biz@moontf.com
+━━━━━━━━━━━━━━━━━━</pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>キラーワード部分は候補リストの「killer-box」を参照し、各社に合わせた理由に差し替える。件名の「ご招待」がスノッブ効果を演出。
+      </div>
+    </div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>健康経営認定企業向け特化版</h3>
+        <span class="template-tag">健康経営系</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="email-health">件名：健康経営の「次の一手」に｜プロアスリート×企業チームのフットサルイベント
+
+<span class="placeholder">【社長名/担当者名】</span> 様
+
+突然のご連絡失礼いたします。
+株式会社MOON 代表の荻田と申します。
+陸上競技のオリンピアンとして活動しております。
+
+<span class="placeholder">【企業名】</span> 様が健康経営に積極的に取り組まれていることを拝見し、
+ぜひご紹介したいイベントがありご連絡しました。
+
+7月4日（金）横浜アソビルにて、元Jリーガーやオリンピアンと一緒に
+フットサルで汗を流す企業対抗イベント「PRISM CUP」を開催します。
+
+ただのスポーツイベントではなく——
+・五輪サポートトレーナーによる健康経営ミニクリニック
+・当日の撮影データ納品
+・企業間ネットワーキング＆1分間ピッチタイム
+が全てパッケージに含まれています。
+
+健康経営優良法人の認定に向けた「社員参加型の健康施策実績」
+としてもご活用いただけます。
+
+▼ 詳細
+<span class="placeholder">【企画書URL】</span>
+
+限定10社です。ご興味あればご返信ください。
+
+━━━━━━━━━━━━━━━━━━
+株式会社MOON
+代表 荻田大樹
+Mail: trustfit.biz@moontf.com
+━━━━━━━━━━━━━━━━━━</pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>エクサ・IDAJ・エヌエフ回路設計ブロックなど、健康経営認定済み or 福利厚生充実企業に刺さるパターン。「健康経営の次の一手」というフレーミングで予算枠を変える。
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PATTERN 2: Instagram DM ===== -->
+  <div class="template-section">
+    <div class="template-label instagram">📱 PATTERN 2 — Instagram DM</div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>Instagram DM（カジュアル版）</h3>
+        <span class="template-tag">DM初回</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="dm-casual">はじめまして！
+株式会社MOONの荻田と申します。
+
+突然のDM失礼します。
+
+<span class="placeholder">【企業名】</span> さんの投稿を拝見して、
+<span class="placeholder">【キラーワード（例：社内でフットサル部の活動をされていたり、チームワークを大切にされている社風）】</span>に共感し、
+お声がけさせていただきました。
+
+実は7/4（金）に横浜アソビルで
+「PRISM CUP」という企業対抗フットサル大会を開催します。
+
+元Jリーガーやオリンピアンが
+各チームに入って一緒にプレーする
+招待制のイベントです。
+
+撮影データ納品もあるので
+採用PRにもそのまま使えます。
+
+▼ 詳細はこちらです
+<span class="placeholder">【企画書URL】</span>
+
+もし少しでもご興味あれば
+お気軽にご返信ください！</pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>Instagram DMは短く・テンポよく。改行多め、1文を短くする。「投稿を拝見して」は必ず実際の投稿を確認してから送る。URLは1つだけ。
+      </div>
+    </div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>Instagram DM（スポーツ系企業向け）</h3>
+        <span class="template-tag">スポーツ親和性高</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="dm-sports">はじめまして！
+陸上のオリンピアンをやっている
+荻田（株式会社MOON代表）です。
+
+<span class="placeholder">【企業名】</span> さんの
+<span class="placeholder">【キラーワード（例：地元サッカークラブのスポンサー活動）】</span>を見て
+「この会社さんと一緒にやりたい！」と思い
+DMしました。
+
+7/4（金）横浜アソビルで
+企業対抗フットサルイベントやります。
+
+元Jリーガー・五輪トレーナーが参加する
+ガチ×エンタメのイベントです。
+
+<span class="placeholder">【企業名】</span> さんなら
+とても楽しんでもらえると思います。
+
+よかったら詳細見てみてください！
+<span class="placeholder">【企画書URL】</span></pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>カメガヤ（大豆戸FCスポンサー）・KIA（フットサル大会14回実績）・funbalance（スポーツ健康事業）など、スポーツとの接点がある企業に。「一緒にやりたい」という熱量を前面に。
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PATTERN 3: 電話フォロー ===== -->
+  <div class="template-section">
+    <div class="template-label phone">📞 PATTERN 3 — 電話フォロー</div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>電話フォロー台本（メール/DM送付後）</h3>
+        <span class="template-tag">フォローアップ</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="phone-followup">【電話フォロー台本】
+
+▼ 受付突破
+「お忙しいところ恐れ入ります。
+ 株式会社MOONの荻田と申します。
+ 先日、<span class="placeholder">【社長名/担当者名】</span> 様宛に
+ イベントのご案内をお送りしたのですが、
+ ご確認いただけましたでしょうか？」
+
+▼ 担当者に繋がった場合
+「お忙しいところありがとうございます。
+ 株式会社MOONの荻田です。
+
+ 先日メール（/DM）でご案内した
+ 企業対抗フットサルイベント「PRISM CUP」の件で
+ お電話しました。
+
+ 7月4日に横浜アソビルで開催する
+ 招待制のイベントなのですが、
+ 元Jリーガーやオリンピアンが各チームに入って
+ 一緒にプレーするという内容です。
+
+ <span class="placeholder">【企業名】</span> さんにお声がけしたのは、
+ <span class="placeholder">【キラーワード（1行に短縮）】</span>
+ というところに共感しまして。
+
+ ▼ 相手の反応に応じて ▼
+
+ 【興味あり】
+ ありがとうございます！
+ 詳細はお送りしたURLにまとめてあるのですが、
+ 何かご不明な点があれば直接お話しできます。
+ 1チーム5〜8名で10万円、撮影データの納品や
+ 企業間の交流会も含まれています。
+ 社内でご検討いただくのに、資料が必要でしたら
+ 別途お送りすることもできます。
+
+ 【まだ見てない】
+ 失礼しました！
+ では改めてURLをお送りしますので、
+ お手すきの際にご覧いただけますと嬉しいです。
+ 来週あたり、もう一度ご連絡させていただいても
+ よろしいでしょうか？
+
+ 【興味なし】
+ 承知しました。お時間いただきありがとうございます。
+ もし今後、社内イベントやチームビルディングの
+ ご検討の際にはお声がけいただけると嬉しいです。
+ それでは失礼いたします。」</pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>メール or DM送付から2〜3営業日後にフォロー電話。キラーワードは1行に短縮して使う。「興味なし」でも次の接点を残す一言を添える。
+      </div>
+    </div>
+
+    <div class="template-card">
+      <div class="template-header">
+        <h3>電話台本（初回・メール未送付の場合）</h3>
+        <span class="template-tag">コールドコール</span>
+      </div>
+      <div class="template-body">
+        <button class="copy-btn" onclick="copyTemplate(this)">コピー</button>
+        <pre id="phone-cold">【コールドコール台本】
+
+▼ 受付突破
+「お忙しいところ恐れ入ります。
+ 株式会社MOONの荻田と申します。
+ 御社の福利厚生ご担当者様、もしくは
+ 総務部の方はいらっしゃいますでしょうか？
+ 7月に横浜で開催する企業向けイベントの
+ ご案内でお電話しております。」
+
+※ 社長直通の場合：
+「<span class="placeholder">【社長名】</span> 様でいらっしゃいますか？
+ お忙しいところ恐れ入ります。
+ 株式会社MOONの荻田と申します。
+ 陸上競技のオリンピアンをしております。」
+
+▼ 本題（30秒で伝える）
+「7月4日に横浜アソビルで
+ 企業対抗のフットサルイベントを開催します。
+
+ 元Jリーガーやオリンピアンがチームに入って
+ 一緒にプレーする招待制のイベントで、
+ 撮影データも納品するので
+ 採用PRにもそのまま使っていただけます。
+
+ <span class="placeholder">【企業名】</span> さんは
+ <span class="placeholder">【キラーワード（1行）】</span>
+ ということで、ぜひお声がけしたいと思いまして。
+
+ 詳しい資料をメールでお送りしてもよろしいですか？」
+
+▼ メールアドレスを聞けた場合
+「ありがとうございます！
+ 本日中にイベント概要のURLをお送りします。
+ お手すきの際にご覧いただいて、
+ もしご興味あれば、またお電話させてください。」</pre>
+      </div>
+      <div class="note">
+        <strong>ポイント：</strong>コールドコールは「30秒で概要を伝えてメールを送る許可を取る」が目標。売り込まない。オリンピアンの肩書きが受付突破の鍵。
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TIPS ===== -->
+  <div class="tips-box">
+    <h2>営業アプローチ TIPS</h2>
+    <ul>
+      <li><strong>優先順位</strong>：S→A→Bランクの順にアプローチ。Sランクは全チャネル（メール＋DM＋電話）で攻める</li>
+      <li><strong>タイミング</strong>：メール/DM送信は火〜木の午前中がベスト。月曜と金曜は避ける</li>
+      <li><strong>フォロー</strong>：メール送付→3営業日後に電話→1週間後にリマインドメール の3ステップ</li>
+      <li><strong>キラーワード</strong>：候補リストの「killer-box」から各社の情報を引用し、「なぜ御社なのか」を明確に伝える</li>
+      <li><strong>スノッブ効果</strong>：「限定10社」「招待制」を必ず入れる。「誰でも参加OK」感を出さない</li>
+      <li><strong>予算枠の転換</strong>：「スポーツ費」ではなく「採用費」「研修費」「福利厚生費」として提案する</li>
+      <li><strong>決裁ルート</strong>：中小企業なら社長直接。100名以上の企業は総務/人事/福利厚生担当を経由</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>&copy; 2026 PRISM CUP / 株式会社MOON — 社内利用限定</p>
+</div>
+
+<script>
+function copyTemplate(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  // テキストのみ取得（HTMLタグを除去）
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'コピー済み！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'コピー';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水泳を習わせる理由はわかる。じゃあ"走ること"は？</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f8f8f6;
+    color: #333;
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.9;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== ヒーローエリア ===== */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 70%, rgba(192,57,43,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(74,158,205,0.1) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, -10px); }
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-block;
+    background: #C0392B;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 30px;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .hero h1 .accent { color: #e74c3c; }
+  .hero-sub {
+    font-size: 15px;
+    opacity: 0.85;
+    line-height: 1.7;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+  .hero-author {
+    margin-top: 30px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+  .hero-author strong { opacity: 1; font-size: 15px; }
+
+  /* ===== メインコンテンツ ===== */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  article {
+    background: #fff;
+    margin: -30px auto 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+    padding: 50px 40px 60px;
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+  }
+  @media (max-width: 600px) {
+    article { padding: 30px 20px 40px; margin: -20px 10px 30px; }
+  }
+
+  /* ===== 見出しスタイル ===== */
+  .section-label {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h2.chapter-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 900;
+    color: #1a1a2e;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #C0392B;
+  }
+
+  h3.sub-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(18px, 3.5vw, 24px);
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.5;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    border-left: 4px solid #C0392B;
+  }
+
+  /* ===== 本文スタイル ===== */
+  .body-text {
+    font-size: 16px;
+    line-height: 2.0;
+    color: #444;
+    margin-bottom: 24px;
+  }
+  .body-text + .body-text { margin-top: -8px; }
+
+  .lead-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  /* ===== 強調ボックス ===== */
+  .highlight-box {
+    background: linear-gradient(135deg, #fff5f5, #ffeaea);
+    border-left: 5px solid #C0392B;
+    padding: 24px 28px;
+    margin: 30px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #C0392B;
+    line-height: 1.8;
+  }
+
+  .info-box {
+    background: #f0f7ff;
+    border-left: 5px solid #4A9ECD;
+    padding: 24px 28px;
+    margin: 30px 0;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.8;
+  }
+  .info-box strong { color: #2c6faa; }
+
+  .quote-box {
+    background: #fafaf8;
+    border: 1px solid #e0e0d8;
+    border-radius: 8px;
+    padding: 28px 30px;
+    margin: 30px 0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px;
+    line-height: 1.9;
+    color: #555;
+    position: relative;
+  }
+  .quote-box::before {
+    content: '\201C';
+    font-size: 60px;
+    color: #ddd;
+    position: absolute;
+    top: -5px; left: 15px;
+    font-family: Georgia, serif;
+  }
+
+  /* ===== 比較テーブル ===== */
+  .compare-box {
+    display: flex;
+    gap: 16px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  .compare-item {
+    flex: 1;
+    min-width: 200px;
+    padding: 24px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .compare-item.bad {
+    background: #fff5f5;
+    border: 2px solid #e74c3c;
+  }
+  .compare-item.good {
+    background: #f0fff4;
+    border: 2px solid #27ae60;
+  }
+  .compare-item .emoji { font-size: 36px; margin-bottom: 8px; }
+  .compare-item .label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .compare-item.bad .label { color: #e74c3c; }
+  .compare-item.good .label { color: #27ae60; }
+  .compare-item .value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  /* ===== カテゴリカード ===== */
+  .category-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 30px 0;
+  }
+  @media (max-width: 500px) {
+    .category-grid { grid-template-columns: 1fr; }
+  }
+  .category-card {
+    background: #fff;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .category-card:hover {
+    border-color: #C0392B;
+    box-shadow: 0 4px 16px rgba(192,57,43,0.1);
+    transform: translateY(-2px);
+  }
+  .category-num {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .category-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .category-sub {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  .category-desc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* ===== 足音ボックス ===== */
+  .sound-box {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .sound-item {
+    flex: 1;
+    min-width: 140px;
+    padding: 16px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .sound-item.ng { background: #fff5f5; border: 1px solid #f5c6c6; }
+  .sound-item.ok { background: #f0fff4; border: 1px solid #b8e6c8; }
+  .sound-label { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .sound-item.ng .sound-label { color: #e74c3c; }
+  .sound-item.ok .sound-label { color: #27ae60; }
+  .sound-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .sound-desc { font-size: 12px; color: #888; margin-top: 4px; }
+
+  /* ===== 実話ボックス ===== */
+  .story-box {
+    background: linear-gradient(135deg, #fefcf3, #fdf8e8);
+    border: 2px solid #f0e6c0;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .story-box .story-label {
+    display: inline-block;
+    background: #d4a017;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ===== 有料パート区切り ===== */
+  .paywall {
+    text-align: center;
+    padding: 40px 20px;
+    margin: 40px 0;
+    background: linear-gradient(180deg, #fff 0%, #f5f5f0 100%);
+    border-top: 2px dashed #ddd;
+    border-bottom: 2px dashed #ddd;
+  }
+  .paywall-label {
+    display: inline-block;
+    background: #C0392B;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .paywall h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .paywall p { color: #888; font-size: 14px; }
+
+  /* ===== CTAセクション ===== */
+  .cta-section {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: #fff;
+    border-radius: 12px;
+    padding: 40px 30px;
+    margin: 40px 0 20px;
+    text-align: center;
+  }
+  .cta-section h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .cta-section p {
+    font-size: 15px;
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: #C0392B;
+    color: #fff;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(192,57,43,0.3);
+  }
+  .cta-btn:hover {
+    background: #e74c3c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192,57,43,0.4);
+  }
+
+  /* ===== セパレーター ===== */
+  .section-gap { height: 50px; }
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: #C0392B;
+    margin: 40px auto;
+    border-radius: 2px;
+  }
+
+  /* ===== フッター ===== */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #aaa;
+    font-size: 13px;
+  }
+  .footer a { color: #4A9ECD; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- ===== ヒーロー ===== -->
+<div class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">元リオ五輪日本代表が伝える</span>
+    <h1>水泳を習わせる理由はわかる。<br>じゃあ<span class="accent">"走ること"</span>は？</h1>
+    <p class="hero-sub">小学生の今、走りの基本を学ぶべき理由を<br>元五輪代表の視点から本気でお伝えします。</p>
+    <p class="hero-author">
+      <strong>陸上スクール SORA・SUPERIOR 代表</strong><br>
+      元リオ五輪日本代表
+    </p>
+  </div>
+</div>
+
+<!-- ===== 本文 ===== -->
+<div class="container">
+<article>
+
+<!-- はじめに -->
+<p class="lead-text">「水泳は習わせてるけど、<br>走り方って習うもの？」</p>
+
+<p class="body-text">そう思っている親御さん、多いと思います。</p>
+
+<p class="body-text">水泳は「溺れないように」という明確な理由がある。サッカーや野球には「チームスポーツを経験させたい」という動機がある。</p>
+
+<p class="body-text">でも、<strong>「走ること」</strong>は？</p>
+
+<p class="body-text">走るって、誰でもできる「当たり前の動作」だからこそ、わざわざ習おうとは思わない。でも実は、その「当たり前」にこそ落とし穴があるんです。</p>
+
+<p class="body-text">僕は元リオ五輪日本代表として競技の世界を経験し、今は小学生を中心とした陸上スクールを運営しています。日々子どもたちの走りを見ていて確信していることがあります。</p>
+
+<div class="highlight-box">
+  「走り方は、学ばなければ一生自己流。」
+</div>
+
+<p class="body-text">この記事では、なぜ小学生のうちに「走りの基本」を学ぶべきなのか、元五輪代表の視点からお伝えします。</p>
+
+<div class="divider"></div>
+
+<!-- 第1章 -->
+<div class="section-gap"></div>
+<span class="section-label">CHAPTER 01</span>
+<h2 class="chapter-title">走るは「当たり前」だからこそ怖い</h2>
+
+<p class="body-text">水泳は特殊な動作です。日常で泳ぐ機会はほとんどない。だからこそ「教わるもの」という認識がある。</p>
+
+<p class="body-text">一方、走ることは違います。毎日の移動で、遊びで、体育で——子どもたちは<strong>毎日何千回</strong>も走っています。</p>
+
+<p class="body-text">ここに本質的な問題があります。</p>
+
+<div class="info-box">
+  <strong>走るは「教わらなくてもできてしまう」動作。</strong><br>
+  でも「できている」ことと「正しくできている」ことは、まったく違います。
+</div>
+
+<p class="body-text">自己流の走り方は、繰り返すたびに体に<strong>クセ</strong>として刻まれます。毎日何千回も繰り返すからこそ、そのクセは急速に定着してしまう。</p>
+
+<p class="body-text">しかも一度ついた悪い走りの習慣は、将来の怪我のリスクや成長の妨げになるだけでなく、<strong>神経回路から骨格・筋肉のバランスにまで影響</strong>を与えます。</p>
+
+<div class="highlight-box">
+  放置する時間が長いほど修正は難しくなり、<br>「一生抜けない間違ったクセ」になりかねません。
+</div>
+
+<div class="divider"></div>
+
+<!-- 第2章 -->
+<div class="section-gap"></div>
+<span class="section-label">CHAPTER 02</span>
+<h2 class="chapter-title">なぜ「小学生の今」なのか</h2>
+
+<p class="body-text">体が柔らかく、神経回路が最も発達する<strong>「ゴールデンエイジ」</strong>と呼ばれる時期。この時期に正しい動きを体に入れるのと入れないのとでは、将来の伸びしろがまったく違います。</p>
+
+<!-- 比較ボックス -->
+<div class="compare-box">
+  <div class="compare-item good">
+    <div class="emoji">&#9889;</div>
+    <div class="label">小学生の場合</div>
+    <div class="value">数ヶ月で修正</div>
+  </div>
+  <div class="compare-item bad">
+    <div class="emoji">&#9203;</div>
+    <div class="label">高校生の場合</div>
+    <div class="value">1年以上かかる</div>
+  </div>
+</div>
+
+<p class="body-text">この差、めちゃくちゃ大きくないですか？</p>
+
+<!-- 実話 -->
+<div class="story-box">
+  <span class="story-label">REAL STORY</span>
+  <p class="body-text" style="margin-bottom:12px">ある子の話をさせてください。</p>
+  <p class="body-text" style="margin-bottom:12px"><strong>大きな体なのに、小さく縮こまって走っていた子</strong>がいました。</p>
+  <p class="body-text" style="margin-bottom:12px">その子に、のびのびと大きく走る方法を教えたところ——</p>
+  <p style="font-family:'Noto Serif JP',serif; font-size:22px; font-weight:900; color:#C0392B; text-align:center; margin:16px 0;">
+    1年後、小学校の県大会100mで優勝。
+  </p>
+  <p class="body-text">才能の差ではありません。<br>正しい走り方を<strong>「知っているかどうか」</strong>の差なんです。</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- 第3章 -->
+<div class="section-gap"></div>
+<span class="section-label">CHAPTER 03</span>
+<h2 class="chapter-title">「走りの基本」って何？<br>— 4つのカテゴリ</h2>
+
+<p class="body-text">では、小学生のうちに押さえておくべき「走りの基本」とは何でしょうか。大きく<strong>4つのカテゴリ</strong>に分けられます。</p>
+
+<!-- カテゴリカード -->
+<div class="category-grid">
+  <div class="category-card">
+    <span class="category-num">1</span>
+    <div class="category-name">接地</div>
+    <div class="category-sub">足の着き方</div>
+    <div class="category-desc">走っているときの足音に注目。着き方のクセが速さとケガのリスクに直結します。</div>
+  </div>
+  <div class="category-card">
+    <span class="category-num">2</span>
+    <div class="category-name">推進</div>
+    <div class="category-sub">前に進む力の生み出し方</div>
+    <div class="category-desc">足を速く動かすだけでは速くなれない。地面の反発力の使い方がカギです。</div>
+  </div>
+  <div class="category-card">
+    <span class="category-num">3</span>
+    <div class="category-name">姿勢</div>
+    <div class="category-sub">走るときの体の使い方</div>
+    <div class="category-desc">猫背、腕の横振り、上半身のブレ。正しい姿勢だけで速さが変わります。</div>
+  </div>
+  <div class="category-card">
+    <span class="category-num">4</span>
+    <div class="category-name">リズム連動</div>
+    <div class="category-sub">全身の動きの連携</div>
+    <div class="category-desc">腕と脚のタイミング、呼吸とステップ。全身が連動して初めて速く走れます。</div>
+  </div>
+</div>
+
+<h3 class="sub-title">足音でわかる、お子さんの走りのクセ</h3>
+
+<div class="sound-box">
+  <div class="sound-item ng">
+    <div class="sound-label">NG</div>
+    <div class="sound-text">ザッザッ</div>
+    <div class="sound-desc">つま先寄りすぎ</div>
+  </div>
+  <div class="sound-item ng">
+    <div class="sound-label">NG</div>
+    <div class="sound-text">シュタシュタ</div>
+    <div class="sound-desc">かかと寄りすぎ</div>
+  </div>
+  <div class="sound-item ok">
+    <div class="sound-label">GOOD</div>
+    <div class="sound-text">たったっ</div>
+    <div class="sound-desc">乾いた軽い音が理想</div>
+  </div>
+</div>
+
+<p class="body-text">お子さんの走りを見て「なんか変だな」と感じたことがある方、それはこの4つのどこかにズレがあるサインかもしれません。</p>
+
+<div class="divider"></div>
+
+<!-- ===== 有料パート区切り ===== -->
+<div class="paywall">
+  <span class="paywall-label">ここから有料パート</span>
+  <h3>小学校低学年で押さえるべき<br>走りの基礎動作一覧</h3>
+  <p>各カテゴリの「親が見てわかるチェックサイン」と<br>なぜそれが大切なのかを詳しく解説します。</p>
+</div>
+
+<!-- 有料パート内容 -->
+<h3 class="sub-title">カテゴリ1：接地 — 詳細解説</h3>
+<p class="body-text"><strong>接地</strong>とは、走っているとき足が地面につく瞬間の動作。ここが崩れると、すべてが非効率になります。</p>
+<p class="body-text">「ザッザッ」と擦るような音がする子は、つま先から地面を引っかくように着地しています。逆に「シュタシュタ」と重い音がする子は、かかとから着いてブレーキをかけている状態。</p>
+<p class="body-text">理想は「たったっ」という<strong>乾いた軽い音</strong>。足の裏全体で地面をとらえ、余計な力を使わずに反発をもらえている証拠です。</p>
+
+<div class="info-box">
+  <strong>親が見てわかるチェックサイン：</strong><br>
+  お子さんが走っている横に立って足音を聞いてみてください。擦れる音、重い音がしたら接地に課題があるサインです。
+</div>
+
+<h3 class="sub-title">カテゴリ2：推進 — 詳細解説</h3>
+<p class="body-text"><strong>推進</strong>とは、地面からの反発力をどう「前に進む力」に変えるかという技術。</p>
+<p class="body-text">多くの子は「足を速く動かせば速くなる」と思っています。でも実際は、地面を正しく押せているかどうかが速さを決めます。</p>
+<p class="body-text">自転車に例えるなら、ペダルを「回す」のではなく「踏む」イメージ。地面にしっかり力を伝えて、その反発で体を前に運ぶ感覚です。</p>
+
+<div class="info-box">
+  <strong>親が見てわかるチェックサイン：</strong><br>
+  走っているとき、足が後ろに「流れている」ように見えたら要注意。地面を蹴った後、足が体の後ろに残りすぎている＝前への推進力がもらえていない状態です。
+</div>
+
+<h3 class="sub-title">カテゴリ3：姿勢 — 詳細解説</h3>
+<p class="body-text"><strong>姿勢</strong>は走りの土台。猫背で走る子、腕を横に振る子、上半身がグラグラする子——これらはすべて効率の悪さに直結します。</p>
+<p class="body-text">正しい姿勢で走れるだけで、同じ体力でもスピードが変わります。逆に言えば、筋力があっても姿勢が崩れていれば速くは走れません。</p>
+
+<div class="info-box">
+  <strong>親が見てわかるチェックサイン：</strong><br>
+  正面から走ってくるお子さんを見たとき、体が左右にぶれていませんか？ 腕が横に開いていませんか？ それが姿勢のズレのサインです。
+</div>
+
+<h3 class="sub-title">カテゴリ4：リズム連動 — 詳細解説</h3>
+<p class="body-text"><strong>リズム連動</strong>とは、腕振りと脚の動きのタイミング、呼吸とステップのリズムなど、全身の動きがスムーズに連携している状態。</p>
+<p class="body-text">全身がバラバラに動いている状態では、どれだけ筋力があっても速くは走れません。反対に、全身のリズムが合っている子は、力を入れていないように見えるのに速い。</p>
+
+<div class="info-box">
+  <strong>親が見てわかるチェックサイン：</strong><br>
+  走っているとき「なんかぎこちないな」と感じたら、リズム連動に課題がある可能性が高いです。特に腕と脚がバラバラのタイミングで動いていないか注目してみてください。
+</div>
+
+<div class="divider"></div>
+
+<!-- おわりに -->
+<div class="section-gap"></div>
+<span class="section-label">CONCLUSION</span>
+<h2 class="chapter-title">走りの基本を「知る」ことが<br>スタートライン</h2>
+
+<p class="body-text">この記事では、走りの基本が大事だということ、そしてその基本が<strong>接地・推進・姿勢・リズム連動</strong>の4つのカテゴリに分かれることをお伝えしました。</p>
+
+<div class="quote-box">
+  「具体的にどう直せばいいの？」<br>
+  「うちの子はどこが問題なの？」
+</div>
+
+<p class="body-text">その答えは、実際にお子さんの走りを見て、一人ひとりに合った指導をする中で見つかるものです。</p>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h3>お子さんの走りが変わる瞬間を<br>一緒に見届けませんか？</h3>
+  <p>SORA・SUPERIORでは、元リオ五輪日本代表をはじめとする指導陣が、<br>お子さん一人ひとりの走りを分析し、<br>その子に合った基本動作を丁寧に指導しています。</p>
+  <a href="#" class="cta-btn">まずは体験に参加する</a>
+</div>
+
+</article>
+</div>
+
+<div class="footer">
+  &copy; 2026 陸上スクール SORA・SUPERIOR ｜ <a href="#">体験申し込みはこちら</a>
+</div>
+
+</body>
+</html>

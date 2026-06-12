@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>月次レビュー 2026年6月｜5月の総括と6月戦略</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+    color: #1a1a1a;
+    line-height: 1.7;
+    padding: 20px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  header {
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6fa5 100%);
+    color: #fff;
+    padding: 40px 50px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  header h1 { font-size: 32px; margin-bottom: 8px; letter-spacing: 1px; }
+  header .sub { font-size: 15px; opacity: 0.85; }
+  header .meta { margin-top: 16px; font-size: 13px; opacity: 0.75; display: flex; gap: 24px; flex-wrap: wrap; }
+  section {
+    background: #fff;
+    padding: 36px 50px;
+    border-bottom: 1px solid #eef2f7;
+    box-shadow: 0 0 1px rgba(0,0,0,0.04);
+  }
+  section:last-of-type { border-radius: 0 0 20px 20px; border-bottom: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  h2 {
+    font-size: 22px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-left: 14px;
+    border-left: 5px solid #4a6fa5;
+    line-height: 1.2;
+  }
+  h3 { font-size: 17px; color: #34495e; margin: 22px 0 12px; }
+  h4 { font-size: 15px; color: #4a6fa5; margin: 16px 0 8px; }
+  p { margin-bottom: 10px; font-size: 14px; }
+  ul { margin: 8px 0 14px 22px; font-size: 14px; }
+  li { margin-bottom: 5px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e8ecf3;
+  }
+  th {
+    background: #f5f7fa;
+    color: #34495e;
+    font-weight: 600;
+  }
+  tr:hover { background: #fafbfc; }
+  .pj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .pj-card {
+    background: #fafbfc;
+    border-radius: 12px;
+    padding: 18px;
+    border-left: 4px solid #4a6fa5;
+  }
+  .pj-card.up { border-left-color: #27ae60; }
+  .pj-card.down { border-left-color: #e67e22; }
+  .pj-card.flat { border-left-color: #95a5a6; }
+  .pj-card h4 { font-size: 16px; color: #2c3e50; margin: 0 0 8px; }
+  .pj-card .progress {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 4px 0;
+  }
+  .pj-card .delta { font-size: 13px; font-weight: 600; }
+  .delta.up { color: #27ae60; }
+  .delta.down { color: #e67e22; }
+  .delta.flat { color: #95a5a6; }
+  .pj-card .note { font-size: 12px; color: #7a8794; margin-top: 6px; line-height: 1.5; }
+  .gauge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0;
+    font-size: 13px;
+  }
+  .gauge .label { width: 100px; font-weight: 600; color: #34495e; }
+  .gauge .bar-wrap {
+    flex: 1;
+    height: 18px;
+    background: #eef2f7;
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative;
+  }
+  .gauge .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a6fa5, #27ae60);
+    border-radius: 9px;
+  }
+  .gauge .pts {
+    width: 90px;
+    text-align: right;
+    font-size: 12px;
+    color: #555;
+  }
+  .alert {
+    background: #fff5e6;
+    border-left: 4px solid #e67e22;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .info {
+    background: #e8f4fd;
+    border-left: 4px solid #4a6fa5;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .success {
+    background: #e8f8ee;
+    border-left: 4px solid #27ae60;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .critical {
+    background: #fdecea;
+    border-left: 4px solid #c0392b;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .strategy-card {
+    background: #f5f7fa;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    border-left: 4px solid #4a6fa5;
+  }
+  .strategy-card h4 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin: 0 0 6px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .badge.priority-1 { background: #c0392b; color: #fff; }
+  .badge.priority-2 { background: #e67e22; color: #fff; }
+  .badge.priority-3 { background: #4a6fa5; color: #fff; }
+  .muted { color: #95a5a6; font-size: 12px; }
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: #95a5a6;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>📅 月次レビュー 2026年6月</h1>
+  <div class="sub">5月の総括＋全PJ進捗%再計算＋6月戦略提案</div>
+  <div class="meta">
+    <span>📆 作成日: 2026年6月1日(月)</span>
+    <span>👤 MOON / 株式会社MOON</span>
+    <span>🤖 monthly-review 自動実行</span>
+  </div>
+</header>
+
+<section>
+  <h2>📚 STEP 0：CONTEXT読み込み完了</h2>
+  <div class="success">
+    <strong>📚 CONTEXT読み込み完了（全9件）</strong><br>
+    CLAUDE.md / オギラボ / CARAS / 健康経営 / SORA / SUPERIOR / TrustFit / むーん / 関西学院大学陸上部
+  </div>
+</section>
+
+<section>
+  <h2>🗓 STEP 1：5月の主要成果サマリー</h2>
+
+  <div class="success">
+    <strong>🎉 5月の最大ハイライト</strong><br>
+    オギラボ note メンバーシップ <strong>5月7日公開</strong>（3ラボ構成・¥980/月）／関西インカレ3日間（5/15-17）＋関西実業団（5/23-24）の<strong>6日間連続現役オリンピアン帯同</strong>素材獲得／CARAS MEO「夙川」5月末に<strong>🟢1位達成</strong>／SORA <strong>+5名申込・1名入会</strong>（ふじかわしおり）
+  </div>
+
+  <h3>📊 PJ別 5月成果ダイジェスト</h3>
+  <table>
+    <thead>
+      <tr><th>PJ</th><th>主な成果</th><th>数値変化</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>オギラボ</strong></td>
+        <td>noteメンバーシップ5/7公開／関西インカレ3日間＋関西実業団6日間連続帯同／メンバーシップ6記事公開</td>
+        <td>TikTok 1,392→<strong>1,543(+151🚀)</strong>／YouTube 92→96(+4)／Note 1→3(+2)</td>
+      </tr>
+      <tr>
+        <td><strong>CARAS</strong></td>
+        <td>GBP偶数週自動投稿稼働／Instagram VOICE/STUDIO投稿継続／6月HPブログ4記事自動生成(平均91.5点)／MEO夙川1位達成</td>
+        <td>IG 67→68(+1)/投稿+2／TikTok 23→24(+1)／MEO夙川🟡5位→🟢1位</td>
+      </tr>
+      <tr>
+        <td><strong>健康経営</strong></td>
+        <td>PRISM CUP CF期間中DM展開／CARAS 5/29 GBPと健康経営DM連動でクロージング素材化</td>
+        <td>進捗±0（DM送付ラストプッシュ・契約まだ）</td>
+      </tr>
+      <tr>
+        <td><strong>SORA</strong></td>
+        <td>申込+5件／ふじかわしおり当日入会(5/30)／6月体験予定9件控え</td>
+        <td>IG 518→522(+4)／申込累計326→<strong>331(+5)</strong>／入会76→<strong>77(+1)</strong></td>
+      </tr>
+      <tr>
+        <td><strong>SUPERIOR</strong></td>
+        <td><strong>【重大決定】7月から箕面事業の主体をむーんに移管</strong>／6/11上田氏メイン企業研修決定／うえのやま いく体験申込(6/4)</td>
+        <td>IG 4→5(+1)／会員4名(箕面)／体験者減少課題</td>
+      </tr>
+      <tr>
+        <td><strong>TrustFit</strong></td>
+        <td>PRISM CUP CF 5/11開幕→21日経過(後半戦)／関西インカレ＋関西実業団6日間帯同素材をCF告知転用</td>
+        <td>CF後半戦継続・支援企業数集計待ち</td>
+      </tr>
+      <tr>
+        <td><strong>むーん</strong></td>
+        <td>定員9割稼働継続／行政情報モニタリング稼働継続／<strong>7月からSUPERIOR箕面事業を受託</strong></td>
+        <td>進捗85%継続／リタリコ未開封0件継続</td>
+      </tr>
+      <tr>
+        <td><strong>関学</strong></td>
+        <td>関西インカレ4選手出場(5/15-17)／関西実業団(5/23-24)／東大阪記録会5名(5/30・荻田欠席)／6月予定:日本選手権・西日本インカレ</td>
+        <td>KGAD報告書生成スクリプト稼働継続</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="critical">
+    <strong>🚨 5月の重大決定</strong><br>
+    <strong>SUPERIOR箕面事業を7月から「むーん」に移管</strong>（2026-06-01フロム・シェフMTG確定）。<br>
+    フロムシェフは協賛として年間利用料を負担・名義継続。6/11上田氏メイン企業研修実施。会員4名(宿屋・トング・他2)への支払先変更案内を6月末までに実施。
+  </div>
+</section>
+
+<section>
+  <h2>📈 STEP 2：全PJ進捗% 再計算（重み付き）</h2>
+
+  <p>計算基準: <span class="muted">コアコンテンツ40% / 集客導線25% / 収益化20% / 自動化フロー15%</span></p>
+
+  <div class="pj-grid">
+    <div class="pj-card up">
+      <h4>① オギラボ</h4>
+      <div class="progress">70%</div>
+      <div class="delta up">▲ +5%（65% → 70%）</div>
+      <div class="note">noteメンバーシップ公開＋6記事＋関西インカレ素材＋TikTok急伸(+151)で大幅進展。集客導線70%・自動化95%。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>② CARAS</h4>
+      <div class="progress">70%</div>
+      <div class="delta up">▲ +6%（64% → 70%）</div>
+      <div class="note">GBP/Instagram/HPブログの3層自動化稼働・MEO夙川1位達成・既存継続率100%。西宮圏外が唯一の課題。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>③ 健康経営</h4>
+      <div class="progress">22%</div>
+      <div class="delta up">▲ +2%（20% → 22%）</div>
+      <div class="note">PRISM CUP連動DM送付着手・契約はまだゼロ。健康診断予約3月末期限超過の継続課題が阻害要因。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>④ SORA</h4>
+      <div class="progress">60%</div>
+      <div class="delta up">▲ +3%（57% → 60%）</div>
+      <div class="note">申込累計331件・入会77名・体験予定9件控え。Instagram保護者層への浸透加速(+5人)。</div>
+    </div>
+    <div class="pj-card flat">
+      <h4>⑤ SUPERIOR</h4>
+      <div class="progress">63%</div>
+      <div class="delta up">▲ +1%（62% → 63%）</div>
+      <div class="note">運営主体むーん移管で構造変化。コンテンツ・集客面は微増。体験者減少が依然課題。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>⑥ むーん</h4>
+      <div class="progress">88%</div>
+      <div class="delta up">▲ +3%（85% → 88%）</div>
+      <div class="note">定員9割稼働継続・行政情報モニタリング自動化稼働・SUPERIOR箕面受託で事業ライン追加。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>⑦ 関学</h4>
+      <div class="progress">40%</div>
+      <div class="delta up">▲ +18%（22% → 40%）</div>
+      <div class="note">KGAD報告書スクリプト・スプレッドシート監視・東大阪記録会代行体制構築で大幅進展。</div>
+    </div>
+    <div class="pj-card up">
+      <h4>⑧ TrustFit</h4>
+      <div class="progress">45%</div>
+      <div class="delta up">▲ +8%（37% → 45%）</div>
+      <div class="note">CF後半戦継続・法人DM展開中。CFリターン獲得状況の集計待ち。LP/ロスター/ランク設計は完成済み。</div>
+    </div>
+  </div>
+
+  <div class="info">
+    <strong>📊 全体平均進捗</strong>: 45.4% → <strong>57.3%（+11.9%）</strong>※8PJ加重平均<br>
+    関学が大幅進展（+18%）／オギラボ・CARAS・TrustFitが揃って大幅前進／健康経営のみ収益化フェーズへの突破口未開け。
+  </div>
+</section>
+
+<section>
+  <h2>💰 STEP 2.5：収益化ゲージ（全PJ）</h2>
+
+  <p>MG-1 集客導線(4pt) ／ MG-2 見込客10件(4pt) ／ MG-3 体験・相談1件(4pt) ／ MG-4 初成約(4pt) ／ MG-5 継続2件以上(4pt)＝計20pt満点</p>
+
+  <div class="gauge">
+    <span class="label">オギラボ</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:30%;"></div></div>
+    <span class="pts">6pt/20pt (MG-2途中)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">CARAS</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg,#27ae60,#16a085);"></div></div>
+    <span class="pts">20pt/20pt (MG-5達成🏆)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">健康経営</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:20%;"></div></div>
+    <span class="pts">4pt/20pt (MG-1のみ)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">SORA</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg,#27ae60,#16a085);"></div></div>
+    <span class="pts">20pt/20pt (MG-5達成🏆)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">SUPERIOR</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:80%;"></div></div>
+    <span class="pts">16pt/20pt (MG-4・継続会員あり)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">むーん</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg,#27ae60,#16a085);"></div></div>
+    <span class="pts">20pt/20pt (MG-5達成🏆)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">関学</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg,#27ae60,#16a085);"></div></div>
+    <span class="pts">20pt/20pt (法人継続契約)</span>
+  </div>
+  <div class="gauge">
+    <span class="label">TrustFit</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:40%;"></div></div>
+    <span class="pts">8pt/20pt (MG-3・CF支援獲得)</span>
+  </div>
+
+  <div class="success">
+    <strong>🏆 MG-5達成PJ: CARAS / SORA / むーん / 関学（4PJ）</strong><br>
+    <strong>突破ポイント</strong>: オギラボ(MG-2→MG-3) / 健康経営(MG-1→MG-2) / TrustFit(MG-3→MG-4) / SUPERIOR(MG-4→MG-5新体制で再構築)
+  </div>
+</section>
+
+<section>
+  <h2>🔄 STEP 3：Decision Log 再評価</h2>
+
+  <div class="info">
+    <strong>📋 スキャン結果</strong>: 全8PJの <code>outputs/decisions/*.md</code> をスキャン → <strong>登録ファイル0件</strong>。<br>
+    現時点で再評価対象なし。今後 🔴重大タスク承認時に Decision Log を自動生成すること（CLAUDE.md ⑨ ルール）。
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ 改善提案</strong>: SUPERIOR箕面事業のむーん移管（2026-06-01決定）は明確な🔴重大決定。<br>
+    → <strong>Decision Log 自動生成対象</strong>: <code>SUPERIOR/outputs/decisions/20260601_箕面事業むーん移管.md</code> および <code>むーん/outputs/decisions/20260601_SUPERIOR箕面受託.md</code> を本月中に作成すべき。再評価日: 2026-12-01（6ヶ月後）。
+  </div>
+</section>
+
+<section>
+  <h2>⚠️ STEP 4：GOODパターン有効期限チェック</h2>
+
+  <table>
+    <thead><tr><th>PJ</th><th>GOODパターン蓄積数</th><th>最古登録日</th><th>⚠️ 要検証フラグ(6ヶ月超)</th></tr></thead>
+    <tbody>
+      <tr><td>オギラボ</td><td>バズパターン4種</td><td>2026-03-26</td><td>該当なし（2ヶ月経過）</td></tr>
+      <tr><td>CARAS</td><td>GBP/Instagram 複数</td><td>2026-04~05</td><td>該当なし</td></tr>
+      <tr><td>健康経営</td><td>蓄積開始待ち</td><td>—</td><td>—</td></tr>
+      <tr><td>SORA</td><td>体験お礼LINEフォーマット</td><td>2026-04</td><td>該当なし</td></tr>
+      <tr><td>SUPERIOR</td><td>4週ローテーション</td><td>2026-03-28</td><td>該当なし（2ヶ月経過）</td></tr>
+      <tr><td>TrustFit</td><td>用語統一・LP構成</td><td>2026-04</td><td>該当なし</td></tr>
+      <tr><td>むーん</td><td>蓄積開始待ち</td><td>—</td><td>—</td></tr>
+      <tr><td>関学</td><td>KGAD報告ルール</td><td>2026-03-31</td><td>該当なし（2ヶ月経過）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="info">
+    <strong>📊 結論</strong>: 全GOODパターンが2026-03以降の登録 → <strong>⚠️要検証フラグ対象なし</strong>。<br>
+    最古のオギラボバズパターン(2026-03-26)が9月下旬に検証期限到達予定。8月の月次レビューで先行警告を入れる。
+  </div>
+</section>
+
+<section>
+  <h2>🎯 STEP 5：6月の戦略見直し提案</h2>
+
+  <h3>🥇 今月の最重要トップ3（PJ横断）</h3>
+
+  <div class="strategy-card" style="border-left-color:#c0392b;">
+    <h4><span class="badge priority-1">最優先①</span>SUPERIOR→むーん移管の実務遂行</h4>
+    <p>7月新体制への切替が今月最大のオペレーション課題。会員4名への支払先変更案内・年間利用料請求フロー・6月スケジュール16回登録・運営マニュアル引き継ぎを6月末までに完了させる必要あり。失敗すると会員離脱リスク。</p>
+    <ul>
+      <li>6月末: 会員2家族（宿屋・トング）への直接説明完了</li>
+      <li>6/26(金)9時半 オンラインMTGで進捗確認</li>
+      <li>6/11(水) 上田氏メイン企業研修の集合場所・時間確定</li>
+      <li>Decision Log 2件を <code>outputs/decisions/</code> に生成</li>
+    </ul>
+  </div>
+
+  <div class="strategy-card" style="border-left-color:#e67e22;">
+    <h4><span class="badge priority-2">最優先②</span>オギラボ：noteメンバーシップ5人到達＋YouTube100人</h4>
+    <p>5月末5人目標は未達(3人継続)。6月新規目標として再設定。関西インカレ＋関西実業団6日間連続帯同素材の本格コンテンツ化が突破口。YouTube100人ラインは残り4人→月内達成濃厚。</p>
+    <ul>
+      <li>6日間連続帯同レポート: TikTok縦動画3本＋YouTube長尺1本＋Note記事1本を本日中投下</li>
+      <li>Note有料パート付き記事を週1ペース継続投下→6月末5人達成</li>
+      <li>TikTok 1,543→2,000人ライン目標へシフト</li>
+    </ul>
+  </div>
+
+  <div class="strategy-card" style="border-left-color:#4a6fa5;">
+    <h4><span class="badge priority-3">最優先③</span>TrustFit PRISM CUP CF 最終局面＋健康経営DM再設計</h4>
+    <p>CF後半戦継続中。5月末ラストプッシュの結果を本日確認・6月の法人DM戦略再設計を本日着手。健康経営との連動クロージング(CARAS 5/29 GBP「お客様の変化・実績」)を素材化。</p>
+    <ul>
+      <li>5月末CF達成率・支援企業数の月次レビュー完了</li>
+      <li>6月の法人DM戦略再設計（PRISM CUP終了後の継続接点設計）</li>
+      <li>健康経営優良法人認定サポート提案テンプレの本格運用開始</li>
+    </ul>
+  </div>
+
+  <h3>📅 6月のPJ別フォーカス</h3>
+
+  <div class="pj-grid">
+    <div class="pj-card">
+      <h4>オギラボ</h4>
+      <div class="note"><strong>目標</strong>: Note会員5人到達／YouTube 100人／TikTok 1,800人<br><strong>施策</strong>: 6日間連続帯同レポート完成投下／メンバーシップ有料パート週1継続</div>
+    </div>
+    <div class="pj-card">
+      <h4>CARAS</h4>
+      <div class="note"><strong>目標</strong>: 6月HPブログ4記事承認＆公開／MEO西宮圏外脱却／夙川1位維持<br><strong>施策</strong>: 既存顧客・SORA/SUPERIOR保護者へ口コミ依頼一斉送信／6/3GBP「夙川1位活用×マダム/ゴルファー」テーマ</div>
+    </div>
+    <div class="pj-card">
+      <h4>健康経営</h4>
+      <div class="note"><strong>目標</strong>: 初契約獲得(MG-2突破)／健康診断予約完了<br><strong>施策</strong>: PRISM CUP終了後の法人継続接点設計／CF支援企業候補に提案DM継続</div>
+    </div>
+    <div class="pj-card">
+      <h4>SORA</h4>
+      <div class="note"><strong>目標</strong>: 6月体験9件→入会5件以上（入会率55%）／Instagram 540人<br><strong>施策</strong>: 6/5いしかわぜんいちろう・6/6小山幅跳び講習・6/20姉妹同時申込フォロー徹底</div>
+    </div>
+    <div class="pj-card">
+      <h4>SUPERIOR</h4>
+      <div class="note"><strong>目標</strong>: 7月新体制スムーズ移行／6/4うえのやま いく体験→入会／東大阪記録会エントリー判断<br><strong>施策</strong>: 月末イベント新モデル(フットサルコミュニティ形成)検討着手</div>
+    </div>
+    <div class="pj-card">
+      <h4>TrustFit</h4>
+      <div class="note"><strong>目標</strong>: CF最終達成率最大化／支援企業数の月次レビュー<br><strong>施策</strong>: 6月の法人DM戦略再設計／関西インカレ＋実業団素材の継続CF告知転用</div>
+    </div>
+    <div class="pj-card">
+      <h4>むーん</h4>
+      <div class="note"><strong>目標</strong>: SUPERIOR箕面受託の準備完了／SK-3施設案内PDF作成<br><strong>施策</strong>: 7月以降のSUPERIOR会員4名の支払い受付体制構築／年間利用料受領フロー設計</div>
+    </div>
+    <div class="pj-card">
+      <h4>関学</h4>
+      <div class="note"><strong>目標</strong>: KGAD 5月報告書作成・提出／6月大会サポート完遂<br><strong>施策</strong>: 6/7広島県東部記録会(伊藤)／6/13日本選手権(北田)／6/19西日本インカレ(伊藤・渡邉・杉本)</div>
+    </div>
+  </div>
+
+  <h3>🔗 クロスPJ シナジー機会（6月）</h3>
+  <div class="info">
+    <ul>
+      <li><strong>CARAS夙川1位</strong> → SORA/SUPERIOR保護者へ口コミ依頼一斉送信で集客導線強化</li>
+      <li><strong>オギラボ6日間連続帯同素材</strong> → TrustFit「現役オリンピアン×企業フットサル支援」訴求でCF告知転用継続</li>
+      <li><strong>CARAS 5/29 GBP「お客様の変化・実績」</strong> → 健康経営DMクロージング素材化</li>
+      <li><strong>SUPERIOR箕面移管</strong> → むーん事業ライン拡張・運動療育×陸上指導の連携モデル構築</li>
+      <li><strong>関学6月大会素材</strong> → SUPERIOR保護者向け「現役オリンピアン指導現場」訴求</li>
+    </ul>
+  </div>
+
+  <h3>⚠️ 6月の継続課題リスト</h3>
+  <div class="alert">
+    <ul>
+      <li>健康経営: 健康診断予約（3月末期限超過・3ヶ月放置中）→本月中決着必須</li>
+      <li>むーん: 5/8付け「サビ管・児発管 実践研修OJT短縮特例」/ 5/22付け「就労継続支援B型 基本報酬区分の見直し」対応要否判断（24日連続継続課題）</li>
+      <li>CARAS: MEO「西宮 パーソナルジム」圏外継続→既存口コミ強化で打開</li>
+      <li>SUPERIOR: キシ姉妹(4/21体験以来反応なし)・キューズモール先輩教室との集客競合</li>
+      <li>SORA: 5/16〜5/30新規申込多数→お礼LINE朝イチ送付の徹底</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  © 2026 株式会社MOON ／ monthly-review_2026-06.html 自動生成 ／ daily-morning-briefing 連動
+</footer>
+
+</div>
+</body>
+</html>

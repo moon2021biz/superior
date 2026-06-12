@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織構築 — 起こりうるリスク5選＋改善策 | 2026-03-26</title>
+<style>
+  :root {
+    --bg: #07090f;
+    --surface: #0f1322;
+    --surface2: #161b2e;
+    --border: #1e2d4a;
+    --text: #e2e8f0;
+    --text-mid: #94a3b8;
+    --text-dim: #4a5568;
+    --r1: #ef4444; --r1bg: rgba(239,68,68,0.08); --r1border: rgba(239,68,68,0.25);
+    --r2: #f97316; --r2bg: rgba(249,115,22,0.08); --r2border: rgba(249,115,22,0.25);
+    --r3: #eab308; --r3bg: rgba(234,179,8,0.08);  --r3border: rgba(234,179,8,0.25);
+    --r4: #8b5cf6; --r4bg: rgba(139,92,246,0.08); --r4border: rgba(139,92,246,0.25);
+    --r5: #06b6d4; --r5bg: rgba(6,182,212,0.08);  --r5border: rgba(6,182,212,0.25);
+    --green: #10b981; --greenbg: rgba(16,185,129,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif; line-height: 1.7; }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #1a1a2e 100%);
+    padding: 52px 48px 40px; border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; right: -100px; bottom: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(239,68,68,0.06) 0%, transparent 65%);
+  }
+  .header::after {
+    content: ''; position: absolute; left: 40%; top: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%);
+  }
+  .header-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 20px; padding: 5px 16px; font-size: 11px; color: #fca5a5;
+    letter-spacing: 0.1em; margin-bottom: 20px;
+  }
+  .header h1 { font-size: 30px; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
+  .header h1 span { color: #ef4444; }
+  .header p { font-size: 14px; color: var(--text-mid); max-width: 560px; }
+  .header-date { position: absolute; right: 48px; top: 52px; font-size: 12px; color: var(--text-dim); }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 980px; margin: 0 auto; padding: 44px 24px 80px; }
+
+  /* ── RISK MATRIX ── */
+  .matrix {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 12px; margin-bottom: 44px;
+  }
+  .matrix-cell {
+    border-radius: 12px; padding: 16px 14px; text-align: center;
+    border: 1px solid; cursor: default; transition: transform 0.2s;
+  }
+  .matrix-cell:hover { transform: translateY(-3px); }
+  .matrix-cell .num { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+  .matrix-cell .label { font-size: 11px; color: var(--text-mid); line-height: 1.4; }
+  .matrix-cell .impact {
+    margin-top: 10px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; padding: 2px 8px; border-radius: 8px; display: inline-block;
+  }
+  .c1 { background: var(--r1bg); border-color: var(--r1border); }
+  .c1 .num, .c1 .impact { color: var(--r1); }
+  .c1 .impact { background: rgba(239,68,68,0.15); }
+  .c2 { background: var(--r2bg); border-color: var(--r2border); }
+  .c2 .num, .c2 .impact { color: var(--r2); }
+  .c2 .impact { background: rgba(249,115,22,0.15); }
+  .c3 { background: var(--r3bg); border-color: var(--r3border); }
+  .c3 .num, .c3 .impact { color: var(--r3); }
+  .c3 .impact { background: rgba(234,179,8,0.15); }
+  .c4 { background: var(--r4bg); border-color: var(--r4border); }
+  .c4 .num, .c4 .impact { color: var(--r4); }
+  .c4 .impact { background: rgba(139,92,246,0.15); }
+  .c5 { background: var(--r5bg); border-color: var(--r5border); }
+  .c5 .num, .c5 .impact { color: var(--r5); }
+  .c5 .impact { background: rgba(6,182,212,0.15); }
+
+  /* ── RISK CARD ── */
+  .risk-card {
+    border-radius: 18px; margin-bottom: 28px;
+    border: 1px solid; overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .risk-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+
+  .r1c { background: var(--r1bg); border-color: var(--r1border); }
+  .r2c { background: var(--r2bg); border-color: var(--r2border); }
+  .r3c { background: var(--r3bg); border-color: var(--r3border); }
+  .r4c { background: var(--r4bg); border-color: var(--r4border); }
+  .r5c { background: var(--r5bg); border-color: var(--r5border); }
+
+  .risk-header { padding: 24px 28px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .risk-badge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .risk-number {
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 14px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .r1c .risk-number { background: rgba(239,68,68,0.2); color: var(--r1); border: 1px solid rgba(239,68,68,0.4); }
+  .r2c .risk-number { background: rgba(249,115,22,0.2); color: var(--r2); border: 1px solid rgba(249,115,22,0.4); }
+  .r3c .risk-number { background: rgba(234,179,8,0.2);  color: var(--r3); border: 1px solid rgba(234,179,8,0.4); }
+  .r4c .risk-number { background: rgba(139,92,246,0.2); color: var(--r4); border: 1px solid rgba(139,92,246,0.4); }
+  .r5c .risk-number { background: rgba(6,182,212,0.2);  color: var(--r5); border: 1px solid rgba(6,182,212,0.4); }
+
+  .risk-severity {
+    font-size: 10px; font-weight: 700; padding: 3px 10px;
+    border-radius: 12px; letter-spacing: 0.06em;
+  }
+  .r1c .risk-severity { background: rgba(239,68,68,0.2); color: var(--r1); }
+  .r2c .risk-severity { background: rgba(249,115,22,0.2); color: var(--r2); }
+  .r3c .risk-severity { background: rgba(234,179,8,0.2);  color: var(--r3); }
+  .r4c .risk-severity { background: rgba(139,92,246,0.2); color: var(--r4); }
+  .r5c .risk-severity { background: rgba(6,182,212,0.2);  color: var(--r5); }
+
+  .risk-title { font-size: 19px; font-weight: 800; line-height: 1.35; }
+  .risk-subtitle { font-size: 12px; color: var(--text-mid); margin-top: 4px; }
+
+  .risk-body { padding: 24px 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .risk-section h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .r1c .risk-section.scenario h4 { color: var(--r1); }
+  .r2c .risk-section.scenario h4 { color: var(--r2); }
+  .r3c .risk-section.scenario h4 { color: var(--r3); }
+  .r4c .risk-section.scenario h4 { color: var(--r4); }
+  .r5c .risk-section.scenario h4 { color: var(--r5); }
+  .risk-section.fix h4 { color: var(--green); }
+
+  .scenario-box {
+    background: rgba(0,0,0,0.25); border-radius: 10px;
+    padding: 14px 16px; font-size: 13px; color: var(--text-mid);
+    line-height: 1.75; border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .fix-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .fix-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--greenbg); border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .fix-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .fix-text { font-size: 13px; color: #86efac; line-height: 1.6; }
+  .fix-text strong { color: #4ade80; }
+
+  /* ── IMPACT INDICATOR ── */
+  .impact-row {
+    padding: 14px 28px 18px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex; gap: 24px; align-items: center;
+  }
+  .impact-label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
+  .impact-bars { display: flex; gap: 6px; }
+  .impact-bar { height: 6px; width: 28px; border-radius: 3px; }
+  .filled { background: currentColor; }
+  .empty { background: rgba(255,255,255,0.1); }
+  .impact-desc { font-size: 12px; color: var(--text-mid); margin-left: auto; }
+
+  /* ── SECTION HEADER ── */
+  .section-sep {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--text-dim); text-transform: uppercase;
+    margin: 36px 0 24px;
+  }
+  .section-sep-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── SUMMARY TABLE ── */
+  .summary-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-bottom: 12px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--surface2); color: var(--text-dim); font-size: 10px; font-weight: 700;
+       letter-spacing: 0.1em; text-transform: uppercase;
+       padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+  .footer { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-date">2026-03-26</div>
+  <div class="header-eyebrow">⚠️ リスク診断レポート v1</div>
+  <h1>AI組織構築で<span>起こりうるリスク</span> 5選<br>＋ それぞれの改善策</h1>
+  <p>自動化・マルチエージェント・スケジュールタスクが絡み合う複合システムならではの落とし穴と、その対処法を整理。</p>
+</div>
+
+<div class="container">
+
+  <!-- リスク一覧マトリクス -->
+  <div class="matrix">
+    <div class="matrix-cell c1">
+      <div class="num">①</div>
+      <div class="label">共有記憶（CONTEXT.md）汚染リスク</div>
+      <div class="impact">影響度: 致命的</div>
+    </div>
+    <div class="matrix-cell c2">
+      <div class="num">②</div>
+      <div class="label">ユーザー不在時の<br>意思決定停止リスク</div>
+      <div class="impact">影響度: 高</div>
+    </div>
+    <div class="matrix-cell c3">
+      <div class="num">③</div>
+      <div class="label">GOODパターン<br>過適合（創造性喪失）リスク</div>
+      <div class="impact">影響度: 中〜高</div>
+    </div>
+    <div class="matrix-cell c4">
+      <div class="num">④</div>
+      <div class="label">複数エージェント<br>同時実行競合リスク</div>
+      <div class="impact">影響度: 高</div>
+    </div>
+    <div class="matrix-cell c5">
+      <div class="num">⑤</div>
+      <div class="label">外部サービス障害による<br>自動タスク崩壊リスク</div>
+      <div class="impact">影響度: 中</div>
+    </div>
+  </div>
+
+  <div class="section-sep"><span>📋 詳細分析</span><div class="section-sep-line"></div></div>
+
+  <!-- ──────── RISK 1 ──────── -->
+  <div class="risk-card r1c">
+    <div class="risk-header">
+      <div class="risk-badge-row">
+        <div class="risk-number">1</div>
+        <span class="risk-severity">🔴 致命的</span>
+      </div>
+      <div class="risk-title">共有記憶（CONTEXT.md）汚染リスク</div>
+      <div class="risk-subtitle">スケジュールタスクやエージェントが誤った内容をCONTEXT.mdに書き込み、全員が「間違った記憶」を参照し続ける</div>
+    </div>
+    <div class="risk-body">
+      <div class="risk-section scenario">
+        <h4>⚠️ 起こりうるシナリオ</h4>
+        <div class="scenario-box">
+          毎週月曜の <strong>ogilab-buzz-research</strong> が、何らかの理由（ページ取得エラー・誤認識）でフォロワー数を誤った値で上書きした場合、次の morning-briefing は「TikTok 123人」と報告し続ける。<br><br>
+          さらに「NGパターン」欄に誤ったルールが追記されると、その後のコンテンツ制作が全てそのルールに縛られる。一度汚染されると <strong>どこで間違えたか追跡できない</strong>。バージョン管理がないため、正しい状態に戻す方法もない。
+        </div>
+      </div>
+      <div class="risk-section fix">
+        <h4>✅ 改善策</h4>
+        <ul class="fix-list">
+          <li class="fix-item">
+            <div class="fix-icon">📸</div>
+            <div class="fix-text"><strong>CONTEXT.mdの定期スナップショット保存</strong><br>スケジュールタスクが書き込む前に、現在のCONTEXT.mdを <code>CONTEXT_backup_YYYYMMDD.md</code> として自動コピー。最大7世代保持。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">🔍</div>
+            <div class="fix-text"><strong>書き込み前のバリデーション</strong><br>フォロワー数は「前回値の±50%以内」でないとアラート。大きな変化は必ずMOONさんに確認してから書き込む。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">📌</div>
+            <div class="fix-text"><strong>自動追記は「追加のみ」ルールの厳守</strong><br>スケジュールタスクは既存の内容を書き換えず、末尾への追記のみ許可。更新が必要な値は「最新値: [X]（旧値: [Y] → 上書き日: [日付]）」形式で記録。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="impact-row">
+      <span class="impact-label">発生確率</span>
+      <div class="impact-bars" style="color:var(--r1)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-label" style="margin-left:16px">被害規模</span>
+      <div class="impact-bars" style="color:var(--r1)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div>
+      </div>
+      <span class="impact-desc">→ 全エージェントが誤った情報を信じて動き続ける「静かな大惨事」型</span>
+    </div>
+  </div>
+
+  <!-- ──────── RISK 2 ──────── -->
+  <div class="risk-card r2c">
+    <div class="risk-header">
+      <div class="risk-badge-row">
+        <div class="risk-number">2</div>
+        <span class="risk-severity">🟠 高</span>
+      </div>
+      <div class="risk-title">ユーザー不在時の意思決定停止リスク</div>
+      <div class="risk-subtitle">MOONさんが数日不在・多忙になるとタスクが全てキューに詰まり、AI組織が機能不全に陥る</div>
+    </div>
+    <div class="risk-body">
+      <div class="risk-section scenario">
+        <h4>⚠️ 起こりうるシナリオ</h4>
+        <div class="scenario-box">
+          MOONさんが出張や繁忙期で3日間確認できない状況。<br><br>
+          毎朝のブリーフィングは蓄積、buzz-researchの結果は未確認、SNS投稿の下書きも承認待ちのまま。TikTokの投稿タイミングを逃し、<strong>フォロワー増加の機会損失</strong>が発生。<br><br>
+          戻ってきた時には「何から見ればいいかわからない」状態になり、承認作業だけで半日消える。
+        </div>
+      </div>
+      <div class="risk-section fix">
+        <h4>✅ 改善策</h4>
+        <ul class="fix-list">
+          <li class="fix-item">
+            <div class="fix-icon">🤖</div>
+            <div class="fix-text"><strong>「代行モード」の設計</strong><br>ルーティン（🟢）タスクは承認なしで自動実行するモードを追加。「今週はお任せ期間」と一言伝えるだけで、AI組織が自律的にSNS下書き・リサーチ・ログ更新を進める。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">📦</div>
+            <div class="fix-text"><strong>不在復帰用「まとめブリーフィング」</strong><br>不在期間中の全タスク結果・意思決定待ち事項をコンパクトに1画面でまとめる「帰還ブリーフィング」を自動生成。「この3日間で起きたこと」を5分で把握できる形式。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">⏰</div>
+            <div class="fix-text"><strong>期限付き自動承認ルール</strong><br>🟢ルーティンタスクで「48時間応答なし→自動承認」の設定を追加。ただし自動承認した内容は必ず復帰時に1行報告する。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="impact-row">
+      <span class="impact-label">発生確率</span>
+      <div class="impact-bars" style="color:var(--r2)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-label" style="margin-left:16px">被害規模</span>
+      <div class="impact-bars" style="color:var(--r2)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-desc">→ 繁忙期に限って発生する「止まるAI組織」問題。SNS運用への影響が特に大きい</span>
+    </div>
+  </div>
+
+  <!-- ──────── RISK 3 ──────── -->
+  <div class="risk-card r3c">
+    <div class="risk-header">
+      <div class="risk-badge-row">
+        <div class="risk-number">3</div>
+        <span class="risk-severity">🟡 中〜高</span>
+      </div>
+      <div class="risk-title">GOODパターン過適合（創造性喪失）リスク</div>
+      <div class="risk-subtitle">承認パターンの蓄積が進むほど「過去の成功に縛られた均質なコンテンツ」しか生み出せなくなる</div>
+    </div>
+    <div class="risk-body">
+      <div class="risk-section scenario">
+        <h4>⚠️ 起こりうるシナリオ</h4>
+        <div class="scenario-box">
+          GOODパターンに「問いかけ型フック・180字・絵文字3個・→CTA」が蓄積される。<br><br>
+          AIはこれを「正解」として全てのSNS投稿をこの型に当てはめる。最初は品質が安定するが、<strong>3ヶ月後には全投稿が同じテンプレに見える</strong>問題が発生。<br><br>
+          フォロワーが「またこのパターンか」と飽き、エンゲージメントが下がる。GOODパターン蓄積が逆に制約になるパラドックス。
+        </div>
+      </div>
+      <div class="risk-section fix">
+        <h4>✅ 改善策</h4>
+        <ul class="fix-list">
+          <li class="fix-item">
+            <div class="fix-icon">🎲</div>
+            <div class="fix-text"><strong>「実験枠」の定期設定</strong><br>月4本のTikTok投稿のうち1本は必ず「GOODパターン外」の実験投稿と定義。結果が良ければGOODパターンを更新、悪ければNGに追記。常に探索を続ける。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">📊</div>
+            <div class="fix-text"><strong>GOODパターンに「有効期限」を設定</strong><br>6ヶ月以上前のGOODパターンは「要検証」フラグを付ける。SNSアルゴリズムは半年で変化するため、古い成功パターンが通用しなくなる前に再評価する。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">🌊</div>
+            <div class="fix-text"><strong>バズトレンド優先ルールの追加</strong><br>buzz-researchで「新しいバズパターン」が発見された場合、GOODパターンより優先してテスト投稿を1本生成する仕組みを追加。トレンドへの適応を担保する。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="impact-row">
+      <span class="impact-label">発生確率</span>
+      <div class="impact-bars" style="color:var(--r3)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-label" style="margin-left:16px">被害規模</span>
+      <div class="impact-bars" style="color:var(--r3)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-desc">→ ゆっくり進行する「茹でガエル」型。気づいた時にはフォロワーが離れている</span>
+    </div>
+  </div>
+
+  <!-- ──────── RISK 4 ──────── -->
+  <div class="risk-card r4c">
+    <div class="risk-header">
+      <div class="risk-badge-row">
+        <div class="risk-number">4</div>
+        <span class="risk-severity">🟣 高</span>
+      </div>
+      <div class="risk-title">複数エージェント同時実行による競合リスク</div>
+      <div class="risk-subtitle">daily-briefingとbuzz-researchが同じファイルに同時書き込みを行い、データが壊れるまたは上書きされる</div>
+    </div>
+    <div class="risk-body">
+      <div class="risk-section scenario">
+        <h4>⚠️ 起こりうるシナリオ</h4>
+        <div class="scenario-box">
+          毎週月曜9時に <strong>daily-briefing</strong> と <strong>buzz-research</strong> と <strong>weekly-review</strong> が同時に起動する。<br><br>
+          3つのタスクが同時にオギラボのCONTEXT.mdを読み込み、それぞれが更新を試みる。最後に書き込んだタスクが勝ち、他の2つの変更が消える。または途中の状態が混在した「ゴミデータ」が残る。<br><br>
+          ファイルロックの仕組みがないため、<strong>月曜朝は特に危険な時間帯</strong>。
+        </div>
+      </div>
+      <div class="risk-section fix">
+        <h4>✅ 改善策</h4>
+        <ul class="fix-list">
+          <li class="fix-item">
+            <div class="fix-icon">⏱️</div>
+            <div class="fix-text"><strong>スケジュールタスクの実行時間をずらす</strong><br>daily-briefing: 9:00 / buzz-research: 10:00 / weekly-review: 11:00 と1時間ずつズラして同時実行を防ぐ。最もシンプルで確実な対策。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">🔒</div>
+            <div class="fix-text"><strong>書き込みの「専用セクション」を分担</strong><br>各タスクが書き込むセクションを明確に分担：briefingは「最終ブリーフィング日」欄のみ、buzz-researchは「競合ナレッジ」欄のみ、weekly-reviewは「次のアクション」欄のみ。セクションが被らなければ競合しない。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">📝</div>
+            <div class="fix-text"><strong>別ファイルに書いて後でマージ</strong><br>各タスクは <code>CONTEXT_update_[task]_[date].md</code> という差分ファイルに書き出し、翌日のbriefingがそれをCONTEXT.mdにまとめて統合する非同期設計。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="impact-row">
+      <span class="impact-label">発生確率</span>
+      <div class="impact-bars" style="color:var(--r4)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-label" style="margin-left:16px">被害規模</span>
+      <div class="impact-bars" style="color:var(--r4)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-desc">→ 毎週月曜に潜在するリスク。被害が出て初めて気づく「見えない競合」</span>
+    </div>
+  </div>
+
+  <!-- ──────── RISK 5 ──────── -->
+  <div class="risk-card r5c">
+    <div class="risk-header">
+      <div class="risk-badge-row">
+        <div class="risk-number">5</div>
+        <span class="risk-severity">🔵 中</span>
+      </div>
+      <div class="risk-title">外部サービス障害による自動タスク崩壊リスク</div>
+      <div class="risk-subtitle">TikTok・Instagram・YouTube・Gemini APIなどが変更・停止した場合、自動タスクが全てエラーで終了し続ける</div>
+    </div>
+    <div class="risk-body">
+      <div class="risk-section scenario">
+        <h4>⚠️ 起こりうるシナリオ</h4>
+        <div class="scenario-box">
+          TikTokがURLスクレイピングを禁止・仕様変更。buzz-researchが毎週「取得エラー」でLEVEL3報告を繰り返す。MOONさんは毎月曜「エラー報告」を受け続けるがどうすれば直るかわからない。<br><br>
+          または Instagram のフォロワー数が取得できなくなり、CONTEXT.mdの数値が<strong>ずっと半年前の値</strong>のまま更新されずに残り続ける。誰もそれがおかしいと気づかない。
+        </div>
+      </div>
+      <div class="risk-section fix">
+        <h4>✅ 改善策</h4>
+        <ul class="fix-list">
+          <li class="fix-item">
+            <div class="fix-icon">🔄</div>
+            <div class="fix-text"><strong>取得失敗時の「前回値維持」フォールバック</strong><br>外部データ取得に失敗した場合は「取得エラー（前回値を維持）」と明記するだけにとどめ、前回の正しい値を消去しない。嘘の値より「不明」の方がましという設計思想。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">📅</div>
+            <div class="fix-text"><strong>データの「最終更新日」を常に明記</strong><br>フォロワー数などの数値データには必ず「（YYYY-MM-DD確認）」を付記。数値が古い場合は「⚠️ [N日前の値]」とアラートを出す。古さが可視化されれば手動更新のきっかけになる。</div>
+          </li>
+          <li class="fix-item">
+            <div class="fix-icon">🛠️</div>
+            <div class="fix-text"><strong>代替取得手段の事前登録</strong><br>「TikTokがダメなら直接アプリで確認してMOONさんに手動入力を依頼」「Instagramが取得できない場合はWebSearch経由で試みる」など、サービスごとのフォールバック手順をスケジュールタスクのpromptに明記。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="impact-row">
+      <span class="impact-label">発生確率</span>
+      <div class="impact-bars" style="color:var(--r5)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-label" style="margin-left:16px">被害規模</span>
+      <div class="impact-bars" style="color:var(--r5)">
+        <div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar filled"></div><div class="impact-bar empty"></div><div class="impact-bar empty"></div>
+      </div>
+      <span class="impact-desc">→ SNSプラットフォーム依存のリスク。2026年のTikTok規制動向も要注意</span>
+    </div>
+  </div>
+
+  <!-- まとめ優先テーブル -->
+  <div class="section-sep"><span>🎯 実装優先度まとめ</span><div class="section-sep-line"></div></div>
+
+  <div class="summary-wrap">
+    <table>
+      <tr>
+        <th>#</th>
+        <th>リスク名</th>
+        <th>最優先の対策</th>
+        <th>実装コスト</th>
+        <th>推奨タイミング</th>
+      </tr>
+      <tr>
+        <td><span class="dot" style="background:var(--r1)"></span>①</td>
+        <td>CONTEXT.md汚染</td>
+        <td>書き込み前スナップショット保存 + 追記専用ルール厳守</td>
+        <td>低（promptに追記のみ）</td>
+        <td><strong>今すぐ</strong></td>
+      </tr>
+      <tr>
+        <td><span class="dot" style="background:var(--r4)"></span>④</td>
+        <td>エージェント競合</td>
+        <td>スケジュールタスクの実行時間を1時間ずつずらす</td>
+        <td>低（cronの変更のみ）</td>
+        <td><strong>今すぐ</strong></td>
+      </tr>
+      <tr>
+        <td><span class="dot" style="background:var(--r2)"></span>②</td>
+        <td>ユーザー不在停止</td>
+        <td>「代行モード」の概念を追加 + ルーティン自動承認ルール</td>
+        <td>中（CLAUDE.md改定）</td>
+        <td>今週中</td>
+      </tr>
+      <tr>
+        <td><span class="dot" style="background:var(--r5)"></span>⑤</td>
+        <td>外部サービス障害</td>
+        <td>前回値維持フォールバック + 最終更新日の明記</td>
+        <td>低（promptに追記）</td>
+        <td>今週中</td>
+      </tr>
+      <tr>
+        <td><span class="dot" style="background:var(--r3)"></span>③</td>
+        <td>GOODパターン過適合</td>
+        <td>月1本の実験枠設定 + 6ヶ月有効期限の設定</td>
+        <td>中（運用ルール追加）</td>
+        <td>1ヶ月後（データが溜まってから）</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    AI組織構築リスク分析レポート v1.0 | 2026-03-26 | 総括エージェント → MOONさん
+  </div>
+</div>
+</body>
+</html>

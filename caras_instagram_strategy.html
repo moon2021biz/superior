@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARAS Instagram 戦略提案 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #111111;
+    --charcoal: #1E1E1E;
+    --stone: #3D3D3D;
+    --mid: #6B6B6B;
+    --light: #A8A8A8;
+    --silver: #D4D4D4;
+    --white: #F8F8F8;
+    --gold: #C4A45A;
+    --gold-light: #E8CC88;
+    --caras-red: #C0392B;
+    --accent: #C4A45A;
+  }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background: #0E0E0E; color: var(--white); }
+
+  /* HEADER */
+  .hero { background: linear-gradient(135deg, #111 0%, #1a1a1a 50%, #0d0d0d 100%); padding: 80px 40px; text-align: center; border-bottom: 1px solid #2a2a2a; position: relative; overflow: hidden; }
+  .hero::before { content: 'CARAS'; position: absolute; font-size: 200px; font-weight: 900; color: rgba(255,255,255,0.02); top: 50%; left: 50%; transform: translate(-50%,-50%); letter-spacing: 20px; }
+  .hero-badge { display: inline-block; background: var(--gold); color: #111; padding: 6px 18px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .hero h1 { font-size: 42px; font-weight: 800; letter-spacing: 3px; margin-bottom: 12px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--light); font-size: 15px; line-height: 1.7; }
+
+  /* SECTIONS */
+  .section { padding: 60px 40px; max-width: 1000px; margin: 0 auto; }
+  .section-title { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
+  .section-num { width: 40px; height: 40px; background: var(--gold); color: #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; flex-shrink: 0; }
+  .section-title h2 { font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+  .section-title p { font-size: 13px; color: var(--mid); margin-top: 3px; }
+  .divider { border: none; border-top: 1px solid #2a2a2a; margin: 0; }
+
+  /* RESEARCH SUMMARY */
+  .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .research-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; }
+  .research-card h3 { font-size: 13px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .research-card ul { list-style: none; }
+  .research-card li { font-size: 13px; color: var(--silver); padding: 6px 0; border-bottom: 1px solid #252525; display: flex; gap: 8px; }
+  .research-card li:last-child { border-bottom: none; }
+  .rank { color: var(--gold); font-weight: 700; font-size: 12px; min-width: 24px; }
+
+  /* HOOK LIST */
+  .hook-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .hook-item { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 12px; }
+  .hook-num { background: var(--gold); color: #111; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; flex-shrink: 0; }
+  .hook-content h4 { font-size: 13px; color: var(--white); font-weight: 700; margin-bottom: 4px; }
+  .hook-content .example { font-size: 12px; color: var(--gold-light); font-style: italic; }
+  .hook-content .why { font-size: 11px; color: var(--mid); margin-top: 4px; }
+
+  /* COLOR PALETTE */
+  .palette { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .color-chip { border-radius: 12px; overflow: hidden; flex: 1; min-width: 100px; }
+  .color-block { height: 80px; }
+  .color-info { background: #1a1a1a; padding: 10px 12px; }
+  .color-info .name { font-size: 12px; font-weight: 700; color: var(--white); }
+  .color-info .hex { font-size: 11px; color: var(--mid); }
+  .color-info .role { font-size: 10px; color: var(--gold); margin-top: 2px; }
+
+  /* GRID MOCKUP */
+  .grid-mockup { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
+  .grid-cell { aspect-ratio: 1; position: relative; overflow: hidden; background: #1a1a1a; display: flex; align-items: center; justify-content: center; }
+  .grid-cell img { width: 100%; height: 100%; object-fit: cover; }
+  .grid-cell .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; text-align: center; }
+  .grid-cell .cell-tag { font-size: 9px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .grid-cell .cell-title { font-size: 11px; font-weight: 800; color: white; line-height: 1.4; }
+  .grid-cell.text-card { background: #111; }
+  .grid-cell.text-card .overlay { background: linear-gradient(135deg, #111 0%, #1a1a1a 100%); border: 1px solid #2a2a2a; }
+
+  /* CONTENT CALENDAR */
+  .calendar { background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
+  .cal-header { display: grid; grid-template-columns: 80px 1fr 1fr 1fr; background: #111; padding: 12px 20px; }
+  .cal-header span { font-size: 11px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+  .cal-row { display: grid; grid-template-columns: 80px 1fr 1fr 1fr; padding: 14px 20px; border-top: 1px solid #252525; align-items: center; }
+  .cal-row:hover { background: #1f1f1f; }
+  .cal-week { font-size: 12px; color: var(--gold); font-weight: 700; }
+  .cal-theme { font-size: 13px; color: var(--white); font-weight: 600; }
+  .cal-target { font-size: 12px; color: var(--light); }
+  .cal-hook { font-size: 12px; color: var(--gold-light); font-style: italic; }
+
+  /* SAMPLE POST */
+  .post-preview { display: grid; grid-template-columns: 360px 1fr; gap: 32px; align-items: start; }
+  .post-image-wrap { border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
+  .post-image { width: 100%; aspect-ratio: 1; position: relative; overflow: hidden; background: #111; display: flex; align-items: center; justify-content: center; }
+  .post-image img { width: 100%; height: 100%; object-fit: cover; }
+  .post-image .img-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); }
+  .post-image .img-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+  .post-image .img-hook { font-size: 20px; font-weight: 900; color: white; line-height: 1.3; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+  .post-image .img-sub { font-size: 13px; color: var(--gold-light); margin-top: 6px; }
+  .post-image .img-logo { position: absolute; top: 16px; right: 16px; font-size: 11px; font-weight: 900; color: white; letter-spacing: 3px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 4px; }
+
+  .post-caption { }
+  .post-caption h3 { font-size: 14px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .caption-box { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 20px; font-size: 13px; color: var(--silver); line-height: 1.9; white-space: pre-line; }
+  .hashtag-box { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 16px 20px; margin-top: 12px; font-size: 12px; color: #5B9BD5; line-height: 1.8; }
+
+  /* SCORE */
+  .score-bar { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; }
+  .score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .score-row:last-child { margin-bottom: 0; }
+  .score-label { font-size: 13px; color: var(--light); width: 140px; flex-shrink: 0; }
+  .score-track { flex: 1; height: 8px; background: #2a2a2a; border-radius: 4px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .score-val { font-size: 13px; color: var(--gold); font-weight: 700; width: 50px; text-align: right; }
+
+  /* NEXT STEPS */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .step-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; }
+  .step-icon { font-size: 28px; margin-bottom: 12px; }
+  .step-card h3 { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .step-card p { font-size: 12px; color: var(--light); line-height: 1.7; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kpi-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 20px; text-align: center; }
+  .kpi-num { font-size: 28px; font-weight: 900; color: var(--gold); }
+  .kpi-label { font-size: 11px; color: var(--light); margin-top: 4px; }
+  .kpi-period { font-size: 10px; color: var(--mid); margin-top: 2px; }
+
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .tag-gold { background: rgba(196,164,90,0.15); color: var(--gold); border: 1px solid rgba(196,164,90,0.3); }
+  .tag-blue { background: rgba(91,155,213,0.15); color: #5B9BD5; border: 1px solid rgba(91,155,213,0.3); }
+
+  .info-box { background: rgba(196,164,90,0.08); border: 1px solid rgba(196,164,90,0.2); border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; font-size: 13px; color: var(--silver); line-height: 1.7; }
+  .info-box strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Instagram Strategy 2026</div>
+  <h1>CARAS <span>Instagram</span><br>戦略提案書</h1>
+  <p>バズ調査20件分析 × CARASブランド設計 × 週1投稿運用プラン<br>作成日: 2026-03-28</p>
+</div>
+
+<!-- SECTION 1: RESEARCH -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">1</div>
+    <div>
+      <h2>バズ調査 — 上位20パターン分析</h2>
+      <p>類似ターゲット（30〜50代女性・ビジネスパーソン）のフィットネス系人気アカウントを調査</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    📊 調査対象: パーソナルジム・フィットネス系Instagramアカウント｜ターゲット: 30〜50代女性・ビジネスパーソン男性<br>
+    <strong>最重要発見:</strong> 2026年のInstagramアルゴリズムは「シェア数 ＞ 保存数 ＞ 視聴完了率」の順で評価。「自分に刺さった」と感じてDMでシェアされる投稿が最強。
+  </div>
+
+  <div class="research-grid">
+    <div class="research-card">
+      <h3>🔥 バズるコンテンツタイプ TOP10</h3>
+      <ul>
+        <li><span class="rank">01</span>ビフォーアフター実績（視覚的説得力が最強）</li>
+        <li><span class="rank">02</span>「〇〇な人へ」ターゲット直接呼びかけ</li>
+        <li><span class="rank">03</span>「実は間違ってる」逆説型情報提供</li>
+        <li><span class="rank">04</span>「知らないと損する」損失回避型フック</li>
+        <li><span class="rank">05</span>自宅でできる簡単トレーニング動画</li>
+        <li><span class="rank">06</span>「40代から変わった」年代別共感コンテンツ</li>
+        <li><span class="rank">07</span>お客様の声＋リアルな変化エピソード</li>
+        <li><span class="rank">08</span>「体型が変わらない本当の理由」問題提起型</li>
+        <li><span class="rank">09</span>トレーナー紹介＋実績・資格アピール</li>
+        <li><span class="rank">10</span>ジム雰囲気・設備紹介（安心感の醸成）</li>
+      </ul>
+    </div>
+    <div class="research-card">
+      <h3>📍 成功アカウントの共通点 TOP10</h3>
+      <ul>
+        <li><span class="rank">11</span>ターゲットを1〜2人のペルソナに絞り込む</li>
+        <li><span class="rank">12</span>宣伝投稿ゼロ → 有益情報95%で信頼獲得</li>
+        <li><span class="rank">13</span>グリッドのカラー・フォント統一で見栄え◎</li>
+        <li><span class="rank">14</span>「完全マンツーマン」「完全個室」を毎回強調</li>
+        <li><span class="rank">15</span>近隣地名（西宮・夙川）をキャプションに必ず入れる</li>
+        <li><span class="rank">16</span>フック1行目で「誰向けか」を明示する</li>
+        <li><span class="rank">17</span>改行・絵文字を多用し縦長に読みやすくする</li>
+        <li><span class="rank">18</span>週1回の安定投稿 → アルゴリズム評価UP</li>
+        <li><span class="rank">19</span>ストーリーズで「体験予約はこちら」に誘導</li>
+        <li><span class="rank">20</span>コメント・DM返信を24時間以内に必ず行う</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 2: HOOKS -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">2</div>
+    <div>
+      <h2>CARAS向け バズフック20選</h2>
+      <p>CARASのターゲット・USPに合わせてカスタマイズしたフック文テンプレート</p>
+    </div>
+  </div>
+  <div class="hook-grid">
+    <div class="hook-item">
+      <div class="hook-num">1</div>
+      <div class="hook-content">
+        <h4>ターゲット直接呼びかけ型</h4>
+        <div class="example">「腰痛が気になる40代の方へ」</div>
+        <div class="why">→ スクロールが止まる。自分ごと化が最速</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">2</div>
+      <div class="hook-content">
+        <h4>逆説・常識覆し型</h4>
+        <div class="example">「それ、逆効果かもしれません」</div>
+        <div class="why">→ 保存・シェアされやすい。専門性を証明</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">3</div>
+      <div class="hook-content">
+        <h4>損失回避型</h4>
+        <div class="example">「知らないと損する筋トレの順番」</div>
+        <div class="why">→ 人は「損したくない」心理が強い</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">4</div>
+      <div class="hook-content">
+        <h4>共感・悩み代弁型</h4>
+        <div class="example">「何をやっても体型が変わらない理由」</div>
+        <div class="why">→ コメント・保存が激増するパターン</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">5</div>
+      <div class="hook-content">
+        <h4>年代別共感型</h4>
+        <div class="example">「40代で10kg落とした方法」</div>
+        <div class="why">→ 年齢が近いほど「私もできる」と感じる</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">6</div>
+      <div class="hook-content">
+        <h4>数字インパクト型</h4>
+        <div class="example">「継続率100%の秘密、教えます」</div>
+        <div class="why">→ CARASの最強USPをそのままフックに</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">7</div>
+      <div class="hook-content">
+        <h4>ゴルフ特化型（男性向け）</h4>
+        <div class="example">「飛距離が20ヤード伸びた体幹の話」</div>
+        <div class="why">→ ゴルファーに超刺さる具体性</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">8</div>
+      <div class="hook-content">
+        <h4>問題提起型</h4>
+        <div class="example">「姿勢が悪いと老けて見える理由」</div>
+        <div class="why">→ 女性ターゲットに効く美容絡みの切り口</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">9</div>
+      <div class="hook-content">
+        <h4>限定感・希少性型</h4>
+        <div class="example">「完全個室だから言える話」</div>
+        <div class="why">→ 内輪感・特別感でフォロー促進</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">10</div>
+      <div class="hook-content">
+        <h4>オリンピアン権威型</h4>
+        <div class="example">「元オリンピック選手が教える○○」</div>
+        <div class="why">→ CARASだけの圧倒的差別化要素</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">11</div>
+      <div class="hook-content">
+        <h4>ビフォーアフター型</h4>
+        <div class="example">「3ヶ月で変わった体、見てください」</div>
+        <div class="why">→ 視覚的説得力No.1。問い合わせに直結</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">12</div>
+      <div class="hook-content">
+        <h4>リアル体験談型</h4>
+        <div class="example">「腰痛が3回で改善したお客様の話」</div>
+        <div class="why">→ 具体的すぎる体験談は保存率が高い</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">13</div>
+      <div class="hook-content">
+        <h4>恐怖訴求型（ソフト）</h4>
+        <div class="example">「40代で運動をやめると起きること」</div>
+        <div class="why">→ 危機感→解決策の流れで体験予約に誘導</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">14</div>
+      <div class="hook-content">
+        <h4>ライフスタイル共感型</h4>
+        <div class="example">「忙しいビジネスパーソンが通えるジム」</div>
+        <div class="why">→ 完全予約制・出張対応のUSPと直結</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">15</div>
+      <div class="hook-content">
+        <h4>Q&A型</h4>
+        <div class="example">「週1回のトレーニングで意味ある？」</div>
+        <div class="why">→ よくある不安・疑問をそのままフックに</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">16</div>
+      <div class="hook-content">
+        <h4>ランキング・まとめ型</h4>
+        <div class="example">「体型を変えたい人がやるべき3つのこと」</div>
+        <div class="why">→ 保存率が高い。ノウハウ系の鉄板フォーマット</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">17</div>
+      <div class="hook-content">
+        <h4>地域密着型</h4>
+        <div class="example">「西宮・夙川で一番続けられるジムの理由」</div>
+        <div class="why">→ 地名＋MEOで近隣ユーザーに届く</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">18</div>
+      <div class="hook-content">
+        <h4>ビフォー誘導型</h4>
+        <div class="example">「運動が続かない人は○○が原因です」</div>
+        <div class="why">→ 否定→解決の流れで体験予約に自然誘導</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">19</div>
+      <div class="hook-content">
+        <h4>食事・生活習慣型</h4>
+        <div class="example">「LINEで食事管理してもらったら変わった話」</div>
+        <div class="why">→ CARASの食事サポートUSPをフックに変換</div>
+      </div>
+    </div>
+    <div class="hook-item">
+      <div class="hook-num">20</div>
+      <div class="hook-content">
+        <h4>シェアしたくなる型</h4>
+        <div class="example">「これ知ってる人、絶対続けられる」</div>
+        <div class="why">→ 「友達に送りたい」感情を刺激。シェア数UP</div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 3: DESIGN -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">3</div>
+    <div>
+      <h2>デザインシステム — グリッド統一ルール</h2>
+      <p>どの投稿も同じカラー・フォント・レイアウトでプロフィールを美しく見せる</p>
+    </div>
+  </div>
+
+  <div class="palette">
+    <div class="color-chip">
+      <div class="color-block" style="background:#111111;"></div>
+      <div class="color-info"><div class="name">Deep Black</div><div class="hex">#111111</div><div class="role">ベース・背景色</div></div>
+    </div>
+    <div class="color-chip">
+      <div class="color-block" style="background:#3D3D3D;"></div>
+      <div class="color-info"><div class="name">Stone Grey</div><div class="hex">#3D3D3D</div><div class="role">写真オーバーレイ</div></div>
+    </div>
+    <div class="color-chip">
+      <div class="color-block" style="background:#C4A45A;"></div>
+      <div class="color-info"><div class="name">CARAS Gold</div><div class="hex">#C4A45A</div><div class="role">アクセント・見出し</div></div>
+    </div>
+    <div class="color-chip">
+      <div class="color-block" style="background:#F8F8F8;"></div>
+      <div class="color-info"><div class="name">Clean White</div><div class="hex">#F8F8F8</div><div class="role">本文テキスト</div></div>
+    </div>
+    <div class="color-chip">
+      <div class="color-block" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d);"></div>
+      <div class="color-info"><div class="name">Card BG</div><div class="hex">#1A1A1A</div><div class="role">テキストカード背景</div></div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--light);margin-bottom:20px;">↓ グリッドプレビュー（写真投稿 × テキストカードを交互に配置）</p>
+
+  <div class="grid-mockup">
+    <!-- Row 1 -->
+    <div class="grid-cell" style="background:#1a1a1a;">
+      <div class="overlay" style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);border:1px solid #2a2a2a;">
+        <div class="cell-tag">TIPS</div>
+        <div class="cell-title">腰痛持ちの方へ</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#222;">
+      <div class="overlay" style="background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.75));">
+        <div class="cell-tag" style="color:#C4A45A;">RESULT</div>
+        <div class="cell-title">3ヶ月で変わった体</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#1a1a1a;">
+      <div class="overlay" style="background:linear-gradient(135deg,#111,#1a1a1a);border:1px solid #2a2a2a;">
+        <div class="cell-tag">TRAINER</div>
+        <div class="cell-title">元オリンピック選手が在籍</div>
+      </div>
+    </div>
+    <!-- Row 2 -->
+    <div class="grid-cell" style="background:#222;">
+      <div class="overlay" style="background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.75));">
+        <div class="cell-tag" style="color:#C4A45A;">GOLF</div>
+        <div class="cell-title">飛距離を伸ばす体幹</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#1a1a1a;">
+      <div class="overlay" style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);border:1px solid #2a2a2a;">
+        <div class="cell-tag">STUDIO</div>
+        <div class="cell-title">完全個室スタジオ</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#222;">
+      <div class="overlay" style="background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.75));">
+        <div class="cell-tag" style="color:#C4A45A;">BEFORE/AFTER</div>
+        <div class="cell-title">続けられた理由</div>
+      </div>
+    </div>
+    <!-- Row 3 -->
+    <div class="grid-cell" style="background:#1a1a1a;">
+      <div class="overlay" style="background:linear-gradient(135deg,#111,#1a1a1a);border:1px solid #2a2a2a;">
+        <div class="cell-tag">TIPS</div>
+        <div class="cell-title">姿勢が悪いと老ける</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#222;">
+      <div class="overlay" style="background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.75));">
+        <div class="cell-tag" style="color:#C4A45A;">CARAS</div>
+        <div class="cell-title">西宮夙川のパーソナルジム</div>
+      </div>
+    </div>
+    <div class="grid-cell" style="background:#1a1a1a;">
+      <div class="overlay" style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);border:1px solid #2a2a2a;">
+        <div class="cell-tag">VOICE</div>
+        <div class="cell-title">お客様の声</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:16px 20px;background:#1a1a1a;border-radius:10px;border:1px solid #2a2a2a;">
+    <p style="font-size:13px;color:var(--light);line-height:1.8;">
+      <strong style="color:var(--gold)">グリッドルール:</strong>
+      ① 写真投稿には必ず黒オーバーレイ（透明度55%）＋白テキストを重ねる
+      　② テキストカードはDeep Black背景 + Goldアクセント
+      　③ 左上に必ず投稿カテゴリタグ（TIPS / RESULT / VOICE / GOLF等）を入れる
+      　④ フォントは全投稿で統一（Helvetica Neue Bold / ヒラギノ角ゴ）
+    </p>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 4: CONTENT CALENDAR -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">4</div>
+    <div>
+      <h2>週次コンテンツカレンダー（週1投稿）</h2>
+      <p>毎週土曜 or 日曜 9〜11時投稿を推奨（エンゲージメントのピーク時間帯）</p>
+    </div>
+  </div>
+
+  <div class="calendar">
+    <div class="cal-header">
+      <span>週</span>
+      <span>テーマ・フック</span>
+      <span>ターゲット</span>
+      <span>使用写真</span>
+    </div>
+    <div class="cal-row">
+      <div class="cal-week">第1週</div>
+      <div>
+        <div class="cal-theme">継続率100%の秘密 — 数字インパクト型</div>
+        <div class="cal-hook">「入会者全員が続けている理由を公開します」</div>
+      </div>
+      <div class="cal-target">初心者・体験検討層</div>
+      <div style="font-size:12px;color:var(--mid);">トレーニング風景</div>
+    </div>
+    <div class="cal-row">
+      <div class="cal-week">第2週</div>
+      <div>
+        <div class="cal-theme">腰痛・姿勢改善 — 悩み直接型</div>
+        <div class="cal-hook">「腰痛が3回で改善したお客様の話」</div>
+      </div>
+      <div class="cal-target">30〜50代女性・マダム層</div>
+      <div style="font-size:12px;color:var(--mid);">トレーナー指導写真</div>
+    </div>
+    <div class="cal-row">
+      <div class="cal-week">第3週</div>
+      <div>
+        <div class="cal-theme">ゴルフ飛距離UP — ゴルファー男性特化</div>
+        <div class="cal-hook">「元オリンピック選手が教える飛距離を伸ばす体幹」</div>
+      </div>
+      <div class="cal-target">40〜60代ビジネスマン</div>
+      <div style="font-size:12px;color:var(--mid);">トレーニング風景</div>
+    </div>
+    <div class="cal-row">
+      <div class="cal-week">第4週</div>
+      <div>
+        <div class="cal-theme">ジム・スタジオ紹介 — 安心感醸成型</div>
+        <div class="cal-hook">「完全個室だから、恥ずかしくない理由」</div>
+      </div>
+      <div class="cal-target">運動経験少ない初心者</div>
+      <div style="font-size:12px;color:var(--mid);">内装・施設写真</div>
+    </div>
+    <div class="cal-row" style="background:rgba(196,164,90,0.05);">
+      <div class="cal-week" style="color:var(--gold-light);">月1</div>
+      <div>
+        <div class="cal-theme">実験投稿（バズ検証）</div>
+        <div class="cal-hook">「〇〇が変わると人生が変わる」系の新フォーマット</div>
+      </div>
+      <div class="cal-target">全ターゲット</div>
+      <div style="font-size:12px;color:var(--mid);">状況により変更</div>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 5: SAMPLE POST -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">5</div>
+    <div>
+      <h2>サンプル投稿 — 第1週（今すぐ投稿可能）</h2>
+      <p>フック: 数字インパクト型「継続率100%」/ ターゲット: 体験検討中の全ターゲット</p>
+    </div>
+  </div>
+
+  <div class="post-preview">
+    <div class="post-image-wrap">
+      <div class="post-image">
+        <!-- 実際の投稿では gym photo を背景に使用 -->
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#0d0d0d 0%,#1a1a1a 40%,#111 100%);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:30px;">
+            <div style="font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">CARAS × トレーニング風景1.JPG</div>
+            <div style="font-size:36px;font-weight:900;color:white;line-height:1.2;margin-bottom:12px;">入会者<br><span style="color:var(--gold)">継続率</span><br>100%</div>
+            <div style="font-size:13px;color:var(--silver);">その理由、公開します。</div>
+          </div>
+        </div>
+        <div class="img-logo">CARAS</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));"></div>
+      </div>
+      <div style="background:#111;padding:10px 14px;display:flex;gap:8px;align-items:center;">
+        <span style="font-size:20px;">💪</span>
+        <span style="font-size:11px;color:var(--mid);">写真: ジム写真/トレーニング風景1.JPG を背景に使用</span>
+      </div>
+    </div>
+
+    <div class="post-caption">
+      <h3>📝 キャプション文（コピー可）</h3>
+      <div class="caption-box">💪 入会者が全員リピートし続ける理由
+
+「3ヶ月で10kg落とした」
+「慢性腰痛が3回で改善した」
+「運動が楽しくて仕方ない」
+
+CARASには、こんなリアルな声が毎月届きます✨
+
+その理由はシンプルで——
+マニュアルなし、あなただけのプログラム。
+
+元オリンピック日本代表のトレーナーが
+一人ひとりの目標・体質・生活習慣を見て
+完全オーダーメイドで設計します。
+
+「また通いたい」じゃなく
+「やめられない」に変わる場所。
+
+それがCARAS夙川です。
+
+👉 まずは無料カウンセリングから
+　プロフィールのリンクをチェック✔︎
+
+📍 阪急夙川駅徒歩5分・完全個室</div>
+
+      <div class="hashtag-box">#西宮パーソナルジム #夙川ジム #パーソナルジム西宮 #夙川トレーニング #ボディメイク西宮 #パーソナルトレーニング #西宮ダイエット #夙川フィットネス #完全個室ジム #オーダーメイドトレーニング #腰痛改善 #姿勢改善 #40代ダイエット #50代ボディメイク #継続率100</div>
+
+      <div style="margin-top:16px;">
+        <div class="score-bar">
+          <p style="font-size:12px;color:var(--gold);margin-bottom:14px;font-weight:700;">📊 品質スコア</p>
+          <div class="score-row"><div class="score-label">フック（冒頭1行）</div><div class="score-track"><div class="score-fill" style="width:88%;"></div></div><div class="score-val">88点</div></div>
+          <div class="score-row"><div class="score-label">読みやすさ</div><div class="score-track"><div class="score-fill" style="width:90%;"></div></div><div class="score-val">90点</div></div>
+          <div class="score-row"><div class="score-label">CTA（行動促進）</div><div class="score-track"><div class="score-fill" style="width:85%;"></div></div><div class="score-val">85点</div></div>
+          <div class="score-row"><div class="score-label">ターゲット適合</div><div class="score-track"><div class="score-fill" style="width:92%;"></div></div><div class="score-val">92点</div></div>
+          <div class="score-row"><div class="score-label">ブランドトーン</div><div class="score-track"><div class="score-fill" style="width:87%;"></div></div><div class="score-val">87点</div></div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;color:var(--light);">総合スコア</span>
+            <span style="font-size:22px;font-weight:900;color:var(--gold);">88点</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 6: KPI -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">6</div>
+    <div>
+      <h2>目標KPI（3ヶ月・6ヶ月）</h2>
+      <p>現状: フォロワー68人・投稿81件からの成長目標</p>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-num">150</div>
+      <div class="kpi-label">フォロワー</div>
+      <div class="kpi-period">1ヶ月後目標</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">300</div>
+      <div class="kpi-label">フォロワー</div>
+      <div class="kpi-period">3ヶ月後目標</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">5%+</div>
+      <div class="kpi-label">エンゲージメント率</div>
+      <div class="kpi-period">毎月維持目標</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">月3件</div>
+      <div class="kpi-label">体験予約</div>
+      <div class="kpi-period">Instagram経由3ヶ月後</div>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+
+<!-- SECTION 7: NEXT STEPS -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num">7</div>
+    <div>
+      <h2>次のアクション</h2>
+      <p>MOONさんが承認すれば即実行できるタスク一覧</p>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-icon">🖼️</div>
+      <h3>STEP 1 — 画像生成</h3>
+      <p>ジム写真（トレーニング風景1.JPG）を背景に、ゴールドテキストオーバーレイの投稿画像を生成。1080×1080px で出力。</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">📅</div>
+      <h3>STEP 2 — スケジュール設定</h3>
+      <p>週1投稿の自動生成スケジュールを設定。毎週木曜に翌週分の投稿文＋画像を生成→MOONさんに確認→土曜投稿。</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">📝</div>
+      <h3>STEP 3 — ルール化</h3>
+      <p>今回決まったデザインルール・フックパターン・KPIをCONTEXT.mdに追加し、次回以降のAI生成の精度を固定。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;background:rgba(196,164,90,0.08);border:1px solid rgba(196,164,90,0.25);border-radius:12px;padding:24px;text-align:center;">
+    <p style="font-size:14px;color:var(--gold);font-weight:700;margin-bottom:8px;">「この提案でOKです」と言っていただければ</p>
+    <p style="font-size:13px;color:var(--silver);">即座に ① 第1週分の画像生成 ② CONTEXT.md にInstagramルールを追加 ③ 週次自動生成スケジュールの設定 を実行します。</p>
+  </div>
+</div>
+
+</body>
+</html>

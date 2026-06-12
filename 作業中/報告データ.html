@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📂 レポートHub｜MOON AI組織</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07070f;
+  --bg2:     #0e0e1c;
+  --bg3:     #13132a;
+  --border:  #1e1e3a;
+  --text:    #e2e8f0;
+  --muted:   #6b7280;
+  --ogilab:  #a78bfa;
+  --caras:   #34d399;
+  --kenkou:  #f59e0b;
+  --sora:    #38bdf8;
+  --sup:     #fb923c;
+  --org:     #60a5fa;
+  --accent:  #f472b6;
+}
+body {
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── TOPNAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,7,15,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-size: .85rem; font-weight: 800; letter-spacing: .06em;
+  background: linear-gradient(90deg, #a78bfa, #38bdf8, #34d399);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-pills { display: flex; gap: 4px; }
+.pill {
+  padding: 4px 14px; border-radius: 99px; font-size: .72rem; font-weight: 600;
+  border: none; cursor: pointer; transition: all .18s;
+  background: transparent; color: var(--muted);
+}
+.pill:hover, .pill.active { background: var(--bg3); color: var(--text); }
+.updated { font-size: .62rem; color: var(--muted); }
+
+/* ── HERO ── */
+.hero {
+  padding: 40px 28px 28px;
+  max-width: 1360px; margin: 0 auto;
+}
+.hero-inner {
+  background: linear-gradient(135deg, rgba(96,165,250,.08), rgba(167,139,250,.06));
+  border: 1px solid rgba(96,165,250,.2);
+  border-radius: 18px;
+  padding: 28px 36px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.hero h1 { font-size: 1.5rem; font-weight: 800; line-height: 1.35; }
+.hero h1 span { color: #60a5fa; }
+.hero p { font-size: .82rem; color: var(--muted); margin-top: 6px; line-height: 1.6; }
+.stats-row { display: flex; gap: 20px; flex-shrink: 0; }
+.stat-box {
+  text-align: center;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 18px;
+  min-width: 72px;
+}
+.stat-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.stat-num.blue   { color: #60a5fa; }
+.stat-num.purple { color: #a78bfa; }
+.stat-num.green  { color: #34d399; }
+.stat-label { font-size: .58rem; color: var(--muted); margin-top: 4px; letter-spacing: .06em; }
+
+/* ── SEARCH / FILTER ── */
+.toolbar {
+  max-width: 1360px; margin: 0 auto;
+  padding: 0 28px 16px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.search-wrap {
+  flex: 1; min-width: 200px; max-width: 320px;
+  position: relative;
+}
+.search-wrap input {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 7px 12px 7px 34px;
+  color: var(--text);
+  font-size: .78rem;
+  outline: none;
+  font-family: inherit;
+}
+.search-wrap input:focus { border-color: #3b82f6; }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: .9rem; pointer-events: none; }
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 5px 13px; border-radius: 99px; font-size: .7rem; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border);
+  background: var(--bg2); color: var(--muted); transition: all .15s;
+}
+.filter-btn:hover { color: var(--text); }
+.filter-btn.active { color: #fff; border-color: transparent; }
+.filter-btn.all.active    { background: linear-gradient(90deg,#6366f1,#a78bfa); }
+.filter-btn.f-ogilab.active  { background: rgba(167,139,250,.25); border-color: var(--ogilab); color: var(--ogilab); }
+.filter-btn.f-caras.active   { background: rgba(52,211,153,.2);   border-color: var(--caras);  color: var(--caras); }
+.filter-btn.f-kenkou.active  { background: rgba(245,158,11,.2);   border-color: var(--kenkou); color: var(--kenkou); }
+.filter-btn.f-sora.active    { background: rgba(56,189,248,.2);   border-color: var(--sora);   color: var(--sora); }
+.filter-btn.f-sup.active     { background: rgba(251,146,60,.2);   border-color: var(--sup);    color: var(--sup); }
+.filter-btn.f-org.active     { background: rgba(96,165,250,.2);   border-color: var(--org);    color: var(--org); }
+
+/* ── MAIN GRID ── */
+.main-wrap { max-width: 1360px; margin: 0 auto; padding: 0 28px 40px; }
+
+/* カテゴリブロック */
+.cat-block { margin-bottom: 32px; }
+.cat-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cat-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* カードグリッド */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 12px; }
+
+/* レポートカード */
+.rcard {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  display: flex; flex-direction: column;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+  cursor: pointer;
+}
+.rcard:hover {
+  transform: translateY(-2px);
+  border-color: #2e2e5a;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.rcard-accent { height: 3px; }
+.rcard-accent.ogilab  { background: linear-gradient(90deg, #7c3aed, var(--ogilab)); }
+.rcard-accent.caras   { background: linear-gradient(90deg, #059669, var(--caras)); }
+.rcard-accent.kenkou  { background: linear-gradient(90deg, #d97706, var(--kenkou)); }
+.rcard-accent.sora    { background: linear-gradient(90deg, #0284c7, var(--sora)); }
+.rcard-accent.sup     { background: linear-gradient(90deg, #ea580c, var(--sup)); }
+.rcard-accent.org     { background: linear-gradient(90deg, #2563eb, var(--org)); }
+.rcard-accent.multi   { background: linear-gradient(90deg, #6366f1, #a78bfa, #34d399); }
+
+.rcard-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.rcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.rcard-icon { font-size: 1.4rem; flex-shrink: 0; }
+.rcard-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.badge {
+  font-size: .58rem; font-weight: 700; padding: 2px 7px;
+  border-radius: 99px; letter-spacing: .04em;
+}
+.badge-ogilab  { background: rgba(167,139,250,.15); color: var(--ogilab);  border: 1px solid rgba(167,139,250,.3); }
+.badge-caras   { background: rgba(52,211,153,.12);  color: var(--caras);   border: 1px solid rgba(52,211,153,.25); }
+.badge-kenkou  { background: rgba(245,158,11,.12);  color: var(--kenkou);  border: 1px solid rgba(245,158,11,.25); }
+.badge-sora    { background: rgba(56,189,248,.12);  color: var(--sora);    border: 1px solid rgba(56,189,248,.25); }
+.badge-sup     { background: rgba(251,146,60,.12);  color: var(--sup);     border: 1px solid rgba(251,146,60,.25); }
+.badge-org     { background: rgba(96,165,250,.12);  color: var(--org);     border: 1px solid rgba(96,165,250,.25); }
+.badge-type {
+  background: rgba(255,255,255,.06); color: #94a3b8;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.badge-new { background: rgba(244,114,182,.15); color: #f472b6; border: 1px solid rgba(244,114,182,.3); animation: glow 2s infinite; }
+@keyframes glow { 0%,100%{opacity:1;}50%{opacity:.6;} }
+
+.rcard-title { font-size: .9rem; font-weight: 700; line-height: 1.35; color: #e2e8f0; }
+.rcard-desc  { font-size: .7rem; color: var(--muted); line-height: 1.6; }
+.rcard-meta  { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.05); }
+.rcard-date  { font-size: .62rem; color: var(--muted); }
+.rcard-link  {
+  font-size: .68rem; font-weight: 600; color: #60a5fa;
+  display: flex; align-items: center; gap: 3px;
+}
+.rcard-link:hover { color: #93c5fd; }
+.rcard-score {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: .62rem; padding: 2px 8px; border-radius: 7px;
+  background: rgba(52,211,153,.1); color: #34d399;
+  border: 1px solid rgba(52,211,153,.2);
+}
+
+/* ── 最新ブリーフィング ハイライト ── */
+.briefing-highlight {
+  background: linear-gradient(135deg, rgba(255,200,80,.07), rgba(255,120,60,.05));
+  border: 1px solid rgba(255,200,80,.25);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+.bh-icon { font-size: 2.2rem; }
+.bh-text h2 { font-size: 1rem; font-weight: 700; color: #FFD700; margin-bottom: 4px; }
+.bh-text p  { font-size: .76rem; color: #aaa; line-height: 1.6; }
+.bh-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.btn-open {
+  padding: 8px 18px; border-radius: 9px; font-size: .75rem; font-weight: 700;
+  border: none; cursor: pointer; text-decoration: none;
+  background: linear-gradient(90deg, #f59e0b, #fcd34d);
+  color: #1c1100; transition: opacity .15s;
+  display: inline-block; text-align: center;
+}
+.btn-open:hover { opacity: .88; }
+.btn-sub {
+  font-size: .65rem; color: var(--muted); text-decoration: underline;
+  cursor: pointer; text-align: center; text-decoration: none;
+}
+.btn-sub:hover { color: var(--text); }
+
+/* ── PJ 進捗サマリーバー ── */
+.pj-bar-section {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 22px; margin-bottom: 28px;
+  display: grid; grid-template-columns: repeat(5,1fr); gap: 12px;
+}
+.pj-item { text-align: center; }
+.pj-name  { font-size: .64rem; font-weight: 700; margin-bottom: 6px; }
+.pj-prog  { height: 6px; background: var(--bg3); border-radius: 99px; overflow: hidden; margin-bottom: 4px; }
+.pj-fill  { height: 100%; border-radius: 99px; }
+.pj-pct   { font-size: .72rem; font-weight: 800; }
+
+/* ── EMPTY STATE ── */
+.empty { text-align: center; padding: 48px; color: var(--muted); font-size: .8rem; }
+
+/* ── SCROLL TOP ── */
+.scroll-top {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 99px; width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; cursor: pointer; opacity: 0; transition: opacity .2s;
+  z-index: 50; color: var(--text);
+}
+.scroll-top.visible { opacity: 1; }
+
+footer {
+  text-align: center; padding: 24px;
+  font-size: .6rem; color: #374151; letter-spacing: .06em;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .hero-inner { flex-direction: column; }
+  .stats-row  { justify-content: center; }
+  .pj-bar-section { grid-template-columns: repeat(3,1fr); }
+  .briefing-highlight { grid-template-columns: auto 1fr; }
+  .bh-actions { grid-column: 1/-1; flex-direction: row; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOPNAV ── -->
+<nav class="topnav">
+  <div class="logo">🤖 MOON AI組織</div>
+  <div class="nav-pills">
+    <button class="pill active" onclick="filterAll()">すべて</button>
+    <button class="pill" onclick="filterPj('ogilab')">🧪 オギラボ</button>
+    <button class="pill" onclick="filterPj('caras')">💪 CARAS</button>
+    <button class="pill" onclick="filterPj('kenkou')">🏢 健康経営</button>
+    <button class="pill" onclick="filterPj('sora')">🏃 SORA/SUP</button>
+    <button class="pill" onclick="filterPj('org')">🤖 組織</button>
+  </div>
+  <div class="updated">最終更新: 2026-03-28</div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>📂 <span>レポート</span>Hub</h1>
+      <p>全プロジェクトの分析・ブリーフィング・競合調査・組織レポートを一元管理。<br>カテゴリ・プロジェクト別に素早くアクセスできます。</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num blue" id="cnt-all">15</div>
+        <div class="stat-label">総レポート</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num purple">5</div>
+        <div class="stat-label">プロジェクト</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num green">3</div>
+        <div class="stat-label">今週更新</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-wrap">
+
+  <!-- ── 最新ブリーフィング ハイライト ── -->
+  <div class="briefing-highlight">
+    <div class="bh-icon">🌅</div>
+    <div class="bh-text">
+      <h2>最新ブリーフィング — 2026年3月27日</h2>
+      <p>
+        オギラボ TikTok <strong style="color:#34d399">888人</strong>（目標まであと112人）
+        ｜ CARAS Instagram <strong style="color:#34d399">68人</strong>
+        ｜ SORA / SUPERIOR 春の入会シーズン対応が急務
+        <br>推奨アクション: TikTok投稿加速 → CARAS LP制作 → SORA/SUPERIOR 体験会告知
+      </p>
+    </div>
+    <div class="bh-actions">
+      <a class="btn-open" href="ここ/2026.3.27 デイリーブリーフィング.html" target="_blank">📋 ブリーフィングを開く</a>
+      <a class="btn-sub" href="ここ/2026.3.27 ブリーフィング詳細版.html" target="_blank">→ 詳細版ブリーフィング</a>
+    </div>
+  </div>
+
+  <!-- ── PJ 進捗サマリーバー ── -->
+  <div class="pj-bar-section">
+    <div class="pj-item">
+      <div class="pj-name" style="color:var(--ogilab)">🧪 オギラボ</div>
+      <div class="pj-prog"><div class="pj-fill" style="width:42%;background:linear-gradient(90deg,#7c3aed,var(--ogilab))"></div></div>
+      <div class="pj-pct" style="color:var(--ogilab)">42%</div>
+    </div>
+    <div class="pj-item">
+      <div class="pj-name" style="color:var(--caras)">💪 CARAS</div>
+      <div class="pj-prog"><div class="pj-fill" style="width:58%;background:linear-gradient(90deg,#059669,var(--caras))"></div></div>
+      <div class="pj-pct" style="color:var(--caras)">58%</div>
+    </div>
+    <div class="pj-item">
+      <div class="pj-name" style="color:var(--kenkou)">🏢 健康経営</div>
+      <div class="pj-prog"><div class="pj-fill" style="width:25%;background:linear-gradient(90deg,#d97706,var(--kenkou))"></div></div>
+      <div class="pj-pct" style="color:var(--kenkou)">25%</div>
+    </div>
+    <div class="pj-item">
+      <div class="pj-name" style="color:var(--sora)">🏃 SORA</div>
+      <div class="pj-prog"><div class="pj-fill" style="width:0%;background:linear-gradient(90deg,#0284c7,var(--sora))"></div></div>
+      <div class="pj-pct" style="color:var(--muted)">0%</div>
+    </div>
+    <div class="pj-item">
+      <div class="pj-name" style="color:var(--sup)">⚡ SUPERIOR</div>
+      <div class="pj-prog"><div class="pj-fill" style="width:0%;background:linear-gradient(90deg,#ea580c,var(--sup))"></div></div>
+      <div class="pj-pct" style="color:var(--muted)">0%</div>
+    </div>
+  </div>
+
+  <!-- ── 検索 & フィルター ── -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="レポートを検索..." oninput="applySearch()">
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn all active" onclick="setFilter('all',this)">すべて</button>
+      <button class="filter-btn f-ogilab" onclick="setFilter('ogilab',this)">オギラボ</button>
+      <button class="filter-btn f-caras"  onclick="setFilter('caras',this)">CARAS</button>
+      <button class="filter-btn f-kenkou" onclick="setFilter('kenkou',this)">健康経営</button>
+      <button class="filter-btn f-sora"   onclick="setFilter('sora',this)">SORA/SUP</button>
+      <button class="filter-btn f-org"    onclick="setFilter('org',this)">組織</button>
+    </div>
+  </div>
+
+  <!-- ==============================
+       カテゴリ1: ダッシュボード
+  ============================== -->
+  <div class="cat-block" id="cat-dashboard">
+    <div class="cat-label">🗂 ダッシュボード &amp; 全体管理</div>
+    <div class="cards">
+
+      <a class="rcard" href="ここ/2026.3.26 プロジェクトダッシュボード.html" target="_blank" data-pj="all" data-title="プロジェクトダッシュボード">
+        <div class="rcard-accent multi"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">🤖</div>
+            <div class="rcard-badges">
+              <span class="badge badge-type">DASHBOARD</span>
+              <span class="badge badge-new">★ メイン</span>
+            </div>
+          </div>
+          <div class="rcard-title">プロジェクトダッシュボード</div>
+          <div class="rcard-desc">全5プロジェクトの進捗・タスク・ディベート・エージェント状況を一覧で確認。ナビゲーションタブ付き。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.25 AI組織設計図.html" target="_blank" data-pj="org" data-title="AI組織設計図">
+        <div class="rcard-accent org"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">🏗</div>
+            <div class="rcard-badges">
+              <span class="badge badge-org">組織</span>
+              <span class="badge badge-type">DESIGN</span>
+            </div>
+          </div>
+          <div class="rcard-title">AI組織設計図</div>
+          <div class="rcard-desc">AI組織の役割・担当エージェント・連携フローを可視化した設計図。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.26 AI組織自動化フロー.html" target="_blank" data-pj="org" data-title="AI組織フロー">
+        <div class="rcard-accent org"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">⚡</div>
+            <div class="rcard-badges">
+              <span class="badge badge-org">組織</span>
+              <span class="badge badge-type">FLOW</span>
+            </div>
+          </div>
+          <div class="rcard-title">AI組織フロー（自動化）</div>
+          <div class="rcard-desc">全プロジェクトの自動化フローを可視化。スケジュールタスク・エージェント間連携の流れ。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ==============================
+       カテゴリ2: ブリーフィング
+  ============================== -->
+  <div class="cat-block" id="cat-briefing">
+    <div class="cat-label">🌅 ブリーフィング</div>
+    <div class="cards">
+
+      <a class="rcard" href="ここ/2026.3.27 デイリーブリーフィング.html" target="_blank" data-pj="all" data-title="デイリーブリーフィング 2026-03-27">
+        <div class="rcard-accent multi"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">🌅</div>
+            <div class="rcard-badges">
+              <span class="badge badge-type">BRIEFING</span>
+              <span class="badge badge-new">最新</span>
+            </div>
+          </div>
+          <div class="rcard-title">デイリーブリーフィング｜2026-03-27</div>
+          <div class="rcard-desc">各PJ進捗・要対応事項・推奨アクションTOP3・シナジーチャンスをコンパクトにまとめたデイリーレポート。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-27</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.27 ブリーフィング詳細版.html" target="_blank" data-pj="all" data-title="ブリーフィング詳細版 2026-03-27">
+        <div class="rcard-accent multi"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">📋</div>
+            <div class="rcard-badges">
+              <span class="badge badge-type">BRIEFING</span>
+              <span class="badge badge-type">詳細版</span>
+            </div>
+          </div>
+          <div class="rcard-title">ブリーフィング 詳細版｜2026-03-27</div>
+          <div class="rcard-desc">デイリーブリーフィングの詳細版。各PJの具体的な次のアクション・前回更新内容が記載。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-27</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ==============================
+       カテゴリ3: 競合調査 / リサーチ
+  ============================== -->
+  <div class="cat-block" id="cat-research">
+    <div class="cat-label">🔍 競合調査 &amp; リサーチ</div>
+    <div class="cards">
+
+      <a class="rcard" href="ここ/2026.3.26 オギラボ競合調査レポート.html" target="_blank" data-pj="ogilab" data-title="オギラボ競合調査レポート">
+        <div class="rcard-accent ogilab"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">📊</div>
+            <div class="rcard-badges">
+              <span class="badge badge-ogilab">オギラボ</span>
+              <span class="badge badge-type">競合調査</span>
+            </div>
+          </div>
+          <div class="rcard-title">オギラボ 競合調査レポート v1</div>
+          <div class="rcard-desc">AI×副業・オンラインサロン領域の競合分析。バズコンテンツのフックパターン・差別化ポイントを整理。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-score">📊 完成</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.26 競合比較・改善提案レポート.html" target="_blank" data-pj="ogilab" data-title="競合比較 改善提案レポート">
+        <div class="rcard-accent ogilab"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">⚔️</div>
+            <div class="rcard-badges">
+              <span class="badge badge-ogilab">オギラボ</span>
+              <span class="badge badge-type">改善提案</span>
+            </div>
+          </div>
+          <div class="rcard-title">競合比較 &amp; 改善提案レポート</div>
+          <div class="rcard-desc">競合との具体的な比較分析と、オギラボの改善提案をまとめたレポート。差別化戦略・コンテンツ改善案を含む。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-score">📊 完成</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ==============================
+       カテゴリ4: CARAS レポート
+  ============================== -->
+  <div class="cat-block" id="cat-caras">
+    <div class="cat-label">💪 CARAS レポート &amp; コンテンツ</div>
+    <div class="cards">
+
+      <a class="rcard" href="ここ/2026.3.26 オギラボ×CARASクロスレビュー.html" target="_blank" data-pj="caras" data-title="オギラボ × CARAS レビュー">
+        <div class="rcard-accent caras"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">🔗</div>
+            <div class="rcard-badges">
+              <span class="badge badge-ogilab">オギラボ</span>
+              <span class="badge badge-caras">CARAS</span>
+              <span class="badge badge-type">レビュー</span>
+            </div>
+          </div>
+          <div class="rcard-title">オギラボ × CARAS クロスレビュー</div>
+          <div class="rcard-desc">オギラボとCARASの相互シナジー分析・コンテンツクロスレビュー。連携強化ポイントを整理。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="caras_golf_diagnosis.html" target="_blank" data-pj="caras" data-title="CARAS ゴルフ診断">
+        <div class="rcard-accent caras"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">⛳</div>
+            <div class="rcard-badges">
+              <span class="badge badge-caras">CARAS</span>
+              <span class="badge badge-type">診断コンテンツ</span>
+            </div>
+          </div>
+          <div class="rcard-title">CARAS ゴルファー向け診断</div>
+          <div class="rcard-desc">ゴルフパフォーマンスを高めたいビジネスパーソン向けの診断HTMLコンテンツ。リード獲得用。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-score">✓ 完成</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="caras_madame_diagnosis.html" target="_blank" data-pj="caras" data-title="CARAS マダム診断">
+        <div class="rcard-accent caras"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">👗</div>
+            <div class="rcard-badges">
+              <span class="badge badge-caras">CARAS</span>
+              <span class="badge badge-type">診断コンテンツ</span>
+            </div>
+          </div>
+          <div class="rcard-title">CARAS マダム向け診断</div>
+          <div class="rcard-desc">40代女性ビジネスパーソン・マダム層向けの体型・健康診断コンテンツ。リード獲得用。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-score">✓ 完成</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ==============================
+       カテゴリ5: 組織改善 / 分析
+  ============================== -->
+  <div class="cat-block" id="cat-org">
+    <div class="cat-label">🤖 AI組織 分析 &amp; 改善レポート</div>
+    <div class="cards">
+
+      <a class="rcard" href="ここ/2026.3.27 AI組織フロー改善提案.html" target="_blank" data-pj="org" data-title="組織フロー改善提案v2">
+        <div class="rcard-accent org"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">⚙️</div>
+            <div class="rcard-badges">
+              <span class="badge badge-org">組織</span>
+              <span class="badge badge-type">改善提案</span>
+            </div>
+          </div>
+          <div class="rcard-title">AI組織フロー改善提案 v2</div>
+          <div class="rcard-desc">AI組織の自動化フローにおける課題・ボトルネックを分析し、改善策を提案したレポート。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.26 AI組織フロー課題レポート.html" target="_blank" data-pj="org" data-title="フロー問題点レポート">
+        <div class="rcard-accent org"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">🔧</div>
+            <div class="rcard-badges">
+              <span class="badge badge-org">組織</span>
+              <span class="badge badge-type">課題レポート</span>
+            </div>
+          </div>
+          <div class="rcard-title">フロー課題レポート</div>
+          <div class="rcard-desc">AI組織の実行フローにおける具体的な問題点・リスク・改善優先度をまとめたレポート。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="rcard" href="ここ/2026.3.27 AI組織リスク分析.html" target="_blank" data-pj="org" data-title="組織リスクレポート">
+        <div class="rcard-accent org"></div>
+        <div class="rcard-body">
+          <div class="rcard-top">
+            <div class="rcard-icon">⚠️</div>
+            <div class="rcard-badges">
+              <span class="badge badge-org">組織</span>
+              <span class="badge badge-type">リスク分析</span>
+            </div>
+          </div>
+          <div class="rcard-title">AI組織 リスク分析レポート</div>
+          <div class="rcard-desc">AI組織運営上のリスク（品質・スケール・依存性）を洗い出し、対策をまとめたレポート。</div>
+          <div class="rcard-meta">
+            <span class="rcard-date">📅 2026-03-26</span>
+            <span class="rcard-link">開く →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div><!-- /.main-wrap -->
+
+<div class="scroll-top" id="scrollBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<footer>🤖 MOON AI組織 レポートHub｜自動生成 2026-03-28｜全レポート一覧</footer>
+
+<script>
+// ── フィルター ──
+let currentFilter = 'all';
+
+function setFilter(pj, btn) {
+  currentFilter = pj;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applySearch();
+}
+
+function filterAll() {
+  currentFilter = 'all';
+  document.querySelectorAll('.pill').forEach((b,i) => b.classList.toggle('active', i===0));
+  applySearch();
+}
+function filterPj(pj) {
+  currentFilter = pj;
+  const pills = document.querySelectorAll('.pill');
+  pills.forEach(b => b.classList.remove('active'));
+  const pjMap = {ogilab:1, caras:2, kenkou:3, sora:4, org:5};
+  if(pjMap[pj] !== undefined) pills[pjMap[pj]].classList.add('active');
+  applySearch();
+}
+
+function applySearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.rcard');
+  let visible = 0;
+
+  cards.forEach(c => {
+    const pj    = c.dataset.pj || '';
+    const title = (c.dataset.title || '').toLowerCase();
+    const desc  = (c.querySelector('.rcard-desc')?.textContent || '').toLowerCase();
+
+    const matchFilter = currentFilter === 'all' || pj.includes(currentFilter) || pj === 'all';
+    const matchSearch = !q || title.includes(q) || desc.includes(q);
+
+    const show = matchFilter && matchSearch;
+    c.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+
+  document.getElementById('cnt-all').textContent = visible;
+
+  // カテゴリブロックを隠す（全カード非表示なら）
+  document.querySelectorAll('.cat-block').forEach(block => {
+    const anyVisible = [...block.querySelectorAll('.rcard')].some(c => c.style.display !== 'none');
+    block.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+// ── スクロールトップ ──
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollBtn').classList.toggle('visible', window.scrollY > 300);
+});
+</script>
+</body>
+</html>

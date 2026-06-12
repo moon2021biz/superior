@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織図 まとめ＆改善提案 | 2026-03-28</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #22263a;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f7b731;
+    --accent5: #00d2ff;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --border: rgba(108,99,255,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  .hero {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 60%, #1a1d3a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px 36px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(108,99,255,0.15);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, #6c63ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .hero-sub { color: var(--muted); font-size: 14px; }
+
+  /* レイアウト */
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  /* 5PJカード */
+  .pj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .pj-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .pj-ogilab::before { background: linear-gradient(90deg, #6c63ff, #a855f7); }
+  .pj-caras::before  { background: linear-gradient(90deg, #f7b731, #ff6584); }
+  .pj-kenko::before  { background: linear-gradient(90deg, #43e97b, #00d2ff); }
+  .pj-sora::before   { background: linear-gradient(90deg, #00d2ff, #6c63ff); }
+  .pj-sup::before    { background: linear-gradient(90deg, #ff6584, #f7b731); }
+
+  .pj-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .pj-type { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .progress-wrap { position: relative; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+  .pj-ogilab .progress-fill { background: linear-gradient(90deg, #6c63ff, #a855f7); width: 42%; }
+  .pj-caras .progress-fill  { background: linear-gradient(90deg, #f7b731, #ff6584); width: 58%; }
+  .pj-kenko .progress-fill  { background: linear-gradient(90deg, #43e97b, #00d2ff); width: 25%; }
+  .pj-sora .progress-fill   { background: linear-gradient(90deg, #00d2ff, #6c63ff); width: 2%; }
+  .pj-sup .progress-fill    { background: linear-gradient(90deg, #ff6584, #f7b731); width: 2%; }
+  .pj-milestone { font-size: 11px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+
+  /* エージェント図 */
+  .agent-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .agent-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .agent-icon { font-size: 28px; margin-bottom: 10px; }
+  .agent-name { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .agent-tasks { font-size: 11px; color: var(--muted); line-height: 1.8; }
+  .agent-tools {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tool-tag {
+    background: rgba(108,99,255,0.12);
+    border: 1px solid rgba(108,99,255,0.25);
+    color: #a5b4fc;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+
+  /* システム一覧 */
+  .systems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .sys-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .sys-num {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .sys-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .sys-desc { font-size: 12px; color: var(--muted); line-height: 1.8; }
+  .sys-key {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--accent3);
+    background: rgba(67,233,123,0.08);
+    border-radius: 6px;
+    padding: 8px 10px;
+    line-height: 1.7;
+  }
+
+  /* スケジュールタスク */
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+    font-size: 13px;
+  }
+  .schedule-table th {
+    background: rgba(108,99,255,0.12);
+    color: var(--accent);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--muted);
+  }
+  .schedule-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .badge-green  { background: rgba(67,233,123,0.15); color: #43e97b; }
+  .badge-blue   { background: rgba(0,210,255,0.15);  color: #00d2ff; }
+  .badge-purple { background: rgba(108,99,255,0.15); color: #a5b4fc; }
+  .badge-orange { background: rgba(247,183,49,0.15); color: #f7b731; }
+
+  /* シナジーマップ */
+  .synergy-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 48px;
+  }
+  .synergy-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .synergy-row:last-child { border-bottom: none; }
+  .syn-from {
+    min-width: 130px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .syn-arrow { color: var(--accent); font-size: 18px; margin-top: 2px; }
+  .syn-to { font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+  /* ============ 改善提案セクション ============ */
+  .improvement-section {
+    margin-bottom: 60px;
+  }
+  .improve-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .improve-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+  .improve-card.i1::before { background: linear-gradient(180deg, #ff6584, #f7b731); }
+  .improve-card.i2::before { background: linear-gradient(180deg, #6c63ff, #00d2ff); }
+  .improve-card.i3::before { background: linear-gradient(180deg, #43e97b, #6c63ff); }
+  .improve-card.i4::before { background: linear-gradient(180deg, #f7b731, #ff6584); }
+  .improve-card.i5::before { background: linear-gradient(180deg, #00d2ff, #43e97b); }
+
+  .improve-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .improve-num {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.15;
+    min-width: 48px;
+  }
+  .improve-title-wrap {}
+  .improve-priority {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .pri-high   { background: rgba(255,101,132,0.15); color: #ff6584; border: 1px solid rgba(255,101,132,0.3); }
+  .pri-mid    { background: rgba(247,183,49,0.15);  color: #f7b731; border: 1px solid rgba(247,183,49,0.3); }
+  .pri-low    { background: rgba(67,233,123,0.15);  color: #43e97b; border: 1px solid rgba(67,233,123,0.3); }
+
+  .improve-title { font-size: 18px; font-weight: 800; color: #fff; }
+  .improve-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .improve-body { margin-left: 64px; }
+  .improve-problem {
+    background: rgba(255,101,132,0.06);
+    border: 1px solid rgba(255,101,132,0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .improve-problem-label { font-size: 10px; color: #ff6584; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+  .improve-problem-text { font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+  .improve-solution {
+    background: rgba(108,99,255,0.06);
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .improve-solution-label { font-size: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+  .improve-solution-text { font-size: 13px; color: #c7d2fe; line-height: 1.8; }
+
+  .improve-effect {
+    background: rgba(67,233,123,0.06);
+    border: 1px solid rgba(67,233,123,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .improve-effect-label { font-size: 10px; color: #43e97b; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+  .improve-effect-text { font-size: 13px; color: #a7f3d0; line-height: 1.8; }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .score-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(108,99,255,0.1);
+    border: 1px solid rgba(108,99,255,0.25);
+    border-radius: 99px;
+    padding: 6px 20px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 600px) {
+    .improve-body { margin-left: 0; margin-top: 16px; }
+    .improve-num { display: none; }
+    .hero { padding: 32px 16px 24px; }
+    .container { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="hero-tag">AI Organization Overview</div>
+  <h1>AI組織図 まとめ＆改善提案</h1>
+  <p class="hero-sub">MOON AI組織 | 2026-03-28 現在</p>
+</div>
+
+<div class="container">
+
+  <!-- ========== 1. PJポートフォリオ ========== -->
+  <div class="section-title">
+    <div class="icon" style="background:rgba(108,99,255,0.15)">📊</div>
+    プロジェクトポートフォリオ（5PJ）
+  </div>
+
+  <div class="pj-grid">
+    <div class="pj-card pj-ogilab">
+      <div class="pj-name">🟣 オギラボ</div>
+      <div class="pj-type">オンラインサロン（noteメンバーシップ）</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>進捗</span><span>42%</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="pj-milestone">🎯 TikTok 1,000人達成 → サロン本格稼働</div>
+    </div>
+    <div class="pj-card pj-caras">
+      <div class="pj-name">🟡 パーソナルジムCARAS</div>
+      <div class="pj-type">個人向けジム + 法人展開</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>進捗</span><span>58%</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="pj-milestone">🎯 法人パッケージ完成・健康経営連携</div>
+    </div>
+    <div class="pj-card pj-kenko">
+      <div class="pj-name">🟢 健康経営有料法人</div>
+      <div class="pj-type">B2B法人ウェルネス支援</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>進捗</span><span>25%</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="pj-milestone">🎯 中小3社・大手1社のパイロット案件獲得</div>
+    </div>
+    <div class="pj-card pj-sora">
+      <div class="pj-name">🔵 陸上クラブ SORA</div>
+      <div class="pj-type">子ども向け陸上育成（香川）</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>進捗</span><span>0%</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="pj-milestone">🎯 情報整備・会員募集開始</div>
+    </div>
+    <div class="pj-card pj-sup">
+      <div class="pj-name">🔴 陸上クラブ SUPERIOR</div>
+      <div class="pj-type">子ども向け陸上育成（奈良・大阪）</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>進捗</span><span>0%</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="pj-milestone">🎯 情報整備・会員募集開始</div>
+    </div>
+  </div>
+
+  <!-- ========== 2. AI組織 エージェント構成 ========== -->
+  <div class="section-title">
+    <div class="icon" style="background:rgba(67,233,123,0.12)">🤖</div>
+    AI組織 エージェント構成（5役割）
+  </div>
+
+  <div class="agent-flow">
+    <div class="agent-card">
+      <div class="agent-icon">🧠</div>
+      <div class="agent-name">総括エージェント</div>
+      <div class="agent-tasks">タスク分解・文脈引き渡し・成果統合・ユーザー確認・提案。全エージェントの司令塔として動く。</div>
+      <div class="agent-tools">
+        <span class="tool-tag">Agent tool</span>
+        <span class="tool-tag">TodoWrite</span>
+        <span class="tool-tag">AskUser</span>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">🔍</div>
+      <div class="agent-name">リサーチエージェント</div>
+      <div class="agent-tasks">Web情報収集・YouTube/Note分析・Gemini連携 → サマリーを共有。競合バズ・トレンド・市場調査担当。</div>
+      <div class="agent-tools">
+        <span class="tool-tag">WebSearch</span>
+        <span class="tool-tag">WebFetch</span>
+        <span class="tool-tag">Gemini API</span>
+        <span class="tool-tag">Gmail</span>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">✍️</div>
+      <div class="agent-name">コンテンツエージェント</div>
+      <div class="agent-tasks">SNS投稿・スライド・LP・記事生成。GOODパターンを参照して品質スコア70点以上の成果物を生成。</div>
+      <div class="agent-tools">
+        <span class="tool-tag">sns-voireco</span>
+        <span class="tool-tag">pptx</span>
+        <span class="tool-tag">docx</span>
+        <span class="tool-tag">html-publish</span>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">📁</div>
+      <div class="agent-name">ファイル処理エージェント</div>
+      <div class="agent-tasks">PDF/Excel/PPT変換・加工・データ抽出・給与明細分割など。ファイル系タスクを自動化する。</div>
+      <div class="agent-tools">
+        <span class="tool-tag">pdf</span>
+        <span class="tool-tag">xlsx</span>
+        <span class="tool-tag">Bash</span>
+        <span class="tool-tag">Python</span>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">⚖️</div>
+      <div class="agent-name">レビューエージェント</div>
+      <div class="agent-tasks">採点・差し戻し・NGパターン蓄積・ディベート審判。品質スコアカードで70点未満は最大3回差し戻し。</div>
+      <div class="agent-tools">
+        <span class="tool-tag">サブAgent</span>
+        <span class="tool-tag">ファクトチェック</span>
+        <span class="tool-tag">採点基準</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 3. 組み込みシステム一覧 ========== -->
+  <div class="section-title">
+    <div class="icon" style="background:rgba(0,210,255,0.12)">⚙️</div>
+    組み込みシステム一覧（①〜⑩）
+  </div>
+
+  <div class="systems-grid">
+    <div class="sys-card">
+      <div class="sys-num">① エラーハンドリング</div>
+      <div class="sys-title">3段階フォールバック</div>
+      <div class="sys-desc">タスク失敗時にL1自動再試行 → L2代替アプローチ → L3ユーザー報告の順で自動対処。無言停止禁止。</div>
+      <div class="sys-key">🔑 失敗ログをCONTEXT.mdに自動記録</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">② シナジー検知</div>
+      <div class="sys-title">クロスPJ転用提案</div>
+      <div class="sys-desc">コンテンツ生成時に他PJへの転用チャンスを自動検知。CARAS→健康経営、SORA→CARASなどのパターンを常時監視。</div>
+      <div class="sys-key">🔑 朝のブリーフィングに1〜2件自動提案</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">③ 品質スコアカード</div>
+      <div class="sys-title">コンテンツ採点基準</div>
+      <div class="sys-desc">SNS投稿・LP・PPT・PDFの各タイプごとに100点満点で採点。70点未満は最大3回差し戻し。</div>
+      <div class="sys-key">🔑 全成果物に採点サマリー1行を必須添付</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">④ 意図推定エンジン</div>
+      <div class="sys-title">あいまい指示対応</div>
+      <div class="sys-desc">短い・曖昧な指示に対し、直近3セッションのCONTEXT.mdから意図を1〜3個推定して確認。</div>
+      <div class="sys-key">🔑 「前みたいな感じで」→ 直近成果物を参照</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑤ SNSモニタリング</div>
+      <div class="sys-title">オギラボ バズ調査</div>
+      <div class="sys-desc">毎週月曜に競合バズ収集・自社SNS確認・Gemini分析 → オギラボへの転用アイデア3案を生成してCONTEXT.mdに蓄積。</div>
+      <div class="sys-key">🔑 ogilab-buzz-researchが自動実行</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑥ ハンドオフログ</div>
+      <div class="sys-title">セッション引き継ぎ</div>
+      <div class="sys-desc">完了タスク・中断タスク・承認待ちを構造化して次セッションに自動引き継ぎ。「再開して」不要で即続行できる。</div>
+      <div class="sys-key">🔑 CONTEXT.md末尾に上書き保存</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑦ スプリント宣言</div>
+      <div class="sys-title">週次集中PJ管理</div>
+      <div class="sys-desc">毎週月曜のweekly-reviewで最大2PJに集中投下を宣言。集中PJは2倍頻度でタスク処理、その他は停止。</div>
+      <div class="sys-key">🔑 weekly-reviewで毎週更新</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑧ 進捗%計算</div>
+      <div class="sys-title">自動進捗更新</div>
+      <div class="sys-desc">コアコンテンツ40%・集客導線25%・収益化20%・自動化15%の重み付きでmonthly-review時に自動再計算。</div>
+      <div class="sys-key">🔑 差分を進捗履歴として蓄積</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑨ Decision Log</div>
+      <div class="sys-title">意思決定ログ</div>
+      <div class="sys-desc">🔴重大タスク承認時に選択肢・採用理由・却下理由・有効期限を自動記録。矛盾提案を防ぐ自己チェックが作動。</div>
+      <div class="sys-key">🔑 outputs/decisions/に保存</div>
+    </div>
+    <div class="sys-card">
+      <div class="sys-num">⑩ タスク依存タグ</div>
+      <div class="sys-title">前提条件チェック</div>
+      <div class="sys-desc">TODOに[前提:〇〇]タグを付与。前提未完了のタスクは実行対象外。ペルソナ未定でLP制作するロスをゼロに。</div>
+      <div class="sys-key">🔑 前提完了時にブロック解除通知を自動表示</div>
+    </div>
+  </div>
+
+  <!-- ========== 4. スケジュールタスク ========== -->
+  <div class="section-title">
+    <div class="icon" style="background:rgba(247,183,49,0.12)">⏰</div>
+    自動スケジュールタスク
+  </div>
+
+  <table class="schedule-table" style="margin-bottom:48px">
+    <tr>
+      <th>タスク名</th>
+      <th>実行タイミング</th>
+      <th>目的</th>
+      <th>出力形式</th>
+    </tr>
+    <tr>
+      <td><code>daily-morning-briefing</code></td>
+      <td><span class="badge badge-green">毎朝 9:00</span></td>
+      <td>全PJ進捗チェック + 今日の推奨アクション</td>
+      <td>.html ファイル必須</td>
+    </tr>
+    <tr>
+      <td><code>weekly-review</code></td>
+      <td><span class="badge badge-blue">毎週月 9:00</span></td>
+      <td>週次振り返り + スプリント宣言 + 優先アクション</td>
+      <td>レポート</td>
+    </tr>
+    <tr>
+      <td><code>ogilab-buzz-research</code></td>
+      <td><span class="badge badge-purple">毎週月 9:00</span></td>
+      <td>競合バズ調査 + 自社SNSモニタリング + 転用アイデア</td>
+      <td>Gemini分析レポート</td>
+    </tr>
+    <tr>
+      <td><code>monthly-review</code></td>
+      <td><span class="badge badge-orange">毎月1日 9:00</span></td>
+      <td>月次進捗レビュー + 戦略見直し + 進捗%自動更新</td>
+      <td>月次レポート</td>
+    </tr>
+  </table>
+
+  <!-- ========== 5. シナジーマップ ========== -->
+  <div class="section-title">
+    <div class="icon" style="background:rgba(255,101,132,0.12)">🔗</div>
+    プロジェクト間シナジーマップ
+  </div>
+
+  <div class="synergy-wrap" style="margin-bottom:48px">
+    <div class="synergy-row">
+      <div class="syn-from">オギラボ</div>
+      <div class="syn-arrow">→</div>
+      <div class="syn-to">健康経営：AI活用事例として発信し、法人リードジェネレーション<br>SORA/SUPERIOR：スポーツ×AI活用事例としてSNSネタを供給</div>
+    </div>
+    <div class="synergy-row">
+      <div class="syn-from">CARAS</div>
+      <div class="syn-arrow">→</div>
+      <div class="syn-to">オギラボ：顧客をサロンへ誘導<br>健康経営：CARASのトレーニングプログラムを法人パッケージに組み込む</div>
+    </div>
+    <div class="synergy-row">
+      <div class="syn-from">健康経営</div>
+      <div class="syn-arrow">→</div>
+      <div class="syn-to">CARAS：法人プログラムとして連携<br>オギラボ：健康経営事例をコンテンツとして発信</div>
+    </div>
+    <div class="synergy-row">
+      <div class="syn-from">SORA ↔ SUPERIOR</div>
+      <div class="syn-arrow">↔</div>
+      <div class="syn-to">姉妹クラブとして合同イベント・コーチ共有・相互送客</div>
+    </div>
+    <div class="synergy-row">
+      <div class="syn-from">SORA / SUPERIOR</div>
+      <div class="syn-arrow">→</div>
+      <div class="syn-to">CARAS：保護者向けトレーニング紹介でクロスセル<br>オギラボ：子ども×スポーツ×AIのコンテンツを発信</div>
+    </div>
+  </div>
+
+  <!-- ========== 改善提案 ========== -->
+  <div class="section-title" style="margin-top: 16px;">
+    <div class="icon" style="background:rgba(255,101,132,0.15)">💡</div>
+    改善提案 TOP 5
+  </div>
+
+  <div class="improvement-section">
+
+    <!-- 改善①  -->
+    <div class="improve-card i1">
+      <div class="improve-header">
+        <div class="improve-num">01</div>
+        <div class="improve-title-wrap">
+          <span class="improve-priority pri-high">🔴 優先度：高</span>
+          <div class="improve-title">SORA・SUPERIOR の進捗0%放置問題を解消する「スターターキット」の設計</div>
+          <div class="improve-subtitle">全PJ均衡稼働 / コンテンツ蓄積の遅延リスク排除</div>
+        </div>
+      </div>
+      <div class="improve-body">
+        <div class="improve-problem">
+          <div class="improve-problem-label">⚠️ 現状の課題</div>
+          <div class="improve-problem-text">SORA・SUPERIORは両方とも進捗0%のまま放置されており、「情報整備中」という状態が続いている。スプリント宣言やシナジー送客を活かすには、最低限のコンテンツ（LP・SNSプロフィール・会員募集ページ）が必要だが、着手トリガーが定義されていない。</div>
+        </div>
+        <div class="improve-solution">
+          <div class="improve-solution-label">✅ 改善案</div>
+          <div class="improve-solution-text">
+            「スターターキット」として以下を1スプリントで一括生成するタスクセットを定義する。<br>
+            ① クラブ概要LP（HTML）② Instagram・TikTokプロフィール文 ③ 保護者向け入会案内PDF ④ CONTEXT.mdの必須項目の埋め合わせ<br><br>
+            weekly-reviewの「ブロック解除通知」に「SORA/SUPERIORスターターキット未完了」を表示し続け、空きスプリントで最優先着手するルールを追加。
+          </div>
+        </div>
+        <div class="improve-effect">
+          <div class="improve-effect-label">🎯 期待効果</div>
+          <div class="improve-effect-text">進捗0% → 15〜20%に一気に引き上げ。CARAS保護者クロスセルとオギラボSNSシナジーが即時稼働可能になる。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改善② -->
+    <div class="improve-card i2">
+      <div class="improve-header">
+        <div class="improve-num">02</div>
+        <div class="improve-title-wrap">
+          <span class="improve-priority pri-high">🔴 優先度：高</span>
+          <div class="improve-title">SNSデータ取得の自動化ルーティンが未整備 ── リアルタイム数値確認の仕組みを作る</div>
+          <div class="improve-subtitle">グローバルNGルール違反リスクの根本解消</div>
+        </div>
+      </div>
+      <div class="improve-body">
+        <div class="improve-problem">
+          <div class="improve-problem-label">⚠️ 現状の課題</div>
+          <div class="improve-problem-text">グローバルNGルール（2026-03-27）に「SNSフォロワー数・投稿数などのデータは必ずWebで実数値を確認すること」と定められているが、実際には朝のブリーフィングでCONTEXT.mdの前回値をそのまま使ってしまうリスクがある。各PJのCONTEXT.mdには「自社SNSアカウントURL」の記載欄が存在するが、オギラボ以外は未記入の状態。</div>
+        </div>
+        <div class="improve-solution">
+          <div class="improve-solution-label">✅ 改善案</div>
+          <div class="improve-solution-text">
+            ① 全PJのCONTEXT.mdに「自社SNSアカウント」テーブルを統一フォーマットで追加（Instagram/TikTok/YouTube/NoteのURL欄）<br>
+            ② daily-morning-briefingの実行時に各SNS URLをWebFetchで確認し、取得できた数値を使用・できない場合は明示的に「取得不可」と表示する処理を追加<br>
+            ③ ogilab-buzz-researchを全PJ対応に拡張し、週1回の自動数値更新ルーティンとして統合
+          </div>
+        </div>
+        <div class="improve-effect">
+          <div class="improve-effect-label">🎯 期待効果</div>
+          <div class="improve-effect-text">NGルール違反ゼロ。ブリーフィングの数値信頼性が大幅向上。5PJ全体のSNS状況をリアルタイムで把握できる。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改善③ -->
+    <div class="improve-card i3">
+      <div class="improve-header">
+        <div class="improve-num">03</div>
+        <div class="improve-title-wrap">
+          <span class="improve-priority pri-mid">🟡 優先度：中</span>
+          <div class="improve-title">「代行モード」の自動発動条件が曖昧 ── 発動・解除のトリガーを明確化する</div>
+          <div class="improve-subtitle">自律稼働の精度向上 / 誤発動・誤停止リスク排除</div>
+        </div>
+      </div>
+      <div class="improve-body">
+        <div class="improve-problem">
+          <div class="improve-problem-label">⚠️ 現状の課題</div>
+          <div class="improve-problem-text">代行モードの自動発動条件が「🟢タスクへの応答が48時間途絶えた場合」と定義されているが、Coworkのセッション構造上、「応答がない」のか「セッションが閉じている」のかをAIが区別できない。また、復帰時の「帰還ブリーフィング」で何をどこまで報告すべきかが曖昧。</div>
+        </div>
+        <div class="improve-solution">
+          <div class="improve-solution-label">✅ 改善案</div>
+          <div class="improve-solution-text">
+            ① 代行モードの自動発動は「MOONさんが明示的に宣言した場合のみ」に限定し、時間経過トリガーは廃止（誤発動リスク排除）<br>
+            ② 宣言時に「代行期間（例：3日間）」「代行対象PJ」「🟢タスクの範囲」を確認する専用フォームをAskUserQuestionで提示<br>
+            ③ 帰還ブリーフィングのフォーマットに「自動実行済みタスク一覧（ファイルリンク付き）」「🟡キュー件数」「次の推奨アクション1つ」を必須化
+          </div>
+        </div>
+        <div class="improve-effect">
+          <div class="improve-effect-label">🎯 期待効果</div>
+          <div class="improve-effect-text">誤発動ゼロ。代行モード中の実行範囲が明確になり、MOONさん不在時でも安心して組織に任せられる。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改善④ -->
+    <div class="improve-card i4">
+      <div class="improve-header">
+        <div class="improve-num">04</div>
+        <div class="improve-title-wrap">
+          <span class="improve-priority pri-mid">🟡 優先度：中</span>
+          <div class="improve-title">ディベートシステムが「決定後の追跡」で止まっている ── 成果検証ループを追加する</div>
+          <div class="improve-subtitle">意思決定の質向上 / PDCAサイクルの完成</div>
+        </div>
+      </div>
+      <div class="improve-body">
+        <div class="improve-problem">
+          <div class="improve-problem-label">⚠️ 現状の課題</div>
+          <div class="improve-problem-text">ディベートシステムは「最善案の導出 → Decision Log保存」まで設計されているが、「その決定が実際に正しかったか」を検証するループが存在しない。有効期限（6ヶ月後など）はDecision Logに記載されるが、期限が来ても自動で再評価を促す仕組みがない。</div>
+        </div>
+        <div class="improve-solution">
+          <div class="improve-solution-label">✅ 改善案</div>
+          <div class="improve-solution-text">
+            ① Decision Log に「再評価日」フィールドを追加。monthly-reviewがCLAUDE.mdと各PJのoutputs/decisions/をスキャンし、当月以内に期限を迎えるログを自動リストアップ<br>
+            ② 「再評価アラート」をmonthly-reviewのブリーフィングに追加：「[テーマ] の意思決定から6ヶ月が経過しました。結果はどうでしたか？」<br>
+            ③ 再評価後、Decision Logに「実績評価」「採用・破棄」を追記してGOODパターン/NGルールに反映するフローを標準化
+          </div>
+        </div>
+        <div class="improve-effect">
+          <div class="improve-effect-label">🎯 期待効果</div>
+          <div class="improve-effect-text">意思決定の精度が時間とともに向上。「なんとなく続けている方針」を定期的に問い直すPDCAサイクルが完成する。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改善⑤ -->
+    <div class="improve-card i5">
+      <div class="improve-header">
+        <div class="improve-num">05</div>
+        <div class="improve-title-wrap">
+          <span class="improve-priority pri-low">🟢 優先度：低〜中</span>
+          <div class="improve-title">進捗%計算の「収益化開始20%」が全PJでゼロ ── 最初の収益化ステップを可視化・分解する</div>
+          <div class="improve-subtitle">行動起点の明確化 / 収益化スピードアップ</div>
+        </div>
+      </div>
+      <div class="improve-body">
+        <div class="improve-problem">
+          <div class="improve-problem-label">⚠️ 現状の課題</div>
+          <div class="improve-problem-text">進捗%の重み付け計算では「収益化開始（初売上・初会員・初契約）= 20%」が最大の一歩だが、オギラボ0人・SORA/SUPERIOR 0%など、多くのPJで初収益が発生していない。この20%分を達成するための具体的なマイクロステップがTODOに落とし込まれていないため、「何をすれば収益化できるか」が不明確なまま時間が経過している。</div>
+        </div>
+        <div class="improve-solution">
+          <div class="improve-solution-label">✅ 改善案</div>
+          <div class="improve-solution-text">
+            ① 収益化開始カテゴリを「マイクロゴール5段階」に分解し、各段階に進捗%の部分点を割り当てる：<br>
+            　 集客導線（LP/プロフ）完成 4pt → フォロワー/問い合わせ10件 4pt → 体験申込み1件 4pt → 初成約1件 4pt → 継続2件 4pt<br>
+            ② 各PJのCONTEXT.mdのTODOに上記ステップを[前提条件タグ付きで]追記<br>
+            ③ weekly-reviewで「収益化フェーズ進捗ゲージ」を表示し、1段階でも進んだことを可視化して小さな前進を祝う
+          </div>
+        </div>
+        <div class="improve-effect">
+          <div class="improve-effect-label">🎯 期待効果</div>
+          <div class="improve-effect-text">「初収益まで何をすればいいか」が明確になり、優先アクションが具体化。停滞しがちな収益化フェーズに心理的モメンタムが生まれる。</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /improvement-section -->
+
+  <div class="footer">
+    <div>AI組織図 まとめ＆改善提案 | MOON AI Organization | 2026-03-28</div>
+    <div class="score-bar">📊 品質スコア: 87点 | 網羅性:◎ 具体性:◎ 実行可能性:○ 優先度整理:◎ ビジュアル:○</div>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>

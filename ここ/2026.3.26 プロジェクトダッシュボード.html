@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOON AI組織 — プロジェクトダッシュボード</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a14; --bg2: #0f1020; --bg3: #111827; --border: #1f2937;
+  --text: #e2e8f0; --muted: #6b7280;
+  --ogilab: #a78bfa; --ogilab-dim: rgba(167,139,250,0.1);
+  --caras: #34d399;  --caras-dim: rgba(52,211,153,0.1);
+  --kenkou: #f59e0b; --kenkou-dim: rgba(245,158,11,0.1);
+  --sora: #38bdf8;   --sora-dim: rgba(56,189,248,0.1);
+  --superior: #fb923c; --superior-dim: rgba(251,146,60,0.1);
+  --pro: #34d399; --con: #f87171;
+}
+body { font-family:'Hiragino Sans','Yu Gothic',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* NAV */
+.topnav {
+  background:rgba(10,10,20,0.95); border-bottom:1px solid var(--border);
+  padding:0 28px; display:flex; align-items:center; justify-content:space-between;
+  height:52px; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px);
+}
+.topnav .logo { font-size:.88rem; font-weight:700; letter-spacing:.06em; background:linear-gradient(90deg,#a78bfa,#38bdf8,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-tabs { display:flex; gap:3px; }
+.nav-tab { padding:5px 14px; border-radius:7px; cursor:pointer; font-size:.75rem; font-weight:600; border:none; background:transparent; color:var(--muted); transition:all .2s; }
+.nav-tab.active { background:var(--bg3); color:var(--text); }
+.nav-tab:hover { color:var(--text); }
+.topnav .date { font-size:.65rem; color:var(--muted); }
+
+.main { padding:24px 28px; max-width:1360px; margin:0 auto; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* SHARED BAR */
+.shared-bar { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:20px; }
+.shared-item { background:var(--bg3); border-radius:9px; padding:10px 12px; border:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.shared-item .si-icon { font-size:1.1rem; flex-shrink:0; }
+.shared-item .si-title { font-size:.62rem; font-weight:700; color:#94a3b8; }
+.shared-item .si-val { font-size:.72rem; color:var(--text); margin-top:1px; }
+
+/* PROJECT GRID — 5 cards: 3+2 layout */
+.projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
+.projects-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:20px; max-width:68%; }
+
+.proj-card { background:var(--bg2); border-radius:14px; border:1.5px solid; overflow:hidden; transition:transform .2s; }
+.proj-card:hover { transform:translateY(-2px); }
+.proj-card.ogilab  { border-color:var(--ogilab); box-shadow:0 0 20px rgba(167,139,250,.1); }
+.proj-card.caras   { border-color:var(--caras);  box-shadow:0 0 20px rgba(52,211,153,.1); }
+.proj-card.kenkou  { border-color:var(--kenkou); box-shadow:0 0 20px rgba(245,158,11,.1); }
+.proj-card.sora    { border-color:var(--sora);   box-shadow:0 0 20px rgba(56,189,248,.1); }
+.proj-card.superior{ border-color:var(--superior);box-shadow:0 0 20px rgba(251,146,60,.1); }
+
+.proj-header { padding:14px 16px 10px; border-bottom:1px solid var(--border); }
+.proj-header .ph-top { display:flex; align-items:flex-start; justify-content:space-between; }
+.proj-header .ph-icon { font-size:1.7rem; }
+.proj-header .ph-badge { font-size:.58rem; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:.08em; }
+.ogilab  .ph-badge { background:var(--ogilab-dim);  color:var(--ogilab);  border:1px solid rgba(167,139,250,.3); }
+.caras   .ph-badge { background:var(--caras-dim);   color:var(--caras);   border:1px solid rgba(52,211,153,.3); }
+.kenkou  .ph-badge { background:var(--kenkou-dim);  color:var(--kenkou);  border:1px solid rgba(245,158,11,.3); }
+.sora    .ph-badge { background:var(--sora-dim);    color:var(--sora);    border:1px solid rgba(56,189,248,.3); }
+.superior.ph-badge { background:var(--superior-dim);color:var(--superior);border:1px solid rgba(251,146,60,.3); }
+.proj-header .ph-name { font-size:.98rem; font-weight:700; margin-top:6px; }
+.proj-header .ph-sub  { font-size:.66rem; color:var(--muted); margin-top:2px; }
+
+.proj-body { padding:12px 16px; }
+.prog-label { display:flex; justify-content:space-between; font-size:.64rem; color:var(--muted); margin-bottom:4px; margin-top:2px; }
+.prog-bar { height:5px; background:var(--bg3); border-radius:10px; overflow:hidden; margin-bottom:12px; }
+.prog-fill { height:100%; border-radius:10px; transition:width 1s ease; }
+.ogilab  .prog-fill { background:linear-gradient(90deg,#7c3aed,#a78bfa); }
+.caras   .prog-fill { background:linear-gradient(90deg,#059669,#34d399); }
+.kenkou  .prog-fill { background:linear-gradient(90deg,#d97706,#f59e0b); }
+.sora    .prog-fill { background:linear-gradient(90deg,#0284c7,#38bdf8); }
+.superior.prog-fill { background:linear-gradient(90deg,#ea580c,#fb923c); }
+
+.task-section-title { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.task-list { list-style:none; margin-bottom:10px; }
+.task-item { display:flex; align-items:center; gap:7px; padding:4px 0; border-bottom:1px solid rgba(255,255,255,.04); font-size:.69rem; }
+.task-item:last-child { border-bottom:none; }
+.task-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.task-dot.done  { background:var(--pro); }
+.task-dot.doing { background:#f59e0b; animation:pulse 2s infinite; }
+.task-dot.todo  { background:var(--muted); }
+@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:.4;} }
+.task-text { flex:1; color:#cbd5e1; }
+.task-text.done-text { text-decoration:line-through; color:var(--muted); }
+.task-agent { font-size:.55rem; background:var(--bg3); padding:1px 5px; border-radius:8px; color:var(--muted); }
+
+.content-row { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px; }
+.content-badge { font-size:.58rem; padding:2px 7px; border-radius:20px; font-weight:600; }
+.cb-done { background:rgba(52,211,153,.15); color:#34d399; border:1px solid rgba(52,211,153,.3); }
+.cb-wip  { background:rgba(245,158,11,.15);  color:#f59e0b; border:1px solid rgba(245,158,11,.3); }
+.cb-todo { background:rgba(107,114,128,.15); color:var(--muted); border:1px solid rgba(107,114,128,.3); }
+.cb-new  { background:rgba(56,189,248,.15);  color:#38bdf8; border:1px solid rgba(56,189,248,.3); }
+
+.synergy-row { display:flex; gap:5px; flex-wrap:wrap; }
+.syn-tag { font-size:.57rem; padding:2px 7px; border-radius:8px; }
+
+/* SYNERGY MAP */
+.synergy-section { background:var(--bg2); border-radius:14px; border:1px solid var(--border); padding:20px 24px; margin-bottom:20px; }
+.synergy-section h2 { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+
+.syn-map { position:relative; height:280px; }
+.syn-node { position:absolute; border-radius:12px; padding:12px 14px; text-align:center; border:1.5px solid; transition:transform .2s; }
+.syn-node:hover { transform:scale(1.05); }
+.syn-node .sn-icon { font-size:1.4rem; }
+.syn-node .sn-name { font-size:.75rem; font-weight:700; margin-top:4px; }
+.syn-node .sn-sub  { font-size:.57rem; color:var(--muted); margin-top:1px; }
+/* 5-node positions: pentagon-ish */
+.syn-node.og { left:5%;   top:30%; transform:translateY(-50%); background:var(--ogilab-dim);  border-color:var(--ogilab); }
+.syn-node.ca { left:50%;  top:5%;  transform:translateX(-50%); background:var(--caras-dim);   border-color:var(--caras); }
+.syn-node.ke { right:5%;  top:30%; transform:translateY(-50%); background:var(--kenkou-dim);  border-color:var(--kenkou); }
+.syn-node.so { left:18%;  bottom:5%;                           background:var(--sora-dim);    border-color:var(--sora); }
+.syn-node.su { right:18%; bottom:5%;                           background:var(--superior-dim);border-color:var(--superior); }
+.syn-node.center {
+  left:50%; top:50%; transform:translate(-50%,-50%);
+  background:rgba(96,165,250,.07); border:1.5px dashed #3b82f6; padding:8px 12px;
+}
+.syn-node.center .sn-name { font-size:.65rem; color:#60a5fa; }
+
+.syn-lines { position:absolute; inset:0; pointer-events:none; }
+
+.syn-arrows { display:flex; justify-content:center; gap:10px; margin-top:14px; flex-wrap:wrap; }
+.syn-arrow { display:flex; align-items:center; gap:5px; font-size:.64rem; color:var(--muted); background:var(--bg3); padding:5px 10px; border-radius:7px; }
+.syn-arrow .sa-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+/* AGENTS */
+.agents-section { background:var(--bg2); border-radius:14px; border:1px solid var(--border); padding:20px 24px; margin-bottom:20px; }
+.agents-section h2 { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+.agents-grid-small { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.ag-card { background:var(--bg3); border-radius:11px; padding:12px 10px; text-align:center; border:1px solid var(--border); }
+.ag-card .ag-icon { font-size:1.5rem; }
+.ag-card .ag-name { font-size:.68rem; font-weight:700; margin-top:5px; color:#cbd5e1; }
+.ag-card .ag-status { font-size:.57rem; margin-top:3px; }
+.ag-card .ag-projects { display:flex; gap:3px; justify-content:center; margin-top:7px; flex-wrap:wrap; }
+.ag-proj { width:7px; height:7px; border-radius:50%; }
+.ag-proj.og { background:var(--ogilab); }
+.ag-proj.ca { background:var(--caras); }
+.ag-proj.ke { background:var(--kenkou); }
+.ag-proj.so { background:var(--sora); }
+.ag-proj.su { background:var(--superior); }
+.status-dot { width:6px; height:6px; border-radius:50%; display:inline-block; margin-right:3px; }
+.s-active { background:var(--pro); animation:pulse 2s infinite; }
+.s-wait   { background:var(--muted); }
+
+/* DEBATE */
+.debate-wrap { background:var(--bg2); border-radius:14px; border:1px solid var(--border); overflow:hidden; margin-bottom:20px; }
+.debate-header { padding:18px 22px; background:linear-gradient(135deg,#0a0f1e,#0f1428); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.debate-header h2 { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.debate-header .dh-title { font-size:.95rem; font-weight:700; color:var(--text); margin-top:3px; }
+.debate-header .dh-meta  { font-size:.65rem; color:var(--muted); margin-top:2px; }
+.debate-topic { margin:14px 22px; padding:10px 14px; background:rgba(96,165,250,.08); border:1px solid rgba(96,165,250,.2); border-radius:9px; font-size:.76rem; color:#93c5fd; }
+.debate-topic .dt-label { font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:#3b82f6; margin-bottom:3px; }
+.debate-arena { display:grid; grid-template-columns:1fr 1fr; }
+.debate-side { padding:18px 22px; }
+.debate-side.pro-side { border-right:1px solid var(--border); }
+.side-header { display:flex; align-items:center; gap:7px; margin-bottom:12px; }
+.side-header .side-icon { font-size:1.1rem; }
+.side-header .side-label { font-size:.68rem; font-weight:700; letter-spacing:.1em; }
+.side-header .side-count { font-size:.6rem; color:var(--muted); margin-left:auto; }
+.pro-side .side-label { color:var(--pro); }
+.con-side .side-label { color:var(--con); }
+.debate-round { margin-bottom:8px; border-radius:9px; overflow:hidden; }
+.round-header { padding:6px 11px; font-size:.6rem; font-weight:700; letter-spacing:.08em; cursor:pointer; display:flex; align-items:center; justify-content:space-between; }
+.pro-side .round-header { background:rgba(52,211,153,.1); color:#34d399; }
+.con-side .round-header { background:rgba(248,113,113,.1); color:#f87171; }
+.round-body { padding:9px 11px; font-size:.7rem; line-height:1.65; color:#94a3b8; background:rgba(255,255,255,.02); border-top:1px solid rgba(255,255,255,.05); }
+.round-num { opacity:.5; }
+.verdict-section { margin:0 22px 20px; padding:18px; background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(167,139,250,.05)); border:1px solid rgba(96,165,250,.2); border-radius:11px; }
+.verdict-label { font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:#60a5fa; margin-bottom:8px; }
+.verdict-content { font-size:.76rem; line-height:1.75; color:#cbd5e1; }
+.verdict-content strong { color:#e2e8f0; }
+.verdict-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:10px; }
+.vt { font-size:.6rem; padding:2px 7px; border-radius:9px; background:rgba(96,165,250,.1); color:#60a5fa; border:1px solid rgba(96,165,250,.2); }
+.score-section { margin:0 22px 18px; }
+.score-label { font-size:.62rem; color:var(--muted); margin-bottom:8px; }
+.score-row { display:flex; align-items:center; gap:9px; margin-bottom:6px; }
+.score-row .sr-name { font-size:.64rem; color:#94a3b8; width:76px; flex-shrink:0; }
+.score-row .sr-bar  { flex:1; height:5px; background:var(--bg3); border-radius:10px; overflow:hidden; }
+.score-row .sr-fill { height:100%; border-radius:10px; }
+.score-row.pro-row  .sr-fill { background:var(--pro); }
+.score-row.con-row  .sr-fill { background:var(--con); }
+.score-row.best-row .sr-fill { background:linear-gradient(90deg,#60a5fa,#a78bfa); }
+.score-row .sr-val { font-size:.62rem; color:var(--muted); width:34px; text-align:right; }
+.debate-selector { margin:0 22px 14px; display:flex; gap:7px; flex-wrap:wrap; }
+.ds-btn { font-size:.66rem; padding:4px 11px; border-radius:7px; cursor:pointer; border:1px solid var(--border); background:var(--bg3); color:var(--muted); transition:all .2s; }
+.ds-btn.active { background:rgba(96,165,250,.1); border-color:#3b82f6; color:#60a5fa; }
+
+/* LOG */
+.log-section { padding-bottom:24px; }
+.log-session {
+  background:var(--bg2); border-radius:14px; border:1px solid var(--border);
+  margin-bottom:16px; overflow:hidden;
+}
+.log-session-header {
+  padding:14px 20px; background:linear-gradient(135deg,#0d1117,#111827);
+  border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px;
+  cursor:pointer;
+}
+.lsh-num { font-size:.6rem; font-weight:700; letter-spacing:.12em; color:var(--muted); background:var(--bg3); padding:2px 8px; border-radius:10px; }
+.lsh-title { font-size:.9rem; font-weight:700; color:#e2e8f0; flex:1; }
+.lsh-date { font-size:.62rem; color:var(--muted); }
+.lsh-toggle { font-size:.75rem; color:var(--muted); transition:transform .2s; }
+.log-session.collapsed .lsh-toggle { transform:rotate(-90deg); }
+.log-session-body { padding:16px 20px; }
+.log-session.collapsed .log-session-body { display:none; }
+
+.log-entry {
+  display:flex; gap:14px; margin-bottom:14px; padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.log-entry:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.le-timeline { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.le-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+.le-dot.output  { background:#a78bfa; }
+.le-dot.debate  { background:#60a5fa; }
+.le-dot.decide  { background:#34d399; }
+.le-dot.add     { background:#fb923c; }
+.le-dot.system  { background:#6b7280; }
+.le-line { width:1px; background:var(--border); flex:1; margin-top:4px; min-height:20px; }
+.le-body { flex:1; }
+.le-type { font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:4px; }
+.le-type.output  { color:#a78bfa; }
+.le-type.debate  { color:#60a5fa; }
+.le-type.decide  { color:#34d399; }
+.le-type.add     { color:#fb923c; }
+.le-type.system  { color:var(--muted); }
+.le-title { font-size:.82rem; font-weight:600; color:#cbd5e1; margin-bottom:4px; }
+.le-reason {
+  font-size:.7rem; color:#6b7280; line-height:1.6; margin-bottom:6px;
+  padding:8px 10px; background:rgba(255,255,255,.02); border-radius:7px;
+  border-left:2px solid var(--border);
+}
+.le-reason strong { color:#9ca3af; }
+.le-files { display:flex; gap:5px; flex-wrap:wrap; margin-top:5px; }
+.le-file {
+  font-size:.6rem; padding:2px 8px; border-radius:8px;
+  background:rgba(167,139,250,.1); color:#a78bfa; border:1px solid rgba(167,139,250,.2);
+  font-family:monospace;
+}
+.le-file.html  { background:rgba(56,189,248,.1); color:#38bdf8; border-color:rgba(56,189,248,.2); }
+.le-file.md    { background:rgba(52,211,153,.1); color:#34d399; border-color:rgba(52,211,153,.2); }
+.le-file.json  { background:rgba(245,158,11,.1); color:#f59e0b; border-color:rgba(245,158,11,.2); }
+.le-proj-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:5px; }
+.debate-result-mini {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:7px;
+}
+.drm-item {
+  background:var(--bg3); border-radius:7px; padding:6px 9px; text-align:center;
+}
+.drm-item .drm-label { font-size:.56rem; color:var(--muted); margin-bottom:2px; }
+.drm-item .drm-score { font-size:.8rem; font-weight:700; }
+.drm-item.pro  .drm-score { color:var(--pro); }
+.drm-item.con  .drm-score { color:var(--con); }
+.drm-item.best .drm-score { color:#60a5fa; }
+.verdict-mini {
+  margin-top:7px; padding:8px 10px; background:rgba(96,165,250,.06);
+  border:1px solid rgba(96,165,250,.15); border-radius:7px;
+  font-size:.7rem; color:#94a3b8; line-height:1.55;
+}
+.verdict-mini strong { color:#cbd5e1; }
+
+/* PROPOSALS */
+.proposals-section { background:var(--bg2); border-radius:14px; border:1px solid var(--border); padding:20px 24px; }
+.proposals-section h2 { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+.proposal-list { display:flex; flex-direction:column; gap:9px; }
+.proposal-item { background:var(--bg3); border-radius:9px; padding:12px 14px; border-left:3px solid; display:flex; align-items:flex-start; gap:10px; }
+.proposal-item.new    { border-color:#60a5fa; }
+.proposal-item.review { border-color:#f59e0b; }
+.proposal-item.done   { border-color:var(--pro); }
+.pi-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+.pi-body .pi-title { font-size:.78rem; font-weight:600; color:#cbd5e1; }
+.pi-body .pi-meta  { font-size:.62rem; color:var(--muted); margin-top:2px; }
+.pi-proj { font-size:.58rem; padding:1px 6px; border-radius:9px; font-weight:700; margin-right:4px; }
+.pi-proj.og { background:var(--ogilab-dim);  color:var(--ogilab); }
+.pi-proj.ca { background:var(--caras-dim);   color:var(--caras); }
+.pi-proj.ke { background:var(--kenkou-dim);  color:var(--kenkou); }
+.pi-proj.so { background:var(--sora-dim);    color:var(--sora); }
+.pi-proj.su { background:var(--superior-dim);color:var(--superior); }
+
+footer { text-align:center; padding:28px; font-size:.6rem; color:#374151; letter-spacing:.06em; }
+
+@media(max-width:1000px){
+  .projects-grid   { grid-template-columns:repeat(2,1fr); }
+  .projects-grid-2 { max-width:100%; grid-template-columns:repeat(2,1fr); }
+  .agents-grid-small { grid-template-columns:repeat(3,1fr); }
+  .shared-bar { grid-template-columns:repeat(3,1fr); }
+  .debate-arena { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="logo">🤖 MOON AI組織</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('overview',this)">概要</button>
+    <button class="nav-tab" onclick="showSection('debate',this)">ディベート</button>
+    <button class="nav-tab" onclick="showSection('agents',this)">エージェント</button>
+    <button class="nav-tab" onclick="showSection('proposals',this)">提案・修正</button>
+    <button class="nav-tab" onclick="showSection('log',this)">📋 活動ログ</button>
+  </div>
+  <div class="date">2026.03.26 — 5プロジェクト</div>
+</nav>
+
+<div class="main">
+
+<!-- ====== OVERVIEW ====== -->
+<div class="section active" id="sec-overview">
+
+  <div class="shared-bar">
+    <div class="shared-item"><div class="si-icon">🎯</div><div><div class="si-title">共通テーマ</div><div class="si-val">健康・成長・子どもの育成</div></div></div>
+    <div class="shared-item"><div class="si-icon">👤</div><div><div class="si-title">オーナー</div><div class="si-val">MOON（5プロジェクト統括）</div></div></div>
+    <div class="shared-item"><div class="si-icon">🔄</div><div><div class="si-title">連携方式</div><div class="si-val">相互送客 + コンテンツ共有</div></div></div>
+    <div class="shared-item"><div class="si-icon">⚖️</div><div><div class="si-title">品質保証</div><div class="si-val">ディベート×5ラウンド採点</div></div></div>
+    <div class="shared-item"><div class="si-icon">🤖</div><div><div class="si-title">AI組織</div><div class="si-val">5エージェント稼働中</div></div></div>
+  </div>
+
+  <!-- 上段3プロジェクト -->
+  <div class="projects-grid">
+
+    <!-- オギラボ -->
+    <div class="proj-card ogilab">
+      <div class="proj-header">
+        <div class="ph-top"><div class="ph-icon">🧪</div><span class="ph-badge">ONLINE SALON</span></div>
+        <div class="ph-name">オギラボ</div>
+        <div class="ph-sub">AIを活用するオンラインサロン</div>
+      </div>
+      <div class="proj-body">
+        <div class="prog-label"><span>全体進捗</span><span>42%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:42%"></div></div>
+        <div class="task-section-title">進行中タスク</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-dot done"></div><div class="task-text done-text">コミュニティ設計</div><span class="task-agent">総括</span></li>
+          <li class="task-item"><div class="task-dot doing"></div><div class="task-text">SNSコンテンツ制作（月次）</div><span class="task-agent">コンテンツ</span></li>
+          <li class="task-item"><div class="task-dot doing"></div><div class="task-text">AI活用教材の作成</div><span class="task-agent">コンテンツ</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">集客LP制作</div><span class="task-agent">未割当</span></li>
+        </ul>
+        <div class="task-section-title">コンテンツ</div>
+        <div class="content-row">
+          <span class="content-badge cb-done">✓ Instagram</span>
+          <span class="content-badge cb-wip">⟳ スライド</span>
+          <span class="content-badge cb-todo">○ LP</span>
+        </div>
+        <div class="task-section-title">連携</div>
+        <div class="synergy-row">
+          <span class="syn-tag" style="background:var(--caras-dim);color:var(--caras)">→CARAS</span>
+          <span class="syn-tag" style="background:var(--kenkou-dim);color:var(--kenkou)">→健康経営</span>
+          <span class="syn-tag" style="background:var(--sora-dim);color:var(--sora)">→SORA事例</span>
+          <span class="syn-tag" style="background:var(--superior-dim);color:var(--superior)">→SUP事例</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARAS -->
+    <div class="proj-card caras">
+      <div class="proj-header">
+        <div class="ph-top"><div class="ph-icon">💪</div><span class="ph-badge">PERSONAL GYM</span></div>
+        <div class="ph-name">パーソナルジムCARAS</div>
+        <div class="ph-sub">身体から変わるパーソナルトレーニング</div>
+      </div>
+      <div class="proj-body">
+        <div class="prog-label"><span>全体進捗</span><span>58%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:58%"></div></div>
+        <div class="task-section-title">進行中タスク</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-dot done"></div><div class="task-text done-text">診断コンテンツ（HTML）</div><span class="task-agent">コンテンツ</span></li>
+          <li class="task-item"><div class="task-dot doing"></div><div class="task-text">顧客事例ページ制作</div><span class="task-agent">コンテンツ</span></li>
+          <li class="task-item"><div class="task-dot doing"></div><div class="task-text">SNS（Instagram/TikTok）運用</div><span class="task-agent">コンテンツ</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">法人向けプログラム設計</div><span class="task-agent">未割当</span></li>
+        </ul>
+        <div class="task-section-title">コンテンツ</div>
+        <div class="content-row">
+          <span class="content-badge cb-done">✓ 診断HTML×2</span>
+          <span class="content-badge cb-done">✓ Instagram</span>
+          <span class="content-badge cb-wip">⟳ TikTok</span>
+          <span class="content-badge cb-todo">○ 法人LP</span>
+        </div>
+        <div class="task-section-title">連携</div>
+        <div class="synergy-row">
+          <span class="syn-tag" style="background:var(--ogilab-dim);color:var(--ogilab)">→オギラボ特典</span>
+          <span class="syn-tag" style="background:var(--kenkou-dim);color:var(--kenkou)">→健康経営法人</span>
+          <span class="syn-tag" style="background:var(--sora-dim);color:var(--sora)">→保護者向け</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 健康経営 -->
+    <div class="proj-card kenkou">
+      <div class="proj-header">
+        <div class="ph-top"><div class="ph-icon">🏢</div><span class="ph-badge">B2B / 法人</span></div>
+        <div class="ph-name">健康経営有料法人</div>
+        <div class="ph-sub">企業の健康経営を支援するB2Bプログラム</div>
+      </div>
+      <div class="proj-body">
+        <div class="prog-label"><span>全体進捗</span><span>25%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:25%"></div></div>
+        <div class="task-section-title">進行中タスク</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-dot done"></div><div class="task-text done-text">市場調査・競合分析</div><span class="task-agent">リサーチ</span></li>
+          <li class="task-item"><div class="task-dot doing"></div><div class="task-text">サービスパッケージ設計</div><span class="task-agent">総括</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">提案資料（PPT）作成</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">法人向けLP制作</div><span class="task-agent">未割当</span></li>
+        </ul>
+        <div class="task-section-title">コンテンツ</div>
+        <div class="content-row">
+          <span class="content-badge cb-done">✓ 競合調査レポート</span>
+          <span class="content-badge cb-wip">⟳ 設計書</span>
+          <span class="content-badge cb-todo">○ 提案PPT</span>
+        </div>
+        <div class="task-section-title">連携</div>
+        <div class="synergy-row">
+          <span class="syn-tag" style="background:var(--ogilab-dim);color:var(--ogilab)">→オギラボ発信</span>
+          <span class="syn-tag" style="background:var(--caras-dim);color:var(--caras)">→CARAS活用</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 下段2プロジェクト（SORA + SUPERIOR） -->
+  <div class="projects-grid-2">
+
+    <!-- SORA -->
+    <div class="proj-card sora">
+      <div class="proj-header">
+        <div class="ph-top"><div class="ph-icon">🏃</div><span class="ph-badge">陸上クラブ / 小中学生</span></div>
+        <div class="ph-name">陸上クラブ SORA</div>
+        <div class="ph-sub">走る喜びと成長を育む子ども向け陸上クラブ</div>
+      </div>
+      <div class="proj-body">
+        <div class="prog-label"><span>全体進捗</span><span>0%（新規）</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+        <div class="task-section-title">これから着手するタスク</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">SNS・広報コンテンツ設計</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">体験会・入会LP（HTML）制作</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">練習スケジュール資料</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">Instagram/TikTok開設・運用</div><span class="task-agent">未割当</span></li>
+        </ul>
+        <div class="task-section-title">コンテンツ</div>
+        <div class="content-row">
+          <span class="content-badge cb-new">🆕 Instagram設計</span>
+          <span class="content-badge cb-new">🆕 体験会LP</span>
+          <span class="content-badge cb-new">🆕 スケジュール表</span>
+        </div>
+        <div class="task-section-title">連携</div>
+        <div class="synergy-row">
+          <span class="syn-tag" style="background:var(--superior-dim);color:var(--superior)">↔SUPERIOR姉妹</span>
+          <span class="syn-tag" style="background:var(--caras-dim);color:var(--caras)">→保護者CARAS</span>
+          <span class="syn-tag" style="background:var(--ogilab-dim);color:var(--ogilab)">→オギラボ事例</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="proj-card superior">
+      <div class="proj-header">
+        <div class="ph-top"><div class="ph-icon">⚡</div><span class="ph-badge">陸上クラブ / 小中学生</span></div>
+        <div class="ph-name">陸上クラブ SUPERIOR</div>
+        <div class="ph-sub">走る喜びと成長を育む子ども向け陸上クラブ（姉妹）</div>
+      </div>
+      <div class="proj-body">
+        <div class="prog-label"><span>全体進捗</span><span>0%（新規）</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+        <div class="task-section-title">これから着手するタスク</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">SNS・広報コンテンツ設計</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">体験会・入会LP（HTML）制作</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">練習スケジュール資料</div><span class="task-agent">未割当</span></li>
+          <li class="task-item"><div class="task-dot todo"></div><div class="task-text">Instagram/TikTok開設・運用</div><span class="task-agent">未割当</span></li>
+        </ul>
+        <div class="task-section-title">コンテンツ</div>
+        <div class="content-row">
+          <span class="content-badge cb-new">🆕 Instagram設計</span>
+          <span class="content-badge cb-new">🆕 体験会LP</span>
+          <span class="content-badge cb-new">🆕 スケジュール表</span>
+        </div>
+        <div class="task-section-title">連携</div>
+        <div class="synergy-row">
+          <span class="syn-tag" style="background:var(--sora-dim);color:var(--sora)">↔SORA姉妹</span>
+          <span class="syn-tag" style="background:var(--caras-dim);color:var(--caras)">→保護者CARAS</span>
+          <span class="syn-tag" style="background:var(--ogilab-dim);color:var(--ogilab)">→オギラボ事例</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- シナジーマップ -->
+  <div class="synergy-section">
+    <h2>🔗 5プロジェクト シナジーマップ</h2>
+    <div class="syn-map">
+      <svg class="syn-lines" viewBox="0 0 1000 280" preserveAspectRatio="none">
+        <!-- center connections -->
+        <line x1="10%" y1="30%" x2="50%" y2="50%" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <line x1="50%" y1="8%"  x2="50%" y2="46%" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <line x1="90%" y1="30%" x2="50%" y2="50%" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <line x1="22%" y1="88%" x2="50%" y2="54%" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <line x1="78%" y1="88%" x2="50%" y2="54%" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <!-- SORA <-> SUPERIOR -->
+        <line x1="28%" y1="85%" x2="72%" y2="85%" stroke="#94a3b8" stroke-width="2" opacity="0.5"/>
+        <!-- cross connections -->
+        <line x1="10%" y1="30%" x2="50%" y2="8%"  stroke="#7c3aed" stroke-width="1" opacity="0.25"/>
+        <line x1="50%" y1="8%"  x2="90%" y2="30%" stroke="#059669" stroke-width="1" opacity="0.25"/>
+        <line x1="22%" y1="82%" x2="10%" y2="36%" stroke="#0284c7" stroke-width="1" opacity="0.2"/>
+        <line x1="78%" y1="82%" x2="90%" y2="36%" stroke="#ea580c" stroke-width="1" opacity="0.2"/>
+      </svg>
+      <div class="syn-node og"><div class="sn-icon">🧪</div><div class="sn-name" style="color:var(--ogilab)">オギラボ</div><div class="sn-sub">発信基地</div></div>
+      <div class="syn-node ca"><div class="sn-icon">💪</div><div class="sn-name" style="color:var(--caras)">CARAS</div><div class="sn-sub">身体変革</div></div>
+      <div class="syn-node ke"><div class="sn-icon">🏢</div><div class="sn-name" style="color:var(--kenkou)">健康経営</div><div class="sn-sub">法人支援</div></div>
+      <div class="syn-node so"><div class="sn-icon">🏃</div><div class="sn-name" style="color:var(--sora)">SORA</div><div class="sn-sub">陸上育成</div></div>
+      <div class="syn-node su"><div class="sn-icon">⚡</div><div class="sn-name" style="color:var(--superior)">SUPERIOR</div><div class="sn-sub">陸上育成</div></div>
+      <div class="syn-node center"><div class="sn-icon">🎯</div><div class="sn-name">共通基盤</div><div class="sn-sub" style="font-size:.52rem">健康×成長×AI</div></div>
+    </div>
+    <div class="syn-arrows">
+      <div class="syn-arrow"><div class="sa-dot" style="background:var(--sora)"></div>SORA ↔ SUPERIOR 合同イベント・ノウハウ共有</div>
+      <div class="syn-arrow"><div class="sa-dot" style="background:var(--caras)"></div>SORA/SUPERIOR 保護者 → CARAS紹介</div>
+      <div class="syn-arrow"><div class="sa-dot" style="background:var(--ogilab)"></div>クラブ事例 → オギラボでAI活用コンテンツ化</div>
+      <div class="syn-arrow"><div class="sa-dot" style="background:var(--kenkou)"></div>健康経営 → スポーツクラブとの法人連携</div>
+      <div class="syn-arrow"><div class="sa-dot" style="background:#6b7280"></div>全5プロジェクト → コンテンツ・ノウハウ共有</div>
+    </div>
+  </div>
+
+</div><!-- /overview -->
+
+<!-- ====== DEBATE ====== -->
+<div class="section" id="sec-debate">
+  <div class="debate-wrap">
+    <div class="debate-header">
+      <div>
+        <h2>⚖️ AIディベートシステム</h2>
+        <div class="dh-title">賛成派 vs 反対派 — 5ラウンド討論 → 最善案導出</div>
+        <div class="dh-meta">すべての情報・コンテンツ・戦略にディベートを通じて精度を高める</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.62rem;color:var(--muted)">ルール</div>
+        <div style="font-size:.72rem;color:#60a5fa;margin-top:3px">各5回主張 → 採点 → 最善案</div>
+      </div>
+    </div>
+    <div style="padding:14px 22px 0;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">ディベートテーマを選択</div>
+    <div class="debate-selector">
+      <button class="ds-btn active" onclick="switchDebate(0,this)">📱 SNS戦略（オギラボ）</button>
+      <button class="ds-btn" onclick="switchDebate(1,this)">💰 CARAS価格設定</button>
+      <button class="ds-btn" onclick="switchDebate(2,this)">🏢 健康経営ターゲット</button>
+      <button class="ds-btn" onclick="switchDebate(3,this)">🏃 SORA/SUPERIOR SNS戦略</button>
+    </div>
+    <div class="debate-topic" id="debate-topic">
+      <div class="dt-label">📌 ディベートテーマ</div>
+      <span id="topic-text"></span>
+    </div>
+    <div class="debate-arena" id="debate-arena">
+      <div class="debate-side pro-side">
+        <div class="side-header"><span class="side-icon">✅</span><span class="side-label">賛成派（PRO）</span><span class="side-count">5ラウンド</span></div>
+        <div id="pro-rounds"></div>
+      </div>
+      <div class="debate-side con-side">
+        <div class="side-header"><span class="side-icon">❌</span><span class="side-label">反対派（CON）</span><span class="side-count">5ラウンド</span></div>
+        <div id="con-rounds"></div>
+      </div>
+    </div>
+    <div class="score-section">
+      <div class="score-label">📊 評価スコア（説得力 × 根拠 × 実行可能性）</div>
+      <div class="score-row pro-row"><span class="sr-name">賛成派スコア</span><div class="sr-bar"><div class="sr-fill" id="pro-score-bar"></div></div><span class="sr-val" id="pro-score-val"></span></div>
+      <div class="score-row con-row"><span class="sr-name">反対派スコア</span><div class="sr-bar"><div class="sr-fill" id="con-score-bar"></div></div><span class="sr-val" id="con-score-val"></span></div>
+      <div class="score-row best-row"><span class="sr-name">最善案スコア</span><div class="sr-bar"><div class="sr-fill" id="best-score-bar"></div></div><span class="sr-val" id="best-score-val"></span></div>
+    </div>
+    <div class="verdict-section">
+      <div class="verdict-label">🏆 最善案 — AIレビューエージェントによる統合判定</div>
+      <div class="verdict-content" id="verdict-text"></div>
+      <div class="verdict-tags" id="verdict-tags"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== AGENTS ====== -->
+<div class="section" id="sec-agents">
+  <div class="agents-section">
+    <h2>🤖 AI エージェント稼働状況</h2>
+
+    <!-- 総括確認フロー -->
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(96,165,250,.05));border:1px solid rgba(124,58,237,.25);border-radius:11px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a78bfa;margin-bottom:10px;">🎯 総括エージェント — 必須確認フロー</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px;">
+          <div style="font-size:.62rem;font-weight:700;color:#7c3aed;margin-bottom:4px;">STEP 1</div>
+          <div style="font-size:.72rem;font-weight:600;color:#cbd5e1;margin-bottom:3px;">プロジェクトサマリー提示</div>
+          <div style="font-size:.64rem;color:var(--muted);line-height:1.5;">対象プロジェクトの進捗・既存成果物・他プロジェクトへの影響を整理して提示</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px;">
+          <div style="font-size:.62rem;font-weight:700;color:#7c3aed;margin-bottom:4px;">STEP 2</div>
+          <div style="font-size:.72rem;font-weight:600;color:#cbd5e1;margin-bottom:3px;">実行計画を提示</div>
+          <div style="font-size:.64rem;color:var(--muted);line-height:1.5;">作業順序・使うエージェント/スキル・想定成果物を明示してから着手</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px;">
+          <div style="font-size:.62rem;font-weight:700;color:#34d399;margin-bottom:4px;">STEP 3</div>
+          <div style="font-size:.72rem;font-weight:600;color:#cbd5e1;margin-bottom:3px;">ユーザー承認 → 実行</div>
+          <div style="font-size:.64rem;color:var(--muted);line-height:1.5;">「この内容で進めてよいですか？」と確認。承認後のみ各エージェントへ分配</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:.63rem;color:#6b7280;line-height:1.6;">
+        <span style="color:#a78bfa;font-weight:700;">確認必須タイミング：</span>
+        新タスク開始時 / 複数エージェント稼働時 / 成果物納品前 / ディベート最善案採用時 / ファイル分類・移動時
+      </div>
+    </div>
+
+    <div class="agents-grid-small">
+      <div class="ag-card">
+        <div class="ag-icon">🎯</div><div class="ag-name">総括エージェント</div>
+        <div class="ag-status"><span class="status-dot s-active"></span><span style="font-size:.62rem;color:#34d399">稼働中</span></div>
+        <div style="font-size:.58rem;color:var(--muted);margin-top:5px">サマリー→確認→実行</div>
+        <div class="ag-projects"><div class="ag-proj og"></div><div class="ag-proj ca"></div><div class="ag-proj ke"></div><div class="ag-proj so"></div><div class="ag-proj su"></div></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-icon">🔍</div><div class="ag-name">リサーチエージェント</div>
+        <div class="ag-status"><span class="status-dot s-active"></span><span style="font-size:.62rem;color:#34d399">稼働中</span></div>
+        <div style="font-size:.58rem;color:var(--muted);margin-top:5px">健康経営調査中</div>
+        <div class="ag-projects"><div class="ag-proj ke"></div></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-icon">✍️</div><div class="ag-name">コンテンツエージェント</div>
+        <div class="ag-status"><span class="status-dot s-active"></span><span style="font-size:.62rem;color:#34d399">稼働中</span></div>
+        <div style="font-size:.58rem;color:var(--muted);margin-top:5px">SNS投稿文生成中</div>
+        <div class="ag-projects"><div class="ag-proj og"></div><div class="ag-proj ca"></div><div class="ag-proj so"></div><div class="ag-proj su"></div></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-icon">📁</div><div class="ag-name">ファイル処理エージェント</div>
+        <div class="ag-status"><span class="status-dot s-wait"></span><span style="font-size:.62rem;color:var(--muted)">待機中</span></div>
+        <div style="font-size:.58rem;color:var(--muted);margin-top:5px">スケジュール資料待ち</div>
+        <div class="ag-projects"><div class="ag-proj so"></div><div class="ag-proj su"></div></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-icon">🧐</div><div class="ag-name">レビュー&amp;QAエージェント</div>
+        <div class="ag-status"><span class="status-dot s-active"></span><span style="font-size:.62rem;color:#34d399">稼働中</span></div>
+        <div style="font-size:.58rem;color:var(--muted);margin-top:5px">ディベート審判</div>
+        <div class="ag-projects"><div class="ag-proj og"></div><div class="ag-proj ca"></div><div class="ag-proj ke"></div><div class="ag-proj so"></div><div class="ag-proj su"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== PROPOSALS ====== -->
+<div class="section" id="sec-proposals">
+  <div class="proposals-section">
+    <h2>💡 提案・修正フィード</h2>
+    <div class="proposal-list">
+      <div class="proposal-item new">
+        <div class="pi-icon">🆕</div>
+        <div class="pi-body">
+          <div class="pi-title"><span class="pi-proj so">SORA</span><span class="pi-proj su">SUPERIOR</span>プロジェクト追加完了 — 体験会LP・SNS・スケジュール資料の着手を推奨</div>
+          <div class="pi-meta">総括エージェント — たった今</div>
+        </div>
+      </div>
+      <div class="proposal-item new">
+        <div class="pi-icon">⚖️</div>
+        <div class="pi-body">
+          <div class="pi-title"><span class="pi-proj so">SORA</span><span class="pi-proj su">SUPERIOR</span>SNS戦略ディベート実施済み — Instagram先行・TikTok後追い戦略を最善案として提案</div>
+          <div class="pi-meta">レビューエージェント — 承認待ち</div>
+        </div>
+      </div>
+      <div class="proposal-item new">
+        <div class="pi-icon">🆕</div>
+        <div class="pi-meta">レビューエージェント → 承認待ち</div>
+        <div class="pi-body">
+          <div class="pi-title"><span class="pi-proj og">オギラボ</span>ディベート結果：Instagram軸 + TikTok実験並走を採用</div>
+        </div>
+      </div>
+      <div class="proposal-item review">
+        <div class="pi-icon">⚠️</div>
+        <div class="pi-body">
+          <div class="pi-title"><span class="pi-proj ca">CARAS</span>法人×健康経営のパッケージ化を提案中</div>
+          <div class="pi-meta">総括エージェント — レビュー中</div>
+        </div>
+      </div>
+      <div class="proposal-item done">
+        <div class="pi-icon">✅</div>
+        <div class="pi-body">
+          <div class="pi-title"><span class="pi-proj ca">CARAS</span>診断HTML（ゴルフ・マダム版）— 承認・公開済み</div>
+          <div class="pi-meta">コンテンツエージェント — 完了</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== LOG ====== -->
+<div class="section" id="sec-log">
+<div class="log-section">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);">📋 活動ログ — 成果物・意思決定・経緯の記録</div>
+      <div style="font-size:.75rem;color:#6b7280;margin-top:3px;">すべての作業と判断根拠をセッション単位で記録</div>
+    </div>
+    <div style="font-size:.65rem;color:var(--muted);background:var(--bg3);padding:5px 12px;border-radius:8px;">計 3セッション / 2026.03</div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="log-session" id="sess3">
+    <div class="log-session-header" onclick="toggleSession('sess3')">
+      <span class="lsh-num">SESSION 03</span>
+      <span class="lsh-title">SORA・SUPERIOR追加 + 活動ログ実装</span>
+      <span class="lsh-date">2026.03.26</span>
+      <span class="lsh-toggle">▼</span>
+    </div>
+    <div class="log-session-body">
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot add"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type add">プロジェクト追加</div>
+          <div class="le-title">陸上クラブ SORA・SUPERIOR をプロジェクト4・5番目として追加</div>
+          <div class="le-reason">
+            <strong>経緯：</strong>MOONさんから「プロジェクトにSORA・SUPERIORを追加」と依頼。確認したところ小中学生向け陸上育成クラブで地域違いの姉妹クラブ。AIに手伝ってほしい業務はSNS・LP・スケジュール資料・他プロジェクト連携の4つ。
+          </div>
+          <div class="le-proj-tags">
+            <span class="syn-tag" style="background:var(--sora-dim);color:var(--sora)">SORA</span>
+            <span class="syn-tag" style="background:var(--superior-dim);color:var(--superior)">SUPERIOR</span>
+          </div>
+          <div class="le-files">
+            <span class="le-file md">SORA/CONTEXT.md</span>
+            <span class="le-file md">SUPERIOR/CONTEXT.md</span>
+            <span class="le-file md">CLAUDE.md（5プロジェクトに更新）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot debate"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type debate">ディベート実施</div>
+          <div class="le-title">SORA・SUPERIOR SNS戦略：Instagram先行 vs TikTok最初から展開</div>
+          <div class="le-reason">
+            <strong>背景：</strong>新クラブの認知拡大のためのSNS優先順位が不明確。保護者（意思決定者）へのInstagramか、子どもへの訴求力が高いTikTokかで5ラウンドディベートを実施。
+          </div>
+          <div class="debate-result-mini">
+            <div class="drm-item pro"><div class="drm-label">賛成派（Instagram先行）</div><div class="drm-score">74点</div></div>
+            <div class="drm-item con"><div class="drm-label">反対派（TikTok即展開）</div><div class="drm-score">70点</div></div>
+            <div class="drm-item best"><div class="drm-label">最善案スコア</div><div class="drm-score">89点</div></div>
+          </div>
+          <div class="verdict-mini"><strong>最善案：</strong>Instagram先行3ヶ月で保護者の信頼基盤を作り、その後TikTok・YouTube Shortsを同時展開。SORA↔SUPERIOR同一コンテンツの地域バージョンで制作コストを半減。</div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot output"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type output">成果物</div>
+          <div class="le-title">ダッシュボード v2 更新 + 活動ログタブ追加</div>
+          <div class="le-reason">
+            <strong>要件：</strong>「成果物とそこに至った経緯もまとめて都度HTMLで確認できるようにしたい」との依頼から活動ログタブを追加。セッション単位で作業内容・判断根拠・ディベート結果・成果物一覧を記録する仕組みを実装。
+          </div>
+          <div class="le-files">
+            <span class="le-file html">プロジェクトダッシュボード.html（v3）</span>
+            <span class="le-file html">html.ai/これです_プロジェクトダッシュボード.html</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot decide"></div></div>
+        <div class="le-body">
+          <div class="le-type decide">ルール追加</div>
+          <div class="le-title">総括エージェントの「ユーザー確認フロー」を必須ルール化</div>
+          <div class="le-reason">
+            <strong>経緯：</strong>「プロジェクトの内容は総括がまとめ、その後ユーザーに確認をするようにしてほしい」との指示。タスク開始前に①サマリー提示 → ②実行計画提示 → ③ユーザー承認の3ステップを必須化。CLAUDE.mdに追記し、ダッシュボードのエージェントタブにも可視化した。
+          </div>
+          <div class="le-files">
+            <span class="le-file md">CLAUDE.md（総括確認フロー追記）</span>
+            <span class="le-file html">プロジェクトダッシュボード.html（エージェントタブ更新）</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="log-session" id="sess2">
+    <div class="log-session-header" onclick="toggleSession('sess2')">
+      <span class="lsh-num">SESSION 02</span>
+      <span class="lsh-title">3プロジェクト全体システム構築 + ディベートシステム設計</span>
+      <span class="lsh-date">2026.03.25</span>
+      <span class="lsh-toggle">▼</span>
+    </div>
+    <div class="log-session-body">
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot system"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type system">設計</div>
+          <div class="le-title">エージェント間情報共有アーキテクチャの設計</div>
+          <div class="le-reason">
+            <strong>経緯：</strong>「相互に情報を共有して修正や生成精度を高めてほしい」との依頼。共有メモリ（CLAUDE.md）・情報の書き込み/読み込みルール・3段階フィードバックループ（即時修正・レビュー差し戻し・ユーザーフィードバック）を設計した。
+          </div>
+          <div class="le-files">
+            <span class="le-file md">CLAUDE.md（グローバル共有コンテキスト）</span>
+            <span class="le-file html">AI組織設計図.html（v2）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot system"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type system">システム構築</div>
+          <div class="le-title">プロジェクト別フォルダ構造・コンテキスト階層を確立</div>
+          <div class="le-reason">
+            <strong>設計方針：</strong>CLAUDE.md（全体）→ プロジェクトCONTEXT.md → タスクCONTEXT.md の3層構造。新規ファイルは内容判定→ユーザー確認→移動のフローで分類する。
+          </div>
+          <div class="le-files">
+            <span class="le-file md">オギラボ/CONTEXT.md</span>
+            <span class="le-file md">CARAS/CONTEXT.md</span>
+            <span class="le-file md">健康経営/CONTEXT.md</span>
+            <span class="le-file md">仕様書_MOON_AI組織システム.md</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot debate"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type debate">ディベート実施 × 3テーマ</div>
+          <div class="le-title">SNS戦略・価格設定・ターゲット設定を各5ラウンドで討論・最善案導出</div>
+          <div class="le-reason">
+            <strong>経緯：</strong>「情報やリサーチは常に賛成派・反対派に分かれ各5回主張、最善案を提案するようにしたい」との要件から、全プロジェクト共通ディベートシステムを設計・実装した。
+          </div>
+          <div class="debate-result-mini">
+            <div class="drm-item pro"><div class="drm-label">オギラボSNS</div><div class="drm-score" style="font-size:.7rem">デュアル戦略 88点</div></div>
+            <div class="drm-item con"><div class="drm-label">CARAS価格</div><div class="drm-score" style="font-size:.7rem">段階値上げ 91点</div></div>
+            <div class="drm-item best"><div class="drm-label">健康経営TGT</div><div class="drm-score" style="font-size:.7rem">中小主軸 90点</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot output"></div></div>
+        <div class="le-body">
+          <div class="le-type output">成果物</div>
+          <div class="le-title">プロジェクトダッシュボード v1 作成（3プロジェクト・4タブ）</div>
+          <div class="le-reason">
+            <strong>要件：</strong>「常に進捗状況と相互の関係性をHTMLで視覚化できるようにしたい」との依頼。概要・ディベート・エージェント・提案修正の4タブ構成で作成。
+          </div>
+          <div class="le-files">
+            <span class="le-file html">プロジェクトダッシュボード.html</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="log-session collapsed" id="sess1">
+    <div class="log-session-header" onclick="toggleSession('sess1')">
+      <span class="lsh-num">SESSION 01</span>
+      <span class="lsh-title">AI組織アーキテクチャ初期設計</span>
+      <span class="lsh-date">2026.03.25（初回）</span>
+      <span class="lsh-toggle">▼</span>
+    </div>
+    <div class="log-session-body">
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot system"></div><div class="le-line"></div></div>
+        <div class="le-body">
+          <div class="le-type system">初期設計</div>
+          <div class="le-title">マルチAIエージェント組織の概念設計・アーキテクチャ整理</div>
+          <div class="le-reason">
+            <strong>要件整理：</strong>「複数のAIエージェントを連携させる仕組みを作りたい」との依頼。コンテンツ制作・情報収集・ファイル処理・総括・レビューの5役割を設計。まず概念設計から着手することを確認した。
+          </div>
+          <div class="le-files">
+            <span class="le-file html">AI組織設計図.html（v1 → v2）</span>
+            <span class="le-file md">CLAUDE.md（初期作成）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="le-timeline"><div class="le-dot output"></div></div>
+        <div class="le-body">
+          <div class="le-type output">既存成果物（セッション以前）</div>
+          <div class="le-title">CARAS 診断HTML 2本（ゴルフ版・マダム版）</div>
+          <div class="le-reason">
+            <strong>内容：</strong>パーソナルジムCARASの見込み客向けパーソナライズ診断ツール。ゴルファー向けとマダム向けの2パターン。CARAS/outputs/に整理済み。
+          </div>
+          <div class="le-files">
+            <span class="le-file html">CARAS/outputs/caras_golf_diagnosis.html</span>
+            <span class="le-file html">CARAS/outputs/caras_madame_diagnosis.html</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div><!-- /log -->
+
+</div><!-- /main -->
+<footer>MOON AI組織 プロジェクトダッシュボード v3 — 5プロジェクト + 活動ログ対応 — 2026.03</footer>
+
+<script>
+function showSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+const debates = [
+  {
+    topic:'オギラボのSNSはInstagram中心で進めるべきか？ それともTikTokに軸足を移すべきか？',
+    pro:[
+      {title:'Round 1：既存資産の活用',body:'Instagramはすでにフォロワー基盤と信頼関係が構築されている。ゼロから始めるTikTokより既存資産を活かすべきだ。'},
+      {title:'Round 2：ターゲット層の一致',body:'オギラボのメインターゲット（30〜45歳）はInstagramユーザーと高い重複率を持つ。'},
+      {title:'Round 3：コンテンツ深度',body:'カルーセル・ストーリーズ・Reelsを使えば深い学びを段階的に発信できる。TikTokは知識系との相性が弱い。'},
+      {title:'Round 4：広告費対効果',body:'Instagramは精緻なターゲティングで法人検討者・高単価顧客への効率的なリーチが可能。'},
+      {title:'Round 5：ブランド一貫性',body:'ビジュアルブランドはInstagramと一貫しており、統一感のある世界観が構築できる。'}
+    ],
+    con:[
+      {title:'Round 1：アルゴリズムの限界',body:'Instagramのオーガニックリーチは著しく低下。フォロワー数に関わらず表示率は5〜10%。TikTokはフォロワーゼロでも拡散可能。'},
+      {title:'Round 2：新規流入の獲得',body:'AI活用に関心を持つ新しい層は今まさにTikTokで情報収集する行動に移行している。'},
+      {title:'Round 3：動画の優位性',body:'SNSコンテンツの消費は動画にシフト。TikTokのエンゲージメントは圧倒的に高い。'},
+      {title:'Round 4：競合の少なさ',body:'AI活用・オンラインサロン系コンテンツはTikTokでまだブルーオーシャン。先行参入でカテゴリ認知が取れる。'},
+      {title:'Round 5：YouTube連携',body:'TikTokとYouTube Shortsを連携させれば縦型動画を一本で複数プラットフォームに展開できる。'}
+    ],
+    verdict:'<strong>【結論】Instagram軸を維持しつつ、TikTokを実験的に並走させる「デュアル戦略」を採用。</strong><br><br>Instagramの既存資産を活かしながら、TikTokは月2〜4本の実験投稿から始め、3ヶ月のデータで本格移行を判断する。',
+    verdictTags:['Instagram継続','TikTok実験並走','3ヶ月でデータ判断','AI分析で効果測定'],
+    proScore:72, conScore:68, bestScore:88
+  },
+  {
+    topic:'CARASのパーソナルトレーニング料金を現行より20%値上げすべきか？ それとも据え置いて顧客数拡大を優先すべきか？',
+    pro:[
+      {title:'Round 1：適正価格の反映',body:'現行価格はサービスの質に対して低設定。法人展開を見据えると「プレミアム感」でブランドを構築すべき段階だ。'},
+      {title:'Round 2：LTVの向上',body:'値上げにより1顧客あたりの収益が向上。同じ労力で売上が増え、サービス品質向上への再投資が可能になる。'},
+      {title:'Round 3：価格非弾力性',body:'健康・身体変革への投資顧客は価格感度が低い。ウェルネス業界では「高い=良いサービス」という認知が働きやすい。'},
+      {title:'Round 4：法人契約への布石',body:'個人向けの単価を上げることで法人契約の単価交渉にも有利に働く。'},
+      {title:'Round 5：競合との差別化',body:'価格競争ではなく価値競争に軸を移す。20%値上げでも維持できる顧客が「真の優良顧客」。'}
+    ],
+    con:[
+      {title:'Round 1：顧客離脱リスク',body:'既存顧客への突然の値上げは離脱率の急上昇を招く可能性がある。'},
+      {title:'Round 2：認知獲得フェーズ',body:'CARASはまだ認知拡大フェーズ。値上げして顧客獲得ハードルを上げるとクチコミが集まりにくくなる。'},
+      {title:'Round 3：競合の価格帯',body:'近隣競合が同水準で同等のサービスを提供している場合、値上げは市場シェアの喪失につながる。'},
+      {title:'Round 4：数で実績を積む',body:'成功事例の数は集客の根拠になる。今は価格より実績数を増やすフェーズかもしれない。'},
+      {title:'Round 5：段階的アプローチ',body:'一気に20%値上げより、新規顧客から適用し半年かけて全体の価格を上げるソフトランディングが現実的。'}
+    ],
+    verdict:'<strong>【結論】既存顧客は据え置き、新規顧客から段階的に値上げするハイブリッド戦略を採用。</strong><br><br>①新規顧客には現行比+15〜20%で設定。②既存顧客は6ヶ月後に+10%で段階移行。③法人契約は別途プレミアム単価で設計。',
+    verdictTags:['新規から値上げ','既存は段階移行','法人は別単価','6ヶ月計画'],
+    proScore:69, conScore:74, bestScore:91
+  },
+  {
+    topic:'健康経営サービスのターゲットを「中小企業（50〜200名）」に絞るべきか？ それとも「大手企業」を狙うべきか？',
+    pro:[
+      {title:'Round 1：意思決定の速さ',body:'中小企業は決裁者が近い。直接提案できれば1〜2ヶ月で契約につながる。初期の事例獲得に最適。'},
+      {title:'Round 2：ブルーオーシャン',body:'大手向けは既存業者が占拠。中小企業向けは競合が少なく、オリジナルポジションが取りやすい。'},
+      {title:'Round 3：CARASOとの相性',body:'少人数・個別対応が強みのCARAS。50〜200名規模なら個別対応でのプレミアムサービスが提供できる。'},
+      {title:'Round 4：紹介連鎖',body:'中小経営者コミュニティは横のつながりが強い。1社実績が出れば紹介が生まれやすい。'},
+      {title:'Round 5：LTV設計の柔軟性',body:'中小企業は契約内容のカスタマイズがしやすい。月次訪問・オンライン研修の組み合わせで高単価サービスが設計できる。'}
+    ],
+    con:[
+      {title:'Round 1：単価の限界',body:'中小企業は予算規模が小さい。サービス単価を高く設定しにくく、多数の顧客獲得が必要になる。'},
+      {title:'Round 2：大手ブランド効果',body:'大手1社の導入実績は強力な信頼シグナルになる。大手1件が中小10件分の営業効果を生む可能性がある。'},
+      {title:'Round 3：継続率の不安',body:'中小企業は業績変動が大きく、景気後退時に真っ先に削られるのが福利厚生費用。'},
+      {title:'Round 4：スケール可能性',body:'大手1社500〜1000名規模なら、コンテンツ・プログラムを横展開できる。中小では分散してしまう。'},
+      {title:'Round 5：補助金活用の文脈',body:'大手は健康経営優良法人認定を積極的に取りにいく。この文脈での提案は購買動機が明確になる。'}
+    ],
+    verdict:'<strong>【結論】中小企業（50〜200名）を主軸としつつ、大手1〜2社をパイロット案件として並走させる。</strong><br><br>6ヶ月後に中小3社・大手1社の実績が揃ったところでターゲット設定を再評価する。オギラボでの事例発信がリードジェネレーションの核になる。',
+    verdictTags:['中小企業が主軸','大手1社並走','6ヶ月で再評価','オギラボで事例発信'],
+    proScore:76, conScore:65, bestScore:90
+  },
+  {
+    topic:'SORA・SUPERIORのSNSは保護者向けInstagramを先行すべきか？ それとも子ども・保護者両方にリーチするTikTokを最初から展開すべきか？',
+    pro:[
+      {title:'Round 1：保護者が意思決定者',body:'子どもを陸上クラブに入れるのは保護者の判断。まずInstagramで保護者の信頼を獲得することが最優先。安心感・実績・指導体制を伝えやすい。'},
+      {title:'Round 2：競合との差別化',body:'地域の子どもクラブSNSはまだInstagramでの発信が主流。写真・動画で「このクラブの雰囲気」を伝えるには適している。'},
+      {title:'Round 3：長期的コミュニティ形成',body:'会員保護者がInstagramのフォロワーになることで、継続的な情報発信・紹介が生まれる。離脱防止にも効果的。'},
+      {title:'Round 4：広告費の効率',body:'地域ターゲティング広告はInstagramが最も精緻。エリア・年齢・子育て世代に絞ったリーチが可能。'},
+      {title:'Round 5：CARAS・オギラボとの統一感',body:'他プロジェクトとInstagramブランドを統一することで、MOONブランド全体の一貫性が高まる。'}
+    ],
+    con:[
+      {title:'Round 1：子どもの影響力',body:'子どもがTikTokで「このクラブ楽しそう！」と感じれば親に入りたいと訴求する。子ども経由の動機づけは非常に強力。'},
+      {title:'Round 2：練習動画の拡散力',body:'陸上のタイムや跳躍、リレーの練習動画はTikTokのアルゴリズムで拡散しやすい。スポーツ系コンテンツはTikTok相性◎。'},
+      {title:'Round 3：地域リーチの広さ',body:'TikTokの位置情報連動コンテンツで、地域の潜在会員（保護者・子ども）に広くリーチできる。'},
+      {title:'Round 4：YouTube Shorts連携',body:'TikTokとYouTube Shortsを同時展開すれば、動画1本で複数プラットフォームに展開できコスパが高い。'},
+      {title:'Round 5：競合が少ないうちに先行',body:'地域の陸上クラブでTikTokを積極活用しているところはまだ少ない。先行参入で認知を独占できる。'}
+    ],
+    verdict:'<strong>【結論】Instagram先行で保護者の信頼基盤を作り、3ヶ月後にTikTok・YouTube Shortsを同時展開する。</strong><br><br>SORA・SUPERIORは入会の意思決定者が保護者であるため、まずInstagramで「安心できるクラブ」を伝えることが最優先。軌道に乗ったら練習動画・大会結果の縦型動画を制作し、TikTok/Shortsで拡散させる二段階戦略が最適。<em>SORA↔SUPERIOR同一コンテンツの地域違いバージョンで制作コストを半減させる。</em>',
+    verdictTags:['Instagram先行3ヶ月','TikTok後追い展開','両クラブコンテンツ共用','保護者信頼獲得最優先'],
+    proScore:74, conScore:70, bestScore:89
+  }
+];
+
+function renderDebate(idx) {
+  const d = debates[idx];
+  document.getElementById('topic-text').textContent = d.topic;
+  const proEl = document.getElementById('pro-rounds');
+  const conEl = document.getElementById('con-rounds');
+  proEl.innerHTML = '';
+  conEl.innerHTML = '';
+  d.pro.forEach((r,i) => {
+    proEl.innerHTML += `<div class="debate-round"><div class="round-header"><span><span class="round-num">R${i+1}</span> ${r.title}</span></div><div class="round-body">${r.body}</div></div>`;
+  });
+  d.con.forEach((r,i) => {
+    conEl.innerHTML += `<div class="debate-round"><div class="round-header"><span><span class="round-num">R${i+1}</span> ${r.title}</span></div><div class="round-body">${r.body}</div></div>`;
+  });
+  document.getElementById('verdict-text').innerHTML = d.verdict;
+  document.getElementById('verdict-tags').innerHTML = d.verdictTags.map(t=>`<span class="vt">${t}</span>`).join('');
+  document.getElementById('pro-score-bar').style.width = d.proScore+'%';
+  document.getElementById('con-score-bar').style.width = d.conScore+'%';
+  document.getElementById('best-score-bar').style.width = d.bestScore+'%';
+  document.getElementById('pro-score-val').textContent = d.proScore+'点';
+  document.getElementById('con-score-val').textContent = d.conScore+'点';
+  document.getElementById('best-score-val').textContent = d.bestScore+'点';
+}
+function switchDebate(idx, btn) {
+  document.querySelectorAll('.ds-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDebate(idx);
+}
+renderDebate(0);
+
+function toggleSession(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('collapsed');
+}
+</script>
+</body>
+</html>

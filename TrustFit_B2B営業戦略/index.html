@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrustFit B2B営業戦略 — 「それなら欲しい」を設計する</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #ef4444;
+      --accent2: #2563eb;
+      --green: #059669;
+      --orange: #ea580c;
+      --yellow: #d97706;
+      --purple: #7c3aed;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--primary);
+      color: #fff;
+      padding: 60px 40px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(239,68,68,0.12);
+      pointer-events: none;
+    }
+    .hero .eyebrow { font-size: 11px; letter-spacing: 0.18em; color: #ef4444; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+    .hero h1 { font-size: 30px; font-weight: 900; line-height: 1.3; margin-bottom: 16px; }
+    .hero h1 span { color: #ef4444; }
+    .hero .lead { font-size: 14px; color: #94a3b8; max-width: 560px; }
+    .hero .meta { margin-top: 24px; font-size: 11px; color: #475569; }
+
+    /* ===== LAYOUT ===== */
+    .wrap { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
+    .section { margin-bottom: 56px; }
+    .section-title {
+      font-size: 17px; font-weight: 800; color: var(--primary);
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px; margin-bottom: 24px;
+    }
+    .section-title .num {
+      background: var(--accent); color: #fff;
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 900; flex-shrink: 0;
+    }
+
+    /* ===== PAIN NUMBERS ===== */
+    .pain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 650px) { .pain-grid { grid-template-columns: 1fr 1fr; } }
+    .pain-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .pain-card .big { font-size: 30px; font-weight: 900; color: var(--accent); line-height: 1; }
+    .pain-card .unit { font-size: 12px; font-weight: 700; color: var(--accent); }
+    .pain-card .label { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+
+    /* ===== CARD BASE ===== */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+
+    /* ===== PERSONA TABS ===== */
+    .persona-block {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .persona-header {
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .persona-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .persona-header .name { font-size: 15px; font-weight: 800; }
+    .persona-header .attr { font-size: 12px; color: var(--muted); }
+    .persona-body { padding: 20px 24px; background: var(--card); }
+
+    .trigger-box {
+      background: linear-gradient(135deg, #fef3c7, #fffbeb);
+      border: 1.5px solid #fbbf24;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 14px;
+    }
+    .trigger-box .t-label { font-size: 11px; font-weight: 700; color: #92400e; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .trigger-box .t-quote {
+      font-size: 16px; font-weight: 800; color: #1e293b; line-height: 1.45;
+    }
+    .trigger-box .t-note { font-size: 12px; color: #78716c; margin-top: 8px; }
+
+    /* ===== PAIN → DESIRE → GAP ===== */
+    .pdg-row {
+      display: grid; grid-template-columns: 1fr 36px 1fr 36px 1fr;
+      align-items: start; gap: 6px; margin-bottom: 12px;
+    }
+    @media (max-width: 600px) { .pdg-row { grid-template-columns: 1fr; } }
+    .pdg-cell {
+      border-radius: 8px; padding: 14px 16px; font-size: 13px;
+    }
+    .pdg-pain { background: #fef2f2; border: 1px solid #fecaca; }
+    .pdg-desire { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .pdg-trustfit { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .pdg-arrow { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 18px; padding-top: 14px; }
+    .pdg-cell .label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; margin-bottom: 6px; }
+    .pdg-cell strong { display: block; font-size: 14px; margin-bottom: 4px; }
+
+    /* ===== WHY NOW ===== */
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .why-grid { grid-template-columns: 1fr; } }
+    .why-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 16px;
+    }
+    .why-card .icon { font-size: 22px; margin-bottom: 10px; }
+    .why-card h4 { font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+    .why-card p { font-size: 12px; color: var(--muted); }
+
+    /* ===== ENTRY DESIGN ===== */
+    .entry-ladder {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .entry-step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .entry-step:last-child { border-bottom: none; }
+    .step-badge {
+      min-width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px; font-weight: 800; text-align: center; line-height: 1.2;
+    }
+    .step-content h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .step-content p { font-size: 13px; color: var(--muted); }
+    .step-content .pill {
+      display: inline-block; background: #f1f5f9; color: var(--muted);
+      font-size: 11px; padding: 2px 10px; border-radius: 20px; margin-top: 6px;
+    }
+
+    /* ===== ROI TABLE ===== */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr.highlight-row td { background: #f0fdf4; font-weight: 700; color: var(--green); }
+    tr:hover td { background: #f8fafc; }
+
+    /* ===== OBJECTION ===== */
+    .obj-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .obj-q { background: #f1f5f9; padding: 12px 16px; font-size: 13px; font-weight: 700; color: #475569; display: flex; gap: 8px; align-items: flex-start; }
+    .obj-q::before { content: '💬'; font-size: 14px; flex-shrink: 0; }
+    .obj-a { background: var(--card); padding: 14px 16px; font-size: 13px; display: flex; gap: 8px; align-items: flex-start; }
+    .obj-a::before { content: '✅'; font-size: 14px; flex-shrink: 0; }
+
+    /* ===== COPY BANK ===== */
+    .copy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .copy-grid { grid-template-columns: 1fr; } }
+    .copy-card {
+      background: var(--primary); color: #fff;
+      border-radius: 10px; padding: 20px 18px;
+    }
+    .copy-card .tag { font-size: 10px; letter-spacing: 0.12em; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px; }
+    .copy-card .copy { font-size: 18px; font-weight: 900; line-height: 1.4; color: #fff; }
+    .copy-card .sub { font-size: 12px; color: #64748b; margin-top: 8px; }
+
+    /* ===== HIGHLIGHT BOXES ===== */
+    .alert-red {
+      background: #fef2f2; border: 1.5px solid #fca5a5;
+      border-radius: 10px; padding: 16px 20px; margin: 12px 0;
+    }
+    .alert-red .label { font-size: 11px; font-weight: 700; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+
+    .alert-green {
+      background: #f0fdf4; border: 1.5px solid #86efac;
+      border-radius: 10px; padding: 16px 20px; margin: 12px 0;
+    }
+    .alert-green .label { font-size: 11px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+
+    /* ===== SEGMENT MATRIX ===== */
+    .matrix-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .matrix-head { background: var(--primary); color: #fff; display: grid; grid-template-columns: 1.5fr 2fr 2fr 2fr; }
+    .matrix-row { display: grid; grid-template-columns: 1.5fr 2fr 2fr 2fr; border-bottom: 1px solid var(--border); }
+    .matrix-row:last-child { border-bottom: none; }
+    .matrix-cell { padding: 12px 14px; font-size: 12px; border-right: 1px solid var(--border); }
+    .matrix-cell:last-child { border-right: none; }
+    .matrix-head .matrix-cell { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .matrix-row:hover .matrix-cell { background: #f8fafc; }
+
+    /* ===== BADGE ===== */
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-orange { background: #ffedd5; color: #c2410c; }
+    .badge-purple { background: #ede9fe; color: #6d28d9; }
+
+    /* ===== FOOTER ===== */
+    footer { text-align: center; padding: 32px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="eyebrow">TrustFit — B2B Sales Strategy</div>
+  <h1>「<span>それなら欲しい</span>」を<br>設計する営業戦略</h1>
+  <p class="lead">ウェルビーイング経営トレンドを背景に、toB顧客が前のめりになる「痛み→欲求→TrustFit」の設計図。感情で欲しくなり、数字で稟議を通す構造を作る。</p>
+  <div class="meta">📅 2026-04-16 ｜ 対象: TrustFit ｜ フェーズ: 初期モニター獲得期</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== SECTION 1: 問題を数値で可視化 ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">1</div>「今のまま」の損失コストを数字で見せる</div>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">B2B営業の鉄則は「問題をお金に換算する」こと。相手が頭で理解している課題を、財務数字として眼前に突きつけると意思決定が急加速する。</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="big">774</div><div class="unit">万円</div>
+        <div class="label">中途1名・早期離職の<br>総損失コスト</div>
+      </div>
+      <div class="pain-card">
+        <div class="big">172</div><div class="unit">万円/年</div>
+        <div class="label">健康リスク高の社員<br>1人あたりの<br>プレゼンティーイズム損失</div>
+      </div>
+      <div class="pain-card">
+        <div class="big">11.4</div><div class="unit">%</div>
+        <div class="label">一般企業の離職率<br>（健康経営銘柄企業は<br>3.3%）</div>
+      </div>
+      <div class="pain-card">
+        <div class="big">9.2</div><div class="unit">%</div>
+        <div class="label">エンゲージメント低い<br>社員の離職率<br>（高い社員は1.2%）</div>
+      </div>
+    </div>
+
+    <div class="alert-red">
+      <div class="label">🔥 社員100名・平均年収500万円の企業で試算すると</div>
+      <p style="font-size:14px">全国平均離職率11.4% → <strong>年間11名が離職</strong>。1名あたり離職コスト774万円 × 11名 = <strong>年間約8,500万円が「見えないコスト」として消えている</strong>。このうち健康・エンゲージメント起因が推定40〜50%と言われる。</p>
+    </div>
+
+    <div class="alert-green">
+      <div class="label">✅ TrustFit導入企業の想定シナリオ</div>
+      <p style="font-size:14px">離職率が11.4% → 5.0%（健康経営導入企業平均）に改善 = <strong>年間6名の離職を防止</strong>。6名 × 774万円 = <strong>約4,600万円の損失回避</strong>。TrustFit年間コスト200万円との比較 → <strong>ROI 2,300%</strong>。</p>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: 顧客セグメント別「前のめりトリガー」 ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">2</div>意思決定者タイプ別「それなら欲しい」設計</div>
+
+    <!-- ペルソナA: 人事部長 -->
+    <div class="persona-block">
+      <div class="persona-header" style="background:#eff6ff">
+        <div class="persona-icon" style="background:#dbeafe">👔</div>
+        <div>
+          <div class="name">ペルソナA：人事・総務部長（45歳男性）</div>
+          <div class="attr">ITベンチャー100名 ｜ 最大の恐怖：「使われない福利厚生に予算を取られ続けること」</div>
+        </div>
+      </div>
+      <div class="persona-body">
+        <div class="pdg-row">
+          <div class="pdg-cell pdg-pain">
+            <div class="label">NOW / 痛み</div>
+            <strong>「福利厚生費が年200万かかってるのに使用率20%」</strong>
+            <span style="font-size:12px;color:var(--muted)">健康診断のオプション追加、食堂補助、スポーツクラブ提携…全部空回り。社長から「何に使ってるんだ」と言われる恐怖。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-desire">
+            <div class="label">WANT / 欲求</div>
+            <strong>「使われた実績」と「数字で説明できる効果」が欲しい</strong>
+            <span style="font-size:12px;color:var(--muted)">役員会で「これだけ効果が出ました」と言えるデータ。社長に指摘される前に出せる実績を作りたい。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-trustfit">
+            <div class="label">TrustFit / 解決</div>
+            <strong>「効果が出た分だけ払う設計」＋「50点満点スコアレポート」</strong>
+            <span style="font-size:12px;color:var(--muted)">評価連動報酬なので、効果なければほぼ払わない。セッション後に数値レポートが出る。役員会の資料が自動生成される。</span>
+          </div>
+        </div>
+
+        <div class="trigger-box">
+          <div class="t-label">🎯 前のめりになる一言</div>
+          <div class="t-quote">「効果がなかった分は、払わなくていい設計です。<br>評価スコアのレポートはそのまま役員会資料になります。」</div>
+          <div class="t-note">▶ ポイント：「使われない福利厚生への恐怖」を「使われたら払う・使われなければ払わない」で根本解決。さらに「レポートが自動生成」で「楽になる」までセット提供する。</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <p style="font-size:13px;font-weight:700;margin-bottom:8px">👀 この人が反応するキーワード</p>
+          <span class="badge badge-blue">費用対効果</span>
+          <span class="badge badge-blue">使用率</span>
+          <span class="badge badge-blue">数値エビデンス</span>
+          <span class="badge badge-blue">稟議が通りやすい</span>
+          <span class="badge badge-blue">健康経営優良法人の認定材料</span>
+          <span class="badge badge-blue">役員向けレポート自動化</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ペルソナB: 経営者・社長 -->
+    <div class="persona-block">
+      <div class="persona-header" style="background:#fef9f0">
+        <div class="persona-icon" style="background:#fde68a">🏭</div>
+        <div>
+          <div class="name">ペルソナB：創業社長・オーナー経営者（42歳男性）</div>
+          <div class="attr">製造業80名・2代目 ｜ 最大の恐怖：「優秀な幹部が抜ける・自分が体を壊す」</div>
+        </div>
+      </div>
+      <div class="persona-body">
+        <div class="pdg-row">
+          <div class="pdg-cell pdg-pain">
+            <div class="label">NOW / 痛み</div>
+            <strong>「役員3人が先月から睡眠不足・疲弊状態」</strong>
+            <span style="font-size:12px;color:var(--muted)">自分もジムに行く時間がない。去年、幹部が1人辞めた。採用コスト300万円かけて補充したが、まだ組織が回っていない感覚。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-desire">
+            <div class="label">WANT / 欲求</div>
+            <strong>「会社に一流のコンディショニング環境を持ちたい」</strong>
+            <span style="font-size:12px;color:var(--muted)">Jリーグのチームみたいに、専門家が会社に来てくれる環境。大企業だと当たり前なのに、中小にはそれがない。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-trustfit">
+            <div class="label">TrustFit / 解決</div>
+            <strong>「元五輪アスリートが会社に来る。価値がなければ払わない。」</strong>
+            <span style="font-size:12px;color:var(--muted)">VIPアスリートが診断士として来社。72時間以内に「組織コンディショニング・カルテ」を提出。継続は専属トレーナーが引き継ぐ。</span>
+          </div>
+        </div>
+
+        <div class="trigger-box">
+          <div class="t-label">🎯 前のめりになる一言</div>
+          <div class="t-quote">「役員1人が意思決定ミスをすると、数百万の損失になります。<br>トップアスリートと同じコンディショニングを、御社に持ち込みます。」</div>
+          <div class="t-note">▶ ポイント：「健康」の話ではなく「意思決定の質・経営リスク」の話にする。さらに「一流が来る体験価値」はベンツを買うのと同じ感覚で心に刺さる。</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <span class="badge badge-orange">意思決定の質</span>
+          <span class="badge badge-orange">幹部の定着</span>
+          <span class="badge badge-orange">会社の格が上がる</span>
+          <span class="badge badge-orange">採用PR動画</span>
+          <span class="badge badge-orange">競合との差別化</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ペルソナC: 採用担当（新規追加） -->
+    <div class="persona-block">
+      <div class="persona-header" style="background:#f5f3ff">
+        <div class="persona-icon" style="background:#ede9fe">🎯</div>
+        <div>
+          <div class="name">ペルソナC：採用責任者・CHRO（38歳女性）【新規セグメント】</div>
+          <div class="attr">ITスタートアップ150名 ｜ 最大の恐怖：「採用競合に負けて優秀人材が取れないこと」</div>
+        </div>
+      </div>
+      <div class="persona-body">
+        <div class="pdg-row">
+          <div class="pdg-cell pdg-pain">
+            <div class="label">NOW / 痛み</div>
+            <strong>「同業他社と給与もカルチャーも大差なく、差別化ポイントがない」</strong>
+            <span style="font-size:12px;color:var(--muted)">求人媒体費用が年500万超。優秀な候補者が最終で他社を選ぶ。「この会社で働きたい理由」を面接で言ってもらえない。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-desire">
+            <div class="label">WANT / 欲求</div>
+            <strong>「採用候補者が『ここで働きたい』と言う物語が欲しい」</strong>
+            <span style="font-size:12px;color:var(--muted)">SNS映えする福利厚生、元五輪選手が社員のコーチをしている会社、という物語。それだけで採用媒体費用の半分が節約できる。</span>
+          </div>
+          <div class="pdg-arrow">→</div>
+          <div class="pdg-cell pdg-trustfit">
+            <div class="label">TrustFit / 解決</div>
+            <strong>「元五輪選手が来社するVIPセッションの採用PR動画」</strong>
+            <span style="font-size:12px;color:var(--muted)">モニター条件で撮影に協力するだけで、採用PR動画が生まれる。「オリンピアンが来る会社」は30秒で他社に勝てる採用コピーになる。</span>
+          </div>
+        </div>
+
+        <div class="trigger-box">
+          <div class="t-label">🎯 前のめりになる一言</div>
+          <div class="t-quote">「採用媒体に年500万使うより、<br>オリンピアンが来る会社の30秒動画の方が強いです。」</div>
+          <div class="t-note">▶ ポイント：採用競争の文脈で語ると決裁権者（CEOや経営企画）に即エスカレーションされる。「福利厚生費」ではなく「採用広告費の代替」として予算の枠を変える。</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <span class="badge badge-purple">採用ブランディング</span>
+          <span class="badge badge-purple">求人媒体費削減</span>
+          <span class="badge badge-purple">SNS拡散素材</span>
+          <span class="badge badge-purple">内定承諾率向上</span>
+          <span class="badge badge-purple">エンゲージメント向上</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== SECTION 3: なぜ今か ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">3</div>「なぜ今か」— 緊急性の設計</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px">B2B営業で最も難しいのは「後でいい」という先送り。市場タイミングと競合動向を示して、「今動かないと損」を伝える。</p>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="icon">📈</div>
+        <h4>CWO-BANKが市場を啓蒙中</h4>
+        <p>2026年4月15日、著名人CWO派遣サービスがローンチ。「ウェルビーイング経営」という概念が経営者の頭に入り始めている。この認知が高まっているうちにTrustFitを提案するのが最適タイミング。</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🏆</div>
+        <h4>健康経営優良法人の競争激化</h4>
+        <p>申請企業数が毎年増加。今から取り組まないと認定が遅れ、採用ブランディングで後れを取る。TrustFitの評価レポートは申請書類の証拠資料として直接活用できる。</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">👥</div>
+        <h4>Z世代の就職軸が変わった</h4>
+        <p>Z世代の7割以上が「働く環境・健康への配慮」を就職先選びで重視。2040年に労働人口が半減する日本で、ウェルビーイング投資をしていない企業は採用負け確定。</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">💰</div>
+        <h4>10倍キャンペーンは期間限定</h4>
+        <p>初回モニター企業限定で1万円→10万円分ポイント付与。モニター枠は意図的に少なく設定。「今すぐ」の根拠として機能する。</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">📊</div>
+        <h4>プレゼンティーイズム損失が表面化</h4>
+        <p>健康リスクが高い社員1人あたり年172万円の生産性損失。社員50人いれば潜在損失は数千万円。「測定すると見えてしまう」問題として意識が高まっている。</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🔒</div>
+        <h4>先行企業がアドバンテージを積む</h4>
+        <p>TrustFitの評価スコアは積み重ねるほど価値が上がる。早く導入した企業ほど「ウェルビーイング実績企業」のポジションを先取りできる。後から始めた企業は追いつけない。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: 入口設計（リスクゼロ） ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">4</div>「試すリスクをゼロ」にする入口設計</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px">B2B営業で「前のめり」になった顧客が次に感じるのは「でも失敗したら」という恐怖。この恐怖を構造的に取り除く。</p>
+
+    <div class="card">
+      <div class="entry-ladder">
+        <div class="entry-step">
+          <div class="step-badge" style="background:#fee2e2;color:#dc2626">STEP<br>0</div>
+          <div class="step-content">
+            <h4>🔴 現状：年間8,500万円の「見えないコスト」が流れている</h4>
+            <p>離職・プレゼンティーイズム・採用失敗の複合コスト。意識していないだけで確実に発生している。</p>
+          </div>
+        </div>
+        <div class="entry-step">
+          <div class="step-badge" style="background:#fef3c7;color:#d97706">STEP<br>1</div>
+          <div class="step-content">
+            <h4>🟡 初回モニター：1万円 → 10万円分ポイント（10倍）</h4>
+            <p>まず10万円分で体験。VIPアスリートのセッション1回＋組織コンディショニング・カルテ。「あとで価格を判定してください（評価連動）」なので払い損にならない。</p>
+            <span class="pill">📸 撮影協力で10倍適用（動画NGなら匿名データ提供でもOK）</span>
+          </div>
+        </div>
+        <div class="entry-step">
+          <div class="step-badge" style="background:#dcfce7;color:#15803d">STEP<br>2</div>
+          <div class="step-content">
+            <h4>🟢 体験後：評価スコアで効果を確認してから継続を決める</h4>
+            <p>50点満点のスコアレポートが自動生成。「効果があったかどうか」が数値で見える。継続する価値を感じた分だけ次を予約する。自動更新なし・解約手続き不要。</p>
+            <span class="pill">💡 余ったポイントは1年以内なら何にでも使える</span>
+          </div>
+        </div>
+        <div class="entry-step">
+          <div class="step-badge" style="background:#eff6ff;color:#1d4ed8">STEP<br>3</div>
+          <div class="step-content">
+            <h4>🔵 継続フェーズ：VIP単発→通常トレーナー月次継続に切り替え</h4>
+            <p>継続コストは月3〜10万円程度に最適化。VIPの「組織カルテ」に基づく処方箋を実行する専属トレーナーが継続サポート。コストを下げながら効果を維持。</p>
+            <span class="pill">🏥 Airbnb型でトレーナーを自分でブラウズ・評価できる</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-green">
+      <div class="label">✅ 稟議を通すための言語変換</div>
+      <p style="font-size:14px">「福利厚生費」→ <strong>「従業員生産性向上投資」</strong>｜「ジム代」→ <strong>「採用広告費の代替」</strong>｜「トレーナー費」→ <strong>「意思決定品質の保険コスト」</strong>。この言語変換で予算の「箱」が変わり、稟議が通りやすくなる。</p>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: ROI試算 ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">5</div>意思決定者を動かすROI試算表</div>
+
+    <table>
+      <tr>
+        <th>コスト項目</th>
+        <th>現状（導入前）</th>
+        <th>TrustFit導入後</th>
+        <th>差額・効果</th>
+      </tr>
+      <tr>
+        <td>離職コスト（年間）</td>
+        <td>100名 × 11.4% = 11名離職<br>11 × 774万 = <strong>8,514万円</strong></td>
+        <td>離職率5%で6名離職<br>6 × 774万 = 4,644万円</td>
+        <td style="color:var(--green);font-weight:700">▼ 3,870万円削減</td>
+      </tr>
+      <tr>
+        <td>プレゼンティーイズム損失</td>
+        <td>健康リスク高の社員20名×172万<br>= <strong>3,440万円/年</strong></td>
+        <td>改善率30%で<br>2,408万円/年</td>
+        <td style="color:var(--green);font-weight:700">▼ 1,032万円削減</td>
+      </tr>
+      <tr>
+        <td>採用コスト（中途）</td>
+        <td>年5名採用 × 100万 = <strong>500万円</strong></td>
+        <td>離職減 → 採用数3名に<br>= 300万円</td>
+        <td style="color:var(--green);font-weight:700">▼ 200万円削減</td>
+      </tr>
+      <tr>
+        <td>TrustFit年間費用</td>
+        <td>—</td>
+        <td>年間200万円のポイント購入</td>
+        <td style="color:var(--accent);font-weight:700">▲ 200万円</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>NET 年間効果（試算）</strong></td>
+        <td></td>
+        <td></td>
+        <td><strong>▼ 約4,900万円のコスト削減</strong><br>ROI 2,450%</td>
+      </tr>
+    </table>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 試算はあくまで参考値。実際の効果は企業規模・業種・導入内容により異なります。</p>
+
+    <div class="alert-red" style="margin-top:16px">
+      <div class="label">💡 社長向けの「1行ROI」トーク</div>
+      <p style="font-size:15px;font-weight:800;color:#1e293b">「御社では今も、年間数千万円が健康・離職関連コストとして静かに流れています。<br>TrustFitはその10分の1以下の投資で、止血の第一歩を踏み出せます。」</p>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: 反論処理 ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">6</div>ウェルビーイング文脈を加えた反論処理</div>
+
+    <div class="obj-item">
+      <div class="obj-q">「他の福利厚生サービスと何が違うの？」</div>
+      <div class="obj-a">既存の福利厚生は「使ってもらう手段」を提供するだけで、効果は測れません。TrustFitは「効果が出た分だけ払う設計＋50点満点の数値レポート」が標準装備。<strong>「使われた実績が数字になる唯一のサービス」</strong>です。役員会で説明できる証拠資料が自動生成される点で、他社とは根本的に違います。</div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-q">「CWO-BANKという同じようなサービスがある」</div>
+      <div class="obj-a">CWO-BANKは「著名人を役職として迎える知名度効果」が主軸です。TrustFitは「継続的なフィジカル・メンタル指導の実装」が主軸。<strong>入口（ブランド効果）と実装（継続改善）の違い</strong>です。どちらかではなく、両方使う企業が最も効果を出します。</div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-q">「健康経営は大企業のやることでは」</div>
+      <div class="obj-a">むしろ逆です。大企業は体力があるので放置しても人が集まります。<strong>50〜200名規模の企業こそ、「健康・ウェルビーイングで選ばれる会社」を作る投資対効果が最大</strong>。健康経営銘柄企業の離職率3.3%は、採用コスト削減に直接つながります。</div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-q">「社員が使ってくれなかったらどうする」</div>
+      <div class="obj-a">使われなかったポイントは使い切るまで有効（1年）。使用率ゼロでも1万円の持ち出しが10万円分の権利を得ただけです。<strong>消化率50%でも通常比5倍のROI</strong>。「使われない可能性」は10倍キャンペーンが完全に吸収します。</div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-q">「毎月固定費が増えるのは稟議が通りにくい」</div>
+      <div class="obj-a">ポイント買い切りなので<strong>「〇〇万円の単発購入」として1回の稟議で確定費処理</strong>できます。月額課金ではありません。自動更新もありません。「止める手間ゼロ」の単発投資として経理処理が最もシンプルです。</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7: 顧客セグメント別アプローチマトリクス ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">7</div>顧客セグメント別 アプローチマトリクス</div>
+
+    <div class="matrix-wrap">
+      <div class="matrix-head">
+        <div class="matrix-cell">セグメント</div>
+        <div class="matrix-cell">最初の一言（電話・メール冒頭）</div>
+        <div class="matrix-cell">刺さる数字</div>
+        <div class="matrix-cell">クロージングワード</div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-cell"><strong>人事・総務部長</strong><br><span class="badge badge-blue">効果の見える化</span></div>
+        <div class="matrix-cell">「使われない福利厚生費に毎年いくら使っていますか？TrustFitは効果が出た分だけ払う設計です」</div>
+        <div class="matrix-cell">健康経営銘柄企業の離職率3.3%（全国平均11.4%）。差8.1%が採用コスト削減に直結。</div>
+        <div class="matrix-cell">「稟議書類は私が全部作ります。〇〇さんはこれをそのまま提出するだけです」</div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-cell"><strong>創業社長・オーナー</strong><br><span class="badge badge-orange">体験価値・ROI</span></div>
+        <div class="matrix-cell">「役員1名の早期離職コストは774万円です。今日その半分以下の投資で、意思決定の質を上げる話をしていいですか」</div>
+        <div class="matrix-cell">プレゼンティーイズム損失年172万円/人。役員3人いれば潜在損失516万円。</div>
+        <div class="matrix-cell">「今から15分。秘書に一番近い空き時間を確認してください。VIP初回体験を予約します」</div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-cell"><strong>採用責任者・CHRO</strong><br><span class="badge badge-purple">採用ブランド</span></div>
+        <div class="matrix-cell">「採用媒体費年500万と、オリンピアンが来る会社の30秒採用動画、どちらが内定承諾率を上げると思いますか」</div>
+        <div class="matrix-cell">エンゲージメント高い社員の離職率1.2%（低い社員9.2%）。採用媒体費vs採用動画ROI比較。</div>
+        <div class="matrix-cell">「モニター枠の撮影だけご協力ください。採用PR素材はこちらで全部作ります」</div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-cell"><strong>CFO・経営企画</strong><br><span class="badge badge-red">コスト削減</span></div>
+        <div class="matrix-cell">「御社の健康関連コスト（離職＋プレゼンティーイズム）は年間いくらかご存知ですか？計算してみると大抵の経営者が驚きます」</div>
+        <div class="matrix-cell">100名企業の推定損失8,500万円超。TrustFit年間200万円でROI2,450%の試算。</div>
+        <div class="matrix-cell">「ポイント買い切りで確定費として処理できます。変動費の稟議リスクはありません」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8: コピーバンク ===== -->
+  <div class="section">
+    <div class="section-title"><div class="num">8</div>「前のめり」になるコピー候補バンク</div>
+
+    <div class="copy-grid">
+      <div class="copy-card">
+        <div class="tag">LP / ファーストビュー</div>
+        <div class="copy">一流が来る。<br>成果の分だけ払う。<br>それが、ウェルビーイングの実装だ。</div>
+        <div class="sub">TrustFit — 評価連動型プロトレーナー派遣</div>
+      </div>
+      <div class="copy-card">
+        <div class="tag">社長向けキャッチ</div>
+        <div class="copy">「役員1人の離職」は<br>774万円のコストです。<br>予防に200万、使いますか。</div>
+        <div class="sub">ROIフレーミング。数字から入る。</div>
+      </div>
+      <div class="copy-card">
+        <div class="tag">人事向けキャッチ</div>
+        <div class="copy">使った分だけ払う福利厚生。<br>効果はスコアで残る。<br>役員会の資料は自動で出る。</div>
+        <div class="sub">「楽になる」まで提供する設計。</div>
+      </div>
+      <div class="copy-card">
+        <div class="tag">採用向けキャッチ</div>
+        <div class="copy">オリンピアンが来る会社。<br>求人媒体に500万使うより、<br>この30秒の方が強い。</div>
+        <div class="sub">採用ブランディングの文脈で語る。</div>
+      </div>
+      <div class="copy-card">
+        <div class="tag">ウェルビーイング経営文脈</div>
+        <div class="copy">CWOを雇う前に、<br>実装チームを持ちなさい。</div>
+        <div class="sub">CWO-BANK認知をレバレッジした差別化コピー。</div>
+      </div>
+      <div class="copy-card">
+        <div class="tag">10倍キャンペーン</div>
+        <div class="copy">1万円で<br>10万円分、試せます。<br>納得しなければ次はない。</div>
+        <div class="sub">リスクゼロの入口を最大限に使う。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>TrustFit B2B営業戦略レポート ｜ 2026-04-16 ｜ 株式会社MOON</p>
+  <p style="margin-top:6px">データ出典: <a href="https://mitsucari.com/services/columns/cost" style="color:var(--accent2)">早期離職コスト(mitsucari)</a> ／ <a href="https://kiwi-go.jp/column/presentism-loss/" style="color:var(--accent2)">プレゼンティーイズム損失(kiwi-go)</a> ／ <a href="https://buzzkuri.com/columns/engagement/8220/" style="color:var(--accent2)">エンゲージメントと離職率(buzzkuri)</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌅 デイリーブリーフィング 2026-03-28</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: #f0f2f5;
+      color: #2d3748;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: 20px;
+      padding: 36px 40px;
+      color: white;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,200,50,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .header-tag {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #f6c90e;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 15px; color: rgba(255,255,255,0.65); }
+    .header .date-badge {
+      display: inline-block;
+      background: rgba(246,201,14,0.15);
+      border: 1px solid rgba(246,201,14,0.4);
+      color: #f6c90e;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-top: 14px;
+      font-weight: 600;
+    }
+
+    /* セクションタイトル */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 16px;
+    }
+    .section-title .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    /* プロジェクトカード */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .project-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-top: 4px solid;
+      transition: transform 0.2s;
+    }
+    .project-card:hover { transform: translateY(-2px); }
+    .project-card.ogilab { border-color: #667eea; }
+    .project-card.caras  { border-color: #f093fb; }
+    .project-card.kenkou { border-color: #4facfe; }
+    .project-card.sora   { border-color: #43e97b; }
+    .project-card.superior { border-color: #fa709a; }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .project-name { font-size: 16px; font-weight: 700; }
+    .project-badge {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .ogilab .project-badge  { background: #ebf0ff; color: #667eea; }
+    .caras .project-badge   { background: #fef0ff; color: #c026d3; }
+    .kenkou .project-badge  { background: #e0f2fe; color: #0284c7; }
+    .sora .project-badge    { background: #dcfce7; color: #16a34a; }
+    .superior .project-badge { background: #fce7f3; color: #be185d; }
+
+    .progress-bar-bg {
+      background: #f1f5f9;
+      border-radius: 8px;
+      height: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 8px;
+      transition: width 0.8s ease;
+    }
+    .ogilab .progress-bar  { background: linear-gradient(90deg, #667eea, #764ba2); }
+    .caras .progress-bar   { background: linear-gradient(90deg, #f093fb, #f5576c); }
+    .kenkou .progress-bar  { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+    .sora .progress-bar    { background: linear-gradient(90deg, #43e97b, #38f9d7); }
+    .superior .progress-bar { background: linear-gradient(90deg, #fa709a, #fee140); }
+
+    .progress-text {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+    .progress-label { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
+    .project-status {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+    .project-status strong { color: #334155; }
+    .project-next {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #475569;
+      border-left: 3px solid;
+    }
+    .ogilab .project-next  { border-left-color: #667eea; }
+    .caras .project-next   { border-left-color: #f093fb; }
+    .kenkou .project-next  { border-left-color: #4facfe; }
+    .sora .project-next    { border-left-color: #43e97b; }
+    .superior .project-next { border-left-color: #fa709a; }
+
+    /* 要対応・推奨アクション・シナジー */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    /* 要対応事項 */
+    .alert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .alert-urgent { background: #fff5f5; border: 1px solid #fed7d7; }
+    .alert-notice { background: #fffbeb; border: 1px solid #fde68a; }
+    .alert-info   { background: #f0f9ff; border: 1px solid #bae6fd; }
+    .alert-icon { font-size: 20px; line-height: 1; margin-top: 1px; }
+    .alert-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .alert-desc  { font-size: 13px; color: #64748b; line-height: 1.6; }
+    .alert-urgent .alert-title  { color: #c53030; }
+    .alert-notice .alert-title  { color: #b45309; }
+    .alert-info .alert-title    { color: #0369a1; }
+
+    /* 推奨アクション */
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8fafc;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .action-rank {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+    .rank-1 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+    .rank-2 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+    .rank-3 { background: linear-gradient(135deg, #14b8a6, #06b6d4); }
+    .action-content .action-title  { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .action-content .action-detail { font-size: 13px; color: #64748b; line-height: 1.6; }
+    .action-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .tag-ogilab  { background: #ebf0ff; color: #667eea; }
+    .tag-caras   { background: #fef0ff; color: #c026d3; }
+    .tag-sora    { background: #dcfce7; color: #16a34a; }
+
+    /* シナジー */
+    .synergy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fafafa, #f0f9ff);
+      margin-bottom: 12px;
+      border: 1px solid #e0f2fe;
+    }
+    .synergy-arrow { font-size: 24px; flex-shrink: 0; }
+    .synergy-title { font-size: 14px; font-weight: 700; color: #0369a1; margin-bottom: 4px; }
+    .synergy-desc  { font-size: 13px; color: #64748b; line-height: 1.6; }
+
+    /* SNSスナップショット */
+    .sns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .sns-card {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid #e2e8f0;
+    }
+    .sns-platform { font-size: 12px; color: #94a3b8; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .sns-account  { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px; }
+    .sns-followers { font-size: 20px; font-weight: 800; color: #1a202c; }
+    .sns-sub      { font-size: 12px; color: #64748b; }
+    .sns-goal     {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+      display: inline-block;
+    }
+    .goal-close   { background: #fef9c3; color: #a16207; font-weight: 700; }
+    .goal-normal  { background: #f1f5f9; color: #64748b; }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    /* ステータスバー (前回比) */
+    .delta-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .delta-same { background: #f1f5f9; color: #64748b; }
+
+    /* TikTok進捗ゲージ */
+    .tiktok-goal-section {
+      margin-top: 10px;
+      padding: 12px;
+      background: linear-gradient(135deg, #ebf0ff, #f5f0ff);
+      border-radius: 10px;
+      border: 1px solid #c7d2fe;
+    }
+    .tiktok-goal-title { font-size: 12px; font-weight: 700; color: #4338ca; margin-bottom: 6px; }
+    .tiktok-progress-bg { background: #ddd6fe; border-radius: 8px; height: 10px; overflow: hidden; }
+    .tiktok-progress-bar { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 8px; width: 91.6%; }
+    .tiktok-goal-text { font-size: 12px; color: #4338ca; margin-top: 5px; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .sns-grid { grid-template-columns: 1fr 1fr; }
+      .header { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div class="header-tag">Daily Briefing</div>
+    <h1>🌅 おはようございます、MOONさん！</h1>
+    <div class="subtitle">AI組織より、本日の状況をお届けします。全5プロジェクトの最新状況です。</div>
+    <span class="date-badge">📅 2026年3月28日（土）</span>
+  </div>
+
+  <!-- 📊 各PJ進捗 -->
+  <div class="section-title">
+    <div class="icon" style="background:#eff6ff;">📊</div>
+    各プロジェクト進捗
+  </div>
+  <div class="projects-grid">
+
+    <!-- オギラボ -->
+    <div class="project-card ogilab">
+      <div class="project-header">
+        <div>
+          <div class="project-name">🏃 オギラボ</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px;">オンラインサロン</div>
+        </div>
+        <span class="project-badge">認知拡大期</span>
+      </div>
+      <div class="progress-text" style="color:#667eea;">42%</div>
+      <div class="progress-label">前回比：変化なし <span class="delta-badge delta-same">→</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:42%;"></div></div>
+      <div class="project-status" style="margin-top:12px;">
+        <strong>TikTok:</strong> 916人（2026-03-27確認）<br>
+        <strong>YouTube:</strong> 79人（2026-03-27確認）<br>
+        <strong>Note / Instagram:</strong> 要確認 / なし
+      </div>
+      <div class="tiktok-goal-section">
+        <div class="tiktok-goal-title">🎯 TikTok 1,000人達成まで</div>
+        <div class="tiktok-progress-bg"><div class="tiktok-progress-bar"></div></div>
+        <div class="tiktok-goal-text">916 / 1,000人 ── あと <strong>84人！</strong></div>
+      </div>
+      <div class="project-next ogilab">
+        <strong>次のアクション:</strong> TikTok 84人ギャップを埋めるコンテンツを投稿し、noteメンバーシップ設定を準備
+      </div>
+    </div>
+
+    <!-- CARAS -->
+    <div class="project-card caras">
+      <div class="project-header">
+        <div>
+          <div class="project-name">💪 CARAS</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px;">パーソナルジム</div>
+        </div>
+        <span class="project-badge">実績蓄積期</span>
+      </div>
+      <div class="progress-text" style="color:#c026d3;">58%</div>
+      <div class="progress-label">前回比：変化なし <span class="delta-badge delta-same">→</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:58%;"></div></div>
+      <div class="project-status" style="margin-top:12px;">
+        <strong>Instagram:</strong> @caras_gym｜68人・81投稿（2026-03-27確認）<br>
+        <strong>TikTok:</strong> @carasgym｜23人（2026-03-27確認）<br>
+        <strong>GBP:</strong> 2026-03-27 投稿済み ✅
+      </div>
+      <div class="project-next caras">
+        <strong>次のアクション:</strong> Instagram Week 4投稿（スタジオ・環境・トレーナー紹介）の準備 + HP記事テーマ決定
+      </div>
+    </div>
+
+    <!-- 健康経営 -->
+    <div class="project-card kenkou">
+      <div class="project-header">
+        <div>
+          <div class="project-name">🏢 健康経営</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px;">B2B法人支援</div>
+        </div>
+        <span class="project-badge">市場調査期</span>
+      </div>
+      <div class="progress-text" style="color:#0284c7;">25%</div>
+      <div class="progress-label">前回比：変化なし <span class="delta-badge delta-same">→</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:25%;"></div></div>
+      <div class="project-status" style="margin-top:12px;">
+        <strong>サービスパッケージ設計:</strong> 進行中<br>
+        <strong>競合調査:</strong> 完了（5社）<br>
+        <strong>LP制作:</strong> 🚧 ブロック中（パッケージ設計完了待ち）
+      </div>
+      <div class="project-next kenkou">
+        <strong>次のアクション:</strong> サービスパッケージ設計の完成 → LP制作へ着手
+      </div>
+    </div>
+
+    <!-- SORA -->
+    <div class="project-card sora">
+      <div class="project-header">
+        <div>
+          <div class="project-name">⚡ SORA</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px;">子ども陸上クラブ</div>
+        </div>
+        <span class="project-badge">未着手</span>
+      </div>
+      <div class="progress-text" style="color:#16a34a;">0%</div>
+      <div class="progress-label">新規追加 <span class="delta-badge delta-same">NEW</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:0%;"></div></div>
+      <div class="project-status" style="margin-top:12px;">
+        <strong>フェーズ:</strong> 認知拡大・会員募集期<br>
+        <strong>SNS:</strong> アカウント未開設<br>
+        <strong>成果物:</strong> なし（未着手）
+      </div>
+      <div class="project-next sora">
+        <strong>次のアクション:</strong> クラブ基本情報・ペルソナ整理（前提なし・今すぐ着手可能）
+      </div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="project-card superior">
+      <div class="project-header">
+        <div>
+          <div class="project-name">🌟 SUPERIOR</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px;">子ども陸上クラブ</div>
+        </div>
+        <span class="project-badge">未着手</span>
+      </div>
+      <div class="progress-text" style="color:#be185d;">0%</div>
+      <div class="progress-label">新規追加 <span class="delta-badge delta-same">NEW</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:0%;"></div></div>
+      <div class="project-status" style="margin-top:12px;">
+        <strong>フェーズ:</strong> 認知拡大・会員募集期<br>
+        <strong>SNS:</strong> アカウント未開設<br>
+        <strong>成果物:</strong> なし（未着手）
+      </div>
+      <div class="project-next superior">
+        <strong>次のアクション:</strong> クラブ基本情報・ペルソナ整理（SORAと同時進行可）
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SNS スナップショット -->
+  <div class="card">
+    <div class="section-title">
+      <div class="icon" style="background:#fef9c3;">📱</div>
+      SNSフォロワー スナップショット（2026-03-27 確認値）
+    </div>
+    <p style="font-size:12px;color:#94a3b8;margin-bottom:12px;">⚠️ 実数値は各プラットフォームで要確認。以下は最終確認済みの値です。</p>
+    <div class="sns-grid">
+      <div class="sns-card">
+        <div class="sns-platform">TikTok</div>
+        <div class="sns-account">@ogilab1230</div>
+        <div class="sns-followers">916人</div>
+        <div class="sns-sub">目標: 1,000人</div>
+        <span class="sns-goal goal-close">🔥 あと84人！</span>
+      </div>
+      <div class="sns-card">
+        <div class="sns-platform">YouTube</div>
+        <div class="sns-account">荻田大樹 / Ogi Lab</div>
+        <div class="sns-followers">79人</div>
+        <div class="sns-sub">動画10本</div>
+        <span class="sns-goal goal-normal">成長中</span>
+      </div>
+      <div class="sns-card">
+        <div class="sns-platform">Instagram</div>
+        <div class="sns-account">@caras_gym</div>
+        <div class="sns-followers">68人</div>
+        <div class="sns-sub">81投稿</div>
+        <span class="sns-goal goal-normal">運用ルール設定済み</span>
+      </div>
+      <div class="sns-card">
+        <div class="sns-platform">TikTok</div>
+        <div class="sns-account">@carasgym</div>
+        <div class="sns-followers">23人</div>
+        <div class="sns-sub">いいね: 185</div>
+        <span class="sns-goal goal-normal">立ち上げ期</span>
+      </div>
+      <div class="sns-card">
+        <div class="sns-platform">Note</div>
+        <div class="sns-account">note.com/ogilab</div>
+        <div class="sns-followers" style="font-size:16px;color:#94a3b8;">要確認</div>
+        <div class="sns-sub">メンバーシップ準備中</div>
+        <span class="sns-goal goal-normal">確認が必要</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⚠️ 要対応事項 -->
+  <div class="card">
+    <div class="section-title">
+      <div class="icon" style="background:#fff5f5;">⚠️</div>
+      要対応事項・承認待ち
+    </div>
+
+    <div class="alert-item alert-urgent">
+      <div class="alert-icon">🔥</div>
+      <div>
+        <div class="alert-title">【オギラボ】TikTok 1,000人達成まであと84人！</div>
+        <div class="alert-desc">916人到達済み。目標の1,000人でサロン本格稼働予定。達成加速のためのコンテンツ投稿を優先してください。バズパターン（実証系・等身大×数字型）を活用した投稿が最優先です。<br>→ <strong>進めますか？</strong>（コンテンツ案を生成しますか？）</div>
+      </div>
+    </div>
+
+    <div class="alert-item alert-notice">
+      <div class="alert-icon">📷</div>
+      <div>
+        <div class="alert-title">【CARAS Instagram】今週のWeek 4投稿（スタジオ・環境・トレーナー紹介）</div>
+        <div class="alert-desc">Instagram運用ルールによると今週はWeek 4（スタジオ・環境・トレーナー紹介）テーマです。投稿画像の生成・キャプション作成を行いますか？<br>→ <strong>進めますか？</strong>（生成スクリプト・キャプション一式を準備します）</div>
+      </div>
+    </div>
+
+    <div class="alert-item alert-notice">
+      <div class="alert-icon">📝</div>
+      <div>
+        <div class="alert-title">【CARAS HP】来週（4月3日金曜）のブログ記事の準備</div>
+        <div class="alert-desc">4月第1金曜はテーマ「トレーニング・健康Tips（ビジネスパーソン向け）」。smoooothへの投稿準備をいつ始めますか？（毎月1日のスケジュールタスクで自動生成されます）</div>
+      </div>
+    </div>
+
+    <div class="alert-item alert-info">
+      <div class="alert-icon">🚀</div>
+      <div>
+        <div class="alert-title">【SORA・SUPERIOR】立ち上げ開始の準備ができています</div>
+        <div class="alert-desc">両クラブとも「クラブ基本情報・ペルソナ整理」は前提なしで今すぐ着手可能です。SNS空白地帯（子ども陸上クラブ）で早期参入のチャンスあり。<br>→ 着手するなら「SORA基本情報の整理から始めましょうか？」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎯 推奨アクション TOP3 -->
+  <div class="card">
+    <div class="section-title">
+      <div class="icon" style="background:#f0fdf4;">🎯</div>
+      今日の推奨アクション TOP3
+    </div>
+
+    <div class="action-item">
+      <div class="action-rank rank-1">1</div>
+      <div class="action-content">
+        <div class="action-title">TikTok 残り84人を埋めるコンテンツを投稿する</div>
+        <div class="action-detail">「AIで実際に何が変わったか」等身大×数字型の実証コンテンツを1〜2本投稿。0〜8秒の強フックと保存・コメント促進CTAを設定することで、アルゴリズムの後押しが期待できます。コンテンツ案の生成を依頼できます。</div>
+        <span class="action-tag tag-ogilab">🏃 オギラボ</span>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-rank rank-2">2</div>
+      <div class="action-content">
+        <div class="action-title">CARAS Instagram Week 4投稿を準備・スケジュール</div>
+        <div class="action-detail">スタジオ・トレーナー紹介テーマの1080×1080px画像（Black/Gold/White）とキャプション（150〜250字）を生成します。投稿前に必ず内容を確認してOKをいただきます。</div>
+        <span class="action-tag tag-caras">💪 CARAS</span>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-rank rank-3">3</div>
+      <div class="action-content">
+        <div class="action-title">SORA / SUPERIOR のクラブ基本情報を整理し立ち上げ開始</div>
+        <div class="action-detail">両クラブとも現在0%。前提条件なしで即着手可能なタスクが揃っています。「子ども陸上クラブ」SNS空白地帯への早期参入は競合優位性につながります。基本情報ヒアリング（クラブ名・地域・練習日・コーチ情報など）から始められます。</div>
+        <span class="action-tag tag-sora">⚡ SORA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔗 今週のシナジーチャンス -->
+  <div class="card">
+    <div class="section-title">
+      <div class="icon" style="background:#f0f9ff;">🔗</div>
+      今週のシナジーチャンス
+    </div>
+
+    <div class="synergy-item">
+      <div class="synergy-arrow">🔄</div>
+      <div>
+        <div class="synergy-title">オギラボ TikTokコンテンツ → SORA/SUPERIOR SNS展開へ転用</div>
+        <div class="synergy-desc">「スポーツ×AI活用事例」コンテンツはオギラボだけでなく、SORA/SUPERIORの保護者向けSNSにも転用可能。「コーチがAIを使って練習計画を立てている」という切り口で差別化できます。<br>転用先: SORA / SUPERIOR | 期待効果: SNSゼロからの立ち上げ加速</div>
+      </div>
+    </div>
+
+    <div class="synergy-item">
+      <div class="synergy-arrow">🔄</div>
+      <div>
+        <div class="synergy-title">CARAS 保護者向けコンテンツ → SORA/SUPERIOR 保護者層へ</div>
+        <div class="synergy-desc">CARASの「子育て中の親向け出張トレーニング」コンテンツはSORA/SUPERIORの保護者層（30〜45歳）にそのまま訴求できます。クラブ立ち上げと同時に「保護者もCARASで身体を整えませんか？」のクロスセルが可能。<br>転用先: SORA / SUPERIOR 保護者向けページ | 期待効果: CARAS集客の新チャネル開拓</div>
+      </div>
+    </div>
+
+    <div class="synergy-item">
+      <div class="synergy-arrow">🔄</div>
+      <div>
+        <div class="synergy-title">健康経営 サービスパッケージ完成 → オギラボ発信素材へ</div>
+        <div class="synergy-desc">健康経営パッケージが完成したら「中小企業向け健康経営導入事例」としてオギラボで発信し、法人リード獲得につなげられます。サービス設計が完了次第、コンテンツ化を提案します。<br>転用先: オギラボ → 健康経営リード | 期待効果: B2Bリードジェネレーション開始</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    🤖 このブリーフィングはAI組織によって自動生成されました<br>
+    生成日時: 2026年3月28日 09:00 ｜ daily-morning-briefing（定期実行）<br>
+    SNSフォロワー数は2026-03-27時点での確認済み値です。最新値はWebで要確認。
+  </div>
+
+</div>
+</body>
+</html>

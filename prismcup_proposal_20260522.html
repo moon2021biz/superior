@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP 2026 ｜ 7月4日 企業対抗フットサル大会</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --mute: #888;
+    --line: #d8d4cc;
+    --paper: #f6f3ec;
+    --paper-deep: #ebe6da;
+    --accent: #c43030;
+  }
+  body {
+    font-family:
+      "Hiragino Mincho ProN",
+      "Yu Mincho",
+      "Noto Serif JP",
+      serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sans {
+    font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  }
+
+  /* ===== ヘッダー ===== */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--sub);
+  }
+  header .logo { font-weight: 700; color: var(--ink); letter-spacing: 4px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 70px 32px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .hero .date {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: var(--sub);
+    margin-bottom: 22px;
+  }
+  .hero .accent-bar {
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin: 0 auto 28px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .hero h1 .small {
+    display: block;
+    font-size: clamp(13px, 2vw, 16px);
+    font-weight: 400;
+    color: var(--sub);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+  }
+  .hero .lead {
+    max-width: 540px;
+    margin: 0 auto;
+    font-size: clamp(15px, 1.8vw, 17px);
+    color: var(--ink);
+    line-height: 1.9;
+  }
+  .hero .lead em {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ===== INFO BAND ===== */
+  .info-band {
+    background: var(--paper-deep);
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .info-list {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", sans-serif;
+  }
+  .info-list .item {
+    text-align: center;
+  }
+  .info-list .label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--mute);
+    margin-bottom: 4px;
+  }
+  .info-list .value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ===== LAYOUT ===== */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+  section { margin-bottom: 64px; }
+  section:last-child { margin-bottom: 0; }
+
+  .section-num {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .sec-desc {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.85;
+  }
+
+  /* ===== 参加方法 ===== */
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  @media (max-width:580px) {
+    .price-grid { grid-template-columns: 1fr; }
+    .price + .price { border-left: none !important; border-top: 1px solid var(--line); }
+  }
+  .price {
+    padding: 32px 28px;
+    background: #fff;
+  }
+  .price + .price { border-left: 1px solid var(--line); }
+  .price-tag {
+    display: inline-block;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: var(--mute);
+    margin-bottom: 14px;
+  }
+  .price.main .price-tag { color: var(--accent); }
+  .price h3 {
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 18px;
+    font-weight: 800;
+  }
+  .price .num {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+  .price.main .num { color: var(--accent); }
+  .price .unit {
+    color: var(--mute);
+    font-size: 12px;
+    font-family: "Helvetica Neue", sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .price .note {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.85;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+  }
+  .price .note strong { color: var(--ink); font-weight: 700; }
+
+  /* ===== タイムライン ===== */
+  .tl {
+    border-top: 1px solid var(--line);
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--line);
+    gap: 24px;
+    align-items: baseline;
+  }
+  .tl-row .t {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 1px;
+  }
+  .tl-row .text {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .tl-row.star .t { color: var(--accent); }
+  .tl-row.star .text { font-weight: 700; }
+  .tl-row .desc {
+    display: block;
+    font-size: 12.5px;
+    color: var(--sub);
+    margin-top: 3px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* ===== 体験4つ ===== */
+  .exp {
+    border-top: 1px solid var(--line);
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 20px;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .exp-num {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .exp-text {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .exp-text strong { font-weight: 700; }
+  .exp-text .sub {
+    display: block;
+    color: var(--sub);
+    font-size: 13px;
+    margin-top: 3px;
+    line-height: 1.7;
+  }
+
+  /* ===== CAST ===== */
+  .cast {
+    border-top: 1px solid var(--line);
+  }
+  .cast-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 24px;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width:580px) {
+    .cast-row { grid-template-columns: 1fr; gap: 6px; }
+  }
+  .cast-role {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--mute);
+    font-weight: 600;
+    padding-top: 5px;
+  }
+  .cast-name { font-size: 16px; color: var(--ink); font-weight: 800; margin-bottom: 2px; }
+  .cast-desc { font-size: 13px; color: var(--sub); }
+
+  /* ===== CTA ===== */
+  .cta {
+    background: #fff;
+    border: 2px solid var(--ink);
+    padding: 36px 30px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .cta .label {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .cta h3 {
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .cta p {
+    color: var(--sub);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .cta p + p { margin-top: 4px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 32px;
+    text-align: center;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--mute);
+  }
+
+  /* helpers */
+  .mt-32 { margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PRISM CUP 2026</div>
+  <div>第1回</div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="date">2026 . 07 . 04 ／ SAT</div>
+  <div class="accent-bar"></div>
+  <h1>
+    <span class="small">第1回</span>
+    企業対抗<br>フットサル大会
+  </h1>
+  <p class="lead">
+    プロサッカー選手と<em>同じチーム</em>で本気のフットサル。<br>
+    試合のあとは、横浜の夜の懇親会へ。
+  </p>
+</div>
+
+<!-- ===== 開催情報バンド ===== -->
+<div class="info-band">
+  <div class="info-list">
+    <div class="item">
+      <div class="label">DATE</div>
+      <div class="value">7月4日（土）18:00–23:00</div>
+    </div>
+    <div class="item">
+      <div class="label">VENUE</div>
+      <div class="value">横浜アソビル</div>
+    </div>
+    <div class="item">
+      <div class="label">SIZE</div>
+      <div class="value">8チーム ／ 40名</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===== 01 参加方法 ===== -->
+  <section>
+    <div class="section-num">01 — PARTICIPATION</div>
+    <h2>参加方法は二つ。</h2>
+    <p class="sec-desc">大企業のサッカー部・フットサル部の方が個人決裁で参加できるよう、1人¥10,000の枠を用意しました。後日、会社の活動費や福利厚生費で精算する形でも構いません。</p>
+
+    <div class="price-grid">
+      <div class="price main">
+        <div class="price-tag">MAIN</div>
+        <h3>個人参加</h3>
+        <div class="num">¥10,000</div>
+        <div class="unit">PER PERSON</div>
+        <p class="note">
+          稟議不要。<strong>1人から申込OK。</strong><br>
+          運営側で他社メンバーと混成チームを編成します。
+        </p>
+      </div>
+      <div class="price">
+        <div class="price-tag">CORPORATE</div>
+        <h3>チーム参加</h3>
+        <div class="num">¥100,000</div>
+        <div class="unit">PER TEAM (5)</div>
+        <p class="note">
+          自社メンバーで5名チームを編成。<br>
+          採用PR向けの撮影データを提供します。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 02 当日の流れ ===== -->
+  <section>
+    <div class="section-num">02 — TIMELINE</div>
+    <h2>当日の流れ。</h2>
+    <p class="sec-desc">受付から閉会まで、参加者として何をするのかを時系列で並べました。下線の入った行が当日の見どころです。</p>
+
+    <div class="tl">
+      <div class="tl-row">
+        <div class="t">17:30</div>
+        <div class="text">受付、パーソナルカルテ用紙の受け取り
+          <span class="desc">体の状態を計測（肩可動域・前屈）。試合後の変化と比較します。</span>
+        </div>
+      </div>
+      <div class="tl-row star">
+        <div class="t">18:00</div>
+        <div class="text">開会式・PRISM DRAFT
+          <span class="desc">プロが各チームを順番に指名する公開ドラフト。</span>
+        </div>
+      </div>
+      <div class="tl-row star">
+        <div class="t">18:30</div>
+        <div class="text">経営者向けウェルビーイング15分（荻田 × 脇坂）
+          <span class="desc">「社員の生産性は肩の可動域で測れる」を15分で。</span>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="t">18:45</div>
+        <div class="text">オリンピアン指導のウォームアップ</div>
+      </div>
+      <div class="tl-row star">
+        <div class="t">19:00</div>
+        <div class="text">予選リーグ（プロ助っ人方式・全6ラウンド）
+          <span class="desc">各チームにプロ選手が1名ずつ加わり、本気の試合を行います。</span>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="t">並行</div>
+        <div class="text">PRISM CLINIC
+          <span class="desc">プロトレーナーによる15分のコンディショニング体験。カルテ付き。</span>
+        </div>
+      </div>
+      <div class="tl-row star">
+        <div class="t">20:30</div>
+        <div class="text">ドリームエキシビション（3分）
+          <span class="desc">プロ全員チーム vs 優勝チームの3分間。</span>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="t">20:35</div>
+        <div class="text">表彰式・MVP発表（プロ選定）</div>
+      </div>
+      <div class="tl-row star">
+        <div class="t">21:00</div>
+        <div class="text">懇親会
+          <span class="desc">名刺交換と写真撮影。実はここが本番です。</span>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="t">23:00</div>
+        <div class="text">閉会</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03 体験 ===== -->
+  <section>
+    <div class="section-num">03 — WHAT YOU GET</div>
+    <h2>持ち帰れるもの。</h2>
+    <p class="sec-desc">当日の体験を、翌日以降も社内で語れる形に変えて持ち帰っていただきます。</p>
+
+    <div class="exp">
+      <div class="exp-item">
+        <div class="exp-num">01</div>
+        <div class="exp-text">
+          <strong>プロと同じチームで本気のフットサル</strong>
+          <span class="sub">「うちのチーム、元名古屋グランパスが入ってくれた」と語れる体験。</span>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">02</div>
+        <div class="exp-text">
+          <strong>プロトレーナーの15分コンディショニング</strong>
+          <span class="sub">A4一枚のパーソナルカルテを物理的に持ち帰れます。</span>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">03</div>
+        <div class="exp-text">
+          <strong>オリンピアンによる15分の講義</strong>
+          <span class="sub">健康経営を「肩の可動域」というKPIで語れるようになります。</span>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">04</div>
+        <div class="exp-text">
+          <strong>他社メンバーとの繋がりと、プロとの写真</strong>
+          <span class="sub">名刺交換、写真撮影、自然な健康トーク。懇親会だけでも来る価値あり。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04 CAST ===== -->
+  <section>
+    <div class="section-num">04 — CAST</div>
+    <h2>登場するプロ。</h2>
+
+    <div class="cast mt-32">
+      <div class="cast-row">
+        <div class="cast-role">HOST</div>
+        <div>
+          <div class="cast-name">荻田 大樹</div>
+          <div class="cast-desc">陸上競技オリンピアン（リオ五輪 棒高跳び）／ 株式会社MOON代表</div>
+        </div>
+      </div>
+      <div class="cast-row">
+        <div class="cast-role">MC</div>
+        <div>
+          <div class="cast-name">佐々木 理方</div>
+          <div class="cast-desc">合同会社レガテアール代表 ／ 元Jリーグ強化指定選手</div>
+        </div>
+      </div>
+      <div class="cast-row">
+        <div class="cast-role">PRO PLAYER</div>
+        <div>
+          <div class="cast-name">佐藤 和樹</div>
+          <div class="cast-desc">元名古屋グランパス（2012–2015）／ 13年プロキャリア</div>
+        </div>
+      </div>
+      <div class="cast-row">
+        <div class="cast-role">PRO FOOTBALLER</div>
+        <div>
+          <div class="cast-name">山崎 椋太</div>
+          <div class="cast-desc">元デウソン神戸（Fリーグ）</div>
+        </div>
+      </div>
+      <div class="cast-row">
+        <div class="cast-role">CONDITIONING</div>
+        <div>
+          <div class="cast-name">脇坂 大陽</div>
+          <div class="cast-desc">スポーツアライアンス代表理事 ／ JCCAマスタートレーナー</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta">
+    <div class="label">CALL FOR ENTRY</div>
+    <h3>申込締切：6月20日（金）</h3>
+    <p>1人から、¥10,000で参加できます。</p>
+    <p>サッカー部・フットサル部の同僚を誘ってきてください。</p>
+  </div>
+
+</div>
+
+<footer>
+  PRISM CUP 2026 ／ 主催：株式会社MOON ／ 共催：合同会社レガテアール
+</footer>
+
+</body>
+</html>

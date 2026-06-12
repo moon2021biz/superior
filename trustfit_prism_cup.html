@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP | 企業対抗フットサル大会</title>
+<style>
+  :root { --primary:#1a1a2e; --accent:#e63946; --gold:#f4a261; --gray:#6c757d; --border:#dee2e6; --white:#fff; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;line-height:1.7;}
+  header{position:sticky;top:0;z-index:100;background:rgba(13,13,26,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-size:22px;font-weight:900;color:white;text-decoration:none;} .logo span{color:var(--accent);}
+  nav a{text-decoration:none;color:rgba(255,255,255,.7);font-size:14px;margin-left:24px;transition:color .2s;} nav a:hover{color:white;}
+  .btn-header{background:var(--accent);color:white;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;}
+
+  /* HERO */
+  .hero{background:linear-gradient(160deg,#0d0d1a 0%,#1a1a2e 40%,#0f1a35 100%);min-height:90vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-30%;left:-20%;width:140%;height:140%;background:radial-gradient(circle at 50% 50%,rgba(230,57,70,.12) 0%,transparent 60%),radial-gradient(circle at 20% 80%,rgba(244,162,97,.08) 0%,transparent 40%);}
+  .prism-logo{margin-bottom:32px;position:relative;}
+  .prism-logo img{height:90px;width:auto;}
+  .hero-eyebrow{display:inline-block;background:rgba(244,162,97,.15);border:1px solid rgba(244,162,97,.4);color:var(--gold);font-size:13px;font-weight:700;padding:6px 20px;border-radius:20px;margin-bottom:24px;position:relative;}
+  .hero h1{font-size:clamp(30px,6vw,64px);font-weight:900;color:white;line-height:1.1;margin-bottom:16px;position:relative;letter-spacing:-1px;}
+  .hero h1 .accent{color:var(--gold);}
+  .hero-sub{font-size:clamp(15px,2vw,19px);color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 48px;position:relative;}
+  .hero-cta-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+  .btn-primary{background:var(--accent);color:white;padding:18px 44px;border-radius:8px;font-size:17px;font-weight:800;text-decoration:none;box-shadow:0 4px 20px rgba(230,57,70,.4);transition:all .2s;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-outline{background:transparent;color:white;border:2px solid rgba(255,255,255,.35);padding:18px 32px;border-radius:8px;font-size:17px;font-weight:600;text-decoration:none;transition:all .2s;}
+  .btn-outline:hover{background:rgba(255,255,255,.08);}
+  .hero-note{font-size:13px;color:rgba(255,255,255,.45);margin-top:16px;position:relative;}
+
+  /* STATS */
+  .stats{background:var(--primary);padding:36px 24px;}
+  .stats-inner{max-width:900px;margin:0 auto;display:flex;justify-content:center;gap:56px;flex-wrap:wrap;}
+  .stat{text-align:center;color:white;}
+  .stat-num{font-size:36px;font-weight:900;color:var(--gold);line-height:1;}
+  .stat-label{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;}
+
+  section{padding:76px 24px;}
+  .inner{max-width:960px;margin:0 auto;}
+  .sec-label{display:inline-block;background:rgba(230,57,70,.08);color:var(--accent);font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:14px;text-transform:uppercase;}
+  h2{font-size:clamp(24px,3.5vw,36px);font-weight:900;margin-bottom:40px;}
+  .text-center{text-align:center;}
+
+  /* CONCEPT */
+  .concept{background:#f5f6fa;}
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+  .concept-card{background:white;border-radius:14px;padding:28px 24px;border-left:4px solid var(--accent);box-shadow:0 2px 12px rgba(0,0,0,.05);}
+  .cc-icon{font-size:32px;margin-bottom:12px;}
+  .cc-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+  .cc-text{font-size:14px;color:var(--gray);line-height:1.7;}
+
+  /* PRICE */
+  .price-table{background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:32px;}
+  .pt-row{display:grid;grid-template-columns:2fr 1fr 2fr;padding:18px 24px;border-bottom:1px solid var(--border);align-items:center;gap:16px;}
+  .pt-row.header{background:var(--primary);color:white;font-weight:700;font-size:14px;}
+  .pt-row:last-child{border:none;}
+  .pt-method{font-weight:700;font-size:15px;}
+  .pt-price{font-size:20px;font-weight:900;color:var(--accent);text-align:center;}
+  .pt-price.cheap{color:var(--gold);}
+  .pt-note{font-size:13px;color:var(--gray);}
+  .highlight-row{background:linear-gradient(to right,rgba(244,162,97,.05),rgba(244,162,97,.08));}
+  .price-badge{display:inline-block;background:var(--accent);color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;margin-left:8px;}
+  .price-badge.gold{background:var(--gold);color:var(--primary);}
+
+  /* FLOW */
+  .flow{background:#f5f6fa;}
+  .flow-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;position:relative;}
+  .fs{text-align:center;padding:28px 16px;position:relative;}
+  .fs:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:38px;font-size:20px;color:var(--accent);font-weight:900;}
+  .fs-circle{width:56px;height:56px;background:var(--primary);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin:0 auto 14px;}
+  .fs h3{font-size:14px;font-weight:800;margin-bottom:6px;}
+  .fs p{font-size:12px;color:var(--gray);line-height:1.6;}
+
+  /* BENEFITS */
+  .benefit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .bg-card{background:white;border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:all .3s;}
+  .bg-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.08);}
+  .bg-icon{font-size:32px;margin-bottom:12px;}
+  .bg-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+  .bg-text{font-size:14px;color:var(--gray);line-height:1.7;}
+
+  /* PRISM CAMPAIGN */
+  .campaign{background:linear-gradient(135deg,var(--primary),#0f1a35);color:white;padding:76px 24px;}
+  .campaign .inner{max-width:800px;}
+  .campaign-badge{display:inline-block;background:rgba(244,162,97,.2);border:1px solid rgba(244,162,97,.4);color:var(--gold);font-size:13px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:20px;}
+  .campaign h2{font-size:clamp(22px,3.5vw,36px);font-weight:900;margin-bottom:16px;color:white;}
+  .campaign-note{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:36px;}
+  .campaign-compare{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;margin-bottom:28px;}
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(255,255,255,.08);}
+  .compare-row:last-child{border:none;}
+  .compare-cell{padding:18px 24px;font-size:14px;}
+  .compare-cell.header{background:rgba(255,255,255,.06);font-weight:700;font-size:13px;color:rgba(255,255,255,.7);}
+  .compare-cell .big{font-size:24px;font-weight:900;color:var(--gold);}
+  .compare-cell .small{font-size:22px;font-weight:900;color:rgba(255,255,255,.85);}
+  .campaign-conditions{font-size:13px;color:rgba(255,255,255,.5);}
+  .campaign-conditions li{margin-bottom:4px;list-style:none;} .campaign-conditions li::before{content:'⚠️ ';}
+
+  /* CTA */
+  .cta-section{background:var(--accent);padding:72px 24px;text-align:center;}
+  .cta-section h2{font-size:clamp(22px,3.5vw,36px);font-weight:900;color:white;margin-bottom:12px;}
+  .cta-section p{font-size:16px;color:rgba(255,255,255,.85);margin-bottom:36px;}
+  .btn-white{background:white;color:var(--accent);padding:16px 48px;border-radius:8px;font-size:16px;font-weight:800;text-decoration:none;display:inline-block;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+  .btn-white2{background:transparent;color:white;border:2px solid rgba(255,255,255,.5);padding:16px 32px;border-radius:8px;font-size:16px;font-weight:600;text-decoration:none;display:inline-block;margin-left:12px;}
+
+  footer{background:var(--primary);color:rgba(255,255,255,.6);padding:32px 24px;text-align:center;font-size:13px;}
+  footer .logo{color:white;display:block;margin-bottom:8px;font-size:18px;}
+  @media(max-width:640px){nav{display:none;}.btn-white2{margin:12px 0 0 0;display:block;}.fs:not(:last-child)::after{display:none;}.compare-row{grid-template-columns:1fr;}.pt-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span>Fit</span></a>
+  <nav>
+    <a href="trustfit_lp_zehitomo_style.html">TrustFitとは</a>
+    <a href="trustfit_register_company.html">企業登録</a>
+    <a href="trustfit_contact.html">お問い合わせ</a>
+  </nav>
+  <a href="trustfit_register_company.html" class="btn-header">参加申し込み</a>
+</header>
+
+<div class="hero">
+  <div class="prism-logo">
+    <img src="../prism cup logo.png" alt="PRISM CUP" onerror="this.style.display='none';document.querySelector('.prism-fallback').style.display='block'">
+    <div class="prism-fallback" style="display:none;font-size:40px;font-weight:900;color:var(--gold);letter-spacing:2px;">⚽ PRISM CUP</div>
+  </div>
+  <div class="hero-eyebrow">🏆 企業対抗フットサル大会</div>
+  <h1>スポーツで、<br>ビジネスが<span class="accent">変わる。</span></h1>
+  <p class="hero-sub">元プロ選手・アスリートが参加するフットサル大会。<br>試合を通じて経営者同士がつながり、健康経営PRと採用コンテンツを同時に手に入れる。</p>
+  <div class="hero-cta-group">
+    <a href="trustfit_register_company.html" class="btn-primary">参加申し込み（企業）</a>
+    <a href="#flow" class="btn-outline">参加の流れを見る</a>
+  </div>
+  <p class="hero-note">1チーム5名から参加可能 ／ TrustFit会員なら大幅割引あり</p>
+</div>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">PRO</div><div class="stat-label">元プロ選手・アスリート参加</div></div>
+    <div class="stat"><div class="stat-num">2h</div><div class="stat-label">試合＋交流イベント</div></div>
+    <div class="stat"><div class="stat-num">¥1万〜</div><div class="stat-label">TrustFit会員の実質参加費</div></div>
+    <div class="stat"><div class="stat-num">動画</div><div class="stat-label">PR素材として利用可</div></div>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="concept">
+  <div class="inner">
+    <div class="text-center"><span class="sec-label">Concept</span><h2>PRISM CUPとは</h2></div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="cc-icon">🤝</div>
+        <div class="cc-title">経営者同士のリアルなつながり</div>
+        <div class="cc-text">2代目・3代目経営者、ITベンチャー代表など「スポーツ好きな経営者」が一堂に集まる場。試合後の交流で自然なビジネス接点が生まれます。</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">📱</div>
+        <div class="cc-title">採用PR素材が一日で手に入る</div>
+        <div class="cc-text">大会当日の写真・動画を採用PRに活用可能。「オリンピアンと同じフィールドで戦った」という体験が30秒動画になります。</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🏥</div>
+        <div class="cc-title">健康経営優良法人の認定実績に</div>
+        <div class="cc-text">スポーツイベントへの参加・社員の健康活動実績として記録。健康経営優良法人の申請時に活用できるエビデンスになります。</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">⚽</div>
+        <div class="cc-title">元プロ選手と同じフィールドで</div>
+        <div class="cc-text">元Jリーガー・フットサル選手・元プロアスリートが参加。普段体験できない「一流と混じって戦う」体験を社員に提供できます。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow" id="flow">
+  <div class="inner">
+    <div class="text-center"><span class="sec-label">Flow</span><h2>参加の流れ</h2></div>
+    <div class="flow-steps">
+      <div class="fs"><div class="fs-circle">1</div><h3>TrustFit<br>企業登録</h3><p>まずは無料で企業アカウントを作成。ポイントを購入します。</p></div>
+      <div class="fs"><div class="fs-circle">2</div><h3>PRISM CUP<br>参加申し込み</h3><p>エントリーフォームからチーム情報を登録します。</p></div>
+      <div class="fs"><div class="fs-circle">3</div><h3>ポイントで<br>参加費決済</h3><p>100,000pt（1チーム）をウォレットから充当します。</p></div>
+      <div class="fs"><div class="fs-circle">4</div><h3>当日<br>試合・交流</h3><p>元プロ選手混合チームで試合。撮影チームが動画・写真を収録。</p></div>
+      <div class="fs"><div class="fs-circle">5</div><h3>PR素材<br>受け取り</h3><p>当日の写真・動画データを受け取り、採用・広報に活用。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section>
+  <div class="inner">
+    <div class="text-center"><span class="sec-label">Pricing</span><h2>参加費用</h2></div>
+    <div class="price-table">
+      <div class="pt-row header"><div>参加方法</div><div>費用（1チーム）</div><div>条件・備考</div></div>
+      <div class="pt-row">
+        <div class="pt-method">直接参加（現金）</div>
+        <div class="pt-price">¥100,000</div>
+        <div class="pt-note">条件なし</div>
+      </div>
+      <div class="pt-row highlight-row">
+        <div class="pt-method">TrustFit会員<span class="price-badge gold">モニター特典</span></div>
+        <div class="pt-price cheap">実質¥10,000<span style="font-size:13px;display:block;color:var(--gray);">※初回限定</span></div>
+        <div class="pt-note">¥10,000 → 100,000pt取得 → PRISM CUP参加費に充当。TrustFitモニター登録が条件。</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--gray);text-align:center;">※ モニター特典は第1回・最大でも第2回まで。招待制のため外向け公開なし。</p>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section style="background:#f5f6fa;">
+  <div class="inner">
+    <div class="text-center"><span class="sec-label">Benefits</span><h2>参加企業のメリット</h2></div>
+    <div class="benefit-grid">
+      <div class="bg-card"><div class="bg-icon">🎬</div><div class="bg-title">採用PR動画・写真</div><div class="bg-text">当日のプロ撮影素材を受け取り。「スポーツに本気な会社」として採用媒体や求人票に活用できます。</div></div>
+      <div class="bg-card"><div class="bg-icon">🏆</div><div class="bg-title">健康経営の実績証明</div><div class="bg-text">スポーツ活動への参加実績・参加者数・写真エビデンスが健康経営優良法人申請の裏付けになります。</div></div>
+      <div class="bg-card"><div class="bg-icon">🤝</div><div class="bg-title">経営者ネットワーク</div><div class="bg-text">他社の経営者・決裁者と自然な接点が生まれます。スポーツの場だから敬居がなく、素直なビジネス交流が実現します。</div></div>
+      <div class="bg-card"><div class="bg-icon">⚽</div><div class="bg-title">社員エンゲージメント向上</div><div class="bg-text">普段とは違う「会社が用意した非日常体験」は社員満足度・チームビルディングに直結します。</div></div>
+      <div class="bg-card"><div class="bg-icon">💳</div><div class="bg-title">TrustFit登録で10倍割引</div><div class="bg-text">通常10万円の参加費が、TrustFitモニター登録を通じて実質1万円に。余ったポイントはトレーナーセッションにも使えます。</div></div>
+      <div class="bg-card"><div class="bg-icon">📊</div><div class="bg-title">TrustFit参加企業として記録</div><div class="bg-text">業界・規模などの属性が記録され、今後の導入事例・実績として活用。同業他社への推薦状や連携事例にも展開可能。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPAIGN -->
+<section class="campaign">
+  <div class="inner text-center">
+    <div class="campaign-badge">🎁 初回モニター限定キャンペーン</div>
+    <h2>今なら、¥10,000で参加できる</h2>
+    <p class="campaign-note">TrustFitにご登録いただいた企業様向けの招待制特典。外部公開はしていません。</p>
+    <div class="campaign-compare">
+      <div class="compare-row">
+        <div class="compare-cell header">通常参加（現金）</div>
+        <div class="compare-cell header">TrustFit経由（モニター）</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell"><div class="small">¥100,000</div><div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;">1チームあたり</div></div>
+        <div class="compare-cell"><div class="big">¥10,000</div><div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;">→ 100,000pt取得 → 参加費充当</div></div>
+      </div>
+    </div>
+    <ul class="campaign-conditions">
+      <li>招待制のため、こちらから個別案内した企業のみ対象</li>
+      <li>第1回・最大でも第2回まで。3回目以降は通常料金（100,000pt）</li>
+      <li>100,000ptをPRISM CUP参加費に全額充当した場合、ボーナスptは付与されません</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>まず、TrustFitに登録してみよう</h2>
+  <p>登録無料。PRISM CUP参加はその後でも大丈夫です。</p>
+  <a href="trustfit_register_company.html" class="btn-white">無料で企業登録する</a>
+  <a href="trustfit_contact.html" class="btn-white2">詳細を問い合わせる</a>
+</div>
+
+<footer>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span style="color:var(--accent)">Fit</span></a>
+  <div style="margin-top:8px;">📩 trustfit.biz@moontf.com</div>
+  <div style="margin-top:4px;">© 2026 株式会社MOON / TrustFit. All rights reserved.</div>
+</footer>
+</body>
+</html>

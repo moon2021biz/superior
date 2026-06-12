@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrustFit × ウェルビーイング経営 シナジー分析</title>
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --accent: #e94560;
+      --accent2: #0f3460;
+      --green: #16c79a;
+      --yellow: #f5a623;
+      --bg: #f8f9fc;
+      --card: #ffffff;
+      --border: #e0e4ef;
+      --text: #2d3142;
+      --text-light: #6b7280;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+
+    /* Header */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent2) 60%, #1e3a5f 100%);
+      color: #fff;
+      padding: 56px 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(233,69,96,0.15);
+    }
+    .hero .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.35; margin-bottom: 12px; }
+    .hero p { font-size: 14px; opacity: 0.85; max-width: 600px; }
+    .hero .meta { margin-top: 20px; font-size: 12px; opacity: 0.6; }
+
+    /* Layout */
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* Section */
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .card h3 { font-size: 15px; font-weight: 700; color: var(--accent2); margin-bottom: 10px; }
+    .card p, .card li { font-size: 14px; color: var(--text); }
+    .card ul { padding-left: 18px; }
+    .card ul li { margin-bottom: 6px; }
+
+    /* Highlight Box */
+    .highlight {
+      background: linear-gradient(135deg, #fff5f7, #fff);
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .highlight h3 { color: var(--accent); font-size: 15px; margin-bottom: 8px; }
+
+    .highlight-green {
+      background: linear-gradient(135deg, #f0fdf9, #fff);
+      border: 1.5px solid var(--green);
+    }
+    .highlight-green h3 { color: #059669; }
+
+    .highlight-yellow {
+      background: linear-gradient(135deg, #fffbeb, #fff);
+      border: 1.5px solid var(--yellow);
+    }
+    .highlight-yellow h3 { color: #d97706; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:hover td { background: #f5f6fa; }
+    td .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-green { background: #d1fae5; color: #059669; }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-yellow { background: #fef3c7; color: #d97706; }
+
+    /* Grid */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* Comparison */
+    .compare-row { display: grid; grid-template-columns: 1fr 40px 1fr; align-items: start; gap: 8px; margin-bottom: 12px; }
+    .compare-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 13px; }
+    .compare-item.cwo { border-color: #a78bfa; background: #faf5ff; }
+    .compare-item.trustfit { border-color: var(--accent); background: #fff5f7; }
+    .compare-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; opacity: 0.6; }
+    .vs-circle { width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-top: 20px; }
+
+    /* Action */
+    .action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+    }
+    .action-num {
+      min-width: 32px; height: 32px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+    }
+    .action-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-content p { font-size: 13px; color: var(--text-light); }
+
+    /* Synergy Matrix */
+    .synergy-matrix { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .synergy-header { background: var(--primary); color: #fff; padding: 14px 20px; font-size: 13px; font-weight: 700; }
+    .synergy-row { display: grid; grid-template-columns: 2fr 1fr 3fr; border-bottom: 1px solid var(--border); }
+    .synergy-row:last-child { border-bottom: none; }
+    .synergy-cell { padding: 12px 16px; font-size: 13px; border-right: 1px solid var(--border); }
+    .synergy-cell:last-child { border-right: none; }
+    .synergy-row-header { background: #f5f6fa; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* Quote box */
+    .quote { border-left: 3px solid var(--accent); padding: 12px 20px; font-size: 14px; font-style: italic; color: var(--text-light); background: #fafafa; border-radius: 0 8px 8px 0; margin: 12px 0; }
+
+    /* Tag */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag-item { background: #f0f4ff; color: var(--accent2); padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+
+    /* Score */
+    .score-bar { margin-top: 8px; }
+    .score-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+    .score-track { background: #e5e7eb; border-radius: 4px; height: 8px; }
+    .score-fill { background: var(--green); height: 8px; border-radius: 4px; }
+
+    /* Footer */
+    footer { text-align: center; padding: 32px; font-size: 12px; color: var(--text-light); }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="tag">🔍 RESEARCH REPORT</div>
+  <h1>TrustFit × ウェルビーイング経営<br>シナジー分析レポート</h1>
+  <p>CWO-BANKリリース（2026.04.15）を起点に、ウェルビーイング経営トレンドとTrustFitの構造的接点を分析する。</p>
+  <div class="meta">📅 作成日: 2026-04-16 ｜ 対象PJ: TrustFit ｜ ステータス: 企画設計期（進捗5%）</div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: CWO-BANK概要 -->
+  <div class="section">
+    <div class="section-title">① CWO-BANK — 今回のプレスリリース要旨</div>
+    <div class="card">
+      <h3>📰 サービス概要</h3>
+      <p>株式会社RIGHT STUFF × 株式会社プラデュアが2026年4月15日にローンチ。<br>
+      <strong>「著名人をChief Wellbeing Officer（最高ウェルビーイング責任者）として企業に派遣・紹介するプラットフォーム」</strong>。<br>
+      アスリート・タレント・芸人・モデル・アナウンサーなど多様な著名人を、企業の役職として配置し、社員との直接接触を通じた幸福度向上を実現する。</p>
+      <br>
+      <h3>💡 サービスの特徴</h3>
+      <ul>
+        <li>著名人の「知名度」を広告効果ではなく<strong>ウェルビーイング効果</strong>として活用</li>
+        <li>反社チェック・倫理審査を含む独自スクリーニング体制</li>
+        <li>コンサルティング・業務支援・効果の見える化（AI分析）・リクルーティング支援をオプションで提供</li>
+        <li>欧米（2008年〜）の動きを参照し、ミレニアル世代・Z世代の「仕事における幸福感」ニーズに対応</li>
+      </ul>
+    </div>
+    <div class="highlight highlight-yellow">
+      <h3>⚠️ 重要観察ポイント</h3>
+      <p>CWO-BANKは「著名人×ウェルビーイング」という同じ文脈にいる<strong>隣接サービス</strong>。競合ではなく補完関係と捉えられる。両サービスが市場を共に「ウェルビーイング経営×人材派遣」として啓蒙することで、TrustFitの市場認知を底上げできる可能性がある。</p>
+    </div>
+  </div>
+
+  <!-- Section 2: ウェルビーイング経営の深掘り -->
+  <div class="section">
+    <div class="section-title">② ウェルビーイング経営 — 深掘りリサーチ</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📖 定義と構成要素</h3>
+        <p>単なる「健康管理」を超え、<strong>身体的・精神的・社会的な「幸福」を包括的に支援</strong>する経営手法。<br>
+        Gallup社の5要素：</p>
+        <ul>
+          <li><strong>キャリア</strong>（仕事への意欲）</li>
+          <li><strong>社会</strong>（人間関係の質）</li>
+          <li><strong>財務</strong>（経済的安心）</li>
+          <li><strong>身体</strong>（体力・健康）</li>
+          <li><strong>コミュニティ</strong>（地域とのつながり）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🏥 健康経営との違い</h3>
+        <table>
+          <tr><th>項目</th><th>健康経営</th><th>ウェルビーイング経営</th></tr>
+          <tr><td>視点</td><td>経営者主導</td><td>従業員主導</td></tr>
+          <tr><td>範囲</td><td>身体的健康が中心</td><td>心・社会・幸福まで包括</td></tr>
+          <tr><td>目的</td><td>医療費削減・生産性向上</td><td>幸福度・働きがい向上</td></tr>
+          <tr><td>認定制度</td><td>健康経営優良法人（経産省）</td><td>任意・自社設計</td></tr>
+        </table>
+        <p style="font-size:12px;margin-top:8px;color:var(--text-light)">※ ウェルビーイングは健康経営を内包する上位概念</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 日本市場の現状と数値</h3>
+      <ul>
+        <li><strong>フィットネス市場規模</strong>: 2023年約4,886億円（前年比+8.5%）→ 2024年度7,100億円超・過去最高更新見込み</li>
+        <li><strong>人材不足の背景</strong>: 2040年には20〜64歳人口が総人口の約半数まで減少。採用力の差が企業競争力に直結</li>
+        <li><strong>CWO普及状況</strong>: アステリア（島田由香さん・2022年）、楽天が国内先行事例。2026年CWO-BANKでさらに市場が拡大フェーズへ</li>
+        <li><strong>ミレニアル・Z世代</strong>: 仕事選びで「幸福感・やりがい」を給与と同等以上に重視する傾向が加速</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🏢 企業が実施する主要施策（フィジカル×メンタル×社会）</h3>
+      <table>
+        <tr><th>カテゴリ</th><th>具体的施策</th><th>効果</th></tr>
+        <tr>
+          <td><span class="badge badge-green">フィジカル</span></td>
+          <td>出張ストレッチ・ヨガ、昇降式デスク、インフルエンザ接種補助、運動セミナー派遣</td>
+          <td>医療費削減、疲労回復、休職率低下</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">メンタル</span></td>
+          <td>メンタルコーチング、快眠セミナー、残業削減、産業医面談</td>
+          <td>離職率低下、生産性向上</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">社会的</span></td>
+          <td>著名人講演・CWO招聘、チームビルディング、コミュニティ形成</td>
+          <td>エンゲージメント向上、採用PR強化</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-red">経営支援</span></td>
+          <td>健康経営優良法人認定サポート、ウェルビーイング効果可視化・AI分析</td>
+          <td>企業ブランド向上、投資対効果の証明</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 3: CWO-BANK vs TrustFit -->
+  <div class="section">
+    <div class="section-title">③ CWO-BANK vs TrustFit — 構造比較</div>
+
+    <div class="compare-row">
+      <div>
+        <div class="compare-label" style="color:#7c3aed">CWO-BANK</div>
+        <div class="compare-item cwo">
+          <strong>著名人を「役職（CWO）」として派遣</strong><br>
+          ・タレント・芸人・アスリートなど<br>
+          ・単発〜継続コンサルティング<br>
+          ・「知名度効果」でウェルビーイング向上<br>
+          ・効果はAI分析で見える化<br>
+          ・スクリーニング：反社・倫理審査のみ<br>
+          ・<span style="color:#d97706">報酬体系：固定費型（推定）</span>
+        </div>
+      </div>
+      <div class="vs-circle">VS</div>
+      <div>
+        <div class="compare-label" style="color:#e94560">TrustFit</div>
+        <div class="compare-item trustfit">
+          <strong>アスリートを「トレーナー」として成果報酬型で派遣</strong><br>
+          ・元五輪選手〜若手プロまでランク制<br>
+          ・VIP単発 → 継続トレーナー引き継ぎ二層構造<br>
+          ・「実力評価」でウェルビーイング×パフォーマンス向上<br>
+          ・効果は双方評価スコア50点満点で定量化<br>
+          ・スクリーニング：実績評価連動型ランク制<br>
+          ・<span style="color:#dc2626">報酬体系：評価連動型成果報酬（業界初）</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-green">
+      <h3>✅ 結論：競合ではなく「補完関係」</h3>
+      <p>CWO-BANKは「知名度×ブランド価値」でウェルビーイングを演出する。TrustFitは「実力×継続的フィジカル指導」でウェルビーイングを実装する。<strong>入口が違う同じゴール</strong>を目指すサービスであり、共存できる。むしろCWO-BANKがウェルビーイング経営の認知を高めることで、TrustFitの商談が通りやすくなる追い風になりうる。</p>
+    </div>
+  </div>
+
+  <!-- Section 4: TrustFitへのシナジー -->
+  <div class="section">
+    <div class="section-title">④ TrustFit構築での具体的シナジー（6項目）</div>
+
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <div class="action-content">
+        <h4>🎯 ポジショニング強化：「ウェルビーイング経営の実装パートナー」へ再定義</h4>
+        <p>現在のTrustFitコピー「一流が来る。成果の分だけ払う。」に<strong>ウェルビーイング経営の文脈</strong>を重ねることで、「福利厚生費」ではなく「経営戦略投資」として意思決定者に刺さる。コンセプトワードに「ウェルビーイング経営の、実装チーム。」を追加検討。</p>
+        <div class="tag-list">
+          <span class="tag-item">商談フレーミング強化</span>
+          <span class="tag-item">LP改訂</span>
+          <span class="tag-item">提案書</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <div class="action-content">
+        <h4>💼 CWO代行機能の明示的な設計</h4>
+        <p>VIPトレーナー（特にLegend・Master）が実質的に「<strong>社外CWO</strong>」として機能する設計を明文化する。初回VIPセッション後に提出する「組織コンディショニング・カルテ」をCWO就任時のウェルビーイング戦略策定書として位置付けると高付加価値化できる。<br>
+        → <em>「CWOを雇う1,000万円vs TrustFitのVIPセッション+カルテ20万円」</em>という価格比較が刺さる。</p>
+        <div class="tag-list">
+          <span class="tag-item">カルテ設計に追記</span>
+          <span class="tag-item">TODO: VIPサービス説明書</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-content">
+        <h4>📊 コンテンツカテゴリとウェルビーイング5要素の完全一致を訴求</h4>
+        <p>TrustFitのコンテンツカテゴリ4種は、ウェルビーイングの主要要素を完全にカバーしている。<br>
+        企業提案時に<strong>「ウェルビーイングの5要素をすべて満たすプログラムを一括提供できるのはTrustFitだけ」</strong>という対比表を作成し、提案書に組み込む。</p>
+        <table style="margin-top:10px">
+          <tr><th>TrustFitカテゴリ</th><th>対応するWB要素</th></tr>
+          <tr><td>フィジカル・ヘルスケア</td><td>身体的ウェルビーイング</td></tr>
+          <tr><td>マインドセット・パフォーマンス</td><td>キャリア・精神的ウェルビーイング</td></tr>
+          <tr><td>ファミリー・ウェルビーイング</td><td>社会的・コミュニティWB</td></tr>
+          <tr><td>健康経営・コンサルティング</td><td>財務・戦略的ウェルビーイング</td></tr>
+        </table>
+        <div class="tag-list"><span class="tag-item">提案書 対比表追加</span><span class="tag-item">LP設計</span></div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">4</div>
+      <div class="action-content">
+        <h4>🔗 健康経営優良法人認定とのセット提案（差別化）</h4>
+        <p>CWO-BANKは「知名度×役職就任」が主軸で、認定制度との連携は薄い。一方TrustFitには「健康経営優良法人認定サポート」が明示的に含まれている。<br>
+        <strong>「TrustFitを導入するだけで、健康経営優良法人の審査材料が揃う」</strong>という設計を前面に出す。評価スコアのレポート出力がそのまま申請書類の一部になる設計を追加する。</p>
+        <div class="tag-list">
+          <span class="tag-item">認定申請書類との連携設計</span>
+          <span class="tag-item">TODO追加候補</span>
+          <span class="tag-item">健康経営PJとのシナジー</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">5</div>
+      <div class="action-content">
+        <h4>📈 「効果の見える化」機能でCWO-BANKとの差別化</h4>
+        <p>CWO-BANKはAI分析による効果見える化をオプションで提供する。TrustFitはすでに<strong>双方評価スコア50点満点・評価連動報酬</strong>という業界初の仕組みを持っている。これは「効果見える化が本体設計に組み込まれている唯一のサービス」という差別化になる。<br>
+        → 評価データのダッシュボード（企業向け）を月次レポートとして提供する設計を追加する。</p>
+        <div class="tag-list">
+          <span class="tag-item">月次レポート設計</span>
+          <span class="tag-item">企業ダッシュボード</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">6</div>
+      <div class="action-content">
+        <h4>🤝 CWO-BANKとのパートナーシップ可能性</h4>
+        <p>CWO-BANKが派遣した著名人CWOが「フィジカル指導の実装が必要」となった際、TrustFitから適切なトレーナーを推薦するという<strong>補完的な提携スキーム</strong>が成立しうる。<br>
+        CWO-BANKは「コンセプト・ブランド」、TrustFitは「実装・継続」という役割分担。初期の集客・認知で協力し合える可能性がある。<br>
+        → RIGHT STUFF / プラデュアへの打診タイミングを検討。</p>
+        <div class="tag-list">
+          <span class="tag-item">提携検討</span>
+          <span class="tag-item">ロングリスト</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Section 5: 商談フレーミング改訂案 -->
+  <div class="section">
+    <div class="section-title">⑤ 商談フレーミング改訂案（ウェルビーイング経営文脈を追加）</div>
+
+    <div class="card">
+      <h3>🗣️ 既存フレーミングとの統合案</h3>
+      <table>
+        <tr><th>相手</th><th>既存フレーミング（CONTEXT.md確定）</th><th>追加ウェルビーイング文脈</th></tr>
+        <tr>
+          <td>人事部長</td>
+          <td>「社長の無茶振りへの保険」アリバイ作り</td>
+          <td>「ウェルビーイング経営の導入実績が採用広告になる。ESG評価・健康経営認定のエビデンスになる。」</td>
+        </tr>
+        <tr>
+          <td>経営者・社長</td>
+          <td>「脳のチューニング・採用広告費の代替」ROI訴求</td>
+          <td>「CWO（最高ウェルビーイング責任者）を1,000万円で雇うか、TrustFitで月20万円から実装するか。効果は数値で後から判定してください。」</td>
+        </tr>
+        <tr>
+          <td>社員</td>
+          <td>「会社のお金を自分の体に還元する完全犯罪」</td>
+          <td>変更不要（社員向けフレーミングに変化なし）</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="highlight">
+      <h3>🚫 現行NGルールへの追記（提案）</h3>
+      <p>「<strong>ウェルビーイング経営</strong>」という言葉は社長・人事どちらにも使用可。ただし「健康経営優良法人を取りましょう」は人事には引き続き禁止。ウェルビーイングは「幸福・体験・エンゲージメント」の文脈で語り、「認定」「書類」とセットにしない。</p>
+    </div>
+  </div>
+
+  <!-- Section 6: アクションプラン -->
+  <div class="section">
+    <div class="section-title">⑥ 推奨アクション（優先順）</div>
+
+    <div class="synergy-matrix">
+      <div class="synergy-header">TrustFit × ウェルビーイング経営 アクションマトリクス</div>
+      <div class="synergy-row synergy-row-header">
+        <div class="synergy-cell">アクション</div>
+        <div class="synergy-cell">優先度</div>
+        <div class="synergy-cell">具体的内容</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>①コンセプトワード更新</strong></div>
+        <div class="synergy-cell"><span class="badge badge-red">🔴 高</span></div>
+        <div class="synergy-cell">LPと提案書のタグラインに「ウェルビーイング経営の実装チーム」を追加。</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>②提案書にウェルビーイング対比表追加</strong></div>
+        <div class="synergy-cell"><span class="badge badge-red">🔴 高</span></div>
+        <div class="synergy-cell">「TrustFit4カテゴリ ↔ ウェルビーイング5要素」の対比表を1枚提案書に追加。</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>③CWO代行ポジションの明文化</strong></div>
+        <div class="synergy-cell"><span class="badge badge-yellow">🟡 中</span></div>
+        <div class="synergy-cell">VIPセッション＋カルテ提出を「社外CWO就任パッケージ」として設計。価格比較資料を作成。</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>④健康経営認定連携設計</strong></div>
+        <div class="synergy-cell"><span class="badge badge-yellow">🟡 中</span></div>
+        <div class="synergy-cell">評価スコアレポートを健康経営優良法人申請の補足資料として活用できる形式に設計。</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>⑤月次ウェルビーイングレポート設計</strong></div>
+        <div class="synergy-cell"><span class="badge badge-yellow">🟡 中</span></div>
+        <div class="synergy-cell">企業向けダッシュボードに「ウェルビーイング指数（セッション×評価×継続率）」を追加。</div>
+      </div>
+      <div class="synergy-row">
+        <div class="synergy-cell"><strong>⑥CWO-BANKへの提携打診</strong></div>
+        <div class="synergy-cell"><span class="badge badge-green">🟢 低</span></div>
+        <div class="synergy-cell">モニター企業が10社に達した段階で、RIGHT STUFF/プラデュアへ補完提携の提案を検討。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Score -->
+  <div class="section">
+    <div class="section-title">⑦ シナジースコア評価</div>
+    <div class="card">
+      <div class="score-bar">
+        <div class="score-label"><span>🎯 市場タイミング（CWO-BANK普及によるウェルビーイング認知向上）</span><span>92%</span></div>
+        <div class="score-track"><div class="score-fill" style="width:92%"></div></div>
+      </div>
+      <div class="score-bar" style="margin-top:14px">
+        <div class="score-label"><span>🔗 コンテンツ親和性（TrustFit4カテゴリ ↔ ウェルビーイング要素）</span><span>95%</span></div>
+        <div class="score-track"><div class="score-fill" style="width:95%"></div></div>
+      </div>
+      <div class="score-bar" style="margin-top:14px">
+        <div class="score-label"><span>💼 差別化余地（評価連動型・健康経営認定連携で独自性）</span><span>88%</span></div>
+        <div class="score-track"><div class="score-fill" style="width:88%"></div></div>
+      </div>
+      <div class="score-bar" style="margin-top:14px">
+        <div class="score-label"><span>🤝 CWO-BANKとの補完性（競合でなく相互送客可能）</span><span>78%</span></div>
+        <div class="score-track"><div class="score-fill" style="width:78%"></div></div>
+      </div>
+      <div class="score-bar" style="margin-top:14px">
+        <div class="score-label"><span>📈 実装優先度（今すぐコンテキストを変えるだけで商談効果UP）</span><span>90%</span></div>
+        <div class="score-track"><div class="score-fill" style="width:90%"></div></div>
+      </div>
+      <br>
+      <div class="highlight highlight-green" style="margin:0">
+        <h3>📊 総合評価: 89点 ｜ ウェルビーイング経営文脈の積極採用を強く推奨</h3>
+        <p>TrustFitは設計段階からウェルビーイング経営の主要要素をすべてカバーしているが、そのポジショニングが商談資料に明示されていない。<strong>コンセプトの「再ラベリング」だけで商談成約率が大幅に改善する可能性が高い。</strong></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>TrustFit × ウェルビーイング経営 シナジー分析レポート ｜ 作成: 2026-04-16 ｜ 株式会社MOON</p>
+  <p style="margin-top:6px">参考: <a href="https://www.value-press.com/pressrelease/372625" style="color:var(--accent2)">CWO-BANKプレスリリース</a> ／ NECソリューションイノベータ・ミキワメラボ・日本経済新聞 各社調査資料</p>
+</footer>
+
+</body>
+</html>

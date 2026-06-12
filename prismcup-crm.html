@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP 営業CRM｜進捗管理</title>
+<style>
+:root{
+  --primary:#1a1a2e; --accent:#e94560; --accent2:#0f3460;
+  --bg:#f8f9fa; --card:#fff; --text:#333; --muted:#6c757d;
+  --green:#28a745; --yellow:#ffc107; --blue:#007bff;
+  --red:#dc3545; --orange:#fd7e14; --purple:#6f42c1;
+  --border:#dee2e6;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Sans','Noto Sans JP','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}
+
+/* ヘッダー */
+.header{background:linear-gradient(135deg,var(--primary) 0%,var(--accent2) 100%);color:#fff;padding:24px 32px;}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.header-logo img{height:56px;width:auto;}
+.header-text h1{font-size:20px;font-weight:700;letter-spacing:1px;}
+.header-text p{font-size:12px;opacity:.8;margin-top:2px;}
+.header-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+.btn{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:5px;}
+.btn-light{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3);}
+.btn-light:hover{background:rgba(255,255,255,.25);}
+.btn-pdf{background:#e94560;color:white;}
+.btn-pdf:hover{background:#c73652;}
+.btn-reset{background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);}
+
+/* ダッシュボード */
+.dashboard{background:var(--card);border-bottom:1px solid var(--border);padding:14px 32px;}
+.dash-inner{max-width:1100px;margin:0 auto;}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;}
+.dash-card{background:var(--bg);border-radius:10px;padding:12px;text-align:center;border:2px solid transparent;cursor:pointer;transition:.15s;}
+.dash-card:hover,.dash-card.active{border-color:var(--accent);background:white;}
+.dash-card .num{font-size:24px;font-weight:700;}
+.dash-card .lbl{font-size:11px;color:var(--muted);margin-top:1px;}
+.c-all{color:var(--primary);} .c-new{color:var(--muted);} .c-dm{color:var(--blue);}
+.c-nego{color:var(--orange);} .c-win{color:var(--green);} .c-pass{color:var(--red);}
+.funnel-row{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.funnel-bar{height:8px;border-radius:99px;transition:.4s;min-width:4px;}
+
+/* フィルター */
+.toolbar{background:white;padding:10px 32px;border-bottom:1px solid var(--border);}
+.toolbar-inner{max-width:1100px;margin:0 auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.search-box{flex:1;min-width:180px;padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;}
+.filter-chip{padding:4px 12px;border-radius:99px;border:1px solid var(--border);background:white;font-size:12px;cursor:pointer;}
+.filter-chip.active{background:var(--primary);color:white;border-color:var(--primary);}
+.sort-select{padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;}
+
+/* コンテナ */
+.container{max-width:1100px;margin:0 auto;padding:16px 32px;}
+.section-header{font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;display:flex;align-items:center;gap:8px;}
+.sec-count{font-size:11px;background:var(--primary);color:white;padding:2px 7px;border-radius:99px;}
+
+/* 会社カード */
+.company-card{background:var(--card);border-radius:10px;padding:16px 20px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-left:4px solid transparent;transition:.15s;}
+.company-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.1);}
+.company-card.rank-s{border-left-color:var(--accent);}
+.company-card.rank-a{border-left-color:var(--blue);}
+.company-card.rank-b{border-left-color:var(--green);}
+.company-card.hidden{display:none;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.card-title{font-size:15px;font-weight:700;color:var(--primary);}
+.card-title-area{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.rank-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;color:white;}
+.rb-s{background:var(--accent);} .rb-a{background:var(--blue);} .rb-b{background:var(--green);}
+.industry-badge{font-size:11px;padding:2px 8px;border-radius:99px;background:#f1f3f5;color:var(--muted);}
+
+/* ステータスセレクター */
+.status-select{padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;}
+.s-new{background:#f8f9fa;color:var(--muted);}
+.s-dm{background:#e3f2fd;color:#1565c0;}
+.s-nego{background:#fff3cd;color:#856404;}
+.s-win{background:#d4edda;color:#155724;}
+.s-pass{background:#f8d7da;color:#721c24;}
+
+/* ステータスバッジ（印刷用） */
+.status-badge-print{display:none;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;}
+
+.card-reason{font-size:12px;background:#f0f4ff;border-radius:7px;padding:8px 12px;margin-bottom:7px;}
+.card-reason strong{color:var(--accent2);}
+.card-actions{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.action-area{flex:1;min-width:180px;}
+.next-action-input{width:100%;padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;}
+.next-action-input::placeholder{color:#adb5bd;}
+.ld-date{display:none;font-size:11px;color:#555;margin-left:4px;}
+.date-wrap{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
+.date-input{padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;}
+.memo-toggle-btn{font-size:11px;color:var(--blue);cursor:pointer;background:none;border:none;text-decoration:underline;padding:2px 0;margin-top:4px;display:block;}
+.memo-expand{display:none;margin-top:6px;}
+.memo-expand.open{display:block;}
+.memo-textarea{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:54px;}
+.save-btn{margin-top:3px;padding:3px 12px;background:var(--accent2);color:white;border:none;border-radius:5px;font-size:11px;cursor:pointer;}
+
+/* 印刷表示用テキスト */
+.print-next-action{display:none;font-size:12px;color:#333;margin-top:4px;}
+.print-memo{display:none;font-size:12px;color:#555;margin-top:4px;font-style:italic;}
+
+/* 保存インジケーター */
+.save-ind{position:fixed;bottom:16px;right:16px;background:#1e293b;color:white;padding:8px 16px;border-radius:8px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
+.save-ind.show{opacity:1;}
+
+/* ============ 印刷スタイル ============ */
+@media print {
+  @page { margin: 15mm 12mm; size: A4; }
+
+  body { background: white !important; font-size: 11px; }
+
+  /* 非表示 */
+  .header-actions, .dashboard, .toolbar, .memo-toggle-btn,
+  .memo-expand, .status-select, .next-action-input,
+  .save-btn, .save-ind, .date-input { display: none !important; }
+
+  /* ヘッダー簡略化 */
+  .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 14px 20px !important; }
+  .header-text h1 { font-size: 15px !important; }
+  .header-text p { font-size: 10px !important; }
+
+  /* 印刷用サマリー */
+  .print-summary { display: block !important; }
+
+  /* コンテナ */
+  .container { padding: 8px 0 !important; }
+  .section-header { font-size: 12px; margin: 12px 0 5px; }
+
+  /* カード */
+  .company-card { break-inside: avoid; padding: 10px 14px !important; margin-bottom: 6px !important; box-shadow: none !important; border: 1px solid #dee2e6 !important; border-left: 4px solid transparent !important; }
+  .company-card.rank-s { border-left-color: #e94560 !important; }
+  .company-card.rank-a { border-left-color: #007bff !important; }
+  .company-card.rank-b { border-left-color: #28a745 !important; }
+  .company-card.hidden { display: none !important; }
+
+  /* 印刷用ステータスバッジ */
+  .status-badge-print { display: inline-block !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .spb-new { background: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6; }
+  .spb-dm  { background: #e3f2fd; color: #1565c0; }
+  .spb-nego{ background: #fff3cd; color: #856404; }
+  .spb-win { background: #d4edda; color: #155724; }
+  .spb-pass{ background: #f8d7da; color: #721c24; }
+
+  /* 次アクション・メモを印刷表示 */
+  .print-next-action { display: block !important; }
+  .print-memo { display: block !important; }
+
+  /* 理由エリア */
+  .card-actions { display: block !important; }
+  .action-area { min-width: 0; }
+  .date-wrap { margin-top: 6px; }
+  .card-reason { background: #f0f4ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 5px 10px !important; font-size: 11px !important; }
+  .print-summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .ld-date { display: inline !important; }
+
+  /* バッジ類 */
+  .rank-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rb-s { background: #e94560 !important; }
+  .rb-a { background: #007bff !important; }
+  .rb-b { background: #28a745 !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <img src="../prism cup logo.png" alt="PRISM CUP" onerror="this.style.display='none'">
+    </div>
+    <div class="header-text">
+      <h1>🏆 PRISM CUP 営業 CRM</h1>
+      <p>参加企業候補リスト ／ ステータス・次アクション管理</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-pdf" onclick="printReport()">🖨️ PDF出力</button>
+      <button class="btn btn-light" onclick="exportCSV()">📥 CSV</button>
+      <button class="btn btn-reset" onclick="resetFilters()">🔄 リセット</button>
+    </div>
+  </div>
+</div>
+
+<!-- 印刷時のみ表示されるサマリー -->
+<div class="print-summary" style="display:none; background:#1a1a2e; color:white; padding:10px 32px; font-size:12px;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+    <div id="print-date" style="font-size:13px;font-weight:700;"></div>
+    <div id="print-stats" style="display:flex;gap:16px;font-size:11px;opacity:.9;"></div>
+  </div>
+</div>
+
+<!-- ダッシュボード -->
+<div class="dashboard">
+  <div class="dash-inner">
+    <div class="dash-grid">
+      <div class="dash-card" onclick="filterByStatus('all',this)">
+        <div class="num c-all" id="cnt-all">18</div><div class="lbl">全社</div>
+      </div>
+      <div class="dash-card" onclick="filterByStatus('new',this)">
+        <div class="num c-new" id="cnt-new">0</div><div class="lbl">未着手</div>
+      </div>
+      <div class="dash-card" onclick="filterByStatus('dm',this)">
+        <div class="num c-dm" id="cnt-dm">0</div><div class="lbl">DM送付済</div>
+      </div>
+      <div class="dash-card" onclick="filterByStatus('nego',this)">
+        <div class="num c-nego" id="cnt-nego">0</div><div class="lbl">商談中</div>
+      </div>
+      <div class="dash-card" onclick="filterByStatus('win',this)">
+        <div class="num c-win" id="cnt-win">0</div><div class="lbl">成約🎉</div>
+      </div>
+      <div class="dash-card" onclick="filterByStatus('pass',this)">
+        <div class="num c-pass" id="cnt-pass">0</div><div class="lbl">見送り</div>
+      </div>
+    </div>
+    <div class="funnel-row" id="funnel-area"></div>
+  </div>
+</div>
+
+<!-- フィルター -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <input type="text" class="search-box" placeholder="🔍 社名・業界で検索..." oninput="searchCards(this.value)">
+    <button class="filter-chip active" data-rank="all" onclick="filterByRank('all',this)">全ランク</button>
+    <button class="filter-chip" data-rank="s" onclick="filterByRank('s',this)">🔴 Sランク</button>
+    <button class="filter-chip" data-rank="a" onclick="filterByRank('a',this)">🔵 Aランク</button>
+    <button class="filter-chip" data-rank="b" onclick="filterByRank('b',this)">🟢 Bランク</button>
+    <select class="sort-select" onchange="sortCards(this.value)">
+      <option value="rank">ランク順</option>
+      <option value="status">ステータス順</option>
+      <option value="date">最終接触日順</option>
+    </select>
+  </div>
+</div>
+
+<div class="container" id="cards-container"></div>
+<div class="save-ind" id="save-ind">✅ 保存しました</div>
+
+<script>
+const STORE_KEY = 'prismcup_crm_v2';
+const STATUS_LABELS = { new:'未着手', dm:'DM送付済', nego:'商談中', win:'成約🎉', pass:'見送り' };
+const STATUS_COLORS = { new:'#6c757d', dm:'#007bff', nego:'#fd7e14', win:'#28a745', pass:'#dc3545' };
+const STATUS_BADGE_CLASS = { new:'spb-new', dm:'spb-dm', nego:'spb-nego', win:'spb-win', pass:'spb-pass' };
+
+const COMPANIES = [
+  {id:'c01',rank:'s',name:'NRIシステムテクノ株式会社',industry:'IT/システム',location:'横浜',reason:'健康経営優良法人2024認定済み。NRIグループ企業で福利厚生充実、フットサル参加可能性高い。',killers:['健康経営優良法人2024認定済み','NRIグループ企業','従業員160名以上']},
+  {id:'c02',rank:'a',name:'ティアンドエス株式会社',industry:'IT',location:'大阪',reason:'大阪系IT企業。チームビルディング需要あり。',killers:[]},
+  {id:'c03',rank:'b',name:'株式会社IDAJ',industry:'エンジニアリング',location:'横浜',reason:'技術系企業。健康施策に関心あり。',killers:[]},
+  {id:'c04',rank:'s',name:'カールビット株式会社',industry:'IT',location:'東京',reason:'フットサルへの参加意欲が見込める。',killers:[]},
+  {id:'c05',rank:'s',name:'エヴァーグリーン株式会社',industry:'エネルギー',location:'大阪',reason:'健康経営・社員運動施策に積極的。',killers:[]},
+  {id:'c06',rank:'s',name:'株式会社funbalance',industry:'IT/エンタメ',location:'大阪',reason:'スポーツ・健康に親和性が高い社風。',killers:[]},
+  {id:'c07',rank:'s',name:'株式会社エクサ',industry:'IT',location:'大阪',reason:'大阪IT系。チームイベント参加意欲あり。',killers:[]},
+  {id:'c08',rank:'s',name:'株式会社パルテック',industry:'IT/物流',location:'大阪',reason:'運動施策・健康経営を推進中の企業。',killers:[]},
+  {id:'c09',rank:'s',name:'株式会社チップワンストップ',industry:'商社/電子部品',location:'東京',reason:'商社系。福利厚生イベントに積極的。',killers:[]},
+  {id:'c10',rank:'a',name:'テクノトランス株式会社',industry:'IT/翻訳',location:'大阪',reason:'大阪系企業。交流イベントに参加意欲あり。',killers:[]},
+  {id:'c11',rank:'a',name:'株式会社AsMama',industry:'子育て/社会課題',location:'大阪',reason:'社会課題系スタートアップ。チームビルディング需要。',killers:[]},
+  {id:'c12',rank:'a',name:'株式会社エヌエフ回路設計ブロック',industry:'電子/電機',location:'大阪',reason:'技術系企業。社内イベント活性化ニーズあり。',killers:[]},
+  {id:'c13',rank:'a',name:'奈良建設株式会社',industry:'建設',location:'奈良',reason:'奈良エリア建設会社。地域密着でイベント参加しやすい。',killers:[]},
+  {id:'c14',rank:'a',name:'株式会社カメガヤ（フィットケア・デポ）',industry:'スポーツ用品',location:'神奈川',reason:'スポーツ用品販売。スポーツイベントと親和性◎',killers:[]},
+  {id:'c15',rank:'a',name:'株式会社山王',industry:'流通',location:'大阪',reason:'大阪流通系。福利厚生充実。',killers:[]},
+  {id:'c16',rank:'a',name:'三和エナジー株式会社',industry:'エネルギー',location:'大阪',reason:'エネルギー系。健康経営推進中。',killers:[]},
+  {id:'c17',rank:'b',name:'ジェイ・アール・シー特機株式会社',industry:'製造/精密機器',location:'埼玉',reason:'精密機器メーカー。運動機会提供として可能性あり。',killers:[]},
+  {id:'c18',rank:'b',name:'神奈川県情報サービス産業協会（KIA）',industry:'業界団体/IT',location:'神奈川',reason:'業界団体。複数企業へのリーチが可能。',killers:[]}
+];
+
+let activeStatusFilter='all', activeRankFilter='all', searchQuery='';
+
+function getState(){ try{return JSON.parse(localStorage.getItem(STORE_KEY))||{};}catch(e){return {};} }
+function saveState(s){ localStorage.setItem(STORE_KEY,JSON.stringify(s)); showSaved(); }
+function showSaved(){ const el=document.getElementById('save-ind'); el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+
+function renderCards(){
+  const state=getState();
+  const container=document.getElementById('cards-container');
+  container.innerHTML='';
+  const sections=[{rank:'s',label:'🔴 Sランク — 最優先アプローチ'},{rank:'a',label:'🔵 Aランク — 積極アプローチ'},{rank:'b',label:'🟢 Bランク — フォローアップ'}];
+  sections.forEach(sec=>{
+    const companies=COMPANIES.filter(c=>c.rank===sec.rank);
+    const secEl=document.createElement('div');
+    secEl.className='section-header'; secEl.dataset.rank=sec.rank;
+    secEl.innerHTML=`${sec.label} <span class="sec-count">${companies.length}社</span>`;
+    container.appendChild(secEl);
+    companies.forEach(co=>{
+      const s=state[co.id]||{};
+      const status=s.status||'new';
+      const nextAction=s.nextAction||'';
+      const memo=s.memo||'';
+      const lastContact=s.lastContact||'';
+      const card=document.createElement('div');
+      card.className=`company-card rank-${co.rank}`;
+      card.dataset.id=co.id; card.dataset.rank=co.rank;
+      card.dataset.status=status; card.dataset.name=co.name.toLowerCase(); card.dataset.industry=co.industry.toLowerCase();
+      card.innerHTML=`
+        <div class="card-header">
+          <div class="card-title-area">
+            <span class="card-title">${co.name}</span>
+            <span class="rank-badge rb-${co.rank}">${co.rank.toUpperCase()}</span>
+            <span class="industry-badge">${co.industry}</span>
+            <span class="industry-badge">📍${co.location}</span>
+            <!-- 印刷用ステータスバッジ -->
+            <span class="status-badge-print ${STATUS_BADGE_CLASS[status]}" id="spb-${co.id}">${STATUS_LABELS[status]}</span>
+          </div>
+          <select class="status-select s-${status}" onchange="updateStatus('${co.id}',this)">
+            <option value="new" ${status==='new'?'selected':''}>⚪ 未着手</option>
+            <option value="dm"  ${status==='dm' ?'selected':''}>📧 DM送付済</option>
+            <option value="nego"${status==='nego'?'selected':''}>🤝 商談中</option>
+            <option value="win" ${status==='win' ?'selected':''}>🎉 成約</option>
+            <option value="pass"${status==='pass'?'selected':''}>❌ 見送り</option>
+          </select>
+        </div>
+        <div class="card-reason"><strong>アプローチ理由：</strong>${co.reason}</div>
+        ${co.killers.length>0?`<div style="font-size:11px;background:#fff8e1;border-radius:7px;padding:7px 12px;margin-bottom:7px;border:1px solid #ffe0b2;">
+          <span style="font-weight:700;color:#e65100;font-size:10px;letter-spacing:1px;">🎯 キラーフレーズ</span>
+          ${co.killers.map(k=>`<div style="font-size:11px;padding-left:12px;">・${k}</div>`).join('')}
+        </div>`:''}
+        <div class="card-actions">
+          <div class="action-area">
+            <input type="text" class="next-action-input" placeholder="📌 次のアクション..."
+              value="${nextAction}"
+              onblur="updateField('${co.id}','nextAction',this.value)">
+            <div class="print-next-action" id="pna-${co.id}">${nextAction?'📌 次のアクション: '+nextAction:''}</div>
+          </div>
+          <div class="date-wrap">
+            <span>最終接触：</span>
+            <input type="date" class="date-input" value="${lastContact}" onchange="updateField('${co.id}','lastContact',this.value)">
+            <span class="ld-date" id="ld-${co.id}">${lastContact||''}</span>
+          </div>
+        </div>
+        <button class="memo-toggle-btn" onclick="toggleMemo('${co.id}')">📝 商談メモ${memo?'（入力あり）':''}</button>
+        <div class="memo-expand" id="memo-${co.id}">
+          <textarea class="memo-textarea" onblur="updateField('${co.id}','memo',this.value)">${memo}</textarea>
+          <button class="save-btn" onclick="forceSave('${co.id}')">保存</button>
+        </div>
+        <div class="print-memo" id="pm-${co.id}">${memo?'💬 メモ: '+memo:''}</div>
+      `;
+      container.appendChild(card);
+    });
+  });
+  applyFilters(); updateDashboard();
+}
+
+function toggleMemo(id){ document.getElementById('memo-'+id).classList.toggle('open'); }
+function forceSave(id){ const ta=document.querySelector('#memo-'+id+' .memo-textarea'); if(ta) updateField(id,'memo',ta.value); }
+
+function updateStatus(id,sel){
+  const newStatus=sel.value;
+  sel.className=`status-select s-${newStatus}`;
+  const card=document.querySelector(`.company-card[data-id="${id}"]`);
+  if(card) card.dataset.status=newStatus;
+  // 印刷用バッジ更新
+  const spb=document.getElementById('spb-'+id);
+  if(spb){ spb.className=`status-badge-print ${STATUS_BADGE_CLASS[newStatus]}`; spb.textContent=STATUS_LABELS[newStatus]; }
+  const state=getState(); if(!state[id]) state[id]={};
+  state[id].status=newStatus; saveState(state);
+  updateDashboard(); applyFilters();
+}
+
+function updateField(id,field,value){
+  const state=getState(); if(!state[id]) state[id]={};
+  state[id][field]=value; saveState(state);
+  // 印刷用テキスト更新
+  if(field==='nextAction'){
+    const el=document.getElementById('pna-'+id);
+    if(el) el.textContent=value?'📌 次のアクション: '+value:'';
+  }
+  if(field==='memo'){
+    const el=document.getElementById('pm-'+id);
+    if(el) el.textContent=value?'💬 メモ: '+value:'';
+    const btn=document.querySelector(`[data-id="${id}"] .memo-toggle-btn`);
+    if(btn) btn.textContent=`📝 商談メモ${value?'（入力あり）':''}`;
+  }
+  if(field==='lastContact'){
+    const el=document.getElementById('ld-'+id);
+    if(el) el.textContent=value||'';
+  }
+}
+
+function updateDashboard(){
+  const cards=document.querySelectorAll('.company-card[data-id]');
+  const counts={all:0,new:0,dm:0,nego:0,win:0,pass:0};
+  cards.forEach(c=>{ counts.all++; counts[c.dataset.status]=(counts[c.dataset.status]||0)+1; });
+  Object.keys(counts).forEach(k=>{ const el=document.getElementById('cnt-'+k); if(el) el.textContent=counts[k]; });
+  const total=counts.all||1;
+  const funnel=document.getElementById('funnel-area');
+  funnel.innerHTML=Object.entries({new:'未着手',dm:'DM済',nego:'商談中',win:'成約',pass:'見送り'}).map(([k,l])=>`
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;min-width:90px;">
+      <div class="funnel-bar" style="width:${Math.max((counts[k]||0)/total*110,4)}px;background:${STATUS_COLORS[k]};"></div>
+      <span style="color:${STATUS_COLORS[k]};font-weight:700;">${counts[k]||0}</span>
+      <span style="color:var(--muted);">${l}</span>
+    </div>`).join('');
+  // 印刷用サマリー更新
+  const now=new Date();
+  document.getElementById('print-date').textContent=`PRISM CUP 営業進捗レポート｜${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 作成`;
+  document.getElementById('print-stats').innerHTML=`
+    <span>全社: <b>${counts.all}</b></span>
+    <span>DM済: <b>${counts.dm}</b></span>
+    <span>商談中: <b style="color:#856404;">${counts.nego}</b></span>
+    <span>成約: <b style="color:#155724;">${counts.win}</b></span>
+    <span>見送り: <b>${counts.pass}</b></span>
+  `;
+}
+
+function filterByStatus(status,el){
+  activeStatusFilter=status;
+  document.querySelectorAll('.dash-card').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  applyFilters();
+}
+function filterByRank(rank,el){
+  activeRankFilter=rank;
+  document.querySelectorAll('.filter-chip[data-rank]').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  applyFilters();
+}
+function searchCards(q){ searchQuery=q.toLowerCase(); applyFilters(); }
+function applyFilters(){
+  document.querySelectorAll('.company-card[data-id]').forEach(card=>{
+    const ok=(activeStatusFilter==='all'||card.dataset.status===activeStatusFilter)
+           &&(activeRankFilter==='all'||card.dataset.rank===activeRankFilter)
+           &&(!searchQuery||card.dataset.name.includes(searchQuery)||card.dataset.industry.includes(searchQuery));
+    card.classList.toggle('hidden',!ok);
+  });
+  document.querySelectorAll('.section-header[data-rank]').forEach(sec=>{
+    const vis=[...document.querySelectorAll(`.company-card[data-rank="${sec.dataset.rank}"]`)].some(c=>!c.classList.contains('hidden'));
+    sec.style.display=vis?'':'none';
+  });
+}
+function resetFilters(){
+  activeStatusFilter='all'; activeRankFilter='all'; searchQuery='';
+  document.querySelector('.search-box').value='';
+  document.querySelectorAll('.filter-chip[data-rank]').forEach((c,i)=>c.classList.toggle('active',i===0));
+  document.querySelectorAll('.dash-card').forEach(c=>c.classList.remove('active'));
+  applyFilters();
+}
+function sortCards(by){
+  const state=getState();
+  const cards=[...document.querySelectorAll('.company-card[data-id]')];
+  if(by==='rank') cards.sort((a,b)=>({s:0,a:1,b:2}[a.dataset.rank]-{s:0,a:1,b:2}[b.dataset.rank]));
+  else if(by==='status') cards.sort((a,b)=>({new:0,dm:1,nego:2,win:3,pass:4}[a.dataset.status]-{new:0,dm:1,nego:2,win:3,pass:4}[b.dataset.status]));
+  else if(by==='date') cards.sort((a,b)=>((state[b.dataset.id]||{}).lastContact||'').localeCompare((state[a.dataset.id]||{}).lastContact||''));
+  const container=document.getElementById('cards-container');
+  cards.forEach(c=>container.appendChild(c));
+}
+function exportCSV(){
+  const state=getState();
+  const rows=[['社名','ランク','業界','拠点','ステータス','次のアクション','最終接触日','メモ']];
+  COMPANIES.forEach(co=>{
+    const s=state[co.id]||{};
+    rows.push([co.name,co.rank.toUpperCase(),co.industry,co.location,STATUS_LABELS[s.status||'new'],s.nextAction||'',s.lastContact||'',(s.memo||'').replace(/\n/g,' ')]);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download=`prismcup_crm_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+function printReport(){
+  // フィルターを全解除してから印刷
+  resetFilters();
+  setTimeout(()=>window.print(),300);
+}
+
+renderCards();
+</script>
+</body>
+</html>

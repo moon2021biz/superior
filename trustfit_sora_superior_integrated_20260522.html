@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit統合事業構想 — SORA × SUPERIOR × TrustFit 三位一体モデル</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Helvetica Neue', Arial, 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background:#0a0e1a;
+    color:#dde4f0;
+    line-height:1.8;
+  }
+
+  /* ====== HERO ====== */
+  .hero {
+    position:relative;
+    padding:80px 40px 70px;
+    text-align:center;
+    background:
+      radial-gradient(ellipse at top, rgba(0,180,255,0.15) 0%, transparent 60%),
+      linear-gradient(180deg,#0a1a3a 0%,#0a0e1a 100%);
+    border-bottom:1px solid rgba(85,186,255,0.3);
+    overflow:hidden;
+  }
+  .hero::after {
+    content:'';
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:3px;
+    background:linear-gradient(90deg, transparent, #55baff, #ffd700, #ff6b6b, transparent);
+  }
+  .hero-tag {
+    display:inline-block;
+    background:rgba(255,215,0,0.1);
+    border:1px solid rgba(255,215,0,0.4);
+    color:#ffd700;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:3px;
+    padding:6px 18px;
+    border-radius:30px;
+    margin-bottom:24px;
+  }
+  .hero h1 {
+    font-size:clamp(28px, 5vw, 48px);
+    font-weight:900;
+    color:#fff;
+    letter-spacing:-0.5px;
+    line-height:1.2;
+    margin-bottom:14px;
+  }
+  .hero h1 .accent { color:#55baff; }
+  .hero h1 .accent2 { color:#ffd700; }
+  .hero h1 .accent3 { color:#ff6b6b; }
+  .hero .tagline {
+    font-size:clamp(15px, 2vw, 18px);
+    color:#a8c8e8;
+    margin-bottom:32px;
+  }
+  .hero .one-liner {
+    max-width:760px;
+    margin:0 auto;
+    padding:20px 28px;
+    background:rgba(85,186,255,0.06);
+    border-left:4px solid #55baff;
+    border-radius:0 12px 12px 0;
+    font-size:15px;
+    color:#e0e8f5;
+    text-align:left;
+    font-weight:500;
+    line-height:1.9;
+  }
+  .hero-meta {
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:30px;
+  }
+  .meta-pill {
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:8px;
+    padding:8px 18px;
+    font-size:12px;
+  }
+  .meta-pill span { color:#7090b8; display:block; font-size:10px; margin-bottom:2px; }
+
+  /* ====== LAYOUT ====== */
+  .container {
+    max-width:1000px;
+    margin:0 auto;
+    padding:60px 24px 80px;
+  }
+  .section { margin-bottom:70px; }
+  .sec-header {
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    margin-bottom:28px;
+  }
+  .sec-num {
+    background:linear-gradient(135deg, #0090ff, #0050cc);
+    color:#fff;
+    font-weight:900;
+    font-size:14px;
+    min-width:42px;
+    height:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .sec-info { flex:1; }
+  .sec-label {
+    font-size:10px;
+    color:#0090ff;
+    font-weight:700;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:6px;
+  }
+  .sec-title {
+    font-size:24px;
+    font-weight:800;
+    color:#fff;
+  }
+
+  /* ====== 3-LAYER MODEL ====== */
+  .three-layers {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    padding:30px;
+    margin-bottom:20px;
+  }
+  .layer {
+    display:flex;
+    align-items:center;
+    gap:24px;
+    padding:24px;
+    border-radius:14px;
+    margin-bottom:14px;
+    position:relative;
+  }
+  .layer:last-child { margin-bottom:0; }
+  .layer-1 {
+    background:linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04));
+    border:1px solid rgba(255,215,0,0.3);
+  }
+  .layer-2 {
+    background:linear-gradient(90deg, rgba(85,186,255,0.12), rgba(85,186,255,0.04));
+    border:1px solid rgba(85,186,255,0.3);
+  }
+  .layer-3 {
+    background:linear-gradient(90deg, rgba(255,107,107,0.12), rgba(255,107,107,0.04));
+    border:1px solid rgba(255,107,107,0.3);
+  }
+  .layer-icon {
+    font-size:34px;
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.3);
+    border-radius:14px;
+    flex-shrink:0;
+  }
+  .layer-content { flex:1; }
+  .layer-title {
+    font-size:16px;
+    font-weight:800;
+    color:#fff;
+    margin-bottom:4px;
+  }
+  .layer-1 .layer-title em { color:#ffd700; font-style:normal; }
+  .layer-2 .layer-title em { color:#55baff; font-style:normal; }
+  .layer-3 .layer-title em { color:#ff6b6b; font-style:normal; }
+  .layer-desc {
+    font-size:13px;
+    color:#a8c0d8;
+    line-height:1.7;
+  }
+
+  /* ====== CARDS ====== */
+  .card {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    padding:24px 28px;
+    margin-bottom:14px;
+  }
+  .card h3 {
+    font-size:15px;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:10px;
+  }
+  .card p {
+    font-size:13.5px;
+    color:#b8c8de;
+    line-height:1.85;
+  }
+  .card p strong { color:#fff; }
+
+  /* ====== ROCKET (3-stage athlete journey) ====== */
+  .rocket-stages {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+  @media (max-width:760px) {
+    .rocket-stages { grid-template-columns:1fr; }
+  }
+  .stage {
+    background:linear-gradient(180deg, rgba(85,186,255,0.08), rgba(85,186,255,0.02));
+    border:1px solid rgba(85,186,255,0.25);
+    border-radius:14px;
+    padding:22px;
+    position:relative;
+  }
+  .stage-num {
+    position:absolute;
+    top:-12px;
+    left:18px;
+    background:#55baff;
+    color:#0a0e1a;
+    font-size:11px;
+    font-weight:900;
+    padding:4px 10px;
+    border-radius:6px;
+    letter-spacing:1px;
+  }
+  .stage h4 {
+    font-size:15px;
+    font-weight:800;
+    color:#fff;
+    margin-top:8px;
+    margin-bottom:10px;
+  }
+  .stage p {
+    font-size:12.5px;
+    color:#a8c0d8;
+    line-height:1.75;
+  }
+  .stage p strong { color:#55baff; }
+
+  /* ====== TABLES ====== */
+  .table-wrap {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  table {
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  th {
+    background:rgba(85,186,255,0.1);
+    color:#55baff;
+    font-weight:700;
+    text-align:left;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(85,186,255,0.2);
+    font-size:12px;
+    letter-spacing:1px;
+  }
+  td {
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    color:#c8d4e6;
+  }
+  tr:last-child td { border-bottom:none; }
+  td strong { color:#fff; }
+
+  /* ====== PROGRAM CARDS (4 programs) ====== */
+  .programs {
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+  }
+  @media (max-width:760px) {
+    .programs { grid-template-columns:1fr; }
+  }
+  .prog-card {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px;
+    padding:22px;
+  }
+  .prog-num {
+    display:inline-block;
+    background:#0090ff;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    padding:3px 10px;
+    border-radius:6px;
+    margin-bottom:10px;
+  }
+  .prog-card h4 {
+    font-size:16px;
+    font-weight:800;
+    color:#fff;
+    margin-bottom:8px;
+    line-height:1.4;
+  }
+  .prog-meta {
+    font-size:11px;
+    color:#7090b8;
+    margin-bottom:14px;
+    padding-bottom:14px;
+    border-bottom:1px dashed rgba(255,255,255,0.1);
+  }
+  .prog-meta strong { color:#a8c8e8; font-weight:600; }
+  .prog-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:6px;
+    font-size:12.5px;
+  }
+  .prog-row .k { color:#7090b8; min-width:90px; }
+  .prog-row .v { color:#dde4f0; text-align:right; flex:1; }
+  .prog-price {
+    margin-top:12px;
+    padding:8px 12px;
+    background:rgba(255,215,0,0.08);
+    border:1px solid rgba(255,215,0,0.3);
+    border-radius:8px;
+    text-align:center;
+    color:#ffd700;
+    font-weight:800;
+    font-size:14px;
+  }
+
+  /* ====== STAKEHOLDER MERIT ====== */
+  .merits {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+  @media (max-width:760px) {
+    .merits { grid-template-columns:1fr; }
+  }
+  .merit-card {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    padding:22px;
+  }
+  .merit-card h4 {
+    font-size:14px;
+    font-weight:800;
+    color:#55baff;
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(85,186,255,0.2);
+  }
+  .merit-card ul { list-style:none; padding:0; }
+  .merit-card li {
+    font-size:12.5px;
+    color:#c0d0e0;
+    padding:6px 0 6px 18px;
+    position:relative;
+    line-height:1.6;
+  }
+  .merit-card li::before {
+    content:'▸';
+    color:#55baff;
+    position:absolute;
+    left:0;
+    font-weight:700;
+  }
+
+  /* ====== ROADMAP ====== */
+  .roadmap {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:12px;
+  }
+  @media (max-width:760px) {
+    .roadmap { grid-template-columns:1fr 1fr; }
+  }
+  .phase {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+  }
+  .phase-year {
+    font-size:11px;
+    color:#7090b8;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:8px;
+  }
+  .phase-target {
+    font-size:22px;
+    color:#ffd700;
+    font-weight:900;
+    margin-bottom:6px;
+  }
+  .phase-desc {
+    font-size:11.5px;
+    color:#a8c0d8;
+    line-height:1.5;
+  }
+
+  /* ====== ONE-LINER (米原向け) ====== */
+  .pitch-box {
+    background:linear-gradient(135deg, rgba(255,215,0,0.08), rgba(85,186,255,0.08));
+    border:1px solid rgba(255,215,0,0.3);
+    border-radius:18px;
+    padding:32px 30px;
+    margin:30px 0;
+  }
+  .pitch-box .label {
+    font-size:11px;
+    color:#ffd700;
+    font-weight:800;
+    letter-spacing:2px;
+    margin-bottom:12px;
+  }
+  .pitch-box .text {
+    font-size:15px;
+    color:#fff;
+    line-height:2;
+    font-weight:500;
+  }
+  .pitch-box .text strong { color:#ffd700; }
+
+  /* ====== DECISION BOX ====== */
+  .decision {
+    background:rgba(255,107,107,0.06);
+    border-left:4px solid #ff6b6b;
+    border-radius:0 14px 14px 0;
+    padding:24px 28px;
+  }
+  .decision h3 {
+    font-size:15px;
+    color:#ff6b6b;
+    margin-bottom:14px;
+    font-weight:800;
+  }
+  .decision ol {
+    padding-left:20px;
+    color:#dde4f0;
+  }
+  .decision li {
+    font-size:13.5px;
+    margin-bottom:10px;
+    line-height:1.7;
+  }
+  .decision li strong { color:#fff; }
+
+  .footer {
+    text-align:center;
+    color:#5070a0;
+    font-size:11px;
+    padding:30px;
+    margin-top:40px;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<div class="hero">
+  <span class="hero-tag">CONFIDENTIAL · BUSINESS CONCEPT</span>
+  <h1>
+    <span class="accent2">SORA</span> ×
+    <span class="accent">SUPERIOR</span> ×
+    <span class="accent3">TrustFit</span><br>
+    三位一体モデル
+  </h1>
+  <div class="tagline">アスリートを束ね、全国の子ども達に届く陸上文化を、企業の福利厚生で支える。</div>
+
+  <div class="one-liner">
+    TrustFitは、<strong style="color:#fff;">全国の子ども達に届く陸上クラブネットワーク</strong>を、企業の福利厚生予算で支える仕組みです。SUPERIORという既に動いている陸上クラブが、各地のフィットネス施設とパートナーシップを組んで全国展開していく。アスリートはTrustFit経由で企業案件を受け、その活動報酬の一部が、自分が将来開設するかもしれない<strong style="color:#fff;">SUPERIOR地元校の運営費</strong>になる。<strong style="color:#fff;">個人で稼ぐアスリートを、地方創生プラットフォームの一員に変える事業</strong>です。
+  </div>
+
+  <div class="hero-meta">
+    <div class="meta-pill"><span>運営</span>株式会社MOON</div>
+    <div class="meta-pill"><span>代表</span>荻田 大樹（オリンピアン）</div>
+    <div class="meta-pill"><span>作成</span>2026-05-22</div>
+    <div class="meta-pill"><span>目的</span>デロイト米原氏 提示資料</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ========== 01 三位一体 ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div class="sec-info">
+        <span class="sec-label">CORE MODEL</span>
+        <div class="sec-title">三位一体の事業構造</div>
+      </div>
+    </div>
+
+    <div class="three-layers">
+      <div class="layer layer-1">
+        <div class="layer-icon">🌱</div>
+        <div class="layer-content">
+          <div class="layer-title">① <em>SORA（香川）</em> ── 発祥・地域貢献の原点</div>
+          <div class="layer-desc">地方創生×アスリート育成のシンボル。「香川発の物語」が大義の源泉になり、プラットフォーム全体の価値観を司る。SORA BASE構想（拠点・社交・学び・宿泊・食）が地域モデルの完成形。</div>
+        </div>
+      </div>
+      <div class="layer layer-2">
+        <div class="layer-icon">🚀</div>
+        <div class="layer-content">
+          <div class="layer-title">② <em>SUPERIOR（関西 → 全国）</em> ── 全国展開モデルの実証エンジン</div>
+          <div class="layer-desc">既存スポーツ施設×地元コーチのフランチャイズ型。生駒（プロストリート関西）と箕面（RANDC）の2拠点で<strong>2026年に運営移管が成功した実証済みプロトタイプ</strong>。これを全国に拡張する。</div>
+        </div>
+      </div>
+      <div class="layer layer-3">
+        <div class="layer-icon">💼</div>
+        <div class="layer-content">
+          <div class="layer-title">③ <em>TrustFit</em> ── 全国アスリートとの接点・収益エンジン</div>
+          <div class="layer-desc">企業からアスリートへの仕事を流し、報酬の一部がSORA/SUPERIORに還流。登録アスリートが評価実績を積めば、地元にSUPERIOR ◯◯校を開設できる権利を獲得。<strong>個人で稼ぐアスリートを地方創生プラットフォームの一員に変える</strong>。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 02 アスリート3段ロケット ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div class="sec-info">
+        <span class="sec-label">ATHLETE JOURNEY</span>
+        <div class="sec-title">アスリートにとっての3段ロケット</div>
+      </div>
+    </div>
+
+    <div class="rocket-stages">
+      <div class="stage">
+        <div class="stage-num">STAGE 1</div>
+        <h4>現役期：稼ぐ</h4>
+        <p>TrustFitで企業案件を受注。個人で5万円しか取れなかった仕事を、<strong>プラットフォーム経由で10万円以上の単価に</strong>引き上げる。評価スコアでランクアップ。</p>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 2</div>
+        <h4>第二章：開設権を得る</h4>
+        <p>実績を積んだアスリートが、<strong>地元にSUPERIOR ◯◯校を開設できる権利</strong>を獲得。既存スポーツ施設とのパートナーシップ型なので初期投資不要。</p>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 3</div>
+        <h4>継続期：次世代に渡す</h4>
+        <p>SUPERIOR校の指導者として独立。地元の子ども達にオリンピアン水準の指導を届ける。自分の活動が<strong>次世代育成に直結する物語</strong>。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 03 4プログラム ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <div class="sec-info">
+        <span class="sec-label">PRODUCT MENU</span>
+        <div class="sec-title">企業に提供する4プログラム（荻田の肩書きベース）</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <p>米原氏の指摘「<strong>できることを4つに絞り、誰が・どう関わるかを明示する</strong>」を反映。各プログラムは荻田さんが<strong>オリンピアン × 株式会社MOON代表</strong>として自分の名前で売れるものに限定。</p>
+    </div>
+
+    <div class="programs">
+
+      <div class="prog-card">
+        <span class="prog-num">PROGRAM 01</span>
+        <h4>オリンピアン講演 × 採用PR動画化</h4>
+        <div class="prog-meta"><strong>肩書き武器</strong>：2016リオ五輪 棒高跳び日本代表</div>
+        <div class="prog-row"><span class="k">対象</span><span class="v">全社員／新入社員研修／採用イベント</span></div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">限界突破ストーリー講演 60-90分 + 撮影</span></div>
+        <div class="prog-row"><span class="k">担当</span><span class="v">荻田 単独（VIP Legend）</span></div>
+        <div class="prog-row"><span class="k">大義</span><span class="v">アスリート経験を若手社員メンタル形成に</span></div>
+        <div class="prog-price">¥20-30万円 / 回</div>
+      </div>
+
+      <div class="prog-card">
+        <span class="prog-num">PROGRAM 02</span>
+        <h4>経営者向け「逆算思考と限界突破」セッション</h4>
+        <div class="prog-meta"><strong>肩書き武器</strong>：オリンピアン × 株式会社MOON代表</div>
+        <div class="prog-row"><span class="k">対象</span><span class="v">役員・経営陣・幹部 5名まで</span></div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">ピーキング設計／意思決定エラー削減 90-120分</span></div>
+        <div class="prog-row"><span class="k">担当</span><span class="v">荻田 単独（VIP Legend）</span></div>
+        <div class="prog-row"><span class="k">大義</span><span class="v">中小企業経営者の判断ミス削減 → 雇用維持</span></div>
+        <div class="prog-price">¥15-25万円 / 回</div>
+      </div>
+
+      <div class="prog-card">
+        <span class="prog-num">PROGRAM 03</span>
+        <h4>オフィスワーカー向け 走り方・姿勢改善</h4>
+        <div class="prog-meta"><strong>肩書き武器</strong>：オリンピアン × CARAS実店舗の大人指導実績</div>
+        <div class="prog-row"><span class="k">対象</span><span class="v">全社員、30名まで</span></div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">体の使い方の座学＋実技 90-120分</span></div>
+        <div class="prog-row"><span class="k">担当</span><span class="v">荻田（メイン）+ MOONトレーナー（犬井等）</span></div>
+        <div class="prog-row"><span class="k">大義</span><span class="v">日本のデスクワーカー肩こり腰痛問題に根本解</span></div>
+        <div class="prog-price">¥10-15万円 / 回</div>
+      </div>
+
+      <div class="prog-card">
+        <span class="prog-num">PROGRAM 04</span>
+        <h4>健康経営優良法人 認定取得サポート</h4>
+        <div class="prog-meta"><strong>肩書き武器</strong>：MOON代表（経営者ネットワーク）× オリンピアン広告塔</div>
+        <div class="prog-row"><span class="k">対象</span><span class="v">人事担当 + 経営陣</span></div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">認定取得施策設計・運用伴走 月1回×3-6ヶ月</span></div>
+        <div class="prog-row"><span class="k">担当</span><span class="v">荻田（広告塔・節目登壇）+ MOON社員（実務伴走）</span></div>
+        <div class="prog-row"><span class="k">大義</span><span class="v">中小企業の健康経営普及を底上げ</span></div>
+        <div class="prog-price">¥30万円〜 / 3ヶ月パッケージ</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== 04 三方良し ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">04</div>
+      <div class="sec-info">
+        <span class="sec-label">STAKEHOLDER MERIT</span>
+        <div class="sec-title">三方良し設計</div>
+      </div>
+    </div>
+
+    <div class="merits">
+
+      <div class="merit-card">
+        <h4>🏢 企業</h4>
+        <ul>
+          <li>採用PR動画素材が手に入る</li>
+          <li>健康経営優良法人の認定要件を満たせる</li>
+          <li><strong>地方創生CSR</strong>として稟議が通る</li>
+          <li>SUPERIOR各地校の冠スポンサーとして地元PR可能</li>
+          <li>払う金額は「成果評価」で確定（無駄払いゼロ）</li>
+        </ul>
+      </div>
+
+      <div class="merit-card">
+        <h4>🏃 アスリート</h4>
+        <ul>
+          <li>個人で取れなかった単価で稼げる</li>
+          <li>評価スコアでランクアップが見える</li>
+          <li>引退後にSUPERIOR校を開設する道</li>
+          <li><strong>「次世代育成に貢献」の物語</strong>が手に入る</li>
+          <li>個人ではなく「集団としての社会貢献」の一員に</li>
+        </ul>
+      </div>
+
+      <div class="merit-card">
+        <h4>🌱 SORA / SUPERIOR</h4>
+        <ul>
+          <li>TrustFit売上から運営費が安定還流</li>
+          <li>全国展開のスケール装置が手に入る</li>
+          <li>子ども達への指導者の質と量を担保</li>
+          <li>地域企業との接点が継続的に生まれる</li>
+          <li><strong>香川発・関西拡張・全国展開</strong>の物語</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== 05 SUPERIOR全国展開 ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">05</div>
+      <div class="sec-info">
+        <span class="sec-label">EXPANSION</span>
+        <div class="sec-title">SUPERIOR全国展開ロードマップ（案）</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <p>既に動いている<strong>「既存スポーツ施設パートナーシップ型」</strong>を踏襲。新規施設投資はせず、地域のジム・スポーツ施設に「SUPERIOR ◯◯校」として導入。指導者はTrustFit評価で認定されたアスリート。</p>
+    </div>
+
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-year">2026 NOW</div>
+        <div class="phase-target">2拠点</div>
+        <div class="phase-desc">SUPERIOR<br>生駒・箕面（実証済）</div>
+      </div>
+      <div class="phase">
+        <div class="phase-year">2027</div>
+        <div class="phase-target">5拠点</div>
+        <div class="phase-desc">関西＋首都圏<br>パートナー獲得</div>
+      </div>
+      <div class="phase">
+        <div class="phase-year">2028</div>
+        <div class="phase-target">15拠点</div>
+        <div class="phase-desc">主要都市圏に展開<br>地元アスリート活用</div>
+      </div>
+      <div class="phase">
+        <div class="phase-year">2030</div>
+        <div class="phase-target">50拠点</div>
+        <div class="phase-desc">全国47都道府県<br>各県1拠点モデル</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 06 プリズムカップ ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">06</div>
+      <div class="sec-info">
+        <span class="sec-label">ENTRY FUNNEL</span>
+        <div class="sec-title">プリズムカップ — TrustFit体験ファネル</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #ffd700;">
+      <h3>🎯 位置づけ：単なるフットサル大会ではなく「TrustFit体験会」</h3>
+      <p>プリズムカップは <strong>企業とTrustFitの最初の接点</strong> をつくるエントランス・イベント。米原氏の指摘を反映し「<strong>企業対抗フットサル大会</strong>」としてシンプルに訴求しつつ、当日の体験を通じて<strong>TrustFitの4プログラムを"プチ体験"</strong>させる。「7月4日に企業対抗フットサル大会をやる」の一言で説明できる入口を持ち、内側にTrustFit導線が組み込まれた二層構造。</p>
+    </div>
+
+    <!-- 基本情報 -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>開催日</strong></td><td>2026年7月4日（土）18:00〜23:00</td></tr>
+          <tr><td><strong>会場</strong></td><td>横浜アソビル</td></tr>
+          <tr><td><strong>参加形態（2軸）</strong></td><td>
+            ① <strong>企業チーム枠</strong>：1チーム ¥100,000（活動費・福利厚生費で精算）<br>
+            ② <strong>個人参加枠 NEW</strong>：<strong>¥10,000 / 人</strong>（稟議不要・個人決裁レベル）→ 当日に運営側で混成チーム編成
+          </td></tr>
+          <tr><td><strong>なぜ個人枠を入れるか</strong></td><td>大企業のサッカー部は<strong>稟議が7/4に間に合わない</strong>ため。個人決裁できる金額（¥10,000）にすることで、サッカー部・フットサル部メンバーが<strong>個人で申し込む → 後から経費精算 or 自腹</strong>のルートを開放</td></tr>
+          <tr><td><strong>集客先</strong></td><td>大企業のサッカー部・フットサル部所属の社会人プレイヤー個人へ直接アプローチ</td></tr>
+          <tr><td><strong>初回の位置づけ</strong></td><td><strong>実績作り</strong>（最悪80万円の持ち出しを覚悟）。完璧を目指さず、継続開催でブラッシュアップ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 個人参加戦略の強調 -->
+    <div class="card" style="margin-top:20px; background:rgba(255,107,107,0.06); border:1px solid rgba(255,107,107,0.3);">
+      <h3 style="color:#ff8b8b;">⚡ 集客戦略の核心：「個人参加 ¥1万/人」が今回のキーアクション</h3>
+      <p><strong>稟議に間に合わない大企業のサッカー部・フットサル部</strong>を狙うため、個人決裁レベルの金額に設計。「<strong>会社の名前で出てください</strong>」と説得する難易度を一気に下げ、「<strong>あなた個人で1万円、後で精算するか自腹でOK</strong>」というハードルに変える。</p>
+      <p style="margin-top:14px;">
+        <strong>参加導線（個人）：</strong><br>
+        ① サッカー部メンバーが個人申込 → ② 同じ会社の同僚を誘って3-5名集まる → ③ 当日に運営側で<strong>混成チーム編成</strong>（プロ助っ人1名込み） → ④ 後日、会社の活動費・福利厚生費で精算 or 自腹<br><br>
+        <strong>参加導線（企業）：</strong><br>
+        ① 経理を通せる体制が整っている企業のみ ¥10万チーム枠 → ② 自社チーム編成で参戦
+      </p>
+      <p style="margin-top:14px; padding:12px 16px; background:rgba(255,215,0,0.08); border-radius:8px; color:#ffd700; font-weight:600;">
+        💡 8チーム × 5名 = 40名 を目標。うち<strong>個人参加で30-35名集める</strong>のが現実的ライン。
+      </p>
+    </div>
+
+    <!-- 当日のコアプログラム3つ -->
+    <div class="card" style="margin-top:20px;">
+      <h3>💡 当日のコアプログラム3つ（米原指摘の「シンプル化」を実装）</h3>
+      <p>「<strong>企業対抗フットサル大会＋懇親会＋アスリート体験</strong>」の3点に絞り、参加者が「何をする日か」を一言で説明できる構成にする。</p>
+    </div>
+
+    <div class="programs" style="margin-top:14px;">
+
+      <div class="prog-card" style="border-color:rgba(255,215,0,0.4);">
+        <span class="prog-num" style="background:#ffd700; color:#0a0e1a;">CORE 01</span>
+        <h4>助っ人方式フットサル大会</h4>
+        <div class="prog-meta"><strong>v2リフレーム</strong>：プロは"対戦相手"ではなく"各チームの一員"</div>
+        <div class="prog-row"><span class="k">参加形態</span><span class="v">各企業チームにプロ選手1名が"助っ人"で参戦</span></div>
+        <div class="prog-row"><span class="k">プロ</span><span class="v">佐藤（元名古屋グランパス）・山崎（元デウソン神戸）他</span></div>
+        <div class="prog-row"><span class="k">演出</span><span class="v">「PRISM DRAFT」開幕指名 → プロがチームを選ぶ</span></div>
+        <div class="prog-row"><span class="k">採用PR価値</span><span class="v">「<strong>自社社員がプロと一緒に勝った</strong>」素材が手に入る</span></div>
+      </div>
+
+      <div class="prog-card" style="border-color:rgba(255,215,0,0.4);">
+        <span class="prog-num" style="background:#ffd700; color:#0a0e1a;">CORE 02</span>
+        <h4>PRISM CLINIC ／ TrustFit体験ブース</h4>
+        <div class="prog-meta"><strong>主役化</strong>：脇坂氏（JCCAマスタートレーナー）の15分セッション</div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">肩可動域・骨盤・足首の測定＋パーソナルカルテ印刷</span></div>
+        <div class="prog-row"><span class="k">体制</span><span class="v">脇坂氏＋トレーナー2名で3レーン同時稼働（最大18名）</span></div>
+        <div class="prog-row"><span class="k">持ち帰り</span><span class="v">A4 1枚のパーソナルカルテ（翌日社内で話題化）</span></div>
+        <div class="prog-row"><span class="k">TrustFit導線</span><span class="v">カルテ末尾に「<strong>御社全員にこのケアを</strong>」の1行</span></div>
+      </div>
+
+      <div class="prog-card" style="border-color:rgba(255,215,0,0.4);">
+        <span class="prog-num" style="background:#ffd700; color:#0a0e1a;">CORE 03</span>
+        <h4>経営者向けウェルビーイング15分（冒頭18:30）</h4>
+        <div class="prog-meta"><strong>時間帯移動</strong>：参加者が"シラフで集中力ピーク"の冒頭に配置</div>
+        <div class="prog-row"><span class="k">担当</span><span class="v">荻田（オリンピアン）× 脇坂（JCCA）</span></div>
+        <div class="prog-row"><span class="k">内容</span><span class="v">「社員の生産性は肩の可動域で測れる」のエビデンス</span></div>
+        <div class="prog-row"><span class="k">機能</span><span class="v">健康経営の科学的根拠 → 当日体験 → TrustFit接続</span></div>
+        <div class="prog-row"><span class="k">大義接続</span><span class="v">SORA/SUPERIORの社会的意義もこの15分で共有</span></div>
+      </div>
+
+      <div class="prog-card" style="border-color:rgba(255,215,0,0.4);">
+        <span class="prog-num" style="background:#ffd700; color:#0a0e1a;">CORE 04</span>
+        <h4>懇親会（21:00〜）— 実は最重要</h4>
+        <div class="prog-meta"><strong>米原指摘反映</strong>：優勝を競うガチ大会ではなく懇親重視</div>
+        <div class="prog-row"><span class="k">場所</span><span class="v">アソビル1F飲食ブース</span></div>
+        <div class="prog-row"><span class="k">機能</span><span class="v">企業間名刺交換／プロ写真撮影／TrustFitアンケート回収</span></div>
+        <div class="prog-row"><span class="k">話題</span><span class="v">パーソナルカルテを話のフックに自然な健康トーク</span></div>
+        <div class="prog-row"><span class="k">KGI</span><span class="v">参加企業からTrustFitモニターへの転換</span></div>
+      </div>
+
+    </div>
+
+    <!-- メディア戦略 -->
+    <div class="card" style="margin-top:20px;">
+      <h3>📰 メディアフック — 社会課題アングルでPRリリースを書く</h3>
+      <p>「企業対抗フットサル」だけでは地方ニュース止まり。<strong>3つの社会文脈フック</strong>を用意してPR TIMES配信を回収：</p>
+      <p style="margin-top:10px;">
+        ① <strong>アスリートのセカンドキャリア</strong>（佐藤氏13年のプロキャリアからの第二章）<br>
+        ② <strong>人的資本経営の新KPI</strong>（健康経営優良法人申請に使える定量データ取得）<br>
+        ③ <strong>ウェルビーイング経営の実証実験</strong>（参加企業の前後比較データ取得）
+      </p>
+      <p style="margin-top:14px; padding:12px 16px; background:rgba(255,215,0,0.08); border-radius:8px; color:#ffd700;">
+        <strong>プレスリリース見出し案：</strong><br>
+        「働く人の肩が、90分で14%柔らかくなった夜。オリンピアン × 元Jリーガー × JCCAマスタートレーナーが仕掛けた、人的資本経営の実証実験『PRISM CUP 2026』」
+      </p>
+    </div>
+
+    <!-- 年4回・全国化 -->
+    <div class="card" style="margin-top:14px; border-left:4px solid #55baff;">
+      <h3>🚀 「年4回開催」→ SUPERIOR各拠点で展開する全国モデルへ</h3>
+      <p>米原氏の指摘「<strong>続かないイベントが多い</strong>」を踏まえ、初回（7/4横浜）は<strong>実績作り</strong>と位置づける。継続開催のロードマップ：</p>
+      <p style="margin-top:10px;">
+        ・<strong>2026年</strong>：横浜1回（実証） → 関西1回（SUPERIOR箕面・生駒の地元企業招待）<br>
+        ・<strong>2027年</strong>：年4回開催の定番化（東京・関西・中部・九州）<br>
+        ・<strong>2028年以降</strong>：SUPERIOR新規拠点開設のたびに <strong>「地元プリズムカップ」</strong> を開催 → 地域企業との接点を構造的に獲得
+      </p>
+    </div>
+
+    <!-- 還流接続 -->
+    <div class="card" style="margin-top:14px; border-left:4px solid #ff6b6b;">
+      <h3>🔄 プリズムカップ売上もSORA/SUPERIOR還流対象</h3>
+      <p>プリズムカップの<strong>参加費・スポンサー収益の一定割合</strong>もSORA/SUPERIOR運営費に還流。企業側は「フットサル大会の参加費を払うことで、地方の子ども達のスポーツ環境整備に貢献している」というストーリーを獲得できる。</p>
+    </div>
+  </div>
+
+  <!-- ========== 07 還流スキーム ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">07</div>
+      <div class="sec-info">
+        <span class="sec-label">REVENUE FLOW</span>
+        <div class="sec-title">TrustFit → SORA/SUPERIOR 還流スキーム</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>還流原資</th>
+            <th>料率（案）</th>
+            <th>充当先</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>プラットフォーム手数料</strong>の一部</td>
+            <td>手数料収入の<strong>10%</strong></td>
+            <td>SORA/SUPERIORの運営費基本拠出</td>
+          </tr>
+          <tr>
+            <td><strong>ポイント失効益</strong>の一部</td>
+            <td>失効益の<strong>20%</strong></td>
+            <td>地方拠点開設の初期費用プール</td>
+          </tr>
+          <tr>
+            <td><strong>端数ポイント寄付枠</strong></td>
+            <td>企業の任意寄付</td>
+            <td>子ども奨学金・指導者謝金</td>
+          </tr>
+          <tr>
+            <td><strong>冠スポンサー</strong></td>
+            <td>地域企業の任意契約</td>
+            <td>地元SUPERIOR校の運営費（地元企業の地域貢献PR）</td>
+          </tr>
+          <tr>
+            <td><strong>プリズムカップ収益</strong></td>
+            <td>参加費・スポンサーの<strong>15%</strong></td>
+            <td>開催地のSORA/SUPERIOR拠点運営費（地元還元）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== 米原氏向け一言 ========== -->
+  <div class="pitch-box">
+    <div class="label">米原氏に語る時のワンライン</div>
+    <div class="text">
+      「TrustFitは、<strong>全国の子ども達に届く陸上クラブネットワーク</strong>を、企業の福利厚生予算で支える仕組みです。SUPERIORという既に動いている陸上クラブが、各地のフィットネス施設とパートナーシップを組んで全国展開していく。アスリートはTrustFit経由で企業案件を受け、その活動報酬の一部が、自分が将来開設するかもしれない<strong>SUPERIOR地元校の運営費</strong>になる。<strong>個人で稼ぐアスリートを、地方創生プラットフォームの一員に変える事業</strong>です。」
+    </div>
+  </div>
+
+  <!-- ========== 09 決めること ========== -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">09</div>
+      <div class="sec-info">
+        <span class="sec-label">DECISION REQUIRED</span>
+        <div class="sec-title">ここから決めること</div>
+      </div>
+    </div>
+
+    <div class="decision">
+      <h3>⚡ 米原氏MTGまでに確定したい論点</h3>
+      <ol>
+        <li><strong>三位一体モデルの正式採用</strong>：このストーリーをTrustFitの公式コンセプトとして社内固定するか</li>
+        <li><strong>還流率の確定</strong>：手数料の10%・失効益の20%・プリズムカップ15%という配分でいいか</li>
+        <li><strong>SUPERIOR全国ロードマップの数字感</strong>：2030年50拠点は現実的か／米原氏に聞きたい</li>
+        <li><strong>パートナー候補リスト</strong>：地域のフィットネス・ジム・既存スポーツ施設の優先順位</li>
+        <li><strong>アスリート校オーナー認定基準</strong>：TrustFit内の累計セッション数・平均スコア・推薦などを組み合わせた基準設計</li>
+        <li><strong>SORA BASEの位置づけ</strong>：構想段階で米原氏に語るか、香川を訪問してもらう前提で語るか</li>
+        <li><strong>プリズムカップ初回（7/4）の集客戦略</strong>：稟議が間に合わない前提で、<strong>個人参加枠 ¥1万/人</strong> をどう拡散するか（サッカー部・フットサル部メンバー個人への直接アプローチ）</li>
+        <li><strong>個人枠 → 混成チーム編成の運営設計</strong>：助っ人方式（プロ1名/チーム）と整合性を取りながら、当日マッチング方法を決める</li>
+        <li><strong>プリズムカップv2リフレーム（助っ人方式・PRISM CLINIC）の最終確定</strong>：7/4までに動かす必要あり</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  TrustFit統合事業構想｜SORA × SUPERIOR × TrustFit 三位一体モデル<br>
+  株式会社MOON｜代表 荻田 大樹｜2026-05-22
+</div>
+
+</body>
+</html>

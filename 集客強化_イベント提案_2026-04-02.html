@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>集客導線強化 & イベント提案 | SORA / SUPERIOR｜2026-04-02</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: #fff; padding: 48px 32px 40px; }
+  .header-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7eb8f7; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+  .header-sub { font-size: 13px; color: #aac8f0; margin-top: 10px; }
+  .badge-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 14px; font-size: 12px; color: #cce3ff; }
+
+  /* CONTAINER */
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+
+  /* ALERT BOX */
+  .alert { border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; }
+  .alert-red { background: #fff0f0; border-left: 4px solid #e53e3e; }
+  .alert-blue { background: #eff8ff; border-left: 4px solid #3182ce; }
+  .alert-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .alert-red .alert-title { color: #c53030; }
+  .alert-blue .alert-title { color: #2b6cb0; }
+  .alert p { font-size: 13px; line-height: 1.7; color: #444; }
+
+  /* STATUS CARDS */
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .status-card { background: #fff; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+  .status-card .club-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .status-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-val { font-weight: 700; color: #1a1a1a; }
+  .stat-bad { color: #e53e3e !important; }
+  .stat-good { color: #38a169 !important; }
+  .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 10px; }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #4299e1, #3182ce); }
+
+  /* SECTION */
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #3182ce; font-weight: 700; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 2px solid #ebf4ff; }
+
+  /* STRATEGY CARDS */
+  .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .strategy-card { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .strategy-card .s-icon { font-size: 24px; margin-bottom: 10px; }
+  .strategy-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #1a1a2e; }
+  .strategy-card p { font-size: 12px; color: #555; line-height: 1.7; }
+  .strategy-card ul { list-style: none; margin-top: 8px; }
+  .strategy-card ul li { font-size: 12px; color: #444; padding: 3px 0; padding-left: 14px; position: relative; }
+  .strategy-card ul li::before { content: "→"; position: absolute; left: 0; color: #4299e1; font-size: 11px; }
+
+  /* EVENT CARDS */
+  .event-card { background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 4px solid #4299e1; }
+  .event-card.priority-high { border-left-color: #e53e3e; }
+  .event-card.priority-med { border-left-color: #ed8936; }
+  .event-card.priority-low { border-left-color: #48bb78; }
+  .event-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .event-title-wrap h4 { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .event-title-wrap .event-sub { font-size: 12px; color: #888; }
+  .priority-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .tag-red { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+  .tag-orange { background: #fffaf0; color: #c05621; border: 1px solid #fbd38d; }
+  .tag-green { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+  .event-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .meta-item { font-size: 11px; color: #666; }
+  .meta-item span { font-weight: 700; color: #1a1a1a; }
+  .event-body p { font-size: 13px; color: #444; line-height: 1.8; margin-bottom: 10px; }
+  .event-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .detail-box { background: #f8f9fa; border-radius: 8px; padding: 12px; }
+  .detail-box .detail-label { font-size: 10px; letter-spacing: 1px; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+  .detail-box ul { list-style: none; }
+  .detail-box ul li { font-size: 12px; color: #333; padding: 2px 0; }
+  .detail-box ul li::before { content: "• "; color: #4299e1; }
+  .funnel-tag { display: inline-block; background: #ebf4ff; color: #2b6cb0; border-radius: 6px; padding: 4px 10px; font-size: 11px; margin-top: 10px; font-weight: 600; }
+
+  /* FUNNEL */
+  .funnel-wrap { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .funnel-step { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+  .funnel-step:last-child { border-bottom: none; }
+  .funnel-num { width: 32px; height: 32px; border-radius: 50%; background: #3182ce; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .funnel-content h5 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .funnel-content p { font-size: 12px; color: #666; line-height: 1.6; }
+  .funnel-action { margin-left: auto; font-size: 11px; color: #3182ce; font-weight: 600; white-space: nowrap; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  th { background: #1a1a2e; color: #fff; padding: 12px 14px; font-size: 12px; text-align: left; }
+  td { padding: 11px 14px; font-size: 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8f9fa; }
+  .dot-red { color: #e53e3e; font-weight: 700; }
+  .dot-orange { color: #ed8936; font-weight: 700; }
+  .dot-green { color: #38a169; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .status-grid, .strategy-grid, .event-detail-grid { grid-template-columns: 1fr; }
+    .event-header { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">📋 課題分析 & 提案</div>
+  <h1>集客導線強化 & イベント全アイデア</h1>
+  <div class="header-sub">陸上クラブ SORA / SUPERIOR ｜ 2026年4月2日作成</div>
+  <div class="badge-row">
+    <div class="badge">🏃 SORA（香川）</div>
+    <div class="badge">🏆 SUPERIOR（奈良・大阪）</div>
+    <div class="badge">課題: 認知不足</div>
+    <div class="badge">フェーズ: 認知拡大期</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 現状分析 -->
+  <div class="section">
+    <div class="section-title">01 ｜ 現状スナップショット</div>
+
+    <div class="alert alert-red" style="margin-bottom:16px;">
+      <div class="alert-title">⚠️ 最重要課題：SUPERIORのInstagramフォロワーが3人</div>
+      <p>投稿15件に対してフォロワー3人は、SNS経由の認知がほぼゼロの状態。LP（superior2025.com）は稼働しているが、そこに誰も来ない状況。"器はある、客がいない"を最優先で解消する必要あり。</p>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="club-name">SORA — 香川（観音寺・高松）</div>
+        <h3>Basic Sports Club SORA</h3>
+        <div class="stat-row"><span>Instagramフォロワー</span><span class="stat-val stat-good">516人</span></div>
+        <div class="stat-row"><span>投稿数</span><span class="stat-val">281件</span></div>
+        <div class="stat-row"><span>プロジェクト進捗</span><span class="stat-val">48%</span></div>
+        <div class="stat-row"><span>MG（収益化ゲージ）</span><span class="stat-val">MG-1達成 / 4pt</span></div>
+        <div class="stat-row"><span>フェーズ</span><span class="stat-val">認知拡大・会員募集</span></div>
+        <div class="stat-row"><span>未完了タスク</span><span class="stat-val">SK-2（初期投稿）</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:48%"></div></div>
+      </div>
+      <div class="status-card">
+        <div class="club-name">SUPERIOR — 奈良生駒・大阪箕面</div>
+        <h3>陸上クラブ Superior</h3>
+        <div class="stat-row"><span>Instagramフォロワー</span><span class="stat-val stat-bad">3人 🚨</span></div>
+        <div class="stat-row"><span>投稿数</span><span class="stat-val">15件</span></div>
+        <div class="stat-row"><span>プロジェクト進捗</span><span class="stat-val">52%</span></div>
+        <div class="stat-row"><span>MG（収益化ゲージ）</span><span class="stat-val">MG-1達成 / 4pt</span></div>
+        <div class="stat-row"><span>フェーズ</span><span class="stat-val">認知拡大・会員募集</span></div>
+        <div class="stat-row"><span>未完了タスク</span><span class="stat-val">SK-3（入会案内）→ 不要に</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:52%"></div></div>
+      </div>
+    </div>
+
+    <div class="alert alert-blue">
+      <div class="alert-title">💡 SK-3（保護者向け入会案内PDF）の代替タスクについて</div>
+      <p>スクールが既に稼働中のため、PDFによる入会案内は優先度が下がる。代わりに「認知をゼロから作る仕組み」と「既存の体験参加者を会員に変える導線」の強化に集中するのが正解。</p>
+    </div>
+  </div>
+
+  <!-- 集客導線強化 戦略 -->
+  <div class="section">
+    <div class="section-title">02 ｜ 集客導線強化 ― 戦略7本柱</div>
+    <div class="strategy-grid">
+
+      <div class="strategy-card">
+        <div class="s-icon">📱</div>
+        <h4>①SNS強化（認知の土台）</h4>
+        <p>SORAは516人が基盤。SUPERIORはゼロからの立ち上げとして動く。</p>
+        <ul>
+          <li>SUPERIOR：週1投稿（設定済み）を継続しながらリール動画を月2本追加</li>
+          <li>SORA：Instagram 初期投稿3本（SK-2）を早急に完成させる</li>
+          <li>SORA×SUPERIOR 相互フォロー・姉妹クラブ紹介投稿で両者にシナジー</li>
+          <li>TikTok開設（両クラブとも未開設 → 子ども保護者層へのリーチ拡大）</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">🎯</div>
+        <h4>②体験会の入口を増やす</h4>
+        <p>今は「ウェブサイトから申込」のみ。入口が少なく、認知→申込の落差が大きい。</p>
+        <ul>
+          <li>LINE公式アカウントへの誘導をSNS投稿に必ず入れる</li>
+          <li>QRコードチラシを近隣小学校・幼稚園・学童に配布</li>
+          <li>地域の掲示板（公民館・スポーツセンター）にチラシ掲出</li>
+          <li>申込フォームをスマホ1タップで完結する動線に最適化</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">🤝</div>
+        <h4>③地域コミュニティ連携</h4>
+        <p>オフラインの口コミが最強の集客チャネル。地域に根ざす仕組みを作る。</p>
+        <ul>
+          <li>近隣小学校・幼稚園への出前授業（月1回無料）</li>
+          <li>地域スポーツ少年団（サッカー・野球・バスケ）との連携体験会</li>
+          <li>学童保育施設への営業訪問 → 施設通信に掲載依頼</li>
+          <li>地域フリーペーパー・市の広報誌へのプレスリリース</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">👨‍👩‍👦</div>
+        <h4>④既存会員の紹介強化</h4>
+        <p>体験参加者・既存会員のクチコミが最もコスパの良い集客。仕組みを作る。</p>
+        <ul>
+          <li>紹介キャンペーン：紹介された側の入会金無料（またはギフト）</li>
+          <li>紹介した側：翌月月会費1,100円引き</li>
+          <li>保護者LINEオープンチャット開設 → コミュニティ化</li>
+          <li>体験後3日フォロー（superior-trial-check）を活用した入会促進メッセージ</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">🏅</div>
+        <h4>⑤オリンピアン訴求の強化</h4>
+        <p>荻田代表（リオ五輪・棒高跳び）は最大の差別化要素。もっと前面に出す。</p>
+        <ul>
+          <li>「オリンピアンが教えるクラブ」を全SNS・LP・チラシの主軸に</li>
+          <li>荻田代表の指導動画・コメント動画を定期投稿</li>
+          <li>「元オリンピック選手に直接教わった体験」を保護者の声として発信</li>
+          <li>地域メディア取材依頼（地元新聞・テレビ局のスポーツコーナー）</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">📊</div>
+        <h4>⑥コンテンツマーケティング</h4>
+        <p>「役立つ情報を無料で発信 → 信頼 → 体験申込」の流れを作る。</p>
+        <ul>
+          <li>「子どもの足が速くなるコツ3選」シリーズ（Instagram/TikTok）</li>
+          <li>「運動会で活躍する走り方」季節コンテンツ（4〜5月）</li>
+          <li>「ゴールデンエイジとは何か」保護者向け教育コンテンツ</li>
+          <li>子どもの成長記録投稿（会員の成長ビフォーアフター）</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">🔗</div>
+        <h4>⑦クロスセル（他PJとの連携）</h4>
+        <p>MOON傘下の他プロジェクトとの連携で相互送客。</p>
+        <ul>
+          <li>CARAS：保護者向けに「運動習慣を親子で」と訴求してCARASへ誘導</li>
+          <li>オギラボ：AI×スポーツ育成の事例として発信 → オギラボ会員へのアプローチ</li>
+          <li>むーん：発達支援と陸上クラブの連携（運動療育への橋渡し）</li>
+          <li>SORA↔SUPERIOR：合同イベントで両クラブを相互紹介</li>
+        </ul>
+      </div>
+
+      <div class="strategy-card">
+        <div class="s-icon">⚡</div>
+        <h4>⑧即効性：SUPERIOR専用緊急策</h4>
+        <p>フォロワー3人は緊急事態。即座に動ける施策を優先実行する。</p>
+        <ul>
+          <li>既存の保護者・参加者にInstagramフォローをお願いする（LINE配信）</li>
+          <li>プロストリート関西（生駒主催）・フロム・シェフ（箕面主催）のSNSで拡散依頼</li>
+          <li>ハッシュタグ最適化（#生駒市 #箕面市 #かけっこ教室 など地域密着タグ）</li>
+          <li>Week4の体験・募集投稿を先に実施してフォロワー以外にリーチ</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- イベント全アイデア -->
+  <div class="section">
+    <div class="section-title">03 ｜ イベント全アイデア（8案）</div>
+
+    <!-- イベント1 -->
+    <div class="event-card priority-high">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>🏃 ① 無料かけっこ教室「運動会で速くなろう！」</h4>
+          <div class="event-sub">認知獲得に特化した体験イベント</div>
+        </div>
+        <div class="priority-tag tag-red">優先度: 高 🔴</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>4〜5月（運動会シーズン前）</span></div>
+        <div class="meta-item">対象: <span>小学1〜4年生 + 保護者</span></div>
+        <div class="meta-item">参加費: <span>無料</span></div>
+        <div class="meta-item">定員: <span>15〜20名</span></div>
+      </div>
+      <div class="event-body">
+        <p>「運動会前に足が速くなりたい」という親子の一番ホットなニーズを直撃するイベント。30m走のタイムを計測→コーチが個別アドバイス→もう一度計測して成長を実感させる構成。その場で「速くなった！」の体験が口コミとSNS投稿を生む。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">プログラム</div>
+            <ul>
+              <li>受付・ウォームアップ（10分）</li>
+              <li>30m走計測1回目（10分）</li>
+              <li>コーチによる走り方講座（15分）</li>
+              <li>30m走計測2回目・タイム比較（10分）</li>
+              <li>体験会の案内・質問タイム（10分）</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">集客チャネル</div>
+            <ul>
+              <li>近隣小学校へのチラシ配布</li>
+              <li>Instagram / TikTokで告知</li>
+              <li>LINE公式アカウントで既存登録者へ</li>
+              <li>地域の子育てSNSグループ</li>
+              <li>主催施設（プロストリート・RANDCなど）の告知</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: SNS告知 → LINE友達追加 → 体験申込 → クラブ入会</div>
+      </div>
+    </div>
+
+    <!-- イベント2 -->
+    <div class="event-card priority-high">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>🥇 ② オリンピアンと走ろう！スペシャルクリニック</h4>
+          <div class="event-sub">荻田代表が直接指導する超強力な差別化イベント</div>
+        </div>
+        <div class="priority-tag tag-red">優先度: 高 🔴</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>年2〜3回（季節イベントとして定例化）</span></div>
+        <div class="meta-item">対象: <span>小学生全般 + 意欲的な中学生</span></div>
+        <div class="meta-item">参加費: <span>3,000〜5,000円（会員半額）</span></div>
+        <div class="meta-item">定員: <span>15名（絞る）</span></div>
+      </div>
+      <div class="event-body">
+        <p>「リオオリンピック代表に教わった」という体験は一生モノ。少人数でのプレミアム感を演出し、参加者の感動をSNSで拡散させる。有料でも来る親御さんが来るため、入会率が高い。荻田代表の「指導観」「哲学」を直接体感できる場として位置づける。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">コンテンツ</div>
+            <ul>
+              <li>荻田代表自身のトレーニング体験談</li>
+              <li>オリンピックを目指した練習メソッドを子ども向けに</li>
+              <li>個別フォームチェック（ビデオ撮影）</li>
+              <li>参加証・記念写真プレゼント</li>
+              <li>終了後：通常体験会への案内</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">SNS活用</div>
+            <ul>
+              <li>イベント前：告知Reel動画</li>
+              <li>当日：練習風景をリアルタイム投稿</li>
+              <li>翌日：参加者の感想・タイム向上をまとめ投稿</li>
+              <li>保護者に「ハッシュタグ付き投稿」を促す</li>
+              <li>→ SNSでの認知爆発を狙う</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: プレミアム体験 → 感動 → SNS口コミ → クラブ認知 → 入会</div>
+      </div>
+    </div>
+
+    <!-- イベント3 -->
+    <div class="event-card priority-high">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>👨‍👩‍👧 ③ 親子かけっこバトル大会</h4>
+          <div class="event-sub">保護者も一緒に走る！参加者がSNSで自然と拡散するイベント</div>
+        </div>
+        <div class="priority-tag tag-red">優先度: 高 🔴</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>5月（GW後）or 秋（10月）</span></div>
+        <div class="meta-item">対象: <span>小学生 + 保護者ペア</span></div>
+        <div class="meta-item">参加費: <span>無料（または500〜1,000円）</span></div>
+        <div class="meta-item">定員: <span>10組20名</span></div>
+      </div>
+      <div class="event-body">
+        <p>親子で走るという体験は感情が動く。子どもが親に勝った！負けた！という瞬間は保護者が自然と動画を撮り、SNSに投稿したくなる。「うちの子ってこんなに速くなったの？」という驚きがクラブへの信頼と入会につながる。コーチが親にも走り方指導をすることで保護者自身もファンになる。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">プログラム案</div>
+            <ul>
+              <li>親子ウォームアップ（一緒に動く）</li>
+              <li>30m走 親子それぞれ計測</li>
+              <li>コーチが親にも走り方アドバイス</li>
+              <li>親子バトル1〜2回戦</li>
+              <li>表彰式（全員に参加賞）</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">ポイント</div>
+            <ul>
+              <li>撮影OK・シェアを積極的に促す</li>
+              <li>ハッシュタグを事前に用意して告知</li>
+              <li>参加者全員にクラブ体験券を配布</li>
+              <li>CARASとのシナジー（保護者にトレーニング紹介）</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 楽しい体験 → SNS自然拡散 → 認知拡大 → 継続体験 → 入会</div>
+      </div>
+    </div>
+
+    <!-- イベント4 -->
+    <div class="event-card priority-med">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>📏 ④ 新体力テスト対策教室</h4>
+          <div class="event-sub">学校の授業に直結する実用的イベント。保護者ニーズが高い</div>
+        </div>
+        <div class="priority-tag tag-orange">優先度: 中 🟡</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>4〜6月（学校の体力測定シーズン）</span></div>
+        <div class="meta-item">対象: <span>小学3年〜中学生</span></div>
+        <div class="meta-item">参加費: <span>2,000〜3,000円/回</span></div>
+        <div class="meta-item">定員: <span>10名</span></div>
+      </div>
+      <div class="event-body">
+        <p>文科省の新体力テスト（50m走・立ち幅跳び・ソフトボール投げ等）は毎年実施される。「Aランクを取りたい」「学校でビリだった子を速くしたい」は保護者の切実な悩み。具体的な課題解決型のため参加動機が強く、入会率も高い。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">種目別対策</div>
+            <ul>
+              <li>50m走：スタートダッシュ・腕振り</li>
+              <li>立ち幅跳び：踏み切り・着地フォーム</li>
+              <li>ソフトボール投げ：体の使い方（大西コーチが最適）</li>
+              <li>反復横跳び：コーディネーション</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">集客ポイント</div>
+            <ul>
+              <li>「体力測定A判定を目指す！」訴求</li>
+              <li>SNS投稿：「うちの子の体力テストが心配な方へ」</li>
+              <li>学校の時期に合わせたタイムリーな告知</li>
+              <li>コーチの専門性（幅跳び・投擲）を前面に</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 悩み解決型 → 具体的成果 → クラブへの信頼 → 継続入会</div>
+      </div>
+    </div>
+
+    <!-- イベント5 -->
+    <div class="event-card priority-med">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>🎽 ⑤ SORA × SUPERIOR 合同体験会（姉妹クラブフェスタ）</h4>
+          <div class="event-sub">両クラブの強みを合わせた大型イベント。ブランド力を上げる</div>
+        </div>
+        <div class="priority-tag tag-orange">優先度: 中 🟡</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>夏休み（7〜8月）or 春休み</span></div>
+        <div class="meta-item">対象: <span>小中学生・全地域参加可能</span></div>
+        <div class="meta-item">参加費: <span>2,000〜3,000円</span></div>
+        <div class="meta-item">定員: <span>30〜40名</span></div>
+      </div>
+      <div class="event-body">
+        <p>香川・奈良・大阪を横断する大型イベント。「オリンピアン代表＋複数のトップコーチが集結」という豪華ラインナップで発信力が高い。合宿形式も可能（泊まりがけの特別体験は保護者の心に残る）。オギラボのSNS活用事例としても発信できる。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">実施形式案</div>
+            <ul>
+              <li>日帰り大合同練習会（関西開催）</li>
+              <li>1泊2日の夏合宿（香川 or 関西）</li>
+              <li>オンライン同時中継での合同練習</li>
+              <li>記録会形式（タイム計測で競う）</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">効果</div>
+            <ul>
+              <li>両クラブのフォロワーへの相互リーチ</li>
+              <li>「規模感」でブランド力が上がる</li>
+              <li>参加者のSNS投稿で認知拡大</li>
+              <li>オギラボのコンテンツとしても活用</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 特別体験 → 両クラブ認知 → 地元スクール入会</div>
+      </div>
+    </div>
+
+    <!-- イベント6 -->
+    <div class="event-card priority-med">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>🏫 ⑥ 地域小学校・幼稚園への出前授業</h4>
+          <div class="event-sub">最強の認知獲得チャネル。信頼と口コミの起点になる</div>
+        </div>
+        <div class="priority-tag tag-orange">優先度: 中 🟡</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>通年（月1〜2回）</span></div>
+        <div class="meta-item">対象: <span>小学校の体育クラブ・幼稚園の課外活動</span></div>
+        <div class="meta-item">参加費: <span>無料（または学校との交渉で有料）</span></div>
+        <div class="meta-item">定員: <span>クラス単位（20〜30名）</span></div>
+      </div>
+      <div class="event-body">
+        <p>学校に入ることで保護者全員に「オリンピアンが近くで教えてくれるクラブ」が伝わる。先生から保護者への口コミは信頼度が最高クラス。「学校のクラブ活動でかけっこを教えてもらった」という子どもの一言で、保護者は自然にクラブを調べる。継続的な関係構築で地域密着ブランドが確立できる。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">アプローチ方法</div>
+            <ul>
+              <li>各小学校の校長・体育主任に直接連絡</li>
+              <li>クラブ活動・課外授業・体育の時間に導入</li>
+              <li>PTA行事（運動会準備）との連携提案</li>
+              <li>幼稚園・保育園の「体育の時間」に導入</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">コンテンツ</div>
+            <ul>
+              <li>「楽しく走るコツ」30〜60分の体育授業</li>
+              <li>コーチ紹介・オリンピックの話</li>
+              <li>授業後にチラシ配布（QRコード付き）</li>
+              <li>希望者は個別体験へ案内</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 学校信頼 → 保護者口コミ → SNS検索 → 体験申込</div>
+      </div>
+    </div>
+
+    <!-- イベント7 -->
+    <div class="event-card priority-med">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>🎖️ ⑦ キッズ陸上記録会（ミニ大会）</h4>
+          <div class="event-sub">会員の成長発表 + 外部参加者の体験機会を同時に作る</div>
+        </div>
+        <div class="priority-tag tag-orange">優先度: 中 🟡</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>年2回（春・秋）</span></div>
+        <div class="meta-item">対象: <span>会員＋体験参加者・地域の子ども</span></div>
+        <div class="meta-item">参加費: <span>会員無料・外部500〜1,000円</span></div>
+        <div class="meta-item">定員: <span>40〜60名</span></div>
+      </div>
+      <div class="event-body">
+        <p>会員の成長を「記録」として可視化することで既存会員の継続モチベーションを高め、外部参加者には「うちの子もこのクラブで速くなれるかも」を実感させる。大会という非日常体験は保護者が必ず写真・動画を撮り、SNSに投稿する。「大会で子どもが走る姿」は最強のコンテンツになる。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">種目案</div>
+            <ul>
+              <li>30m走（全学年）</li>
+              <li>60m走（小4以上）</li>
+              <li>ドリブル走（コーディネーション）</li>
+              <li>タグラグビー（チーム戦・楽しさ重視）</li>
+              <li>特別：保護者50m走チャレンジ</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">演出</div>
+            <ul>
+              <li>全員に参加賞（メダル or 記録証）</li>
+              <li>コーチ陣の模範走（荻田代表も走る！）</li>
+              <li>当日のSNSライブ投稿</li>
+              <li>体験申込フォームをその場でQRコード案内</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 非日常体験 → 成長実感 → 継続意欲 → 会員継続＆新規入会</div>
+      </div>
+    </div>
+
+    <!-- イベント8 -->
+    <div class="event-card priority-low">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <h4>💪 ⑧ 保護者向け「大人スプリント体験会」</h4>
+          <div class="event-sub">子どもを送り届ける保護者を、そのままクライアントに変える</div>
+        </div>
+        <div class="priority-tag tag-green">優先度: 低〜中 🟢</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-item">時期: <span>随時（子どもの練習中に並行開催）</span></div>
+        <div class="meta-item">対象: <span>保護者（30〜50代）</span></div>
+        <div class="meta-item">参加費: <span>無料体験 → 大人スプリントコース 5,500円/月</span></div>
+        <div class="meta-item">定員: <span>10名</span></div>
+      </div>
+      <div class="event-body">
+        <p>子どもを送り届けた保護者が「待ち時間」にスマホを見ている現状を変える。「お子さんが練習している間、一緒に走りませんか？」という提案は自然。CARASへの送客にもつながり、MOON全体の収益向上に貢献。特にSORА高松スクールの「大人スプリントコース（金曜）」の集客に直結する。</p>
+        <div class="event-detail-grid">
+          <div class="detail-box">
+            <div class="detail-label">プログラム</div>
+            <ul>
+              <li>ウォームアップ（10分）</li>
+              <li>基本的な走り方レクチャー</li>
+              <li>30m走計測・フォームチェック</li>
+              <li>大人スプリントコースの案内</li>
+              <li>→ CARASパーソナルジムへの紹介</li>
+            </ul>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">相乗効果</div>
+            <ul>
+              <li>保護者がクラブのファンになる</li>
+              <li>子どもの継続率が上がる</li>
+              <li>CARASへのクロスセル機会</li>
+              <li>「親子で通うクラブ」という独自価値</li>
+            </ul>
+          </div>
+        </div>
+        <div class="funnel-tag">📍 集客導線: 待ち時間 → 無料体験 → 大人コース入会 or CARAS紹介</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 優先実施ロードマップ -->
+  <div class="section">
+    <div class="section-title">04 ｜ 推奨実施スケジュール（2026年）</div>
+    <table>
+      <thead>
+        <tr>
+          <th>時期</th>
+          <th>施策 / イベント</th>
+          <th>対象</th>
+          <th>優先度</th>
+          <th>期待効果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>今すぐ</td>
+          <td>SUPERIORのInstagram緊急強化（既存参加者にフォロー依頼）</td>
+          <td>SUPERIOR</td>
+          <td class="dot-red">🔴 最優先</td>
+          <td>フォロワーゼロ状態を脱出</td>
+        </tr>
+        <tr>
+          <td>今すぐ</td>
+          <td>SORAのSK-2（Instagram初期投稿3本）完成</td>
+          <td>SORA</td>
+          <td class="dot-red">🔴 最優先</td>
+          <td>SNS発信の基盤完成</td>
+        </tr>
+        <tr>
+          <td>4月中</td>
+          <td>①「運動会で速くなろう！」無料かけっこ教室 企画・告知</td>
+          <td>両クラブ</td>
+          <td class="dot-red">🔴 高</td>
+          <td>旬のニーズに直撃・認知急拡大</td>
+        </tr>
+        <tr>
+          <td>4〜5月</td>
+          <td>④ 新体力テスト対策教室 開催</td>
+          <td>両クラブ</td>
+          <td class="dot-orange">🟡 中〜高</td>
+          <td>具体的課題解決型で入会率高</td>
+        </tr>
+        <tr>
+          <td>5月</td>
+          <td>③ 親子かけっこバトル大会 開催</td>
+          <td>両クラブ</td>
+          <td class="dot-red">🔴 高</td>
+          <td>SNS自然拡散・口コミ起点</td>
+        </tr>
+        <tr>
+          <td>通年</td>
+          <td>⑥ 地域小学校・幼稚園への出前授業（月1〜2回）</td>
+          <td>両クラブ</td>
+          <td class="dot-orange">🟡 中</td>
+          <td>地域密着ブランド確立</td>
+        </tr>
+        <tr>
+          <td>6月〜</td>
+          <td>② オリンピアンと走ろう！スペシャルクリニック 第1回</td>
+          <td>両クラブ</td>
+          <td class="dot-red">🔴 高</td>
+          <td>プレミアム体験でブランド力向上</td>
+        </tr>
+        <tr>
+          <td>秋（10月）</td>
+          <td>⑦ キッズ陸上記録会（ミニ大会）第1回</td>
+          <td>両クラブ</td>
+          <td class="dot-orange">🟡 中</td>
+          <td>会員成長発表・外部認知</td>
+        </tr>
+        <tr>
+          <td>夏or春休み</td>
+          <td>⑤ SORA×SUPERIOR 合同体験会（姉妹クラブフェスタ）</td>
+          <td>両クラブ</td>
+          <td class="dot-orange">🟡 中</td>
+          <td>ブランド力向上・相互送客</td>
+        </tr>
+        <tr>
+          <td>随時</td>
+          <td>⑧ 保護者向け「大人スプリント体験会」</td>
+          <td>SORA（高松）</td>
+          <td class="dot-green">🟢 低〜中</td>
+          <td>大人コース集客・CARASクロスセル</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 集客導線フロー -->
+  <div class="section">
+    <div class="section-title">05 ｜ 理想の集客導線フロー</div>
+    <div class="funnel-wrap">
+      <div class="funnel-step">
+        <div class="funnel-num">1</div>
+        <div class="funnel-content">
+          <h5>認知（知ってもらう）</h5>
+          <p>SNS投稿・出前授業・チラシ・口コミ・イベント告知で「こんなクラブがある」を知ってもらう</p>
+        </div>
+        <div class="funnel-action">Instagram / TikTok / チラシ</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-num">2</div>
+        <div class="funnel-content">
+          <h5>興味・検討（気になってもらう）</h5>
+          <p>「オリンピアンが教えてくれる」「ウチの子にも合うかも」という期待を作る。コンテンツ投稿・LPで信頼を積む</p>
+        </div>
+        <div class="funnel-action">LP / コンテンツ投稿</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-num">3</div>
+        <div class="funnel-content">
+          <h5>接触（行動してもらう）</h5>
+          <p>LINE友達追加・体験申込。この一歩のハードルを最大限下げる（無料・近い・すぐ申込可）</p>
+        </div>
+        <div class="funnel-action">LINE公式 / 体験申込フォーム</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-num">4</div>
+        <div class="funnel-content">
+          <h5>体験（感動してもらう）</h5>
+          <p>無料体験・イベント参加。「速くなった！」「コーチが熱い！」の実感が入会の決め手。</p>
+        </div>
+        <div class="funnel-action">体験会 / 各種イベント</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-num">5</div>
+        <div class="funnel-content">
+          <h5>入会（仲間になってもらう）</h5>
+          <p>体験後3日フォロー（自動化済み）で入会を促進。「迷っている理由」を解消するフォローが鍵。</p>
+        </div>
+        <div class="funnel-action">superior-trial-check / LINE返信</div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-num">6</div>
+        <div class="funnel-content">
+          <h5>紹介（仲間を増やしてもらう）</h5>
+          <p>紹介キャンペーン・保護者コミュニティで「友達も連れてくる」仕組みを作る。口コミが最強の集客になる。</p>
+        </div>
+        <div class="funnel-action">紹介制度 / LINEオープンチャット</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 品質スコア -->
+  <div style="background:#fff; border-radius:14px; padding:20px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.07); margin-bottom:20px;">
+    <div style="font-size:13px; color:#555; line-height:1.8;">
+      📊 品質スコア: <strong>82点</strong> ｜ 現状分析:◎ アイデア網羅性:◎ 実行可能性:○ ターゲット適合:◎ 優先度整理:○
+    </div>
+    <div style="font-size:11px; color:#999; margin-top:6px;">
+      ※ 実行可能性・優先度は現場の稼働状況によって変動します。MOONさんの判断で絞り込みをお願いします。
+    </div>
+  </div>
+
+  <div style="text-align:center; font-size:11px; color:#aaa; padding:20px 0;">
+    SORA / SUPERIOR 集客強化 &amp; イベント提案 ｜ 作成: 2026-04-02 ｜ AI組織 総括エージェント
+  </div>
+
+</div>
+</body>
+</html>

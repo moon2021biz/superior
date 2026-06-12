@@ -1,0 +1,775 @@
+<!DOCTYPE html><html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>成果物まとめ</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;background:#f4f6f9;color:#1f2937;font-size:14px}
+.hero{background:#1e293b;color:#fff;padding:18px 20px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hero h1{font-size:18px}
+.hero span{color:#94a3b8;font-size:12px}
+.nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #e5e7eb;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px}
+.pill{text-decoration:none;color:var(--c);border:1px solid var(--c);padding:3px 9px;border-radius:14px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.pill b{background:var(--c);color:#fff;border-radius:8px;padding:0 6px;font-size:10px;font-weight:700}
+.pill:hover{background:var(--c);color:#fff}
+.pill:hover b{background:#fff;color:var(--c)}
+.wrap{max-width:920px;margin:0 auto;padding:14px 12px 50px}
+.sec{margin-bottom:20px;scroll-margin-top:54px}
+.sec h2{font-size:15px;color:var(--c);display:flex;align-items:center;gap:7px;padding:6px 4px;border-bottom:2px solid var(--c);margin-bottom:6px}
+.sec h2 small{font-weight:400;color:#94a3b8;font-size:11px;margin-left:auto}
+.list{list-style:none;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.row{border-bottom:1px solid #f1f3f6}
+.row:last-child{border-bottom:0}
+.ri{display:flex;align-items:center;gap:9px;padding:8px 12px;cursor:pointer}
+.ri:hover{background:#f8fafc}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.t{font-weight:600;font-size:13.5px;white-space:nowrap}
+.new{font-size:10px}
+.m{color:#94a3b8;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.date{color:#cbd5e1;font-size:10.5px;flex:none}
+.acts{display:flex;gap:6px;flex:none;align-items:center}
+.pv{border:1px solid #d1d5db;background:#fff;color:#475569;font-size:11px;padding:2px 7px;border-radius:6px;cursor:pointer}
+.pv:hover{background:#f1f5f9}
+.op{font-size:11px;color:var(--c);text-decoration:none;font-weight:600;padding:2px 4px}
+.op:hover{text-decoration:underline}
+.frame{height:0;overflow:hidden;transition:height .2s;background:#f8fafc}
+.frame.open{height:340px;border-top:1px solid #e5e7eb}
+.frame iframe{width:100%;height:340px;border:0}
+/* 編集・非表示まわり */
+.ctrl{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;font-size:12px;padding:4px 10px;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,.28)}
+.hidecnt{color:#cbd5e1;font-size:12px}
+.hidecnt a{color:#fca5a5;cursor:pointer;text-decoration:underline;margin-left:4px}
+.hide{display:none;flex:none;width:20px;height:20px;border-radius:50%;border:1px solid #fca5a5;background:#fff;color:#dc2626;font-size:13px;line-height:1;cursor:pointer;padding:0}
+.hide:hover{background:#dc2626;color:#fff}
+body.edit .hide{display:inline-flex;align-items:center;justify-content:center}
+body.edit .ri{cursor:default}
+.row.gone{display:none}
+.sec.gone{display:none}
+@media(max-width:560px){.m,.date{display:none}}
+footer{text-align:center;color:#9ca3af;font-size:11px;padding:18px}
+</style></head><body>
+<div class="hero"><h1>📂 成果物まとめ</h1><span>62 件を自動精査 ／ 最終更新 2026年06月12日 00:12　🆕=直近5日</span>
+<div class="ctrl"><span class="hidecnt" id="hc"></span><button class="btn" id="saveBtn" type="button" style="display:none">💾 保存</button><button class="btn" id="editBtn" type="button">🗑 編集</button></div></div>
+<nav class="nav"><a href="#s0" class="pill" style="--c:#2563eb">🤝 TrustFit<b>10</b></a><a href="#s1" class="pill" style="--c:#9333ea">🏆 PRISM CUP<b>10</b></a><a href="#s2" class="pill" style="--c:#dc2626">💪 CARAS<b>9</b></a><a href="#s3" class="pill" style="--c:#ea580c">🏃 SORA / 陸上クラブ<b>10</b></a><a href="#s4" class="pill" style="--c:#0891b2">🧠 オギラボ<b>10</b></a><a href="#s5" class="pill" style="--c:#16a34a">🏢 健康経営<b>3</b></a><a href="#s6" class="pill" style="--c:#7c3aed">📋 関学・むーん・その他<b>6</b></a><a href="#s7" class="pill" style="--c:#475569">⚙️ AI組織・管理<b>4</b></a></nav>
+<div class="wrap"><section id="s0" class="sec" style="--c:#2563eb">
+  <h2><span>🤝</span>TrustFit<small>企業向けトレーナー派遣マッチングPF</small></h2>
+  <ul class="list"><li class="row" data-file="TrustFit_事業企画書.html">
+  <div class="ri" data-src="TrustFit_事業企画書.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">事業企画書</span>
+    <span class="m">事業の全体像・収益モデル</span>
+    <span class="date">4/14</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="TrustFit_事業企画書.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit-proposal-lp.html">
+  <div class="ri" data-src="trustfit-proposal-lp.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">提案LP</span>
+    <span class="m">サービス紹介ランディングページ</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit-proposal-lp.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="TrustFit_全体まとめ.html">
+  <div class="ri" data-src="TrustFit_全体まとめ.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">全体まとめ</span>
+    <span class="m">設計・戦略の総まとめ</span>
+    <span class="date">4/16</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="TrustFit_全体まとめ.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_sora_superior_integrated_20260522.html">
+  <div class="ri" data-src="trustfit_sora_superior_integrated_20260522.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">SORA/SUPERIOR連携案</span>
+    <span class="m">陸上クラブとの統合提案</span>
+    <span class="date">5/22</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_sora_superior_integrated_20260522.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_lp_zehitomo_style.html">
+  <div class="ri" data-src="trustfit_lp_zehitomo_style.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">LP（ゼヒトモ風）</span>
+    <span class="m">ランディングページ案</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_lp_zehitomo_style.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_register_company.html">
+  <div class="ri" data-src="trustfit_register_company.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">企業登録ページ</span>
+    <span class="m">採用企業の登録画面</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_register_company.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_terms.html">
+  <div class="ri" data-src="trustfit_terms.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">利用規約</span>
+    <span class="m">サービス利用規約</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_terms.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_simulator.html">
+  <div class="ri" data-src="trustfit_simulator.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">料金シミュレーター</span>
+    <span class="m">料金シミュレーション</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_simulator.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_register_cast.html">
+  <div class="ri" data-src="trustfit_register_cast.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">トレーナー登録ページ</span>
+    <span class="m">キャスト登録画面</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_register_cast.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="trustfit_ranks.html">
+  <div class="ri" data-src="trustfit_ranks.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">ランク制度</span>
+    <span class="m">トレーナーランク設計</span>
+    <span class="date">4/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="trustfit_ranks.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s1" class="sec" style="--c:#9333ea">
+  <h2><span>🏆</span>PRISM CUP<small>スポーツイベント／クラファン</small></h2>
+  <ul class="list"><li class="row" data-file="プリズムカップ_企画書.html">
+  <div class="ri" data-src="プリズムカップ_企画書.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">企画書</span>
+    <span class="m">イベント全体企画</span>
+    <span class="date">4/16</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="プリズムカップ_企画書.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup-proposal.html">
+  <div class="ri" data-src="prismcup-proposal.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">提案書</span>
+    <span class="m">スポンサー・関係者向け提案</span>
+    <span class="date">4/17</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup-proposal.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup_sponsor.html">
+  <div class="ri" data-src="prismcup_sponsor.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">スポンサー資料</span>
+    <span class="m">協賛メニュー一覧</span>
+    <span class="date">4/30</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup_sponsor.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup_proposal_20260522.html">
+  <div class="ri" data-src="prismcup_proposal_20260522.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">提案書（5/22版）</span>
+    <span class="m">提案書の改訂版</span>
+    <span class="date">5/22</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup_proposal_20260522.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup-prospect-list.html">
+  <div class="ri" data-src="prismcup-prospect-list.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">見込み客リスト</span>
+    <span class="m">営業先リスト</span>
+    <span class="date">5/6</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup-prospect-list.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup-master.html">
+  <div class="ri" data-src="prismcup-master.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">運営マスター</span>
+    <span class="m">運営管理ダッシュボード</span>
+    <span class="date">5/6</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup-master.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup-crm.html">
+  <div class="ri" data-src="prismcup-crm.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">顧客管理（CRM）</span>
+    <span class="m">関係者・顧客の管理</span>
+    <span class="date">5/6</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup-crm.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup_cast_guide.html">
+  <div class="ri" data-src="prismcup_cast_guide.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">キャストガイド</span>
+    <span class="m">出演者向け案内</span>
+    <span class="date">4/30</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup_cast_guide.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup_participant_guide.html">
+  <div class="ri" data-src="prismcup_participant_guide.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">参加者ガイド</span>
+    <span class="m">出場選手向け案内</span>
+    <span class="date">4/30</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup_participant_guide.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="prismcup_company_notice.html">
+  <div class="ri" data-src="prismcup_company_notice.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">企業向け案内</span>
+    <span class="m">協賛企業への通知文</span>
+    <span class="date">4/30</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="prismcup_company_notice.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s2" class="sec" style="--c:#dc2626">
+  <h2><span>💪</span>CARAS<small>パーソナルジム（西宮・夙川）</small></h2>
+  <ul class="list"><li class="row" data-file="caras_analysis_report.html">
+  <div class="ri" data-src="caras_analysis_report.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">分析レポート</span>
+    <span class="m">現状分析・改善提案</span>
+    <span class="date">3/26</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_analysis_report.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_instagram_strategy.html">
+  <div class="ri" data-src="caras_instagram_strategy.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">Instagram戦略</span>
+    <span class="m">SNS集客戦略</span>
+    <span class="date">3/27</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_instagram_strategy.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_instagram_20260415.html">
+  <div class="ri" data-src="caras_instagram_20260415.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">Instagram投稿（4/15）</span>
+    <span class="m">Instagram投稿案</span>
+    <span class="date">4/15</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_instagram_20260415.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_madame_diagnosis.html">
+  <div class="ri" data-src="caras_madame_diagnosis.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">マダム向け診断</span>
+    <span class="m">女性向け診断コンテンツ</span>
+    <span class="date">4/14</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_madame_diagnosis.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_golf_diagnosis.html">
+  <div class="ri" data-src="caras_golf_diagnosis.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">ゴルフ診断</span>
+    <span class="m">ゴルファー向け診断コンテンツ</span>
+    <span class="date">4/14</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_golf_diagnosis.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_madame_ad_1x1.html">
+  <div class="ri" data-src="caras_madame_ad_1x1.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">マダム向け広告</span>
+    <span class="m">正方形広告クリエイティブ</span>
+    <span class="date">4/8</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_madame_ad_1x1.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_golf_ad_1x1.html">
+  <div class="ri" data-src="caras_golf_ad_1x1.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">ゴルフ広告</span>
+    <span class="m">正方形広告クリエイティブ</span>
+    <span class="date">4/4</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_golf_ad_1x1.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="CARAS_AI指示文.html">
+  <div class="ri" data-src="CARAS_AI指示文.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">AI指示文</span>
+    <span class="m">コンテンツ生成用プロンプト</span>
+    <span class="date">3/27</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="CARAS_AI指示文.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="caras_blog_4weeks.html">
+  <div class="ri" data-src="caras_blog_4weeks.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">ブログ4週分</span>
+    <span class="m">HP用ブログ記事ストック</span>
+    <span class="date">3/27</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="caras_blog_4weeks.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s3" class="sec" style="--c:#ea580c">
+  <h2><span>🏃</span>SORA / 陸上クラブ<small>子ども向け陸上育成クラブ</small></h2>
+  <ul class="list"><li class="row" data-file="sora-schedule-2026.html">
+  <div class="ri" data-src="sora-schedule-2026.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">年間スケジュール2026</span>
+    <span class="m">練習・イベント年間計画</span>
+    <span class="date">5/18</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora-schedule-2026.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_overview_infographic.html">
+  <div class="ri" data-src="sora_overview_infographic.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">クラブ概要インフォグラフィック</span>
+    <span class="m">クラブ紹介ビジュアル</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_overview_infographic.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_new_operator_strategy.html">
+  <div class="ri" data-src="sora_new_operator_strategy.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">新運営者戦略</span>
+    <span class="m">運営体制の戦略</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_new_operator_strategy.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_yonden_strategy_v2.html">
+  <div class="ri" data-src="sora_yonden_strategy_v2.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">四電戦略v2</span>
+    <span class="m">四国電力 提携・拡大戦略</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_yonden_strategy_v2.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_yonden_training_strategy.html">
+  <div class="ri" data-src="sora_yonden_training_strategy.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">四電トレーニング戦略</span>
+    <span class="m">指導プログラム戦略</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_yonden_training_strategy.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_base_full_facility.html">
+  <div class="ri" data-src="sora_base_full_facility.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">拠点フル施設案</span>
+    <span class="m">拠点施設の全体構想</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_base_full_facility.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_base_building_cost.html">
+  <div class="ri" data-src="sora_base_building_cost.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">拠点建設コスト</span>
+    <span class="m">施設建設費の試算</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_base_building_cost.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_yashima_meeting_script.html">
+  <div class="ri" data-src="sora_yashima_meeting_script.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">八島MTG台本</span>
+    <span class="m">商談トークスクリプト</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_yashima_meeting_script.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_reality_check.html">
+  <div class="ri" data-src="sora_reality_check.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">現実性チェック</span>
+    <span class="m">事業の実現性検証</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_reality_check.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sora_yashima_program.html">
+  <div class="ri" data-src="sora_yashima_program.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">八島プログラム</span>
+    <span class="m">拠点別プログラム</span>
+    <span class="date">5/24</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sora_yashima_program.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s4" class="sec" style="--c:#0891b2">
+  <h2><span>🧠</span>オギラボ<small>AI活用オンラインサロン</small></h2>
+  <ul class="list"><li class="row" data-file="オギラボ_LINE公式設計書.html">
+  <div class="ri" data-src="オギラボ_LINE公式設計書.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">LINE公式設計書</span>
+    <span class="m">LINE構築の全体設計</span>
+    <span class="date">4/15</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="オギラボ_LINE公式設計書.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="オギラボ_note販売戦略_2026-04-07.html">
+  <div class="ri" data-src="オギラボ_note販売戦略_2026-04-07.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">note販売戦略</span>
+    <span class="m">有料note収益化戦略</span>
+    <span class="date">4/8</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="オギラボ_note販売戦略_2026-04-07.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="MOON_content_menu.html">
+  <div class="ri" data-src="MOON_content_menu.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">コンテンツメニュー</span>
+    <span class="m">全コンテンツ一覧</span>
+    <span class="date">4/3</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="MOON_content_menu.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="競技結果がすべてじゃない_NOTE記事_統合版.html">
+  <div class="ri" data-src="競技結果がすべてじゃない_NOTE記事_統合版.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">NOTE記事「競技結果がすべてじゃない」</span>
+    <span class="m">統合版note記事</span>
+    <span class="date">5/28</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="競技結果がすべてじゃない_NOTE記事_統合版.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="note_kinniku-tsuu_olympian.html">
+  <div class="ri" data-src="note_kinniku-tsuu_olympian.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">note「筋肉痛とオリンピアン」</span>
+    <span class="m">note記事</span>
+    <span class="date">5/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="note_kinniku-tsuu_olympian.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="note_kinniku-tsuu_olympian_public.html">
+  <div class="ri" data-src="note_kinniku-tsuu_olympian_public.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">note「筋肉痛とオリンピアン」公開版</span>
+    <span class="m">公開用note記事</span>
+    <span class="date">5/23</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="note_kinniku-tsuu_olympian_public.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="note完全版_進捗管理.html">
+  <div class="ri" data-src="note完全版_進捗管理.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">note完全版・進捗管理</span>
+    <span class="m">コンテンツ進捗管理</span>
+    <span class="date">5/18</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="note完全版_進捗管理.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="note_食事戦略_最終版.html">
+  <div class="ri" data-src="note_食事戦略_最終版.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">note「食事戦略」最終版</span>
+    <span class="m">食事戦略のnote記事</span>
+    <span class="date">5/10</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="note_食事戦略_最終版.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sprint_ch1_thumb.html">
+  <div class="ri" data-src="sprint_ch1_thumb.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">スプリント第1章 サムネ</span>
+    <span class="m">記事サムネイル</span>
+    <span class="date">4/17</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sprint_ch1_thumb.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="sprint_ch1_note.html">
+  <div class="ri" data-src="sprint_ch1_note.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">スプリント第1章 note</span>
+    <span class="m">連載note記事</span>
+    <span class="date">4/17</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="sprint_ch1_note.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s5" class="sec" style="--c:#16a34a">
+  <h2><span>🏢</span>健康経営<small>B2B法人健康支援</small></h2>
+  <ul class="list"><li class="row" data-file="健康経営優良法人_ギャップ分析.html">
+  <div class="ri" data-src="健康経営優良法人_ギャップ分析.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">優良法人ギャップ分析</span>
+    <span class="m">認定取得に向けた現状分析</span>
+    <span class="date">3/28</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="健康経営優良法人_ギャップ分析.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="健康経営_進捗管理システム.html">
+  <div class="ri" data-src="健康経営_進捗管理システム.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">進捗管理システム</span>
+    <span class="m">取得プロセス管理</span>
+    <span class="date">5/18</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="健康経営_進捗管理システム.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="健康経営_取得要項チェックリスト.html">
+  <div class="ri" data-src="健康経営_取得要項チェックリスト.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">取得要項チェックリスト</span>
+    <span class="m">申請要件チェック</span>
+    <span class="date">3/29</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="健康経営_取得要項チェックリスト.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s6" class="sec" style="--c:#7c3aed">
+  <h2><span>📋</span>関学・むーん・その他<small>法人業務・行政・関係者</small></h2>
+  <ul class="list"><li class="row" data-file="関西学院大学陸上競技部_部則図解.html">
+  <div class="ri" data-src="関西学院大学陸上競技部_部則図解.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">関学陸上部 部則図解</span>
+    <span class="m">部則のビジュアル化</span>
+    <span class="date">4/1</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="関西学院大学陸上競技部_部則図解.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="取引先マスター.html">
+  <div class="ri" data-src="取引先マスター.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">取引先マスター</span>
+    <span class="m">全取引先一覧</span>
+    <span class="date">3/28</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="取引先マスター.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="deloitte_yonehara_meeting_20260522.html">
+  <div class="ri" data-src="deloitte_yonehara_meeting_20260522.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">デロイト米原氏 MTG</span>
+    <span class="m">部活動地域移行 商談記録</span>
+    <span class="date">5/22</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="deloitte_yonehara_meeting_20260522.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="futsal-event-proposal.html">
+  <div class="ri" data-src="futsal-event-proposal.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">フットサルイベント提案</span>
+    <span class="m">企業向けフットサル企画</span>
+    <span class="date">4/7</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="futsal-event-proposal.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="集客強化_イベント提案_2026-04-02.html">
+  <div class="ri" data-src="集客強化_イベント提案_2026-04-02.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">集客強化 イベント提案</span>
+    <span class="m">イベント集客企画</span>
+    <span class="date">4/2</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="集客強化_イベント提案_2026-04-02.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="moon-welfare-report_2026-03-28.html">
+  <div class="ri" data-src="moon-welfare-report_2026-03-28.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">むーん 行政報告書</span>
+    <span class="m">児童発達支援の行政報告</span>
+    <span class="date">3/28</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="moon-welfare-report_2026-03-28.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section><section id="s7" class="sec" style="--c:#475569">
+  <h2><span>⚙️</span>AI組織・管理<small>組織運営・自動化フロー</small></h2>
+  <ul class="list"><li class="row" data-file="AI組織フロー.html">
+  <div class="ri" data-src="AI組織フロー.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">AI組織フロー</span>
+    <span class="m">自動化フローの可視化</span>
+    <span class="date">3/29</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="AI組織フロー.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="AI組織_スキル_スケジュール総覧.html">
+  <div class="ri" data-src="AI組織_スキル_スケジュール総覧.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">スキル・スケジュール総覧</span>
+    <span class="m">全スキル・タスク一覧</span>
+    <span class="date">3/30</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="AI組織_スキル_スケジュール総覧.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="morning-briefing_latest.html">
+  <div class="ri" data-src="morning-briefing_latest.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">最新 朝ブリーフィング</span>
+    <span class="m">直近の全PJ進捗報告</span>
+    <span class="date">6/2</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="morning-briefing_latest.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li><li class="row" data-file="AI組織図_まとめ＆改善提案.html">
+  <div class="ri" data-src="AI組織図_まとめ＆改善提案.html">
+    <button class="hide" type="button" title="この表示から消す">×</button>
+    <span class="dot"></span>
+    <span class="t">AI組織図・改善提案</span>
+    <span class="m">組織設計と改善案</span>
+    <span class="date">3/28</span>
+    <span class="acts"><button class="pv" type="button">👁</button><a href="AI組織図_まとめ＆改善提案.html" target="_blank" rel="noopener" class="op">開く↗</a></span>
+  </div>
+  <div class="frame"></div>
+</li></ul>
+</section></div>
+<footer>株式会社MOON ／ html.aiを自動スキャンして生成。新しい成果物は自動で追加され、古いものは押し出されます</footer>
+<script>
+// ── プレビュー展開 ──
+document.querySelectorAll('.ri[data-src]').forEach(function(ri){
+  var li=ri.closest('.row'),frame=li.querySelector('.frame'),src=ri.dataset.src;
+  function toggle(){
+    if(frame.classList.contains('open')){frame.classList.remove('open');setTimeout(function(){frame.innerHTML=''},200);}
+    else{if(!frame.querySelector('iframe'))frame.innerHTML='<iframe src="'+src+'" loading="lazy"></iframe>';frame.classList.add('open');}
+  }
+  ri.addEventListener('click',function(e){
+    if(e.target.closest('.op')||e.target.closest('.hide'))return;   // ×やリンクは無視
+    if(document.body.classList.contains('edit'))return;             // 編集中はプレビューしない
+    toggle();
+  });
+});
+
+// ── 非表示（自分で消す）機能。状態はブラウザに保存され再生成しても保持 ──
+var PERMA=[];   // すでに永久除外リストに入っているファイル
+var KEY='seika_hidden_v1';
+function load(){ try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));}catch(e){return new Set();} }
+function save(s){ try{localStorage.setItem(KEY,JSON.stringify([...s]));}catch(e){} }
+var hidden=load();
+
+function refresh(){
+  // 行の表示/非表示
+  document.querySelectorAll('.row').forEach(function(li){
+    li.classList.toggle('gone', hidden.has(li.dataset.file));
+  });
+  // 空になったセクションを隠す＆ナビ件数を更新
+  document.querySelectorAll('.sec').forEach(function(sec,i){
+    var vis=sec.querySelectorAll('.row:not(.gone)').length;
+    sec.classList.toggle('gone', vis===0);
+    var pill=document.querySelectorAll('.nav .pill')[i];
+    if(pill){ var b=pill.querySelector('b'); if(b)b.textContent=vis; pill.style.display=vis===0?'none':''; }
+  });
+  // 非表示カウンタ
+  var hc=document.getElementById('hc');
+  if(hidden.size>0){ hc.innerHTML='非表示 '+hidden.size+'件 <a id="resetH">すべて戻す</a>'; }
+  else{ hc.textContent=''; }
+  var r=document.getElementById('resetH');
+  if(r) r.onclick=function(){ hidden.clear(); save(hidden); refresh(); };
+}
+
+// ×ボタン
+document.querySelectorAll('.hide').forEach(function(btn){
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var li=btn.closest('.row');
+    hidden.add(li.dataset.file); save(hidden); refresh();
+  });
+});
+
+// 編集モードのトグル
+document.getElementById('editBtn').addEventListener('click',function(){
+  var on=document.body.classList.toggle('edit');
+  this.textContent=on?'✓ 完了':'🗑 編集';
+  document.getElementById('saveBtn').style.display=on?'':'none';
+});
+
+// 💾 保存：永久除外リスト(_非表示リスト.txt)を書き出す。これを html.ai に置けば全環境で恒久的に消える
+document.getElementById('saveBtn').addEventListener('click',function(){
+  var all=new Set(PERMA);
+  hidden.forEach(function(f){all.add(f);});
+  var list=[...all].sort();
+  if(list.length===0){ alert('消したい項目がありません。先に編集モードで × を押してください。'); return; }
+  var text='# 成果物まとめから恒久的に非表示にするHTMLファイル名（1行ずつ）\n'+list.join('\n')+'\n';
+  var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='_非表示リスト.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  alert('「_非表示リスト.txt」を書き出しました（'+list.length+'件）。\nこのファイルを html.ai フォルダに上書き保存すると、次回からこれらは完全に表示されなくなります。');
+});
+
+refresh();
+</script></body></html>

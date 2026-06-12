@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>デロイト米原氏 打ち合わせメモ｜TrustFit協業可能性深掘り</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
+    background:#f4f6fa;
+    color:#1a1a2e;
+    line-height:1.75;
+  }
+  .hero {
+    background:linear-gradient(135deg,#0a1a3a 0%,#1a3a6e 100%);
+    color:#fff;
+    padding:50px 40px 40px;
+    text-align:center;
+    border-bottom:4px solid #55baff;
+  }
+  .hero-tag {
+    display:inline-block;
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.3);
+    color:#a8d4ff;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:3px;
+    padding:6px 18px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1 {
+    font-size:32px;
+    font-weight:900;
+    margin-bottom:10px;
+    letter-spacing:-0.5px;
+  }
+  .hero .sub {
+    font-size:15px;
+    color:#a8c8e8;
+    margin-bottom:20px;
+  }
+  .meta-row {
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .meta-item {
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:8px;
+    padding:8px 16px;
+    font-size:12px;
+  }
+  .meta-item span { color:#90b0d0; display:block; font-size:10px; margin-bottom:2px; }
+
+  .container { max-width:920px; margin:0 auto; padding:40px 24px 60px; }
+
+  .summary-card {
+    background:#fff;
+    border-radius:14px;
+    padding:28px;
+    margin-bottom:30px;
+    border-left:5px solid #1a3a6e;
+    box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  }
+  .summary-card h2 { font-size:18px; color:#1a3a6e; margin-bottom:12px; }
+  .summary-card p { font-size:14px; color:#444; }
+
+  .agenda-card {
+    background:#fff;
+    border-radius:12px;
+    padding:24px;
+    margin-bottom:30px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  }
+  .agenda-card h3 {
+    font-size:15px;
+    color:#1a3a6e;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid #e0e6f0;
+  }
+  .agenda-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .agenda-table td { padding:8px 10px; border-bottom:1px solid #f0f2f5; }
+  .agenda-table td:first-child {
+    background:#eef4fc;
+    color:#1a3a6e;
+    font-weight:700;
+    width:80px;
+    text-align:center;
+    border-radius:6px 0 0 6px;
+  }
+
+  .section {
+    background:#fff;
+    border-radius:14px;
+    margin-bottom:30px;
+    overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  }
+  .section-header {
+    background:linear-gradient(135deg,#1a3a6e,#2a5a9e);
+    color:#fff;
+    padding:20px 28px;
+  }
+  .section-header .q-tag {
+    display:inline-block;
+    background:#55baff;
+    color:#0a1a3a;
+    font-size:11px;
+    font-weight:800;
+    padding:4px 12px;
+    border-radius:6px;
+    margin-bottom:8px;
+    letter-spacing:1px;
+  }
+  .section-header h2 { font-size:20px; font-weight:800; }
+  .section-header .why {
+    font-size:12px;
+    color:#a8c8e8;
+    margin-top:6px;
+  }
+  .section-body { padding:28px; }
+
+  .sub-q {
+    background:#f8fafd;
+    border-left:4px solid #55baff;
+    border-radius:0 10px 10px 0;
+    padding:18px 22px;
+    margin-bottom:14px;
+  }
+  .sub-q .label {
+    font-size:11px;
+    color:#2a5a9e;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:4px;
+  }
+  .sub-q .title {
+    font-size:15px;
+    font-weight:700;
+    color:#1a1a2e;
+    margin-bottom:8px;
+  }
+  .sub-q .body { font-size:13.5px; color:#3a3a4a; line-height:1.85; }
+  .sub-q .body strong { color:#1a3a6e; }
+
+  .highlight-box {
+    background:#fff8e6;
+    border:1px solid #f5cf6b;
+    border-radius:10px;
+    padding:14px 18px;
+    margin-top:10px;
+    font-size:13px;
+    color:#7a5a00;
+  }
+  .highlight-box .icon { font-weight:700; margin-right:6px; }
+
+  .ng-list {
+    background:#fff0f0;
+    border-left:4px solid #e74c3c;
+    border-radius:0 10px 10px 0;
+    padding:16px 20px;
+    margin-top:20px;
+    font-size:13px;
+  }
+  .ng-list h4 { color:#c0392b; font-size:14px; margin-bottom:8px; }
+  .ng-list ul { padding-left:18px; color:#5a3a3a; }
+  .ng-list li { margin-bottom:4px; }
+
+  .footer {
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    margin-top:40px;
+    padding:20px;
+  }
+
+  @media print {
+    body { background:#fff; }
+    .section { box-shadow:none; border:1px solid #ddd; page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="hero-tag">CONFIDENTIAL — MEETING MEMO</span>
+  <h1>デロイト米原氏 打ち合わせメモ</h1>
+  <div class="sub">TrustFit事業 — 協業可能性の深掘り論点</div>
+  <div class="meta-row">
+    <div class="meta-item"><span>打ち合わせ日</span>2026年5月23日（金）</div>
+    <div class="meta-item"><span>相手</span>デロイト・米原氏</div>
+    <div class="meta-item"><span>主題</span>プリズムカップ ＆ TrustFit</div>
+    <div class="meta-item"><span>作成</span>株式会社MOON / 荻田</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="summary-card">
+    <h2>本日のゴール</h2>
+    <p>TrustFit事業について「<strong>意思決定そのもの</strong>」を相談するのではなく、デロイトが組織として持っている <strong>① 業界ベンチマーク／② クライアントネットワーク／③ コンサルパッケージ化のノウハウ</strong> を引き出す。3つの論点（Q9・Q12・Q13）に絞り、次回MTGまでに具体的な協業スキームの当たりをつける。</p>
+  </div>
+
+  <div class="agenda-card">
+    <h3>進行（90分想定）</h3>
+    <table class="agenda-table">
+      <tr><td>0:00–0:10</td><td>近況・TrustFit進捗とプリズムカップの位置づけを同期</td></tr>
+      <tr><td>0:10–0:30</td><td><strong>論点①</strong> プリズムカップ → TrustFitリード転換設計（Q9）</td></tr>
+      <tr><td>0:30–0:50</td><td><strong>論点②</strong> デロイトクライアント紹介の可能性（Q12）</td></tr>
+      <tr><td>0:50–1:10</td><td><strong>論点③</strong> デロイト健康経営コンサルとのパッケージ化（Q13）</td></tr>
+      <tr><td>1:10–1:25</td><td>次回MTGに向けた宿題と社内意思決定者の巻き込み段取り</td></tr>
+      <tr><td>1:25–1:30</td><td>関係構築・雑談</td></tr>
+    </table>
+  </div>
+
+  <!-- =========== Q9 =========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="q-tag">論点 ①</span>
+      <h2>プリズムカップ → TrustFitリード転換設計</h2>
+      <div class="why">デロイトのM&S（マーケティング＆セールス）コンサル経験を引き出す。B2B体験型イベントのKPI設計・フォロー設計のベンチマークが欲しい。</div>
+    </div>
+    <div class="section-body">
+
+      <div class="sub-q">
+        <div class="label">9-A｜KPI設計</div>
+        <div class="title">招待企業100社のうち、何社モニター契約に進めば成功か</div>
+        <div class="body">業界ベンチマークでの評価をお願いしたい。一般的にB2Bリード→商談化率は<strong>20-30%</strong>、商談→契約率は<strong>10-20%</strong>と言われるが、<strong>招待制スポーツイベント</strong>だとこの数字はどう変わるか。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">9-B｜招待制の運営設計</div>
+        <div class="title">招待企業の3層化の最適比率</div>
+        <div class="body">①既存クライアント／②既存クライアントの紹介／③冷たいリード — の3層で転換率も必要な仕掛けも全く違う。<strong>どの層を何割で構成すべきか</strong>。経営者層を呼ぶなら「観戦ボックス＋名刺交換会」を別建てにする等、<strong>デロイトが自社イベントで使っているテンプレ</strong>を共有してほしい。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">9-C｜フォローアップ設計（本丸）</div>
+        <div class="title">イベント後14日間で何をやるか</div>
+        <div class="body">B2Bイベントの転換率を決めるのは<strong>当日ではなくイベント後のフォロー</strong>。デロイトはCRM/MAツール導入支援もやっている前提で、<strong>最小限のスタックで何をやるべきか</strong>（メール何通／いつ／誰が／何のCTAで）を具体に。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">9-D｜「定番イベント化」の事例</div>
+        <div class="title">年4回開催を継続できた / できなかった事例の分岐点</div>
+        <div class="body">ロードマップでは「年4回開催の定番イベントに」と置いている。企業フットサル系で<strong>類似座組の成功事例</strong>と、続かなかった事例。継続を阻むのは大抵「主催者の運営疲弊」と「2回目以降の集客力低下」。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">9-E｜スポンサー設計・CAC</div>
+        <div class="title">単体黒字化 vs TrustFitのCACとして赤字許容</div>
+        <div class="body">プリズムカップ単体を黒字化するか、TrustFitの顧客獲得コスト（CAC）として赤字許容するか。<strong>1社獲得CACが¥◯万円までなら投資回収できる</strong>という線をデロイトと一緒に引きたい。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========== Q12 =========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="q-tag">論点 ②</span>
+      <h2>デロイトクライアント紹介の可能性</h2>
+      <div class="why">「お願いベース」では薄い回答になる。<strong>デロイト側に旨味がある座組</strong>を提案する形で聞き出す。</div>
+    </div>
+    <div class="section-body">
+
+      <div class="sub-q">
+        <div class="label">12-A｜COIルールの確認（最優先）</div>
+        <div class="title">紹介できる先・できない先の線引き</div>
+        <div class="body">監査クライアントへの非監査サービス提供は厳しく規制されている。<strong>米原さんが紹介できる先・できない先</strong>を最初の30分で確認しないと、楽しい話が全部「すいません、それは紹介できないんです」で終わる。</div>
+        <div class="highlight-box"><span class="icon">⚡</span>ここを潰さないと残りの議論が空中戦になる。冒頭で必ず確認。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">12-B｜紹介スキームの種類を全部出してもらう</div>
+        <div class="title">濃淡のあるスキームの選択肢</div>
+        <div class="body">米原さん側の引き出しを全部出してもらう：<br>
+        ・個別紹介（米原さん→クライアントへ直接トス）<br>
+        ・デロイトのクライアントイベントでの登壇枠<br>
+        ・デロイトのナレッジレター・ホワイトペーパーへの寄稿<br>
+        ・「健康経営×評価連動」をテーマにした共催セミナー<br>
+        ・デロイト・トーマツ ベンチャーサポート経由の露出<br><br>
+        TrustFitターゲットは<strong>50-200名規模</strong>だが、デロイトのクライアントは大手中心。<strong>「子会社・関連会社・取引先中小企業」への紹介</strong>が現実的か、もしくはTrustFitのターゲット拡張（500名超のエンタープライズ向けプラン設計）まで踏み込むべきか。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">12-C｜紹介フィー / レベニューシェア</div>
+        <div class="title">「ご厚意で紹介してね」は続かない</div>
+        <div class="body">紹介に対する対価を最初に設計する。デロイトが個人としてではなく組織として動くなら、<strong>レベニューシェア</strong>（成約額の◯%を3年）か、<strong>紹介起点プロジェクトでデロイトをコンサル契約に同席させる</strong>か。<strong>業界の相場感</strong>を米原さんから引き出す。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">12-D｜「共同事例」を作る座組</div>
+        <div class="title">パイロット5-10社をデロイト×TrustFitの共同ナレッジに</div>
+        <div class="body">パイロット5-10社を <strong>「デロイト×TrustFit共同事例」</strong> として作り、デロイトのナレッジとして発信する設計。デロイトには事例コンテンツが資産になり、TrustFitには権威と実弾の両方が入る。<strong>事例化に向けた最小要件</strong>（成果指標、データ収集、開示範囲）を詰める。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">12-E｜デロイト側の意思決定者</div>
+        <div class="title">米原さんの上司・パートナー級を次回に呼べるか</div>
+        <div class="body">米原さん個人が動いてくれるのか、<strong>部門としてTrustFitを「協業先候補」として承認するプロセス</strong>があるのか。後者なら次回MTGに上司・パートナー級を呼んでもらう必要がある。</div>
+        <div class="highlight-box"><span class="icon">🎯</span>必ず最後に聞く：「<strong>このコラボを社内で前に進めるには、次は誰と話せばいいですか</strong>」</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========== Q13 =========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="q-tag">論点 ③</span>
+      <h2>デロイト健康経営コンサル × TrustFit パッケージ化</h2>
+      <div class="why">本日の最大価値ゾーン。デロイトのコンサルフィー（数百万〜数千万）にTrustFitがアドオン実行部隊として組み込まれれば、桁が変わる。</div>
+    </div>
+    <div class="section-body">
+
+      <div class="sub-q">
+        <div class="label">13-A｜デロイトの既存メニューの棚卸し</div>
+        <div class="title">TrustFitと組ませると顧客提案価値が跳ね上がるサービスはどれか</div>
+        <div class="body">まず米原さん側のメニューを全部出してもらう：<br>
+        ・健康経営優良法人認定の取得支援<br>
+        ・人的資本開示（ISO30414、有報の人的資本開示義務）の指標設計<br>
+        ・ウェルビーイング調査・組織サーベイ<br>
+        ・人事制度設計、研修体系設計<br><br>
+        このうち<strong>どれと組ませると一番大きな提案になるか</strong>を米原さんに選んでもらう。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">13-B｜4種類の協業パッケージ案</div>
+        <div class="title">こちらから仮説を出して、米原さんに仕分けてもらう</div>
+        <div class="body">
+        <strong>A案：紹介＋実行（軽い連携）</strong><br>
+        デロイトが認定コンサル受注→実行フェーズでTrustFitを紹介<br><br>
+        <strong>B案：パッケージ提案（中程度）</strong><br>
+        デロイトとTrustFitが共同提案書を作り、最初からセット販売<br><br>
+        <strong>C案：ホワイトラベル（重い連携）</strong><br>
+        TrustFitのプラットフォームをデロイトブランドで提供<br><br>
+        <strong>D案：データ連携（戦略的）</strong><br>
+        TrustFitの評価データを人的資本開示の指標として活用、KPIダッシュボードをデロイトが提供
+        </div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">13-C｜価格・収益分配の設計</div>
+        <div class="title">コンサルフィーとプラットフォームフィーの切り分け</div>
+        <div class="body">デロイト案件は<strong>前金型</strong>、TrustFitは<strong>ウォレット消費型</strong>で会計サイクルが違う。<strong>請求一本化するなら誰が元請けになるか</strong>まで具体に。</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">13-D｜「データの価値」を引き出す</div>
+        <div class="title">TrustFitのデータを意思決定支援データへ格上げ</div>
+        <div class="body">TrustFitが蓄積する<strong>50点満点の双方評価データ・組織コンディショニングカルテ・継続利用データ</strong>は、デロイトの人的資本コンサルから見ると<strong>喉から手が出るほど欲しいデータ</strong>になり得る。「単なる実行データ」ではなく<strong>「意思決定支援データ」</strong>として位置づけ直す。<br><br>
+        具体的に：<br>
+        ・TrustFitの評価データを匿名化・統合した<strong>ベンチマークレポートをデロイトと共同発行</strong><br>
+        ・業界別・企業規模別の<strong>「組織コンディションスコア」を業界標準指標化</strong>する野望</div>
+      </div>
+
+      <div class="sub-q">
+        <div class="label">13-E｜競合・バッティング確認</div>
+        <div class="title">デロイトが既に提携している類似スタートアップ</div>
+        <div class="body">あるなら米原さんの口から先に出してもらわないと、後から「実はこの会社と先に動いていて……」となる。<strong>バッティングしないか、棲み分けできるか</strong>を早めに確認。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========== NG・原則 =========== -->
+  <div class="ng-list">
+    <h4>⚠️ 打ち合わせNG・原則</h4>
+    <ul>
+      <li><strong>事業意思決定そのものは相談しない</strong>。ポイント設計や評価方式は完成済み。聞くのは「自分で検証できないリスク」と「データ」だけ</li>
+      <li><strong>「相談」モードに入らない</strong>。「協業パートナーを探している」という対等な前提で進める</li>
+      <li><strong>次回MTGの宿題と意思決定者の巻き込み</strong>を必ず合意して終わる。一度きりの相談で終わらせない</li>
+      <li><strong>COI（利益相反）確認は冒頭で必ず</strong>。後で空中戦になるのを防ぐ</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    打ち合わせメモ｜TrustFit × デロイト協業可能性検討<br>
+    株式会社MOON｜2026-05-22 作成
+  </div>
+
+</div>
+
+</body>
+</html>

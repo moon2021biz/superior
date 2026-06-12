@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit｜三者分析 × 戦略提案</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2F4A;
+    --navy-light: #243B55;
+    --teal: #1B8A8A;
+    --teal-light: #2ABABA;
+    --white: #FFFFFF;
+    --gray-light: #F5F7FA;
+    --gray: #8A9BB0;
+    --red: #E05A4B;
+    --green: #3DA87B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    line-height: 1.7;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0D1B2A 0%, #1A3050 50%, #0D2840 100%);
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto 30px;
+  }
+  .hero-concept {
+    display: inline-flex;
+    gap: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .concept-item {
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .concept-item:nth-child(1) { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .concept-item:nth-child(2) { background: rgba(255,255,255,0.05); color: var(--white); font-size: 18px; padding: 14px 20px; }
+  .concept-item:nth-child(3) { background: rgba(45,186,186,0.15); color: var(--teal-light); }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .section-desc {
+    color: var(--gray);
+    font-size: 15px;
+    margin-bottom: 40px;
+  }
+
+  /* ── PARTY CARDS ── */
+  .parties-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+  @media(max-width:900px) { .parties-grid { grid-template-columns: 1fr; } }
+
+  .party-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .party-header {
+    padding: 24px 24px 16px;
+  }
+  .party-icon { font-size: 32px; margin-bottom: 8px; }
+  .party-title { font-size: 11px; letter-spacing: 2px; opacity: 0.7; margin-bottom: 4px; }
+  .party-name { font-size: 22px; font-weight: 800; }
+  .party-role { font-size: 12px; opacity: 0.6; margin-top: 4px; }
+
+  .card-moon .party-header { background: linear-gradient(135deg, #2A1F00 0%, #1A1500 100%); }
+  .card-moon .party-name { color: var(--gold); }
+  .card-tob .party-header { background: linear-gradient(135deg, #001A3A 0%, #000F24 100%); }
+  .card-tob .party-name { color: #6BB5FF; }
+  .card-trainer .party-header { background: linear-gradient(135deg, #00251A 0%, #001510 100%); }
+  .card-trainer .party-name { color: var(--teal-light); }
+
+  .party-body {
+    background: rgba(255,255,255,0.03);
+    padding: 0;
+  }
+
+  .list-section {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .list-section:last-child { border-bottom: none; }
+  .list-section-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .list-section-title.pain { color: #FF8080; }
+  .list-section-title.gain { color: #80FF80; }
+  .list-section-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .pain .dot { background: var(--red); }
+  .gain .dot { background: var(--green); }
+
+  .mini-list { list-style: none; }
+  .mini-list li {
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+    color: rgba(255,255,255,0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .mini-list li:last-child { border-bottom: none; }
+  .mini-list.pain li::before { content: '▲'; position: absolute; left: 0; color: var(--red); font-size: 9px; top: 7px; }
+  .mini-list.gain li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 10px; top: 5px; }
+
+  /* ── VALUE CHAIN ── */
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 0; }
+
+  .chain-section {
+    background: linear-gradient(180deg, rgba(201,168,76,0.03) 0%, transparent 100%);
+    padding: 60px 24px;
+  }
+  .chain-wrap { max-width: 1100px; margin: 0 auto; }
+
+  .chain-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-top: 40px;
+  }
+  @media(max-width:800px) {
+    .chain-grid { grid-template-columns: 1fr; }
+    .chain-arrow { transform: rotate(90deg); }
+  }
+
+  .chain-box {
+    border-radius: 14px;
+    padding: 24px 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+  .chain-box-moon { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); border-color: rgba(201,168,76,0.3); }
+  .chain-box-tob { background: linear-gradient(135deg, rgba(107,181,255,0.1), rgba(107,181,255,0.03)); border-color: rgba(107,181,255,0.3); }
+  .chain-box-trainer { background: linear-gradient(135deg, rgba(42,186,186,0.1), rgba(42,186,186,0.03)); border-color: rgba(42,186,186,0.3); }
+
+  .chain-box-label { font-size: 10px; letter-spacing: 2px; opacity: 0.6; margin-bottom: 6px; }
+  .chain-box-title { font-size: 16px; font-weight: 800; margin-bottom: 12px; }
+  .chain-box-moon .chain-box-title { color: var(--gold); }
+  .chain-box-tob .chain-box-title { color: #6BB5FF; }
+  .chain-box-trainer .chain-box-title { color: var(--teal-light); }
+
+  .chain-point {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    padding: 6px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    text-align: left;
+  }
+  .chain-point:first-of-type { margin-top: 8px; }
+
+  .chain-arrow {
+    font-size: 28px;
+    color: var(--gold);
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  /* ── STRATEGIC INSIGHTS ── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  @media(max-width:700px) { .insights-grid { grid-template-columns: 1fr; } }
+
+  .insight-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+  }
+  .insight-card.gold::before { background: var(--gold); }
+  .insight-card.blue::before { background: #6BB5FF; }
+  .insight-card.teal::before { background: var(--teal-light); }
+  .insight-card.red::before { background: #FF8080; }
+
+  .insight-number {
+    font-size: 48px;
+    font-weight: 900;
+    opacity: 0.06;
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    line-height: 1;
+  }
+  .insight-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .insight-card.blue .insight-tag { color: #6BB5FF; }
+  .insight-card.teal .insight-tag { color: var(--teal-light); }
+  .insight-card.red .insight-tag { color: #FF8080; }
+
+  .insight-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
+  .insight-body { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.8; }
+  .insight-highlight {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+  .insight-card.blue .insight-highlight { background: rgba(107,181,255,0.15); color: #6BB5FF; }
+  .insight-card.teal .insight-highlight { background: rgba(42,186,186,0.15); color: var(--teal-light); }
+  .insight-card.red .insight-highlight { background: rgba(255,128,128,0.15); color: #FF8080; }
+
+  /* ── PRIORITY TABLE ── */
+  .priority-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 13px;
+  }
+  .priority-table th {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .priority-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.85);
+    vertical-align: top;
+  }
+  .priority-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .badge-high { background: rgba(224,90,75,0.2); color: #FF8080; }
+  .badge-mid { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .badge-pattern { background: rgba(42,186,186,0.2); color: var(--teal-light); font-size: 10px; }
+
+  /* ── WIN WIN WIN ── */
+  .winwin {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(42,186,186,0.05));
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .winwin-title { font-size: 24px; font-weight: 900; margin-bottom: 24px; }
+  .winwin-title span { color: var(--gold); }
+  .winwin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+  @media(max-width:700px) { .winwin-grid { grid-template-columns: 1fr; } }
+  .winwin-item { }
+  .winwin-who { font-size: 11px; letter-spacing: 2px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .winwin-item:nth-child(2) .winwin-who { color: #6BB5FF; }
+  .winwin-item:nth-child(3) .winwin-who { color: var(--teal-light); }
+  .winwin-value { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .winwin-detail { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* ── NEXT ACTION ── */
+  .next-section {
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 60px 24px;
+  }
+  .next-wrap { max-width: 1100px; margin: 0 auto; }
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  @media(max-width:700px) { .next-grid { grid-template-columns: 1fr; } }
+  .next-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .next-num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .next-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .next-body { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">TrustFit — Strategic Analysis</div>
+  <h1>三者の課題と価値を<br><span>一気通貫で解決する</span>設計</h1>
+  <p class="hero-sub">MOON × 企業（toB）× トレーナー。3者それぞれの課題を深掘りし、TrustFitが唯一解となる根拠を整理する。</p>
+  <div class="hero-concept">
+    <div class="concept-item">一流が来る</div>
+    <div class="concept-item">×</div>
+    <div class="concept-item">成果の分だけ払う</div>
+  </div>
+</div>
+
+<!-- THREE PARTIES -->
+<div class="section">
+  <div class="section-label">01 — Party Analysis</div>
+  <div class="section-title">3者の課題とメリット</div>
+  <p class="section-desc">各ステークホルダーが抱える「本音の課題」と、TrustFitによって得られる「具体的な価値」を整理。</p>
+
+  <div class="parties-grid">
+
+    <!-- MOON -->
+    <div class="party-card card-moon">
+      <div class="party-header">
+        <div class="party-icon">🏆</div>
+        <div class="party-title">PLATFORM OWNER & VIP TRAINER</div>
+        <div class="party-name">MOON</div>
+        <div class="party-role">オリンピアン・株式会社MOON代表 / VIP Legendクラス</div>
+      </div>
+      <div class="party-body">
+        <div class="list-section">
+          <div class="list-section-title pain"><span class="dot"></span>課題 — 5つの壁</div>
+          <ul class="mini-list pain">
+            <li>オリンピアン実績を法人市場に届ける営業経路がない</li>
+            <li>個人稼働に上限があり収益スケールが困難</li>
+            <li>プラットフォームの認知ゼロからの信頼構築コスト</li>
+            <li>若手トレーナーの質管理・育成負担</li>
+            <li>初期開発・運営コストの回収スピードが不確実</li>
+          </ul>
+        </div>
+        <div class="list-section">
+          <div class="list-section-title gain"><span class="dot"></span>メリット — 5つの武器</div>
+          <ul class="mini-list gain">
+            <li>Legendクラス単価 最大300,000pt/回 × セッション設計で高収益化</li>
+            <li>手数料収入（15〜25%）で企業数に比例してスケール</li>
+            <li>CARAS・健康経営PJの既存顧客を法人にスライド転換できる</li>
+            <li>オリンピアン実績がプラットフォームの差別化「看板」になる</li>
+            <li>VIP単発→若手引き継ぎ設計で継続収益が自動化される</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- toB -->
+    <div class="party-card card-tob">
+      <div class="party-header">
+        <div class="party-icon">🏢</div>
+        <div class="party-title">CLIENT — CORPORATE</div>
+        <div class="party-name">企業（toB）</div>
+        <div class="party-role">社員50〜200名 / IT・製造・中堅企業</div>
+      </div>
+      <div class="party-body">
+        <div class="list-section">
+          <div class="list-section-title pain"><span class="dot"></span>課題 — 5つの壁</div>
+          <ul class="mini-list pain">
+            <li>福利厚生への投資対効果が不明確で稟議が通らない</li>
+            <li>健康経営優良法人の認定取得・維持の方法が分からない</li>
+            <li>外部トレーナーの質にばらつきがあり信頼できない</li>
+            <li>社員の健康意識が上がらず研修が形骸化する</li>
+            <li>一流アスリートとの体験機会が採用PRに使えると分かっていても手段がない</li>
+          </ul>
+        </div>
+        <div class="list-section">
+          <div class="list-section-title gain"><span class="dot"></span>メリット — 5つの武器</div>
+          <ul class="mini-list gain">
+            <li>評価した分だけ払う成果報酬型 → 無駄な投資がゼロになる</li>
+            <li>VIPアスリートの社内訪問体験 → 採用PR・エンゲージメントに直結</li>
+            <li>健康経営優良法人認定サポートで「投資」が「認定実績」に変換される</li>
+            <li>ポイント買い切り方式で変動費→確定費として経理処理しやすい</li>
+            <li>初回モニター10倍特典（1万円→10万pt）で低リスクで大きな体験が得られる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAINER -->
+    <div class="party-card card-trainer">
+      <div class="party-header">
+        <div class="party-icon">💪</div>
+        <div class="party-title">SUPPLY SIDE — TRAINER</div>
+        <div class="party-name">トレーナー</div>
+        <div class="party-role">フリーランス・元アスリート / スタンダード〜Legend</div>
+      </div>
+      <div class="party-body">
+        <div class="list-section">
+          <div class="list-section-title pain"><span class="dot"></span>課題 — 5つの壁</div>
+          <ul class="mini-list pain">
+            <li>法人営業のノウハウ・接点がなく個人依存から抜け出せない</li>
+            <li>実力・実績を数値で可視化する場がなく適正単価が分からない</li>
+            <li>収入が不安定で法人案件でも単価を足元で見られやすい</li>
+            <li>競技引退後のキャリア移行先が業界内に確立されていない</li>
+            <li>法人・オフィス環境での指導実績が積みにくい</li>
+          </ul>
+        </div>
+        <div class="list-section">
+          <div class="list-section-title gain"><span class="dot"></span>メリット — 5つの武器</div>
+          <ul class="mini-list gain">
+            <li>営業不要でプラットフォームが法人案件を集客してくれる</li>
+            <li>50点満点の評価スコアで実力が可視化 → ランクアップで報酬上限が上がる</li>
+            <li>スタンダード→Elite→Master→Legendの明確な昇格ロードマップで目標設定できる</li>
+            <li>元アスリートはスカウト枠でEliteスタート → 競技実績が初期信頼になる</li>
+            <li>VIP単発後の継続案件（バックエンド）で安定した月次収入が得られる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- VALUE CHAIN -->
+<div class="chain-section">
+  <div class="chain-wrap">
+    <div class="section-label">02 — Value Chain</div>
+    <div class="section-title">TrustFitが生む「連鎖する価値」</div>
+    <p class="section-desc">3者の課題とメリットは孤立していない。TrustFitはこの連鎖を設計した唯一のプラットフォームである。</p>
+
+    <div class="chain-grid">
+      <div class="chain-box chain-box-moon">
+        <div class="chain-box-label">PLATFORM OWNER & VIP</div>
+        <div class="chain-box-title">MOON</div>
+        <div class="chain-point">🏆 実績・ストーリーが「看板」になる</div>
+        <div class="chain-point">💰 高単価セッション＋手数料のW収入</div>
+        <div class="chain-point">🔄 既存顧客から法人顧客へ自然転換</div>
+        <div class="chain-point">🤝 若手育成がプラットフォームの厚みに</div>
+      </div>
+
+      <div class="chain-arrow">⇄</div>
+
+      <div class="chain-box chain-box-tob">
+        <div class="chain-box-label">CORPORATE CLIENT</div>
+        <div class="chain-box-title">企業（toB）</div>
+        <div class="chain-point">✅ 払う価値がある時だけ払う安心感</div>
+        <div class="chain-point">🎯 VIP体験が社内の話題・採用PRに</div>
+        <div class="chain-point">📊 健康経営認定 → 投資の「見える化」</div>
+        <div class="chain-point">🔁 ウォレット燃焼で高評価する動機が生まれる</div>
+      </div>
+
+      <div class="chain-arrow">⇄</div>
+
+      <div class="chain-box chain-box-trainer">
+        <div class="chain-box-label">TRAINER SUPPLY</div>
+        <div class="chain-box-title">トレーナー</div>
+        <div class="chain-point">🚀 営業ゼロで法人案件が届く</div>
+        <div class="chain-point">📈 評価スコアが報酬上限を上げる仕組み</div>
+        <div class="chain-point">🏅 競技実績がスカウトEliteとして活きる</div>
+        <div class="chain-point">🔒 VIP引き継ぎで継続収入が安定する</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- STRATEGIC INSIGHTS -->
+<div class="section">
+  <div class="section-label">03 — Strategic Insights</div>
+  <div class="section-title">さらに踏み込んだ戦略提案</div>
+  <p class="section-desc">3者分析を深掘りすると見えてくる、TrustFit固有の「打ち手」。</p>
+
+  <div class="insights-grid">
+
+    <div class="insight-card gold">
+      <div class="insight-number">01</div>
+      <div class="insight-tag">SALES TRIGGER</div>
+      <div class="insight-title">稟議を通す「魔法の言葉」は<br>「健康経営認定 × 採用PR」</div>
+      <div class="insight-body">企業の最大課題は「投資対効果が見えない」こと。TrustFitは「健康経営優良法人の認定実績」と「採用に使えるVIPアスリート訪問コンテンツ」という2つの有形アウトプットを提供できる。これにより総務・人事部長が社内稟議を通しやすくなる。コンテンツメニュー表では必ず「認定サポート対応可」「採用PR動画連携可」を明記する。</div>
+      <span class="insight-highlight">→ パターンCが最優先商材である理由</span>
+    </div>
+
+    <div class="insight-card blue">
+      <div class="insight-number">02</div>
+      <div class="insight-tag">REVENUE DESIGN</div>
+      <div class="insight-title">VIP単発は「集客フロント」<br>本命は若手トレーナーの継続収入</div>
+      <div class="insight-body">MOONさんがLegendクラスで1セッション300,000ptを稼ぐより、そのセッション後に引き継いだ若手トレーナーが月50,000pt×12社で動いた方がプラットフォーム全体収益は大きい。VIP体験は「体験を売る」のではなく「継続課金を生む入口」として設計する。コンテンツメニューの「VIP後の継続プログラム」欄を必ず作ること。</div>
+      <span class="insight-highlight">→ 年間1社あたり67万円の収益モデルの根拠</span>
+    </div>
+
+    <div class="insight-card teal">
+      <div class="insight-number">03</div>
+      <div class="insight-tag">TRAINER RETENTION</div>
+      <div class="insight-title">トレーナーへの「昇格ロードマップ」が<br>プラットフォームの質担保になる</div>
+      <div class="insight-body">スタンダード（手数料25%）→Elite→Master→Legend（15%）の段階的な昇格設計は、トレーナーに「頑張るほど得をする」体験を与える。これは同時に企業側には「ランクが上のトレーナーほどプラットフォームが品質保証している」という信頼になる。トレーナーのキャリアとプラットフォームの品質を一体化した唯一の設計。</div>
+      <span class="insight-highlight">→ 元アスリートの引退後キャリア市場を独占できる</span>
+    </div>
+
+    <div class="insight-card red">
+      <div class="insight-number">04</div>
+      <div class="insight-tag">MARKET POSITIONING</div>
+      <div class="insight-title">競合が存在しない象限<br>「プレミアム × 完全成果報酬」</div>
+      <div class="insight-body">既存の法人向けフィットネスサービスは「月額定額制で質が不均一」か「高額固定費で効果不明」のどちらか。TrustFitは「VIP品質保証 × 評価した分だけ払う」という完全に新しい象限を占める。この市場ポジションはコピーが難しく、参入障壁はMOONさんの実績ブランドとトレーナーネットワークの厚みにある。先行者優位を今すぐ確立すべき。</div>
+      <span class="insight-highlight">→ 初回モニター10社獲得がブルーオーシャン防衛の鍵</span>
+    </div>
+
+  </div>
+
+  <!-- PRIORITY TABLE -->
+  <div class="section-label" style="margin-top:50px; margin-bottom:8px;">04 — Priority Matrix</div>
+  <div class="section-title" style="margin-bottom:8px;">MOONさんにとっての最優先コンテンツ順位</div>
+  <p class="section-desc">3者の課題×メリットから逆算した、コンテンツメニューの優先順位。</p>
+
+  <table class="priority-table">
+    <tr>
+      <th>#</th>
+      <th>コンテンツ</th>
+      <th>解決する企業課題</th>
+      <th>優先度</th>
+      <th>推奨パターン</th>
+      <th>MOON収益レンジ</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><strong>健康経営優良法人 認定支援研修</strong></td>
+      <td>稟議・認定取得・投資対効果の可視化</td>
+      <td><span class="badge badge-high">🔴 最高</span></td>
+      <td><span class="badge badge-pattern">C：経営陣特化</span></td>
+      <td>100,000〜300,000pt/回</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>ストーリーテリング型講演<br>（限界突破・オリンピアン体験談）</strong></td>
+      <td>採用PR・社員エンゲージメント・VIP体験</td>
+      <td><span class="badge badge-high">🔴 最高</span></td>
+      <td><span class="badge badge-pattern">C：経営陣特化</span></td>
+      <td>100,000〜300,000pt/回</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>メンタルコーチング・目標設定セッション</strong></td>
+      <td>経営陣・役員のパフォーマンスチューニング</td>
+      <td><span class="badge badge-mid">🟡 高</span></td>
+      <td><span class="badge badge-pattern">A：オフィス特化</span></td>
+      <td>50,000〜150,000pt/回</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>健康ストレッチ・トレーニング指導</strong></td>
+      <td>社員健康意識向上・継続的な体の変化</td>
+      <td><span class="badge badge-mid">🟡 高</span></td>
+      <td><span class="badge badge-pattern">A/B：全社対応</span></td>
+      <td>30,000〜100,000pt/回</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>保護者・ファミリー向けプログラム<br>（企業内キッズスクール連携）</strong></td>
+      <td>福利厚生の差別化・採用ブランディング</td>
+      <td><span class="badge badge-mid">🟡 中</span></td>
+      <td><span class="badge badge-pattern">B：ファミリー特化</span></td>
+      <td>30,000〜50,000pt/回</td>
+    </tr>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- WIN-WIN-WIN -->
+<div class="section" style="padding-top: 20px;">
+  <div class="winwin">
+    <div class="winwin-title">TrustFitが実現する <span>Win³</span> 構造</div>
+    <div class="winwin-grid">
+      <div class="winwin-item">
+        <div class="winwin-who">🏆 MOON WIN</div>
+        <div class="winwin-value">高単価 × スケール × 既存資産の法人転換</div>
+        <div class="winwin-detail">CARAS・健康経営PJで積み上げた信頼とノウハウを、TrustFitという「仕組み」に乗せることで個人の稼働時間を超えた収益を生む。オリンピアンである実績が最大の参入障壁になる。</div>
+      </div>
+      <div class="winwin-item">
+        <div class="winwin-who">🏢 toB WIN</div>
+        <div class="winwin-value">投資の「無駄ゼロ化」と「見える化」</div>
+        <div class="winwin-detail">「良かった時だけ払う」成果報酬設計で経営者の最大不安を取り除く。VIPアスリートとの体験という「語れるコンテンツ」を福利厚生に加えることで採用競争力まで上がる。</div>
+      </div>
+      <div class="winwin-item">
+        <div class="winwin-who">💪 TRAINER WIN</div>
+        <div class="winwin-value">営業ゼロ × スコアで収入が上がる仕組み</div>
+        <div class="winwin-detail">競技を終えた元アスリートが「競技実績」というバックグラウンドをそのまま法人市場での信頼に変換できる唯一のプラットフォーム。頑張るほど昇格し報酬上限が上がる明確なルール。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- NEXT ACTIONS -->
+<div class="next-section">
+  <div class="next-wrap">
+    <div class="section-label">05 — Next Actions</div>
+    <div class="section-title">この分析を受けて、次にすること</div>
+    <p class="section-desc">3者分析から逆算した、TrustFitの最優先アクション3つ。</p>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <div class="next-num">01</div>
+        <div class="next-title">MOONさんのコンテンツメニュー表作成</div>
+        <div class="next-body">優先順位１〜５のコンテンツを「企業が発注しやすい形」に整理。各コンテンツに「解決できる課題」「推奨パターン」「報酬レンジ」を明記する。</div>
+      </div>
+      <div class="next-card">
+        <div class="next-num">02</div>
+        <div class="next-title">1枚モノ提案書（モニター企業向け）</div>
+        <div class="next-body">「健康経営認定 × VIPアスリート体験 × 成果報酬」の3つのキーワードで稟議が通る提案書。パターンCの経営陣特化型を最優先に設計。</div>
+      </div>
+      <div class="next-card">
+        <div class="next-num">03</div>
+        <div class="next-title">正式プロジェクト名の決定</div>
+        <div class="next-body">TrustFit（仮称）からブランド名を確定。コピー「一流が来る。成果の分だけ払う。」とセットで検討。名前が決まればLP・提案書・SNS展開が一気に進む。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  TrustFit — Three-Party Strategic Analysis｜2026-04-05｜株式会社MOON
+</div>
+
+</body>
+</html>

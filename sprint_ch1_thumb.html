@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>サムネイル | Chapter 1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px;
+    height: 670px;
+    overflow: hidden;
+    background: #0d0d0d;
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    color: #fff;
+  }
+
+  .canvas {
+    width: 1280px;
+    height: 670px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* 背景グリッド */
+  .canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 左カラム（テキスト） */
+  .left {
+    flex: 0 0 780px;
+    padding: 60px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ゴールド縦ライン（左端） */
+  .left::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: #c9a84c;
+  }
+
+  .series-tag {
+    display: inline-block;
+    border: 1.5px solid #c9a84c;
+    color: #c9a84c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    padding: 5px 14px;
+    border-radius: 3px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  .main-title {
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.42;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    color: #fff;
+  }
+  .main-title em {
+    font-style: normal;
+    color: #c9a84c;
+  }
+
+  .sub-title {
+    font-size: 15px;
+    color: rgba(255,255,255,0.50);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .byline {
+    font-size: 13px;
+    color: rgba(255,255,255,0.30);
+    letter-spacing: 0.06em;
+  }
+
+  /* 右カラム（データ） */
+  .right {
+    flex: 0 0 500px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+    border-left: 1px solid rgba(255,255,255,0.07);
+    z-index: 10;
+  }
+
+  /* 背景ビッグナンバー（右カラム内に閉じ込める） */
+  .big-bg {
+    position: absolute;
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.07);
+    letter-spacing: -0.06em;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* データバッジ */
+  .data-box {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .data-step {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .data-value {
+    font-size: 86px;
+    font-weight: 900;
+    color: #c9a84c;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .data-unit {
+    font-size: 18px;
+    color: rgba(201,168,76,0.7);
+    margin-top: 8px;
+    font-weight: 700;
+  }
+
+  .data-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.30);
+    margin-top: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  /* 区切り線 */
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(201,168,76,0.4);
+    margin: 20px auto;
+  }
+
+  /* データ小 */
+  .data-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.40);
+    text-align: center;
+    line-height: 2.0;
+    position: relative;
+    z-index: 2;
+  }
+  .data-sub span {
+    color: rgba(201,168,76,0.8);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <!-- 左：テキスト -->
+  <div class="left">
+    <div class="series-tag">Chapter 1 / 4 &nbsp;·&nbsp; Sprint Biomechanics</div>
+    <h1 class="main-title">
+      「<em>文脈</em>」を外した指導が、<br>
+      現場に誤解を生んでいる。
+    </h1>
+    <p class="sub-title">
+      同じ動作でも、局面が変われば意味は逆転する<br>
+      —— スタート局面のバイオメカニクス解説
+    </p>
+    <p class="byline">おぎぃ。｜元五輪選手・スプリントバイオメカニクス解説者</p>
+  </div>
+
+  <!-- 右：データ -->
+  <div class="right">
+    <div class="big-bg">−0.15</div>
+
+    <div class="data-box">
+      <div class="data-step">第1歩目 接地距離（TDD）</div>
+      <div class="data-value">−0.15m</div>
+      <div class="data-unit">後方接地</div>
+      <div class="data-label">Bezodis et al. 2023</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="data-sub">
+      第2歩目 <span>−0.05m</span><br>
+      第3歩目 <span>+0.02m</span><br>
+      第4歩目 <span>+0.07m</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

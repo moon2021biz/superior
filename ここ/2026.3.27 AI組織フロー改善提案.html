@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI組織フロー 改善提案 v2 — 厳選5点</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card2: #20253a;
+      --border: #2a2f45;
+      --accent1: #6c63ff;
+      --accent2: #00d4aa;
+      --accent3: #ff6584;
+      --accent4: #ffd166;
+      --accent5: #4fc3f7;
+      --text: #e8eaf0;
+      --muted: #8892a4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Koshi Gothic Pro', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 0 0 80px;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #12162b 0%, #1a1040 50%, #0d1a2e 100%);
+      padding: 60px 40px 50px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(108,99,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.2);
+      border: 1px solid rgba(108,99,255,0.4);
+      color: #a89eff;
+      font-size: 11px;
+      letter-spacing: 2px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hero h1 span { color: var(--accent1); }
+    .hero p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 560px;
+      margin: 0 auto 24px;
+    }
+    .meta-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .meta-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .meta-chip b { color: var(--text); }
+
+    /* Layout */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    /* Context box */
+    .context-box {
+      margin: 40px auto;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+    .context-inner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent1);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .context-inner b { color: var(--text); }
+
+    /* Section header */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 48px 0 24px;
+    }
+    .section-head .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-head span {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Improvement card */
+    .improve-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .improve-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-color);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-num {
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent-color);
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .card-title-area {
+      padding: 16px 20px;
+      flex: 1;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card-title em {
+      font-style: normal;
+      color: var(--accent-color);
+    }
+
+    .card-body {
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 640px) {
+      .card-body { grid-template-columns: 1fr; }
+    }
+
+    .card-section-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .problem-block {
+      background: rgba(255,101,132,0.06);
+      border: 1px solid rgba(255,101,132,0.15);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .solution-block {
+      background: rgba(0,212,170,0.06);
+      border: 1px solid rgba(0,212,170,0.15);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .block-text {
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .card-impl {
+      padding: 0 24px 22px;
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+    }
+    .card-impl-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 14px 0 10px;
+    }
+    .impl-code {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #a8d8a8;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .impact-row {
+      display: flex;
+      gap: 10px;
+      padding: 0 24px 22px;
+      flex-wrap: wrap;
+    }
+    .impact-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .impact-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-color);
+    }
+
+    /* Colors per card */
+    .c1 { --accent-color: #6c63ff; }
+    .c2 { --accent-color: #00d4aa; }
+    .c3 { --accent-color: #ffd166; }
+    .c4 { --accent-color: #ff6584; }
+    .c5 { --accent-color: #4fc3f7; }
+
+    /* Summary table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    .summary-table th {
+      background: rgba(255,255,255,0.04);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+    .summary-table tr:last-child td { border-bottom: none; }
+    .priority-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .p-high { background: rgba(255,101,132,0.2); color: #ff6584; }
+    .p-mid  { background: rgba(255,209,102,0.2); color: #ffd166; }
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-note span { color: var(--accent1); }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">AI組織 改善レポート v2</div>
+  <h1>組織フロー <span>厳選改善5点</span></h1>
+  <p>既存の改善（GOODパターン・代行モード・バックアップ・競合解消）を踏まえた上で、まだ手が届いていない構造的ギャップを厳選</p>
+  <div class="meta-row">
+    <div class="meta-chip">📅 <b>2026-03-27</b></div>
+    <div class="meta-chip">🔍 対象: <b>CLAUDE.md 全体</b></div>
+    <div class="meta-chip">✅ 既実装: <b>8件</b></div>
+    <div class="meta-chip">🎯 新規提案: <b>5件</b></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Context -->
+  <div class="context-box" style="padding:0; max-width:none;">
+    <div class="context-inner">
+      <b>📌 前回までの改善サマリー（実装済み）</b><br>
+      GOODパターン蓄積ループ / 過適合防止（実験枠・6ヶ月有効期限）/ 代行モード / CONTEXT.mdバックアップ（7世代）/ 異常値±50%バリデーション / スケジュールタスク時刻競合解消 / ディベートログ保存 / シナジーチャンス自動検知 — 以上8件を実装完了。今回は<b>まだ手が届いていない構造的ギャップ</b>に絞って5点を提案する。
+    </div>
+  </div>
+
+  <!-- Section -->
+  <div class="section-head">
+    <div class="line"></div>
+    <span>改善提案 — 5 Points</span>
+    <div class="line"></div>
+  </div>
+
+  <!-- Card 1 -->
+  <div class="improve-card c1">
+    <div class="card-header">
+      <div class="card-num">01</div>
+      <div class="card-title-area">
+        <div class="card-tag">継続性 / 引き継ぎ</div>
+        <div class="card-title">セッション<em>終了ログ</em>の仕組みがない</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-section-label">🔴 現在の課題</div>
+        <div class="problem-block">
+          <div class="block-text">
+            セッションが終わると「何をやったか」が消える。次のセッションはCONTEXT.mdを読み直すが、直前の作業の途中状態・承認待ちタスク・判断の経緯が引き継がれず、最初から確認し直すロスが発生している。実際に今回のセッションでも「再開して」という指示が必要だった。
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-section-label">✅ 改善案</div>
+        <div class="solution-block">
+          <div class="block-text">
+            セッション終了時に<b>「作業ハンドオフメモ」</b>を自動生成してCONTEXT.mdに書き込むルールを追加する。内容は①完了タスク、②中断中タスク（どこまでやったか）、③MOONさんの承認待ちアイテム、④次のセッションで最初にすべきこと。これにより次のセッションが即座に文脈を把握できる。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-impl">
+      <div class="card-impl-label">実装イメージ（CLAUDE.mdに追記）</div>
+      <div class="impl-code">## セッション終了ハンドオフルール（新設）
+セッションを終了する前、または長いタスクの区切りに以下を実行：
+
+【ハンドオフメモ フォーマット】
+# ハンドオフ｜[日付] [時刻]
+## ✅ 完了タスク: [箇条書き]
+## ⏸ 中断タスク: [タスク名] / [どこまで完了か] / [次のステップ]
+## 📥 承認待ち: [タスク名] / [内容1行] / [ファイルパス]
+## 🎯 次セッション最初の推奨アクション: [1行]
+
+保存先: 該当PJの CONTEXT.md 末尾「作業ハンドオフ」セクション
+→ 次セッションのAUTO-STARTで自動読み込み・ブリーフィングに反映</div>
+    </div>
+    <div class="impact-row">
+      <div class="impact-chip"><div class="dot"></div>コンテキスト断絶ゼロ化</div>
+      <div class="impact-chip"><div class="dot"></div>「再開して」指示が不要に</div>
+      <div class="impact-chip"><div class="dot"></div>承認待ちの取りこぼし防止</div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="improve-card c2">
+    <div class="card-header">
+      <div class="card-num">02</div>
+      <div class="card-title-area">
+        <div class="card-tag">戦略 / リソース配分</div>
+        <div class="card-title">5PJ間の<em>優先度が固定</em>されていて動的に変化しない</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-section-label">🔴 現在の課題</div>
+        <div class="problem-block">
+          <div class="block-text">
+            5つのプロジェクトが常に並走しているが「今週はどのPJに集中すべきか」という優先度が定義されていない。AIが自動でタスクを実行するとき、全PJを均等に扱うため、本当に重要なPJへのリソースが薄まる。例：TikTokフォロワー888→1000の達成が目前なのにCARASブログ生成が同じ頻度で動く。
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-section-label">✅ 改善案</div>
+        <div class="solution-block">
+          <div class="block-text">
+            <b>週次スプリント宣言</b>ルールを導入。毎週月曜のweekly-reviewで「今週の集中PJ（1〜2個）」を宣言し、それ以外はメンテナンスモード（新規タスク生成しない）に切り替える。朝のブリーフィングでも集中PJを強調表示する。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-impl">
+      <div class="card-impl-label">実装イメージ</div>
+      <div class="impl-code">## 週次スプリント宣言ルール（新設）
+weekly-review実行時、MOONさんに以下を確認：
+
+  🎯 今週の集中PJを決めましょう（最大2つ）
+  現在の進捗と直近マイルストーンから推奨：
+  🥇 推奨1: [PJ名] — 理由: [マイルストーン近接度・期限]
+  🥈 推奨2: [PJ名] — 理由: [緊急度・機会損失リスク]
+  → 「この2つで」「1番だけ」「変更: ○○」で回答ください
+
+【集中PJ中の動作変更】
+- 集中PJ: 🟢ルーティンタスクを通常の2倍頻度で実行
+- 他PJ:   新規コンテンツ生成は停止、監視・バックアップのみ
+
+CLAUDE.mdに「今週の集中PJ: [PJ名] / [宣言日]」を記録</div>
+    </div>
+    <div class="impact-row">
+      <div class="impact-chip"><div class="dot"></div>マイルストーン到達速度が向上</div>
+      <div class="impact-chip"><div class="dot"></div>AIリソースの集中投下</div>
+      <div class="impact-chip"><div class="dot"></div>散漫な並走を防止</div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="improve-card c3">
+    <div class="card-header">
+      <div class="card-num">03</div>
+      <div class="card-title-area">
+        <div class="card-tag">進捗管理 / 可視化</div>
+        <div class="card-title">進捗<em>「%」の更新ルール</em>が未定義</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-section-label">🔴 現在の課題</div>
+        <div class="problem-block">
+          <div class="block-text">
+            各PJのCONTEXT.mdに「進捗: 42%」「進捗: 58%」と書かれているが、何をもってその%になったのかが不明。AIが勝手に変えるとズレが生じ、MOONさんが変えるタイミングも決まっていない。結果として数値が形骸化し、意思決定の基準として機能しなくなる。
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-section-label">✅ 改善案</div>
+        <div class="solution-block">
+          <div class="block-text">
+            各PJに<b>「進捗計算シート」</b>（TODO完了率 × 重み付け）を定義する。ダッシュボードのHTMLに数値連動した進捗バーを設ける。monthly-reviewで進捗%を自動再計算してCONTEXT.mdを更新。変更時は「前回: 42% → 今回: 55%（+13%）」という形で差分を提示。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-impl">
+      <div class="card-impl-label">実装イメージ</div>
+      <div class="impl-code">## 進捗%自動計算ルール（新設）
+各CONTEXT.mdに以下のセクションを追加：
+
+## 進捗計算基準
+| カテゴリ | 重み | 完了条件 |
+|---------|------|---------|
+| コアコンテンツ完成 | 40% | LP/SNS/資料が揃う |
+| 集客導線確立 | 25% | SNSフォロワー目標達成 |
+| 収益化開始 | 20% | 初売上/初会員発生 |
+| 自動化フロー稼働 | 15% | スケジュールタスク稼働 |
+
+monthly-reviewで各カテゴリの達成度を0〜100%で評価し、
+加重平均を「進捗: XX%」として自動更新する。
+変更ログ: CONTEXT.md「進捗履歴」に追記（削除禁止）</div>
+    </div>
+    <div class="impact-row">
+      <div class="impact-chip"><div class="dot"></div>進捗の根拠が明確に</div>
+      <div class="impact-chip"><div class="dot"></div>ダッシュボードが実用化</div>
+      <div class="impact-chip"><div class="dot"></div>月次の成長を可視化</div>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="improve-card c4">
+    <div class="card-header">
+      <div class="card-num">04</div>
+      <div class="card-title-area">
+        <div class="card-tag">意思決定 / 組織記憶</div>
+        <div class="card-title">「なぜその決断をしたか」の<em>意思決定ログ</em>がない</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-section-label">🔴 現在の課題</div>
+        <div class="problem-block">
+          <div class="block-text">
+            価格設定・ターゲット・サービス設計などの重要な意思決定がCONTEXT.mdに「結果」だけ書かれており「なぜそう決めたか」が記録されていない。数ヶ月後にAIが同じ議論を再開したり、矛盾した提案をする原因になる。ディベートログはあるが、最終決断理由がMOONさんの頭の中にしかない。
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-section-label">✅ 改善案</div>
+        <div class="solution-block">
+          <div class="block-text">
+            🔴重大タスク承認時に<b>「意思決定ログ」</b>を自動生成。承認コメントから理由を抽出して保存する。「なぜ価格を+15%にしたか」「なぜターゲットを30代に絞ったか」が検索可能な形で残る。将来のAIが「この方針は過去の意図に反していないか」を自己チェックできるようになる。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-impl">
+      <div class="card-impl-label">実装イメージ</div>
+      <div class="impl-code">## 意思決定ログ（Decision Log）ルール（新設）
+保存先: outputs/decisions/YYYYMMDD_[決定事項].md
+
+【自動生成フォーマット】
+# 意思決定ログ｜[テーマ]｜[日付]
+## 決定内容: [1行]
+## 検討した選択肢: [A案 / B案 / ...]
+## 採用理由（MOONさんのコメントから抽出）: [引用]
+## 却下した理由: [反論・リスク]
+## 有効期限・再評価タイミング: [例: 6ヶ月後 / 会員100人達成時]
+## 関連ディベートログ: [ファイルパス]
+
+→ CONTEXT.mdの該当箇所に
+「[日付] 意思決定: [1行] → 詳細: outputs/decisions/...」とリンク</div>
+    </div>
+    <div class="impact-row">
+      <div class="impact-chip"><div class="dot"></div>同じ議論の再発ゼロ化</div>
+      <div class="impact-chip"><div class="dot"></div>AIの矛盾提案を防止</div>
+      <div class="impact-chip"><div class="dot"></div>方針変更の根拠が追跡可能</div>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="improve-card c5">
+    <div class="card-header">
+      <div class="card-num">05</div>
+      <div class="card-title-area">
+        <div class="card-tag">タスク設計 / 実行順序</div>
+        <div class="card-title">タスクの<em>依存関係・前提条件</em>が定義されていない</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-section-label">🔴 現在の課題</div>
+        <div class="problem-block">
+          <div class="block-text">
+            CONTEXT.mdのTODOリストにタスクが並んでいるが「Aが完了しないとBは着手できない」という依存関係が書かれていない。例えば「LPを作る」前に「ターゲットペルソナ確定」が必要なのに、AIが先にLPを着手してしまう可能性がある。タスクが互いに独立に扱われており、無駄な作り直しが発生しうる。
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-section-label">✅ 改善案</div>
+        <div class="solution-block">
+          <div class="block-text">
+            TODO項目に<b>「前提条件タグ」</b>を追加する（例：`[前提: ペルソナ確定済み]`）。AIがタスクを選択する際に前提条件を必ずチェックし、未完了なら先に前提タスクを提案する。週次レビューでも「着手可能なタスク（前提クリア済み）」と「ブロック中タスク」を分けて提示する。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-impl">
+      <div class="card-impl-label">実装イメージ</div>
+      <div class="impl-code">## タスク依存関係ルール（新設）
+CONTEXT.mdのTODO記法を以下に拡張：
+
+- [ ] タスク名 [前提: なし] [優先度: 🔴高]
+- [ ] LPメインページ作成 [前提: ターゲットペルソナ確定, 料金確定] [優先度: 🔴高]
+- [ ] SNS投稿カレンダー [前提: コンテンツ戦略確定] [優先度: 🟡中]
+
+タスク選択ルール：
+1. 前提タスクが全て ✅ になっているものだけを実行候補にする
+2. ブロック中タスクは週次レビューで「🚧 ブロック中: [前提未完了の理由]」として表示
+3. 前提タスクを完了したら自動で「ブロック解除通知」をブリーフィングに追加</div>
+    </div>
+    <div class="impact-row">
+      <div class="impact-chip"><div class="dot"></div>作り直しロスをゼロに</div>
+      <div class="impact-chip"><div class="dot"></div>AIが正しい順序で着手</div>
+      <div class="impact-chip"><div class="dot"></div>ボトルネックが可視化</div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-head">
+    <div class="line"></div>
+    <span>実装優先度まとめ</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="summary-card">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>改善テーマ</th>
+          <th>実装難度</th>
+          <th>優先度</th>
+          <th>期待効果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:#6c63ff;font-weight:700">01</td>
+          <td>セッション終了ハンドオフログ</td>
+          <td>低（CLAUDE.md記述のみ）</td>
+          <td><span class="priority-badge p-high">🔴 高</span></td>
+          <td>文脈断絶ゼロ・引き継ぎ即時化</td>
+        </tr>
+        <tr>
+          <td style="color:#00d4aa;font-weight:700">02</td>
+          <td>週次スプリント宣言（PJ優先度）</td>
+          <td>低（weekly-reviewに追記）</td>
+          <td><span class="priority-badge p-high">🔴 高</span></td>
+          <td>マイルストーン到達速度2倍</td>
+        </tr>
+        <tr>
+          <td style="color:#ffd166;font-weight:700">03</td>
+          <td>進捗%自動更新ルール</td>
+          <td>中（計算基準の設計が必要）</td>
+          <td><span class="priority-badge p-mid">🟡 中</span></td>
+          <td>ダッシュボード実用化・月次成長可視化</td>
+        </tr>
+        <tr>
+          <td style="color:#ff6584;font-weight:700">04</td>
+          <td>意思決定ログ（Decision Log）</td>
+          <td>中（承認フロー拡張）</td>
+          <td><span class="priority-badge p-mid">🟡 中</span></td>
+          <td>同議論の再発ゼロ・AIの矛盾提案防止</td>
+        </tr>
+        <tr>
+          <td style="color:#4fc3f7;font-weight:700">05</td>
+          <td>タスク依存関係・前提条件タグ</td>
+          <td>中（TODO記法の変更）</td>
+          <td><span class="priority-badge p-mid">🟡 中</span></td>
+          <td>作り直しロスゼロ・着手順序の最適化</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recommendation -->
+  <div class="summary-card" style="border-left: 3px solid #6c63ff;">
+    <div style="font-size:13px; color: var(--muted); margin-bottom: 10px; letter-spacing:1px; text-transform:uppercase;">💡 推奨実装順序</div>
+    <div style="font-size:14px; line-height:1.9; color: var(--text);">
+      <b style="color:#6c63ff;">まず今日：</b> ①ハンドオフログ + ②スプリント宣言 → CLAUDE.mdへの記述追加のみで即適用可能<br>
+      <b style="color:#ffd166;">今週中：</b> ③進捗%計算基準 → 各CONTEXT.mdのTODOを棚卸しながら重み付け定義<br>
+      <b style="color:#ff6584;">来週以降：</b> ④意思決定ログ + ⑤依存関係タグ → 新規タスク承認時から順次適用
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span>AI組織 改善レポート v2</span> — 2026-03-27 ／ 対象: CLAUDE.md全体（493行）／ 厳選5提案
+  </div>
+
+</div>
+</body>
+</html>

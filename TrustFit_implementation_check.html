@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit 実装可能性チェック｜田中ペルソナ 契約〜納品</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: #0d0d1a;
+    color: #dde0e8;
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 100%);
+    padding: 36px 40px 28px;
+    border-bottom: 2px solid #2a3a4a;
+  }
+  header .tag { font-size: 11px; color: #6a8aaa; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  header h1 { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 6px; }
+  header .sub { font-size: 13px; color: #8a9aaa; }
+
+  /* サマリーバー */
+  .summary-bar {
+    display: flex;
+    gap: 0;
+    background: #0a1018;
+    border-bottom: 1px solid #1a2a3a;
+  }
+  .summary-item {
+    flex: 1;
+    padding: 18px;
+    text-align: center;
+    border-right: 1px solid #1a2a3a;
+  }
+  .summary-item:last-child { border-right: none; }
+  .summary-item .num { font-size: 32px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+  .summary-item .label { font-size: 11px; color: #6a7a8a; letter-spacing: 1px; }
+  .num.green { color: #00c98a; }
+  .num.yellow { color: #f5a623; }
+  .num.red { color: #e94560; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+  /* フェーズヘッダー */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e2e3e;
+  }
+  .phase-num {
+    background: #1e3050;
+    color: #6a9abf;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .phase-title { font-size: 17px; font-weight: 700; color: #c0d0e0; }
+  .phase-desc { font-size: 12px; color: #5a6a7a; margin-left: auto; }
+
+  /* チェック行 */
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    background: #101820;
+    border: 1px solid #1e2e3e;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .status-bar {
+    width: 6px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .status-bar.ok { background: #00c98a; }
+  .status-bar.warn { background: #f5a623; }
+  .status-bar.ng { background: #e94560; }
+
+  .check-main {
+    flex: 1;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .status-badge {
+    flex-shrink: 0;
+    width: 72px;
+    padding: 4px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .status-badge.ok { background: rgba(0,201,138,0.15); color: #00c98a; border: 1px solid rgba(0,201,138,0.3); }
+  .status-badge.warn { background: rgba(245,166,35,0.15); color: #f5a623; border: 1px solid rgba(245,166,35,0.3); }
+  .status-badge.ng { background: rgba(233,69,96,0.15); color: #e94560; border: 1px solid rgba(233,69,96,0.3); }
+
+  .check-content { flex: 1; }
+  .check-title { font-size: 14px; font-weight: 700; color: #d0d8e0; margin-bottom: 3px; }
+  .check-detail { font-size: 12px; color: #7a8a9a; }
+  .check-action {
+    font-size: 12px;
+    color: #c0a860;
+    margin-top: 5px;
+    padding: 4px 10px;
+    background: rgba(245,166,35,0.06);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .check-action.red { color: #d07080; background: rgba(233,69,96,0.08); }
+
+  /* 判定付き */
+  .verdict {
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #9aaabb;
+    border-left: 1px solid #1e2e3e;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* 総評 */
+  .final-verdict {
+    margin-top: 50px;
+    background: linear-gradient(135deg, #101820, #0f1a28);
+    border: 1px solid #2a3a4a;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .final-header {
+    background: rgba(255,255,255,0.03);
+    padding: 18px 24px;
+    border-bottom: 1px solid #2a3a4a;
+    font-size: 14px;
+    font-weight: 700;
+    color: #c0d0e0;
+    letter-spacing: 1px;
+  }
+  .final-body { padding: 24px; }
+  .verdict-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 640px) { .verdict-grid { grid-template-columns: 1fr; } }
+
+  .verdict-card { border-radius: 10px; padding: 18px; }
+  .verdict-card.now { background: rgba(0,201,138,0.08); border: 1px solid rgba(0,201,138,0.2); }
+  .verdict-card.next { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2); }
+  .verdict-card h4 { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  .verdict-card.now h4 { color: #00c98a; }
+  .verdict-card.next h4 { color: #f5a623; }
+  .verdict-card ul { list-style: none; padding: 0; }
+  .verdict-card li { font-size: 13px; color: #c0ccd8; padding: 3px 0; }
+  .verdict-card.now li::before { content: '✓ '; color: #00c98a; }
+  .verdict-card.next li::before { content: '→ '; color: #f5a623; }
+
+  .priority-list { margin-top: 16px; }
+  .priority-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1e2e3e;
+  }
+  .priority-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .priority-num.p1 { background: #e94560; color: #fff; }
+  .priority-num.p2 { background: #f5a623; color: #1a1a1a; }
+  .priority-num.p3 { background: #6a7a8a; color: #fff; }
+  .priority-title { font-size: 14px; color: #d0d8e0; font-weight: 700; margin-bottom: 2px; }
+  .priority-why { font-size: 12px; color: #7a8a9a; }
+
+  p.note { font-size: 13px; color: #8a9aaa; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">TrustFit — Implementation Check</div>
+  <h1>実装可能性チェック｜田中ペルソナ（40代IT経営者）が契約に至るまで</h1>
+  <div class="sub">「今あるもの」で実際に動くのか？を全ステップで検証する</div>
+</header>
+
+<!-- サマリーバー -->
+<div class="summary-bar">
+  <div class="summary-item">
+    <div class="num green">7</div>
+    <div class="label">✅ 今すぐ動く</div>
+  </div>
+  <div class="summary-item">
+    <div class="num yellow">6</div>
+    <div class="label">⚠️ 手動代替で動く</div>
+  </div>
+  <div class="summary-item">
+    <div class="num red">7</div>
+    <div class="label">❌ 未着手・要作成</div>
+  </div>
+  <div class="summary-item">
+    <div class="num" style="color:#c0d0e0;">20</div>
+    <div class="label">総チェック項目</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PHASE 1 -->
+  <div class="phase-header">
+    <span class="phase-num">PHASE 01</span>
+    <span class="phase-title">接触〜認知（PRISM CUP当日）</span>
+    <span class="phase-desc">7月4日 アソビル</span>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">PRISM CUP イベント開催</div>
+        <div class="check-detail">会場（アソビル）確保済み・7/4確定・キャスティング（荻田・佐藤・山崎・岩本・脇坂・佐々木）全員確定</div>
+      </div>
+    </div>
+    <div class="verdict">開催ベース✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">MOONさんによる直接トーク</div>
+        <div class="check-detail">商談スクリプト「パターン2：忙しい社長向け」設計済み。「採用広告費の代替」「脳のチューニング」フレーミングで対応可能</div>
+      </div>
+    </div>
+    <div class="verdict">スクリプト✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">1枚モノ提案書（その場で渡せるもの）</div>
+        <div class="check-detail">TODO未着手。「ポイント設計確定」が前提条件だが設計は完了しているため着手可能な状態</div>
+        <div class="check-action red">→ 最優先作成必要。QRコード付きA4 or デジタル版を用意する</div>
+      </div>
+    </div>
+    <div class="verdict">要作成🚨</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">LP / 登録ページ（QR先）</div>
+        <div class="check-detail">TrustFitのLPが存在しない。名刺QRコードを渡しても飛ぶ先がない状態</div>
+        <div class="check-action red">→ 最低限「コンセプト＋モニター申込フォーム」のシングルページが必要</div>
+      </div>
+    </div>
+    <div class="verdict">要作成🚨</div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-header">
+    <span class="phase-num">PHASE 02</span>
+    <span class="phase-title">登録〜ヒアリング</span>
+    <span class="phase-desc">接触翌日〜1週間以内</span>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar warn"></div>
+    <div class="check-main">
+      <div class="status-badge warn">⚠️ 手動</div>
+      <div class="check-content">
+        <div class="check-title">企業登録・情報収集</div>
+        <div class="check-detail">システム（DB・フォーム）は未構築。現状はGoogleフォーム + スプレッドシートで代替可能（CONTEXT.mdに「初期はスプレッドシート管理」と明記済み）</div>
+        <div class="check-action">→ Googleフォームを今すぐ作れば代替OK</div>
+      </div>
+    </div>
+    <div class="verdict">手動代替可</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">ヒアリング（課題深掘り）</div>
+        <div class="check-detail">商談スクリプト3パターン（人事・社長・社員）が設計済み。MOONさんが直接対応すればシステム不要</div>
+      </div>
+    </div>
+    <div class="verdict">スクリプト✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">ニーズの言語化支援</div>
+        <div class="check-detail">「覇気がない」→「採用PR＋定着＋ブランディング」への転換フレームが確立済み（ペルソナSim #01から抽出）</div>
+      </div>
+    </div>
+    <div class="verdict">フレーム✅</div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-header">
+    <span class="phase-num">PHASE 03</span>
+    <span class="phase-title">トレーナー提案〜モニター申込</span>
+    <span class="phase-desc">ヒアリング翌日〜3日以内</span>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">VIPトレーナー提案（荻田・佐々木等）</div>
+        <div class="check-detail">Legend（荻田大樹）・Elite候補・Challenger候補が確保済み。提案自体はMOONさんが手動で行える</div>
+      </div>
+    </div>
+    <div class="verdict">人材✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">トレーナープロフィール資料</div>
+        <div class="check-detail">各トレーナーの実績・得意分野・料金レンジをまとめた「カタログ」が存在しない。田中さんに「誰が来るの？」と聞かれた際に見せるものがない</div>
+        <div class="check-action red">→ 荻田・佐々木・佐藤・山崎の4名分を最低限PDF or HTML化する</div>
+      </div>
+    </div>
+    <div class="verdict">要作成🚨</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar warn"></div>
+    <div class="check-main">
+      <div class="status-badge warn">⚠️ 手動</div>
+      <div class="check-content">
+        <div class="check-title">モニター申込・入金受付</div>
+        <div class="check-detail">¥10,000 → 100,000ptのモニターキャンペーン設計は済み。受付はPeatix or 銀行振込 + 手動ポイント付与で代替可能</div>
+        <div class="check-action">→ Peatixに「モニター枠（¥10,000）」を出品するだけで今すぐ受付可能</div>
+      </div>
+    </div>
+    <div class="verdict">手動代替可</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">業務委託契約書テンプレート</div>
+        <div class="check-detail">企業↔TrustFit間の契約書がない。¥10,000受け取り前に必要。TODO未着手</div>
+        <div class="check-action red">→ 法的リスク回避のため、簡易版でも先に作成必須</div>
+      </div>
+    </div>
+    <div class="verdict">要作成🚨</div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-header">
+    <span class="phase-num">PHASE 04</span>
+    <span class="phase-title">セッション実施</span>
+    <span class="phase-desc">契約から1〜2週間後</span>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">VIPセッション（荻田大樹・2時間）</div>
+        <div class="check-detail">「マインドセット講演 × 体験型セッション」実施可能。コンテンツカテゴリ設計済み。人数上限設計済み（講演系＝上限なし）</div>
+      </div>
+    </div>
+    <div class="verdict">即実施可✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar warn"></div>
+    <div class="check-main">
+      <div class="status-badge warn">⚠️ 手動</div>
+      <div class="check-content">
+        <div class="check-title">予約・日程調整</div>
+        <div class="check-detail">予約システム未実装。LINEやメール + カレンダーの手動調整で十分対応可能（モニター段階は少数なので問題なし）</div>
+        <div class="check-action">→ Googleカレンダー共有で代替OK</div>
+      </div>
+    </div>
+    <div class="verdict">手動代替可</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">採用PR動画の撮影・編集・納品フロー</div>
+        <div class="check-detail">モニター特典として「採用PR動画」を訴求しているが、撮影仕様・編集フロー・納品形式・著作権処理が全て未設計</div>
+        <div class="check-action red">→ 「何を・どう撮って・どう渡すか」の仕様書が必要。田中さんへの最大の決定打をきちんと設計する</div>
+      </div>
+    </div>
+    <div class="verdict">要設計🚨</div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase-header">
+    <span class="phase-num">PHASE 05</span>
+    <span class="phase-title">セッション後〜継続提案</span>
+    <span class="phase-desc">セッション完了から72時間以内</span>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar warn"></div>
+    <div class="check-main">
+      <div class="status-badge warn">⚠️ 手動</div>
+      <div class="check-content">
+        <div class="check-title">評価（10項目・50点満点）収集</div>
+        <div class="check-detail">評価設計は完了済み。システム未実装だがGoogleフォームで完全代替可能。双方評価（企業側＋トレーナー側）もフォーム2枚で実現できる</div>
+        <div class="check-action">→ Googleフォーム2枚（企業用・トレーナー用）を作成するだけ。1〜2時間で実装可能</div>
+      </div>
+    </div>
+    <div class="verdict">手動代替可</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar warn"></div>
+    <div class="check-main">
+      <div class="status-badge warn">⚠️ 手動</div>
+      <div class="check-content">
+        <div class="check-title">ポイント管理・報酬確定処理</div>
+        <div class="check-detail">1pt=1円のウォレット設計は完了。評価スコア → 報酬確定の計算式も設計済み。スプレッドシートで手動管理可能（モニター10社以下なら十分）</div>
+        <div class="check-action">→ スプレッドシート1枚で計算管理。入出金は銀行振込で対応</div>
+      </div>
+    </div>
+    <div class="verdict">手動代替可</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">組織コンディショニング・カルテ</div>
+        <div class="check-detail">「72時間以内に企業カルテを提出」と商談で約束するが、テンプレートが存在しない。継続受注のクロージングに直結する重要文書</div>
+        <div class="check-action red">→ VIPセッション前に必ず作成。田中さんへの「継続設計お任せ」の約束を履行するための核心ドキュメント</div>
+      </div>
+    </div>
+    <div class="verdict">要作成🚨</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">継続トレーナー提案（VIP → Challenger引き継ぎ）</div>
+        <div class="check-detail">VIP紹介制度・引き継ぎフロー・企業カルテ概念が設計済み。佐々木さんがChallenger候補として機能できる体制あり</div>
+      </div>
+    </div>
+    <div class="verdict">設計✅</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ng"></div>
+    <div class="check-main">
+      <div class="status-badge ng">❌ 未作成</div>
+      <div class="check-content">
+        <div class="check-title">継続プログラム提案書（パターン別）</div>
+        <div class="check-detail">ポイント消費パターンA〜C（月5〜30万pt）の設計は済みだが、田中さんに渡せる「継続プラン提案資料」がない</div>
+        <div class="check-action red">→ 「初回VIP後、こんな継続がある」を可視化した1枚資料を作成する</div>
+      </div>
+    </div>
+    <div class="verdict">要作成</div>
+  </div>
+
+  <div class="check-row">
+    <div class="status-bar ok"></div>
+    <div class="check-main">
+      <div class="status-badge ok">✅ 動く</div>
+      <div class="check-content">
+        <div class="check-title">請求書発行</div>
+        <div class="check-detail">invoice-creator スキルが利用可能。株式会社MOON名義で適切な請求書PDFを即時発行できる体制がある</div>
+      </div>
+    </div>
+    <div class="verdict">スキル✅</div>
+  </div>
+
+  <!-- 総評 -->
+  <div class="final-verdict">
+    <div class="final-header">📋 総合判定｜今の状態で「田中さんと契約できるか？」</div>
+    <div class="final-body">
+      <p class="note">
+        <strong style="color:#fff;">結論：「契約まで」は今すぐできる。「納品まで」に3つのブロッカーがある。</strong>
+      </p>
+      <p class="note" style="margin-bottom:24px;">
+        PRISM CUP当日にMOONさんが直接トークして、Googleフォームでモニター申込を受けるところまでは今日から動ける。ただし「採用PR動画の撮影仕様」「業務委託契約書」「企業カルテ」の3つが欠けていると、契約後に約束を果たせない状態になる。
+      </p>
+
+      <div class="verdict-grid">
+        <div class="verdict-card now">
+          <h4>✓ 今すぐ動かせるもの</h4>
+          <ul>
+            <li>PRISM CUP 開催・キャスティング全員確定</li>
+            <li>MOONさんによる直接商談（スクリプト設計済み）</li>
+            <li>ヒアリング・ニーズ言語化フレーム</li>
+            <li>VIPセッション（荻田大樹）の実施</li>
+            <li>継続トレーナー引き継ぎ設計</li>
+            <li>請求書発行（invoice-creatorスキル）</li>
+            <li>評価・ポイント管理（Googleフォーム＋スプレッドシート）</li>
+          </ul>
+        </div>
+        <div class="verdict-card next">
+          <h4>→ 今すぐ着手が必要なもの</h4>
+          <ul>
+            <li>1枚モノ提案書（PRISM CUP前に必須）</li>
+            <li>LP / モニター申込ページ（QR先）</li>
+            <li>業務委託契約書テンプレート（入金前に必須）</li>
+            <li>採用PR動画の撮影・納品仕様書</li>
+            <li>トレーナープロフィール資料（提案時に必要）</li>
+            <li>企業カルテ テンプレート（セッション後72h以内に使用）</li>
+            <li>継続プログラム提案書（継続受注に使用）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 8px; margin-bottom: 20px; padding: 16px; background: rgba(233,69,96,0.08); border-radius: 8px; border: 1px solid rgba(233,69,96,0.2);">
+        <div style="font-size: 12px; color: #e94560; font-weight: 700; margin-bottom: 6px;">🚨 BLOCKER — これがないと契約後に詰まる</div>
+        <div style="font-size: 13px; color: #c0c8d0;">
+          <strong style="color:#fff;">①業務委託契約書</strong>が最大のリスク。¥10,000入金前に用意しないと「何の契約もなく金だけ受け取った状態」になる。<br>
+          <strong style="color:#fff;">②採用PR動画仕様</strong>が田中さんの「決定打」だったのに、実際に何を撮ってどう渡すか未設計のまま約束している状態。<br>
+          <strong style="color:#fff;">③企業カルテ</strong>がないと「継続設計はお任せ」という最大の差別化ポイントを履行できない。
+        </div>
+      </div>
+
+      <div style="font-size: 14px; font-weight: 700; color: #c0d0e0; margin-bottom: 12px;">🎯 PRISM CUP（7/4）までの優先作成順</div>
+      <div class="priority-list">
+        <div class="priority-item">
+          <div class="priority-num p1">1</div>
+          <div>
+            <div class="priority-title">1枚モノ提案書 ＋ LP（QR付き）</div>
+            <div class="priority-why">PRISM CUP当日に渡せるものがないと、せっかくの接触が翌日消える。最優先。</div>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-num p1">2</div>
+          <div>
+            <div class="priority-title">業務委託契約書テンプレート ＋ 採用PR動画仕様書</div>
+            <div class="priority-why">申込受付前に必須。「何を・どう撮って・何日で渡す」を明文化する。</div>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-num p2">3</div>
+          <div>
+            <div class="priority-title">企業カルテ テンプレート ＋ 継続プログラム提案書</div>
+            <div class="priority-why">セッション前に完成させれば理想。「72時間以内に提出」の約束を確実に守るために。</div>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-num p3">4</div>
+          <div>
+            <div class="priority-title">評価フォーム（Googleフォーム）＋ ポイント管理スプレッドシート</div>
+            <div class="priority-why">セッション当日までに完成で十分。2〜3時間で作れるので後回しでOK。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:40px 0;font-size:12px;color:#3a4a5a;">
+    TrustFit 実装可能性チェック ｜ 2026-04-18 ｜ 株式会社MOON
+  </div>
+
+</div>
+</body>
+</html>

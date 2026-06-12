@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit | 書類テンプレート集</title>
+<style>
+  :root {
+    --primary: #0a1628;
+    --accent: #c9a84c;
+    --accent2: #e8c96a;
+    --white: #ffffff;
+    --light: #f8f6f1;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --success: #059669;
+    --warn: #d97706;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; color: var(--primary); background: var(--light); }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a1628, #1a2d50);
+    color: var(--white);
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .header-badge { display: inline-block; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); color: var(--accent2); font-size: 11px; font-weight: 700; letter-spacing: 3px; padding: 5px 18px; border-radius: 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+  .header h1 span { color: var(--accent2); }
+  .header p { color: rgba(255,255,255,0.65); font-size: 14px; }
+
+  /* TAB NAV */
+  .tab-nav {
+    background: var(--white);
+    border-bottom: 2px solid var(--border);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 18px 24px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    margin-bottom: -2px;
+  }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 40px; }
+
+  /* TEMPLATE PANEL */
+  .template-panel { display: none; }
+  .template-panel.active { display: block; }
+
+  /* SECTION HEADER */
+  .doc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .doc-title-block {}
+  .doc-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--accent); margin-bottom: 8px; }
+  .doc-title { font-size: 26px; font-weight: 900; line-height: 1.3; }
+  .doc-desc { font-size: 14px; color: var(--gray); margin-top: 8px; line-height: 1.7; max-width: 560px; }
+  .copy-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 13px;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+  .copy-btn:hover { opacity: 0.9; }
+  .copy-btn.copied { background: var(--success); color: var(--white); }
+
+  /* DOCUMENT BODY */
+  .doc-body {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* DOCUMENT CONTENT */
+  .doc-content {
+    padding: 48px;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .doc-content h2 {
+    font-size: 20px;
+    font-weight: 900;
+    margin: 36px 0 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .doc-content h2:first-child { margin-top: 0; }
+  .doc-content h3 {
+    font-size: 15px;
+    font-weight: 800;
+    margin: 24px 0 10px;
+    color: var(--primary);
+  }
+  .doc-content p { margin-bottom: 12px; }
+  .doc-content ol, .doc-content ul { padding-left: 20px; margin-bottom: 12px; }
+  .doc-content li { margin-bottom: 6px; }
+  .doc-content .blank {
+    display: inline-block;
+    border-bottom: 2px solid var(--primary);
+    min-width: 120px;
+    color: transparent;
+    background: #f9f0d8;
+    padding: 0 4px;
+    border-radius: 2px;
+  }
+  .doc-content .blank::before { content: attr(data-placeholder); color: #92701a; font-size: 12px; }
+  .doc-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .doc-content table th {
+    background: var(--light);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid var(--border);
+  }
+  .doc-content table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .doc-content .sign-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+  .sign-box {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .sign-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 16px; color: var(--gray); }
+  .sign-line { border-bottom: 1px solid var(--primary); height: 36px; margin: 8px 0; }
+  .sign-label { font-size: 11px; color: var(--gray); }
+  .doc-content .highlight-box {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .doc-content .highlight-box strong { color: #92701a; }
+
+  /* SCORE TABLE */
+  .score-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .score-table th, .score-table td { border: 1px solid var(--border); padding: 10px 14px; font-size: 13px; }
+  .score-table th { background: var(--light); font-weight: 700; }
+  .score-circles { display: flex; gap: 8px; }
+  .score-circle {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray);
+  }
+  .score-circle.selected { background: var(--accent); border-color: var(--accent); color: var(--primary); }
+
+  /* PRINT NOTE */
+  .print-note {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    main { padding: 24px 16px; }
+    .tab-nav { padding: 0 16px; }
+    .doc-content { padding: 24px 20px; }
+    .doc-content .sign-block { grid-template-columns: 1fr; }
+    .header { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">TEMPLATES</div>
+  <h1>TrustFit <span>書類テンプレート集</span></h1>
+  <p>モニター申込書 / 業務委託契約書 / 利用規約 / 組織コンディショニング・カルテ</p>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('monitor')">📋 モニター申込書</button>
+  <button class="tab-btn" onclick="showTab('contract')">📝 業務委託契約書</button>
+  <button class="tab-btn" onclick="showTab('terms')">⚖️ 利用規約</button>
+  <button class="tab-btn" onclick="showTab('carte')">🩺 コンディショニングカルテ</button>
+</div>
+
+<main>
+
+<!-- ① モニター申込書 -->
+<div class="template-panel active" id="panel-monitor">
+  <div class="doc-header">
+    <div class="doc-title-block">
+      <div class="doc-label">TEMPLATE 01</div>
+      <div class="doc-title">初回モニター申込書</div>
+      <div class="doc-desc">初回10倍キャンペーン申込時に使用する書類。企業情報・担当者・キャンペーン条件の選択・同意を取得する。</div>
+    </div>
+    <button class="copy-btn" onclick="copyDoc('monitor-text')">📋 テキストをコピー</button>
+  </div>
+  <div class="print-note">💡 このフォームはPDF化して送付するか、Googleフォームに転記して使用してください。</div>
+  <div class="doc-body">
+    <div class="doc-content" id="monitor-text">
+
+      <div style="text-align: center; margin-bottom: 32px;">
+        <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px;">TrustFit 初回モニター申込書</div>
+        <div style="font-size: 13px; color: var(--gray); margin-top: 8px;">初回限定 10倍ポイントキャンペーン</div>
+      </div>
+
+      <div class="highlight-box">
+        <strong>🎁 初回モニター特典内容</strong><br>
+        通常¥100,000相当のポイントを、<strong>¥10,000でご提供</strong>（100,000pt）。<br>
+        ポイント有効期限：購入日から1年間（購入日の1年後の同日23:59に失効）
+      </div>
+
+      <h2>1. 申込企業情報</h2>
+      <table>
+        <tr>
+          <th width="35%">企業名（正式名称）</th>
+          <td><span class="blank" data-placeholder="　株式会社 〇〇　"></span></td>
+        </tr>
+        <tr>
+          <th>業種</th>
+          <td><span class="blank" data-placeholder="　例：ITベンチャー・製造業　"></span></td>
+        </tr>
+        <tr>
+          <th>従業員数</th>
+          <td><span class="blank" data-placeholder="　　　　名"></span></td>
+        </tr>
+        <tr>
+          <th>所在地（本社）</th>
+          <td><span class="blank" data-placeholder="　〒000-0000 　"></span></td>
+        </tr>
+        <tr>
+          <th>担当部署</th>
+          <td><span class="blank" data-placeholder="　例：人事部・総務部　"></span></td>
+        </tr>
+        <tr>
+          <th>担当者氏名</th>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <th>電話番号</th>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <th>メールアドレス</th>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　"></span></td>
+        </tr>
+      </table>
+
+      <h2>2. 希望コンテンツ（第1〜3希望）</h2>
+      <table>
+        <tr>
+          <th width="20%">第1希望</th>
+          <td><span class="blank" data-placeholder="　例：全身ストレッチ&リカバリー　"></span></td>
+        </tr>
+        <tr>
+          <th>第2希望</th>
+          <td><span class="blank" data-placeholder="　例：限界突破ストーリーテリング講演　"></span></td>
+        </tr>
+        <tr>
+          <th>第3希望</th>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <th>参加人数（予定）</th>
+          <td><span class="blank" data-placeholder="　　　　名"></span></td>
+        </tr>
+        <tr>
+          <th>希望日程（第1案）</th>
+          <td><span class="blank" data-placeholder="　　年　　月　　日（　）　：　　〜"></span></td>
+        </tr>
+        <tr>
+          <th>希望日程（第2案）</th>
+          <td><span class="blank" data-placeholder="　　年　　月　　日（　）　：　　〜"></span></td>
+        </tr>
+        <tr>
+          <th>実施場所</th>
+          <td><span class="blank" data-placeholder="　オフィス / 外部施設：場所名　"></span></td>
+        </tr>
+      </table>
+
+      <h2>3. キャンペーン適用条件の選択</h2>
+      <p>以下のいずれかの条件を満たすことで、初回10倍ポイントキャンペーンが適用されます。</p>
+      <table>
+        <tr>
+          <th width="5%">□</th>
+          <th width="35%">条件A（推奨）</th>
+          <td>セッション中の撮影・PR素材への協力（採用コンテンツとして弊社が活用）</td>
+        </tr>
+        <tr>
+          <td>□</td>
+          <td>条件B（プライバシー配慮型）</td>
+          <td>匿名の評価スコアデータ＋匿名テキスト感想の提供（個人・社名の特定なし。「IT系企業・〇〇名規模」等の属性情報のみ）</td>
+        </tr>
+      </table>
+      <p style="font-size: 12px; color: var(--gray); margin-top: 8px;">※ 条件Aでも、ボカシ処理・社名非表示などの対応が可能です。ご相談ください。</p>
+
+      <h2>4. 同意事項</h2>
+      <p>申込企業は以下の事項に同意した上で本申込書を提出するものとします。</p>
+      <ol>
+        <li>本サービスは「業務委託」として設計されており、労働者派遣には該当しません。</li>
+        <li>ポイントは購入日から1年後の同日23:59に失効します。失効分の返金は行いません。</li>
+        <li>サービス利用にあたっては、別途定める「TrustFit 利用規約」に従うものとします。</li>
+        <li>セッション後の双方評価（10項目・50点満点）の実施に協力するものとします。</li>
+        <li>キャンペーン条件（上記3に選択）を誠実に履行するものとします。</li>
+        <li>本申込書の提出をもって申込みが成立し、ポイント購入後にサービスが開始されます。</li>
+      </ol>
+
+      <div class="sign-block">
+        <div class="sign-box">
+          <h4>【申込企業】</h4>
+          <div class="sign-label">企業名</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">代表者名 / 担当者名</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">印</div>
+          <div style="width: 60px; height: 60px; border: 1px solid var(--border); border-radius: 50%; margin-top: 8px;"></div>
+          <div class="sign-label" style="margin-top: 8px;">申込日: 　　年　　月　　日</div>
+        </div>
+        <div class="sign-box">
+          <h4>【受付・TrustFit事務局】</h4>
+          <div class="sign-label">株式会社MOON</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">担当者名</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">受付番号</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">受付日: 　　年　　月　　日</div>
+        </div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--gray); margin-top: 24px; text-align: center;">お問い合わせ: trustfit.biz@moontf.com ／ 株式会社MOON（TrustFit事務局）</p>
+    </div>
+  </div>
+</div>
+
+<!-- ② 業務委託契約書 -->
+<div class="template-panel" id="panel-contract">
+  <div class="doc-header">
+    <div class="doc-title-block">
+      <div class="doc-label">TEMPLATE 02</div>
+      <div class="doc-title">業務委託契約書（トレーナー向け）</div>
+      <div class="doc-desc">TrustFitに登録するトレーナーとの間で締結する業務委託契約書のテンプレート。</div>
+    </div>
+    <button class="copy-btn" onclick="copyDoc('contract-text')">📋 テキストをコピー</button>
+  </div>
+  <div class="print-note">⚠️ このテンプレートは参考雛形です。実際の締結前に必ず弁護士等の専門家に確認してください。</div>
+  <div class="doc-body">
+    <div class="doc-content" id="contract-text">
+
+      <div style="text-align: center; margin-bottom: 32px;">
+        <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px;">業務委託契約書</div>
+        <div style="font-size: 13px; color: var(--gray); margin-top: 8px;">TrustFit トレーナー登録・業務委託に関する契約</div>
+      </div>
+
+      <p>株式会社MOON（以下「甲」という）と <span class="blank" data-placeholder="　トレーナー氏名　"></span>（以下「乙」という）は、以下の通り業務委託契約（以下「本契約」という）を締結する。</p>
+
+      <h2>第1条（目的）</h2>
+      <p>甲が運営するトレーナーマッチングプラットフォーム「TrustFit」（以下「本プラットフォーム」という）を通じて、乙が企業クライアント（以下「クライアント企業」という）に対してフィジカル・マインドセット等のコンテンツ提供サービス（以下「本業務」という）を行うことを目的とする。</p>
+
+      <h2>第2条（業務内容）</h2>
+      <ol>
+        <li>乙は、本プラットフォームを通じてクライアント企業から依頼されたセッションを受託し、専門的な立場で本業務を遂行する。</li>
+        <li>本業務の具体的な内容・日時・場所は、各セッションの予約確定時に定める。</li>
+        <li>乙は独立した事業者として本業務を遂行するものとし、甲はクライアント企業との間に雇用関係が生じないことを確認する。</li>
+      </ol>
+
+      <h2>第3条（指揮命令の禁止）</h2>
+      <p>甲およびクライアント企業は、乙に対して業務遂行の具体的方法・手段について指揮命令を行ってはならない。乙は、専門家としての裁量をもって本業務を遂行する。</p>
+
+      <h2>第4条（報酬）</h2>
+      <ol>
+        <li>乙の1セッションあたりの報酬は、以下の計算式により決定する。
+          <br>報酬 ＝ 固定ベースポイント（ランクにより異なる）＋ 評価連動成果報酬
+        </li>
+        <li>評価連動成果報酬は、クライアント企業が実施する10項目・50点満点の評価スコアに基づき算出する。</li>
+        <li>甲は確定報酬からプラットフォーム手数料（乙のランクに応じ15〜25%）を差し引いた金額を、セッション完了月の翌月末日までに乙の指定口座に振り込む。</li>
+        <li>乙のランク別報酬レンジは以下の通りとする。</li>
+      </ol>
+      <table>
+        <tr>
+          <th>ランク</th>
+          <th>固定ベース</th>
+          <th>成果報酬</th>
+          <th>手数料率</th>
+        </tr>
+        <tr>
+          <td>Challenger</td>
+          <td>なし</td>
+          <td>10,000〜50,000pt</td>
+          <td>25%</td>
+        </tr>
+        <tr>
+          <td>Elite VIP</td>
+          <td>50,000pt</td>
+          <td>10,000〜50,000pt</td>
+          <td>20%</td>
+        </tr>
+        <tr>
+          <td>Master VIP</td>
+          <td>100,000pt</td>
+          <td>20,000〜100,000pt</td>
+          <td>18%</td>
+        </tr>
+        <tr>
+          <td>Legend VIP</td>
+          <td>200,000pt</td>
+          <td>20,000〜100,000pt</td>
+          <td>15%</td>
+        </tr>
+      </table>
+
+      <h2>第5条（ランク・昇格・降格）</h2>
+      <ol>
+        <li>乙のランクは、累計セッション数・評価スコア実績・低品質セッション（20pt以下）の有無により決定する。</li>
+        <li>直近3セッション連続で平均25pt以下の場合、甲は乙のランクを1段階降格させることができる。</li>
+        <li>ランクの変更は甲が書面または電子メールで乙に通知した時点で効力を生じる。</li>
+      </ol>
+
+      <h2>第6条（禁止事項）</h2>
+      <ol>
+        <li>乙は、本プラットフォームを介さずにクライアント企業と直接取引を行ってはならない（本契約期間中および終了後1年間）。</li>
+        <li>乙は、セッション中の無断録画・記録・録音を禁止する。</li>
+        <li>乙は、クライアント企業の機密情報を第三者に開示してはならない。</li>
+        <li>乙は、評価操作（クライアント企業と結託した高評価の誘導等）を行ってはならない。</li>
+      </ol>
+
+      <h2>第7条（知的財産権）</h2>
+      <p>乙が本業務において提供するコンテンツ・資料等の著作権は乙に帰属する。ただし、乙はクライアント企業が本業務の目的の範囲内で当該コンテンツを利用することを許諾する。</p>
+
+      <h2>第8条（損害賠償）</h2>
+      <p>乙の故意または重過失によりクライアント企業または甲に損害を与えた場合、乙はその損害を賠償する責任を負う。ただし、甲の賠償責任は支払済み報酬額を上限とする。</p>
+
+      <h2>第9条（契約期間）</h2>
+      <p>本契約の有効期間は締結日から1年間とし、双方から解約の申出がない限り1年ごとに自動更新される。</p>
+
+      <h2>第10条（解除）</h2>
+      <ol>
+        <li>甲または乙は、30日前までの書面による通知をもって本契約を解除できる。</li>
+        <li>乙が本契約に重大な違反をした場合、甲は即時に本契約を解除できる。</li>
+      </ol>
+
+      <h2>第11条（合意管轄）</h2>
+      <p>本契約に関する紛争については、大阪地方裁判所を第一審の専属的合意管轄裁判所とする。</p>
+
+      <div class="sign-block">
+        <div class="sign-box">
+          <h4>【甲】株式会社MOON</h4>
+          <div class="sign-label">代表者</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">印</div>
+          <div style="width: 60px; height: 60px; border: 1px solid var(--border); border-radius: 50%; margin-top: 8px;"></div>
+          <div class="sign-label" style="margin-top: 8px;">締結日: 　　年　　月　　日</div>
+        </div>
+        <div class="sign-box">
+          <h4>【乙】トレーナー</h4>
+          <div class="sign-label">氏名</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">住所</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">印</div>
+          <div style="width: 60px; height: 60px; border: 1px solid var(--border); border-radius: 50%; margin-top: 8px;"></div>
+          <div class="sign-label" style="margin-top: 8px;">締結日: 　　年　　月　　日</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 利用規約（最新版は独立ページへ） -->
+<div class="template-panel" id="panel-terms">
+  <div class="doc-header">
+    <div class="doc-title-block">
+      <div class="doc-label">TEMPLATE 03</div>
+      <div class="doc-title">利用規約（企業向け）</div>
+      <div class="doc-desc">最新の正式版は専用ページに統合されました。</div>
+    </div>
+  </div>
+  <div class="doc-body">
+    <div style="text-align:center;padding:60px 24px;">
+      <div style="font-size:48px;margin-bottom:16px;">⚖️</div>
+      <div style="font-size:18px;font-weight:900;margin-bottom:8px;">利用規約は専用ページに移行しました</div>
+      <div style="font-size:14px;color:var(--gray);margin-bottom:32px;line-height:1.8;">Ver.1.0 制定：2026年4月14日<br>同意フロー（チェックボックス → 申込みボタン）も一体化されています。</div>
+      <a href="trustfit-terms.html" target="_blank"
+         style="display:inline-block;background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a1628;font-weight:800;font-size:15px;padding:14px 40px;border-radius:40px;text-decoration:none;">
+        最新の利用規約を見る →
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 組織コンディショニング・カルテ -->
+<div class="template-panel" id="panel-carte">
+  <div class="doc-header">
+    <div class="doc-title-block">
+      <div class="doc-label">TEMPLATE 04</div>
+      <div class="doc-title">組織コンディショニング・カルテ</div>
+      <div class="doc-desc">VIPトレーナーがセッション後72時間以内に提出するレポート。継続担当トレーナーへの引き継ぎ・企業の上層部提案書として活用できる形式。</div>
+    </div>
+    <button class="copy-btn" onclick="copyDoc('carte-text')">📋 テキストをコピー</button>
+  </div>
+  <div class="print-note">💡 セッション後72時間以内にトレーナーが記入し、クライアント企業の担当者にPDFで提出してください。</div>
+  <div class="doc-body">
+    <div class="doc-content" id="carte-text">
+
+      <div style="text-align: center; margin-bottom: 32px; padding: 24px; background: var(--primary); border-radius: 12px;">
+        <div style="color: var(--accent2); font-size: 11px; letter-spacing: 3px; font-weight: 700; margin-bottom: 8px;">TRUSTFIT OFFICIAL REPORT</div>
+        <div style="color: var(--white); font-size: 22px; font-weight: 900;">組織コンディショニング・カルテ</div>
+        <div style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 8px;">組織コンディショニング処方箋 / セッション後72時間以内提出</div>
+      </div>
+
+      <h2>基本情報</h2>
+      <table>
+        <tr>
+          <th width="35%">クライアント企業名</th>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <th>実施日</th>
+          <td><span class="blank" data-placeholder="　　年　　月　　日"></span></td>
+        </tr>
+        <tr>
+          <th>セッション内容</th>
+          <td><span class="blank" data-placeholder="　例：全身ストレッチ＆リカバリー　"></span></td>
+        </tr>
+        <tr>
+          <th>参加人数</th>
+          <td><span class="blank" data-placeholder="　　　名"></span></td>
+        </tr>
+        <tr>
+          <th>担当トレーナー</th>
+          <td><span class="blank" data-placeholder="　　　　　　（ランク：　　　　）"></span></td>
+        </tr>
+        <tr>
+          <th>提出日</th>
+          <td><span class="blank" data-placeholder="　　年　　月　　日（セッション後〇〇時間以内）"></span></td>
+        </tr>
+      </table>
+
+      <h2>1. 組織コンディション診断</h2>
+      <h3>1-1. 身体的傾向（全体観察から）</h3>
+      <table>
+        <tr>
+          <th width="30%">観察ポイント</th>
+          <th>状況・所見</th>
+          <th width="25%">優先度</th>
+        </tr>
+        <tr>
+          <td>姿勢・骨格アライメント</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td>□ 高 □ 中 □ 低</td>
+        </tr>
+        <tr>
+          <td>肩・首のこわばり</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td>□ 高 □ 中 □ 低</td>
+        </tr>
+        <tr>
+          <td>腰・股関節の柔軟性</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td>□ 高 □ 中 □ 低</td>
+        </tr>
+        <tr>
+          <td>全体的な疲労蓄積度</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td>□ 高 □ 中 □ 低</td>
+        </tr>
+        <tr>
+          <td>その他特記事項</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td>□ 高 □ 中 □ 低</td>
+        </tr>
+      </table>
+
+      <h3>1-2. 参加者の反応・雰囲気観察</h3>
+      <table>
+        <tr>
+          <th>観察ポイント</th>
+          <th>評価（5段階）</th>
+          <th>コメント</th>
+        </tr>
+        <tr>
+          <td>参加意欲・積極性</td>
+          <td>1 ・ 2 ・ 3 ・ <strong>4</strong> ・ 5</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <td>セッション後の変化（表情・発言）</td>
+          <td>1 ・ 2 ・ 3 ・ 4 ・ <strong>5</strong></td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <td>チームの一体感・コミュニケーション量</td>
+          <td>1 ・ 2 ・ 3 ・ <strong>4</strong> ・ 5</td>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　"></span></td>
+        </tr>
+        <tr>
+          <td>個別でケアが必要と感じた参加者</td>
+          <td colspan="2"><span class="blank" data-placeholder="　例：3名ほど特に肩の張りが強い。個別コーチング推奨。　　　　　　　　　"></span></td>
+        </tr>
+      </table>
+
+      <h2>2. 組織へのコンディショニング処方箋</h2>
+      <h3>2-1. 最優先で取り組むべき課題（TOP3）</h3>
+      <ol>
+        <li>
+          <strong>課題名：</strong><span class="blank" data-placeholder="　例：デスクワーク由来の上半身のこわばり解消　　　　　　　　"></span><br>
+          <strong>処方：</strong><span class="blank" data-placeholder="　例：週1回のストレッチセッション（Challengerトレーナーで継続可）　　　　　　　　　　"></span>
+        </li>
+        <li style="margin-top: 12px;">
+          <strong>課題名：</strong><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span><br>
+          <strong>処方：</strong><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span>
+        </li>
+        <li style="margin-top: 12px;">
+          <strong>課題名：</strong><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span><br>
+          <strong>処方：</strong><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span>
+        </li>
+      </ol>
+
+      <h3>2-2. 推奨継続プログラム案</h3>
+      <table>
+        <tr>
+          <th>プログラム名</th>
+          <th>頻度</th>
+          <th>推奨ランク</th>
+          <th>推定コスト/月</th>
+        </tr>
+        <tr>
+          <td><span class="blank" data-placeholder="　例：全身ストレッチ＆リカバリー　　　　　　　　"></span></td>
+          <td><span class="blank" data-placeholder="月2回"></span></td>
+          <td><span class="blank" data-placeholder="Challenger"></span></td>
+          <td><span class="blank" data-placeholder="〜60,000pt"></span></td>
+        </tr>
+        <tr>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　pt"></span></td>
+        </tr>
+        <tr>
+          <td><span class="blank" data-placeholder="　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　"></span></td>
+          <td><span class="blank" data-placeholder="　　　　pt"></span></td>
+        </tr>
+      </table>
+
+      <h2>3. トレーナーからのメッセージ</h2>
+      <div style="background: var(--light); border-radius: 8px; padding: 20px; min-height: 100px;">
+        <span class="blank" style="min-width: 100%; display: block;" data-placeholder="　　セッションを通じて感じたこと・御社へのメッセージ・次回への期待などを記載　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></span>
+      </div>
+
+      <div class="sign-block" style="margin-top: 32px;">
+        <div class="sign-box">
+          <h4>【担当トレーナー】</h4>
+          <div class="sign-label">氏名</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">ランク</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">提出日: 　　年　　月　　日</div>
+        </div>
+        <div class="sign-box">
+          <h4>【TrustFit事務局 受領印】</h4>
+          <div class="sign-label">受領確認</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">受領日</div>
+          <div class="sign-line"></div>
+        </div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--gray); margin-top: 24px; text-align: center;">
+        本カルテはクライアント企業・担当トレーナー・TrustFit事務局の3者間で共有されます。<br>
+        TrustFit事務局：trustfit.biz@moontf.com
+      </p>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="footer" style="background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 32px; font-size: 13px; margin-top: 0;">
+  <strong style="color: var(--accent2);">TrustFit</strong> 書類テンプレート集<br>
+  <span style="font-size: 11px;">© 2026 株式会社MOON — ※各テンプレートは参考雛形です。利用前に専門家への確認を推奨します。</span>
+</div>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.template-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function copyDoc(id) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.currentTarget;
+    const orig = btn.textContent;
+    btn.textContent = '✅ コピーしました';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

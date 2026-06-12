@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNSバズリサーチレポート｜2026-03-31｜オギラボ・CARAS</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #20243a;
+    --accent1: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f9a825;
+    --text: #e8eaf0;
+    --muted: #8892a4;
+    --border: #2e3248;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; line-height: 1.7; }
+
+  header {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 24px;
+  }
+  .header-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .badge { background: var(--accent1); color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.05em; }
+  .badge.caras { background: var(--accent2); }
+  .badge.date { background: var(--card2); color: var(--muted); border: 1px solid var(--border); }
+  h1 { font-size: 26px; font-weight: 800; color: white; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); font-size: 14px; }
+  .source-note { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 12px; color: var(--muted); }
+  .dot { width: 7px; height: 7px; background: var(--accent3); border-radius: 50%; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 40px; }
+  .toc h3 { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .toc-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .toc-links a { color: var(--accent1); font-size: 13px; text-decoration: none; background: rgba(108,99,255,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(108,99,255,0.3); }
+  .toc-links a:hover { background: rgba(108,99,255,0.2); }
+
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; margin-top: 48px; }
+  .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .icon-ogilab { background: linear-gradient(135deg, #6c63ff, #4facfe); }
+  .icon-caras { background: linear-gradient(135deg, #ff6584, #f9a825); }
+  .section-header h2 { font-size: 22px; font-weight: 800; color: white; }
+  .section-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media(max-width: 768px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .platform-icon { font-size: 16px; }
+
+  .competitor-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .competitor-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rank-badge { background: var(--accent1); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+  .competitor-detail { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .competitor-detail strong { color: var(--text); }
+
+  .buzz-list { list-style: none; }
+  .buzz-list li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; display: flex; gap: 10px; }
+  .buzz-list li:last-child { border-bottom: none; }
+  .buzz-num { color: var(--accent1); font-weight: 700; flex-shrink: 0; }
+
+  .pattern-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+  @media(max-width: 600px) { .pattern-grid { grid-template-columns: 1fr; } }
+  .pattern-item { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .pattern-label { font-size: 11px; color: var(--accent3); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+  .pattern-text { font-size: 13px; color: var(--text); }
+
+  .idea-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+  @media(max-width: 768px) { .idea-cards { grid-template-columns: 1fr; } }
+  .idea-card { border-radius: 12px; padding: 18px; }
+  .idea-yt { background: linear-gradient(135deg, rgba(255,0,0,0.15), rgba(255,0,0,0.05)); border: 1px solid rgba(255,80,80,0.3); }
+  .idea-ig { background: linear-gradient(135deg, rgba(225,48,108,0.15), rgba(225,48,108,0.05)); border: 1px solid rgba(225,48,108,0.3); }
+  .idea-tt { background: linear-gradient(135deg, rgba(105,201,208,0.15), rgba(105,201,208,0.05)); border: 1px solid rgba(105,201,208,0.3); }
+  .idea-platform { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .idea-yt .idea-platform { color: #ff5050; }
+  .idea-ig .idea-platform { color: #e1306c; }
+  .idea-tt .idea-platform { color: #69c9d0; }
+  .idea-hook { font-size: 14px; font-weight: 700; color: white; margin-bottom: 8px; line-height: 1.5; }
+  .idea-hook::before { content: '"'; opacity: 0.4; }
+  .idea-hook::after { content: '"'; opacity: 0.4; }
+  .idea-point { font-size: 12px; color: var(--muted); }
+
+  .trigger-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag { background: rgba(108,99,255,0.15); color: var(--accent1); border: 1px solid rgba(108,99,255,0.3); font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .tag.red { background: rgba(255,101,132,0.15); color: var(--accent2); border-color: rgba(255,101,132,0.3); }
+  .tag.green { background: rgba(67,233,123,0.1); color: var(--accent3); border-color: rgba(67,233,123,0.3); }
+  .tag.yellow { background: rgba(249,168,37,0.1); color: var(--accent4); border-color: rgba(249,168,37,0.3); }
+
+  .alert { background: rgba(249,168,37,0.1); border: 1px solid rgba(249,168,37,0.3); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--accent4); margin-bottom: 24px; }
+  .alert strong { color: var(--accent4); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  footer { border-top: 1px solid var(--border); padding: 24px 40px; color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+  footer span { color: var(--accent1); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-meta">
+    <span class="badge">オギラボ</span>
+    <span class="badge caras">CARAS</span>
+    <span class="badge date">📅 2026-03-31 火曜</span>
+  </div>
+  <h1>SNS バズリサーチレポート</h1>
+  <p class="subtitle">競合調査 × バズ分析 × 転用アイデア｜火曜定期実施（オギラボ + CARAS）</p>
+  <div class="source-note">
+    <span class="dot"></span>
+    調査ソース：Gemini Pro（Web検索）+ WebSearch（Claude）
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="toc">
+    <h3>目次</h3>
+    <div class="toc-links">
+      <a href="#ogilab-comp">オギラボ 競合分析</a>
+      <a href="#ogilab-buzz">オギラボ バズパターン</a>
+      <a href="#ogilab-ideas">オギラボ 転用アイデア</a>
+      <a href="#caras-comp">CARAS 競合分析</a>
+      <a href="#caras-buzz">CARAS バズパターン</a>
+      <a href="#caras-ideas">CARAS 転用アイデア</a>
+    </div>
+  </div>
+
+  <!-- ============ オギラボ ============ -->
+  <div id="ogilab-comp">
+    <div class="section-header">
+      <div class="section-icon icon-ogilab">🤖</div>
+      <div>
+        <h2>オギラボ｜AI×ビジネスパーソン向けオンラインサロン</h2>
+        <p>競合調査キーワード：AI副業 サラリーマン / オンラインサロン AI活用 / ひとりビジネス AI自動化</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">🏢 主要競合サロン（Gemini Web検索）</h3>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge">最大手</span>SHIFT AI
+      </div>
+      <div class="competitor-detail"><strong>規模：</strong>会員数2万人超・国内最大級のAIコミュニティ。月額約2万円〜の高単価。</div>
+      <div class="competitor-detail"><strong>SNS戦略：</strong>代表者・アンバサダーがX/YouTubeで「AIの最新ニュース」「ビジネス活用事例」を専門家として発信。SNS→無料ウェビナー→LINE→高額サロンの王道ファネル。</div>
+      <div class="trigger-tags">
+        <span class="tag">高単価権威型</span><span class="tag">専門家ポジション</span><span class="tag">信頼構築ファネル</span>
+      </div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge" style="background:var(--accent3);color:#000">中価格帯</span>キミ to AI 等・実務効率化型
+      </div>
+      <div class="competitor-detail"><strong>規模：</strong>中小企業経営者・実務担当者向け。月額5,000円前後のミドル価格帯。</div>
+      <div class="competitor-detail"><strong>SNS戦略：</strong>「補助金申請の時短」「SNS運用時間の半減」など、AIによる明確なコスト削減・業務効率化メリットを図解や短動画で発信。「20日間無料」等オファーでSNSから直接登録促進。</div>
+      <div class="trigger-tags">
+        <span class="tag green">実務特化型</span><span class="tag green">コスト削減訴求</span><span class="tag green">低価格帯</span>
+      </div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge" style="background:var(--accent4);color:#000">個人主宰</span>AI木曜会 等・インフルエンサー型
+      </div>
+      <div class="competitor-detail"><strong>特徴：</strong>AI系インフルエンサーが個人で主宰。実践的な事例共有や本音ベースの交流がメイン。</div>
+      <div class="competitor-detail"><strong>SNS戦略：</strong>主宰者個人の圧倒的な発信力とキャラクターが武器。Xでの日々の裏話・リアルな活用法でエンゲージメントを高め、ファン化したフォロワーをサロンへ誘導。</div>
+      <div class="trigger-tags">
+        <span class="tag yellow">属人性高い</span><span class="tag yellow">ファンコミュニティ型</span><span class="tag yellow">X中心</span>
+      </div>
+    </div>
+
+    <div id="ogilab-buzz" style="margin-top:32px;">
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">🔥 SNS別 バズコンテンツ傾向</h3>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">▶️</span>YouTube</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>「AI副業ランキングTOP10 2026年最新版」74万再生超｜ランキング形式が最強</li>
+            <li><span class="buzz-num">2</span>「超初心者でも月5万円 AI副業の始め方」｜低ハードル×具体数値</li>
+            <li><span class="buzz-num">3</span>「サラリーマンがAIで副業収入を作った話」｜等身大×体験談</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">📸</span>Instagram</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>「AIを使えば会社員のまま月5万円が現実になる」カルーセル｜数字+状況設定</li>
+            <li><span class="buzz-num">2</span>「サラリーマンの私がAIで作業時間を1/10にした話」リール｜一人称体験談</li>
+            <li><span class="buzz-num">3</span>「ChatGPTで仕事終わらせてから副業してる人、正直に手を挙げて」静止画｜問いかけ型</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">🎵</span>TikTok</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>「会社員がAIで仕事を自動化した結果...」数十万再生｜AI自動化×衝撃結果</li>
+            <li><span class="buzz-num">2</span>「月収5万円増えたAIツール3選」10万超｜ランキング×数字×実績</li>
+            <li><span class="buzz-num">3</span>「これ知らないとAI時代に置いてかれる」数十万｜危機感×FOMO</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">📐 バズ共通パターン</h3>
+      <div class="pattern-grid">
+        <div class="pattern-item">
+          <div class="pattern-label">① 具体数値</div>
+          <div class="pattern-text">「月5万円」「作業時間1/10」「6ヶ月」「74万再生」など具体数値が必須。抽象的な訴求はスクロールされる。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">② ランキング形式</div>
+          <div class="pattern-text">「TOP10」「3選」「5つ」のランキング・リスト形式が動画・投稿ともに最多再生数を獲得。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">③ 等身大×実証型</div>
+          <div class="pattern-text">「私が〜した結果」「普通の会社員が」という一人称体験談。AIスロップ排除の流れで人間らしさが差別化に。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">④ FOMO訴求</div>
+          <div class="pattern-text">「知らないとヤバい」「2026年はこれ一択」「AI時代に置いてかれる」の危機感フックが視聴継続率UP。</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ogilab-ideas">
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">💡 オギラボ 転用アイデア 3案</h3>
+      <div class="idea-cards">
+        <div class="idea-card idea-yt">
+          <div class="idea-platform">▶ YouTube</div>
+          <div class="idea-hook">オギラボメンバーがAIで月収アップした方法TOP5【2026年最新版】</div>
+          <div class="idea-point">構成：サロンメンバーの実績をランキング形式で紹介 → 具体数値×体験談で信頼性UP → CTAはオギラボ入会へ誘導。「等身大の会社員が実践」という等身大フレームを徹底。</div>
+        </div>
+        <div class="idea-card idea-ig">
+          <div class="idea-platform">📸 Instagram</div>
+          <div class="idea-hook">サロン歴3ヶ月のサラリーマンがAIで副業収入を作った話</div>
+          <div class="idea-point">形式：カルーセル6枚｜①ビフォー状況→②きっかけ→③使ったAIツール3選→④結果（数値）→⑤オギラボで学んだこと→⑥CTA（プロフ欄へ）。シェア数>保存数を意識して「送りたくなる情報密度」に。</div>
+        </div>
+        <div class="idea-card idea-tt">
+          <div class="idea-platform">🎵 TikTok</div>
+          <div class="idea-hook">残業続きの会社員がAIで残業ゼロにした方法、正直に話します</div>
+          <div class="idea-point">テーマ：等身大×衝撃結果×本音。0〜3秒で「残業続きの」という共感フック→結果提示→ツール名明記→オギラボCTA。ジャンル統一（AI×ビジネス）を徹底してアルゴリズム優遇を狙う。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ============ CARAS ============ -->
+  <div id="caras-comp">
+    <div class="section-header">
+      <div class="section-icon icon-caras">💪</div>
+      <div>
+        <h2>CARAS｜パーソナルジム×ビジネスマン向け</h2>
+        <p>競合調査キーワード：パーソナルジム ビジネスマン / ダイエット 30代 男性 / 体型管理 会社員</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">🏢 主要競合傾向</h3>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge" style="background:var(--accent2)">王道</span>ビフォーアフター特化型ジム（ZERO BODY / REAL WORKOUT 等）
+      </div>
+      <div class="competitor-detail"><strong>YouTube：</strong>「3ヶ月-12.6kg」「4ヶ月-15kg以上」等の具体数値ビフォーアフター動画が高再生数。ビジュアル変化が視覚的に刺さる。</div>
+      <div class="competitor-detail"><strong>SNS：</strong>シンプルデザイン＋矢印キャプション付きビフォーアフター写真が高保存率。成功体験の視覚化が最強コンテンツ。</div>
+      <div class="trigger-tags">
+        <span class="tag red">結果訴求</span><span class="tag red">視覚変化</span><span class="tag red">数値明示</span>
+      </div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge" style="background:var(--accent4);color:#000">インフルエンサー</span>@ibuki_mens_diet（メンズダイエット特化）
+      </div>
+      <div class="competitor-detail"><strong>規模：</strong>6.8万フォロワー。30代男性向けダイエット特化アカウント。</div>
+      <div class="competitor-detail"><strong>戦略：</strong>「5分でできる」「走らなくてもOK」「ジム不要」の敷居下げフックが特徴。月間1,800万リーチを達成するダイエット×Instagram事例として注目。</div>
+      <div class="trigger-tags">
+        <span class="tag yellow">敷居下げ</span><span class="tag yellow">男性特化</span><span class="tag yellow">手軽さ訴求</span>
+      </div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">
+        <span class="rank-badge" style="background:var(--accent3);color:#000">本音型</span>パーソナルジム「STREAM」採用YouTube
+      </div>
+      <div class="competitor-detail"><strong>成果：</strong>「短パンそら社長のパーソナルジム革命」で社長給与や新店舗立ち上げ費用内訳など本音コンテンツを公開。応募率が前年同期比30%増。</div>
+      <div class="competitor-detail"><strong>示唆：</strong>パーソナルジム業界でも「本音・透明性コンテンツ」が強い差別化ポイントになっている。</div>
+      <div class="trigger-tags">
+        <span class="tag green">本音・透明性</span><span class="tag green">採用×集客</span><span class="tag green">ストーリー型</span>
+      </div>
+    </div>
+
+    <div id="caras-buzz" style="margin-top:32px;">
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">🔥 SNS別 バズコンテンツ傾向</h3>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">▶️</span>YouTube</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>「3ヶ月パーソナルトレーニングで-12.6kg達成」体験談動画｜具体数値×期間明示</li>
+            <li><span class="buzz-num">2</span>「仕事のストレスで太った30代が3ヶ月で変わった話」｜社会人共感型ストーリー</li>
+            <li><span class="buzz-num">3</span>「パーソナルジムの費用を全部公開します」本音コンテンツ｜透明性で応募率30%増</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">📸</span>Instagram</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>ビフォーアフター写真（矢印キャプション付き）｜高保存率・月1800万リーチ</li>
+            <li><span class="buzz-num">2</span>「走らなくても痩せる5分トレーニング」敷居下げ系｜6.8万フォロワー獲得実績</li>
+            <li><span class="buzz-num">3</span>「週1回だけで体型管理できる理由」カルーセル｜忙しいビジネスマン向け訴求</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="platform-icon">🎵</span>TikTok</div>
+          <ul class="buzz-list">
+            <li><span class="buzz-num">1</span>パーソナルジム体型変化動画（発見トレンド入り）｜達成感×感動コンテンツ</li>
+            <li><span class="buzz-num">2</span>「デスクワーク疲れで体型崩れた会社員が...」共感フック｜リモワ/在宅訴求</li>
+            <li><span class="buzz-num">3</span>「恵比寿パーソナルジムで変わった30代の話」地域×年齢特定型</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">📐 バズ共通パターン</h3>
+      <div class="pattern-grid">
+        <div class="pattern-item">
+          <div class="pattern-label">① 具体的変化数値</div>
+          <div class="pattern-text">「-12kg」「-15kg」「3ヶ月」「4ヶ月」など数字ありきでコンテンツが動く。数値なしの感想系は埋もれる。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">② 忙しい社会人への共感</div>
+          <div class="pattern-text">「残業続き」「ストレス食い」「デスクワーク疲れ」→「パーソナルジムで解決」のストーリーラインが刺さる。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">③ 本音・透明性</div>
+          <div class="pattern-text">費用の内訳公開・トレーナーの素顔・リアルな成果。「嘘っぽくない感」が問い合わせ率を上げる。</div>
+        </div>
+        <div class="pattern-item">
+          <div class="pattern-label">④ 敷居下げフック</div>
+          <div class="pattern-text">「週1回でOK」「5分でいい」「ジム不要」。ハードルを下げることで「私でもできそう」という感情トリガーを生む。</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="caras-ideas">
+      <h3 style="font-size:15px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.08em;">💡 CARAS 転用アイデア 3案</h3>
+      <div class="idea-cards">
+        <div class="idea-card idea-yt">
+          <div class="idea-platform">▶ YouTube</div>
+          <div class="idea-hook">仕事が忙しすぎる30代が完全個室ジムで3ヶ月変わった話【費用も全公開】</div>
+          <div class="idea-point">構成：①共感（残業・ストレス食い）→②CARASを選んだ理由（完全個室・週1〜可）→③3ヶ月の変化（数値）→④費用内訳→⑤体験申込CTA。本音×ビフォーアフターの組み合わせで差別化。</div>
+        </div>
+        <div class="idea-card idea-ig">
+          <div class="idea-platform">📸 Instagram</div>
+          <div class="idea-hook">週1回だけ、完全個室で。40代ビジネスマンが3ヶ月で変わった理由</div>
+          <div class="idea-point">形式：カルーセル5枚｜①ビフォー→②週1回CARASに通い始めた→③変化の数値→④完全個室だから続けられた理由→⑤体験申込。シンプルデザイン＋矢印キャプションで保存率UP。</div>
+        </div>
+        <div class="idea-card idea-tt">
+          <div class="idea-platform">🎵 TikTok</div>
+          <div class="idea-hook">毎日残業してた会社員が週1回だけで体型変えた方法</div>
+          <div class="idea-point">テーマ：デスクワーク疲れ×体型変化×達成感。0〜3秒で「毎日残業してた」という強共感フック→3ヶ月の変化をビフォーアフターで見せる→「週1回・完全個室」でハードル下げ→体験CTA。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- シナジー -->
+  <div style="background:linear-gradient(135deg,rgba(108,99,255,0.1),rgba(255,101,132,0.1)); border:1px solid var(--border); border-radius:14px; padding:24px;">
+    <h3 style="font-size:16px; font-weight:700; color:white; margin-bottom:16px;">🔗 オギラボ × CARAS シナジーチャンス</h3>
+    <div class="grid-2">
+      <div>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:8px;"><strong style="color:var(--accent1)">CARAS → オギラボ送客</strong></p>
+        <p style="font-size:13px;">「体型管理できた会社員がAIでビジネスも効率化した話」はオギラボのコンテンツネタになる。CARAS会員向けにオギラボを紹介すれば相互送客が生まれる。</p>
+      </div>
+      <div>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:8px;"><strong style="color:var(--accent2)">オギラボ → CARAS送客</strong></p>
+        <p style="font-size:13px;">「AI副業で収入UP→自分への投資としてパーソナルジム」という行動変容パターン。オギラボ会員の「健康経営ネタ」としてCARASを紹介できる。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>SNSバズリサーチレポート｜<span>MOON AI組織</span>｜自動生成 2026-03-31</div>
+  <div>ソース：Gemini Pro（Web検索）+ WebSearch（Claude）</div>
+</footer>
+
+</body>
+</html>

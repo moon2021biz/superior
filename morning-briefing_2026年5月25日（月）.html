@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026年5月25日（月）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 0 0 16px 16px; margin-bottom: 24px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+/* ALERTS */
+.alert-section { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-section h3 { color: #c53030; font-size: 1rem; margin-bottom: 12px; }
+.alert-section p { font-size: 0.92rem; padding: 7px 0; border-bottom: 1px solid #fed7d7; }
+.alert-section p:last-child { border-bottom: none; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-yellow { color: #b7791f; font-weight: 700; }
+/* PJ PROGRESS */
+.card p { font-size: 0.9rem; color: #4a5568; margin-bottom: 10px; line-height: 1.7; }
+.card p strong { color: #2d3748; }
+/* SNS TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table th { background: #edf2f7; color: #4a5568; font-weight: 700; padding: 8px 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+table td { padding: 8px 12px; border-bottom: 1px solid #edf2f7; color: #2d3748; }
+table tr:last-child td { border-bottom: none; }
+/* TRIAL SCHEDULE */
+.school-card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.school-header { font-weight: 700; color: #2b6cb0; margin-bottom: 10px; font-size: 0.95rem; }
+.trial-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
+.trial-row:last-child { border-bottom: none; }
+.trial-date { font-weight: 600; min-width: 160px; color: #4a5568; }
+.trial-name { font-weight: 700; color: #2d3748; min-width: 120px; }
+.trial-course { color: #718096; font-size: 0.85rem; }
+.no-schedule { color: #718096; font-size: 0.88rem; text-align: center; padding: 8px; }
+/* CDST */
+.card ul { list-style: none; }
+.card ul li { padding: 7px 0; border-bottom: 1px solid #edf2f7; font-size: 0.88rem; color: #4a5568; }
+.card ul li:last-child { border-bottom: none; }
+/* TASK ITEMS */
+.task-item { padding: 10px 14px; margin-bottom: 10px; border-radius: 8px; font-size: 0.9rem; background: #f7fafc; border-left: 4px solid #4299e1; }
+.task-item strong { display: block; margin-bottom: 4px; color: #2d3748; }
+/* SYNERGY */
+footer { text-align: center; color: #a0aec0; font-size: 0.8rem; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 Daily Morning Briefing</h1>
+  <div class="date">2026年5月25日（月）</div>
+  <div class="subtitle">全8PJ自動チェック完了 ｜ SNS実測 / 体験スケジュール / CDST変更検知 / むーん行政確認</div>
+</div>
+<div class="container">
+
+<!-- ALERTS -->
+<div class="alert-section">
+  <h3>⚠️ 要対応事項（今日のアクション）</h3>
+  <p><span class="alert-red">🏅【関学 KGAD 5月分提出 本日5/25締切・本日中必須】</span> <strong>KGAD月次活動報告書（書式4）提出期限が本日5/25</strong>。①スプレッドシート（ポール予定調整）E〜R列のオレンジ日抽出 ②関西インカレ3日間(5/15-17)＋関西実業団5/23-24 を必ず指導日リストに含める ③generate_kgad_report.py を本日中に実行＋提出完了 ④提出完了後CONTEXT.md更新。残り時間で最優先タスク。</p><p><span class="alert-red">🎯【SORA 5/26つじおか体験 残り1日（明日）】</span> <strong>明日5/26(火) つじおか しんのすけ（小6・男・高松スタート講習18:30-20:00）まで残り1日</strong>。事前フォローLINE（持ち物・会場アクセス・小山コーチ紹介・関西インカレ素材添付）を本日中に確実に送付。当日対応の最終確認も。</p><p><span class="alert-red">🎯【SORA 新規申込フォロー9日経過・限界突破】</span> <strong>5/16新規申込（ふじかわ・まえかわ）9日経過 / 5/20新規申込姉妹（ますだ・はまだ）5日経過</strong> — お礼＋日程確定LINEが未送なら本日朝イチで一括送付必須。9日経過は体験キャンセル率がピークに達する危険ライン。</p><p><span class="alert-orange">📋【SUPERIOR やましきフォロー4日経過・追加連絡推奨】</span> 5/21(木) 生駒体験のやましきりょうへい（小4・男）への翌日フォローLINE送付状況＋既読＋返信＋入会意向確認 — 4日経過は入会率転換のラストチャンス。返信無しなら本日中に「体験感想を聞くスタンス」で追加フォロー。</p><p><span class="alert-orange">💰【SUPERIOR まつもと入金確認 18日経過】</span> まつもとゆうせい（5/7体験済・入会確定）入会金¥5,500・月謝¥6,600の入金確認継続。18日経過なら本日も丁寧なリマインドLINE送付推奨。</p><p><span class="alert-orange">🔥【TrustFit PRISM CUP CF 15日目・後半戦突入】</span> CF公開15日目（2週間経過・後半戦突入）。本日中にCF達成率の現状をX/Instagramストーリーで発信＋関西実業団5/23-24帯同素材を活用したCF告知転用＋未送付法人DM最終出し切り（5月終了まで残り6日）。</p><p><span class="alert-orange">📋【むーん 行政情報モニタリング再開・継続課題7日連続】</span> 本日5/25(月)は行政情報モニタリング日 — 大阪市新着確認実施済（新規通知なし・最新2026/4/14付）。<strong>5/8付け「サビ管・児発管 実践研修OJT短縮特例の届出」/ 5/15付け「就労継続支援B型 基本報酬区分の見直し」</strong>の対応要否を<strong>本日中に最終結論化必須</strong>（7日連続継続課題）。</p><p><span class="alert-green">🏃 【SUPERIOR/関学 東大阪記録会リマインド】</span> 小学生対象の6/20(土)第7回東大阪市6月第1回陸上競技記録会（締切6/5・残り11日🟡）— SUPERIOR選手のエントリー有無を本日中に検討開始。</p><p><span class="alert-green">📊【SNS実数 本セッション再取得不可】</span> オギラボTikTok <strong>1,539人</strong>・YouTube <strong>94人/12本</strong>・Note <strong>2人/5記事</strong> / CARAS IG <strong>67人/92件</strong>・TikTok <strong>23人/いいね185</strong> / SORA IG <strong>517人/286件</strong>・体験フォーム<strong>328件</strong> / SUPERIOR IG <strong>4人/20件</strong>・体験フォーム<strong>111件</strong>（前回5/23 Chrome実測値継続・本セッション自動再取得不可）。MOONさん端末でのChrome実測再開推奨。</p>
+</div>
+
+<!-- PJ PROGRESS -->
+<div class="card">
+  <h2>📊 PJ進捗サマリー</h2>
+  <p><strong>【オギラボ】</strong> 進捗65%。<strong>TikTok 1,539人(±0)・YouTube 94人/12本(±0) / Note 2人/5記事(±0)</strong>（5/23 Chrome実測値継続・本日Chrome自動取得不可）。関西インカレ3日間（5/15-17）＋関西実業団（5/23-24）の6日間連続帯同素材を本格コンテンツ化フェーズ継続。<br>🎯 次のアクション: ①関西実業団5/24最終日の振り返り＋6日間連続帯同総括コンテンツ着手 ②関西インカレ3日間総括コンテンツ（TikTok縦動画3本＋YouTube長尺1本＋Note記事1本）今週中（5/30まで残り5日）完成 ③TikTok 1,539人 → 次は2,000人ライン目標へシフト ④Note 2人/5記事 — 5/15公開「食事戦略」記事を関西インカレ＋関西実業団振り返りと連動拡散 ⑤Note 5人到達を5月末（残り6日）目標に有料パート付き記事を加速投下</p><p><strong>【CARAS】</strong> 進捗64%。<strong>Instagram 67人/92件(±0) / TikTok 23人/いいね185(±0)</strong>（5/23 Chrome実測値継続・本日Chrome自動取得不可）。MEO：夙川 🟡6位広告込・4位広告除く（±0安定継続）／西宮 🔴圏外（±0）。<br>🎯 次のアクション: ①5/22(金) GBP投稿（姿勢改善・マダム向け）の効果測定（インプレッション・閲覧数・電話発信回数）を本日中に取得（未取得なら）②明日5/26(火・偶数週) GBP投稿予定 → ゴルフパフォーマンス向上テーマの最終決裁＋投稿（caras-gbp-autoposter or 手動）③5/27(水・奇数週) Instagram投稿の素材ドラフト本日中完成 ④MEO西宮圏外脱却→既存顧客口コミ依頼継続＋SORA/SUPERIOR保護者向け「親子で通えるパーソナルジム」訴求強化継続</p><p><strong>【健康経営】</strong> 進捗20%（変化なし）。<br>🎯 次のアクション: ①CF支援企業候補リストへの「健康経営優良法人認定サポート」提案テンプレを今週中完成→5月末（残り6日）でDM送付開始 ②健康診断予約（3月末期限超過）の至急対応継続課題 ③関西実業団5/23-24帯同素材を「健康経営×アスリート×企業フットサル」訴求に転用 ④証拠写真フォルダ運用継続蓄積（プロテイン関連4件登録済・新規エントリー検討）</p><p><strong>【SORA】</strong> 進捗57%。<strong>Instagram 517人/286件(±0) / 体験フォーム累計328件(±0)</strong>（5/23 Chrome実測値継続・本日Chrome自動取得不可）。<br>🎯 次のアクション: ①<strong>本日朝イチ絶対必須：5/16新規申込（ふじかわ・まえかわ 9日経過）＋5/20新規申込姉妹（ますだ・はまだ 5日経過）への申込お礼＋日程確定LINE一括送付</strong> ②<strong>明日5/26(火) つじおか しんのすけ 事前フォローLINE（残り1日・本日中絶対）送付</strong> ③5/30(土) ふじかわ しおり 体験まで残り5日／6/6(土) まえかわ いつき 体験まで残り12日／6/20(土) 姉妹2名 体験まで残り26日 ④Instagram +0継続 — 関西実業団5/24最終日素材を保護者向け「現役オリンピアン指導現場」訴求でフィード投稿 ⑤東大阪記録会6/20(締切6/5) SUPERIOR共有大会 — SORAでも告知検討</p><p><strong>【SUPERIOR】</strong> 進捗62%。<strong>Instagram 4人/20件(±0) / 体験フォーム累計111件(±0) / 会員管理25名(5/23実測)/休会4件</strong>（5/23 Chrome実測値継続・本日Chrome自動取得不可）。<br>🎯 次のアクション: ①<strong>5/21(木) 生駒体験やましきりょうへいへの翌日フォローLINE送付状況確認＋既読＋返信＋入会意向確認</strong>（4日経過は入会率転換のラストチャンス・本日中追加フォロー） ②まつもとゆうせい入会金¥5,500・月謝¥6,600の入金確認継続（5/7体験から18日経過） ③Instagram Week3 ATHLETE投稿（関西インカレ素材活用）最終決裁＋投稿 ④<strong>箕面契約更新（6月）の準備本格着手＋フロム・シェフ5月末MTG最終準備（5月末まで残り6日）</strong> ⑤東大阪記録会6/20(土)（締切6/5・残り11日）SUPERIOR選手のエントリー有無検討開始</p><p><strong>【TrustFit / PRISM CUP】</strong> 進捗37%。<strong>🔥 CF公開15日目（2週間経過・後半戦突入）</strong>。<br>🎯 次のアクション: ①関西実業団5/24最終日帯同素材を「現役オリンピアン×企業フットサル支援」訴求でCF告知転用（関西インカレ3日間と連動した「6日間連続帯同レポート」訴求が強力） ②CF達成率の現状をX/Instagramストーリーで本日中発信（CF公開2週間経過・後半戦突入訴求） ③未送付の法人DMを5月終了まで残り6日で出し切る ④CF URL: https://camp-fire.jp/projects/945642/</p><p><strong>【むーん】</strong> 進捗85%（定員9割稼働継続）。<br>🎯 次のアクション: ①<strong>本日5/25(月)は行政情報モニタリング実施日 → 大阪市障がい福祉サービス お知らせ確認実施済（新規通知なし・最新2026/4/14付「令和8年度 前年度の実績等に伴う基本報酬及び加算の届出について」）</strong> ②<strong>5/8付け「サビ管・児発管 実践研修OJT短縮特例の届出」/ 5/15付け「就労継続支援B型 基本報酬区分の見直し」対応要否を本日中に最終結論化必須</strong>（7日連続継続課題・先延ばし限界） ③SK-3施設案内PDF作成（継続課題） ④リタリコ問い合わせ(ID 203474 / 5/14)の対応進捗確認＋未開封確認継続</p><p><strong>【関西学院大学陸上部】</strong> 進捗22%。<strong>本日5/25 KGAD月次活動報告書提出期限</strong>。<br>🎯 次のアクション: ①<strong>本日中絶対完遂：KGAD 5月分指導日整理＋報告書生成＋提出完遂</strong>（スプレッドシートE〜R列オレンジ日抽出＋関西インカレ5/15-17＋関西実業団5/23-24含むリスト化＋generate_kgad_report.py実行＋提出） ②5/30(土) 東大阪記録会（荻田欠席）の選手連絡フォロー ③6/13(土) 日本選手権 北田(幅跳び)出場確定→事前ケア相談 ④6/19〜 西日本インカレ準備本格化 ⑤6/22 富永U20世界陸上有効記録期限5m37cm — 残り28日のラスト1か月戦略整理</p>
+</div>
+
+<!-- SNS STATUS -->
+<div class="card">
+  <h2>📱 SNSステータス（実測値）</h2>
+  <table><tr><th>PJ</th><th>媒体</th><th>本日5/25（5/23値継続）</th><th>前回5/24比</th></tr><tr><td>オギラボ</td><td>TikTok @ogilab1230</td><td><strong>1,539人</strong></td><td>±0</td></tr><tr><td>オギラボ</td><td>YouTube @OgiLab</td><td><strong>94人 / 12本</strong></td><td>±0</td></tr><tr><td>オギラボ</td><td>Note ogilab</td><td><strong>2人 / 5記事</strong></td><td>±0</td></tr><tr><td>CARAS</td><td>Instagram @caras_gym</td><td><strong>67人 / 92件</strong></td><td>±0</td></tr><tr><td>CARAS</td><td>TikTok @carasgym</td><td><strong>23人 / いいね185</strong></td><td>±0</td></tr><tr><td>CARAS</td><td>MEO「夙川 パーソナルジム」</td><td><strong>🟡6位広告込 / 4位広告除く</strong></td><td>±0安定継続</td></tr><tr><td>CARAS</td><td>MEO「西宮 パーソナルジム」</td><td><strong>🔴圏外</strong></td><td>±0</td></tr><tr><td>SORA</td><td>Instagram @basic_sports_club_sora</td><td><strong>517人 / 286件</strong></td><td>±0</td></tr><tr><td>SORA</td><td>体験フォーム累計</td><td><strong>328件</strong></td><td>±0</td></tr><tr><td>SUPERIOR</td><td>Instagram @superior_tf_2025</td><td><strong>4人 / 20件</strong></td><td>±0</td></tr><tr><td>SUPERIOR</td><td>体験フォーム累計</td><td><strong>111件</strong></td><td>±0</td></tr><tr><td>SUPERIOR</td><td>会員管理</td><td><strong>25名 / 休会4件</strong></td><td>±0</td></tr></table><p style="font-size:12px;color:#888;margin-top:8px;">※本セッション自動実行のためChrome実測再取得不可。前回5/23実測値を継続表示。MOONさん端末でのChrome確認は本日午前以降に推奨。</p>
+</div>
+
+<!-- TRIAL SCHEDULE -->
+<div class="card">
+  <h2>🏃 体験スケジュール（SORA / SUPERIOR）</h2>
+  <div class="school-card"><div class="school-header">🚨 SORA 観音寺 | 今後の体験予定（5/16新規申込・9日経過・本日朝イチ必ずお礼+日程確定LINE）</div><div class="trial-row"><span class="trial-date">5/30 (土・残り5日)</span><span class="trial-name">ふじかわ しおり（藤川栞里）</span><span class="trial-course">小1・女・観音寺小学生コース(9:30~10:30)【5/16申込・9日経過・本日朝イチ必ずお礼+日程確定LINE送付】</span></div><div class="trial-row"><span class="trial-date">6/6 (土・残り12日)</span><span class="trial-name">まえかわ いつき（前川愛稀）</span><span class="trial-course">小4・男・観音寺専門基礎コース(11:00~12:30)【5/16申込・9日経過・本日朝イチ必ずお礼+日程確定LINE送付】</span></div></div><div class="school-card"><div class="school-header">🚨 SORA 高松（屋島） | 今後の体験予定（明日5/26つじおか体験+5/20新規申込姉妹）</div><div class="trial-row"><span class="trial-date">5/26 (火・明日・残り1日)</span><span class="trial-name">つじおか しんのすけ（辻岡新之助）</span><span class="trial-course">小6・男・小山コーチのスタート講習(18:30~20:00)【事前フォローLINE本日中絶対送付】</span></div><div class="trial-row"><span class="trial-date">6/20 (土・残り26日)</span><span class="trial-name">ますだ いおり（増田祈栞）</span><span class="trial-course">小5・女・高松アスリート短距離コース(18:30~20:00)【5/20申込・5日経過・本日朝イチ必ずお礼+日程確定LINE/姉妹同時申込】</span></div><div class="trial-row"><span class="trial-date">6/20 (土・残り26日)</span><span class="trial-name">はまだ このみ（濱田このみ）</span><span class="trial-course">小5・女・高松アスリート短距離コース(18:30~20:00)【5/20申込・5日経過・本日朝イチ必ずお礼+日程確定LINE/姉妹同時申込】</span></div></div><div class="school-card"><div class="school-header">🏢 SUPERIOR 生駒 | 今後の体験予定</div><div class="no-schedule">予定なし（5/21やましき体験済→4日経過・翌日フォロー送付状況+入会意向確認本日中追加フォロー）</div></div><div class="school-card"><div class="school-header">🏢 SUPERIOR 箕面 | 今後の体験予定</div><div class="no-schedule">予定なし（フロム・シェフ6月契約更新MTG準備中・5月末まで残り6日・本格準備着手）</div></div><div class="school-card"><div class="school-header">🏃 SUPERIOR/関学 共有 | 東大阪記録会 直近締切リマインド（小学生対象）</div><div class="trial-row"><span class="trial-date">6/20 (土)</span><span class="trial-name">第7回 東大阪市6月第1回陸上競技記録会</span><span class="trial-course">締切: 2026-06-05（金）／残り11日🟡 — SUPERIOR選手エントリー有無検討開始</span></div><div class="trial-row"><span class="trial-date">7/11 (土)</span><span class="trial-name">第8回 東大阪市7月第1回陸上競技記録会</span><span class="trial-course">締切: 2026-06-26（金）／残り32日🟢</span></div><div class="trial-row"><span class="trial-date">7/25 (土)</span><span class="trial-name">第9回 東大阪市7月第2回陸上競技記録会</span><span class="trial-course">締切: 2026-07-10（金）／残り46日🟢</span></div></div>
+</div>
+
+<!-- CDST -->
+<div class="card">
+  <h2>🎓 関西学院大学陸上部 CDSTアップデート</h2>
+  <ul><li>📌 <strong>本日5/25(月): KGAD月次活動報告書（書式4）提出期限</strong> — スプレッドシートE〜R列オレンジ日抽出＋関西インカレ5/15-17＋関西実業団5/23-24含むリスト化＋generate_kgad_report.py実行＋提出を本日中絶対完遂</li><li>📅 5/30(土): 東大阪記録会（荻田欠席・選手連絡フォロー）</li><li>📅 6/12(金)-14(日): 日本選手権 → 6/13(土) 北田（幅跳び）出場確定</li><li>📅 6/19(金)〜: 西日本インカレ準備本格化</li><li>📅 6/22: T列「U20世界陸上 有効記録期限 5m37cm」（富永選手関連）→ 残り28日のラスト1か月戦略整理</li><li>📝 CDSTスナップショット: 本日5/25時点でC/D/S/T列の新規変更未確認（ポール予定調整スプレッドシート本セッション自動取得不可・5/24値継続）。KGAD整理時にまとめて確認推奨</li></ul>
+</div>
+
+<!-- RECOMMENDED ACTIONS -->
+<div class="card">
+  <h2>🎯 推奨アクション</h2>
+  <div class="task-item"><strong>🏅 ① 関学 KGAD 5月分指導日整理＋報告書生成＋提出完遂（本日中絶対・締切本日）</strong><br>KGAD月次活動報告書（書式4）提出期限が本日5/25 — 本日中に①スプレッドシート（ポール予定調整）のE〜R列を確認しオレンジ日リスト化完了 ②関西インカレ3日間（5/15-17）+関西実業団5/23-24も指導日カウント対象に含める ③C/S列で試合・合宿等の内容確認 ④generate_kgad_report.py実行＋提出 を完遂。`python3 /Users/ogita/Desktop/ai実験用/関西学院大学陸上部/scripts/generate_kgad_report.py 5 "<オレンジ日カンマ区切り>" --detail "関西インカレ・関西実業団"`</div><div class="task-item"><strong>🆕 ② SORA 新規申込4件への即時お礼連絡（本日朝イチ絶対必須・限界突破）</strong><br>①ふじかわ しおり（小1・女・5/30観音寺小学生／5/16申込・<strong>9日経過・限界突破</strong>）②まえかわ いつき（小4・男・6/6観音寺専門基礎／5/16申込・<strong>9日経過・限界突破</strong>）③ますだ いおり（小5・女・6/20高松アスリート短距離／5/20申込・5日経過）④はまだ このみ（小5・女・6/20同上／5/20申込・5日経過・姉妹同時申込）。<strong>申込から9日経過は体験キャンセル率がピークに達する危険ライン</strong>。本日朝イチでお礼＋日程確定＋持ち物案内テンプレを一括送付。</div><div class="task-item"><strong>🎯 ③ SORA 5/26つじおか体験 事前フォロー（残り1日・本日中絶対）</strong><br>明日5/26(火) つじおか しんのすけ（小6・男・高松スタート講習18:30~20:00）まで残り1日 — 事前フォローLINE送付。①持ち物（運動着・室内シューズ・水筒）②会場アクセス（屋島レクザムフィールド）③関西インカレ素材＋小山コーチ（ジュニアオリンピック2位）の指導理念紹介添付 ④保護者の不安解消（送迎・見学可否）。当日対応の最終確認も。</div><div class="task-item"><strong>📋 ④ SUPERIOR 5/21やましき翌日フォロー追加連絡（4日経過・入会率転換ラストチャンス）</strong><br>5/21(木) 生駒体験のやましきりょうへい（小4・男）への翌日フォローLINE（5/22送付想定）の①送付完了確認 ②既読確認 ③返信内容確認 ④入会意向の現状把握。4日経過は入会率転換のラストチャンス。返信無しなら本日中に追加フォロー（無理に売らず体験感想を聞くスタンスで・関西インカレ素材添付）。</div><div class="task-item"><strong>💰 ⑤ SUPERIOR まつもとゆうせい入金確認（18日経過・継続最優先）</strong><br>入会金¥5,500・月謝¥6,600の入金確認。①本日も口座確認 ②未入金なら丁寧なリマインドLINE送付 ③5/7体験から18日経過 — 入金期限の再確認＋振込指定日の確定推奨。</div><div class="task-item"><strong>🔥 ⑥ TrustFit/PRISM CUP CF15日目（後半戦突入）</strong><br>①関西実業団5/24最終日帯同素材を「現役オリンピアン×企業フットサル支援」訴求でCF告知転用（関西インカレ3日間と連動した「6日間連続帯同レポート」訴求が強力） ②CF達成率の現状をX/Instagramストーリーで本日中発信（CF公開2週間経過・後半戦突入訴求） ③未送付の法人DMを5月終了まで残り6日で出し切る ④CF URL: https://camp-fire.jp/projects/945642/</div><div class="task-item"><strong>📋 ⑦ むーん 行政情報の最終結論化必須（7日連続継続・本日結論化）</strong><br>本日5/25(月)モニタリング実施済（大阪市新着なし・最新2026/4/14付「令和8年度 前年度の実績等に伴う基本報酬及び加算の届出について」）。2件の継続確認事項に<strong>本日中に必ず結論を出す</strong>：①5/8付け「サビ管・児発管 実践研修OJT短縮特例の届出」 ②5/15付け「就労継続支援B型 基本報酬区分の見直し」。届出が必要なら期限と提出書類を整理し、CONTEXT.md「⚠️ 要対応」欄を更新。<strong>7日連続継続は危険レベル・本日結論化必須</strong>。</div><div class="task-item"><strong>🎨 ⑧ CARAS 5/26(火・偶数週)GBP投稿＋5/27Instagram素材準備（本日中）</strong><br>①5/22(金)GBP投稿（姿勢改善・マダム向け）の効果測定取得（未取得なら）②明日5/26(火・偶数週) GBP投稿予定 → ゴルフパフォーマンス向上テーマの最終決裁＋投稿（caras-gbp-autoposter or 手動） ③5/27(水・奇数週) Instagram投稿の素材ドラフト本日中完成 ④MEO西宮圏外脱却→既存顧客口コミ依頼継続。</div><div class="task-item"><strong>🏅 ⑨ オギラボ 6日間連続帯同総括コンテンツ制作（5/30まで残り5日完成）</strong><br>関西インカレ素材＋関西実業団素材を統合活用：①TikTok縦動画3本以上（試合中ダイジェスト／選手インタビュー／6日間連続帯同総括）②YouTube長尺1本（10分程度の振り返り）③オギラボNote記事「関西インカレ→関西実業団 帯同記」をサロン会員向け有料パート付きで投稿（Note 5人目標達成のトリガー）④Instagramストーリー＆フィードに結果まとめ投稿 ⑤SORA/SUPERIOR保護者層向け＋TrustFit CF告知＋CARAS会員訴求にも転用。</div><div class="task-item"><strong>🏃 ⑩ SUPERIOR/関学 東大阪記録会6/20エントリー検討開始（締切残り11日）</strong><br>SUPERIOR小学生選手対象の第7回東大阪市6月第1回陸上競技記録会（2026-06-20土／締切6/5金／残り11日🟡）— エントリー希望選手リストアップを本日中に開始。指導者経由のメール申込（hirosan@hct.zaq.ne.jp）が必須。参加費300円〜500円（登録／準登録）。関学（大学一般カテゴリ）の参加可否も荻田CDST列で確認。</div>
+</div>
+
+<!-- SYNERGY -->
+<div class="card">
+  <h2>🔗 シナジーチャンス</h2>
+  <ul><li>🏅 <strong>KGAD 5月分提出（本日）× 6日間連続帯同訴求 × 関学報告品質最大化</strong>：本日提出のKGAD報告書活動内容詳細欄に「関西インカレ3日間（5/15-17）+関西実業団2日間（5/23-24）の6日間連続現役オリンピアン帯同」を明記し、関西学院大学への報告品質を最大化。SNS素材としてもオギラボ／TrustFit／SORA／SUPERIORに横展開。</li><li>🔥 <strong>TrustFit CF15日目 × 6日間連続帯同レポート × 後半戦CF告知強化</strong>：CF公開2週間経過・後半戦突入タイミングで「6日間連続帯同レポート」素材を活用したCF告知を投下。関西インカレ3日間と関西実業団最終日の連続性で差別化された訴求。CF達成率現状＋CF URL自然挿入＋未送付DM最終出し切りを本日中に。</li><li>🆕 <strong>SORA 新規申込4件への即時フォロー × 関西インカレ＋関西実業団素材添付</strong>：本日送付するフォロー連絡（ふじかわ・まえかわ・ますだ・はまだ）に関西インカレ帯同写真や3日間総括動画＋関西実業団5/23-24の現役選手指導場面を添付し「現役オリンピック選手が指導する現場」の価値を可視化。9日経過＋5日経過の挽回には信頼構築素材必須。</li><li>🏃 <strong>SORA 5/26つじおか体験（明日）× 関西実業団最終日素材 × 小山コーチ紹介</strong>：明日5/26のつじおか体験事前フォローLINEに、関西実業団最終日素材＋小山コーチ（ジュニアオリンピック2位）の競技歴・指導理念を添付。「現役一流アスリートの指導」を体験前に伝え期待値最大化。</li><li>📋 <strong>SUPERIOR 5/21やましきフォロー × 関西インカレ素材添付 × 入会意向喚起</strong>：4日経過の翌日フォロー追加連絡時に、関西インカレ素材を添付し「上田コーチ（5/21指導者）の現役オリンピック選手帯同実績」を再アピール。返信を引き出し入会意向を喚起する。</li><li>🏃 <strong>SUPERIOR/関学 東大阪記録会6/20（締切残り11日）× SORAでも告知</strong>：SUPERIOR小学生エントリー検討と並行してSORA(高松・観音寺)選手にも東大阪記録会の存在を告知。香川→東大阪の遠征要否を含む参加意向確認は中長期戦略として有効。</li><li>🏅 <strong>6日間連続帯同総括コンテンツ × 全PJ横断発信</strong>：5/15-17の3日間素材＋5/23-24の関西実業団素材＋総括映像をオギラボTikTok/YouTube/Noteで横展開してサロン会員獲得トリガー化。SORA/SUPERIORの保護者層向け「現役オリンピアン指導現場」訴求にも転用。CARAS／TrustFit CF告知にも横展開。Note 2人 → 5人到達を5月末（残り6日）目標に。</li><li>💼 <strong>PRISM CUP支援企業 × 健康経営（5月末まで残り6日）</strong>：CF支援した経営者層へ「健康経営優良法人認定サポート」をバックエンド提案。CF終了後の即営業に備え提案テンプレを今週中完成・DM送付開始の準備本日中。</li><li>📋 <strong>むーん × 関学 × 月末締切ラッシュ完遂</strong>：本日5/25は両方の重要締切（KGAD報告書提出＋むーん行政情報結論化）。本日中に両方完遂を目標に同時並行で進める。</li></ul>
+</div>
+
+<footer>generated by daily-morning-briefing skill ｜ 2026年5月25日（月） ｜ 全PJ自動チェック完了</footer>
+</div>
+</body>
+</html>

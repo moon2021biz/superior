@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUPERIOR 予定表 2026年6〜8月</title>
+  <style>
+    :root {
+      --ikoma: #5c2d91;
+      --ikoma-dark: #3d1f6b;
+      --ikoma-mid: #7b4dc0;
+      --minoh: #c86400;
+      --minoh-dark: #8b4500;
+      --minoh-mid: #e07820;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      background: #f5f0ff;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2a0f50 0%, var(--ikoma) 60%, var(--minoh-dark) 100%);
+      color: white;
+      padding: 28px 20px 22px;
+      text-align: center;
+    }
+    header h1 { font-size: 1.7rem; letter-spacing: 0.12em; }
+    header p { margin-top: 6px; font-size: 0.82rem; opacity: 0.82; }
+
+    /* 場所凡例 */
+    .legend {
+      background: white;
+      padding: 12px 16px 14px;
+      border-bottom: 1px solid #e0d8f5;
+    }
+    .legend-title { font-size: 0.75rem; color: #888; margin-bottom: 8px; }
+    .legend-grid { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.76rem; }
+    .ldot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.15); }
+
+    /* タブ */
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 2px solid var(--ikoma);
+      position: sticky; top: 0; z-index: 20;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .tab {
+      flex: 1; padding: 13px 6px; text-align: center;
+      font-size: 1rem; font-weight: bold; cursor: pointer;
+      color: #888; transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+    .tab.active { color: var(--ikoma); border-bottom: 3px solid var(--ikoma); background: #f8f5ff; }
+
+    /* コンテンツ */
+    .month-content { display: none; }
+    .month-content.active { display: block; }
+
+    /* テーブルラッパー */
+    .table-wrap {
+      overflow: auto;
+      max-height: 70vh;
+      padding: 16px;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 8px;
+      border: 1px solid #e0d8f5;
+      background: white;
+    }
+    table {
+      min-width: 600px;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.09);
+      border-radius: 8px;
+      font-size: 0.79rem;
+    }
+
+    /* ヘッダー */
+    thead tr.row-school th {
+      background: #1a0a30;
+      color: white;
+      padding: 9px 6px;
+      text-align: center;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    thead tr.row-school th.th-date { background: #1a0a30; }
+    thead tr.row-school th.th-ikoma {
+      background: var(--ikoma-dark);
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+    }
+    thead tr.row-school th.th-minoh {
+      background: var(--minoh-dark);
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+    }
+    thead tr.row-school th.th-event { background: #4a3000; }
+
+    thead tr.row-course th {
+      color: white;
+      padding: 8px 5px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      line-height: 1.4;
+    }
+    thead tr.row-course th.tc-ikoma { background: var(--ikoma-mid); }
+    thead tr.row-course th.tc-minoh { background: var(--minoh-mid); }
+    thead tr.row-course th.tc-event { background: #6d4e00; }
+    thead tr.row-course th span {
+      display: block; font-size: 0.7rem; font-weight: normal; opacity: 0.88; margin-top: 2px;
+    }
+
+    /* ヘッダー固定 */
+    thead tr.row-school th {
+      position: sticky; top: 0; z-index: 4;
+    }
+    thead tr.row-course th {
+      position: sticky; top: 43px; z-index: 4;
+    }
+    thead th.th-date {
+      position: sticky; top: 0; left: 0; z-index: 10;
+      background: #1a0a30;
+    }
+
+    /* ボディ */
+    tbody tr { border-bottom: 1px solid #ede8f7; }
+    tbody tr:hover td { filter: brightness(0.96); }
+
+    td {
+      padding: 7px 6px; text-align: center;
+      vertical-align: middle; border: 1px solid #ede8f7;
+    }
+    td.ikoma { background: #f8f5ff; }
+    td.minoh { background: #fff8f0; }
+
+    td.border-left-ikoma { border-left: 3px solid var(--ikoma-mid) !important; }
+    td.border-left-minoh  { border-left: 3px solid var(--minoh-mid) !important; }
+    td.border-left-event  { border-left: 3px solid #b8860b !important; }
+
+    /* 日付セル */
+    .date-cell {
+      white-space: nowrap; min-width: 82px;
+      text-align: left; padding-left: 10px; font-weight: bold;
+      position: sticky; left: 0; z-index: 2;
+      background: white;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+    }
+
+    tr.sat { background: rgba(92,45,145,0.03); }
+    tr.sat .date-cell { color: #5c2d91; background: #f8f5ff; }
+    tr.sun { background: rgba(211,47,47,0.03); }
+    tr.sun .date-cell { color: #c62828; background: #fff8f8; }
+    tr.empty-day td { opacity: 0.5; }
+    tr.empty-day .date-cell { font-weight: normal; }
+
+    /* セル */
+    .c-rest { color: #e53935; font-size: 0.72rem; font-weight: bold; }
+    .c-none { color: #ddd; font-size: 0.72rem; }
+    .c-active { font-weight: bold; }
+    .loc-gym     { color: #1565c0; }   /* 体育館 */
+    .loc-ground  { color: #2e7d32; }   /* グランド */
+    .loc-randc   { color: #c86400; }   /* RANDC */
+    .loc-undecided { color: #999; font-size: 0.7rem; }
+
+    /* イベントバッジ */
+    .ev-badge {
+      display: inline-block;
+      background: #ef6c00; color: white;
+      border-radius: 10px; padding: 2px 7px;
+      font-size: 0.68rem; font-weight: bold;
+      white-space: nowrap;
+    }
+
+    /* イベント詳細 */
+    .events-box {
+      margin: 4px 16px 16px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .events-box h3 {
+      background: #e65100; color: white;
+      padding: 10px 16px; font-size: 0.88rem;
+    }
+    .ev-item { padding: 12px 16px; border-bottom: 1px solid #f3f3f3; }
+    .ev-item:last-child { border-bottom: none; }
+    .ev-name { font-weight: bold; color: #bf360c; margin-bottom: 3px; font-size: 0.85rem; }
+    .ev-detail { font-size: 0.77rem; color: #555; line-height: 1.65; }
+
+    /* 注釈 */
+    .note-box {
+      margin: 0 16px 20px;
+      padding: 10px 14px;
+      background: #f3f0fa;
+      border-left: 3px solid var(--ikoma);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8rem; color: #3d1f6b;
+    }
+
+    footer {
+      text-align: center; padding: 20px;
+      font-size: 0.74rem; color: #999;
+      border-top: 1px solid #ddd; margin-top: 8px;
+    }
+    footer a { color: var(--ikoma); }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.3rem; }
+      .tab { font-size: 0.88rem; padding: 11px 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🏃 SUPERIOR 予定表</h1>
+  <p>陸上クラブ スペリオール（Superior）2026年 6月〜8月</p>
+</header>
+
+<div class="legend">
+  <div class="legend-title">▼ 場所の略称</div>
+  <div class="legend-grid">
+    <div class="legend-item"><div class="ldot" style="background:#bbdefb"></div>体育館＝生駒市立総合公園体育館（奈良県生駒市小明町1807-1）</div>
+    <div class="legend-item"><div class="ldot" style="background:#c8e6c9"></div>グランド＝生駒市立総合公園（屋外グラウンド）</div>
+    <div class="legend-item"><div class="ldot" style="background:#ffe0b2"></div>RANDC＝RANDC（大阪府箕面市西宿2丁目20-6）</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showMonth(6)">6月</div>
+  <div class="tab" onclick="showMonth(7)">7月</div>
+  <div class="tab" onclick="showMonth(8)">8月</div>
+</div>
+
+<!-- ======== 6月 ======== -->
+<div id="m6" class="month-content active">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr class="row-school">
+          <th rowspan="2" class="th-date">日付</th>
+          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
+          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
+          <th rowspan="2" class="th-event">大会</th>
+        </tr>
+        <tr class="row-course">
+          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
+          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
+          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
+        </tr>
+      </thead>
+      <tbody id="tb6"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 7月 ======== -->
+<div id="m7" class="month-content">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr class="row-school">
+          <th rowspan="2" class="th-date">日付</th>
+          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
+          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
+          <th rowspan="2" class="th-event">大会</th>
+        </tr>
+        <tr class="row-course">
+          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
+          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
+          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
+        </tr>
+      </thead>
+      <tbody id="tb7"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 8月 ======== -->
+<div id="m8" class="month-content">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr class="row-school">
+          <th rowspan="2" class="th-date">日付</th>
+          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
+          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
+          <th rowspan="2" class="th-event">大会</th>
+        </tr>
+        <tr class="row-course">
+          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
+          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
+          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
+        </tr>
+      </thead>
+      <tbody id="tb8"></tbody>
+    </table>
+  </div>
+  <div class="note-box">📝 8月の生駒スクール：夏休み期間のため活動日未定の週があります。確定次第更新します。</div>
+</div>
+
+<footer>
+  陸上クラブ SUPERIOR ｜ 株式会社MOON<br>
+  生駒スクール（木曜）奈良県生駒市 ／ 箕面スクール（火曜）大阪府箕面市
+</footer>
+
+<script>
+// === ユーティリティ ===
+function locHtml(loc) {
+  const map = {
+    '体育館': 'loc-gym',
+    'グランド': 'loc-ground',
+    'RANDC': 'loc-randc',
+    '未定': 'loc-undecided'
+  };
+  return `<span class="${map[loc]||''}">${loc}</span>`;
+}
+
+function cell(v, school, isBorderLeft) {
+  const bg = school === 'ikoma' ? 'ikoma' : school === 'minoh' ? 'minoh' : '';
+  const border = isBorderLeft
+    ? (school === 'ikoma' ? 'border-left-ikoma' : school === 'minoh' ? 'border-left-minoh' : 'border-left-event')
+    : '';
+  const cls = [bg, border].filter(Boolean).join(' ');
+  if (v === null) return `<td class="c-none ${cls}">―</td>`;
+  if (v === 'rest') return `<td class="c-rest ${cls}">おやすみ</td>`;
+  return `<td class="c-active ${cls}">${locHtml(v.loc)}</td>`;
+}
+
+function row(d) {
+  const hasAny = d.ik || d.isp || d.mn || d.ev;
+  const cls = d.day === '土' ? 'sat' : d.day === '日' ? 'sun' : (!hasAny ? 'empty-day' : '');
+  return `<tr class="${cls}">
+    <td class="date-cell">${d.d}（${d.day}）</td>
+    ${cell(d.ik, 'ikoma', true)}${cell(d.isp, 'ikoma', false)}
+    ${cell(d.mn, 'minoh', true)}
+    <td class="border-left-event c-none">―</td>
+  </tr>`;
+}
+
+// === 6月データ ===
+// ik=生駒小学生 isp=生駒専門 mn=箕面小学生 ev=大会
+const d6=[
+  {d:'6/1', day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/2', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'6/3', day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/4', day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
+  {d:'6/5', day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/6', day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/7', day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/8', day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/9', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'6/10',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/11',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
+  {d:'6/12',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/13',day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/14',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/15',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/16',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'6/17',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/18',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
+  {d:'6/19',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/20',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
+  {d:'6/21',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/22',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/23',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'6/24',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/25',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
+  {d:'6/26',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/27',day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/28',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/29',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'6/30',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+];
+
+// === 7月データ ===
+const d7=[
+  {d:'7/1', day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/2', day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
+  {d:'7/3', day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/4', day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/5', day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/6', day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/7', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'7/8', day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/9', day:'木', ik:{loc:'グランド'}, isp:{loc:'グランド'}, mn:null, ev:null},
+  {d:'7/10',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/11',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
+  {d:'7/12',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/13',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/14',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'7/15',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/16',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
+  {d:'7/17',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/18',day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/19',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/20',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/21',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'7/22',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/23',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
+  {d:'7/24',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/25',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
+  {d:'7/26',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/27',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/28',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'7/29',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'7/30',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
+  {d:'7/31',day:'金', ik:null, isp:null, mn:null, ev:null},
+];
+
+// === 8月データ ===
+// 生駒：8/13のみおやすみ確定。他木曜は夏休み対応で未定。
+const d8=[
+  {d:'8/1', day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/2', day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/3', day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/4', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'8/5', day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/6', day:'木', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/7', day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/8', day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
+  {d:'8/9', day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/10',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/11',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'8/12',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/13',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
+  {d:'8/14',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/15',day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/16',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/17',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/18',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'8/19',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/20',day:'木', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/21',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/22',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
+  {d:'8/23',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/24',day:'月', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/25',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'8/26',day:'水', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/27',day:'木', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/28',day:'金', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/29',day:'土', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/30',day:'日', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/31',day:'月', ik:null, isp:null, mn:null, ev:null},
+];
+
+// === レンダリング ===
+function render(data, id) {
+  document.getElementById(id).innerHTML = data.map(row).join('');
+}
+render(d6,'tb6'); render(d7,'tb7'); render(d8,'tb8');
+
+// === タブ切替 ===
+function showMonth(m) {
+  document.querySelectorAll('.month-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('m'+m).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const idx = [6,7,8].indexOf(m);
+  if (idx >= 0) tabs[idx].classList.add('active');
+}
+</script>
+</body>
+</html>

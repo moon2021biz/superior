@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit｜全体設計まとめ（内部確認用）2026-04-05</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-pale: rgba(201,168,76,0.10);
+    --navy: #0D1B2A;
+    --navy2: #162438;
+    --navy3: #1E3050;
+    --white: #FFFFFF;
+    --off: #F4F6FA;
+    --gray: #6B7F96;
+    --line: #E2E8F0;
+    --red: #E05A4B;
+    --green: #2E9E6E;
+    --blue: #3B82F6;
+    --teal: #0F8080;
+    --purple: #7C3AED;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
+    background: var(--off);
+    color: var(--navy);
+    line-height: 1.75;
+    font-size: 14px;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--navy);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 24px 0 40px;
+  }
+  .sidebar-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 16px;
+  }
+  .sidebar-logo .brand { color: var(--gold); font-size: 16px; font-weight: 900; letter-spacing: 3px; }
+  .sidebar-logo .sub { color: rgba(255,255,255,0.35); font-size: 10px; margin-top: 4px; letter-spacing: 1px; }
+
+  .nav-group { margin-bottom: 6px; }
+  .nav-group-label {
+    padding: 6px 20px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .nav-link {
+    display: block;
+    padding: 7px 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.60);
+    text-decoration: none;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .nav-link:hover { color: var(--white); background: rgba(255,255,255,0.05); border-left-color: var(--gold); }
+  .nav-link.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+  /* ── MAIN ── */
+  .main { margin-left: 220px; padding: 0 0 80px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #1A3050 100%);
+    padding: 48px 56px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+  .ph-inner { max-width: 820px; position: relative; z-index: 1; }
+  .ph-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .ph-title { font-size: 28px; font-weight: 900; color: var(--white); margin-bottom: 8px; line-height: 1.3; }
+  .ph-title span { color: var(--gold); }
+  .ph-sub { font-size: 13px; color: rgba(255,255,255,0.50); margin-bottom: 20px; }
+  .ph-meta {
+    display: flex; gap: 20px; flex-wrap: wrap;
+  }
+  .ph-meta-item { font-size: 11px; color: rgba(255,255,255,0.40); }
+  .ph-meta-item strong { color: rgba(255,255,255,0.70); margin-left: 4px; }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 0;
+  }
+  @media(max-width:900px){ .section { padding: 32px 20px 0; } }
+
+  .section-anchor { display: block; height: 1px; margin-top: -70px; padding-top: 70px; pointer-events: none; }
+
+  .s-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .s-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.3;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+  .s-desc { font-size: 13px; color: var(--gray); margin-bottom: 24px; line-height: 1.8; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+  .card-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+  .card-body { font-size: 13px; color: #3A4A5C; line-height: 1.85; }
+
+  /* ── GRID ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 16px; }
+  .g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 16px; }
+  @media(max-width:700px){ .g2,.g3,.g4 { grid-template-columns:1fr; } }
+
+  /* ── TABLE ── */
+  .tbl { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:13px; }
+  .tbl th {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .tbl th:first-child { border-radius: 6px 0 0 0; }
+  .tbl th:last-child { border-radius: 0 6px 0 0; }
+  .tbl td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; line-height:1.7; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:nth-child(even) td { background: var(--off); }
+  .tbl-wrap { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 20px; }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .b-gold { background: rgba(201,168,76,0.15); color: #7A5500; }
+  .b-red  { background: rgba(224,90,75,0.12); color: var(--red); }
+  .b-green{ background: rgba(46,158,110,0.12); color: var(--green); }
+  .b-blue { background: rgba(59,130,246,0.12); color: var(--blue); }
+  .b-gray { background: rgba(107,127,150,0.12); color: var(--gray); }
+  .b-purple{ background: rgba(124,58,237,0.12); color: var(--purple); }
+
+  /* ── HIGHLIGHT BOX ── */
+  .hbox {
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border-left: 4px solid;
+  }
+  .hbox-gold { background: rgba(201,168,76,0.07); border-color: var(--gold); }
+  .hbox-red  { background: rgba(224,90,75,0.07); border-color: var(--red); }
+  .hbox-green{ background: rgba(46,158,110,0.07); border-color: var(--green); }
+  .hbox-blue { background: rgba(59,130,246,0.07); border-color: var(--blue); }
+  .hbox-navy { background: rgba(13,27,42,0.05); border-color: var(--navy); }
+
+  .hbox-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+  .hbox-body  { font-size: 13px; color: #3A4A5C; line-height: 1.8; }
+
+  /* ── KPI ROW ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+  @media(max-width:700px){ .kpi-row { grid-template-columns: 1fr 1fr; } }
+  .kpi {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .kpi-label { font-size: 10px; color: var(--gray); letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+  .kpi-val { font-size: 28px; font-weight: 900; color: var(--navy); line-height: 1; margin-bottom: 4px; }
+  .kpi-val span { font-size: 13px; font-weight: 600; }
+  .kpi-sub { font-size: 10px; color: var(--gray); }
+  .kpi.featured { background: var(--navy); border-color: var(--navy); }
+  .kpi.featured .kpi-label { color: rgba(255,255,255,0.4); }
+  .kpi.featured .kpi-val { color: var(--gold); }
+  .kpi.featured .kpi-sub { color: rgba(255,255,255,0.4); }
+
+  /* ── LIST ── */
+  .ul-check, .ul-tri, .ul-arrow { list-style: none; }
+  .ul-check li, .ul-tri li, .ul-arrow li {
+    padding: 5px 0 5px 20px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.7;
+    border-bottom: 1px solid var(--line);
+  }
+  .ul-check li:last-child, .ul-tri li:last-child, .ul-arrow li:last-child { border-bottom:none; }
+  .ul-check li::before { content:'✓'; position:absolute; left:0; color:var(--green); font-weight:800; top:5px; }
+  .ul-tri li::before   { content:'▲'; position:absolute; left:0; color:var(--red); font-size:9px; top:8px; }
+  .ul-arrow li::before { content:'→'; position:absolute; left:0; color:var(--gold); font-weight:800; top:5px; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--line); margin: 40px 0 0; }
+
+  /* ── STATUS CHIP ── */
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+  }
+  .chip-done   { background:#D1FAE5; color:#065F46; }
+  .chip-todo   { background:#FEF3C7; color:#92400E; }
+  .chip-high   { background:#FEE2E2; color:#991B1B; }
+  .chip-mid    { background:#FEF3C7; color:#92400E; }
+  .chip-low    { background:#EDE9FE; color:#5B21B6; }
+
+  /* ── RANK CARDS ── */
+  .rank-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+  @media(max-width:800px){ .rank-grid { grid-template-columns:1fr 1fr; } }
+  .rank-card {
+    border-radius:12px; padding:18px 14px; text-align:center;
+    border: 1px solid var(--line);
+  }
+  .rank-card.r-std  { border-top: 3px solid var(--gray); }
+  .rank-card.r-ume  { border-top: 3px solid #CD7F32; }
+  .rank-card.r-take { border-top: 3px solid #A8A9AD; }
+  .rank-card.r-matsu{ border-top: 3px solid var(--gold); background: linear-gradient(135deg,rgba(201,168,76,0.05),var(--white)); }
+  .rank-icon { font-size: 24px; margin-bottom: 6px; }
+  .rank-name { font-size: 14px; font-weight: 900; margin-bottom: 4px; }
+  .rank-fee  { font-size: 12px; color: var(--gray); margin-bottom: 8px; }
+  .rank-limit{ font-size: 18px; font-weight: 900; color: var(--navy); margin-bottom: 4px; }
+  .rank-cond { font-size: 11px; color: var(--gray); line-height: 1.6; }
+
+  /* ── FLOW CHAIN ── */
+  .flow-chain {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .flow-node {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 16px;
+    font-size: 12px; font-weight: 700; color: var(--navy);
+    text-align: center;
+  }
+  .flow-node.gold { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.4); color: #7A5500; }
+  .flow-arrow { font-size: 16px; color: var(--gold); font-weight: 900; }
+
+  /* ── FIXED STATUS BAR ── */
+  .status-bar {
+    position: fixed; bottom: 0; left: 220px; right: 0;
+    background: var(--navy); padding: 10px 40px;
+    display: flex; gap: 24px; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    z-index: 99;
+  }
+  .sb-item { font-size: 11px; color: rgba(255,255,255,0.45); }
+  .sb-item strong { color: var(--gold); margin-left: 4px; }
+
+  /* ── TODAY DECISIONS ── */
+  .today-box {
+    background: linear-gradient(135deg, var(--navy), #162438);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .today-label { font-size: 10px; letter-spacing: 2px; color: var(--gold); font-weight: 800; margin-bottom: 10px; }
+  .today-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .today-item:last-child { border-bottom: none; }
+  .today-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .today-text { font-size: 13px; color: rgba(255,255,255,0.80); line-height: 1.7; }
+  .today-text strong { color: var(--gold); }
+
+  /* ── PERSONA CARD ── */
+  .persona-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  @media(max-width:600px){ .persona-pair { grid-template-columns: 1fr; } }
+  .pc {
+    background: var(--white); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--line);
+  }
+  .pc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .pc-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--navy); display: flex; align-items: center;
+    justify-content: center; font-size: 18px; flex-shrink: 0;
+  }
+  .pc-name { font-size: 13px; font-weight: 800; }
+  .pc-role { font-size: 11px; color: var(--gray); }
+  .pc-pain { font-size: 12px; color: var(--red); margin-bottom: 6px; font-weight: 700; }
+  .pc-trigger { font-size: 12px; color: var(--green); font-weight: 700; margin-bottom: 6px; }
+  .pc-body { font-size: 12px; color: #3A4A5C; line-height: 1.7; }
+
+  @media(max-width:700px){ .main { margin-left: 0; } .sidebar { display: none; } .status-bar { left: 0; } }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">TRUSTFIT</div>
+    <div class="sub">内部確認用ドキュメント</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">概要</div>
+    <a href="#overview" class="nav-link">01 プロジェクト概要</a>
+    <a href="#concept" class="nav-link">02 コアコンセプト・USP</a>
+    <a href="#today" class="nav-link">03 本日の決定事項</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">ビジネス設計</div>
+    <a href="#target" class="nav-link">04 ターゲット・ペルソナ</a>
+    <a href="#trainer" class="nav-link">05 トレーナー陣・ランク</a>
+    <a href="#point" class="nav-link">06 ポイント・報酬設計</a>
+    <a href="#eval" class="nav-link">07 評価システム</a>
+    <a href="#session" class="nav-link">08 セッション設計</a>
+    <a href="#revenue" class="nav-link">09 収益モデル</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">戦略</div>
+    <a href="#analysis" class="nav-link">10 三者分析</a>
+    <a href="#content" class="nav-link">11 コンテンツ優先順位</a>
+    <a href="#monitor" class="nav-link">12 モニター戦略</a>
+    <a href="#funnel" class="nav-link">13 VIP→継続ファネル</a>
+    <a href="#synergy" class="nav-link">14 他PJシナジー</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">リスク・TODO</div>
+    <a href="#risk" class="nav-link">15 リスク・課題ログ</a>
+    <a href="#todo" class="nav-link">16 TODO一覧</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-inner">
+    <div class="ph-tag">INTERNAL REVIEW DOCUMENT</div>
+    <div class="ph-title">TrustFit <span>全体設計まとめ</span></div>
+    <div class="ph-sub">ビジネスモデル・設計・戦略・三者分析・TODO — 全項目を一箇所で確認するための内部ドキュメント</div>
+    <div class="ph-meta">
+      <div class="ph-meta-item">最終更新<strong>2026-04-05</strong></div>
+      <div class="ph-meta-item">フェーズ<strong>企画・設計期（モニター戦略準備中）</strong></div>
+      <div class="ph-meta-item">進捗<strong>5%</strong></div>
+      <div class="ph-meta-item">運営<strong>株式会社MOON</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 01 概要 ── -->
+<div class="section">
+  <span class="section-anchor" id="overview"></span>
+  <div class="s-label">01</div>
+  <div class="s-title">プロジェクト概要</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">🎯 サービスコンセプト</div>
+      <div class="card-body">
+        企業向けトレーナー派遣マッチングプラットフォーム（業務委託型）。オリンピアン・日本代表帯同コンディショニングコーチ・著名アスリートが企業に直接訪問し、2時間のセッションを企業が自由に設計できる。支払いは評価スコア連動の完全成果報酬型。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚖️ 法的区分と設計思想</div>
+      <div class="card-body">
+        「<strong>派遣</strong>」ではなく「<strong>業務委託</strong>」として設計 → 労働者派遣業許可不要。トレーナーへの指揮命令は発生しない構造。評価による成果報酬であり、「良かった分だけ払う」モデルが中核。
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">仮称</div><div class="kpi-val" style="font-size:20px;">TrustFit</div><div class="kpi-sub">正式名未定</div></div>
+    <div class="kpi"><div class="kpi-label">ターゲット企業規模</div><div class="kpi-val">50<span>〜200名</span></div><div class="kpi-sub">IT・製造・中堅</div></div>
+    <div class="kpi featured"><div class="kpi-label">1社あたり年間収益</div><div class="kpi-val">67<span>万円</span></div><div class="kpi-sub">パターンC想定</div></div>
+    <div class="kpi"><div class="kpi-label">損益分岐</div><div class="kpi-val">10<span>〜15社</span></div><div class="kpi-sub">モニター後</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 02 コンセプト・USP ── -->
+<div class="section">
+  <span class="section-anchor" id="concept"></span>
+  <div class="s-label">02</div>
+  <div class="s-title">コアコンセプト・USP・コピー</div>
+
+  <div class="hbox hbox-gold" style="margin-bottom:12px;">
+    <div class="hbox-title">📢 メインコピー（確定）</div>
+    <div style="font-size:22px; font-weight:900; color:#7A5500; margin:6px 0;">「一流が来る。成果の分だけ払う。」</div>
+    <div style="font-size:13px; color:var(--gray);">企業向け：「体験した価値だけ払えばいい。」　／　トレーナー向け：「実力が数字になる、唯一のステージ。」</div>
+  </div>
+
+  <div class="hbox hbox-navy" style="margin-bottom:12px;">
+    <div class="hbox-title">🗺️ ポジショニング</div>
+    <div class="hbox-body">「<strong>プレミアム × 完全成果報酬型</strong>」象限を独占。既存市場は「定額・効果不明」か「高額固定・効果不明」のどちらか。競合ゼロのブルーオーシャン。先行者優位を確立するためにモニター10社獲得が最優先。</div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="card-title">🥇 USP 01<br>評価連動型成果報酬（業界初）</div>
+      <div class="card-body">50点満点の双方評価スコアで支払い額が確定。良かった分だけ払う仕組みで企業の「無駄払い」をゼロにする。低評価時は文字入力必須で品質担保。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🥈 USP 02<br>VIPアスリート × 二層構造</div>
+      <div class="card-body">オリンピアン・日本代表帯同コーチ・著名アスリートが「高価値体験」を届け、継続サポートは若手トレーナーが担当。高品質と継続性を両立する唯一の設計。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🥉 USP 03<br>健康経営認定 × 採用PR直結</div>
+      <div class="card-body">健康経営優良法人認定サポートに対応。セッション動画を採用PRとして活用でき、投資の「二重回収」が可能。稟議を通す最強のロジック。</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 03 本日の決定事項 ── -->
+<div class="section">
+  <span class="section-anchor" id="today"></span>
+  <div class="s-label">03</div>
+  <div class="s-title">本日の決定事項（2026-04-05）</div>
+
+  <div class="today-box">
+    <div class="today-label">✅ TODAY'S CONFIRMED DECISIONS</div>
+    <div class="today-item">
+      <div class="today-icon">👥</div>
+      <div class="today-text"><strong>トレーナー陣の強化確定：</strong>オリンピアンだけでなく、日本代表帯同コンディショニングコーチ・著名アスリート・スポーツトレーナー・パーソナルトレーナーも在籍。プラットフォーム全体の「看板」を強化。</div>
+    </div>
+    <div class="today-item">
+      <div class="today-icon">⚠️</div>
+      <div class="today-text"><strong>「マッサージ」表現を廃止：</strong>あん摩マッサージ指圧師法の観点からリスクがあるため、全資料で「コンディショニング」「リカバリーケア」「ボディケア」に統一。</div>
+    </div>
+    <div class="today-item">
+      <div class="today-icon">⏱️</div>
+      <div class="today-text"><strong>「2時間自由設計」を前面に打ち出す：</strong>コンテンツの内容は企業側が自由に設計できる2時間。これが稟議担当者にとって「使いやすさ」の訴求になる。</div>
+    </div>
+    <div class="today-item">
+      <div class="today-icon">📌</div>
+      <div class="today-text"><strong>食事会・学校イベントは「オプション」扱い：</strong>今フェーズは「企業向け福利厚生・健康経営」に集中。食事会・学校・地域イベントは要望があれば対応可とし、提案書の主軸には据えない。</div>
+    </div>
+    <div class="today-item">
+      <div class="today-icon">🎯</div>
+      <div class="today-text"><strong>稟議を通す「魔法の言葉」確定：</strong>企業担当者が社内稟議を通す際に最も有効なキーワードは「<strong>健康経営認定 × 採用PR</strong>」の組み合わせ。全コンテンツ・提案書にこの軸を通す。</div>
+    </div>
+    <div class="today-item">
+      <div class="today-icon">📊</div>
+      <div class="today-text"><strong>三者分析（MOON / toB / トレーナー）完了：</strong>各5課題×5メリットを整理し、TrustFitが三者全員の課題を同時に解決するWin³構造を確認。「TrustFit_三者分析_戦略提案.html」に詳細。</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 04 ターゲット・ペルソナ ── -->
+<div class="section">
+  <span class="section-anchor" id="target"></span>
+  <div class="s-label">04</div>
+  <div class="s-title">ターゲット企業・ペルソナ（確定）</div>
+
+  <div class="hbox hbox-blue">
+    <div class="hbox-title">🏢 ターゲット企業プロフィール</div>
+    <div class="hbox-body">社員規模 <strong>50〜200名</strong>　／　決裁が早い・採用課題が切実・福利厚生への投資余地あり<br>業種優先：<strong>ITベンチャー / 製造業 / 地場中堅企業</strong></div>
+  </div>
+
+  <div style="margin-bottom:8px; font-weight:800; font-size:13px; color:var(--navy);">企業側ペルソナ</div>
+  <div class="persona-pair">
+    <div class="pc">
+      <div class="pc-head">
+        <div class="pc-avatar">👔</div>
+        <div><div class="pc-name">ペルソナA：総務・人事部長（45歳男性）</div><div class="pc-role">ITベンチャー100名 / 福利厚生担当</div></div>
+      </div>
+      <div class="pc-pain">最大の悩み：使われない福利厚生にお金を払いたくない</div>
+      <div class="pc-trigger">購買トリガー：効果が出た分だけ払えばいいという安心感</div>
+      <div class="pc-body">健康経営の認定取得も取り組みたいが何をすれば良いか分からない。稟議が通りにくいため「変動費→確定費」の設計が刺さる。</div>
+    </div>
+    <div class="pc">
+      <div class="pc-head">
+        <div class="pc-avatar">🏭</div>
+        <div><div class="pc-name">ペルソナB：創業社長・オーナー経営者（42歳男性）</div><div class="pc-role">製造業80名・2代目</div></div>
+      </div>
+      <div class="pc-pain">最大の悩み：ジム通いの時間がない・役員も疲弊</div>
+      <div class="pc-trigger">購買トリガー：VIPアスリートが会社に来てくれる体験価値</div>
+      <div class="pc-body">採用競争力の強化も課題。VIPの社内訪問が採用PR動画になると「投資」ではなく「資産」として捉えられる。</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:8px; font-weight:800; font-size:13px; color:var(--navy);">トレーナー側ペルソナ</div>
+  <div class="persona-pair">
+    <div class="pc">
+      <div class="pc-head">
+        <div class="pc-avatar">🏃</div>
+        <div><div class="pc-name">ペルソナC：フリーランストレーナー（28歳男性）</div><div class="pc-role">個人クライアント中心・月収30万円前後</div></div>
+      </div>
+      <div class="pc-pain">最大の悩み：法人案件を取りたいが営業できない</div>
+      <div class="pc-trigger">参加トリガー：頑張れば評価が上がって報酬も上がる仕組み</div>
+      <div class="pc-body">評価スコアという「実力の見える化」が動機になる。Challenger→Eliteへの昇格ロードマップが目標設定を明確にする。</div>
+    </div>
+    <div class="pc">
+      <div class="pc-head">
+        <div class="pc-avatar">🏅</div>
+        <div><div class="pc-name">ペルソナD：元アスリート・引退選手（32歳男性）</div><div class="pc-role">陸上・実業団引退後のキャリア移行期</div></div>
+      </div>
+      <div class="pc-pain">最大の悩み：競技後のキャリアが不安</div>
+      <div class="pc-trigger">参加トリガー：競技実績が初期信頼になるスカウト枠</div>
+      <div class="pc-body">「元日本代表」という肩書きをそのまま法人向け信頼に変換できる唯一の場。スカウト枠（Eliteスタート）で即戦力として参加できる。</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 05 トレーナー陣・ランク ── -->
+<div class="section">
+  <span class="section-anchor" id="trainer"></span>
+  <div class="s-label">05</div>
+  <div class="s-title">トレーナー陣・ランク制度（確定）</div>
+
+  <div class="hbox hbox-gold" style="margin-bottom:20px;">
+    <div class="hbox-title">📌 在籍トレーナー4カテゴリ（2026-04-05 確定）</div>
+    <div class="hbox-body">
+      ① <strong>オリンピアン・著名アスリート</strong>（VIP Legendクラス） — 講演・マインドセット・健康経営研修に特化<br>
+      ② <strong>日本代表帯同コンディショニングコーチ</strong>（VIP Masterクラス） — コンディショニング・リカバリーケア専門<br>
+      ③ <strong>スポーツトレーナー・パーソナルトレーナー</strong>（VIP Eliteクラス） — 全社ストレッチ・トレーニング・定期巡回<br>
+      ④ <strong>若手トレーナー</strong>（スタンダード→継続担当） — VIP後のバックエンド継続サポート
+    </div>
+  </div>
+
+  <div class="rank-grid">
+    <div class="rank-card r-std">
+      <div class="rank-icon">🆕</div>
+      <div class="rank-name">スタンダード</div>
+      <div class="rank-fee">手数料 25%</div>
+      <div class="rank-limit">50,000pt<span style="font-size:12px;font-weight:400;">上限</span></div>
+      <div class="rank-cond">登録直後・実績ゼロ<br>VIPではない</div>
+    </div>
+    <div class="rank-card r-ume">
+      <div class="rank-icon">🥉</div>
+      <div class="rank-name">VIP Elite</div>
+      <div class="rank-fee">手数料 20%</div>
+      <div class="rank-limit">100,000pt<span style="font-size:12px;font-weight:400;">上限</span></div>
+      <div class="rank-cond">累計10回以上<br>累計400pt以上<br>低品質セッション（≤20pt）ゼロ必須</div>
+    </div>
+    <div class="rank-card r-take">
+      <div class="rank-icon">🥈</div>
+      <div class="rank-name">VIP Master</div>
+      <div class="rank-fee">手数料 18%</div>
+      <div class="rank-limit">200,000pt<span style="font-size:12px;font-weight:400;">上限</span></div>
+      <div class="rank-cond">累計20回以上<br>平均40pt以上<br>45ptを3回以上取得</div>
+    </div>
+    <div class="rank-card r-matsu">
+      <div class="rank-icon">🥇</div>
+      <div class="rank-name">VIP Legend</div>
+      <div class="rank-fee">手数料 15%</div>
+      <div class="rank-limit">300,000pt<span style="font-size:12px;font-weight:400;">上限</span></div>
+      <div class="rank-cond">累計30回以上<br>平均40pt以上<br>45ptを3回以上取得</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr>
+        <th>昇格ルート</th><th>累計セッション</th><th>平均スコア</th><th>特別条件</th>
+      </tr>
+      <tr><td>スタンダード → VIP Elite</td><td>10回以上</td><td>累計400pt以上</td><td>低評価（20点以下）ゼロ</td></tr>
+      <tr><td>VIP Elite → VIP Master</td><td>20回以上</td><td>平均40pt以上</td><td>45ptを3回以上取得</td></tr>
+      <tr><td>VIP Master → VIP Legend</td><td>30回以上</td><td>平均40pt以上</td><td>45ptを3回以上取得</td></tr>
+      <tr><td>スカウト → VIP Elite直接</td><td>不問</td><td>不問</td><td>TrustFitからのオファーのみ・Elite VIPからスタート</td></tr>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="hbox hbox-red">
+      <div class="hbox-title">⬇️ 降格ルール</div>
+      <div class="hbox-body">直近3セッション連続で平均25pt以下 → 1ランク降格</div>
+    </div>
+    <div class="hbox hbox-green">
+      <div class="hbox-title">🎯 MOONさんのポジション</div>
+      <div class="hbox-body">初期VIP Eliteスカウト枠として出演。実績を積み上げてLegendを目指す体制。プラットフォームの「顔」として機能。</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 06 ポイント・報酬設計 ── -->
+<div class="section">
+  <span class="section-anchor" id="point"></span>
+  <div class="s-label">06</div>
+  <div class="s-title">ポイント・報酬設計（確定）</div>
+
+  <div class="hbox hbox-navy" style="margin-bottom:20px;">
+    <div class="hbox-title">💳 基本フロー</div>
+    <div class="hbox-body">
+      企業がポイントを事前購入（<strong>1pt = 1円</strong>）→ 予約時に「最大報酬分」をロック → セッション完了後に評価スコアで確定額を引き落とし → 余剰ポイントは即日返還 → 未使用ポイントは購入日から1年後の同日23:59に失効（ウォレット燃焼モデル）
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:20px;">
+    <table class="tbl">
+      <tr><th>評価スコア（50点満点）</th><th>支払い報酬レンジ</th></tr>
+      <tr><td>〜10点</td><td>〜10,000pt（最低報酬）</td></tr>
+      <tr><td>10〜20点</td><td>10,000pt〜20,000pt</td></tr>
+      <tr><td>20〜30点</td><td>〜30,000pt</td></tr>
+      <tr><td>30〜40pt</td><td>〜50,000pt</td></tr>
+      <tr><td>40〜50点</td><td>〜100,000pt（Legendは〜300,000pt）</td></tr>
+    </table>
+  </div>
+
+  <div style="font-weight:800; font-size:13px; margin-bottom:10px;">ポイント購入ティア（企業向け）</div>
+  <div class="tbl-wrap" style="margin-bottom:20px;">
+    <table class="tbl">
+      <tr><th>購入額</th><th>付与ポイント</th><th>ボーナス</th></tr>
+      <tr><td>¥50,000</td><td>50,000pt</td><td>—</td></tr>
+      <tr><td>¥100,000</td><td>105,000pt</td><td>+5,000pt</td></tr>
+      <tr><td>¥300,000</td><td>320,000pt</td><td>+20,000pt</td></tr>
+      <tr><td>¥500,000+</td><td>540,000pt+</td><td>+40,000pt</td></tr>
+      <tr><td style="color:#7A5500; font-weight:800;">初回モニター特典</td><td style="color:#7A5500; font-weight:800;">¥10,000 → 100,000pt</td><td style="color:#7A5500; font-weight:800;">10倍キャンペーン</td></tr>
+    </table>
+  </div>
+
+  <div style="font-weight:800; font-size:13px; margin-bottom:10px;">ポイント消費パターン（企業タイプ別）</div>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>パターン</th><th>想定企業</th><th>主な使途</th><th>月間消費目安</th><th>推奨度</th></tr>
+      <tr><td><strong>A：オフィス特化</strong></td><td>ITベンチャー</td><td>経営陣パフォーマンスチューニング・目標設定</td><td>5〜15万pt</td><td><span class="badge b-blue">○推奨</span></td></tr>
+      <tr><td><strong>B：ファミリー特化</strong></td><td>製造業・地場企業</td><td>企業内キッズスクール・保護者向けトレーニング</td><td>3〜10万pt</td><td><span class="badge b-gray">△</span></td></tr>
+      <tr style="background:rgba(201,168,76,0.04);"><td><strong>C：経営陣特化</strong></td><td>中堅企業</td><td>健康経営優良法人認定研修・限界突破公演</td><td>10〜30万pt</td><td><span class="badge b-gold">★最推奨</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 07 評価システム ── -->
+<div class="section">
+  <span class="section-anchor" id="eval"></span>
+  <div class="s-label">07</div>
+  <div class="s-title">評価システム（確定）</div>
+
+  <div class="hbox hbox-navy" style="margin-bottom:20px;">
+    <div class="hbox-title">📋 基本設計</div>
+    <div class="hbox-body">
+      <strong>5段階 × 10項目 = 50点満点</strong>の双方評価。低評価（1〜2点）は文字入力必須。高評価（4〜5点）はコメント任意。<br>
+      <strong>双方評価の公開タイミング：</strong>両者が提出後に同時公開（一方が先に見て点数を合わせることを防止）
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>#</th><th>評価項目</th><th>カテゴリ</th></tr>
+      <tr><td>1</td><td>コンテンツの質・内容の専門性</td><td><span class="badge b-blue">技術</span></td></tr>
+      <tr><td>2</td><td>参加者の体感・満足度</td><td><span class="badge b-green">体験</span></td></tr>
+      <tr><td>3</td><td>目標・課題へのフィット度</td><td><span class="badge b-gold">成果</span></td></tr>
+      <tr><td>4</td><td>コミュニケーション・説明力</td><td><span class="badge b-blue">対話</span></td></tr>
+      <tr><td>5</td><td>時間厳守・進行管理</td><td><span class="badge b-gray">プロ意識</span></td></tr>
+      <tr><td>6</td><td>安全配慮・リスク管理</td><td><span class="badge b-red">安全</span></td></tr>
+      <tr><td>7</td><td>場の雰囲気づくり・場マネジメント</td><td><span class="badge b-purple">空間</span></td></tr>
+      <tr><td>8</td><td>準備・資料・道具の充実度</td><td><span class="badge b-gray">準備</span></td></tr>
+      <tr><td>9</td><td>継続・発展への提案力</td><td><span class="badge b-green">継続</span></td></tr>
+      <tr><td style="font-weight:800;">10</td><td style="font-weight:800;">総合的な価値（コスト対効果）← ウォレット報酬確定に最も直結</td><td><span class="badge b-gold">価値</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 08 セッション設計 ── -->
+<div class="section">
+  <span class="section-anchor" id="session"></span>
+  <div class="s-label">08</div>
+  <div class="s-title">セッション設計（確定）</div>
+
+  <div class="g2" style="margin-bottom:20px;">
+    <div class="hbox hbox-gold" style="margin-bottom:0;">
+      <div class="hbox-title">⏱️ 基本単位：1コマ = 2時間（上限）</div>
+      <div class="hbox-body">コンテンツ内容は企業（クライアント）が自由に設計。前半講演＋後半コンディショニング等の組み合わせも自由。</div>
+    </div>
+    <div class="hbox hbox-blue" style="margin-bottom:0;">
+      <div class="hbox-title">🔢 コマ数自動提案ルール</div>
+      <div class="hbox-body">必要コマ数 = 参加人数 ÷ 上限人数（切り上げ）<br>例：50名 ÷ 30名 = 1.67 → 「2コマをおすすめします」と自動提案</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>コンテンツ区分</th><th>人数上限</th><th>理由</th></tr>
+      <tr><td>ヨガ・ストレッチ・ウォーキング</td><td>上限なし</td><td>安全リスクが低い</td></tr>
+      <tr><td>トレーニング・機能改善系</td><td><strong>30名まで</strong></td><td>怪我の見落としリスク</td></tr>
+      <tr><td>講演・マインドセット系</td><td>上限なし</td><td>安全リスクなし</td></tr>
+      <tr><td>コーチング・個別指導</td><td><strong>5名まで</strong></td><td>個別対応が前提</td></tr>
+    </table>
+  </div>
+
+  <div style="font-weight:800; font-size:13px; margin-bottom:10px;">2時間の設計例</div>
+  <div class="flow-chain">
+    <div class="flow-node gold">📢 講演（60分）</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node">🧘 全社ストレッチ（60分）</div>
+    <div class="flow-arrow">or</div>
+    <div class="flow-node gold">🎯 目標設定（90分）</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node">🩺 コンディショニング（30分）</div>
+  </div>
+  <div style="font-size:12px; color:var(--gray);">※ 食事会・学校イベント・地域活動はオプションとして要相談対応（今フェーズの主軸には据えない）</div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 09 収益モデル ── -->
+<div class="section">
+  <span class="section-anchor" id="revenue"></span>
+  <div class="s-label">09</div>
+  <div class="s-title">収益モデル・ユニットエコノミクス（確定）</div>
+
+  <div class="tbl-wrap" style="margin-bottom:20px;">
+    <table class="tbl">
+      <tr><th>#</th><th>収益源</th><th>概要</th><th>タイミング</th></tr>
+      <tr><td>1</td><td><strong>プラットフォーム手数料</strong></td><td>報酬確定額の15〜25%（ランクにより変動）</td><td>月次</td></tr>
+      <tr><td>2</td><td><strong>ポイント失効益</strong></td><td>年間未使用ポイント（推定10〜20%）が収益に</td><td>年次</td></tr>
+      <tr><td>3</td><td><strong>企業サブスク</strong></td><td>VIPアクセス権 月額5,000pt〜年間45,000pt</td><td>月次固定</td></tr>
+      <tr><td>4</td><td><strong>初期導入費</strong></td><td>オンボーディング 30,000〜50,000pt</td><td>初回のみ</td></tr>
+    </table>
+  </div>
+
+  <div style="font-weight:800; font-size:13px; margin-bottom:10px;">スケール試算（パターンC・1社あたり年間¥200万購入想定）</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">手数料収入 17%</div><div class="kpi-val">28.9<span>万</span></div><div class="kpi-sub">年間/社</div></div>
+    <div class="kpi"><div class="kpi-label">失効益 15%</div><div class="kpi-val">30<span>万</span></div><div class="kpi-sub">年間/社</div></div>
+    <div class="kpi"><div class="kpi-label">サブスク</div><div class="kpi-val">4.5<span>万</span></div><div class="kpi-sub">年間/社</div></div>
+    <div class="kpi featured"><div class="kpi-label">1社あたり年間収益</div><div class="kpi-val">≈67<span>万</span></div><div class="kpi-sub">合計</div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>フェーズ</th><th>企業数</th><th>年間収益目安</th></tr>
+      <tr><td>モニター</td><td>5社</td><td>≈¥335万円/年</td></tr>
+      <tr><td>初期</td><td>15社</td><td>≈¥1,005万円/年</td></tr>
+      <tr><td>成長</td><td>30社</td><td>≈¥2,010万円/年</td></tr>
+      <tr><td style="font-weight:800;">損益分岐</td><td style="font-weight:800;">10〜15社</td><td style="font-weight:800;">—</td></tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 10 三者分析 ── -->
+<div class="section">
+  <span class="section-anchor" id="analysis"></span>
+  <div class="s-label">10</div>
+  <div class="s-title">三者分析 — 課題とメリット（2026-04-05 完成）</div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="card-title" style="color:#7A5500;">🏆 MOON（課題5つ）</div>
+      <ul class="ul-tri">
+        <li>実績を法人市場に届ける営業経路がない</li>
+        <li>個人稼働に上限があり収益スケールが困難</li>
+        <li>プラットフォームの認知ゼロからの信頼構築コスト</li>
+        <li>若手トレーナーの質管理・育成負担</li>
+        <li>初期開発・運営コストの回収スピードが不確実</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#1D4ED8;">🏢 toB（課題5つ）</div>
+      <ul class="ul-tri">
+        <li>福利厚生の投資対効果が不明確で稟議が通らない</li>
+        <li>健康経営優良法人の認定取得方法が分からない</li>
+        <li>外部トレーナーの質にばらつきがあり信頼できない</li>
+        <li>社員の健康意識が上がらず研修が形骸化する</li>
+        <li>VIPアスリート体験を採用PRに使う手段がない</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#065F46;">💪 トレーナー（課題5つ）</div>
+      <ul class="ul-tri">
+        <li>法人営業のノウハウ・接点がなく個人依存から抜け出せない</li>
+        <li>実力を数値で可視化する場がなく適正単価が分からない</li>
+        <li>収入が不安定で単価交渉で足元を見られやすい</li>
+        <li>競技引退後のキャリア移行先が不明確</li>
+        <li>法人・オフィス環境での指導実績が積みにくい</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="card" style="border-top:3px solid var(--gold);">
+      <div class="card-title" style="color:#7A5500;">🏆 MOON（メリット5つ）</div>
+      <ul class="ul-check">
+        <li>Legendクラス最大300,000pt/回 × 手数料収入でW収益</li>
+        <li>企業数に比例してスケールする手数料収入</li>
+        <li>CARAS・健康経営PJ顧客を法人に自然転換</li>
+        <li>オリンピアン実績がプラットフォームの差別化看板になる</li>
+        <li>VIP単発→若手引き継ぎ設計で継続収益が自動化</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #3B82F6;">
+      <div class="card-title" style="color:#1D4ED8;">🏢 toB（メリット5つ）</div>
+      <ul class="ul-check">
+        <li>評価した分だけ払う → 無駄な投資がゼロになる</li>
+        <li>VIPアスリートの社内訪問 → 採用PR・エンゲージメント直結</li>
+        <li>健康経営優良法人認定サポートで投資が認定実績に変換</li>
+        <li>ポイント買い切りで変動費→確定費として経理処理が容易</li>
+        <li>初回モニター10倍特典で低リスクで大きな体験が得られる</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #059669;">
+      <div class="card-title" style="color:#065F46;">💪 トレーナー（メリット5つ）</div>
+      <ul class="ul-check">
+        <li>営業ゼロでプラットフォームが法人案件を集客</li>
+        <li>評価スコアで実力が可視化 → ランクアップで報酬上限UP</li>
+        <li>スタンダード→Elite→Master→Legendの明確な昇格ロードマップ</li>
+        <li>元アスリートはEliteスタートで競技実績が初期信頼になる</li>
+        <li>VIP後の継続案件（バックエンド）で安定収入が得られる</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hbox hbox-gold">
+    <div class="hbox-title">🔗 Win³ 構造の核心</div>
+    <div class="hbox-body">
+      MOONさんがLegendクラスでVIPセッションを提供 → 企業が「良い体験」をして高評価を出す → ポイントが確定・手数料が発生 → 若手トレーナーへの引き継ぎが発生 → 継続収益サイクルが回る。<strong>3者の課題が互いを補完し合いながら解決される構造</strong>がTrustFitの最大の強み。
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 11 コンテンツ優先順位 ── -->
+<div class="section">
+  <span class="section-anchor" id="content"></span>
+  <div class="s-label">11</div>
+  <div class="s-title">MOONさんのコンテンツ優先順位（確定）</div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>#</th><th>コンテンツ</th><th>解決する企業課題</th><th>優先度</th><th>パターン</th><th>報酬レンジ</th></tr>
+      <tr style="background:rgba(201,168,76,0.06);">
+        <td style="font-weight:900; border-left:3px solid var(--gold);">1</td>
+        <td><strong>健康経営優良法人 認定支援研修</strong></td>
+        <td>稟議・認定取得・投資対効果の可視化</td>
+        <td><span class="badge b-red">🔴最高</span></td>
+        <td><span class="badge b-gold">C：経営陣</span></td>
+        <td>220,000〜300,000pt/回</td>
+      </tr>
+      <tr style="background:rgba(201,168,76,0.06);">
+        <td style="font-weight:900; border-left:3px solid var(--gold);">2</td>
+        <td><strong>ストーリーテリング型講演（限界突破・アスリート体験談）</strong></td>
+        <td>採用PR・全社エンゲージメント・VIP体験</td>
+        <td><span class="badge b-red">🔴最高</span></td>
+        <td><span class="badge b-gold">C：経営陣</span></td>
+        <td>220,000〜300,000pt/回</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>コンディショニング・リカバリーケア</td>
+        <td>疲労蓄積した役員・社員の体のメンテナンス</td>
+        <td><span class="badge b-blue">🟡高</span></td>
+        <td><span class="badge b-gray">A：オフィス</span></td>
+        <td>120,000〜200,000pt/回</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>メンタルコーチング・目標設定セッション</td>
+        <td>役員・経営陣のパフォーマンス向上</td>
+        <td><span class="badge b-blue">🟡高</span></td>
+        <td><span class="badge b-gray">A：オフィス</span></td>
+        <td>120,000〜200,000pt/回</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>全社ストレッチ・トレーニング指導</td>
+        <td>社員の健康意識向上・体の変化を実感</td>
+        <td><span class="badge b-gray">🟡中</span></td>
+        <td><span class="badge b-gray">A/B：全社</span></td>
+        <td>60,000〜100,000pt/回</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>ファミリー向けプログラム（企業内キッズスクール連携）</td>
+        <td>福利厚生の差別化・採用ブランディング</td>
+        <td><span class="badge b-gray">🟡中</span></td>
+        <td><span class="badge b-gray">B：ファミリー</span></td>
+        <td>10,000〜50,000pt/回</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="hbox hbox-red">
+    <div class="hbox-title">⚠️ 表現ルール（2026-04-05 確定）</div>
+    <div class="hbox-body">「マッサージ」という言葉は全資料で使用禁止。代替表現：「コンディショニング」「リカバリーケア」「ボディケア」「コンディショニングケア」を使用すること。</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 12 モニター戦略 ── -->
+<div class="section">
+  <span class="section-anchor" id="monitor"></span>
+  <div class="s-label">12</div>
+  <div class="s-title">初期モニター戦略</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">🎁 10倍ポイントキャンペーン</div>
+      <div class="card-body">
+        <strong>¥10,000 → 100,000pt（通常の10倍）</strong><br><br>
+        条件：撮影・PR動画制作への協力（採用PR動画として活用）<br><br>
+        アクション：MOONさんの既存の経営者クライアントを法人にスライド依頼
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">✅ モニター企業への特典</div>
+      <div class="card-body">
+        <ul class="ul-check" style="margin-top:0;">
+          <li>¥10,000 → 100,000pt（10倍）</li>
+          <li>VIPトレーナー優先アサイン</li>
+          <li>健康経営認定サポート（コンサル込み）</li>
+          <li>採用PR動画制作協力</li>
+          <li>「創設企業パートナー」認定</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hbox hbox-green">
+    <div class="hbox-title">💡 ROIシミュレーション（モニター企業想定）</div>
+    <div class="hbox-body">
+      初期投資 <strong>¥1万円</strong> → 10倍特典で100,000pt取得 → VIPセッション1回分以上に相当<br>
+      健康経営認定取得 × 採用PR動画制作費の代替 × 社員満足度向上 → 合計 <strong>¥30万円以上の価値</strong>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 13 VIP→継続ファネル ── -->
+<div class="section">
+  <span class="section-anchor" id="funnel"></span>
+  <div class="s-label">13</div>
+  <div class="s-title">VIP→通常トレーナー 継続ファネル設計（確定）</div>
+
+  <div class="flow-chain" style="flex-direction:column; align-items:flex-start; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="flow-node gold">① 初回VIPセッション</div>
+      <div style="font-size:12px; color:var(--gray);">高価値体験。企業が「もっと継続したい」となる</div>
+    </div>
+    <div class="flow-arrow" style="padding-left:30px;">↓</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="flow-node">② 引き継ぎヒアリング（72時間以内）</div>
+      <div style="font-size:12px; color:var(--gray);">企業カルテにVIPが入力。企業文化・参加者特性を構造化</div>
+    </div>
+    <div class="flow-arrow" style="padding-left:30px;">↓</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="flow-node">③ 継続トレーナー提案（3名マッチング）</div>
+      <div style="font-size:12px; color:var(--gray);">週次・月次の継続サポートは若手が担当</div>
+    </div>
+    <div class="flow-arrow" style="padding-left:30px;">↓</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="flow-node gold">④ 継続稼働・ウォレット燃焼サイクル</div>
+      <div style="font-size:12px; color:var(--gray);">企業のポイントが継続的に消費される</div>
+    </div>
+    <div class="flow-arrow" style="padding-left:30px;">↓</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="flow-node">⑤ VIPとのリレーション維持（年1〜2回スポット）</div>
+      <div style="font-size:12px; color:var(--gray);">VIPは「フロントエンド」で稼働を絞って高単価を維持</div>
+    </div>
+  </div>
+
+  <div class="hbox hbox-gold" style="margin-top:20px;">
+    <div class="hbox-title">🏅 VIPインセンティブ（引き継ぎ促進）</div>
+    <div class="hbox-body">
+      継続トレーナーが初月評価40pt以上 → ボーナスポイント付与<br>
+      継続3ヶ月以上 → 「引き継ぎ成功バッジ」付与<br>
+      紹介実績数がLegend昇格の加点要素になる
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 14 シナジー ── -->
+<div class="section">
+  <span class="section-anchor" id="synergy"></span>
+  <div class="s-label">14</div>
+  <div class="s-title">他PJとのシナジー（CLAUDE.mdより）</div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>送客元</th><th>送客先</th><th>内容</th></tr>
+      <tr><td>TrustFit</td><td><strong>CARAS</strong></td><td>MOONさん自身がVIP Legendクラスとして出演・実績化</td></tr>
+      <tr><td>TrustFit</td><td><strong>健康経営PJ</strong></td><td>健康経営優良法人コンテンツを法人研修として展開</td></tr>
+      <tr><td>TrustFit</td><td><strong>オギラボ</strong></td><td>AI×法人トレーナーマッチングの事例として発信</td></tr>
+      <tr><td>CARAS</td><td><strong>TrustFit</strong></td><td>個人クライアントを法人顧客にスライド転換</td></tr>
+      <tr><td>健康経営PJ</td><td><strong>TrustFit</strong></td><td>健康経営認定支援 → TrustFitのプログラムへ誘導</td></tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 15 リスク ── -->
+<div class="section">
+  <span class="section-anchor" id="risk"></span>
+  <div class="s-label">15</div>
+  <div class="s-title">リスク・課題ログ</div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="card-title" style="color:#1D4ED8;">🏢 企業側リスク</div>
+      <ul class="ul-tri">
+        <li>社内で評価を押し付け合う（誰が評価するか不明確）<br><span style="font-size:11px;color:var(--green);">→ 評価担当者を事前登録制にする</span></li>
+        <li>経理稟議が通りにくい（変動費）<br><span style="font-size:11px;color:var(--green);">→ ポイント買い切りで「確定費用」として処理できるよう設計</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#065F46;">💪 トレーナー側リスク</div>
+      <ul class="ul-tri">
+        <li>アウェー環境での理不尽な低評価<br><span style="font-size:11px;color:var(--green);">→ 双方評価の公開・プラットフォームによる審査制度</span></li>
+        <li>コンテンツの無断録画・流用<br><span style="font-size:11px;color:var(--green);">→ 利用規約への明記・契約書整備</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--red);">⚙️ 運営側リスク</div>
+      <ul class="ul-tri">
+        <li>VIPの品質事故（名選手≠名コーチ）<br><span style="font-size:11px;color:var(--green);">→ スカウト枠でも事前コンテンツ審査を実施</span></li>
+        <li>双方が結託して評価を操作<br><span style="font-size:11px;color:var(--green);">→ 過去評価の統計的異常検知・アカウント監視</span></li>
+        <li>「マッサージ」表現の法的リスク<br><span style="font-size:11px;color:var(--green);">→「コンディショニング」「リカバリーケア」に統一済み（2026-04-05確定）</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── 16 TODO ── -->
+<div class="section" style="padding-bottom:120px;">
+  <span class="section-anchor" id="todo"></span>
+  <div class="s-label">16</div>
+  <div class="s-title">TODO一覧（最新）</div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>タスク</th><th>前提条件</th><th>優先度</th><th>ステータス</th></tr>
+      <tr>
+        <td><strong>正式プロジェクト名・ブランド名の決定</strong></td>
+        <td>なし</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-todo">⏸ 未着手</span></td>
+      </tr>
+      <tr style="background:#F0FDF4;">
+        <td><strong>✅ 評価10項目の詳細設計</strong></td>
+        <td>なし</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-done">✅ 完了（2026-04-04）</span></td>
+      </tr>
+      <tr>
+        <td>VIP昇格条件の数値設計（評価件数・平均点の閾値）</td>
+        <td>評価10項目確定 ✅</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-todo">⏸ 未着手</span></td>
+      </tr>
+      <tr style="background:rgba(224,90,75,0.04);">
+        <td><strong>1枚モノ提案書（企業向けモニター用）の作成</strong></td>
+        <td>ポイント設計確定 ✅</td>
+        <td><span class="badge b-red">🔴高</span></td>
+        <td><span class="chip chip-done">✅ 完了（2026-04-05）</span></td>
+      </tr>
+      <tr>
+        <td>業務委託契約書テンプレートの整備</td>
+        <td>なし</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-todo">⏸ 未着手</span></td>
+      </tr>
+      <tr style="background:rgba(224,90,75,0.04);">
+        <td><strong>MOONさんの法人向けコンテンツメニュー表作成</strong></td>
+        <td>なし</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-todo">⏸ 未着手</span></td>
+      </tr>
+      <tr>
+        <td>健康経営優良法人コンテンツとの連携プログラム設計</td>
+        <td>健康経営PJ コンテンツ確定</td>
+        <td><span class="badge b-blue">🟡中</span></td>
+        <td><span class="chip chip-todo">🚧 ブロック中</span></td>
+      </tr>
+      <tr style="background:rgba(224,90,75,0.04);">
+        <td><strong>ポイント管理・評価システムのプロトタイプ設計（LP的なもの）</strong></td>
+        <td>ブランド名確定</td>
+        <td><span class="badge b-red">🔴高</span></td>
+        <td><span class="chip chip-todo">🚧 ブロック中（名前待ち）</span></td>
+      </tr>
+      <tr style="background:rgba(224,90,75,0.04);">
+        <td><strong>初回モニター企業へのアプローチ</strong></td>
+        <td>1枚モノ提案書完成 ✅</td>
+        <td><span class="badge b-red">🔴高</span></td>
+        <td><span class="chip chip-todo">⏸ 次のアクション</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="hbox hbox-gold">
+    <div class="hbox-title">🎯 次のアクション（優先順）</div>
+    <div class="hbox-body">
+      <strong>① 今すぐできる：</strong>MOONさんのコンテンツメニュー表（単体版）作成 — 全前提条件クリア済み<br>
+      <strong>② 今すぐできる：</strong>初回モニター企業へのアプローチ開始 — 提案書完成済み<br>
+      <strong>③ 要検討：</strong>正式プロジェクト名の決定 — 名前が決まればLP・システム設計が一気に進む
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="sb-item">プロジェクト<strong>TrustFit（仮）</strong></div>
+  <div class="sb-item">進捗<strong>5%</strong></div>
+  <div class="sb-item">フェーズ<strong>企画・設計期</strong></div>
+  <div class="sb-item">最終更新<strong>2026-04-05</strong></div>
+  <div class="sb-item" style="margin-left:auto;">株式会社MOON 内部確認用</div>
+</div>
+
+</body>
+</html>

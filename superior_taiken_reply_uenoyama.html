@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SUPERIOR体験返信メール - 上野山偉久さま (6/4)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Meiryo", sans-serif;
+    background: #f5f6f8;
+    margin: 0;
+    padding: 24px;
+    color: #222;
+    line-height: 1.6;
+  }
+  .container { max-width: 760px; margin: 0 auto; }
+  h1 {
+    font-size: 18px;
+    margin: 0 0 16px;
+    color: #111;
+    border-left: 4px solid #111;
+    padding-left: 10px;
+  }
+  .meta {
+    background: #fff;
+    border: 1px solid #e1e3e8;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .meta dt { font-weight: 600; color: #555; display: inline-block; min-width: 80px; }
+  .meta dd { display: inline; margin: 0; }
+  .meta div { margin: 4px 0; }
+  .card {
+    background: #fff;
+    border: 1px solid #e1e3e8;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+    letter-spacing: 0.04em;
+  }
+  .copy-btn {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s;
+    font-weight: 600;
+  }
+  .copy-btn:hover { background: #333; }
+  .copy-btn.copied { background: #2e7d32; }
+  .content-box {
+    background: #fafbfc;
+    border: 1px solid #eaecef;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Meiryo", sans-serif;
+  }
+  .email-box { font-family: SF Mono, Menlo, Consolas, monospace; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>SUPERIOR体験返信メール — 上野山偉久さま（6/4 生駒）</h1>
+
+  <div class="meta">
+    <div><dt>スクール</dt><dd>生駒スクール</dd></div>
+    <div><dt>体験日</dt><dd>6月4日（木）16:50〜17:50</dd></div>
+    <div><dt>参加者</dt><dd>上野山 偉久（うえのやま いく）／小学生コース</dd></div>
+  </div>
+
+  <!-- 宛先メール -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📧 宛先メールアドレス</div>
+      <button class="copy-btn" data-copy="email">コピー</button>
+    </div>
+    <div class="content-box email-box" id="email">nyancyu2968@icloud.com</div>
+  </div>
+
+  <!-- タイトル -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">✉ 件名（タイトル）</div>
+      <button class="copy-btn" data-copy="title">コピー</button>
+    </div>
+    <div class="content-box" id="title">【Superior - スペリオール - 】体験のお申し込みありがとうございます</div>
+  </div>
+
+  <!-- 本文 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📝 本文</div>
+      <button class="copy-btn" data-copy="body">コピー</button>
+    </div>
+    <div class="content-box" id="body">上野山さま
+
+
+初めまして、Superior代表の荻田です！
+
+この度は、体験お申し込みありがとうございます。
+早速ですが、体験日の詳細になります。
+
+ーーーーーー　詳細　ーーーーーー
+
+【コース・場所】
+生駒スクール
+小学生コース
+
+【場所】
+生駒市立総合公園体育館
+ 〒630-0201　奈良県生駒市小明町1807-1
+
+【日程】
+6月4日（木）
+16:50~17:50
+
+【参加者】
+上野山　偉久さま
+
+
+【持ち物】
+・動きやすい服装、シューズ（体育館シューズも合わせてお待ちください)
+・水分（必ず）
+
+【その他】
+開始10分前頃に指定場所にてお待ちください。
+
+ーーーーーーーーーーーーーーーー
+
+ご連絡が届いているかのご確認をさせていただきたいので、下記【公式LINE】かこちらのメールの返信にて、届いた旨のご連絡をいただければ幸いです。
+変更等ご不明な点がありましたら、併せてご連絡ください。
+
+【公式LINE】
+https://lin.ee/yjGq40U
+
+
+よろしくお願いいたします。
+
+
+-----------------------------------------------------------------
+Superior - スペリオール -代表
+荻田 大樹  (OGITA HIROKI)
+
+携帯：070-8369-9640
+Mail：superior.nara@gmail.com
+-----------------------------------------------------------------</div>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.copy;
+    const txt = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(txt).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ コピー完了';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.classList.remove('copied');
+      }, 1600);
+    }).catch(err => {
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      btn.textContent = '✓ コピー完了';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+});
+</script>
+</body>
+</html>

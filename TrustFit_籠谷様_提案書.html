@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit × 籠谷様 ご提案</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy:   #0B1F3A;
+    --accent: #E8A020;
+    --accent2:#F5B840;
+    --bg:     #F4F6FA;
+    --white:  #FFFFFF;
+    --gray:   #6B7280;
+    --dark:   #1A2A3A;
+    --border: #D1D9E6;
+    --green:  #1A7A4A;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: #E0E6EF;
+    color: var(--dark);
+  }
+
+  .page {
+    width: 794px;
+    margin: 32px auto;
+    background: var(--white);
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ════════════════════════════
+     HEADER
+  ════════════════════════════ */
+  .header {
+    background: var(--navy);
+    padding: 26px 36px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2) 60%, transparent);
+  }
+  /* 装飾円 */
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(232,160,32,.08);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .brand-name {
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: .04em;
+    line-height: 1;
+  }
+  .brand-sub {
+    font-size: 9.5px;
+    color: rgba(255,255,255,.55);
+    margin-top: 5px;
+    letter-spacing: .1em;
+  }
+  .header-meta { text-align: right; }
+  .header-meta .company { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); }
+  .header-meta .date    { font-size: 10.5px; color: rgba(255,255,255,.45); margin-top: 3px; }
+
+  .catch {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.55;
+  }
+  .catch em { color: var(--accent); font-style: normal; }
+
+  /* ════════════════════════════
+     BODY
+  ════════════════════════════ */
+  .body {
+    flex: 1;
+    padding: 22px 36px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* セクションタイトル */
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .sec-title::before {
+    content: '';
+    width: 4px; height: 15px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ────────────────────────────
+     STEP 1：課題（問い）
+  ──────────────────────────── */
+  .issue-box {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .issue-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 11.5px;
+    color: var(--dark);
+    line-height: 1.6;
+  }
+  .issue-mark {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ────────────────────────────
+     STEP 2：TrustFitとは（定義）
+  ──────────────────────────── */
+  .what-box {
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .what-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--navy);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: .1em;
+  }
+  .what-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .what-text em { color: var(--accent); font-style: normal; }
+
+  /* ────────────────────────────
+     STEP 3：3つのUSP
+  ──────────────────────────── */
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .usp-card {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 13px 13px 11px;
+    position: relative;
+    overflow: hidden;
+  }
+  .usp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .usp-num {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .usp-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  .usp-body {
+    font-size: 10px;
+    color: var(--gray);
+    line-height: 1.65;
+  }
+
+  /* ────────────────────────────
+     STEP 4：籠谷様での活用イメージ
+  ──────────────────────────── */
+  .usecase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+  .usecase-card {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    background: var(--white);
+  }
+  .usecase-card:hover { border-color: var(--accent); }
+  .usecase-icon {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .usecase-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .usecase-body {
+    font-size: 9.5px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* ────────────────────────────
+     STEP 5：費用と仕組み
+  ──────────────────────────── */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cost-box {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 13px 15px;
+  }
+  .cost-box-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pt-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--dark);
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+  .pt-item::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+  .rank-table { width: 100%; border-collapse: collapse; }
+  .rank-table tr { border-bottom: 1px solid var(--border); }
+  .rank-table tr:last-child { border-bottom: none; }
+  .rank-table td { padding: 5px 3px; font-size: 10px; line-height: 1.4; }
+  .rank-badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-gray  { background: #E5E7EB; color: #374151; }
+  .badge-green { background: #D1FAE5; color: #065F46; }
+  .badge-amber { background: #FEF3C7; color: #92400E; }
+  .badge-red   { background: #FEE2E2; color: #991B1B; }
+  .rank-price { font-weight: 700; color: var(--dark); text-align: right; font-size: 10.5px; }
+
+  /* ────────────────────────────
+     STEP 6：PRISM CUP（最初の一歩）
+  ──────────────────────────── */
+  .prism-section {
+    background: linear-gradient(135deg, #0B1F3A 0%, #0F2D50 100%);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .prism-title { color: var(--accent2) !important; }
+  .prism-title::before { background: var(--accent2) !important; }
+
+  .prism-entry-label {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--navy);
+    font-size: 9px;
+    font-weight: 900;
+    padding: 2px 10px;
+    border-radius: 4px;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+  .prism-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .prism-left {}
+  .prism-catch {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.55;
+    margin-bottom: 7px;
+  }
+  .prism-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 7px;
+  }
+  .prism-tag {
+    background: rgba(232,160,32,.2);
+    border: 1px solid rgba(232,160,32,.45);
+    color: var(--accent2);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+  .prism-desc {
+    font-size: 9.5px;
+    color: rgba(255,255,255,.6);
+    line-height: 1.65;
+  }
+  .prism-acronym {
+    background: rgba(255,255,255,.06);
+    border-radius: 7px;
+    padding: 9px 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .prism-row { display: flex; align-items: baseline; gap: 6px; }
+  .pl { font-size: 15px; font-weight: 900; color: var(--accent); width: 14px; flex-shrink: 0; }
+  .pw { font-size: 8.5px; font-weight: 700; color: rgba(255,255,255,.85); width: 55px; flex-shrink: 0; letter-spacing: .04em; }
+  .pp { font-size: 9px; color: rgba(255,255,255,.5); }
+
+  .prism-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 11px;
+  }
+  .prism-opt {
+    border-radius: 7px;
+    padding: 11px 13px;
+  }
+  .prism-opt.sponsor    { background: rgba(232,160,32,.12); border: 1px solid rgba(232,160,32,.38); }
+  .prism-opt.join       { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
+  .prism-opt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+  .prism-opt-label { font-size: 10.5px; font-weight: 700; color: var(--accent); }
+  .prism-opt-price { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.65); }
+  .prism-opt-list  { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .prism-opt-list li {
+    font-size: 9.5px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.5;
+    padding-left: 11px;
+    position: relative;
+  }
+  .prism-opt-list li::before {
+    content: '▸';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    font-size: 8.5px;
+  }
+
+  /* ════════════════════════════
+     FOOTER CTA
+  ════════════════════════════ */
+  .footer {
+    background: var(--navy);
+    padding: 16px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2) 60%, transparent);
+  }
+  .cta-main { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
+  .cta-sub  { font-size: 9.5px; color: rgba(255,255,255,.55); }
+  .contact  { text-align: right; }
+  .contact-name { font-size: 11.5px; font-weight: 700; color: var(--white); }
+  .contact-url  { font-size: 9.5px; color: rgba(255,255,255,.45); margin-top: 2px; }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="brand-name">TrustFit</div>
+        <div class="brand-sub">企業向け　トップアスリート × 評価連動型 派遣プラットフォーム</div>
+      </div>
+      <div class="header-meta">
+        <div class="company">株式会社籠谷 様</div>
+        <div class="date">2026年4月15日　株式会社MOON　荻田大樹</div>
+      </div>
+    </div>
+    <div class="catch">
+      スポーツの力を、誰よりも信じている会社へ。<br>
+      <em>その力を、今度は420名全員に届ける仕組みがあります。</em>
+    </div>
+  </header>
+
+  <!-- ══════════ BODY ══════════ -->
+  <main class="body">
+
+    <!-- ① 課題：貴社の現状と課題 -->
+    <section>
+      <div class="sec-title">現状の課題</div>
+      <div class="issue-box">
+        <div class="issue-item">
+          <span class="issue-mark">?</span>
+          <span>実業団陸上部を創部わずか2年で全日本実業団初優勝。スポーツの価値を誰よりも体で知っている。——でも、その力が420名全社員の日常に届いているか？</span>
+        </div>
+        <div class="issue-item">
+          <span class="issue-mark">?</span>
+          <span>くるみん認定・WLB推進と積み上げてきた。次の一手として「成果が数字で見える」健康投資で、採用力・社員定着・経営パフォーマンスを同時に底上げしたい。</span>
+        </div>
+        <div class="issue-item">
+          <span class="issue-mark">?</span>
+          <span>福利厚生に予算を使っても「利用率が低い」「効果が見えない」で終わるサービスには、もう払いたくない。</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② TrustFitとは：1行で定義 -->
+    <section>
+      <div class="sec-title">TrustFit とは</div>
+      <div class="what-box">
+        <span class="what-label">サービス定義</span>
+        <div class="what-text">
+          トップアスリートを企業に派遣し、<em>「効果が出た分だけ払う」評価連動型</em>で<br>社員のパフォーマンスと健康経営を同時に実現するプラットフォームです。
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ なぜTrustFitか：3つの違い -->
+    <section>
+      <div class="sec-title">なぜ TrustFit か　— 他にはない 3 つの特徴</div>
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-num">01</div>
+          <div class="usp-title">効果が出た分だけ払う<br>評価連動型成果報酬</div>
+          <div class="usp-body">50点満点の双方評価スコアで支払い額が確定。事前に「払いすぎ」のリスクがなく、稟議も通しやすい業界初の設計。</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-num">02</div>
+          <div class="usp-title">VIPアスリートと<br>若手の二層構造</div>
+          <div class="usp-body">VIPが「高価値の初回体験」を届け、継続サポートは若手トレーナーが担当。高品質と継続コストの最適化を両立する仕組み。</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-num">03</div>
+          <div class="usp-title">健康経営優良法人<br>認定に直結する設計</div>
+          <div class="usp-body">各セッションの評価データが健康経営認定の要件整備に直接活用できる。投資対効果を数字で示せる唯一のサービス。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 貴社での活用イメージ -->
+    <section>
+      <div class="sec-title">籠谷様での活用イメージ</div>
+      <div class="usecase-grid">
+        <div class="usecase-card">
+          <div class="usecase-icon">▶</div>
+          <div>
+            <div class="usecase-title">経営陣・役員のパフォーマンス強化</div>
+            <div class="usecase-body">VIP Master / Legend クラスが意思決定力・集中力を直接チューニング。「健康より経営」という社長にも刺さる、ROI型のアプローチで提案します。</div>
+          </div>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-icon">★</div>
+          <div>
+            <div class="usecase-title">実業団選手 × VIPコラボセッション</div>
+            <div class="usecase-body">自社陸上部選手と TrustFit VIPが同じ場に立つ社内イベント。採用PR動画・健康経営の広報素材として最大活用できる、籠谷様ならではの一手。</div>
+          </div>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-icon">◆</div>
+          <div>
+            <div class="usecase-title">ファミリーウェルビーイング</div>
+            <div class="usecase-body">くるみん認定の次の一手として、社員の子ども向け運動プログラムや保護者向けトレーニングを導入。「家族ごと選ばれる会社」へのステップに。</div>
+          </div>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-icon">■</div>
+          <div>
+            <div class="usecase-title">健康経営優良法人 認定サポート</div>
+            <div class="usecase-body">TrustFitの評価データが認定要件の整備を支援。兵庫県内での採用・広報PRとしても直結する、費用対効果の高い投資になります。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 費用と仕組み -->
+    <section>
+      <div class="sec-title">費用と仕組み　— 稟議が通りやすい設計になっています</div>
+      <div class="cost-grid">
+        <div class="cost-box">
+          <div class="cost-box-title">ポイント制（1pt = 1円）の 3 つの安心</div>
+          <div class="pt-item">事前購入のため「確定費」として経理処理できる。稟議書に金額を明記しやすい。</div>
+          <div class="pt-item">ポイントを使い切ったら自動停止。解約手続きは一切不要、経理の手間ゼロ。</div>
+          <div class="pt-item">余剰ポイントは即日返還。効果を確認してからポイントが確定する安心設計。</div>
+        </div>
+        <div class="cost-box">
+          <div class="cost-box-title">VIPランク別 費用（1回あたり・税込）</div>
+          <table class="rank-table">
+            <tr>
+              <td><span class="rank-badge badge-gray">Challenger</span></td>
+              <td style="font-size:9.5px;color:var(--gray);">継続サポートメイン</td>
+              <td class="rank-price">1万〜5万円</td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge badge-green">Elite VIP</span></td>
+              <td style="font-size:9.5px;color:var(--gray);">初回体験・定期利用</td>
+              <td class="rank-price">6万〜10万円</td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge badge-amber">Master VIP</span></td>
+              <td style="font-size:9.5px;color:var(--gray);">経営陣・特別セッション</td>
+              <td class="rank-price">12万〜20万円</td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge badge-red">Legend VIP</span></td>
+              <td style="font-size:9.5px;color:var(--gray);">限定・最上位体験</td>
+              <td class="rank-price">22万〜30万円</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ PRISM CUP：まず体験できる最初の一歩 -->
+    <section class="prism-section">
+      <div class="sec-title prism-title">まず体験してから判断する——最初の一歩として</div>
+      <div class="prism-entry-label">PRISM CUP 2026　招待制フットサルイベント</div>
+
+      <div class="prism-inner">
+        <div class="prism-left">
+          <div class="prism-catch">「仕事仲間と本気で遊ぶ」が、<br>最高のチームビルディングになる。</div>
+          <div class="prism-tags">
+            <span class="prism-tag">2026年7月4日（土）</span>
+            <span class="prism-tag">アソビル</span>
+            <span class="prism-tag">8チーム限定・招待制</span>
+          </div>
+          <div class="prism-desc">TrustFitのVIPトレーナーが実際に関わるイベントです。まず体感してから導入を判断していただくことも可能。籠谷様の実業団文化と相性抜群の場です。</div>
+        </div>
+        <div class="prism-acronym">
+          <div class="prism-row"><span class="pl">P</span><span class="pw">PLAY</span><span class="pp">プロと本気で戦えるフットサル体験</span></div>
+          <div class="prism-row"><span class="pl">R</span><span class="pw">RELATION</span><span class="pp">業種を超えた企業間ネットワーキング</span></div>
+          <div class="prism-row"><span class="pl">I</span><span class="pw">INSPIRE</span><span class="pp">オリンピアン・プロ選手からのインスピレーション</span></div>
+          <div class="prism-row"><span class="pl">S</span><span class="pw">STRENGTH</span><span class="pp">社員のチームビルディング・絆の強化</span></div>
+          <div class="prism-row"><span class="pl">M</span><span class="pw">MEDIA</span><span class="pp">動画・写真素材による採用PR素材の取得</span></div>
+        </div>
+      </div>
+
+      <div class="prism-options">
+        <div class="prism-opt sponsor">
+          <div class="prism-opt-header">
+            <span class="prism-opt-label">スポンサー協賛</span>
+            <span class="prism-opt-price">別途ご相談</span>
+          </div>
+          <ul class="prism-opt-list">
+            <li>会場内バナー・看板への企業ロゴ掲載</li>
+            <li>公式SNS・プレスリリースへの企業名掲載</li>
+            <li>「籠谷杯」の伝統をもつ貴社ブランドとの相乗効果</li>
+          </ul>
+        </div>
+        <div class="prism-opt join">
+          <div class="prism-opt-header">
+            <span class="prism-opt-label">チーム参加</span>
+            <span class="prism-opt-price">10万円 / チーム（5〜8名）</span>
+          </div>
+          <ul class="prism-opt-list">
+            <li>採用PR素材（写真・動画）をプロが撮影・納品</li>
+            <li>TrustFit VIPによる健康経営クリニック参加権</li>
+            <li>他社経営者・人事との名刺交換タイム</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ FOOTER CTA ══════════ -->
+  <footer class="footer">
+    <div>
+      <div class="cta-main">次のアクション：役員向け無料体験セッション or PRISM CUP参加のご検討</div>
+      <div class="cta-sub">稟議書類はこちらで作成します。スケジュール・詳細は何でもご相談ください。</div>
+    </div>
+    <div class="contact">
+      <div class="contact-name">株式会社MOON　荻田大樹</div>
+      <div class="contact-url">https://trustfit.jp（仮）</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

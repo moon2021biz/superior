@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織 総覧レポート｜2026-03-31</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #21253a;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --accent4: #ffd166;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --border: #2a2f45;
+    --green: #4caf50;
+    --yellow: #ff9800;
+    --red: #f44336;
+    --blue: #2196f3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #141728 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(108,99,255,0.2);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header-meta {
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 40px; }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .section { margin-bottom: 52px; }
+
+  /* ── STAT CARDS ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-card .label { font-size: 12px; color: var(--muted); }
+
+  /* ── ORG CHART ── */
+  .org-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  .org-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .org-top-node {
+    background: linear-gradient(135deg, var(--accent), #9c94ff);
+    border-radius: 16px;
+    padding: 16px 32px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(108,99,255,0.4);
+    min-width: 200px;
+  }
+  .org-connector-v {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+    margin: 0 auto;
+  }
+  .org-connector-h {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+  }
+  .org-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .org-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .org-node {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    min-width: 140px;
+    max-width: 180px;
+  }
+  .org-node .role-icon { font-size: 22px; margin-bottom: 6px; }
+  .org-node .role-name { font-weight: 700; font-size: 13px; color: #fff; margin-bottom: 4px; }
+  .org-node .role-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .org-node .role-tools {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+  }
+  .tool-tag {
+    background: rgba(108,99,255,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+  .org-node.purple { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.4); }
+  .org-node.teal   { background: rgba(0,212,170,0.08); border-color: rgba(0,212,170,0.3); }
+  .org-node.red    { background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.3); }
+  .org-node.yellow { background: rgba(255,209,102,0.08); border-color: rgba(255,209,102,0.3); }
+  .org-node.blue   { background: rgba(33,150,243,0.08); border-color: rgba(33,150,243,0.3); }
+
+  /* ── SKILL CARDS ── */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: 4px 0 0 4px;
+  }
+  .skill-card.active::before { background: var(--green); }
+  .skill-card.deprecated::before { background: var(--muted); }
+  .skill-card:hover { border-color: var(--accent); }
+  .skill-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .skill-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .skill-name { font-weight: 700; font-size: 14px; color: #fff; }
+  .skill-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .badge-active { background: rgba(76,175,80,0.2); color: #4caf50; }
+  .badge-deprecated { background: rgba(136,146,176,0.2); color: var(--muted); }
+  .badge-new { background: rgba(33,150,243,0.2); color: #64b5f6; }
+  .skill-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+  .skill-trigger {
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .skill-trigger strong { color: var(--accent2); display: block; margin-bottom: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── SCHEDULE TABLE ── */
+  .schedule-wrapper {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+  }
+  thead tr {
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+  }
+  thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody tr {
+    border-bottom: 1px solid rgba(42,47,69,0.5);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(108,99,255,0.05); }
+  tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .task-name {
+    font-weight: 700;
+    color: #fff;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+  .task-sub { font-size: 11px; color: var(--muted); }
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .status-dot::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .status-active { background: rgba(76,175,80,0.15); color: #4caf50; }
+  .status-active::before { background: #4caf50; box-shadow: 0 0 6px #4caf50; }
+  .status-paused { background: rgba(255,152,0,0.15); color: #ff9800; }
+  .status-paused::before { background: #ff9800; }
+  .freq-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .freq-daily   { background: rgba(108,99,255,0.15); color: #9c94ff; }
+  .freq-weekly  { background: rgba(0,212,170,0.12); color: #00d4aa; }
+  .freq-monthly { background: rgba(255,209,102,0.15); color: var(--accent4); }
+  .freq-biweek  { background: rgba(33,150,243,0.15); color: #64b5f6; }
+  .next-run {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .next-run strong { color: var(--accent2); font-size: 12px; }
+
+  /* ── WEEKLY CALENDAR ── */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .cal-header {
+    background: var(--card2);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .cal-header.today { color: var(--accent); background: rgba(108,99,255,0.15); }
+  .cal-time {
+    background: transparent;
+    padding: 6px 4px;
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+  }
+  .cal-cell {
+    min-height: 52px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(42,47,69,0.4);
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cal-event {
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+  .cal-event:hover { opacity: 0.9; }
+  .ev-purple { background: rgba(108,99,255,0.3); color: #c5c1ff; }
+  .ev-teal   { background: rgba(0,212,170,0.25); color: #7fffec; }
+  .ev-yellow { background: rgba(255,209,102,0.25); color: #ffe08a; }
+  .ev-blue   { background: rgba(33,150,243,0.25); color: #90caf9; }
+  .ev-red    { background: rgba(244,67,54,0.2); color: #ef9a9a; }
+
+  /* ── PROJECT BADGES ── */
+  .pj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .pj-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .pj-name { font-weight: 700; font-size: 13px; color: #fff; margin-bottom: 4px; }
+  .pj-type { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .progress-bar {
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.5s ease;
+  }
+  .progress-label { font-size: 11px; color: var(--accent); margin-top: 5px; text-align: right; }
+
+  /* ── RULES SECTION ── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .rule-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rule-list { list-style: none; }
+  .rule-list li {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(42,47,69,0.5);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .rule-list li:last-child { border-bottom: none; }
+  .rule-list li::before { content: '›'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  /* ── DIVIDERS ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  .alert-box {
+    background: rgba(255,107,107,0.08);
+    border: 1px solid rgba(255,107,107,0.3);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #ef9a9a;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .info-box {
+    background: rgba(0,212,170,0.06);
+    border: 1px solid rgba(0,212,170,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #7fffec;
+    margin-bottom: 20px;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .container { padding: 20px; }
+    .header { padding: 24px 20px; }
+    .calendar-grid { grid-template-columns: 60px repeat(7, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────── HEADER ─────────────── -->
+<div class="header">
+  <div class="header-tag">AI ORGANIZATION REPORT</div>
+  <h1>MOON AI組織 <span>総覧レポート</span></h1>
+  <div class="header-meta">
+    <span>📅 2026-03-31（火）</span>
+    <span>🤖 エージェント数: 5役割</span>
+    <span>🛠 スキル数: 12</span>
+    <span>⏰ スケジュール: 11タスク</span>
+    <span>📁 プロジェクト: 6</span>
+  </div>
+</div>
+
+<!-- ─────────────── MAIN CONTAINER ─────────────── -->
+<div class="container">
+
+  <!-- ── OVERVIEW STATS ── -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="num" style="color: var(--accent);">6</div>
+      <div class="label">プロジェクト数</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color: var(--accent2);">5</div>
+      <div class="label">AIエージェント役割</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color: var(--accent4);">12</div>
+      <div class="label">登録スキル</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color: #64b5f6;">11</div>
+      <div class="label">スケジュールタスク</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color: var(--green);">全ON</div>
+      <div class="label">スケジュール稼働状況</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color: #ef9a9a;">1</div>
+      <div class="label">廃止済みスキル</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 1: プロジェクト一覧
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(108,99,255,0.2);">📁</div>
+      プロジェクト一覧（6つ）
+    </div>
+    <div class="pj-grid">
+      <div class="pj-card">
+        <div class="pj-name">🧪 オギラボ</div>
+        <div class="pj-type">オンラインサロン</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+        <div class="progress-label">42%</div>
+      </div>
+      <div class="pj-card">
+        <div class="pj-name">💪 パーソナルジム CARAS</div>
+        <div class="pj-type">個人向けジム</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div>
+        <div class="progress-label">58%</div>
+      </div>
+      <div class="pj-card">
+        <div class="pj-name">🏢 健康経営有料法人</div>
+        <div class="pj-type">B2B法人支援</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+        <div class="progress-label">25%</div>
+      </div>
+      <div class="pj-card">
+        <div class="pj-name">🏃 陸上クラブ SORA</div>
+        <div class="pj-type">子ども向け陸上育成</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <div class="progress-label">0%（準備中）</div>
+      </div>
+      <div class="pj-card">
+        <div class="pj-name">🏅 陸上クラブ SUPERIOR</div>
+        <div class="pj-type">子ども向け陸上育成（姉妹）</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <div class="progress-label">0%（準備中）</div>
+      </div>
+      <div class="pj-card">
+        <div class="pj-name">🌙 運動療育 むーん</div>
+        <div class="pj-type">児童発達支援・放課後デイ</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <div class="progress-label">0%（準備中）</div>
+      </div>
+    </div>
+    <div class="info-box">
+      💡 <strong>進捗%計算基準：</strong> コアコンテンツ完成(40%) ＋ 集客導線確立(25%) ＋ 収益化開始(20%) ＋ 自動化フロー稼働(15%) の重み付き合計。monthly-reviewで自動再計算。
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 2: AI組織図
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(0,212,170,0.15);">🤖</div>
+      AI組織図（エージェント役割構成）
+    </div>
+    <div class="org-wrapper">
+      <div class="org-center">
+
+        <!-- TOP: 総括エージェント -->
+        <div class="org-top-node">
+          🧠 総括エージェント（MOON）<br>
+          <span style="font-size:11px;font-weight:400;opacity:0.85;">タスク分解・文脈引き渡し・成果統合・ユーザー確認・提案</span>
+        </div>
+        <div class="org-connector-v"></div>
+
+        <!-- LINE CONNECTOR -->
+        <div style="display:flex; align-items:flex-start; position:relative; width:100%; justify-content:center; gap:0;">
+          <div style="width:2px; height:0; background:transparent;"></div>
+        </div>
+
+        <!-- 4 sub-agents -->
+        <div class="org-row">
+
+          <div class="org-branch">
+            <div class="org-connector-v"></div>
+            <div class="org-node teal">
+              <div class="role-icon">🔍</div>
+              <div class="role-name">リサーチエージェント</div>
+              <div class="role-desc">Web情報収集・YouTube/Note分析・Gemini連携 → サマリーを共有</div>
+              <div class="role-tools">
+                <span class="tool-tag">WebSearch</span>
+                <span class="tool-tag">WebFetch</span>
+                <span class="tool-tag">Gmail</span>
+                <span class="tool-tag">Chrome</span>
+                <span class="tool-tag">Gemini API</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="org-branch">
+            <div class="org-connector-v"></div>
+            <div class="org-node purple">
+              <div class="role-icon">✍️</div>
+              <div class="role-name">コンテンツエージェント</div>
+              <div class="role-desc">SNS投稿・スライド・記事生成</div>
+              <div class="role-tools">
+                <span class="tool-tag">sns-voireco</span>
+                <span class="tool-tag">pptx</span>
+                <span class="tool-tag">docx</span>
+                <span class="tool-tag">html-publish</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="org-branch">
+            <div class="org-connector-v"></div>
+            <div class="org-node yellow">
+              <div class="role-icon">📂</div>
+              <div class="role-name">ファイル処理エージェント</div>
+              <div class="role-desc">PDF/Excel/PPT変換・加工・データ抽出</div>
+              <div class="role-tools">
+                <span class="tool-tag">pdf</span>
+                <span class="tool-tag">xlsx</span>
+                <span class="tool-tag">Bash</span>
+                <span class="tool-tag">Python</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="org-branch">
+            <div class="org-connector-v"></div>
+            <div class="org-node red">
+              <div class="role-icon">⚖️</div>
+              <div class="role-name">レビューエージェント</div>
+              <div class="role-desc">採点・差し戻し・NGパターン蓄積・ディベート審判</div>
+              <div class="role-tools">
+                <span class="tool-tag">サブAgent</span>
+                <span class="tool-tag">ファクトチェック</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ルール概要 -->
+      <div style="margin-top:28px; display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--accent4); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">🟢 ルーティン</div>
+          <div style="font-size:12px; color:var(--muted);">SNS投稿下書き・CONTEXT.md更新・レポート生成<br><span style="color:var(--text);">→ 実行後に1行報告のみ</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--yellow); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">🟡 重要</div>
+          <div style="font-size:12px; color:var(--muted);">LP制作・価格変更・外部向けコンテンツ完成版<br><span style="color:var(--text);">→ 計画提示 → 承認後に実行</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--accent3); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">🔴 重大</div>
+          <div style="font-size:12px; color:var(--muted);">ファイル移動・削除・外部送信・ディベート結論採用<br><span style="color:var(--text);">→ サマリー → 計画 → 承認（フル実施）</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">🚀 代行モード</div>
+          <div style="font-size:12px; color:var(--muted);">「お任せ」宣言時のみ発動<br>🟢自動実行 / 🟡キュー保存 / 🔴絶対実行しない</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 3: スキル一覧
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(255,209,102,0.15);">🛠</div>
+      登録スキル一覧（12スキル）
+    </div>
+
+    <div class="skill-grid">
+
+      <!-- sns-voireco -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(0,212,170,0.15);">🎙</div>
+          <div>
+            <div class="skill-name">sns-voireco <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--accent2); margin-top:2px;">【唯一の正式スキル・2026-03-29統合】</div>
+          </div>
+        </div>
+        <div class="skill-desc">音声文字起こし（ボイスレコーダー）→ NOTE記事 → Instagram/TikTok投稿文 → NotebookLMスライド資料を自動生成するフルフロー。ogilab-snsを統合・廃止した後継スキル。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「SNS投稿を作って」「スライドを作って」「文字起こしから」「音声から投稿文」「ボイレコ」「OGILABのコンテンツ」
+        </div>
+      </div>
+
+      <!-- html-publish -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(108,99,255,0.15);">🌐</div>
+          <div>
+            <div class="skill-name">html-publish <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">HTML作成・更新後に必ず実行</div>
+          </div>
+        </div>
+        <div class="skill-desc">HTMLファイルをai実験用フォルダ内の「html.ai」フォルダに整理するスキル。HTMLの作成・編集完了後に自動実行する。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「HTMLを作った」「HTMLを修正した」「反映して」「Netlifyにアップして」「最新にして」「html更新した」
+        </div>
+      </div>
+
+      <!-- pptx -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(255,107,107,0.15);">📊</div>
+          <div>
+            <div class="skill-name">pptx <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">プレゼンテーション作成・編集</div>
+          </div>
+        </div>
+        <div class="skill-desc">スライドデッキ・ピッチデック・プレゼン作成。既存.pptxの読み込み・テキスト抽出・スライド結合・分割・スピーカーノート対応。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「deck」「slides」「presentation」「.pptx」「スライド作成」（※スライド作成はMOONさんに確認必須）
+        </div>
+      </div>
+
+      <!-- pdf -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(244,67,54,0.15);">📄</div>
+          <div>
+            <div class="skill-name">pdf <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">PDF処理全般</div>
+          </div>
+        </div>
+        <div class="skill-desc">テキスト・表の抽出、新規PDF作成、複数PDF結合・分割、ページ回転、透かし追加、フォーム処理など。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「PDF」「.pdf」「フォーム」「抽出」「結合」「分割」
+        </div>
+      </div>
+
+      <!-- xlsx -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(76,175,80,0.15);">📈</div>
+          <div>
+            <div class="skill-name">xlsx <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">Excel処理全般</div>
+          </div>
+        </div>
+        <div class="skill-desc">Microsoft Excel (.xlsx) の作成・編集・分析。数式・書式・データ分析・グラフ・表計算対応。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「Excel」「スプレッドシート」「.xlsx」「データテーブル」「予算」「財務モデル」「グラフ」
+        </div>
+      </div>
+
+      <!-- docx -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(33,150,243,0.15);">📝</div>
+          <div>
+            <div class="skill-name">docx <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">Wordドキュメント作成</div>
+          </div>
+        </div>
+        <div class="skill-desc">Word文書(.docx)の作成・読込・編集。目次・見出し・ページ番号・レターヘッド・画像挿入・変更追跡対応。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「Word doc」「word document」「.docx」「報告書」「メモ」「レター」「テンプレート」
+        </div>
+      </div>
+
+      <!-- invoice-creator -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(255,209,102,0.15);">🧾</div>
+          <div>
+            <div class="skill-name">invoice-creator <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">株式会社MOON 請求書PDF生成</div>
+          </div>
+        </div>
+        <div class="skill-desc">株式会社MOONの請求書PDFを作成・生成するスキル。月末・月次・経理・請求・取引先関連で自動起動。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「請求書を作成」「請求書作って」「インボイス作成」「今月の請求書」「〇〇に請求書」「請求書をPDFで」
+        </div>
+      </div>
+
+      <!-- salary-split -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(156,94,255,0.15);">💴</div>
+          <div>
+            <div class="skill-name">salary-split <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">給与明細PDF分割</div>
+          </div>
+        </div>
+        <div class="skill-desc">給与明細PDFを1人ずつ個別PDFに分割し、デスクトップにフォルダを作成。LINE送付用文章も自動生成。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「給与明細を分けて」「明細を1人ずつPDFに」「給与明細を分割」「明細PDF」「給与明細 LINE」。ファイル名に「給与明細」を含むPDF添付で自動起動。
+        </div>
+      </div>
+
+      <!-- youtube-shorts -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(255,107,107,0.15);">▶️</div>
+          <div>
+            <div class="skill-name">youtube-shorts <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">スライド画像 → YouTube Shorts動画</div>
+          </div>
+        </div>
+        <div class="skill-desc">JPGスライド画像からYouTube Shorts動画を自動生成してアップロード。テキスト文字数から表示秒数を自動計算し、BGMを合成。1080x1920縦型（上下黒帯）で生成。※LMスライドは横長16:9が必須。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「ショート動画作って」「スライドを動画にして」「YouTubeショートに変換」「shorts アップロード」「JPGを動画に」
+        </div>
+      </div>
+
+      <!-- skill-creator -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(0,212,170,0.15);">⚙️</div>
+          <div>
+            <div class="skill-name">skill-creator <span class="skill-badge badge-active">稼働中</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">スキル作成・改善・性能測定</div>
+          </div>
+        </div>
+        <div class="skill-desc">新規スキルの作成、既存スキルの修正・最適化、evalsでのテスト、性能ベンチマーク、スキル説明文のトリガー精度改善。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「スキルを作って」「スキルを修正」「スキルを最適化」「スキルをテスト」「スキルのベンチマーク」
+        </div>
+      </div>
+
+      <!-- oversight-agent -->
+      <div class="skill-card active">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(255,152,0,0.15);">👁</div>
+          <div>
+            <div class="skill-name">oversight-agent <span class="skill-badge badge-new">2026-03-30追加</span></div>
+            <div style="font-size:10px; color:var(--accent4); margin-top:2px;">AI組織全体監視スキル</div>
+          </div>
+        </div>
+        <div class="skill-desc">AI組織全体の監視・スケジュール健全性確認・ハンドオフ追跡・エージェント化提案。oversight-monitorスケジュールと連携。</div>
+        <div class="skill-trigger">
+          <strong>トリガーワード</strong>
+          「監視して」「全体確認して」「スケジュール確認」「エージェント提案して」
+        </div>
+      </div>
+
+      <!-- ogilab-sns（廃止） -->
+      <div class="skill-card deprecated" style="opacity:0.55;">
+        <div class="skill-header">
+          <div class="skill-icon" style="background: rgba(136,146,176,0.1);">🚫</div>
+          <div>
+            <div class="skill-name">ogilab-sns <span class="skill-badge badge-deprecated">廃止済み</span></div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px;">2026-03-29 廃止</div>
+          </div>
+        </div>
+        <div class="skill-desc">sns-voirecoに統合済み。このスキルは使用禁止。代わりにsns-voirecoを使うこと。</div>
+        <div class="skill-trigger">
+          <strong>代替スキル</strong>
+          → sns-voireco を使用してください
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 4: スケジュールタスク一覧
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(0,212,170,0.15);">⏰</div>
+      スケジュールタスク一覧（11タスク・全て稼働中）
+    </div>
+
+    <div class="schedule-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>タスクID / 概要</th>
+            <th>頻度</th>
+            <th>実行時刻</th>
+            <th>次回実行</th>
+            <th>前回実行</th>
+            <th>状態</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="task-name">🌅 daily-morning-briefing</div>
+              <div class="task-sub">全PJ進捗確認＋SNSフォロワー実測取得→CONTEXT.md自動更新。火・金はバズリサーチ統合してHTMLで報告</div>
+            </td>
+            <td><span class="freq-badge freq-daily">毎日</span></td>
+            <td style="color:#c5c1ff; font-size:12px;">09:07〜</td>
+            <td><div class="next-run"><strong>本日</strong> 09:07</div></td>
+            <td><div class="next-run">2026-03-30</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📊 sns-buzz-research</div>
+              <div class="task-sub">火曜=オギラボ+CARAS / 金曜=SORA/SUPERIOR+CARASの深いGemini分析。結果はbuzz.mdに保存しdaily統合</div>
+            </td>
+            <td><span class="freq-badge freq-biweek">火・金</span></td>
+            <td style="color:#90caf9; font-size:12px;">08:05〜</td>
+            <td><div class="next-run">2026-03-31 <strong>本日</strong> 08:05</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">🏋️ caras-gbp-autoposter</div>
+              <div class="task-sub">CARAS Googleビジネスプロフィール投稿文を自動生成してMOONさんに提示（投稿は手動）</div>
+            </td>
+            <td><span class="freq-badge freq-biweek">火・金</span></td>
+            <td style="color:#90caf9; font-size:12px;">10:01〜</td>
+            <td><div class="next-run"><strong>本日</strong> 10:01</div></td>
+            <td><div class="next-run">2026-03-27</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📸 caras-instagram-wednesday</div>
+              <div class="task-sub">CARAS Instagram 水曜投稿 — 画像生成＆投稿文作成＋リマインド</div>
+            </td>
+            <td><span class="freq-badge freq-weekly">毎週水</span></td>
+            <td style="color:#7fffec; font-size:12px;">09:08〜</td>
+            <td><div class="next-run">2026-04-01（水）</div></td>
+            <td><div class="next-run">2026-03-29</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">🏃 superior-instagram-weekly</div>
+              <div class="task-sub">SUPERIOR Instagram 週次投稿コンテンツ（画像＋キャプション）を自動生成してMOONさんに提案</div>
+            </td>
+            <td><span class="freq-badge freq-weekly">毎週水</span></td>
+            <td style="color:#7fffec; font-size:12px;">09:02〜</td>
+            <td><div class="next-run">2026-04-01（水）</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📸 caras-instagram-friday</div>
+              <div class="task-sub">CARAS Instagram 金曜投稿 — 画像生成＆投稿文作成＋リマインド</div>
+            </td>
+            <td><span class="freq-badge freq-weekly">毎週金</span></td>
+            <td style="color:#7fffec; font-size:12px;">09:00〜</td>
+            <td><div class="next-run">2026-04-03（金）</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📅 weekly-review</div>
+              <div class="task-sub">全PJの週次振り返り＋今週の優先アクション提案。スプリント宣言・収益化ゲージ更新</div>
+            </td>
+            <td><span class="freq-badge freq-weekly">毎週月</span></td>
+            <td style="color:#7fffec; font-size:12px;">11:10〜</td>
+            <td><div class="next-run">2026-04-06（月）</div></td>
+            <td><div class="next-run">2026-03-30</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">👁 oversight-monitor</div>
+              <div class="task-sub">AI組織全体監視 → 翌朝月曜ブリーフィング用JSONを生成。CRITICAL時のみ即時通知</div>
+            </td>
+            <td><span class="freq-badge freq-weekly">毎週日</span></td>
+            <td style="color:#7fffec; font-size:12px;">20:05〜</td>
+            <td><div class="next-run">2026-04-05（日）20:05</div></td>
+            <td><div class="next-run">2026-03-30</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📅 monthly-review</div>
+              <div class="task-sub">月次進捗レビュー＋戦略見直し提案。進捗%自動再計算・Decision Log再評価アラート</div>
+            </td>
+            <td><span class="freq-badge freq-monthly">毎月1日</span></td>
+            <td style="color:#ffe08a; font-size:12px;">09:00〜</td>
+            <td><div class="next-run"><strong>明日</strong> 2026-04-01（水）</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">📝 caras-hp-monthly-content</div>
+              <div class="task-sub">CARASホームページ用ブログ4記事（毎週金曜分）を自動生成 → 翌朝ブリーフィングで承認確認</div>
+            </td>
+            <td><span class="freq-badge freq-monthly">毎月1日</span></td>
+            <td style="color:#ffe08a; font-size:12px;">08:00〜</td>
+            <td><div class="next-run"><strong>明日</strong> 2026-04-01（水）08:00</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="task-name">🧾 monthly-invoice-reminder</div>
+              <div class="task-sub">毎月25日に請求書作成を提案・invoice-creatorスキルのフローで案内</div>
+            </td>
+            <td><span class="freq-badge freq-monthly">毎月25日</span></td>
+            <td style="color:#ffe08a; font-size:12px;">09:00〜</td>
+            <td><div class="next-run">2026-04-25（土）</div></td>
+            <td><div class="next-run">未記録</div></td>
+            <td><span class="status-dot status-active">稼働中</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 5: 週次カレンダービュー
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(33,150,243,0.15);">📆</div>
+      週次スケジュールカレンダー（自動実行タイミング）
+    </div>
+    <div class="info-box">
+      📌 実際の実行時刻は数分程度のジッター（ランダム遅延）が加わります。毎日実行の「daily-morning-briefing」が基盤となり、火・金は「sns-buzz-research」の結果も統合して報告されます。
+    </div>
+
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; overflow-x:auto;">
+      <div class="calendar-grid">
+        <div class="cal-header"></div>
+        <div class="cal-header">月<br><span style="font-size:10px;opacity:0.6;">Mon</span></div>
+        <div class="cal-header today">火 ←今日<br><span style="font-size:10px;opacity:0.6;">Tue</span></div>
+        <div class="cal-header">水<br><span style="font-size:10px;opacity:0.6;">Wed</span></div>
+        <div class="cal-header">木<br><span style="font-size:10px;opacity:0.6;">Thu</span></div>
+        <div class="cal-header">金<br><span style="font-size:10px;opacity:0.6;">Fri</span></div>
+        <div class="cal-header">土<br><span style="font-size:10px;opacity:0.6;">Sat</span></div>
+        <div class="cal-header">日<br><span style="font-size:10px;opacity:0.6;">Sun</span></div>
+
+        <!-- 8:00 row -->
+        <div class="cal-time">08:00</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-event ev-blue">📊 buzz-research</div>
+        </div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-event ev-blue">📊 buzz-research</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-yellow">📝 HP記事生成 (1日のみ)</div>
+        </div>
+        <div class="cal-cell"></div>
+
+        <!-- 9:00 row -->
+        <div class="cal-time">09:00</div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+          <div class="cal-event ev-teal">📅 weekly-review(月)</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+          <div class="cal-event ev-teal">📸 CARAS-IG(水)</div>
+          <div class="cal-event ev-teal">🏃 SUPERIOR-IG(水)</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+          <div class="cal-event ev-teal">📸 CARAS-IG(金)</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+          <div class="cal-event ev-yellow">🧾 請求書リマインド(25日)</div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-event ev-purple">🌅 morning-briefing</div>
+        </div>
+
+        <!-- 10:00 row -->
+        <div class="cal-time">10:00</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-event ev-red">🏋 CARAS GBP(火)</div>
+        </div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-event ev-red">🏋 CARAS GBP(金)</div>
+        </div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+
+        <!-- 20:00 row -->
+        <div class="cal-time">20:00</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-event ev-blue">👁 oversight-monitor(日)</div>
+        </div>
+      </div>
+
+      <div class="legend" style="margin-top:16px; margin-bottom:0;">
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(108,99,255,0.5);"></div> 毎日実行</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(0,212,170,0.5);"></div> 週1回（曜日指定）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(33,150,243,0.5);"></div> 週2回（火・金）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,209,102,0.5);"></div> 月1回（毎月1日または25日）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(244,67,54,0.4);"></div> CARAS専用</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 6: 重要ルール・プロトコル
+  ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon" style="background: rgba(255,107,107,0.15);">📋</div>
+      主要ルール・プロトコル
+    </div>
+
+    <div class="rules-grid">
+
+      <div class="rule-card">
+        <div class="rule-title">🌐 インターネット接続確認ルール</div>
+        <ul class="rule-list">
+          <li>外部通信タスク前に必ず接続状態をMOONさんに確認する</li>
+          <li>接続済み→即実行 / 待機中→合図を待つ / オフライン→スキップして翌朝報告</li>
+          <li>タイムアウトエラーが出てから報告することは禁止</li>
+          <li>オフライン時に前回値・架空データで報告することは絶対禁止</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">📱 SNSデータ管理ルール</div>
+        <ul class="rule-list">
+          <li>フォロワー数・投稿数は必ずWebで実数値を確認する</li>
+          <li>前回値そのまま報告は禁止（推測・前回値使用禁止）</li>
+          <li>3日以上未確認のSNSデータには⚠️アラートを表示</li>
+          <li>MOONさんが返答した数値でCONTEXT.mdを即時更新</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">🎨 スライド作成ルール</div>
+        <ul class="rule-list">
+          <li>CARAS以外のスライド作成は事前にMOONさんへ確認必須</li>
+          <li>LMスライドは必ず横長16:9（1280x720px）で作成</li>
+          <li>縦型（9:16）での出力は禁止</li>
+          <li>YouTube Shorts化時は横長スライドを黒帯付き縦型に変換</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">📁 成果物出力ルール</div>
+        <ul class="rule-list">
+          <li>全成果物はHTMLで出力（レポート・分析・提案・比較表など）</li>
+          <li>/ai実験用/ に保存 → html-publishでhtml.ai/に整理</li>
+          <li>morning-briefingは必ずHTMLファイルで出力（チャットのみ不可）</li>
+          <li>ファイル名: morning-briefing_YYYY-MM-DD.html</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">📝 ハンドオフ記録ルール</div>
+        <ul class="rule-list">
+          <li>🟡重要タスク完了のたびに即時CONTEXT.mdを更新</li>
+          <li>「セッション終了時に書く」という先送りは禁止</li>
+          <li>タスク完了直後にハンドオフを書かないのはNG</li>
+          <li>旧ハンドオフはoutputs/handoff/にアーカイブ後に上書き</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">🔄 フィードバックループ</div>
+        <ul class="rule-list">
+          <li>生成物は自己採点70点以上でなければレビューに回さない（最大3回再生成）</li>
+          <li>ユーザーNG → 該当PJのNGルールに追記して次回に反映</li>
+          <li>ユーザーOK → 特徴をGOODパターンとしてCONTEXT.mdに追記</li>
+          <li>同カテゴリ3件以上 → スタイル傾向まとめとして集約</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">🔗 エラー・フォールバック</div>
+        <ul class="rule-list">
+          <li>LEVEL1: 同じ手順を最大2回リトライ</li>
+          <li>LEVEL2: 別の手順・スキル・エージェントで代替案を試みる</li>
+          <li>LEVEL3: 何が・どこで・なぜ失敗したか明確に報告。次の選択肢を最低1つ提示</li>
+          <li>エラーで無言停止は禁止</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">⚖️ ディベートシステム</div>
+        <ul class="rule-list">
+          <li>賛成派(PRO) 5回 → 反対派(CON) 5回 → レビューエージェントが採点</li>
+          <li>双方の良い点を統合した「第三の答え」を提示</li>
+          <li>ログは outputs/debate/YYYYMMDD_テーマ.md に保存</li>
+          <li>適用: SNS戦略・価格設定・ターゲット設定・重要コピー</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  生成日時: 2026-03-31（火）｜ MOON AI組織 総覧レポート v1.0 ｜ Powered by Claude Sonnet 4.6
+</div>
+
+</body>
+</html>

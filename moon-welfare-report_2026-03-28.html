@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>福祉行政動向レポート｜運動療育むーん｜2026-03-28</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #f4f6f9;
+      color: #2d3748;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+      color: white;
+      padding: 28px 24px 20px;
+    }
+    .header-sub { font-size: 12px; opacity: 0.75; margin-bottom: 4px; letter-spacing: 1px; }
+    .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .header-meta { font-size: 13px; opacity: 0.8; }
+    .badge-container { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .badge {
+      display: inline-block; padding: 3px 10px;
+      border-radius: 20px; font-size: 11px; font-weight: 700;
+    }
+    .badge-red { background: #fc8181; color: #742a2a; }
+    .badge-yellow { background: #f6e05e; color: #744210; }
+    .badge-blue { background: #90cdf4; color: #1a365d; }
+    .container { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
+
+    /* サマリーカード */
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin: 20px 0;
+    }
+    @media(max-width:600px){ .summary-grid { grid-template-columns: 1fr; } }
+    .summary-card {
+      background: white; border-radius: 12px;
+      padding: 16px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      border-top: 4px solid #2b6cb0;
+    }
+    .summary-card.urgent { border-top-color: #e53e3e; }
+    .summary-card.caution { border-top-color: #d69e2e; }
+    .summary-card .num { font-size: 28px; font-weight: 800; color: #2b6cb0; }
+    .summary-card.urgent .num { color: #e53e3e; }
+    .summary-card.caution .num { color: #d69e2e; }
+    .summary-card .label { font-size: 12px; color: #718096; margin-top: 4px; }
+
+    /* セクション */
+    .section {
+      background: white; border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 14px 20px;
+      font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-header.national { background: #ebf8ff; color: #1a365d; border-bottom: 2px solid #bee3f8; }
+    .section-header.osaka-pref { background: #f0fff4; color: #1c4532; border-bottom: 2px solid #9ae6b4; }
+    .section-header.osaka-city { background: #fffbeb; color: #744210; border-bottom: 2px solid #fbd38d; }
+    .section-header.moon { background: #faf5ff; color: #44337a; border-bottom: 2px solid #d6bcfa; }
+    .section-body { padding: 16px 20px; }
+
+    /* 項目 */
+    .item {
+      padding: 12px 14px; border-radius: 8px;
+      margin-bottom: 12px; border-left: 4px solid;
+    }
+    .item:last-child { margin-bottom: 0; }
+    .item.red { border-color: #e53e3e; background: #fff5f5; }
+    .item.yellow { border-color: #d69e2e; background: #fffff0; }
+    .item.blue { border-color: #3182ce; background: #ebf8ff; }
+    .item.purple { border-color: #805ad5; background: #faf5ff; }
+    .item.green { border-color: #38a169; background: #f0fff4; }
+    .item-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px; margin-bottom: 6px;
+    }
+    .tag-red { background: #feb2b2; color: #742a2a; }
+    .tag-yellow { background: #faf089; color: #744210; }
+    .tag-blue { background: #bee3f8; color: #1a365d; }
+    .tag-green { background: #9ae6b4; color: #1c4532; }
+    .tag-purple { background: #d6bcfa; color: #44337a; }
+    .item-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+    .item-body { font-size: 13px; color: #4a5568; }
+    .item-body ul { padding-left: 18px; margin-top: 6px; }
+    .item-body li { margin-bottom: 4px; }
+    .item-impact {
+      margin-top: 8px; padding: 8px 10px;
+      background: rgba(0,0,0,0.04); border-radius: 6px;
+      font-size: 12px; color: #2d3748;
+    }
+    .item-impact strong { color: #805ad5; }
+
+    .date-checked {
+      font-size: 11px; color: #a0aec0;
+      text-align: right; padding: 8px 20px 12px;
+    }
+
+    /* むーん影響まとめ */
+    .moon-checklist { list-style: none; padding: 0; }
+    .moon-checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid #e2e8f0;
+      font-size: 13px;
+    }
+    .moon-checklist li:last-child { border-bottom: none; }
+    .check-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .check-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .urgency {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 1px 6px; border-radius: 8px; margin-left: 6px;
+    }
+    .urg-high { background: #fed7d7; color: #742a2a; }
+    .urg-mid { background: #fefcbf; color: #744210; }
+    .urg-low { background: #c6f6d5; color: #1c4532; }
+
+    .source-list { font-size: 12px; color: #718096; padding: 0 20px 16px; }
+    .source-list a { color: #3182ce; text-decoration: none; }
+    .source-list a:hover { text-decoration: underline; }
+    .source-list li { margin-bottom: 4px; }
+
+    .footer {
+      text-align: center; font-size: 11px; color: #a0aec0;
+      padding: 16px; border-top: 1px solid #e2e8f0; margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sub">🏥 運動療育むーん｜福祉行政動向レポート</div>
+  <h1>児童発達支援・放課後等デイサービス<br>最新行政情報まとめ</h1>
+  <div class="header-meta">調査日：2026年3月28日（土）　対象：国・大阪府・大阪市</div>
+  <div class="badge-container">
+    <span class="badge badge-red">🔴 要対応 3件</span>
+    <span class="badge badge-yellow">🟡 要確認 4件</span>
+    <span class="badge badge-blue">🔵 情報収集 2件</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- サマリーカード -->
+  <div class="summary-grid">
+    <div class="summary-card urgent">
+      <div class="num">3</div>
+      <div class="label">🔴 むーんへの<br>緊急影響項目</div>
+    </div>
+    <div class="summary-card caution">
+      <div class="num">4</div>
+      <div class="label">🟡 要確認・<br>対応検討項目</div>
+    </div>
+    <div class="summary-card">
+      <div class="num">2</div>
+      <div class="label">🔵 今後の<br>注目動向</div>
+    </div>
+  </div>
+
+  <!-- ━━━ 国（こども家庭庁・厚生労働省） ━━━ -->
+  <div class="section">
+    <div class="section-header national">🏛️ 国（こども家庭庁・厚生労働省）</div>
+    <div class="section-body">
+
+      <div class="item red">
+        <span class="item-tag tag-red">🔴 重要・施行済み</span>
+        <div class="item-title">【令和7年4月施行】支援プログラム未公表減算 ─ 公表義務化</div>
+        <div class="item-body">
+          令和6年度報酬改定により、児童発達支援・放課後等デイサービスのすべての事業所に対し、<strong>5領域に沿った支援プログラムの作成と公表</strong>が義務化されました。令和7年4月1日より「未公表」の場合は<strong>減算対象</strong>となります（令和6年度は経過措置期間）。
+          <ul>
+            <li>5領域：健康・生活／運動・感覚／認知・行動／言語・コミュニケーション／人間関係・社会性</li>
+            <li>個別支援計画との関連を明確にした形式での作成が求められる</li>
+            <li>情報公表システムへの登録・更新（報告）も必要</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>すでに令和7年4月施行済み。公表が完了しているか至急確認が必要。未対応の場合は減算リスクあり。
+          </div>
+        </div>
+      </div>
+
+      <div class="item red">
+        <span class="item-tag tag-red">🔴 重要・要確認</span>
+        <div class="item-title">【令和6年度改定】強度行動障害支援者の資格要件変更（基礎研修→実践研修へ）</div>
+        <div class="item-body">
+          強度行動障害児支援加算の算定要件が変更され、従来の<strong>「基礎研修修了者の配置」では算定不可</strong>となりました。
+          <ul>
+            <li>放課後等デイサービス：実践研修修了者の配置（加算Ⅰ）/ 中核的人材養成研修修了者の配置（加算Ⅱ）</li>
+            <li>荻田代表は「強度行動障害基礎研修修了」の記載あり → <strong>実践研修修了に更新が必要か確認</strong></li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>荻田代表の修了区分の確認が必要。基礎研修のみの場合、実践研修受講で加算区分アップの可能性あり。
+          </div>
+        </div>
+      </div>
+
+      <div class="item yellow">
+        <span class="item-tag tag-yellow">🟡 新設加算・活用機会</span>
+        <div class="item-title">【令和6年度改定】専門的支援体制加算・専門的支援実施加算（新設）</div>
+        <div class="item-body">
+          理学療法士等の専門職員を配置し、5領域の特定・複数領域に重点を置いた支援を行う場合に算定可能。
+          <ul>
+            <li><strong>専門的支援体制加算</strong>：理学療法士等を常勤換算1.0以上配置</li>
+            <li><strong>専門的支援実施加算</strong>：専門的支援実施計画を作成し、計画に基づき支援を実施</li>
+            <li>むーんには理学療法士が2名（姫野万桜・﨑山理子）在籍</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>理学療法士2名在籍はむーんの大きな強み。専門的支援実施加算の算定要件を満たす可能性が高い。届出済みか確認を。
+          </div>
+        </div>
+      </div>
+
+      <div class="item yellow">
+        <span class="item-tag tag-yellow">🟡 注意・減算リスク</span>
+        <div class="item-title">【令和6年度改定】各種新設減算（虐待防止・業務継続計画・情報公表）</div>
+        <div class="item-body">
+          以下の未実施・未報告に対し、減算が新設されました：
+          <ul>
+            <li>虐待防止措置未実施減算（令和4年度から義務化）</li>
+            <li>業務継続計画（BCP）未策定減算（一定の取組み事業所に経過措置あり）</li>
+            <li>情報公表未報告減算（情報公表システムへの登録・更新が必要）</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>すべての事業所が対象。3項目すべての対応状況を確認すること。
+          </div>
+        </div>
+      </div>
+
+      <div class="item blue">
+        <span class="item-tag tag-blue">🔵 今後の動向・注目</span>
+        <div class="item-title">【令和8年6月施行予定】期中改定：新規指定事業所への報酬減額</div>
+        <div class="item-body">
+          令和8年6月1日以降に新たに指定を受ける事業所について基本報酬が減額される予定：
+          <ul>
+            <li>児童発達支援：988/1000（約1.2%減）</li>
+            <li>放課後等デイサービス：982/1000（約1.8%減）</li>
+            <li>重症心身障害児・医療的ケア児等の支援や、サービスが不足する地域には適用除外あり</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>むーんは既存事業所のため直接の減額対象外。ただし新規参入者が減ることで業界全体の環境が変化する可能性あり。
+          </div>
+        </div>
+      </div>
+
+      <div class="item blue">
+        <span class="item-tag tag-blue">🔵 今後の動向・注目</span>
+        <div class="item-title">【令和8年6月施行予定】期中改定：処遇改善加算の拡充</div>
+        <div class="item-body">
+          新区分（Ⅰ(ロ)・Ⅱ(ロ)）が追加され、処遇改善加算の算定要件・区分が見直される予定。
+          <ul>
+            <li>令和8年度内に要件整備を誓約することで、年度末までの算定開始が可能（特例要件）</li>
+            <li>詳細は令和8年度の正式通知を待つ必要あり</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>スタッフの処遇改善に直結。通知が正式公表され次第、加算区分の見直しを検討すること。
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="date-checked">確認日：2026-03-28｜情報源：こども家庭庁・厚生労働省・大阪府ガイダンスページ</div>
+  </div>
+
+  <!-- ━━━ 大阪府 ━━━ -->
+  <div class="section">
+    <div class="section-header osaka-pref">🌸 大阪府（福祉部障がい福祉室）</div>
+    <div class="section-body">
+
+      <div class="item green">
+        <span class="item-tag tag-green">🟢 情報更新</span>
+        <div class="item-title">令和6年度 指定障がい児支援事業者等 集団指導の開催</div>
+        <div class="item-body">
+          大阪府所管の事業者向けに集団指導が開催されました。報酬改定・指定基準等の改正事項が説明されています。
+          <ul>
+            <li>なお、むーんは大阪市都島区所在のため、<strong>大阪市が所管</strong>（大阪府所管ではない）</li>
+            <li>参考情報として内容は確認しておくことを推奨</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>所管は大阪市のため大阪市の集団指導に注目。ただし制度内容は府も市も基本的に同じ。
+          </div>
+        </div>
+      </div>
+
+      <div class="item yellow">
+        <span class="item-tag tag-yellow">🟡 要確認</span>
+        <div class="item-title">個別支援計画の取扱い変更（令和6年度改定対応）</div>
+        <div class="item-body">
+          令和6年度報酬改定に伴い、個別支援計画の取扱いが変更されました。5領域との関連性を明確にした記載が求められています。
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>既存の個別支援計画フォーマットが新要件に対応しているか確認が必要。
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="date-checked">確認日：2026-03-28｜情報源：<a href="https://www.pref.osaka.lg.jp/o090080/chiikiseikatsu/syougaijisien/r6ji-guidance.html" target="_blank">大阪府 令和6年度報酬改定ガイダンスページ</a></div>
+  </div>
+
+  <!-- ━━━ 大阪市 ━━━ -->
+  <div class="section">
+    <div class="section-header osaka-city">🏙️ 大阪市（福祉局障がい者施策部）</div>
+    <div class="section-body">
+
+      <div class="item red">
+        <span class="item-tag tag-red">🔴 要対応・届出必要</span>
+        <div class="item-title">【2026年2月4日付通知】自己評価結果等の公表・大阪市への届出</div>
+        <div class="item-body">
+          令和7年4月に指定を受けている事業所を対象に、児童発達支援・放課後等デイサービスにおける<strong>自己評価結果等の公表と大阪市への届出</strong>が求められています。
+          <ul>
+            <li>通知日：2026年2月4日</li>
+            <li>提出先：大阪市 福祉局障がい者施策部障がい支援課（TEL: 06-6208-7986）</li>
+            <li>提出書類・期限の詳細は大阪市への直接確認が必要</li>
+          </ul>
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>令和7年4月時点で指定を受けているむーんは対象の可能性が高い。提出済みか・期限内かを至急確認すること。
+          </div>
+        </div>
+      </div>
+
+      <div class="item yellow">
+        <span class="item-tag tag-yellow">🟡 継続注意</span>
+        <div class="item-title">定員超過利用減算の適切な管理</div>
+        <div class="item-body">
+          大阪市から事務連絡が出ており、毎月の請求時に利用定員に対する利用者数を確認し、定員超過の場合は減算請求が必要。
+          <div class="item-impact">
+            <strong>むーんへの影響：</strong>毎月の請求前に利用者数と定員のチェックを実施すること。ルーティン化推奨。
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="date-checked">確認日：2026-03-28｜情報源：<a href="https://www.city.osaka.lg.jp/fukushi/page/0000313013.html" target="_blank">大阪市 障がい児支援事業者のみなさまへのお知らせ</a></div>
+  </div>
+
+  <!-- ━━━ むーんへの影響まとめ ━━━ -->
+  <div class="section">
+    <div class="section-header moon">🌙 むーん 対応チェックリスト（優先順）</div>
+    <div class="section-body">
+      <ul class="moon-checklist">
+        <li>
+          <span class="check-icon">🔴</span>
+          <div class="check-text">
+            <strong>支援プログラムの公表・情報公表システムへの登録<span class="urgency urg-high">最優先</span></strong>
+            令和7年4月から未公表は減算対象。大阪市の情報公表システムへの登録状況を確認し、5領域対応の支援プログラムを公表する。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🔴</span>
+          <div class="check-text">
+            <strong>自己評価結果等の大阪市への届出<span class="urgency urg-high">要確認</span></strong>
+            2026年2月4日付の通知に基づく届出の提出状況を確認。未提出の場合は大阪市（06-6208-7986）へ至急連絡。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🔴</span>
+          <div class="check-text">
+            <strong>荻田代表の強度行動障害支援研修の修了区分確認<span class="urgency urg-high">要確認</span></strong>
+            「基礎研修修了」から「実践研修修了」への更新で加算額アップの可能性あり。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🟡</span>
+          <div class="check-text">
+            <strong>専門的支援実施加算の届出確認<span class="urgency urg-mid">確認推奨</span></strong>
+            理学療法士2名在籍の強みを活かす。専門的支援実施計画の作成・届出が済んでいるか確認。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🟡</span>
+          <div class="check-text">
+            <strong>BCP（業務継続計画）の策定状況確認<span class="urgency urg-mid">確認推奨</span></strong>
+            未策定の場合は減算リスクあり。策定済みの場合も年次更新が必要。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🟡</span>
+          <div class="check-text">
+            <strong>虐待防止措置の実施確認<span class="urgency urg-mid">確認推奨</span></strong>
+            令和4年度から義務化。研修記録・掲示等の証拠書類を整備する。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🟡</span>
+          <div class="check-text">
+            <strong>個別支援計画の5領域対応フォーマット更新<span class="urgency urg-mid">確認推奨</span></strong>
+            令和6年度改定対応。5領域との関連性が記載されているか見直す。
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">🟢</span>
+          <div class="check-text">
+            <strong>令和8年度期中改定（6月施行）のウォッチ<span class="urgency urg-low">継続注視</span></strong>
+            処遇改善加算の新区分・新規指定減算の詳細が確定次第、対応を検討する。
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 情報源 -->
+  <div class="section">
+    <div class="section-header" style="background:#f7fafc;color:#4a5568;border-bottom:2px solid #e2e8f0;">📎 参照情報源</div>
+    <ul class="source-list" style="padding-top:12px;">
+      <li><a href="https://www.cfa.go.jp/policies/shougaijishien/shisaku/hoshukaitei" target="_blank">こども家庭庁｜令和6年度障害福祉サービス等報酬改定について</a></li>
+      <li><a href="https://www.cfa.go.jp/policies/shougaijishien/shisaku/guideline_tebiki" target="_blank">こども家庭庁｜各種ガイドライン・手引き等について</a></li>
+      <li><a href="https://www.pref.osaka.lg.jp/o090080/chiikiseikatsu/syougaijisien/r6ji-guidance.html" target="_blank">大阪府｜令和6年度報酬改定ガイダンスページ（障がい児支援）</a></li>
+      <li><a href="https://www.pref.osaka.lg.jp/o090080/gaidorain.html" target="_blank">大阪府｜児童発達支援ガイドライン等の改訂について</a></li>
+      <li><a href="https://www.city.osaka.lg.jp/fukushi/page/0000313013.html" target="_blank">大阪市｜障がい児支援事業者のみなさまへのお知らせ</a></li>
+      <li><a href="https://www.city.osaka.lg.jp/fukushi/page/0000615151.html" target="_blank">大阪市｜自己評価結果等の公表及び大阪市への届出について</a></li>
+      <li><a href="https://kaigo.taskman.co.jp/revision/r8shougai_shoguu_detail" target="_blank">令和8年6月1日 障害福祉報酬改定の詳細（参考）</a></li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    運動療育むーん｜AI組織 行政情報モニタリングレポート｜2026-03-28<br>
+    ※本レポートは公開情報をもとに作成。最終確認は各行政窓口への直接問い合わせを推奨します。<br>
+    大阪市 障がい支援課：06-6208-7986
+  </div>
+
+</div>
+</body>
+</html>

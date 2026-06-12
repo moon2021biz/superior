@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌅 デイリーブリーフィング｜2026-03-27</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #f0f0f0;
+      padding: 24px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    .header {
+      background: linear-gradient(135deg, rgba(255,200,80,0.15), rgba(255,120,60,0.15));
+      border: 1px solid rgba(255,200,80,0.4);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.6rem; color: #FFD700; margin-bottom: 8px; }
+    .header .date { color: #aaa; font-size: 0.9rem; }
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 10px;
+    }
+    .pj-row {
+      display: grid;
+      grid-template-columns: 120px 80px 1fr;
+      gap: 8px 14px;
+      align-items: start;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem;
+    }
+    .pj-row:last-child { border-bottom: none; }
+    .pj-name { font-weight: bold; color: #7EC8E3; }
+    .progress {
+      display: inline-block;
+      background: rgba(100,220,120,0.2);
+      border: 1px solid rgba(100,220,120,0.4);
+      color: #7ddc8c;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    .progress.zero {
+      background: rgba(150,150,150,0.2);
+      border-color: rgba(150,150,150,0.4);
+      color: #aaa;
+    }
+    .action-text { color: #ddd; line-height: 1.5; }
+    .follower-badge {
+      display: inline-block;
+      background: rgba(255,80,120,0.2);
+      border: 1px solid rgba(255,80,120,0.4);
+      color: #ff9db5;
+      border-radius: 6px;
+      padding: 1px 7px;
+      font-size: 0.78rem;
+      margin-left: 6px;
+    }
+    .warning-item {
+      background: rgba(255,180,0,0.1);
+      border-left: 3px solid #FFB800;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 6px 0;
+      font-size: 0.88rem;
+      color: #FFD770;
+    }
+    .action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem;
+    }
+    .action-item:last-child { border-bottom: none; }
+    .rank {
+      font-size: 1.2rem;
+      min-width: 28px;
+    }
+    .action-body { line-height: 1.6; color: #ddd; }
+    .action-pj {
+      display: inline-block;
+      background: rgba(120,160,255,0.2);
+      border: 1px solid rgba(120,160,255,0.4);
+      color: #9ab8ff;
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 0.78rem;
+      margin-bottom: 2px;
+    }
+    .reason { color: #aaa; font-size: 0.83rem; margin-top: 2px; }
+    .synergy-item {
+      background: rgba(100,220,180,0.08);
+      border-left: 3px solid #5DE8C1;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      margin: 8px 0;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .synergy-label { color: #5DE8C1; font-weight: bold; font-size: 0.85rem; margin-bottom: 4px; }
+    .milestone-bar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      height: 6px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .milestone-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #5DE8C1, #7EC8E3);
+    }
+    .footer {
+      text-align: center;
+      color: #666;
+      font-size: 0.78rem;
+      margin-top: 24px;
+    }
+    .tiktok-goal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,80,80,0.15);
+      border: 1px solid rgba(255,80,80,0.4);
+      border-radius: 8px;
+      padding: 3px 10px;
+      font-size: 0.82rem;
+      color: #ff9898;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <h1>🌅 おはようございます、MOONさん</h1>
+    <p class="date">今日は <strong>2026年3月27日（金）</strong> です。全プロジェクトの状況をお伝えします。</p>
+  </div>
+
+  <!-- 各PJ進捗サマリー -->
+  <div class="card">
+    <h2>📊 各PJ進捗サマリー</h2>
+
+    <div class="pj-row">
+      <div class="pj-name">🔵 オギラボ</div>
+      <div><span class="progress">42%</span></div>
+      <div class="action-text">
+        TikTok <span class="follower-badge">888人</span>（2026-03-26）/ YouTube <span class="follower-badge">79人</span>（2026-03-26）
+        <span class="tiktok-goal">🎯 目標まであと112人</span>
+        <div class="milestone-bar"><div class="milestone-fill" style="width:88.8%"></div></div>
+        <div style="margin-top:4px;">次のアクション: <strong>TikTok 1,000人達成に向け投稿を加速</strong></div>
+      </div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">🟢 CARAS</div>
+      <div><span class="progress">58%</span></div>
+      <div class="action-text">
+        Instagram <span class="follower-badge">68人</span>（2026-03）/ TikTok <span class="follower-badge">23人</span>（2026-03）
+        <div style="margin-top:4px;">次のアクション: <strong>メインLP（HTMLページ）制作に着手</strong></div>
+      </div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">🟡 健康経営</div>
+      <div><span class="progress">25%</span></div>
+      <div class="action-text">
+        サービスパッケージ設計 進行中
+        <div style="margin-top:4px;">次のアクション: <strong>サービスパッケージ設計を完成・法人向けLP制作へ</strong></div>
+      </div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">⚪ SORA</div>
+      <div><span class="progress zero">0%</span></div>
+      <div class="action-text">
+        未着手（新規追加）
+        <div style="margin-top:4px;">次のアクション: <strong>体験会LP・Instagram開設から始める</strong></div>
+      </div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">⚪ SUPERIOR</div>
+      <div><span class="progress zero">0%</span></div>
+      <div class="action-text">
+        未着手（新規追加）
+        <div style="margin-top:4px;">次のアクション: <strong>SORAと合同で初期コンテンツ設計</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 要対応事項 -->
+  <div class="card">
+    <h2>⚠️ 要対応事項・古いデータ警告</h2>
+
+    <div class="warning-item">
+      <strong>オギラボ TikTok:</strong> 888人 → 目標1,000人まで <strong>残り112人</strong>。サロン本格稼働の前提KPI。投稿ペースを意識的に上げる必要あり。
+    </div>
+
+    <div class="warning-item">
+      <strong>CARAS Instagram/TikTok:</strong> フォロワー数が「2026-03時点」と記録されており、具体的な日付が不明です。正確な日付での記録を推奨。
+    </div>
+
+    <div class="warning-item">
+      <strong>SORA / SUPERIOR:</strong> 両クラブとも進捗0%・未着手の状態。春の入会シーズン（4月）が近づいているため、体験会告知・SNS開設が急務。
+    </div>
+
+    <div class="warning-item">
+      <strong>オギラボ Note・X・Instagram:</strong> フォロワー数が「要確認」のまま未登録。次回モニタリング時に記録を推奨。
+    </div>
+  </div>
+
+  <!-- 今日の推奨アクション TOP3 -->
+  <div class="card">
+    <h2>🎯 今日の推奨アクション TOP3</h2>
+
+    <div class="action-item">
+      <div class="rank">🥇</div>
+      <div class="action-body">
+        <div><span class="action-pj">オギラボ</span> <strong>TikTok投稿を1本制作・予約投稿設定</strong></div>
+        <div class="reason">→ 理由: 目標1,000人まであと112人。1日1本ペースで2〜3週間で達成圏。サロン稼働への直接のトリガーになる最重要KPI。</div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="rank">🥈</div>
+      <div class="action-body">
+        <div><span class="action-pj">CARAS</span> <strong>メインLP（HTMLページ）の構成案を決定・着手</strong></div>
+        <div class="reason">→ 理由: TODO最上位のコアコンテンツ。LPが揃うことで進捗58%→次のフェーズへ進める。入会検討者への説明コストも削減できる。</div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="rank">🥉</div>
+      <div class="action-body">
+        <div><span class="action-pj">SORA / SUPERIOR</span> <strong>春の体験会告知に向けた初期コンテンツ設計（Instagram投稿1本 + LP骨子）</strong></div>
+        <div class="reason">→ 理由: 4月は子ども向けクラブの入会ピークシーズン。今週中に動き出さないと機会損失になる可能性が高い。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- シナジーチャンス -->
+  <div class="card">
+    <h2>🔗 今週のシナジーチャンス</h2>
+
+    <div class="synergy-item">
+      <div class="synergy-label">① オギラボ × SORA/SUPERIOR</div>
+      <strong>オギラボの競合調査レポート（2026-03-26完成）</strong>のバズ文言・フックパターンを、SORA/SUPERIORのInstagram開設時の最初の投稿文に転用できます。「子どもの走りを変える○つの方法」「かけっこで得る○○の力」などのフック形式が保護者層にも有効。
+      → <em>「転用しますか？」（→はい/いいえ）</em>
+    </div>
+
+    <div class="synergy-item">
+      <div class="synergy-label">② CARAS × SORA/SUPERIOR</div>
+      SORA/SUPERIORの体験会LP制作時に、保護者向けの「親もトレーニングしよう」コーナーでCARASへの導線を入れることができます。保護者が子どもを連れてくる動線上でCARAS認知を獲得できるシナジー。
+      → <em>「CARAS体験申込みへのリンクを入れますか？」（→はい/いいえ）</em>
+    </div>
+  </div>
+
+  <!-- 前回から変わったこと -->
+  <div class="card">
+    <h2>📌 前回から変わったこと（直近の更新）</h2>
+    <div style="font-size:0.88rem; line-height:1.9; color:#ddd;">
+      ・<strong>2026-03-26</strong>: オギラボ 競合調査レポートv1 完成、SNSアカウント全媒体URL登録完了<br>
+      ・<strong>2026-03-26</strong>: 全PJ CONTEXT.md に GOODパターン蓄積セクション・既知失敗パターンセクション追加（新設）<br>
+      ・<strong>2026-03-26</strong>: オギラボ TikTok 888人（前回比不明） / YouTube 79人 確認<br>
+      ・<strong>2026-03-26</strong>: CARAS Instagram 68人 / TikTok 23人 記録<br>
+      ・SORA / SUPERIOR が新規プロジェクトとして追加（進捗0%・未着手）
+    </div>
+  </div>
+
+  <div class="footer">
+    🤖 AI組織 総括エージェント｜自動生成 2026-03-27 ｜ 次回自動実行: 2026-03-28 09:00
+  </div>
+
+</div>
+</body>
+</html>

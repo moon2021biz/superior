@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP — スポンサーアプローチDM集</title>
+<style>
+  :root {
+    --dark: #0a0e1a;
+    --dark2: #131929;
+    --dark3: #1a2235;
+    --accent: #34d399;
+    --gold: #f5c518;
+    --blue: #60a5fa;
+    --text: #e8eaf0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+
+  .header {
+    background: linear-gradient(135deg, #0a1a12 0%, #0a1a2e 100%);
+    padding: 50px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(52,211,153,0.2);
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.35);
+    color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: clamp(22px, 4vw, 34px); font-weight: 900;
+    background: linear-gradient(135deg, #34d399, #60a5fa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+  .header-sub { font-size: 14px; color: var(--muted); }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 20px 60px; }
+
+  .section-title {
+    font-size: 13px; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin: 40px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(52,211,153,0.2);
+  }
+
+  /* SPONSOR INFO */
+  .sponsor-info {
+    background: var(--dark2); border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 14px; padding: 24px 28px; margin-bottom: 32px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  @media (max-width: 600px) { .sponsor-info { grid-template-columns: 1fr; } }
+  .si-label { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .si-value { font-size: 15px; font-weight: 700; }
+  .si-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* DM CARD */
+  .dm-card {
+    background: var(--dark2); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; margin-bottom: 24px; overflow: hidden;
+  }
+  .dm-card-header {
+    background: var(--dark3); padding: 16px 24px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .dm-card-title { font-size: 15px; font-weight: 700; }
+  .dm-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 10px; text-transform: uppercase;
+  }
+  .badge-sns { background: rgba(233,69,96,0.2); color: #ff7088; }
+  .badge-email { background: rgba(96,165,250,0.2); color: #60a5fa; }
+  .badge-meet { background: rgba(167,139,250,0.2); color: #a78bfa; }
+
+  .dm-body { padding: 20px 24px; }
+  .dm-text {
+    background: #080d18; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 18px 20px;
+    font-size: 14px; line-height: 2.0;
+    white-space: pre-wrap; font-family: inherit;
+    color: #d1d5db;
+    position: relative;
+  }
+  .dm-text .highlight { color: var(--gold); font-weight: 700; }
+  .copy-btn {
+    display: block; width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 8px; color: var(--accent); font-size: 13px; font-weight: 700;
+    cursor: pointer; text-align: center;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: rgba(52,211,153,0.2); }
+  .copy-btn.copied { background: rgba(52,211,153,0.3); }
+
+  /* PLAN TABLE */
+  .plan-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .plan-table th {
+    background: var(--dark3); padding: 10px 14px;
+    text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--muted);
+    text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .plan-table td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+  .plan-table tr:last-child td { border-bottom: none; }
+  .plan-name { font-weight: 700; font-size: 14px; }
+  .plan-price { color: var(--gold); font-weight: 700; }
+
+  /* NOTE */
+  .note-box {
+    background: rgba(96,165,250,0.07); border: 1px solid rgba(96,165,250,0.2);
+    border-radius: 10px; padding: 16px 20px; margin-top: 20px; font-size: 13px;
+  }
+  .note-box strong { color: var(--blue); }
+
+  .footer-note {
+    text-align: center; color: var(--muted); font-size: 12px;
+    padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 60px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="text-align:center; padding:0 0 16px; position:relative; z-index:1;">
+    <img src="../prism cup logo.png" alt="PRISM CUP" style="height:80px; width:auto; display:inline-block;">
+  </div>
+  <div class="header-tag">Sponsor Approach DM</div>
+  <h1>💚 スポンサーアプローチDM集</h1>
+  <div class="header-sub">PRISM CUP 2026 ／ 協賛候補先への打診文面テンプレート</div>
+</div>
+
+<div class="container">
+
+  <!-- SPONSOR INFO -->
+  <div class="section-title">🎯 スポンサー候補一覧</div>
+
+  <!-- 候補① AKTR -->
+  <div style="margin-bottom:8px;padding:6px 12px;background:rgba(16,185,129,0.08);border-left:3px solid var(--accent);border-radius:6px;font-size:12px;color:var(--accent);">🥇 候補① AKTR（アクター）</div>
+  <div class="sponsor-info">
+    <div>
+      <div class="si-label">企業・ブランド</div>
+      <div class="si-value">AKTR（アクター）</div>
+      <div class="si-sub">千日商店株式会社 ／ 日本発バスケアパレルブランド</div>
+    </div>
+    <div>
+      <div class="si-label">担当者</div>
+      <div class="si-value">新田 寛之 さん</div>
+      <div class="si-sub">代表・AKTRブランド創業者 ／ 渋谷区南平台</div>
+    </div>
+    <div>
+      <div class="si-label">関係性</div>
+      <div class="si-value">関係性あり（良好）</div>
+      <div class="si-sub">佐々木さん（MC）とのコネクションも活用可</div>
+    </div>
+    <div>
+      <div class="si-label">提供想定内容</div>
+      <div class="si-value">ウェア・ビブス・ロゴ掲載</div>
+      <div class="si-sub">イベントTシャツ・ビブス・会場バナー・SNS露出</div>
+    </div>
+  </div>
+
+  <!-- 候補② メイスンワーク -->
+  <div style="margin-bottom:8px;margin-top:20px;padding:6px 12px;background:rgba(99,102,241,0.12);border-left:3px solid #818cf8;border-radius:6px;font-size:12px;color:#818cf8;">🤝 候補② メイスンワーク株式会社（出資者・事業パートナー）</div>
+  <div class="sponsor-info" style="border-color:rgba(129,140,248,0.3);">
+    <div>
+      <div class="si-label">企業・ブランド</div>
+      <div class="si-value">メイスンワーク株式会社</div>
+      <div class="si-sub">福壽孝太朗さん代表 ／ 株式会社MOONへの資本参加済み</div>
+    </div>
+    <div>
+      <div class="si-label">担当者</div>
+      <div class="si-value">福壽 孝太朗 さん</div>
+      <div class="si-sub">株式会社ウィズアスリート 代表取締役 兼 メイスンワーク株式会社 代表</div>
+    </div>
+    <div>
+      <div class="si-label">関係性</div>
+      <div class="si-value">出資者・事業パートナー（最上位）</div>
+      <div class="si-sub">PRISM CUP自体への深い関与あり。協賛打診に最適な立場</div>
+    </div>
+    <div>
+      <div class="si-label">協賛想定内容</div>
+      <div class="si-value">協賛金 or 会場・運営サポート</div>
+      <div class="si-sub">ロゴ掲載・SNS協力・会場費サポートなど柔軟に相談可</div>
+    </div>
+  </div>
+
+  <!-- PLAN TABLE -->
+  <div class="section-title">📋 スポンサープラン（提案内容）</div>
+  <div style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:12px;">
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>プラン</th>
+          <th>協賛内容</th>
+          <th>露出・特典</th>
+          <th>協賛金 / 現物換算</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="plan-name">🥇 ウェアスポンサー</div><div style="font-size:11px;color:var(--accent);margin-top:2px;">メイン協賛</div></td>
+          <td>全参加者40名分のビブス or イベントTシャツ提供</td>
+          <td>会場全体・SNS・採用PR動画・プレスリリースへのロゴ掲載<br>当日インフルエンサー撮影素材として活用</td>
+          <td><span class="plan-price">現物提供 or ¥150,000〜</span></td>
+        </tr>
+        <tr>
+          <td><div class="plan-name">🥈 会場スポンサー</div></td>
+          <td>会場バナー・装飾素材の提供</td>
+          <td>バナー2〜4枚・SNS掲載・企画書クレジット</td>
+          <td><span class="plan-price">現物提供 or ¥80,000〜</span></td>
+        </tr>
+        <tr>
+          <td><div class="plan-name">🥉 ロゴスポンサー</div></td>
+          <td>ロゴ掲載のみ</td>
+          <td>企画書・SNS投稿・プレスリリース（PR TIMES予定）への記載</td>
+          <td><span class="plan-price">¥30,000〜</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-box">
+    <strong>💡 交渉ポイント：</strong> 「現物提供＋ロゴ掲載」の組み合わせが一番話しやすい。費用ゼロでAKTRブランドが40名のビジネスパーソン・プロアスリートに露出できる機会として提案する。
+  </div>
+
+  <!-- DM 1: Instagram DM (casual) -->
+  <div class="section-title">📱 DM / メール文面テンプレート</div>
+
+  <div class="dm-card">
+    <div class="dm-card-header">
+      <div class="dm-title">①  Instagram DM ― ファーストコンタクト（カジュアル版）</div>
+      <span class="dm-badge badge-sns">Instagram DM</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm1">新田さん、こんにちは！
+荻田大樹です。いつもお世話になっています🙏
+
+7月4日（土）にアソビル（横浜）で「<span class="highlight">PRISM CUP</span>」という企業向けフットサルイベントを開催することになりました。
+
+元Jリーガー・元Fリーガー・オリンピアンが企業チームと本気でぶつかる招待制イベントで、参加8チーム × 5〜8名＝計40名の規模を予定しています。
+
+AKTRさんのウェアにはずっと憧れがあって、ぜひ<span class="highlight">ウェア協賛・ロゴ掲載</span>という形でご一緒できないかと思いご連絡しました⚡
+
+詳しい企画書を送らせてください。もしよろしければ一度お時間いただけますか？</div>
+      <button class="copy-btn" onclick="copyText('dm1', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <div class="dm-card">
+    <div class="dm-card-header">
+      <div class="dm-title">②  Instagram DM ― 佐々木さん（MC）経由バージョン</div>
+      <span class="dm-badge badge-sns">Instagram DM</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm2">新田さん、初めまして。
+荻田大樹と申します。佐々木（ただすけ）から新田さんのことを伺いまして、ご連絡しました。
+
+7月4日に横浜・アソビルで「<span class="highlight">PRISM CUP</span>」という企業×プロアスリートのフットサルイベントを主催します。
+
+佐々木もMCとして参加するのですが、参加者40名が集まるこのイベントに<span class="highlight">AKTRさんのブランドを載せたい</span>と思っています。
+
+ウェア提供 or ロゴスポンサーとして一緒に盛り上げていただけたら最高です🔥
+企画書をお送りしますので、ご検討いただけますか？</div>
+      <button class="copy-btn" onclick="copyText('dm2', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <div class="dm-card">
+    <div class="dm-card-header">
+      <div class="dm-title">③  メール ― フォーマル版（初回打診）</div>
+      <span class="dm-badge badge-email">メール</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm3">件名：【ご協賛のご相談】PRISM CUP 2026 ― 企業×プロアスリート フットサルイベント
+
+──────────────────────────────
+新田 寛之 様
+
+株式会社MOONの荻田と申します。
+突然のご連絡失礼いたします。
+
+この度、2026年7月4日（土）に横浜・アソビルにて
+「<span class="highlight">PRISM CUP 2026</span>」を開催することとなり、
+AKTRさんにウェア協賛のご相談をさせていただきたく
+ご連絡いたしました。
+
+■ イベント概要
+・名称：PRISM CUP 2026（招待制企業フットサルイベント）
+・日時：2026年7月4日（土）18:00〜22:00
+・会場：アソビル（神奈川県横浜市）
+・規模：参加8チーム × 5〜8名＝計40名
+・参加費：1チーム10万円
+
+■ 出演者
+・荻田大樹（陸上競技オリンピアン・TrustFit代表）
+・佐々木 理方（MC・元Jリーグ強化指定選手）
+・山崎 椋太（元Fリーガー・デウソン神戸）
+・佐藤 和樹（元名古屋グランパス） 他
+
+■ ご協賛いただきたい内容（ご希望に応じて調整可能です）
+・ビブスまたはイベントTシャツ（40名分）の現物提供
+・会場バナー・装飾へのロゴ掲載
+・SNS投稿・採用PR動画・プレスリリースへのクレジット
+
+AKTRさんのコンセプト「好きなことをやっている時に一番輝く」と
+本イベントの価値観は完全に一致していると感じており、
+ぜひご一緒させていただきたいと思っております。
+
+詳細な企画書・スポンサー資料をお送りすることも可能です。
+もしよろしければ、一度お話しできる機会をいただけますと幸いです。
+
+どうぞよろしくお願いいたします。
+
+──────────────────────────────
+荻田大樹
+株式会社MOON
+Email: trustfit.biz@moontf.com
+──────────────────────────────</div>
+      <button class="copy-btn" onclick="copyText('dm3', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <div class="dm-card">
+    <div class="dm-card-header">
+      <div class="dm-title">④  フォローアップDM（1週間後・未返信の場合）</div>
+      <span class="dm-badge badge-sns">Instagram DM</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm4">新田さん、先日ご連絡した荻田です🙏
+
+PRISM CUPの件、ご覧いただけましたでしょうか？
+
+イベントまで3ヶ月を切ってきたので、スポンサーの枠を確定させたいと思っています。
+「現物提供＋ロゴ掲載」から検討いただけると嬉しいです。
+
+一度5〜10分だけオンラインでお話しできますか？
+日程は新田さんに合わせます！</div>
+      <button class="copy-btn" onclick="copyText('dm4', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <div class="dm-card">
+    <div class="dm-card-header">
+      <div class="dm-title">⑤  その他スポンサー候補への汎用テンプレート</div>
+      <span class="dm-badge badge-email">汎用</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm5">【お名前】さん、こんにちは！
+荻田大樹です。いつもありがとうございます。
+
+7月4日（土）に横浜・アソビルで「<span class="highlight">PRISM CUP</span>」という企業向けフットサルイベントを開催します。
+
+元プロサッカー選手・元Fリーガー・オリンピアンが参加する本格的なイベントで、経営者・人事担当が集まる最大64名規模です。
+
+【お名前】さんのところにイベントスポンサーとしてご参加いただけないかと思ってご連絡しました。
+
+・会場・SNS・PR素材へのロゴ掲載
+・参加者最大64名へのブランド露出
+・プレスリリース（PR TIMES予定）へのクレジット
+
+詳しい資料をお送りします！検討いただけますか？🙏</div>
+      <button class="copy-btn" onclick="copyText('dm5', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <!-- メイスンワーク向けDM -->
+  <div class="section-title" style="margin-top:32px;">🤝 メイスンワーク（福壽孝太朗さん）向けDMテンプレート</div>
+
+  <div class="dm-card" style="border-color:rgba(129,140,248,0.3);">
+    <div class="dm-card-header">
+      <div class="dm-title">⑥  協賛打診DM（パートナーとして正式依頼）</div>
+      <span class="dm-badge" style="background:rgba(129,140,248,0.15);color:#818cf8;">LINE / DM</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm6">福壽さん、荻田です！いつもありがとうございます🙏
+
+7月4日（土）開催の「PRISM CUP」について、ご相談があります。
+
+現在スポンサー企業を募っており、ぜひメイスンワーク様にもご協力いただけないかと思いご連絡しました。
+
+─────────────────
+🏆 PRISM CUP 2026
+日時：2026年7月4日（土）
+会場：アソビル横浜（6F）
+規模：企業8チーム × 5〜8名 = 40名
+─────────────────
+
+【想定する協賛内容】
+・会場バナー・運営資材へのロゴ掲載
+・SNS・PR素材・プレスリリースへのクレジット
+・協賛金（金額は相談で調整します）
+
+一緒に盛り上げていただけたら最高です！
+詳しい資料をお送りしますので、ぜひご検討ください🔥
+
+荻田大樹
+株式会社MOON</div>
+      <button class="copy-btn" onclick="copyText('dm6', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <div class="dm-card" style="border-color:rgba(129,140,248,0.3);">
+    <div class="dm-card-header">
+      <div class="dm-title">⑦  軽い切り出し版（近い関係感を活かした短文）</div>
+      <span class="dm-badge" style="background:rgba(129,140,248,0.15);color:#818cf8;">LINE / DM</span>
+    </div>
+    <div class="dm-body">
+      <div class="dm-text" id="dm7">福壽さん！荻田です😊
+
+7月4日（土）に横浜で開催するPRISM CUPの件で、ちょっとご相談があります。
+
+メイスンワーク様に協賛として絡んでいただけたら、すごく心強いです🙏
+
+・ロゴ掲載（会場・SNS・PR資料）
+・金額や形は相談させてください！
+
+詳細な資料もあるのでお送りします。いかがでしょうか？🔥</div>
+      <button class="copy-btn" onclick="copyText('dm7', this)">📋 コピーする</button>
+    </div>
+  </div>
+
+  <!-- STRATEGY NOTE -->
+  <div class="section-title">💡 アプローチ戦略メモ</div>
+  <div style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:24px 28px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:8px;">🎯 AKTR打診の優先順序</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+          ① Instagram DM（①か②）で先に挨拶<br>
+          ② 反応があればスポンサー資料を添付して返信<br>
+          ③ 承諾方向になれば正式メール（③）で確認<br>
+          ④ 佐々木さん経由が一番スムーズかも
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--blue);letter-spacing:1px;margin-bottom:8px;">💬 刺さるポイント</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+          ・最大64名の経営者層にブランド露出<br>
+          ・プロアスリートとの写真素材（SNS活用可）<br>
+          ・現物提供＝費用ゼロでロゴ掲載<br>
+          ・佐々木さん（バスケ出身）との接点づくり
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:8px;">⚠️ 注意事項</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+          ・撮影は当日スタッフによる動画・写真撮影（自前収録）<br>
+          ・「採用PR動画」は当日撮影素材として提供<br>
+          ・協賛金額は柔軟に交渉可（現物優先）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    PRISM CUP 2026 — スポンサーアプローチDM集 ／ 株式会社MOON ／ 2026-04-13
+  </div>
+
+</div>
+
+<script>
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  // get text without HTML tags
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ コピーしました！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 コピーする';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

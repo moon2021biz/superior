@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新指定管理予定業者攻略 — 運営計画に組み込まれるための戦略</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+    --kyokai:#2b6e9c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 100%);color:#fff;padding:44px 24px;text-align:center;border-bottom:5px solid var(--accent)}
+  .hero .badge{display:inline-block;background:var(--accent);color:#fff;padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:10px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px}
+  .hero .sub{font-size:13px;color:#bdc4d0;max-width:740px;margin:8px auto 0}
+  .container{max-width:1020px;margin:0 auto;padding:30px 22px}
+
+  section{margin-bottom:36px;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+  h2{font-size:22px;border-left:5px solid var(--gold);padding-left:14px;margin-bottom:18px;color:var(--navy);font-weight:700}
+  h2.alert{border-color:var(--red)}
+  h2.good{border-color:var(--green)}
+  h2.kyokai{border-color:var(--kyokai)}
+  h3{font-size:17px;color:var(--navy);margin:20px 0 10px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:5px}
+  h4{font-size:14px;color:var(--gold-dark);margin:12px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+
+  .lead{font-size:15px;background:#fdf9ee;border-left:4px solid var(--gold);padding:14px 18px;border-radius:6px;margin-bottom:18px}
+  .lead.green{background:#e9f4ee;border-color:var(--green);color:#1f3a2a}
+  .lead.red{background:#fbeae5;border-color:var(--red);color:#3a1a14}
+  .lead.kyokai{background:#eef5fc;border-color:var(--kyokai);color:#0a3c6e}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+  td.money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);text-align:right}
+
+  .candidate-card{border-radius:10px;padding:18px;margin-bottom:14px;border:2px solid;background:#fff}
+  .cand-1{border-color:var(--kyokai);background:linear-gradient(135deg,#fff,#eef5fc)}
+  .cand-2{border-color:var(--accent);background:linear-gradient(135deg,#fff,#fdf4ef)}
+  .cand-3{border-color:var(--green);background:linear-gradient(135deg,#fff,#f0f8f4)}
+  .cand-prob{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:6px}
+  .cand-1 .cand-prob{background:var(--kyokai)}
+  .cand-2 .cand-prob{background:var(--accent)}
+  .cand-3 .cand-prob{background:var(--green)}
+  .cand-title{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px}
+
+  .key-fact{background:#1a2540;color:#fff;border-radius:10px;padding:18px 24px;margin:14px 0}
+  .key-fact .label{font-size:11px;color:var(--gold);letter-spacing:0.15em;font-weight:bold;margin-bottom:6px}
+  .key-fact .big{font-size:20px;font-weight:bold;line-height:1.4}
+  .key-fact .sub{font-size:13px;color:#bdc4d0;margin-top:6px}
+
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+  .alert.green{background:#e9f4ee;border-color:#a5cdb3;color:#1f3a2a}
+  .alert.blue{background:#eef5fc;border-color:#7ba8d0;color:#0a3c6e}
+
+  .program-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:14px;border-top:4px solid var(--accent)}
+  .program-card .pno{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;background:var(--navy);color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:6px}
+  .program-card .ptitle{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .program-card .prow{display:grid;grid-template-columns:130px 1fr;gap:8px;font-size:13px;padding:4px 0;border-bottom:1px dotted var(--line)}
+  .program-card .prow:last-child{border:none}
+  .program-card .prow .tag{font-weight:bold;color:var(--gold-dark);font-size:12px}
+
+  .quote{font-style:italic;color:var(--gold-dark);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .one-pager{background:linear-gradient(135deg,#fff 0%,#fdfbf5 100%);border:3px dashed var(--gold);border-radius:12px;padding:24px;margin:14px 0}
+  .one-pager h3{color:var(--gold-dark);margin-top:0;border:none;padding:0}
+
+  .toc{background:#fdfbf5;border:1px dashed var(--gold);padding:16px 22px;border-radius:8px;margin-bottom:24px}
+  .toc h3{margin:0 0 8px;color:var(--gold-dark);border:none;padding:0}
+  .toc ol{padding-left:22px;margin:0}
+  .toc a{color:var(--navy);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+
+  .talking-point{background:#f8f4e9;border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 6px 6px 0;margin:8px 0;font-size:14px}
+  .talking-point::before{content:"💬 ";font-size:14px}
+
+  .step-list{counter-reset:step}
+  .step-list .step{counter-increment:step;padding:12px 14px 12px 50px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;position:relative}
+  .step-list .step::before{content:counter(step);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px}
+  .step-list .step h4{margin:0 0 4px;font-size:14px;color:var(--navy)}
+  .step-list .step p{margin:0;font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">URGENT / 今週末の面談に向けて</div>
+  <h1>新指定管理予定業者攻略<br>「運営計画に組み込まれる」ための戦略</h1>
+  <div class="sub">前回（2021/2022）の指定管理者選定で四電工に敗れた業者が、2027年4月開始の次期管理者として戻ってくる前提。<br>今週末の面談で、5年契約の運営計画にSORAを組み込ませる。</div>
+</div>
+
+<div class="container">
+
+<!-- 重要前提 -->
+<section>
+  <h2 class="alert">0. 重要な前提整理</h2>
+
+  <div class="lead red">
+    <strong>ユーザー情報：</strong>新指定管理予定業者は「前回（2022年スタートの選定）で四電工に敗れた業者」。つまりこの業者は<strong>「今度こそ取りたい」という強い動機</strong>を持っており、勝てる運営計画の構築途中。
+  </div>
+
+  <div class="key-fact">
+    <div class="label">CORE INSIGHT</div>
+    <div class="big">「今が最大のチャンス」</div>
+    <div class="sub">運営計画策定中＝ゼロから入り込める／ 業者は差別化要素を強く欲している／ 5年契約に組み込まれれば長期パートナーシップ確定／ 入札勝利の助力者として相手から感謝される立場になる。</div>
+  </div>
+</section>
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#s1">業者候補の絞り込み（最有力＝公益財団法人 高松市スポーツ協会）</a></li>
+    <li><a href="#s2">新業者が「今欲しいもの」を分解する</a></li>
+    <li><a href="#s3">SORAだけが提供できる5つの組込可能プログラム</a></li>
+    <li><a href="#s4">面談前夜に作るA4 1枚提案</a></li>
+    <li><a href="#s5">面談での具体的な進め方（候補別シナリオ）</a></li>
+    <li><a href="#s6">「組み込まれた」と判断できるシグナル</a></li>
+  </ol>
+</div>
+
+<!-- 1. 業者候補 -->
+<section id="s1">
+  <h2 class="kyokai">1. 業者候補の絞り込み</h2>
+
+  <p class="lead">「前回落ちた業者」という条件から、リサーチで以下の候補に絞り込めます。</p>
+
+  <div class="candidate-card cand-1">
+    <span class="cand-prob">最有力 / 確率70%</span>
+    <div class="cand-title">公益財団法人 高松市スポーツ協会</div>
+    <table>
+      <tr><th>所在地</th><td>高松市福岡町四丁目36番1号（TEL 087-822-0211）</td></tr>
+      <tr><th>事業領域</th><td>高松市内のスポーツ施設をほぼ全て指定管理（高松市総合体育館ほか33施設＋東部運動公園＋りんくうスポーツ公園）</td></tr>
+      <tr><th>専門部</th><td>競技スポーツ専門部・コミュニティスポーツ専門部・健康体力つくり専門部・スポーツ少年団</td></tr>
+      <tr><th>2025年評価</th><td>B評価（実績が申請時の提案内容を達成）</td></tr>
+      <tr><th>動向</th><td><strong>令和9年4月（2027年4月）採用の職員募集中</strong>。事業拡大の準備が見える。</td></tr>
+      <tr><th>屋島だけ取れていない理由</th><td>四電工グループ（電気工事の本業＋施設管理経験）に2021年の選定で敗れた可能性が高い。</td></tr>
+    </table>
+    <div class="alert green">
+      <strong>なぜ最有力か：</strong>市内ほぼ全スポーツ施設を運営しているのに、屋島だけ取れていない。これは「過去に申請して負けた」状態。次回入札で取りに行くのは自然な流れ。公益財団法人＝市の外郭団体的存在で市との関係が深く、運営計画の質を上げれば取れる位置にいる。
+    </div>
+  </div>
+
+  <div class="candidate-card cand-2">
+    <span class="cand-prob">対抗 / 確率15%</span>
+    <div class="cand-title">シンコースポーツ・四電ビジネスグループ</div>
+    <table>
+      <tr><th>現状</th><td>高松市健康増進温浴施設「ループしおのえ」の指定管理者</td></tr>
+      <tr><th>四電グループとの関係</th><td>四電ビジネスが入っている。一方、競合の四電工も四電グループ。グループ内対立になる可能性は低い。</td></tr>
+      <tr><th>シンコースポーツ</th><td>全国のスポーツ施設運営大手。指定管理・PFI実績多数。</td></tr>
+    </table>
+    <p class="alert">グループ内競合になるため、四電工→シンコー(四電ビジネス)への移管シナリオは可能性が低い。</p>
+  </div>
+
+  <div class="candidate-card cand-3">
+    <span class="cand-prob">穴 / 確率15%</span>
+    <div class="cand-title">民間スポーツ施設運営会社（ミズノ・コナミ・ルネサンス等）</div>
+    <table>
+      <tr><th>可能性</th><td>全国展開する施設運営会社が、地元企業との共同体で参入する可能性</td></tr>
+      <tr><th>特徴</th><td>商業ベース・収益重視・全国ノウハウ／地縁は弱い</td></tr>
+    </table>
+  </div>
+
+  <div class="alert blue">
+    <strong>戦略的判断：</strong>確証はないが、<strong>公益財団法人 高松市スポーツ協会である確率が圧倒的に高い</strong>と推定。以下、本提案はスポーツ協会を本命として書きつつ、他候補へのアジャストポイントも併記する。
+  </div>
+</section>
+
+<!-- 2. 業者が欲しいもの -->
+<section id="s2">
+  <h2>2. 新業者が「今欲しいもの」を分解する</h2>
+
+  <p class="lead">「運営計画に組み込まれる」ためには、相手が欲しいものを正確に把握する必要があります。前提（前回敗北→次回奪取）から逆算した、業者の具体的なニーズ。</p>
+
+  <h3>2-A. 新業者が次回入札で勝つために必要な要素</h3>
+  <table>
+    <tr><th>要素</th><th>業者の悩み</th><th>SORAが提供できる解決</th></tr>
+    <tr>
+      <td>差別化された運営計画</td>
+      <td>前回は四電工に負けた。同じ提案では再び負ける。<strong>「他社にない目玉企画」</strong>が必要。</td>
+      <td>オリンピアン代表 × 子ども育成 × 棒高跳び専門の三位一体プログラム。これは他業者には絶対真似できない。</td>
+    </tr>
+    <tr>
+      <td>稼働率を上げる施策</td>
+      <td>四電工時代のB評価。稼働率改善の具体策が要る。</td>
+      <td>火・金・土夜の定期利用＋月次イベントで稼働率15-20%押し上げ可能。具体数字を提示。</td>
+    </tr>
+    <tr>
+      <td>市民満足度の向上策</td>
+      <td>地域住民・利用団体に「変わった感」を見せる必要</td>
+      <td>「香川出身オリンピアン主導の新コンテンツ」というメディア発信できる物語。</td>
+    </tr>
+    <tr>
+      <td>子ども・ジュニア育成の具体プログラム</td>
+      <td>市の評価項目「子ども振興」での得点が必要</td>
+      <td>既に観音寺・高松で稼働中。すぐ転用可能なノウハウとプログラム。</td>
+    </tr>
+    <tr>
+      <td>ユニバーサル・パラスポーツ対応</td>
+      <td>施設はバリアフリーだが活用しきれていない</td>
+      <td>SORAコーチ陣で対応可能（要研修）。市の評価で配点高い項目。</td>
+    </tr>
+    <tr>
+      <td>室内棒高跳び施設の活用</td>
+      <td>「全国唯一の遊休資産」と指摘される</td>
+      <td>SORA代表（リオ五輪棒高跳び代表）が世界唯一の活用責任者になり得る。</td>
+    </tr>
+    <tr>
+      <td>メディア露出</td>
+      <td>市議会・市の評価で「話題性」が重要</td>
+      <td>オリンピアン取材枠・日経新聞既出（ECC関連）の実績。</td>
+    </tr>
+  </table>
+
+  <div class="key-fact">
+    <div class="label">逆転の発想</div>
+    <div class="big">「SORAは新業者の入札勝利を助ける戦略パートナー」</div>
+    <div class="sub">業者がSORAに「お願いする」立場になる構造を作る。SORAを運営計画に組み込むことが業者の入札勝利確率を上げる前提なら、断る理由がなくなる。</div>
+  </div>
+</section>
+
+<!-- 3. 5つの組み込みプログラム -->
+<section id="s3">
+  <h2 class="good">3. SORAだけが提供できる5つの組込可能プログラム</h2>
+
+  <p class="lead">「運営計画書」に文字として書き込まれるレベルの具体提案。今週末の面談で全部を投げる必要はないが、相手の反応を見て使い分ける。</p>
+
+  <div class="program-card">
+    <span class="pno">PROGRAM 1 — 目玉企画</span>
+    <div class="ptitle">「屋島ポールヴォルトアカデミー」共同立ち上げ</div>
+    <div class="prow"><div class="tag">概要</div><div>全国唯一の室内棒高跳び公認施設を活かした全国レベルの棒高跳び育成拠点。リオ五輪代表の荻田大樹が直接指導。</div></div>
+    <div class="prow"><div class="tag">想定対象</div><div>四国・西日本全域の中高生・大学生（30名規模）／単発体験会で年間500名</div></div>
+    <div class="prow"><div class="tag">運営区分</div><div>業者：施設提供／SORA：プログラム運営・指導・集客</div></div>
+    <div class="prow"><div class="tag">業者の評価加点</div><div>「全国唯一の施設活用」「県外集客」「メディア露出」</div></div>
+    <div class="prow"><div class="tag">市民への打ち出し</div><div>「屋島から世界へ」のシンボル企画</div></div>
+  </div>
+
+  <div class="program-card">
+    <span class="pno">PROGRAM 2 — 定期イベント</span>
+    <div class="ptitle">「月例 屋島チャレンジデー」共同主催</div>
+    <div class="prow"><div class="tag">概要</div><div>毎月第3土曜に開催する子ども向け陸上記録会（無料 or 500円）。50m走・立ち幅跳び・ボール投げの3種目で自己ベスト挑戦。</div></div>
+    <div class="prow"><div class="tag">想定参加</div><div>1回あたり100-150名（年間1,500人の利用増）</div></div>
+    <div class="prow"><div class="tag">業者の評価加点</div><div>「子ども振興」「稼働率向上」「市民満足度」</div></div>
+    <div class="prow"><div class="tag">運営区分</div><div>業者：施設・運営・広報／SORA：指導・記録会運営</div></div>
+  </div>
+
+  <div class="program-card">
+    <span class="pno">PROGRAM 3 — 教室事業</span>
+    <div class="ptitle">「屋島キッズ陸上教室」週次レギュラー</div>
+    <div class="prow"><div class="tag">概要</div><div>火曜・金曜・土曜の定期教室を業者公式プログラムとして組み込み（現在SORAの実質運営）</div></div>
+    <div class="prow"><div class="tag">運営区分</div><div>SORAが運営委託を受ける形（業者からの委託料 or 参加費収入のレベニューシェア）</div></div>
+    <div class="prow"><div class="tag">業者の評価加点</div><div>「定期利用」「子ども事業」「継続性」</div></div>
+    <div class="prow"><div class="tag">既存活動の正式化</div><div>SORAは既に屋島で活動中。これを業者公式プログラムに「格上げ」する。</div></div>
+  </div>
+
+  <div class="program-card">
+    <span class="pno">PROGRAM 4 — 年次フラッグシップ</span>
+    <div class="ptitle">「屋島スポーツフェスタ」年1回大型イベント</div>
+    <div class="prow"><div class="tag">概要</div><div>年1回・1日500-1,000人規模の総合スポーツ体験イベント。オリンピアン招聘・地元企業協賛で運営。</div></div>
+    <div class="prow"><div class="tag">予算規模</div><div>200-400万円（協賛金・参加費・市補助でカバー）</div></div>
+    <div class="prow"><div class="tag">業者の評価加点</div><div>「話題性」「メディア露出」「年次の継続実績」</div></div>
+    <div class="prow"><div class="tag">SORAの特出し</div><div>SUPERIOR・ECCかけっこの全国ネットワークで広域集客</div></div>
+  </div>
+
+  <div class="program-card">
+    <span class="pno">PROGRAM 5 — ユニバーサル対応</span>
+    <div class="ptitle">「ユニバーサルスポーツ教室」月1回開催</div>
+    <div class="prow"><div class="tag">概要</div><div>パラスポーツ・特別支援学校児童向けの月1回教室。施設のバリアフリー機能を活かす。</div></div>
+    <div class="prow"><div class="tag">補助金</div><div>香川県・高松市の障がい者スポーツ振興補助、企業版ふるさと納税</div></div>
+    <div class="prow"><div class="tag">業者の評価加点</div><div>「ユニバーサル対応」「DE&I」「地域共生」（評価項目で配点高い）</div></div>
+  </div>
+
+  <div class="alert green">
+    <strong>5本の組み立て方：</strong>1〜5すべてを最初から提示すると圧倒される。<strong>面談では「プログラム1（目玉企画）」と「プログラム3（既存活動の正式化）」の2本</strong>を中心に話し、他は「他にもこんなのが提案可能です」と一覧で渡す。
+  </div>
+</section>
+
+<!-- 4. A4 1枚 -->
+<section id="s4">
+  <h2>4. 面談前夜に作る「A4 1枚提案」</h2>
+
+  <p class="lead">面談で手渡せるA4 1枚（または2枚）の提案メモを準備。<strong>業者がそれを持ち帰って社内で議論できる形</strong>にする。</p>
+
+  <div class="one-pager">
+    <h3>📄 A4 1枚提案メモ（雛型）</h3>
+
+    <h4>タイトル案</h4>
+    <p style="margin-left:14px"><strong>「屋島レクザムフィールド 次期指定管理運営計画への協力提案 — Basic Sports Club SORA / 株式会社MOON」</strong></p>
+
+    <h4>構成（A4 1枚に収める）</h4>
+    <ol>
+      <li><strong>SORA概要</strong>（3行）：観音寺・高松で運営中の子ども向け陸上クラブ。代表は荻田大樹（リオ五輪 棒高跳び日本代表）。</li>
+      <li><strong>屋島レクザムFとの関係</strong>（2行）：火・金・土の夜に高松スクールとして定期利用中。</li>
+      <li><strong>協力提案の3本柱</strong>（各2-3行）：
+        <ul>
+          <li>① 屋島ポールヴォルトアカデミー共同立ち上げ</li>
+          <li>② 既存の子ども陸上教室の公式プログラム化</li>
+          <li>③ 月例チャレンジデー＋年次スポーツフェスタ</li>
+        </ul>
+      </li>
+      <li><strong>業者にとってのメリット</strong>（5行）：
+        <ul>
+          <li>差別化された運営計画（全国唯一の室内棒高跳び施設の活用）</li>
+          <li>稼働率向上（年間1,500〜2,000人の追加利用）</li>
+          <li>子ども事業の評価加点</li>
+          <li>メディア露出（オリンピアン取材吸引力）</li>
+          <li>SUPERIOR・ECC等の全国ネットワークによる広域集客</li>
+        </ul>
+      </li>
+      <li><strong>連絡先</strong>（1行）：株式会社MOON 代表 荻田大樹</li>
+    </ol>
+
+    <div class="alert">
+      <strong>渡し方：</strong>面談の中盤〜後半で「もしご興味あれば、こちらに簡単にまとめております」と自然に手渡し。<strong>その場で読ませない</strong>。「お時間あるときにご覧ください」で持ち帰ってもらう。
+    </div>
+  </div>
+</section>
+
+<!-- 5. 候補別シナリオ -->
+<section id="s5">
+  <h2>5. 面談での具体的な進め方（候補別シナリオ）</h2>
+
+  <h3>候補1：公益財団法人 高松市スポーツ協会 だった場合</h3>
+  <div class="lead kyokai">
+    <strong>特徴：</strong>公益財団法人＝市の外郭団体的存在。スポーツ事業の専門家。「市民満足度」「子ども事業」「ジュニア育成」が文化的に重視される。
+  </div>
+
+  <div class="talking-point">「協会さんは既に高松市内のスポーツ施設をほぼ全部運営されていますよね。屋島レクザムFを取られたら<strong>事実上の完全制覇</strong>になりますね。」</div>
+
+  <div class="talking-point">「うちは香川出身の元日本代表として、長年地元のスポーツ育成に関わってきました。協会さんがやられている<strong>スポーツ少年団・健康体力つくり・コミュニティスポーツ</strong>のいずれの専門部とも、自然に組める内容を持っています。」</div>
+
+  <div class="talking-point">「特に<strong>競技スポーツ専門部のジュニア育成と、屋島の室内棒高跳び施設の組み合わせ</strong>は、協会さんならではの強い差別化になると思っているんです。」</div>
+
+  <h4>協会向け 提案の重点</h4>
+  <ul>
+    <li>「ジュニア育成のパイプライン」 — スポーツ少年団 → SORA → 全国 → オリンピック</li>
+    <li>「他施設との連携」 — 協会の他33施設との横展開（例：総合体育館で冬の屋内練習）</li>
+    <li>「公益性の高さ」 — ユニバーサルスポーツ・無料体験会など、公益財団法人らしい運営</li>
+    <li>「市議会への報告ネタ」 — 全国唯一の施設活用は市議会で評価されやすい</li>
+  </ul>
+
+  <h3>候補2：シンコースポーツ・四電ビジネスグループ だった場合</h3>
+  <div class="lead">
+    <strong>特徴：</strong>民間と四電グループの共同体。商業ベース。「収益性」「サービス品質」「全国ノウハウ」が重視される。
+  </div>
+
+  <div class="talking-point">「シンコーさんは全国でスポーツ施設を運営されていますよね。屋島は<strong>全国唯一の室内棒高跳び施設という独自性</strong>があるので、ここをブランド化できれば全国モデルになります。」</div>
+
+  <div class="talking-point">「うちの代表は元日本代表で、ECCかけっこスクールという全国事業の監修もしています。<strong>収益化できるコンテンツ提供</strong>は得意です。」</div>
+
+  <h3>候補3：民間運営会社 だった場合</h3>
+  <div class="lead">
+    <strong>特徴：</strong>地縁が弱い。地元との関係構築を重視。「地元色のあるパートナー」を欲している。
+  </div>
+
+  <div class="talking-point">「全国展開されている御社が香川に入られるとき、<strong>地元のアイコンになる元アスリート</strong>と組まれると、住民の受容が早いですよね。」</div>
+
+  <div class="talking-point">「うちは観音寺・高松で既に運営しているので、<strong>地元の保護者・学校・行政との既存関係</strong>をそのまま御社の運営に活かせます。」</div>
+
+  <h3>候補不明（聞きながら判断）の場合</h3>
+  <div class="lead">
+    <strong>共通の初手：</strong>業者の<strong>「強み」と「これから取り組みたいこと」</strong>を聞く質問から入る。
+  </div>
+
+  <div class="talking-point">「指定管理を取られた後、特に注力されたい領域はどんなことですか？」</div>
+  <div class="talking-point">「ご運営される他の施設では、どんな取り組みを大切にされていますか？」</div>
+  <div class="talking-point">「次回の指定管理の運営計画では、前回と比べて特に強化されたい部分はありますか？」</div>
+</section>
+
+<!-- 6. 組み込まれシグナル -->
+<section id="s6">
+  <h2 class="good">6. 「組み込まれた」と判断できるシグナル</h2>
+
+  <p class="lead">面談中・面談後に、これらのシグナルが出れば「運営計画への組み込み」が現実的になっている証拠。</p>
+
+  <h3>面談中の良いシグナル</h3>
+  <ul>
+    <li>業者側から「具体的にどんな運営費負担が必要ですか」と<strong>金銭面の質問</strong>が出る</li>
+    <li>業者側から「市にどうアピールできますか」と<strong>市への提案視点</strong>が出る</li>
+    <li>「次回の応募書類に書ける形にまとめられますか」</li>
+    <li>「うちの社内（評議会・理事会）に説明できる資料を頂けますか」</li>
+    <li>「いつから動けますか」「2027年4月から間に合いますか」</li>
+  </ul>
+
+  <h3>面談後の良いシグナル</h3>
+  <ul>
+    <li>3日以内にお礼メール＋次回面談の打診が来る</li>
+    <li>「上司・理事と相談したので、こちらから連絡します」</li>
+    <li>業者側の他の担当者（理事・専門部長など）を紹介される</li>
+    <li>「市のスポーツ振興課に一緒に挨拶しませんか」</li>
+  </ul>
+
+  <h3>赤信号（撤退・別ルート検討）</h3>
+  <ul>
+    <li>「うちは公平に対応するので特定団体だけ優遇は…」</li>
+    <li>「指定管理を取れるか分からないので…」</li>
+    <li>「すでに運営計画は固まっていて…」</li>
+    <li>面談後の返答が1週間以上ない</li>
+  </ul>
+
+  <h3>面談後48時間以内の必須アクション</h3>
+  <div class="step-list">
+    <div class="step">
+      <h4>当日中：お礼メール送付</h4>
+      <p>面談内容のサマリ＋特に話が盛り上がったポイントの言及＋次回面談打診</p>
+    </div>
+    <div class="step">
+      <h4>翌日：A4 1枚提案のブラッシュアップ版を送付</h4>
+      <p>面談で出た相手のニーズを反映した改訂版。具体性を増す。</p>
+    </div>
+    <div class="step">
+      <h4>3日以内：相手の社内検討タイムラインを確認</h4>
+      <p>「いつ頃お返事いただけそうですか」と直接聞く。曖昧なら追加情報提示</p>
+    </div>
+    <div class="step">
+      <h4>1週間以内：内部で「組み込まれる」確度を判定</h4>
+      <p>シグナル分析・次回面談セット・並行ルート（市スポーツ振興課への挨拶等）の検討</p>
+    </div>
+  </div>
+</section>
+
+<!-- まとめ -->
+<section>
+  <h2 class="good">7. まとめ — 「組み込まれる」ための一言</h2>
+
+  <div class="key-fact">
+    <div class="label">FINAL TAKEAWAY</div>
+    <div class="big">「SORAを入れた運営計画は、入れない運営計画より勝つ確率が高い」</div>
+    <div class="sub">この単純な命題を、相手の頭の中に植え付ければ勝ち。</div>
+  </div>
+
+  <div class="quote">
+    「今週末の面談は、5年契約の入り口。<br>
+    1時間で全部決まる必要はない。だが、<strong>『この人と組むと勝てそうだ』</strong>という<br>
+    一つの印象を相手の中に作れれば十分。」
+  </div>
+
+  <h3>面談で絶対に伝えたいワンライン（候補）</h3>
+  <ul>
+    <li>「屋島レクザムFは全国唯一の室内棒高跳び公認施設。<strong>これを活かせる指導者は、おそらく日本に数人しかいない</strong>。」</li>
+    <li>「うちが入れば、次回の運営計画書に<strong>『他社が真似できない目玉企画』</strong>を書ける。」</li>
+    <li>「すでに屋島で活動している既存利用団体としても、御社の運営にスムーズに移行できる。」</li>
+  </ul>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜新指定管理予定業者攻略 戦略レポート v1.0｜<br>
+  ※業者特定は推定。面談時に正確な相手と業者の方針を確認しながら進める。
+</div>
+
+</div>
+</body>
+</html>

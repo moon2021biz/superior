@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ 競合調査レポート v1 | 2026-03-26</title>
+<style>
+  :root {
+    --primary: #6C3CE1;
+    --primary-light: #8B5CF6;
+    --accent: #F59E0B;
+    --accent2: #10B981;
+    --danger: #EF4444;
+    --bg: #0F0F1A;
+    --surface: #1A1A2E;
+    --surface2: #252540;
+    --text: #E8E8F5;
+    --text-muted: #9090B0;
+    --border: #2E2E50;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1A0A3E 0%, #0F0F1A 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% -20%, rgba(108,60,225,0.3) 0%, transparent 70%);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(108,60,225,0.2);
+    border: 1px solid var(--primary-light);
+    color: var(--primary-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .header h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .header h1 span { color: var(--primary-light); }
+  .header-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .header-meta strong { color: var(--accent); }
+
+  /* ── Nav Tabs ── */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 16px 24px 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    padding: 10px 18px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+  .nav-btn:hover { color: var(--text); background: var(--surface2); }
+  .nav-btn.active { color: var(--primary-light); border-bottom-color: var(--primary-light); }
+
+  /* ── Main Layout ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 16px;
+    background: var(--primary-light);
+    border-radius: 2px;
+  }
+
+  /* ── Summary Banner ── */
+  .summary-banner {
+    background: linear-gradient(135deg, rgba(108,60,225,0.15), rgba(16,185,129,0.1));
+    border: 1px solid rgba(108,60,225,0.3);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-banner::after {
+    content: '📊';
+    position: absolute; right: 24px; top: 24px;
+    font-size: 48px; opacity: 0.15;
+  }
+  .summary-banner h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--primary-light);
+  }
+  .summary-points { list-style: none; }
+  .summary-points li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .summary-points li:last-child { border-bottom: none; }
+  .summary-points li .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Ranking Table ── */
+  .rank-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rank-table th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .rank-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .rank-table tr:last-child td { border-bottom: none; }
+  .rank-table tr:hover td { background: rgba(108,60,225,0.05); }
+  .rank-num {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 12px;
+    border-radius: 50%;
+  }
+  .rank-num.gold { background: linear-gradient(135deg, #F59E0B, #F97316); }
+  .rank-num.silver { background: linear-gradient(135deg, #9CA3AF, #6B7280); }
+  .rank-num.bronze { background: linear-gradient(135deg, #D97706, #92400E); }
+  .views-badge {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.4);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .reason-tag {
+    display: inline-block;
+    background: rgba(108,60,225,0.15);
+    border: 1px solid rgba(108,60,225,0.3);
+    color: var(--primary-light);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  /* ── Platform Cards ── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .platform-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .platform-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .platform-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .platform-icon.yt { background: rgba(239,68,68,0.2); }
+  .platform-icon.note { background: rgba(16,185,129,0.2); }
+  .platform-icon.ig { background: rgba(236,72,153,0.2); }
+  .platform-icon.tt { background: rgba(20,20,20,0.6); border: 1px solid #444; }
+  .platform-name { font-weight: 700; font-size: 15px; }
+  .platform-algo {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ── Hook List ── */
+  .hook-list { list-style: none; }
+  .hook-list li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    position: relative;
+    padding-left: 30px;
+  }
+  .hook-list li::before {
+    content: '🔥';
+    position: absolute; left: 10px; top: 10px;
+    font-size: 12px;
+  }
+  .hook-list li .tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 6px;
+  }
+
+  /* ── Algo Bar ── */
+  .algo-bars { display: flex; flex-direction: column; gap: 8px; }
+  .algo-bar-item { display: flex; align-items: center; gap: 10px; }
+  .algo-bar-label { font-size: 12px; width: 130px; flex-shrink: 0; }
+  .algo-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .algo-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+  .algo-bar-val { font-size: 12px; font-weight: 700; color: var(--accent); width: 40px; text-align: right; }
+
+  /* ── Diff Matrix ── */
+  .diff-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .diff-table th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .diff-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  .diff-table tr:last-child td { border-bottom: none; }
+  .diff-table .highlight { color: var(--accent2); font-weight: 600; }
+
+  /* ── Idea Cards ── */
+  .idea-cards { display: flex; flex-direction: column; gap: 14px; }
+  .idea-card {
+    background: linear-gradient(135deg, rgba(108,60,225,0.08), rgba(16,185,129,0.05));
+    border: 1px solid rgba(108,60,225,0.25);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .idea-num {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; flex-shrink: 0;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+  .idea-body { flex: 1; }
+  .idea-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .idea-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .idea-source {
+    font-size: 11px;
+    color: var(--primary-light);
+    margin-top: 6px;
+    display: inline-block;
+    background: rgba(108,60,225,0.15);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* ── Keyword Chips ── */
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: default;
+  }
+  .chip.hot { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #F87171; }
+  .chip.warm { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: var(--accent); }
+  .chip.cool { background: rgba(108,60,225,0.15); border: 1px solid rgba(108,60,225,0.4); color: var(--primary-light); }
+  .chip.ng { background: rgba(100,100,100,0.15); border: 1px solid rgba(100,100,100,0.4); color: #666; text-decoration: line-through; }
+
+  /* ── Schedule Info ── */
+  .schedule-box {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .schedule-icon { font-size: 32px; flex-shrink: 0; }
+  .schedule-title { font-weight: 700; font-size: 15px; color: var(--accent2); margin-bottom: 4px; }
+  .schedule-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── NG Block ── */
+  .ng-list { list-style: none; }
+  .ng-list li {
+    padding: 10px 14px;
+    border-left: 3px solid var(--danger);
+    background: rgba(239,68,68,0.06);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .ng-list li strong { color: var(--danger); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .platform-grid { grid-template-columns: 1fr; }
+    .rank-table { font-size: 12px; }
+    .rank-table th, .rank-table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+  <div class="header-badge">Research Report v1</div>
+  <h1>オギラボ <span>競合調査レポート</span></h1>
+  <div class="header-meta">
+    実行日: <strong>2026年3月26日</strong> &nbsp;|&nbsp; 次回自動実行: <strong>毎週月曜 9:00</strong>
+    &nbsp;|&nbsp; 対象: YouTube / Note / Instagram / TikTok
+  </div>
+</div>
+
+<!-- ── Nav ── -->
+<div class="nav">
+  <button class="nav-btn active" onclick="switchTab('summary')">📊 サマリー</button>
+  <button class="nav-btn" onclick="switchTab('youtube')">▶ YouTube</button>
+  <button class="nav-btn" onclick="switchTab('note')">📝 Note</button>
+  <button class="nav-btn" onclick="switchTab('sns')">📱 Instagram/TikTok</button>
+  <button class="nav-btn" onclick="switchTab('diff')">🎯 差別化</button>
+  <button class="nav-btn" onclick="switchTab('keywords')">🔑 キーワード</button>
+</div>
+
+<!-- ── Main ── -->
+<div class="main">
+
+  <!-- SUMMARY -->
+  <div id="section-summary" class="section active">
+    <div class="summary-banner">
+      <h2>エグゼクティブサマリー</h2>
+      <ul class="summary-points">
+        <li><span class="icon">🔥</span>全プラットフォーム共通の最強パターンは<strong>「等身大 × 数字 × 実証型」</strong>。「普通のサラリーマンがAIで月収○○万円」のような再現性が見えるコンテンツが圧倒的に伸びている。</li>
+        <li><span class="icon">📈</span>Note.comでは<strong>「ひとりビジネスとAI活用」が2,051いいね</strong>でトップ。YouTubeは堀江貴文の43万回が最高再生。Mark Tilbury（英語）は744万回と別次元の数字。</li>
+        <li><span class="icon">💡</span>オギラボの差別化ポジション：「AI副業・情報商材系」とは一線を画す<strong>「実務者向け・コミュニティ重視」</strong>の路線が核。</li>
+        <li><span class="icon">🚀</span>競合未開拓の切り口として<strong>「AI組織を個人で持つ」「ビジネスパーソンのAI実務日記」</strong>が有望。本プロジェクト自体がコンテンツになる。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">今週のバズ TOP5（全プラットフォーム）</div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>コンテンツ / 発信者</th>
+            <th>数字</th>
+            <th>プラットフォーム</th>
+            <th>バズ理由</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-num gold">1</span></td>
+            <td><strong>Mark Tilbury / AI副業実践系</strong></td>
+            <td><span class="views-badge">744万回</span></td>
+            <td>YouTube</td>
+            <td><span class="reason-tag">数字で証明</span><br>「日給12万円達成」等の圧倒的インパクト</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num silver">2</span></td>
+            <td><strong>ひとりビジネスとAI活用 / Note記事</strong></td>
+            <td><span class="views-badge">2,051いいね</span></td>
+            <td>Note.com</td>
+            <td><span class="reason-tag">等身大</span><br>一人起業家の等身大 × 具体的ツール紹介</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num bronze">3</span></td>
+            <td><strong>PIVOT / AI特集</strong></td>
+            <td><span class="views-badge">131万回</span></td>
+            <td>YouTube</td>
+            <td><span class="reason-tag">メディアブランド</span><br>著名ゲスト × 信頼性</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">4</span></td>
+            <td><strong>あべむつき / AI副業実践</strong></td>
+            <td><span class="views-badge">79万回</span></td>
+            <td>YouTube</td>
+            <td><span class="reason-tag">ストーリー型</span><br>「普通の人が稼ぐ」過程を追った構成</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">5</span></td>
+            <td><strong>AI分身システム / Note記事</strong></td>
+            <td><span class="views-badge">984いいね</span></td>
+            <td>Note.com</td>
+            <td><span class="reason-tag">インパクト</span><br>「自分がいなくても動く」という衝撃コンセプト</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-box">
+      <div class="schedule-icon">🔄</div>
+      <div>
+        <div class="schedule-title">自動更新スケジュール：毎週月曜 9:00</div>
+        <div class="schedule-desc">
+          スケジュールタスク「<strong>ogilab-buzz-research</strong>」が自動実行。
+          YouTube・Note・Instagram・TikTokの競合バズ + 自社アカウントモニタリングを毎週更新し、
+          <code>オギラボ/CONTEXT.md</code> のナレッジを常に最新に保ちます。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE -->
+  <div id="section-youtube" class="section">
+    <div class="card">
+      <div class="card-title">YouTube バズコンテンツ分析</div>
+      <table class="rank-table">
+        <thead>
+          <tr><th>#</th><th>チャンネル / 動画タイプ</th><th>再生数</th><th>投稿時期</th><th>バズ要因</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-num gold">1</span></td>
+            <td>Mark Tilbury / 英語AI副業実践</td>
+            <td><span class="views-badge">744万回</span></td>
+            <td>―</td>
+            <td>「数字で証明」型（日給12万等）圧倒的インパクト</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num silver">2</span></td>
+            <td>PIVOT / AI特集</td>
+            <td><span class="views-badge">131万回</span></td>
+            <td>―</td>
+            <td>メディアブランド × 著名ゲスト</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num bronze">3</span></td>
+            <td>あべむつき / AI副業実践</td>
+            <td><span class="views-badge">79万回</span></td>
+            <td>2ヶ月前</td>
+            <td>「普通の人が稼ぐ」ストーリー型</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">4</span></td>
+            <td>堀江貴文 / AI解説系</td>
+            <td><span class="views-badge">43万回</span></td>
+            <td>3ヶ月前</td>
+            <td>著名人効果 × AIトレンド</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">5</span></td>
+            <td>あべむつき / AIオンラインサロン</td>
+            <td><span class="views-badge">22万回</span></td>
+            <td>2ヶ月前</td>
+            <td>サロン運営 × AI活用の組み合わせ</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">6</span></td>
+            <td>学識サロン / AI×副業</td>
+            <td><span class="views-badge">18万回</span></td>
+            <td>1ヶ月前</td>
+            <td>サロン運営 × 学習コンテンツ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">YouTube バズフック文言（使えるパターン）</div>
+      <ul class="hook-list">
+        <li>「AIで○○が△△分で完成」 <span class="tag">時短・工数削減の数値化</span></li>
+        <li>「普通のサラリーマンがAIで月収○○万円」 <span class="tag">等身大 × 実績</span></li>
+        <li>「ChatGPT使い方、これだけ知ってれば十分」 <span class="tag">ハードル下げ型</span></li>
+        <li>「2026年、AIを使わないと○○になる」 <span class="tag">危機感喚起型</span></li>
+        <li>「○ヶ月使い続けた結果、仕事が○○変わった」 <span class="tag">継続実証型</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">コンテンツ構成の黄金パターン（12分動画）</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; gap:14px; align-items:flex-start;">
+          <div style="background:var(--primary);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:6px;flex-shrink:0;min-width:90px;text-align:center;">0〜30秒</div>
+          <div style="font-size:13px;line-height:1.6;"><strong>数字 or 衝撃事実でフック</strong><br>「これを見れば○万円稼げるようになります」「AIで仕事が○時間→○分に」</div>
+        </div>
+        <div style="display:flex; gap:14px; align-items:flex-start;">
+          <div style="background:rgba(108,60,225,0.5);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:6px;flex-shrink:0;min-width:90px;text-align:center;">1〜3分</div>
+          <div style="font-size:13px;line-height:1.6;"><strong>なぜ重要か（問題提起）</strong><br>「AIを使わない人は○年後にこうなる」</div>
+        </div>
+        <div style="display:flex; gap:14px; align-items:flex-start;">
+          <div style="background:rgba(108,60,225,0.35);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:6px;flex-shrink:0;min-width:90px;text-align:center;">3〜8分</div>
+          <div style="font-size:13px;line-height:1.6;"><strong>ビフォーアフター事例（具体的）</strong><br>数字付きの変化を実演または事例で証明</div>
+        </div>
+        <div style="display:flex; gap:14px; align-items:flex-start;">
+          <div style="background:rgba(16,185,129,0.4);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:6px;flex-shrink:0;min-width:90px;text-align:center;">8〜12分</div>
+          <div style="font-size:13px;line-height:1.6;"><strong>実践ステップ（すぐ試せる）</strong><br>視聴者が明日から実行できる具体的なアクション</div>
+        </div>
+        <div style="display:flex; gap:14px; align-items:flex-start;">
+          <div style="background:rgba(245,158,11,0.4);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:6px;flex-shrink:0;min-width:90px;text-align:center;">最後</div>
+          <div style="font-size:13px;line-height:1.6;"><strong>コミュニティ / サロン誘導CTA</strong><br>「さらに深く学びたい人はオギラボへ」</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTE -->
+  <div id="section-note" class="section">
+    <div class="card">
+      <div class="card-title">Note.com バズ記事分析</div>
+      <table class="rank-table">
+        <thead>
+          <tr><th>#</th><th>テーマ / 記事タイプ</th><th>いいね数</th><th>投稿時期</th><th>バズ要因</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-num gold">1</span></td>
+            <td>ひとりビジネスとAI活用</td>
+            <td><span class="views-badge">2,051</span></td>
+            <td>―</td>
+            <td>一人起業家の等身大 + 具体的ツール紹介の組み合わせ</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num silver">2</span></td>
+            <td>AI「分身」システムを作った</td>
+            <td><span class="views-badge">984</span></td>
+            <td>―</td>
+            <td>「自分がいなくても動く」というインパクトあるコンセプト</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num bronze">3</span></td>
+            <td>全記事AIで書いています（実証実験）</td>
+            <td><span class="views-badge">800</span></td>
+            <td>8日前</td>
+            <td>透明性 × 実験報告型の珍しいアングルが話題に</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">4</span></td>
+            <td>AI×副業 実践ログ（継続記録型）</td>
+            <td><span class="views-badge">500〜700推定</span></td>
+            <td>週次連載</td>
+            <td>週次・月次の継続記録が固定読者を生む</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">5</span></td>
+            <td>ChatGPT活用テンプレート集</td>
+            <td><span class="views-badge">400〜600推定</span></td>
+            <td>―</td>
+            <td>「すぐ使える」ツールキット型の実用性</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Note バズタイトル文言パターン</div>
+      <ul class="hook-list">
+        <li>「○○を全部AIに任せてみた結果」 <span class="tag">実験・検証型</span></li>
+        <li>「ひとりで月○○万円の仕組みを作った方法」 <span class="tag">再現性アピール</span></li>
+        <li>「AI活用で○○が○○になった（数字ビフォーアフター）」 <span class="tag">変化の可視化</span></li>
+        <li>「○○に使えるChatGPTプロンプト△△選」 <span class="tag">実用ツールキット型</span></li>
+        <li>「正直に言うと、AIで○○は失敗した話」 <span class="tag">透明性・失敗談型</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Note 記事構造の特徴（高いいね記事共通）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+          <div style="font-size:12px;color:var(--accent);font-weight:700;margin-bottom:8px;">✅ やるべき</div>
+          <div style="font-size:13px;line-height:1.8;">文字数 1,500〜3,000字<br>図解 or スクショあり（いいね1.5〜2倍）<br>連載型（固定読者を生む）<br>「正直に言うと…」の透明性フック</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+          <div style="font-size:12px;color:var(--danger);font-weight:700;margin-bottom:8px;">❌ 避けること</div>
+          <div style="font-size:13px;line-height:1.8;">抽象的なAI礼賛<br>サロン宣伝の直球アプローチ<br>タイトルに数字なし<br>長すぎる（5,000字超）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNS -->
+  <div id="section-sns" class="section">
+    <div class="platform-grid">
+      <!-- Instagram -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon ig">📸</div>
+          <div>
+            <div class="platform-name">Instagram</div>
+            <div class="platform-algo">2026年アルゴリズム重要度</div>
+          </div>
+        </div>
+        <div class="algo-bars">
+          <div class="algo-bar-item">
+            <div class="algo-bar-label">シェア数（DM）</div>
+            <div class="algo-bar-track"><div class="algo-bar-fill" style="width:100%;background:linear-gradient(90deg,#6C3CE1,#8B5CF6);"></div></div>
+            <div class="algo-bar-val">★★★★★</div>
+          </div>
+          <div class="algo-bar-item">
+            <div class="algo-bar-label">保存数</div>
+            <div class="algo-bar-track"><div class="algo-bar-fill" style="width:80%;background:linear-gradient(90deg,#6C3CE1,#8B5CF6);"></div></div>
+            <div class="algo-bar-val">★★★★☆</div>
+          </div>
+          <div class="algo-bar-item">
+            <div class="algo-bar-label">視聴完了率</div>
+            <div class="algo-bar-track"><div class="algo-bar-fill" style="width:80%;background:linear-gradient(90deg,#6C3CE1,#8B5CF6);"></div></div>
+            <div class="algo-bar-val">★★★★☆</div>
+          </div>
+          <div class="algo-bar-item">
+            <div class="algo-bar-label">コメント</div>
+            <div class="algo-bar-track"><div class="algo-bar-fill" style="width:80%;background:linear-gradient(90deg,#6C3CE1,#8B5CF6);"></div></div>
+            <div class="algo-bar-val">★★★★☆</div>
+          </div>
+          <div class="algo-bar-item">
+            <div class="algo-bar-label">いいね</div>
+            <div class="algo-bar-track"><div class="algo-bar-fill" style="width:40%;background:linear-gradient(90deg,#4B5563,#6B7280);"></div></div>
+            <div class="algo-bar-val">★★☆☆☆</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:12px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">バズフォーマット</div>
+          <div style="font-size:13px;line-height:1.8;">📌 カルーセル「AI活用○選」<br>→ 保存率最高・1枚目がフック<br><br>🎬 リール 15〜30秒<br>→ ビフォーアフター系<br>→ シェア数を意識した構成</div>
+        </div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon tt">🎵</div>
+          <div>
+            <div class="platform-name">TikTok</div>
+            <div class="platform-algo">2026年バズの構造</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:var(--surface);border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px;">ビジネス系バズライン</div>
+            <div style="font-size:22px;font-weight:800;">5万回<span style="font-size:14px;color:var(--text-muted);"> 以上</span></div>
+          </div>
+          <div style="background:var(--surface);border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--primary-light);font-weight:700;margin-bottom:4px;">フックの勝負時間</div>
+            <div style="font-size:22px;font-weight:800;">0〜8秒<span style="font-size:14px;color:var(--text-muted);"> が全て</span></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:12px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">重要ルール</div>
+          <div style="font-size:13px;line-height:1.8;">
+            ⚠️ <strong>ジャンル統一必須</strong><br>
+            「AI活用 × ビジネス」に絞る。<br>混ぜるとアルゴリズム評価が下がる。<br><br>
+            🎯 フック文言の最強パターン：<br>
+            「これ知らずにAI使ってる人、損してる」
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Instagram / TikTok 共通バズフック文言</div>
+      <ul class="hook-list">
+        <li>「これ知ってる人だけが得する」 <span class="tag">知識優位性</span></li>
+        <li>「AIで○○が3秒で完成した」 <span class="tag">スピード驚き</span></li>
+        <li>「仕事でAI使ってる人の朝ルーティン」 <span class="tag">ライフスタイル型</span></li>
+        <li>「保存推奨：AIプロンプト○選」 <span class="tag">保存促進CTA</span></li>
+        <li>「これ知らずにAI使ってる人、損してる」 <span class="tag">損失回避型</span></li>
+        <li>「ChatGPT、こう使ってください（命令口調）」 <span class="tag">権威・断言型</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DIFF -->
+  <div id="section-diff" class="section">
+    <div class="card">
+      <div class="card-title">競合との比較マトリクス</div>
+      <table class="diff-table">
+        <thead>
+          <tr><th>競合タイプ</th><th>強み</th><th>弱み</th><th>オギラボの差別化</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>堀江・著名人系</strong></td>
+            <td>認知度・信頼性</td>
+            <td>再現性が低い</td>
+            <td class="highlight">「普通のビジネスパーソン向け」を明示</td>
+          </tr>
+          <tr>
+            <td><strong>AI副業・情報商材系</strong></td>
+            <td>数字のインパクト</td>
+            <td>情報商材感が強い</td>
+            <td class="highlight">コミュニティ × 実務活用で差別化</td>
+          </tr>
+          <tr>
+            <td><strong>あべむつき系</strong></td>
+            <td>親しみやすさ</td>
+            <td>深さに欠ける</td>
+            <td class="highlight">継続学習・実践の場を提供</td>
+          </tr>
+          <tr>
+            <td><strong>学識サロン系</strong></td>
+            <td>実績・信頼感</td>
+            <td>高価格帯</td>
+            <td class="highlight">手頃 × 継続 × 仲間がポジション</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">競合未開拓の切り口（オギラボが先行できるテーマ）</div>
+      <div class="idea-cards">
+        <div class="idea-card">
+          <div class="idea-num">1</div>
+          <div class="idea-body">
+            <div class="idea-title">「AI組織を個人で持つ」</div>
+            <div class="idea-desc">複数AIエージェントを連携させて、ひとりで大きな組織のように動く仕組みを実演。本プロジェクト自体がそのままコンテンツになる。YouTubeシリーズ化で再現性を訴求。</div>
+            <span class="idea-source">💡 本プロジェクトの実録コンテンツ化</span>
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-num">2</div>
+          <div class="idea-body">
+            <div class="idea-title">「ビジネスパーソンのAI実務日記」</div>
+            <div class="idea-desc">週次・月次の実績を数字で開示。「今週AIで○時間削減」「先月の売上の○%がAI自動化の成果」という透明性が他にない差別化になる。</div>
+            <span class="idea-source">📊 Note連載 + Instagram週次投稿に最適</span>
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-num">3</div>
+          <div class="idea-body">
+            <div class="idea-title">「AIチームで仕事したら何が変わったか」</div>
+            <div class="idea-desc">6ヶ月・1年単位の長期ビフォーアフターシリーズ。継続フォロワーを生み、サロンへの入会動機にもなる。「実証型コンテンツ」としてNote・YouTubeどちらでも展開可能。</div>
+            <span class="idea-source">🎬 YouTube × Note 連動シリーズ</span>
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-num">4</div>
+          <div class="idea-body">
+            <div class="idea-title">「社内でAI使い始めた人のリアルな壁」</div>
+            <div class="idea-desc">30〜45歳のターゲットが感じる「上司の理解が得られない」「どこから始めればいいか分からない」というリアルな悩みを先取り。共感型コンテンツでエンゲージメントを上げる。</div>
+            <span class="idea-source">💬 Instagram カルーセル + TikTok に最適</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYWORDS -->
+  <div id="section-keywords" class="section">
+    <div class="card">
+      <div class="card-title">高エンゲージメント文言（2026年3月時点）</div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;color:var(--text-muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">🔥 今月の最強キーワード</div>
+        <div class="chip-group">
+          <span class="chip hot">AI×ひとりビジネス</span>
+          <span class="chip hot">AI分身・自動化</span>
+          <span class="chip hot">普通のサラリーマン</span>
+          <span class="chip hot">月収○万円達成</span>
+          <span class="chip warm">AI副業初心者</span>
+          <span class="chip warm">ChatGPT業務効率</span>
+          <span class="chip warm">オートパイロット</span>
+          <span class="chip warm">AIコミュニティ</span>
+          <span class="chip cool">実践ログ</span>
+          <span class="chip cool">ビフォーアフター</span>
+          <span class="chip cool">工数削減</span>
+          <span class="chip cool">継続記録</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;color:var(--text-muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">カテゴリ別テンプレート</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">
+          <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+            <div style="font-size:12px;color:var(--accent);font-weight:700;margin-bottom:8px;">⏱ 時短系</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--text-muted);">「○分で完成」<br>「○時間が○分に」<br>「工数○%削減」</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+            <div style="font-size:12px;color:var(--primary-light);font-weight:700;margin-bottom:8px;">👤 等身大系</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--text-muted);">「普通のサラリーマンが」<br>「副業初心者が」<br>「文系でも」</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+            <div style="font-size:12px;color:var(--accent2);font-weight:700;margin-bottom:8px;">🔬 実証系</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--text-muted);">「実際にやってみた」<br>「○ヶ月使い続けた結果」<br>「本当のことを言う」</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+            <div style="font-size:12px;color:#EC4899;font-weight:700;margin-bottom:8px;">👥 コミュニティ系</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--text-muted);">「同じ悩みを持つ仲間と」<br>「一人じゃない」<br>「実践者のリアル」</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:14px;">
+            <div style="font-size:12px;color:var(--danger);font-weight:700;margin-bottom:8px;">⚠️ 危機感系</div>
+            <div style="font-size:13px;line-height:1.9;color:var(--text-muted);">「AIを使わないと○年後に」<br>「知らないと損する」<br>「取り残される前に」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">使ってはいけないパターン（NG）</div>
+      <ul class="ng-list">
+        <li><strong>抽象的なAI礼賛</strong>：「AIは革命だ」「AIが世界を変える」→ 具体性ゼロで離脱される</li>
+        <li><strong>専門用語の無説明使用</strong>：「プロンプトエンジニアリング」「トークン数」→ ターゲットが置き去りになる</li>
+        <li><strong>サロン直球宣伝</strong>：冒頭から「オギラボ入会はこちら」→ 情報商材感が出てエンゲージメント低下</li>
+        <li><strong>数字のないタイトル</strong>：「AI活用について」「ChatGPTの使い方」→ クリック率が著しく低い</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  オギラボ 競合調査レポート v1 &nbsp;|&nbsp; 2026-03-26 &nbsp;|&nbsp;
+  次回更新: 毎週月曜 9:00 自動実行（<code>ogilab-buzz-research</code>）&nbsp;|&nbsp;
+  詳細: <code>オギラボ/outputs/gemini/20260326_競合調査レポートv1.md</code>
+</div>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

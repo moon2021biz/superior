@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORAプロジェクト リアリティチェック</title>
+<style>
+  :root{
+    --bg:#1a1d24;
+    --card:#262a33;
+    --card2:#2f3441;
+    --line:#3a3f4d;
+    --text:#e8e6df;
+    --muted:#9ba0aa;
+    --gold:#c8a85a;
+    --red:#e84a3a;
+    --red-soft:#3a1f1c;
+    --orange:#e89538;
+    --orange-soft:#3a2b1c;
+    --yellow:#d4c14b;
+    --yellow-soft:#363219;
+    --green:#5cb37a;
+    --green-soft:#1d3024;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0a0c10 0%,#1a1d24 100%);color:#fff;padding:50px 24px;text-align:center;border-bottom:4px solid var(--red)}
+  .hero .badge{display:inline-block;background:var(--red);color:#fff;padding:5px 16px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.15em;margin-bottom:14px}
+  .hero h1{font-size:30px;font-weight:700;letter-spacing:0.04em;margin-bottom:10px}
+  .hero .sub{font-size:14px;color:#aaa;max-width:720px;margin:10px auto 0}
+  .container{max-width:1080px;margin:0 auto;padding:36px 24px}
+  section{margin-bottom:44px;background:var(--card);border-radius:12px;padding:30px;border:1px solid var(--line)}
+  h2{font-size:22px;border-left:5px solid var(--red);padding-left:14px;margin-bottom:22px;color:#fff;font-weight:700}
+  h2.warn{border-color:var(--orange)}
+  h2.info{border-color:var(--yellow)}
+  h2.ok{border-color:var(--green)}
+  h3{font-size:17px;color:var(--gold);margin:20px 0 10px;font-weight:700}
+  h4{font-size:14px;color:var(--text);margin:14px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+  .lead{font-size:15px;background:#1f2128;border-left:4px solid var(--red);padding:14px 18px;border-radius:6px;margin-bottom:20px;color:#ddd}
+  .lead.warn{border-color:var(--orange)}
+  .lead.ok{border-color:var(--green)}
+
+  /* リスクカード */
+  .risk-card{background:var(--card2);border-radius:10px;padding:20px;margin-bottom:16px;border-left:5px solid var(--line)}
+  .risk-card.lethal{border-color:var(--red);background:linear-gradient(135deg,#2f1c1a 0%,var(--card2) 50%)}
+  .risk-card.critical{border-color:var(--orange);background:linear-gradient(135deg,#2f261a 0%,var(--card2) 50%)}
+  .risk-card.moderate{border-color:var(--yellow);background:linear-gradient(135deg,#2c2a1a 0%,var(--card2) 50%)}
+  .risk-card .head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .risk-card .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-weight:bold;font-size:14px;flex-shrink:0}
+  .lethal .num{background:var(--red);color:#fff}
+  .critical .num{background:var(--orange);color:#fff}
+  .moderate .num{background:var(--yellow);color:#1a1d24}
+  .risk-card h4{font-size:16px;margin:0;color:#fff}
+  .risk-card .meta{font-size:11px;color:var(--muted);margin-top:4px}
+  .risk-card .body{margin-top:10px;font-size:14px;color:#d4d2cc}
+  .risk-card .data{background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:13px;color:#bdc0c8;border-left:2px solid var(--gold)}
+  .risk-card .countermeasure{background:rgba(92,179,122,0.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:13px;color:#cfead9;border-left:2px solid var(--green)}
+
+  .pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:bold;letter-spacing:0.05em}
+  .pill.high{background:var(--red);color:#fff}
+  .pill.mid{background:var(--orange);color:#fff}
+  .pill.low{background:var(--yellow);color:#1a1d24}
+  .pill.prob{background:#3a3f4d;color:#fff}
+  .pill.gold{background:var(--gold);color:#1a1d24}
+
+  /* リスクマトリクス */
+  .matrix-wrap{display:grid;grid-template-columns:60px 1fr;gap:0;margin:20px 0}
+  .matrix-yaxis{display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:11px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg)}
+  .matrix{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,90px);gap:4px;background:var(--line);padding:4px;border-radius:8px}
+  .matrix-cell{background:var(--card2);padding:8px;font-size:11px;position:relative;overflow:hidden}
+  .matrix-cell.cell-hh{background:#3a1f1c;border:1px solid var(--red)}
+  .matrix-cell.cell-hm,.matrix-cell.cell-mh{background:#3a2b1c;border:1px solid var(--orange)}
+  .matrix-cell.cell-hl,.matrix-cell.cell-mm,.matrix-cell.cell-lh{background:#363219;border:1px solid var(--yellow)}
+  .matrix-cell.cell-ml,.matrix-cell.cell-lm,.matrix-cell.cell-ll{background:#1d3024;border:1px solid var(--green)}
+  .matrix-cell .label{font-weight:bold;font-size:10px;opacity:0.7}
+  .matrix-cell ul{padding-left:14px;margin:4px 0 0;font-size:10.5px;line-height:1.4}
+  .matrix-cell ul li{margin-bottom:2px}
+  .matrix-xaxis{grid-column:2;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px;text-align:center;font-size:11px;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top;color:#d4d2cc}
+  th{background:#1a1d24;color:var(--gold);font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+  .number{font-family:"Courier New",monospace;font-weight:bold;color:var(--gold)}
+  .big-num{font-size:28px;font-weight:700;color:var(--red);font-family:"Courier New",monospace}
+
+  .quote{font-style:italic;color:var(--gold);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid-2{grid-template-columns:1fr}.matrix{grid-template-rows:repeat(3,110px)}}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .toc{background:#1f2128;border:1px dashed var(--gold);padding:16px 22px;border-radius:8px;margin-bottom:24px}
+  .toc h3{margin:0 0 8px;color:var(--gold)}
+  .toc ol{padding-left:22px;margin:0}
+  .toc a{color:#d4d2cc;text-decoration:none}
+  .toc a:hover{color:var(--gold)}
+
+  .summary-box{background:linear-gradient(135deg,#1f2128 0%,var(--card) 100%);border:1px solid var(--gold);padding:18px 22px;border-radius:10px;margin-bottom:24px}
+  .summary-box h3{color:var(--gold);margin:0 0 10px}
+
+  .checkbox{color:var(--green);margin-right:6px}
+  .crosskbox{color:var(--red);margin-right:6px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">REALITY CHECK / 計画の前提を疑う</div>
+  <h1>シビアに見たときの「ヤバい点」一覧</h1>
+  <div class="sub">
+    希望的観測を全部外して、需要・人・金・施設・法務の観点から問題を洗い出す。<br>
+    本気でやるなら、ここに書いたことを潰してから走り始める。
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#s1">致命的問題 TOP 3（これが解けないと事業は崩れる）</a></li>
+    <li><a href="#s2">需要側のシビアな現実</a></li>
+    <li><a href="#s3">人的リソースの限界</a></li>
+    <li><a href="#s4">施設依存リスク（屋島レクザムFは「借り物」である）</a></li>
+    <li><a href="#s5">資金・キャッシュフローの落とし穴</a></li>
+    <li><a href="#s6">法務・規制・契約リスク</a></li>
+    <li><a href="#s7">リスクマトリクス（影響度×発生確率）</a></li>
+    <li><a href="#s8">前計画で楽観的すぎる数字の再評価</a></li>
+    <li><a href="#s9">それでもやるなら：最小成功条件と撤退基準</a></li>
+  </ol>
+</div>
+
+<!-- ========== TOP3 ========== -->
+<section id="s1">
+  <h2>1. 致命的問題 TOP 3（これが解けないと事業は崩れる）</h2>
+  <p class="lead">100個リスクを並べても意味がない。<strong>これだけは絶対に最初の3ヶ月で結論を出す必要がある</strong>3点。</p>
+
+  <div class="risk-card lethal">
+    <div class="head">
+      <div class="num">1</div>
+      <div>
+        <h4>棒高跳びの市場が小さすぎる（COMPETITIVE PV 6名は希望的観測）</h4>
+        <div class="meta"><span class="pill high">影響度：致命</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      棒高跳びは<strong>女子は中学では正式種目ですらない</strong>（高校から）。男子も中学校レベルで競技人口が極端に少ない。香川県全体の高校生で棒高跳びをやる選手は<strong>男女合わせて推定30〜50人程度</strong>。そこからSORAの月16,500円コースに入る層は数人レベル。
+    </div>
+    <div class="data">
+      <strong>逆算：</strong>香川県の高校 約60校 × 棒高跳び部員（学校に0〜1人）≒ 30〜50人。そのうち他クラブ・部活ですでに指導を受けている子を除き、月16,500円を払って通える子の数は<strong>現実的に2〜4人</strong>。前計画の「COMPETITIVE 6名 × 年¥1,188,000」「ELITE 2名 × 年¥4,800,000」は<strong>合計売上の53%を占める</strong>のに、最も不確実な数字。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 県内の高校陸上部顧問・既存棒高跳び選手をリストアップして<strong>実数を把握</strong>（地元の高体連・国体予選結果から名前が分かる）。② <strong>四国・西日本全域</strong>を市場と捉える設計に変更（合宿型・遠隔指導・月1回の集中レッスン）。③ ELITE契約は<strong>「2名」ではなく「1名」をベース計画</strong>に修正し、達成すれば上振れ。
+    </div>
+  </div>
+
+  <div class="risk-card lethal">
+    <div class="head">
+      <div class="num">2</div>
+      <div>
+        <h4>荻田代表の稼働時間がボトルネック（既に飽和している）</h4>
+        <div class="meta"><span class="pill high">影響度：致命</span> <span class="pill prob">発生確率：確実</span></div>
+      </div>
+    </div>
+    <div class="body">
+      現状すでに「SORA（観音寺・高松）＋SUPERIOR（関西）＋ECCかけっこ監修＋経営＋営業＋SNS＋ブランド象徴」を1人で抱えている。<strong>そこへ「中高生コース新設＋企業営業＋YPV立ち上げ＋OGITA SESSION年4回＋合宿引率」を上乗せするのは物理的に不可能</strong>。
+    </div>
+    <div class="data">
+      <strong>試算：</strong>YPV関連だけで荻田代表の追加稼働は週20時間以上必要（指導10h／企業営業4h／合宿準備3h／個別フォロー3h）。<strong>既に週60時間以上稼働している人に、さらに20時間積むのは破綻する</strong>。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① <strong>Phase 1 開始前にコーディネーター1名雇用は必須</strong>（標準パターンの500万円調達でなければ走らない）。② 既存業務の棚卸し：何を「やめる／委任する」か明確化。③ <strong>YPV BASIC/COMPETITIVEはサブコーチに権限委譲</strong>し、荻田代表は ELITE と OGITA SESSION に集中。④ ECC監修業務の作業量を再確認。
+    </div>
+  </div>
+
+  <div class="risk-card lethal">
+    <div class="head">
+      <div class="num">3</div>
+      <div>
+        <h4>屋島レクザムFは「市の施設」であり、SORAは"優先利用"を持っていない</h4>
+        <div class="meta"><span class="pill high">影響度：致命</span> <span class="pill prob">発生確率：中</span></div>
+      </div>
+    </div>
+    <div class="body">
+      屋島レクザムFには<strong>既に YKSS（屋島競技場陸上教室）が存在</strong>し、火・金 17:30〜18:30、火・金・土の選手コース18:00〜20:00 を運営している。SORAが現在使えている時間枠は、彼らとの暗黙の棲み分けで成立している可能性が高い。「学校等」料金枠の適用も<strong>事務所の判断次第</strong>で、SORAが当然受けられる保証はない。
+    </div>
+    <div class="data">
+      <strong>過去事例：</strong>2022年1〜3月は「第2種陸上競技場公認検定（継続）のための舗装修繕工事」で休館。<strong>4年に一度の公認検定更新で長期休館が起こる</strong>のは構造的リスク。また大会・他団体予約・天然芝の養生期間で<strong>使えない日</strong>が発生する。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 屋島レクザムF管理事務所と<strong>「年間優先利用」の正式協議</strong>（書面化）。② 学校等枠の適用可否を明文で確認。③ YKSS運営者との<strong>正式な棲み分け合意</strong>（場合によっては協力関係に転換）。④ 長期休館時のバックアッププラン（補助競技場や他施設）を事前確保。⑤ <strong>「拠点の一つ」と位置付け、屋島だけに依存しない設計</strong>を最初から組む。
+    </div>
+  </div>
+</section>
+
+<!-- ========== 需要側 ========== -->
+<section id="s2">
+  <h2 class="warn">2. 需要側のシビアな現実</h2>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">A</div>
+      <div>
+        <h4>香川県の所得水準で月8,800〜16,500円は「習い事の上位価格帯」</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      <span class="data" style="display:inline-block;margin:8px 0;padding:6px 12px">香川県の年収中央値：<strong class="number">382万円</strong>／全国平均より低い</span>
+      子育て世帯の習い事は月平均1〜2万円が一般的。<strong>1つの習い事に月16,500円を継続的に払える層は限定的</strong>。既存SORAの月5,500〜6,600円が「払いやすいライン」だったから定着している。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 価格設計を再検討（COMPETITIVE PV を月12,000円程度に下げ、ELITE のみ高額にする）。② 兄弟割引・既存会員割引を明示。③ <strong>「年払い10%引き」「分割払いOK」</strong>などの設計。④ 法人スポンサーが選手の月会費を負担する仕組み（地元金融機関が地域育成名目で支援する事例あり）。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">B</div>
+      <div>
+        <h4>香川県の人口減少は「市場縮小」を意味する</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：確実</span></div>
+      </div>
+    </div>
+    <div class="body">
+      観音寺市は10年で人口-10.4%、2050年には<strong>5.6万人 → 3.9万人</strong>へ。香川県全体も継続的に減少。<strong>子どもの絶対数は年々減る</strong>。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 香川県内シェア戦略から「<strong>四国全域・西日本</strong>」を視野に。② 合宿型・短期キャンプ型で県外集客。③ <strong>大人スプリント・健康層・シニア層</strong>もターゲットに加える設計。④ オンライン指導・遠隔フィードバックで物理拠点に縛られない収益源を確保。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">C</div>
+      <div>
+        <h4>「企業共同・人材育成PGM」の需要はまだ未検証</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      香川の中小企業がスポーツ×人材育成研修に<strong>年60〜80万円</strong>を継続的に払うかは、市場検証なしには分からない。研修市場は競合が多く、汎用研修なら半額以下で受けられる。SORA独自の価値が「言語化」できていない段階で営業しても契約は取れない。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 「人材育成PGM α版」を<strong>1社で無料お試し</strong>（半年間）→ 事例化 → それから営業。② 1社目は<strong>地元金融機関や信用金庫</strong>を狙う（地域貢献文脈で受け入れられやすい）。③ 「スポーツ研修」ではなく「<strong>採用×ブランディング</strong>」の文脈で売る（インターン受入＋採用広報）。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">D</div>
+      <div>
+        <h4>中学生は受験で辞める／高校生は部活優先</h4>
+        <div class="meta"><span class="pill mid">影響度：中</span> <span class="pill prob">発生確率：確実</span></div>
+      </div>
+    </div>
+    <div class="body">
+      中学生の習い事は<strong>中2の後半〜中3で受験のため辞める</strong>のが定石。高校生は部活動が優先で、外部クラブには通えないケースが多い（特に強豪校）。Layer 2 アスリート30名／YPV 10名は<strong>離脱率を加味する必要</strong>。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① <strong>離脱率20%/年</strong>を計画に織り込み、毎年新規20%を獲得する設計。② 「受験対応型」のフレックス通学枠を用意。③ 高校の<strong>外部指導員契約</strong>として高校部活動に入り込む（部活動地域移行の流れに乗る）。
+    </div>
+  </div>
+</section>
+
+<!-- ========== 人 ========== -->
+<section id="s3">
+  <h2 class="warn">3. 人的リソースの限界</h2>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">E</div>
+      <div>
+        <h4>現コーチ陣は全員「現役で活躍する選手」＝SORA専任ではない</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：確実</span></div>
+      </div>
+    </div>
+    <div class="body">
+      成定・森本・大西・小山の各コーチはいずれも<strong>自身の競技活動を持つ現役選手</strong>。彼らの試合・遠征・合宿スケジュールで指導枠が空く週が必ず発生する。「月例記録会」「合宿引率」「個別カルテのフォロー」を依頼すると<strong>本業と衝突</strong>する。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① コーチ別の<strong>稼働可能カレンダーを四半期ごとに収集</strong>。② バックアップコーチ（OB・大学生インターン）を確保。③ 一定収入を保証する顧問契約 vs スポット契約の整理。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">F</div>
+      <div>
+        <h4>地方でのコーディネーター採用は難航する</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      標準パターンの前提：月25万円でコーディネーター1名を採用。<strong>地方のスポーツビジネス人材は希少</strong>で、しかも複数領域（営業・運営・SNS・指導補助）をこなせる人はさらに少ない。求人を出してから採用まで<strong>6ヶ月以上かかる</strong>のは普通。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① <strong>2026年9月までに採用活動を開始</strong>（2027年4月入社に間に合わせる）。② 求人媒体だけでなく、地元大学・体協・OB ネットワーク経由で打診。③ 「地元出身」「Uターン希望」の人材に絞った訴求。④ 採用が遅れた場合の<strong>業務委託（フリーランス・副業）切り替えプランB</strong>を用意。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">G</div>
+      <div>
+        <h4>代表依存リスク（「荻田大樹」がいなくなったら全部止まる）</h4>
+        <div class="meta"><span class="pill mid">影響度：致命（長期）</span> <span class="pill prob">発生確率：低（但しゼロではない）</span></div>
+      </div>
+    </div>
+    <div class="body">
+      ブランド・営業力・指導の象徴性のすべてが代表に集中。怪我・病気・育児・家族のイベントで<strong>数週間動けないだけ</strong>で売上が止まる構造。「OGITA SESSION」「ELITE 指導」「保護者説明会」は本人不在では成立しない。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 代表業務を「<strong>本人しかできない</strong>／<strong>後継育成可能</strong>／<strong>委任可能</strong>」に3分類。② コーチ陣の中で<strong>「次の象徴」になり得る人材</strong>を意識的に育てる。③ コーチ・指導内容をコンテンツ化（動画・教材）して「代表不在でも価値が出る」資産を作る。
+    </div>
+  </div>
+</section>
+
+<!-- ========== 施設 ========== -->
+<section id="s4">
+  <h2 class="warn">4. 施設依存リスク（屋島レクザムFは「借り物」である）</h2>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">H</div>
+      <div>
+        <h4>「学校等」料金枠が適用されない可能性</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：中</span></div>
+      </div>
+    </div>
+    <div class="body">
+      前計画の収支は「学校等」料金（室内競技場1時間540円）で試算したが、株式会社MOOnは<strong>学校・保育所・教育委員会・競技協会のいずれにも該当しない</strong>。香川陸協への加盟や「教育関係団体」認定が取れなければ、料金は<strong>2倍（1,080円/h）</strong>になる。
+    </div>
+    <div class="data">
+      <strong>差額：</strong>月施設利用 約10.5万円 → <strong>約20万円</strong>へ。年間にすると約114万円の追加コスト。これだけで Phase 1 初年度の収支が <strong>+24万円 → -90万円</strong> に転落する可能性。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 屋島レクザムF管理事務所に「学校等枠」の適用可否を<strong>事前文書で確認</strong>。② 適用されない場合の「個人利用＋大人数」運用シミュレーション（生徒児童150円×回数で計算し直し）。③ <strong>個人利用ベースで運営する場合の動線・受付ルール</strong>を設計。
+    </div>
+  </div>
+
+  <div class="risk-card moderate">
+    <div class="head">
+      <div class="num">I</div>
+      <div>
+        <h4>第2種公認検定の更新（4年に一度）で長期休館が来る</h4>
+        <div class="meta"><span class="pill low">影響度：中</span> <span class="pill prob">発生確率：確実（時期未定）</span></div>
+      </div>
+    </div>
+    <div class="body">
+      過去：2022年1〜3月の3ヶ月間、主競技場・室内競技場とも舗装修繕で休館。次の更新タイミングは<strong>2026年または2027年が候補</strong>。Phase 1 開始月と重なるリスク。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 高松市スポーツ振興課に次回工事スケジュールを<strong>2026年中に確認</strong>。② 工事期間中の代替会場（観音寺市総合運動公園、丸亀競技場、補助競技場のみ利用）をリストアップ。③ <strong>工事期間は「合宿月」「座学・トレーニング月」に振り替え</strong>る設計を持つ。
+    </div>
+  </div>
+
+  <div class="risk-card moderate">
+    <div class="head">
+      <div class="num">J</div>
+      <div>
+        <h4>大会・他団体予約とのバッティング</h4>
+        <div class="meta"><span class="pill low">影響度：中</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      第2種公認施設なので<strong>県大会・地区大会・記録会で年間20〜30日</strong>は専有される可能性。SORAの定常練習が突然できない日が発生する。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 年初に施設の<strong>大会カレンダーを入手</strong>し、年間スケジュールに反映。② 大会日は「全員大会観戦・運営ボランティア」「振り替え練習」など別メニューに。
+    </div>
+  </div>
+</section>
+
+<!-- ========== 資金 ========== -->
+<section id="s5">
+  <h2 class="warn">5. 資金・キャッシュフローの落とし穴</h2>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">K</div>
+      <div>
+        <h4>補助金は「採択前提」で計画してはいけない</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：中〜高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      前計画の標準パターン500万円は<strong>持続化補助金100万＋香川県スタートアップ200万＋公庫150万＋自己資金50万</strong>を前提にしているが、いずれも採択率は30〜50%。<strong>2つ落ちたら計画破綻</strong>。また補助金は「先払い後精算」が原則で、入金は事業終了から3〜6ヶ月後。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① <strong>補助金ゼロでも回る最小プラン（ミニパターン）</strong>を必ず保持。② 補助金は「採択されたらやる」追加投資に限定。③ つなぎ融資（金融機関の制度融資）の事前打診。④ <strong>キャッシュ手元残高 = 月次支出の6ヶ月分</strong>を切ったら新規投資ストップのルール。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">L</div>
+      <div>
+        <h4>初期投資の「予備費」が薄すぎる（よくある失敗パターン）</h4>
+        <div class="meta"><span class="pill mid">影響度：大</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      標準パターン500万円の予備費は70万円（14%）。<strong>実務では「想定外」が確実に出る</strong>：契約書外注費・備品の追加購入・初年度の人件費上振れ・広告効果が出ず追加投資・移動費の累積。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 予備費を<strong>30%（150万円）</strong>に増額。② または初年度の<strong>投資額を300万円に絞る</strong>。③ 「マーケティング費」「採用費」は実費精算でなく上限額を厳守。
+    </div>
+  </div>
+
+  <div class="risk-card critical">
+    <div class="head">
+      <div class="num">M</div>
+      <div>
+        <h4>合宿事業は「参加者集まらない＝固定費損失」の典型</h4>
+        <div class="meta"><span class="pill mid">影響度：中</span> <span class="pill prob">発生確率：中</span></div>
+      </div>
+    </div>
+    <div class="body">
+      合宿は宿泊・食事・施設を<strong>「人数確定前」に予約せざるを得ない</strong>のが構造。30名想定で開催→15名しか集まらない→<strong>赤字</strong>のパターン。YPV合宿は県外集客に依存するため、初年度の認知度では集まりにくい。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① 初年度は<strong>「最少催行人数」を設定</strong>（15名以下なら中止）。② 早期割引で確定数を前倒し確保。③ 宿泊・食事は<strong>キャンセル可能な近隣ホテル</strong>で組む（自前宿泊棟は後から）。
+    </div>
+  </div>
+</section>
+
+<!-- ========== 法務 ========== -->
+<section id="s6">
+  <h2 class="info">6. 法務・規制・契約リスク</h2>
+
+  <div class="risk-card moderate">
+    <div class="head">
+      <div class="num">N</div>
+      <div>
+        <h4>棒高跳びは「重大事故が起きやすい競技」と認識すべき</h4>
+        <div class="meta"><span class="pill mid">影響度：致命（事故時）</span> <span class="pill prob">発生確率：低</span></div>
+      </div>
+    </div>
+    <div class="body">
+      棒高跳びは陸上競技の中でも<strong>頭部・頸部への重大事故リスクが高い</strong>種目。マットを外れる、ポールが折れる、着地姿勢の失敗。事故時の責任追及は<strong>運営者・指導者・施設管理者の3者</strong>に及ぶ。賠償責任保険は必須だが、保険金額の上限と免責事項を要確認。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① <strong>賠償責任保険を上限1億円以上で加入</strong>（年保険料数万円〜十万円程度）。② スポーツ安全保険は最低限で、上乗せ保険を追加。③ 同意書（リスク開示済）を保護者と書面で交換。④ <strong>練習中の動画記録を常時実施</strong>（事故時の原因究明に必須）。
+    </div>
+  </div>
+
+  <div class="risk-card moderate">
+    <div class="head">
+      <div class="num">O</div>
+      <div>
+        <h4>ECC契約と自社事業の利益相反（COI）</h4>
+        <div class="meta"><span class="pill low">影響度：中</span> <span class="pill prob">発生確率：中</span></div>
+      </div>
+    </div>
+    <div class="body">
+      荻田代表はECCかけっこスクールの<strong>カリキュラム監修</strong>。ECCの幼児を自社SORAに「送客」する動きは、契約上問題ないか<strong>ECC側との合意確認が必要</strong>。「ECC卒園生→SORA」のファネル設計は、ECC側からは<strong>「顧客の引き抜き」</strong>と見える可能性。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① ECCとの監修契約書を<strong>もう一度精読</strong>。COI条項を確認。② 必要ならECC側に「卒園生の進路としてのSORA紹介」を<strong>事前に提案・合意</strong>。③ 提携関係に格上げ（ECC公認の「次のステップ」としてSORAを位置付けてもらう）。
+    </div>
+  </div>
+
+  <div class="risk-card moderate">
+    <div class="head">
+      <div class="num">P</div>
+      <div>
+        <h4>SORAの法人形態（株式会社）と「学校等枠」「補助金」「寄付」の相性</h4>
+        <div class="meta"><span class="pill low">影響度：中</span> <span class="pill prob">発生確率：高</span></div>
+      </div>
+    </div>
+    <div class="body">
+      補助金・寄付・行政連携は<strong>NPO法人・一般社団法人のほうが受けやすい</strong>。株式会社MOON単体だと、企業版ふるさと納税・クラウドファンディング（READYFORの社会貢献枠）等で不利になる。
+    </div>
+    <div class="countermeasure">
+      <strong>対処：</strong>① Phase 2 までに<strong>「一般社団法人 SORAアスリート育成協会」</strong>等を設立する選択肢を検討。② 株式会社MOON（運営本体）と一般社団（公共性の高い活動）の<strong>役割分担スキーム</strong>を設計。③ 行政書士・税理士に法人格選定を相談。
+    </div>
+  </div>
+</section>
+
+<!-- ========== マトリクス ========== -->
+<section id="s7">
+  <h2 class="info">7. リスクマトリクス（影響度 × 発生確率）</h2>
+  <p class="lead warn">右上に近いリスクほど優先的に潰す必要がある。</p>
+
+  <div class="matrix-wrap">
+    <div class="matrix-yaxis">影響度（致命 ← 中 → 小）</div>
+    <div>
+      <div class="matrix">
+        <!-- 高高 -->
+        <div class="matrix-cell cell-hh">
+          <div class="label">致命×高</div>
+          <ul>
+            <li>2. 代表の稼働限界</li>
+            <li>A. 月会費価格</li>
+            <li>F. 採用難航</li>
+          </ul>
+        </div>
+        <!-- 高中 -->
+        <div class="matrix-cell cell-hm">
+          <div class="label">致命×中</div>
+          <ul>
+            <li>1. 棒高跳び市場狭小</li>
+            <li>3. 施設依存</li>
+            <li>H. 学校等枠不適用</li>
+            <li>K. 補助金不採択</li>
+            <li>L. 予備費不足</li>
+          </ul>
+        </div>
+        <!-- 高低 -->
+        <div class="matrix-cell cell-hl">
+          <div class="label">致命×低</div>
+          <ul>
+            <li>G. 代表離脱</li>
+            <li>N. 棒高跳び事故</li>
+          </ul>
+        </div>
+        <!-- 中高 -->
+        <div class="matrix-cell cell-mh">
+          <div class="label">大×高</div>
+          <ul>
+            <li>B. 人口減少</li>
+            <li>C. 企業PGM需要</li>
+            <li>D. 中高生離脱</li>
+            <li>E. コーチ稼働</li>
+            <li>P. 法人格</li>
+          </ul>
+        </div>
+        <!-- 中中 -->
+        <div class="matrix-cell cell-mm">
+          <div class="label">大×中</div>
+          <ul>
+            <li>M. 合宿固定費</li>
+            <li>O. ECC COI</li>
+          </ul>
+        </div>
+        <!-- 中低 -->
+        <div class="matrix-cell cell-ml">
+          <div class="label">大×低</div>
+          <ul>
+            <li>I. 公認検定休館</li>
+          </ul>
+        </div>
+        <!-- 低高 -->
+        <div class="matrix-cell cell-lh">
+          <div class="label">小×高</div>
+          <ul>
+            <li>J. 大会バッティング</li>
+          </ul>
+        </div>
+        <!-- 低中 -->
+        <div class="matrix-cell cell-lm">
+          <div class="label">小×中</div>
+          <ul></ul>
+        </div>
+        <!-- 低低 -->
+        <div class="matrix-cell cell-ll">
+          <div class="label">小×低</div>
+          <ul></ul>
+        </div>
+      </div>
+      <div class="matrix-xaxis">
+        <div>低</div>
+        <div>中</div>
+        <div>高 →</div>
+      </div>
+      <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:4px">発生確率</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 楽観数字 ========== -->
+<section id="s8">
+  <h2>8. 前計画で楽観的すぎる数字の再評価</h2>
+
+  <table>
+    <tr>
+      <th>項目</th><th>前計画（楽観）</th><th>悲観シナリオ（保守的）</th><th>差</th>
+    </tr>
+    <tr>
+      <td>YPV ELITE 契約</td>
+      <td>2名 × 月20万円 = 年480万円</td>
+      <td>0〜1名 × 年240万円（中央値）</td>
+      <td class="number">-240万円</td>
+    </tr>
+    <tr>
+      <td>YPV COMPETITIVE 6名</td>
+      <td>6名 × 月16,500円 = 年119万円</td>
+      <td>3名 × 年59万円</td>
+      <td class="number">-60万円</td>
+    </tr>
+    <tr>
+      <td>夏冬合宿</td>
+      <td>50名 × 5万円 = 年250万円</td>
+      <td>30名 × 年150万円</td>
+      <td class="number">-100万円</td>
+    </tr>
+    <tr>
+      <td>企業研修 2社</td>
+      <td>年120万円</td>
+      <td>初年度0〜1社 × 年30〜60万円</td>
+      <td class="number">-60万円</td>
+    </tr>
+    <tr>
+      <td>施設利用料</td>
+      <td>月10.5万円（学校等枠）</td>
+      <td>月20万円（一般枠）</td>
+      <td class="number">+114万円/年</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>収支インパクト合計</strong></td>
+      <td colspan="2" style="color:var(--red);font-weight:bold">悲観シナリオでは <span class="number">-574万円/年</span> 下振れ</td>
+    </tr>
+  </table>
+
+  <div class="lead" style="border-left-color:var(--red);background:#2f1c1a;color:#fff;margin-top:18px">
+    <strong>結論：</strong>前計画の「Phase 1 初年度 +24万円の微黒字」は、悲観シナリオでは<strong>約550万円のマイナス</strong>に転落する可能性がある。<br>
+    つまり「補助金が取れない × 学校等枠が適用されない × ELITE契約が取れない × 企業研修が取れない」が同時発生すると、<strong>初年度に運転資金が500万円飛ぶ</strong>。
+  </div>
+</section>
+
+<!-- ========== 撤退基準 ========== -->
+<section id="s9">
+  <h2 class="ok">9. それでもやるなら：最小成功条件と撤退基準</h2>
+  <p class="lead ok">リスクを並べたが、やらないという結論ではない。<strong>「やる場合はここを守る」「ここで撤退する」</strong>を最初に決める。</p>
+
+  <h3>9-A. 最小成功条件（これが揃わなければ Phase 1 開始しない）</h3>
+  <ol>
+    <li><span class="checkbox">✓</span>屋島レクザムFの「学校等枠」適用可否が文書で確認できている</li>
+    <li><span class="checkbox">✓</span>コーディネーター候補が1名以上特定できている（内定でなくとも、口説き中の人がいる）</li>
+    <li><span class="checkbox">✓</span>香川県スタートアップ補助金 or 持続化補助金が<strong>採択済み</strong>、もしくは公庫融資の事前審査OKが出ている</li>
+    <li><span class="checkbox">✓</span>地元企業1社が「無料お試し研修を受ける」と口頭合意している</li>
+    <li><span class="checkbox">✓</span>現中学生・現アスリートコース10名以上が「来年度も継続」と回答している</li>
+    <li><span class="checkbox">✓</span>手元キャッシュが<strong>運営費6ヶ月分（最低300万円）</strong>確保できている</li>
+    <li><span class="checkbox">✓</span>賠償責任保険1億円以上で加入できる目処が立っている</li>
+  </ol>
+
+  <h3>9-B. 撤退・縮小基準（このシグナルが出たら計画を変える）</h3>
+  <table>
+    <tr><th>シグナル</th><th>判断</th></tr>
+    <tr><td>Phase 1 開始から6ヶ月で YPV BASIC 会員が 3名未満</td><td>YPV COMPETITIVE 開設を延期。BASIC + 集中レッスン形式に縮小</td></tr>
+    <tr><td>Phase 1 初年度の累積赤字が300万円を超える</td><td>新規投資を全面ストップ。既存事業に集中</td></tr>
+    <tr><td>コーディネーター採用が2027年4月までに決まらない</td><td>Phase 1 開始を半年延期</td></tr>
+    <tr><td>屋島レクザムFが2027年中に長期休館</td><td>観音寺中心の運用に切り替え、屋島は再開後復帰</td></tr>
+    <tr><td>代表が3週間以上稼働できない事態</td><td>YPV ELITE 契約を一時休止、コーチ陣で BASIC/COMP のみ継続</td></tr>
+  </table>
+
+  <h3>9-C. 「保守的に組み直した」推奨ライン</h3>
+  <div class="summary-box">
+    <h3>修正版・標準パターン（保守版）</h3>
+    <table>
+      <tr><th>項目</th><th>旧</th><th>修正後</th></tr>
+      <tr><td>初期投資</td><td>500万円</td><td><strong>350万円</strong>（予備費30%含む）</td></tr>
+      <tr><td>新規雇用</td><td>1名</td><td>1名（パート切替の選択肢を残す）</td></tr>
+      <tr><td>YPV ELITE 想定</td><td>2名</td><td><strong>0〜1名</strong>（達成すれば上振れ）</td></tr>
+      <tr><td>YPV COMPETITIVE</td><td>6名 × 16,500円</td><td><strong>4名 × 12,000円</strong>（価格と人数を保守化）</td></tr>
+      <tr><td>企業研修</td><td>2社契約</td><td><strong>1社・無料お試し</strong>（事例化重視）</td></tr>
+      <tr><td>合宿</td><td>夏冬50名想定</td><td><strong>夏冬合算30〜40名</strong></td></tr>
+      <tr><td>追加売上見込（年）</td><td>1,140万円</td><td><strong>約500〜600万円</strong></td></tr>
+      <tr><td>初年度収支</td><td>+24万円（楽観）</td><td><strong>-100〜-200万円</strong>（投資年として許容）</td></tr>
+      <tr><td>2年目以降</td><td>大幅黒字</td><td>会員定着次第。3年目で黒字化を目標</td></tr>
+    </table>
+  </div>
+
+  <div class="quote" style="margin-top:24px">
+    「夢を語ることと、計画を立てることは、別の作業である。<br>
+    計画は、悲観の上に立て。実行は、楽観で押し切れ。」
+  </div>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜SORAプロジェクト リアリティチェック v1.0｜<br>
+  ※本資料は前計画（sora_kagawa_plan_2027 / sora_yashima_program）に対する批判的レビュー。実行前に必ず関係者で読み合わせること。
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP文言改善案｜SORA & SUPERIOR｜2026-04-03</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background: #f4f4f4; color: #222; }
+  header { background: #111; color: #fff; padding: 24px 40px; }
+  header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.05em; }
+  header p { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* サイト切り替えタブ */
+  .tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+  .tab-btn { padding: 10px 28px; border: 2px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+  .tab-btn.active { background: #111; color: #fff; border-color: #111; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* セクションカード */
+  .section-card { background: #fff; border-radius: 12px; margin-bottom: 32px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .section-label { background: #1a1a2e; color: #fff; padding: 12px 24px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px; }
+  .section-label .loc { background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 20px; font-size: 11px; }
+
+  /* Before / After 比較 */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .compare-col { padding: 24px; }
+  .compare-col.before { border-right: 1px solid #eee; background: #fafafa; }
+  .compare-col.after { background: #f0fdf4; }
+  .compare-col h3 { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+  .compare-col.before h3 { color: #999; }
+  .compare-col.after h3 { color: #16a34a; }
+  .text-before { font-size: 14px; color: #666; line-height: 1.8; padding: 14px; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; }
+  .text-after { font-size: 14px; color: #111; line-height: 1.8; padding: 14px; background: #fff; border: 2px solid #16a34a; border-radius: 8px; }
+  .text-after strong { color: #16a34a; }
+
+  /* 理由バッジ */
+  .reason { margin-top: 10px; font-size: 12px; color: #555; background: #f0fdf4; border-left: 3px solid #16a34a; padding: 8px 12px; border-radius: 0 6px 6px 0; }
+
+  /* スクリーンショット参照 */
+  .screenshot-note { padding: 12px 24px; background: #fffbe6; border-top: 1px solid #fde68a; font-size: 12px; color: #92400e; display: flex; align-items: center; gap: 8px; }
+
+  /* ポイント数 */
+  .badge { display: inline-flex; align-items: center; gap: 4px; background: #ef4444; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+
+  /* 共通メモ */
+  .global-note { background: #1a1a2e; color: #e0e0ff; padding: 20px 28px; border-radius: 10px; margin-bottom: 32px; font-size: 13px; line-height: 1.9; }
+  .global-note h2 { font-size: 15px; color: #fff; margin-bottom: 8px; }
+
+  /* スコア */
+  .score-row { display: flex; gap: 12px; padding: 16px 24px; background: #f9f9f9; border-top: 1px solid #eee; flex-wrap: wrap; }
+  .score-item { font-size: 12px; color: #555; background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 6px 14px; }
+  .score-item span { font-weight: 700; color: #111; }
+
+  @media (max-width: 640px) {
+    .compare { grid-template-columns: 1fr; }
+    .compare-col.before { border-right: none; border-bottom: 1px solid #eee; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📝 HP文言改善案｜SORA & SUPERIOR</h1>
+  <p>作成日: 2026-04-03 ／ 目的: 入会意欲を高める文言へのリライト提案</p>
+</header>
+
+<div class="container">
+
+  <div class="global-note">
+    <h2>🎯 両サイト共通の改善方針</h2>
+    ① <strong>主語を「クラブ」→「お子さん・保護者」に変える</strong>（読んだ人が自分ごとに感じる）<br>
+    ② <strong>最初の一文でベネフィットを伝える</strong>（スクロールする前に「ここに来たい」と思わせる）<br>
+    ③ <strong>ネガティブな注記をポジティブな表現に転換</strong>（「料金が発生します」→「まずは無料で体験できます」）<br>
+    ④ <strong>希少性・緊急性を自然に込める</strong>（「定員があります」という事実を魅力として伝える）
+  </div>
+
+  <!-- タブ -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('sora', this)">🏃 SORA</button>
+    <button class="tab-btn" onclick="showTab('superior', this)">⚡ SUPERIOR</button>
+  </div>
+
+  <!-- ========== SORA ========== -->
+  <div id="sora" class="tab-content active">
+
+    <!-- ① ヒーロー上部コピー -->
+    <div class="section-card">
+      <div class="section-label">
+        ① ヒーロー上部コピー
+        <span class="loc">ファーストビュー</span>
+        <span class="badge">最重要</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">香川県出身のオリンピアン、荻田大樹が主宰する</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">「うちの子、もっと<strong>速く</strong>なれるかな？<strong>自信</strong>をつけてほしい。」</div>
+          <div class="reason">💡 保護者が抱えるリアルな悩みを冒頭に置く。「そうそう！」と共感させてからクラブを紹介する流れに。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: ヒーロー画像 上部テキスト「香川県出身のオリンピアン〜」の行</div>
+    </div>
+
+    <!-- ② メインキャッチコピー -->
+    <div class="section-card">
+      <div class="section-label">
+        ② メインキャッチコピー
+        <span class="loc">ヒーロー中央・最大文字</span>
+        <span class="badge">最重要</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">「共に学び、夢中になろう！」</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">「共に学び、夢中になろう！」<br><br>その気持ち、<strong>ここで本物にしよう。</strong></div>
+          <div class="reason">💡 既存のキャッチコピーは残しつつ、その下に「答え」を添える。理念→行動へのブリッジを作る。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: ヒーロー中央の大見出し「共に学び、夢中になろう！」</div>
+    </div>
+
+    <!-- ③ 説明文 -->
+    <div class="section-card">
+      <div class="section-label">
+        ③ クラブ説明文
+        <span class="loc">ヒーロー下部テキスト</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">を理念に、<br>運動能力の向上と共に、<br>『将来どのような世界でも活躍できる人・関係づくり』<br>を目的とした、<br>トップアスリートがコーチのスポーツクラブです。</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">リオ五輪代表・荻田大樹が主宰する香川県の陸上クラブ。<br><strong>速さだけでなく、自信・仲間・考えるチカラ</strong>を育てます。<br>観音寺スクール・高松スクール 無料体験受付中。</div>
+          <div class="reason">💡 「誰が・何を・どこで」を1〜2文で完結。「ベネフィット3点」を箇条書き的に並べることで読み流してもOKな構造に。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: 「を理念に〜トップアスリートがコーチのスポーツクラブです。」の段落</div>
+    </div>
+
+    <!-- ④ 体験募集の文言 -->
+    <div class="section-card">
+      <div class="section-label">
+        ④ 体験募集・CTA文言
+        <span class="loc">お知らせセクション下部</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">教室無料体験募集中！！<br>※会員数が定員に達し次第終了します<br>※2回目以降は料金が発生します</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">👟 <strong>無料体験、受付中！</strong>（定員になり次第終了）<br><br>まずは1回、お子さんの可能性を確かめてみてください。<br>2回目以降のご入会はその後ご検討いただけます。</div>
+          <div class="reason">💡「料金が発生します」という言い回しは申込みへの心理的ハードルになる。「2回目からご検討いただける」という表現に変えると安心感が生まれる。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: 「教室無料体験募集中！！ ※会員数が定員に達し次第終了します ※2回目以降は料金が発生します」</div>
+    </div>
+
+    <!-- ⑤ 【無料体験随時受付中】ボタン上部 -->
+    <div class="section-card">
+      <div class="section-label">
+        ⑤ 無料体験ボタン直上の見出し
+        <span class="loc">ページ中盤のCTAエリア</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">【無料体験随時受付中！！】</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">🏃 <strong>無料体験、随時受付中</strong><br><small>お子さんのペースに合わせてご参加いただけます。まずはお気軽に！</small></div>
+          <div class="reason">💡「！！」より短いサポートコピーを添えた方が、行動を後押しする力が強い。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: ページ中盤「【無料体験随時受付中！！】」の見出しとボタン</div>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">修正箇所: <span>5か所</span></div>
+      <div class="score-item">難易度: <span>★☆☆ 簡単（テキスト差し替えのみ）</span></div>
+      <div class="score-item">効果予測: <span>体験申込率 +15〜25%</span></div>
+    </div>
+  </div>
+
+  <!-- ========== SUPERIOR ========== -->
+  <div id="superior" class="tab-content">
+
+    <!-- ① ヒーロー上部コピー -->
+    <div class="section-card">
+      <div class="section-label">
+        ① ヒーロー上部コピー
+        <span class="loc">ファーストビュー・ロゴ上</span>
+        <span class="badge">最重要</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">陸上競技オリンピアンの<br>陸上クラブ</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">走るだけじゃない。<br><strong>考えながら速くなる子を育てる。</strong></div>
+          <div class="reason">💡「陸上クラブ」は説明。「考えながら速くなる」はSUPERIORの独自価値そのもの。差別化ポイントを一番目立つ場所に。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: ロゴ上部「陸上競技オリンピアンの 陸上クラブ」の2行テキスト</div>
+    </div>
+
+    <!-- ② 代表紹介冒頭 -->
+    <div class="section-card">
+      <div class="section-label">
+        ② 代表紹介の冒頭文
+        <span class="loc">代表紹介セクション</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">SUPERIOR（スペリーオール）代表の荻田大樹です。中学から棒高跳びを始め、２０年以上競技を続けてきました。第一線を退いた今も、選手として楽しく競技と向き合っています。競技を通じて世界中を飛び回る中で、たくさんのアスリートやコーチに出会い、パフォーマンスについての考え方や競技との向き合い方を模索してきました。</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">「勝つだけじゃない、<strong>夢中になれる子に育ってほしい。</strong>」<br><br>その想いから、SUPERIORは生まれました。<br><br>代表の荻田大樹は、リオ五輪代表・棒高跳び元日本代表。20年以上の競技生活で得た「本物の身体の動かし方」と「考えるチカラの育て方」を、奈良・大阪の子どもたちに伝えています。</div>
+          <div class="reason">💡 キーメッセージ（夢中になること）を最初の「」に入れることで記憶に残る。経歴は後から補足でOK。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: 「代表紹介」セクション冒頭〜「SUPERIOR（スペリーオール）代表の荻田大樹です。」以降の段落</div>
+    </div>
+
+    <!-- ③ お知らせ・体験募集 生駒 -->
+    <div class="section-card">
+      <div class="section-label">
+        ③ 体験募集の文言（生駒・箕面 共通）
+        <span class="loc">お知らせコーナー</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">＼ 無料体験参加者募集中！ ／<br>※会員数が定員に達し次第終了します<br>※2回目以降は料金が発生します</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">👟 <strong>無料体験、受付中！</strong><br>（定員になり次第終了・先着順）<br><br>まずは1回体験してみてください。入会はその後、ゆっくりご検討いただけます。</div>
+          <div class="reason">💡 「先着順」で自然な緊急性を演出。「2回目以降は料金発生」→「ゆっくりご検討」に変えることで不安を取り除く。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: 生駒・箕面両スクールの体験募集ボックス内「※会員数が定員に達し次第終了します ※2回目以降は料金が発生します」</div>
+    </div>
+
+    <!-- ④ 箕面キャンペーン表現 -->
+    <div class="section-card">
+      <div class="section-label">
+        ④ 箕面スクール 新年度キャンペーン
+        <span class="loc">お知らせコーナー 箕面</span>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>現在</h3>
+          <div class="text-before">＼ 新年度キャンペーン ／<br>3月までにお申し込みで<br>入会金5500→０円</div>
+        </div>
+        <div class="compare-col after">
+          <h3>改善案</h3>
+          <div class="text-after">🎉 <strong>新年度キャンペーン実施中！</strong><br>今なら<strong>入会金5,500円 → 0円</strong><br><small>※お早めにどうぞ。体験申し込みからご応募ください。</small></div>
+          <div class="reason">💡 金額を明確に・大きく見せる。キャンペーン終了期限の代わりに「お早めに」で緊急性を残す（期限が過ぎてもすぐ修正不要）。</div>
+        </div>
+      </div>
+      <div class="screenshot-note">📸 参照箇所: 箕面スクールのキャンペーン告知ボックス</div>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">修正箇所: <span>4か所</span></div>
+      <div class="score-item">難易度: <span>★☆☆ 簡単（テキスト差し替えのみ）</span></div>
+      <div class="score-item">効果予測: <span>体験申込率 +20〜30%</span></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織 オートパイロットフロー v2 — MOON</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --accent4: #8b5cf6;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-mid: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-left h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.05em; }
+  .header-left p { font-size: 0.8rem; color: var(--text-mid); margin-top: 4px; }
+  .status-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.8rem; color: var(--accent2);
+  }
+  .dot-pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+  /* ─── TABS ─── */
+  .tabs {
+    display: flex; gap: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 14px 20px; cursor: pointer;
+    font-size: 0.85rem; color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .tab:hover { color: var(--text-mid); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ─── MAIN ─── */
+  .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ─── SECTION TITLE ─── */
+  .section-title {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
+    color: var(--text-dim); text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* ─── FLOW DIAGRAM ─── */
+  .flow-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr 80px 1fr;
+    grid-template-rows: auto;
+    gap: 0;
+    align-items: center;
+  }
+  .flow-col { display: flex; flex-direction: column; gap: 12px; }
+  .flow-arrow {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 4px;
+  }
+  .arrow-line {
+    width: 2px; height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: flowDown 2s infinite;
+    margin: 0 auto;
+  }
+  .arrow-h {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 1.2rem;
+    animation: flowRight 2s infinite;
+  }
+  @keyframes flowDown { 0%{opacity:0.3} 50%{opacity:1} 100%{opacity:0.3} }
+  @keyframes flowRight { 0%{opacity:0.3} 50%{opacity:1} 100%{opacity:0.3} }
+
+  /* ─── NODE CARDS ─── */
+  .node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .node:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .node-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .node-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+  .node-desc { font-size: 0.72rem; color: var(--text-mid); line-height: 1.5; }
+  .node-badge {
+    display: inline-block;
+    font-size: 0.65rem; padding: 2px 8px;
+    border-radius: 10px; margin-top: 6px;
+    font-weight: 600;
+  }
+  .badge-auto { background: rgba(59,130,246,0.15); color: var(--accent); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-trigger { background: rgba(245,158,11,0.15); color: var(--accent3); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-output { background: rgba(16,185,129,0.15); color: var(--accent2); border: 1px solid rgba(16,185,129,0.3); }
+  .badge-review { background: rgba(139,92,246,0.15); color: var(--accent4); border: 1px solid rgba(139,92,246,0.3); }
+
+  .node.highlight {
+    border-color: var(--accent3);
+    box-shadow: 0 0 20px rgba(245,158,11,0.15);
+  }
+
+  /* ─── DAILY FLOW ─── */
+  .daily-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .step-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+  }
+  .step-card::after {
+    content: '→';
+    position: absolute; right: -14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim); font-size: 1rem;
+  }
+  .step-card:last-child::after { display: none; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: white;
+    font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px;
+  }
+  .step-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+  .step-desc { font-size: 0.68rem; color: var(--text-mid); line-height: 1.5; }
+  .step-time { font-size: 0.65rem; color: var(--accent3); margin-top: 6px; }
+
+  /* ─── AGENT CARDS ─── */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  .agent-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s;
+  }
+  .agent-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .agent-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .agent-name { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+  .agent-role { font-size: 0.68rem; color: var(--text-mid); line-height: 1.6; }
+  .agent-tools {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;
+  }
+  .tool-tag {
+    font-size: 0.6rem; padding: 2px 6px;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 6px; color: var(--accent);
+  }
+
+  /* ─── INFO FLOW ─── */
+  .info-flow-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin-top: 24px;
+  }
+  .info-flow-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .info-flow-title {
+    font-size: 0.8rem; font-weight: 700;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .flow-step {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-top: 5px; flex-shrink: 0;
+  }
+  .flow-step-text { font-size: 0.75rem; color: var(--text-mid); line-height: 1.5; }
+  .flow-step-text strong { color: var(--text); }
+
+  /* ─── DEBATE FLOW ─── */
+  .debate-flow {
+    display: grid; grid-template-columns: 1fr 60px 1fr 60px 1fr;
+    gap: 0; align-items: center;
+    margin-top: 20px;
+  }
+  .debate-side {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .debate-side.pro { border-color: rgba(16,185,129,0.4); }
+  .debate-side.con { border-color: rgba(239,68,68,0.4); }
+  .debate-side.result { border-color: rgba(245,158,11,0.4); }
+  .debate-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+  .debate-rounds {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .round-item {
+    font-size: 0.7rem; color: var(--text-mid);
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+  }
+  .debate-vs {
+    text-align: center; font-weight: 700;
+    color: var(--accent3); font-size: 1.2rem;
+  }
+  .debate-arrow {
+    text-align: center; color: var(--text-dim); font-size: 1.2rem;
+  }
+
+  /* ─── SCHEDULE VISUAL ─── */
+  .schedule-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .schedule-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .schedule-title { font-size: 0.9rem; font-weight: 700; }
+  .schedule-badge {
+    font-size: 0.7rem; padding: 4px 12px;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 10px; color: var(--accent);
+  }
+  .schedule-timeline {
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto; padding-bottom: 8px;
+  }
+  .timeline-item {
+    flex: 1; min-width: 80px; text-align: center;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute; top: 14px; left: 50%; right: -50%;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent), rgba(59,130,246,0.3));
+  }
+  .timeline-item:last-child::before { display: none; }
+  .timeline-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: white;
+    font-size: 0.65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px;
+    position: relative; z-index: 1;
+  }
+  .timeline-label { font-size: 0.68rem; color: var(--text-mid); }
+  .timeline-time { font-size: 0.65rem; color: var(--accent3); margin-top: 2px; }
+
+  /* ─── PROJECT STATUS ─── */
+  .projects-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 12px; margin-top: 20px;
+  }
+  .pj-mini {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .pj-name { font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; }
+  .pj-bar-bg {
+    height: 6px; background: rgba(255,255,255,0.1);
+    border-radius: 3px; overflow: hidden;
+  }
+  .pj-bar-fill {
+    height: 100%; border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .pj-pct { font-size: 0.7rem; color: var(--text-mid); margin-top: 4px; }
+  .pj-next { font-size: 0.65rem; color: var(--accent3); margin-top: 6px; }
+
+  /* ─── GLOW BG ─── */
+  .glow-bg {
+    position: fixed; pointer-events: none;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.04) 0%, transparent 70%);
+    top: -100px; right: -100px;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .daily-flow, .agents-grid, .projects-row { grid-template-columns: repeat(2, 1fr); }
+    .step-card::after { display: none; }
+    .flow-grid { grid-template-columns: 1fr; }
+    .info-flow-wrap { grid-template-columns: 1fr; }
+    .debate-flow { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="glow-bg"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>🤖 MOON AI組織 — オートパイロットフロー <span style="font-size:0.7rem; background:rgba(59,130,246,0.2); border:1px solid rgba(59,130,246,0.4); border-radius:8px; padding:2px 8px; margin-left:8px; vertical-align:middle;">v2</span></h1>
+    <p>全体の自動化フロー・エージェント連携・情報の流れを可視化</p>
+  </div>
+  <div class="status-badge">
+    <div class="dot-pulse"></div>
+    システム稼働中
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">🔄 全体フロー</div>
+  <div class="tab" onclick="switchTab('daily')">🌅 デイリーサイクル</div>
+  <div class="tab" onclick="switchTab('agents')">🤖 エージェント</div>
+  <div class="tab" onclick="switchTab('debate')">⚖️ ディベート</div>
+  <div class="tab" onclick="switchTab('projects')">📊 プロジェクト状態</div>
+  <div class="tab" onclick="switchTab('quality')">🏆 品質基準</div>
+  <div class="tab" onclick="switchTab('system')">⚙️ システムルール</div>
+</div>
+
+<div class="main">
+
+  <!-- ─── TAB: 全体フロー ─── -->
+  <div id="tab-overview" class="tab-content active">
+    <div class="section-title">オートパイロット全体構造</div>
+
+    <div class="flow-container">
+      <div class="flow-grid">
+
+        <!-- COL 1: 入力層 -->
+        <div class="flow-col">
+          <div style="text-align:center; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">INPUT</div>
+
+          <div class="node" style="border-color: rgba(245,158,11,0.4);">
+            <div class="node-icon">👤</div>
+            <div class="node-title">MOONさん（ユーザー）</div>
+            <div class="node-desc">Coworkを開く・指示を出す・承認をする</div>
+            <span class="node-badge badge-trigger">トリガー</span>
+          </div>
+
+          <div class="node">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">スケジューラー</div>
+            <div class="node-desc">毎朝9時に自動起動<br>daily-morning-briefing</div>
+            <span class="node-badge badge-auto">自動</span>
+          </div>
+
+          <div class="node">
+            <div class="node-icon">📁</div>
+            <div class="node-title">CLAUDE.md / CONTEXT.md</div>
+            <div class="node-desc">全プロジェクトの共有記憶<br>常時参照・常時更新</div>
+            <span class="node-badge badge-auto">共有メモリ</span>
+          </div>
+        </div>
+
+        <!-- ARROW 1 -->
+        <div class="flow-arrow">
+          <div class="arrow-h">→</div>
+          <div style="font-size:0.6rem; color:var(--text-dim); text-align:center;">コンテキスト<br>読込</div>
+        </div>
+
+        <!-- COL 2: 総括層 -->
+        <div class="flow-col">
+          <div style="text-align:center; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">ORCHESTRATOR</div>
+
+          <div class="node highlight">
+            <div class="node-icon">🧠</div>
+            <div class="node-title">総括エージェント</div>
+            <div class="node-desc">
+              ① 全PJコンテキスト把握<br>
+              ② タスク分解・優先度付け<br>
+              ③ 各エージェントへ指示<br>
+              ④ ユーザー確認（STEP1〜3）<br>
+              ⑤ 成果統合・活動ログ記録
+            </div>
+            <span class="node-badge badge-trigger">コントロールタワー</span>
+          </div>
+
+          <div class="node" style="background: rgba(59,130,246,0.05);">
+            <div class="node-icon">✅</div>
+            <div class="node-title">ユーザー確認フロー</div>
+            <div class="node-desc">
+              STEP1: サマリー提示<br>
+              STEP2: 実行計画提示<br>
+              STEP3: 承認後に実行
+            </div>
+            <span class="node-badge badge-review">必須プロセス</span>
+          </div>
+        </div>
+
+        <!-- ARROW 2 -->
+        <div class="flow-arrow">
+          <div class="arrow-h">→</div>
+          <div style="font-size:0.6rem; color:var(--text-dim); text-align:center;">タスク<br>分配</div>
+        </div>
+
+        <!-- COL 3: 実行層 -->
+        <div class="flow-col">
+          <div style="text-align:center; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">EXECUTION</div>
+
+          <div class="node">
+            <div class="node-icon">🔍</div>
+            <div class="node-title">リサーチエージェント</div>
+            <div class="node-desc">Web検索・YouTube/Note収集<br><span style="color:#10b981;font-size:0.68rem;">+ Gemini API連携</span></div>
+            <span class="node-badge badge-auto">自動実行</span>
+          </div>
+
+          <div class="node">
+            <div class="node-icon">✍️</div>
+            <div class="node-title">コンテンツエージェント</div>
+            <div class="node-desc">SNS投稿・スライド・LP・記事生成</div>
+            <span class="node-badge badge-auto">自動実行</span>
+          </div>
+
+          <div class="node">
+            <div class="node-icon">📂</div>
+            <div class="node-title">ファイル処理エージェント</div>
+            <div class="node-desc">PDF/Excel/PPT変換・データ抽出</div>
+            <span class="node-badge badge-auto">自動実行</span>
+          </div>
+
+          <div class="node" style="border-color: rgba(139,92,246,0.4);">
+            <div class="node-icon">⚖️</div>
+            <div class="node-title">レビューエージェント</div>
+            <div class="node-desc">採点・差し戻し・ディベート審判<br>NGパターン蓄積</div>
+            <span class="node-badge badge-review">品質保証</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- OUTPUT ROW -->
+      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+        <div class="section-title">OUTPUT — 成果物</div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+          <div class="node" style="text-align:center;">
+            <div style="font-size:1.5rem;">📱</div>
+            <div style="font-size:0.75rem; font-weight:700; margin-top:6px;">SNS投稿文</div>
+            <div style="font-size:0.65rem; color:var(--text-mid);">Instagram / TikTok</div>
+          </div>
+          <div class="node" style="text-align:center;">
+            <div style="font-size:1.5rem;">🌐</div>
+            <div style="font-size:0.75rem; font-weight:700; margin-top:6px;">LP / HTML</div>
+            <div style="font-size:0.65rem; color:var(--text-mid);">体験会・集客ページ</div>
+          </div>
+          <div class="node" style="text-align:center;">
+            <div style="font-size:1.5rem;">📊</div>
+            <div style="font-size:0.75rem; font-weight:700; margin-top:6px;">提案資料 PPT</div>
+            <div style="font-size:0.65rem; color:var(--text-mid);">健康経営・法人向け</div>
+          </div>
+          <div class="node" style="text-align:center;">
+            <div style="font-size:1.5rem;">📋</div>
+            <div style="font-size:0.75rem; font-weight:700; margin-top:6px;">レポート / PDF</div>
+            <div style="font-size:0.65rem; color:var(--text-mid);">分析・給与明細</div>
+          </div>
+          <div class="node" style="text-align:center; border-color: rgba(16,185,129,0.4);">
+            <div style="font-size:1.5rem;">🧠</div>
+            <div style="font-size:0.75rem; font-weight:700; margin-top:6px;">CONTEXT.md更新</div>
+            <div style="font-size:0.65rem; color:var(--text-mid);">知識の自動蓄積</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- フィードバックループ表示 -->
+      <div style="margin-top: 24px; padding: 16px; background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.2); border-radius: 12px;">
+        <div style="font-size:0.75rem; font-weight:700; color: var(--accent4); margin-bottom:10px;">🔄 フィードバックループ（自動品質改善）</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+          <div style="font-size:0.7rem; color:var(--text-mid);">
+            <span style="color:var(--accent3);">① 即時修正ループ</span><br>
+            自己採点70点未満 → 最大3回再生成してから提出
+          </div>
+          <div style="font-size:0.7rem; color:var(--text-mid);">
+            <span style="color:var(--accent3);">② レビュー差し戻しループ</span><br>
+            レビューエージェントがNG判定 → 修正指示付きで差し戻し
+          </div>
+          <div style="font-size:0.7rem; color:var(--text-mid);">
+            <span style="color:var(--accent3);">③ ユーザーフィードバックループ</span><br>
+            修正コメント → NGルール欄に追記 → 次回以降に自動反映
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB: デイリーサイクル ─── -->
+  <div id="tab-daily" class="tab-content">
+    <div class="section-title">1日の自動サイクル</div>
+
+    <div class="schedule-card">
+      <div class="schedule-header">
+        <div class="schedule-title">⏰ 自動スケジュールタスク</div>
+        <div class="schedule-badge">毎朝 9:00 自動実行</div>
+      </div>
+      <div class="schedule-timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-label">全CONTEXT読込</div>
+          <div class="timeline-time">09:00</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-label">進捗差分計算</div>
+          <div class="timeline-time">09:01</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">3</div>
+          <div class="timeline-label">最善手 TOP5生成</div>
+          <div class="timeline-time">09:02</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">4</div>
+          <div class="timeline-label">ブリーフィング提示</div>
+          <div class="timeline-time">09:03</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">5</div>
+          <div class="timeline-label">MOON承認待ち</div>
+          <div class="timeline-time">09:03〜</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-title">Coworkを開いた瞬間のセッション開始プロトコル</div>
+      <div class="daily-flow">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title">🧠 コンテキスト読込</div>
+          <div class="step-desc">CLAUDE.md + 全プロジェクトCONTEXT.mdを自動読み込み</div>
+          <div class="step-time">自動</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title">📊 差分検出</div>
+          <div class="step-desc">前回セッションからの変化・進んだこと・詰まっていることを整理</div>
+          <div class="step-time">自動</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title">🎯 最善手提案</div>
+          <div class="step-desc">5PJ横断で「今日やるべきTOP3〜5」を優先度付きで提示</div>
+          <div class="step-time">自動</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-title">✅ MOON確認</div>
+          <div class="step-desc">方向性を一言確認。修正があれば反映してから実行</div>
+          <div class="step-time">手動</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <div class="step-title">🚀 タスク実行</div>
+          <div class="step-desc">承認後、各エージェントへ自動分配して並列実行</div>
+          <div class="step-time">自動</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-flow-wrap">
+      <div class="info-flow-card">
+        <div class="info-flow-title">📥 情報の流れ（インプット）</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent)"></div>
+          <div class="flow-step-text"><strong>CLAUDE.md</strong> — 全体ルール・NGパターン・スキル一覧</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent2)"></div>
+          <div class="flow-step-text"><strong>各CONTEXT.md</strong> — プロジェクト別の進捗・決定事項・ディベート結論</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent3)"></div>
+          <div class="flow-step-text"><strong>MOONさんの指示</strong> — 新タスク・修正コメント・方向性承認</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent4)"></div>
+          <div class="flow-step-text"><strong>Web / Gmail / YouTube / Note.com</strong> — リサーチ情報・最新トレンド</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#10b981"></div>
+          <div class="flow-step-text"><strong>Gemini API</strong> — YouTube動画直接解析・大量テキスト分析・競合深掘り</div>
+        </div>
+      </div>
+
+      <div class="info-flow-card">
+        <div class="info-flow-title">📤 情報の流れ（アウトプット）</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent)"></div>
+          <div class="flow-step-text"><strong>成果物ファイル</strong> — HTML/PPT/PDF/Excel/SNS投稿文</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent2)"></div>
+          <div class="flow-step-text"><strong>CONTEXT.md更新</strong> — 決定事項・NGパターン・進捗を自動書き込み</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent3)"></div>
+          <div class="flow-step-text"><strong>ダッシュボードHTML更新</strong> — 進捗・活動ログをリアルタイム反映</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:var(--accent4)"></div>
+          <div class="flow-step-text"><strong>html.ai公開ファイル</strong> — 最新版に「これです_」プレフィックス付与</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB: エージェント ─── -->
+  <div id="tab-agents" class="tab-content">
+    <div class="section-title">5つのエージェント — 役割と連携</div>
+    <div class="agents-grid">
+
+      <div class="agent-card" style="border-color: rgba(245,158,11,0.4);">
+        <div class="agent-icon">🧠</div>
+        <div class="agent-name">総括エージェント</div>
+        <div class="agent-role">
+          全プロジェクトのコンテキストを把握し、タスクを分解・分配する。ユーザー確認フロー（STEP1〜3）を必ず実行する。成果物を統合してCONTEXT.mdに記録。
+        </div>
+        <div class="agent-tools">
+          <span class="tool-tag">Agent tool</span>
+          <span class="tool-tag">TodoWrite</span>
+          <span class="tool-tag">CLAUDE.md</span>
+        </div>
+      </div>
+
+      <div class="agent-card" style="border-color: rgba(59,130,246,0.4);">
+        <div class="agent-icon">🔍</div>
+        <div class="agent-name">リサーチエージェント</div>
+        <div class="agent-role">
+          Web検索・YouTube/Note分析・競合調査・市場リサーチを実行。
+          <strong style="color:#3b82f6">Gemini APIと連携</strong>し動画を直接解析。
+          Claude in ChromeでYouTube・Noteをブラウジング収集。
+        </div>
+        <div class="agent-tools">
+          <span class="tool-tag">WebSearch</span>
+          <span class="tool-tag">WebFetch</span>
+          <span class="tool-tag">Gmail</span>
+          <span class="tool-tag" style="background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.3);color:#10b981;">Gemini API</span>
+          <span class="tool-tag" style="background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.3);color:#f59e0b;">Claude in Chrome</span>
+        </div>
+        <!-- Gemini連携フロー -->
+        <div style="margin-top:10px; padding:10px; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:8px; font-size:0.65rem; color:var(--text-mid); line-height:1.6;">
+          🎬 YouTube → Chrome収集 → <strong style="color:#10b981">Gemini</strong>で動画解析<br>
+          📝 Note.com → Chrome収集 → <strong style="color:#10b981">Gemini</strong>で記事分析<br>
+          💡 結果 → <strong style="color:#e2e8f0">Claude</strong>が戦略化・SNS文生成
+        </div>
+      </div>
+
+      <div class="agent-card" style="border-color: rgba(16,185,129,0.4);">
+        <div class="agent-icon">✍️</div>
+        <div class="agent-name">コンテンツエージェント</div>
+        <div class="agent-role">
+          SNS投稿・LP・スライド・記事を生成。音声文字起こしからコンテンツ化。html-publishスキルでHTMLを管理。
+        </div>
+        <div class="agent-tools">
+          <span class="tool-tag">sns-voireco</span>
+          <span class="tool-tag">pptx</span>
+          <span class="tool-tag">docx</span>
+          <span class="tool-tag">html-publish</span>
+        </div>
+      </div>
+
+      <div class="agent-card" style="border-color: rgba(139,92,246,0.4);">
+        <div class="agent-icon">📂</div>
+        <div class="agent-name">ファイル処理エージェント</div>
+        <div class="agent-role">
+          PDF/Excel/PPTの変換・加工・データ抽出。給与明細分割・表データ分析。Pythonスクリプトも実行可能。
+        </div>
+        <div class="agent-tools">
+          <span class="tool-tag">pdf</span>
+          <span class="tool-tag">xlsx</span>
+          <span class="tool-tag">Bash</span>
+          <span class="tool-tag">Python</span>
+        </div>
+      </div>
+
+      <div class="agent-card" style="border-color: rgba(239,68,68,0.4);">
+        <div class="agent-icon">⚖️</div>
+        <div class="agent-name">レビューエージェント</div>
+        <div class="agent-role">
+          生成物を採点（70点未満は差し戻し）。ディベートの審判・最善案の導出。NGパターンをCONTEXT.mdに蓄積。
+        </div>
+        <div class="agent-tools">
+          <span class="tool-tag">サブAgent</span>
+          <span class="tool-tag">ファクトチェック</span>
+          <span class="tool-tag">CONTEXT.md</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 連携フロー -->
+    <div style="margin-top: 32px;">
+      <div class="section-title">エージェント間の情報連携フロー</div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          <div style="text-align:center; padding: 10px 16px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.75rem;">
+            🧠 総括<br><span style="color:var(--text-dim); font-size:0.65rem;">コンテキスト共有</span>
+          </div>
+          <div style="color:var(--text-dim);">→</div>
+          <div style="text-align:center; padding: 10px 16px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; font-size: 0.75rem;">
+            🔍 リサーチ<br><span style="color:var(--text-dim); font-size:0.65rem;">情報収集</span>
+          </div>
+          <div style="color:var(--text-dim);">→</div>
+          <div style="text-align:center; padding: 10px 16px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; font-size: 0.75rem;">
+            ✍️ コンテンツ<br><span style="color:var(--text-dim); font-size:0.65rem;">生成</span>
+          </div>
+          <div style="color:var(--text-dim);">→</div>
+          <div style="text-align:center; padding: 10px 16px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; font-size: 0.75rem;">
+            ⚖️ レビュー<br><span style="color:var(--text-dim); font-size:0.65rem;">採点・差し戻し</span>
+          </div>
+          <div style="color:var(--text-dim);">→</div>
+          <div style="text-align:center; padding: 10px 16px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.75rem;">
+            🧠 総括<br><span style="color:var(--text-dim); font-size:0.65rem;">統合・MOON確認</span>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top: 16px; font-size:0.7rem; color: var(--text-dim);">
+          全エージェントは <strong style="color:var(--text);">CLAUDE.md</strong> と各 <strong style="color:var(--text);">CONTEXT.md</strong> を共有メモリとして参照・更新する
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB: ディベート ─── -->
+  <div id="tab-debate" class="tab-content">
+    <div class="section-title">ディベートシステム — 全プロジェクト共通ルール</div>
+
+    <div class="debate-flow">
+      <div class="debate-side pro">
+        <div class="debate-title" style="color: var(--accent2);">✅ 賛成派（PRO）</div>
+        <div class="debate-rounds">
+          <div class="round-item">R1: 主張①（根拠・データ）</div>
+          <div class="round-item">R2: 主張②（反論への応答）</div>
+          <div class="round-item">R3: 主張③（実行可能性）</div>
+          <div class="round-item">R4: 主張④（リスク対策）</div>
+          <div class="round-item">R5: 主張⑤（最終まとめ）</div>
+        </div>
+      </div>
+
+      <div class="debate-vs">VS</div>
+
+      <div class="debate-side con">
+        <div class="debate-title" style="color: var(--accent5);">❌ 反対派（CON）</div>
+        <div class="debate-rounds">
+          <div class="round-item">R1: 反論①（弱点の指摘）</div>
+          <div class="round-item">R2: 反論②（別視点の提示）</div>
+          <div class="round-item">R3: 反論③（リスク列挙）</div>
+          <div class="round-item">R4: 反論④（代替案の提示）</div>
+          <div class="round-item">R5: 反論⑤（最終まとめ）</div>
+        </div>
+      </div>
+
+      <div class="debate-arrow">→</div>
+
+      <div class="debate-side result">
+        <div class="debate-title" style="color: var(--accent3);">🏆 レビュー・最善案導出</div>
+        <div class="debate-rounds">
+          <div class="round-item">採点：説得力・根拠・実行可能性</div>
+          <div class="round-item">双方の良い点を統合</div>
+          <div class="round-item">「第三の答え」を提示</div>
+          <div class="round-item">NGパターン → CONTEXT.mdに追記</div>
+          <div class="round-item">MOONさんへ最善案を提案</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 適用済みディベート -->
+    <div style="margin-top: 32px;">
+      <div class="section-title">実施済みディベート</div>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+
+        <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+          <div style="font-size:0.75rem; font-weight:700; margin-bottom:8px; color: var(--accent2);">✅ オギラボ — SNS戦略</div>
+          <div style="font-size:0.7rem; color:var(--text-mid); line-height:1.6;">
+            PRO: Instagram一本集中<br>CON: TikTok優先すべき<br>
+            <strong style="color:var(--accent3);">結論: Instagram軸+TikTok実験運用</strong>
+          </div>
+        </div>
+
+        <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+          <div style="font-size:0.75rem; font-weight:700; margin-bottom:8px; color: var(--accent2);">✅ CARAS — 価格設定</div>
+          <div style="font-size:0.7rem; color:var(--text-mid); line-height:1.6;">
+            PRO: 高単価即設定<br>CON: 新規獲得優先で低価格<br>
+            <strong style="color:var(--accent3);">結論: 新規から段階値上げ戦略</strong>
+          </div>
+        </div>
+
+        <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+          <div style="font-size:0.75rem; font-weight:700; margin-bottom:8px; color: var(--accent2);">✅ 健康経営 — ターゲット設定</div>
+          <div style="font-size:0.7rem; color:var(--text-mid); line-height:1.6;">
+            PRO: 大手企業メイン<br>CON: 中小企業の方が決定早い<br>
+            <strong style="color:var(--accent3);">結論: 中小主軸+大手1社並走</strong>
+          </div>
+        </div>
+
+        <div style="background: var(--surface2); border: 1px dashed var(--border); border-radius: 12px; padding: 16px; opacity: 0.6;">
+          <div style="font-size:0.75rem; font-weight:700; margin-bottom:8px; color: var(--text-dim);">⬜ CARAS — 法人プログラム設計</div>
+          <div style="font-size:0.7rem; color:var(--text-dim);">未実施 — 次のアクション候補</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB: プロジェクト状態 ─── -->
+  <div id="tab-projects" class="tab-content">
+    <div class="section-title">5プロジェクト — 現在の状態</div>
+    <div class="projects-row">
+
+      <div class="pj-mini">
+        <div class="pj-name">🏫 オギラボ</div>
+        <div class="pj-bar-bg"><div class="pj-bar-fill" style="width:42%; background: linear-gradient(to right, #3b82f6, #10b981);"></div></div>
+        <div class="pj-pct">42%</div>
+        <div class="pj-next">次: 集客LP制作</div>
+      </div>
+
+      <div class="pj-mini">
+        <div class="pj-name">💪 CARAS</div>
+        <div class="pj-bar-bg"><div class="pj-bar-fill" style="width:58%; background: linear-gradient(to right, #10b981, #3b82f6);"></div></div>
+        <div class="pj-pct">58%</div>
+        <div class="pj-next">次: 法人プログラム設計</div>
+      </div>
+
+      <div class="pj-mini">
+        <div class="pj-name">🏢 健康経営</div>
+        <div class="pj-bar-bg"><div class="pj-bar-fill" style="width:25%; background: linear-gradient(to right, #f59e0b, #ef4444);"></div></div>
+        <div class="pj-pct">25%</div>
+        <div class="pj-next">次: 提案資料PPT</div>
+      </div>
+
+      <div class="pj-mini">
+        <div class="pj-name">🏃 SORA</div>
+        <div class="pj-bar-bg"><div class="pj-bar-fill" style="width:5%; background: linear-gradient(to right, #8b5cf6, #3b82f6);"></div></div>
+        <div class="pj-pct">0%（仕込み済み）</div>
+        <div class="pj-next">次: 体験会LP</div>
+      </div>
+
+      <div class="pj-mini">
+        <div class="pj-name">🏃 SUPERIOR</div>
+        <div class="pj-bar-bg"><div class="pj-bar-fill" style="width:5%; background: linear-gradient(to right, #8b5cf6, #10b981);"></div></div>
+        <div class="pj-pct">0%（仕込み済み）</div>
+        <div class="pj-next">次: 体験会LP</div>
+      </div>
+
+    </div>
+
+    <!-- シナジーマップ -->
+    <div style="margin-top: 32px;">
+      <div class="section-title">プロジェクト間シナジーマップ</div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px;">
+        <svg viewBox="0 0 500 320" width="100%" style="max-width:600px; display:block; margin:0 auto;">
+          <!-- 接続線 -->
+          <line x1="250" y1="50" x2="420" y2="130" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+          <line x1="250" y1="50" x2="80" y2="130" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+          <line x1="420" y1="130" x2="340" y2="280" stroke="#10b981" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+          <line x1="80" y1="130" x2="160" y2="280" stroke="#10b981" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+          <line x1="340" y1="280" x2="160" y2="280" stroke="#f59e0b" stroke-width="2" opacity="0.8"/>
+          <line x1="420" y1="130" x2="80" y2="130" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
+          <!-- ノード -->
+          <circle cx="250" cy="50" r="30" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+          <text x="250" y="45" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">オギラボ</text>
+          <text x="250" y="59" text-anchor="middle" fill="#64748b" font-size="9">42%</text>
+
+          <circle cx="420" cy="130" r="30" fill="#1e3a5f" stroke="#10b981" stroke-width="2"/>
+          <text x="420" y="125" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">CARAS</text>
+          <text x="420" y="139" text-anchor="middle" fill="#64748b" font-size="9">58%</text>
+
+          <circle cx="80" cy="130" r="30" fill="#1e3a5f" stroke="#f59e0b" stroke-width="2"/>
+          <text x="80" y="125" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="bold">健康経営</text>
+          <text x="80" y="139" text-anchor="middle" fill="#64748b" font-size="9">25%</text>
+
+          <circle cx="340" cy="280" r="28" fill="#1e3a5f" stroke="#8b5cf6" stroke-width="2"/>
+          <text x="340" y="276" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">SORA</text>
+          <text x="340" y="290" text-anchor="middle" fill="#64748b" font-size="9">0%</text>
+
+          <circle cx="160" cy="280" r="28" fill="#1e3a5f" stroke="#8b5cf6" stroke-width="2"/>
+          <text x="160" y="276" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="bold">SUPERIOR</text>
+          <text x="160" y="290" text-anchor="middle" fill="#64748b" font-size="9">0%</text>
+
+          <!-- ラベル -->
+          <text x="350" y="85" text-anchor="middle" fill="#3b82f6" font-size="9">AI活用事例</text>
+          <text x="145" y="85" text-anchor="middle" fill="#3b82f6" font-size="9">法人事例発信</text>
+          <text x="400" y="220" text-anchor="middle" fill="#10b981" font-size="9">保護者向け</text>
+          <text x="100" y="220" text-anchor="middle" fill="#10b981" font-size="9">法人プログラム</text>
+          <text x="250" y="272" text-anchor="middle" fill="#f59e0b" font-size="9">姉妹クラブ連携</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <!-- ─── TAB: 品質基準 ─── -->
+  <div id="tab-quality" class="tab-content">
+    <div class="section-title">成果物品質スコアカード — コンテンツタイプ別採点基準（70点以上で提出）</div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+
+      <!-- SNS -->
+      <div class="info-flow-card">
+        <div class="info-flow-title">📱 SNS投稿文（Instagram / TikTok）</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.72rem;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">フック（冒頭1行）</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">3秒で止まるか / 問いかけ・共感・驚き</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">読みやすさ</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">改行・絵文字・箇条書きのバランス</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">CTA（行動促進）</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">次のアクションが明確か</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">ターゲット適合</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">ペルソナに刺さる言葉遣いか</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 4px; color:var(--text-mid);">ブランドトーン</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">15点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">PJの文体ルールに合っているか</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- LP/HTML -->
+      <div class="info-flow-card">
+        <div class="info-flow-title">🌐 LP / HTMLページ</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.72rem;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">ファーストビュー</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">3秒でPJの価値が伝わるか</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">構成の流れ</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">問題提起→解決策→証拠→CTAの流れ</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">CTA設計</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">ボタン・導線が明確か</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">視覚デザイン</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">読みやすいか・ブランドに合っているか</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 4px; color:var(--text-mid);">情報の正確さ</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">15点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">誤情報・矛盾がないか</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- PPT -->
+      <div class="info-flow-card">
+        <div class="info-flow-title">📊 PPT / 提案資料</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.72rem;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">1スライド1メッセージ</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">伝えたいことが1行で言えるか</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">ストーリー構成</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">課題→解決策→実績→提案の流れ</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">データ・根拠</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">20点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">主張を裏付ける数字・事例があるか</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">ビジュアル品質</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">15点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">図・色・余白のバランス</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 4px; color:var(--text-mid);">アクション明確化</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">15点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">「次に何をすべきか」が明記されているか</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- PDF -->
+      <div class="info-flow-card">
+        <div class="info-flow-title">📋 PDF / レポート</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.72rem;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">エグゼクティブサマリー</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">1ページ目で結論がわかるか</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">構成の論理性</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">主張→根拠→結論の流れ</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:7px 4px; color:var(--text-mid);">表現の明確さ</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">専門用語の説明・図解の有無</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 4px; color:var(--text-mid);">フォーマット統一性</td>
+            <td style="padding:7px 4px; color:var(--accent3); font-weight:700; text-align:right;">25点</td>
+            <td style="padding:7px 4px; color:var(--text-dim);">フォント・見出し・余白の一貫性</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+    <div style="margin-top:20px; padding:14px 18px; background:rgba(139,92,246,0.07); border:1px solid rgba(139,92,246,0.2); border-radius:10px; font-size:0.75rem; color:var(--text-mid);">
+      ⚖️ <strong style="color:var(--accent4);">レビュープロセス：</strong>
+      生成 → 自己採点 → <strong>70点未満</strong>なら最大3回再生成 → レビューエージェントへ → NG判定なら修正指示付きで差し戻し → MOON確認後に提出
+    </div>
+  </div>
+
+  <!-- ─── TAB: システムルール ─── -->
+  <div id="tab-system" class="tab-content">
+    <div class="section-title">システムルール — v2追加の4つのメカニズム</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+      <!-- エラーハンドリング -->
+      <div class="info-flow-card">
+        <div class="info-flow-title" style="color:var(--accent5);">🚨 ① エラーハンドリング & リカバリー</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#ef4444"></div>
+          <div class="flow-step-text"><strong>LEVEL 1 — 自動再試行</strong><br>同じ手順を最大2回リトライ</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#f59e0b"></div>
+          <div class="flow-step-text"><strong>LEVEL 2 — 代替アプローチ</strong><br>別の手順・スキル・エージェントで代替案を試みる</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#3b82f6"></div>
+          <div class="flow-step-text"><strong>LEVEL 3 — ユーザー報告</strong><br>何が・なぜ失敗したかを報告 + 次にできること1つ提示</div>
+        </div>
+        <div style="margin-top:10px; padding:8px; background:rgba(239,68,68,0.07); border-radius:8px; font-size:0.68rem; color:var(--text-dim);">
+          ルール: エラーで無言停止は禁止。必ずLEVEL 3まで到達してユーザーに状況を伝えること。
+        </div>
+      </div>
+
+      <!-- シナジー検知 -->
+      <div class="info-flow-card">
+        <div class="info-flow-title" style="color:var(--accent2);">🔗 ② クロスPJ自動シナジー検知</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#10b981"></div>
+          <div class="flow-step-text"><strong>コンテンツ生成時</strong> → 別PJでも使えないかを自動チェック</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#10b981"></div>
+          <div class="flow-step-text"><strong>ターゲット分析時</strong> → 共通ターゲット層との重複を検知</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#10b981"></div>
+          <div class="flow-step-text"><strong>成果物完成時</strong> → 他PJへの転用可能性をスコアリング（高/中/低）</div>
+        </div>
+        <div style="margin-top:10px; padding:8px; background:rgba(16,185,129,0.07); border-radius:8px; font-size:0.68rem; color:var(--text-dim);">
+          検知したら「転用しますか？」とMOONさんに確認してから実行
+        </div>
+      </div>
+
+      <!-- 意図推定 -->
+      <div class="info-flow-card">
+        <div class="info-flow-title" style="color:var(--accent);">💬 ③ ユーザー意図推定エンジン</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#3b82f6"></div>
+          <div class="flow-step-text"><strong>あいまい指示を検知</strong><br>「前みたいな感じで」「なんかいい感じに」「続きやって」</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#3b82f6"></div>
+          <div class="flow-step-text"><strong>直近CONTEXT.mdを参照</strong><br>過去の作業・進捗・決定事項から意図を推定</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#3b82f6"></div>
+          <div class="flow-step-text"><strong>推定結果を3択で確認</strong><br>🥇 最有力 / 🥈 次候補 / 「違います」でフリー回答</div>
+        </div>
+      </div>
+
+      <!-- 週次・月次 -->
+      <div class="info-flow-card">
+        <div class="info-flow-title" style="color:var(--accent4);">📅 ④ 自動レビューサイクル</div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#8b5cf6"></div>
+          <div class="flow-step-text">
+            <strong>毎朝9時 — デイリーブリーフィング</strong><br>
+            全PJ進捗確認 + 今日の推奨アクションTOP5
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#8b5cf6"></div>
+          <div class="flow-step-text">
+            <strong>毎週月曜9時 — 週次レビュー</strong><br>
+            先週の成果 + 今週の優先アクション + シナジーチャンス
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot" style="background:#8b5cf6"></div>
+          <div class="flow-step-text">
+            <strong>毎月1日9時 — 月次レビュー</strong><br>
+            月間進捗 + 戦略見直し + 来月のマイルストーン設定
+          </div>
+        </div>
+        <div style="margin-top:10px; padding:8px; background:rgba(139,92,246,0.07); border-radius:8px; font-size:0.68rem; color:var(--text-dim);">
+          すべて方向性確認後に実行。承認なしでは動き出さない。
+        </div>
+      </div>
+
+    </div>
+
+    <!-- スケジュール全体表 -->
+    <div style="margin-top:24px;">
+      <div class="section-title">自動タスクスケジュール一覧</div>
+      <div class="schedule-card">
+        <table style="width:100%; border-collapse:collapse; font-size:0.75rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="padding:10px 8px; text-align:left; color:var(--text-dim); font-weight:600;">タスク名</th>
+              <th style="padding:10px 8px; text-align:left; color:var(--text-dim); font-weight:600;">実行タイミング</th>
+              <th style="padding:10px 8px; text-align:left; color:var(--text-dim); font-weight:600;">内容</th>
+              <th style="padding:10px 8px; text-align:left; color:var(--text-dim); font-weight:600;">ステータス</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:10px 8px; color:var(--accent);">daily-morning-briefing</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">毎朝 9:00</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">全PJ進捗 + 今日の推奨アクションTOP5</td>
+              <td style="padding:10px 8px;"><span class="node-badge badge-auto">稼働中</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:10px 8px; color:var(--accent);">weekly-review</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">毎週月曜 9:00</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">週次振り返り + 今週の優先アクション</td>
+              <td style="padding:10px 8px;"><span class="node-badge badge-auto">稼働中</span></td>
+            </tr>
+            <tr>
+              <td style="padding:10px 8px; color:var(--accent);">monthly-review</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">毎月1日 9:00</td>
+              <td style="padding:10px 8px; color:var(--text-mid);">月次進捗 + 戦略見直し + 来月マイルストーン</td>
+              <td style="padding:10px 8px;"><span class="node-badge badge-auto">稼働中</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>

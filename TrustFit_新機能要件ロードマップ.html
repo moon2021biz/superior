@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit 新機能要件ロードマップ 2026-04-06</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #0f1117; color: #e0e0e0; line-height: 1.7; }
+
+  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0d1b2a 100%); border-bottom: 2px solid #2a9d8f; padding: 36px 48px; }
+  .header h1 { font-size: 26px; color: #fff; font-weight: 700; }
+  .header .subtitle { color: #8a9db5; margin-top: 6px; font-size: 14px; }
+  .header .badge { display: inline-block; background: #2a9d8f22; border: 1px solid #2a9d8f; color: #2a9d8f; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 12px; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 48px; }
+
+  /* サマリーカード */
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; }
+  .summary-card { background: #1a1f2e; border: 1px solid #2a3548; border-radius: 12px; padding: 20px; text-align: center; }
+  .summary-card .num { font-size: 36px; font-weight: 700; }
+  .summary-card .label { font-size: 12px; color: #8a9db5; margin-top: 4px; }
+  .summary-card.p1 .num { color: #e76f51; }
+  .summary-card.p2 .num { color: #e9c46a; }
+  .summary-card.p3 .num { color: #2a9d8f; }
+  .summary-card.total .num { color: #a8dadc; }
+
+  /* フェーズヘッダー */
+  .phase-header { display: flex; align-items: center; gap: 12px; margin: 40px 0 20px; }
+  .phase-badge { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  .phase-badge.p1 { background: #e76f5122; color: #e76f51; border: 1px solid #e76f51; }
+  .phase-badge.p2 { background: #e9c46a22; color: #e9c46a; border: 1px solid #e9c46a; }
+  .phase-badge.p3 { background: #2a9d8f22; color: #2a9d8f; border: 1px solid #2a9d8f; }
+  .phase-title { font-size: 18px; color: #fff; font-weight: 600; }
+
+  /* 要件カード */
+  .req-card { background: #1a1f2e; border: 1px solid #2a3548; border-radius: 16px; padding: 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .req-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+  .req-card.p1::before { background: #e76f51; }
+  .req-card.p2::before { background: #e9c46a; }
+  .req-card.p3::before { background: #2a9d8f; }
+
+  .req-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .req-title-block { display: flex; align-items: center; gap: 12px; }
+  .req-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .p1 .req-num { background: #e76f5122; color: #e76f51; border: 1px solid #e76f51; }
+  .p2 .req-num { background: #e9c46a22; color: #e9c46a; border: 1px solid #e9c46a; }
+  .p3 .req-num { background: #2a9d8f22; color: #2a9d8f; border: 1px solid #2a9d8f; }
+
+  .req-title { font-size: 17px; color: #fff; font-weight: 600; }
+  .req-subtitle { font-size: 12px; color: #8a9db5; margin-top: 2px; }
+
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { padding: 3px 10px; border-radius: 12px; font-size: 11px; }
+  .tag.diff-low { background: #2a9d8f22; color: #2a9d8f; border: 1px solid #2a9d8f44; }
+  .tag.diff-mid { background: #e9c46a22; color: #e9c46a; border: 1px solid #e9c46a44; }
+  .tag.diff-high { background: #e76f5122; color: #e76f51; border: 1px solid #e76f5144; }
+  .tag.feature { background: #4361ee22; color: #7b9dff; border: 1px solid #4361ee44; }
+  .tag.ux { background: #7209b722; color: #c77dff; border: 1px solid #7209b744; }
+  .tag.ops { background: #f7756422; color: #ffb347; border: 1px solid #f7756444; }
+
+  .req-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .req-section h4 { font-size: 12px; color: #8a9db5; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .req-section ul { list-style: none; }
+  .req-section ul li { font-size: 13px; color: #c5cdd8; padding: 5px 0; border-bottom: 1px solid #2a354820; }
+  .req-section ul li:last-child { border-bottom: none; }
+  .req-section ul li::before { content: '→ '; color: #8a9db5; }
+
+  .highlight-box { background: #0d1b2a; border: 1px solid #2a9d8f33; border-radius: 8px; padding: 14px 16px; margin-top: 16px; }
+  .highlight-box .label { font-size: 11px; color: #2a9d8f; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .highlight-box p { font-size: 13px; color: #c5cdd8; }
+
+  /* 依存関係マップ */
+  .dep-section { background: #1a1f2e; border: 1px solid #2a3548; border-radius: 16px; padding: 28px; margin: 40px 0; }
+  .dep-section h3 { font-size: 16px; color: #fff; margin-bottom: 20px; }
+  .dep-flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .dep-node { background: #0d1b2a; border: 1px solid #2a3548; border-radius: 8px; padding: 10px 16px; font-size: 12px; text-align: center; min-width: 110px; }
+  .dep-node .n-num { font-size: 10px; color: #8a9db5; margin-bottom: 3px; }
+  .dep-node .n-name { color: #e0e0e0; font-weight: 600; font-size: 11px; }
+  .dep-arrow { color: #4a5568; font-size: 20px; padding: 0 4px; }
+  .dep-node.standalone { border-color: #2a9d8f55; }
+
+  /* スプリント計画 */
+  .sprint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+  .sprint-card { background: #0d1b2a; border-radius: 12px; padding: 20px; border-top: 3px solid; }
+  .sprint-card.s1 { border-color: #e76f51; }
+  .sprint-card.s2 { border-color: #e9c46a; }
+  .sprint-card.s3 { border-color: #2a9d8f; }
+  .sprint-card h4 { font-size: 13px; color: #fff; margin-bottom: 6px; }
+  .sprint-card .timing { font-size: 11px; color: #8a9db5; margin-bottom: 14px; }
+  .sprint-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .sprint-item .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .s1 .dot { background: #e76f51; }
+  .s2 .dot { background: #e9c46a; }
+  .s3 .dot { background: #2a9d8f; }
+  .sprint-item span { font-size: 12px; color: #c5cdd8; }
+
+  /* 商談→システム対応表 */
+  .mapping-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .mapping-table th { background: #0d1b2a; color: #8a9db5; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 1px solid #2a3548; }
+  .mapping-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid #2a354820; }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table .target { color: #c5cdd8; }
+  .mapping-table .objection { color: #e9c46a; }
+  .mapping-table .feature { color: #2a9d8f; }
+
+  .section-title { font-size: 20px; color: #fff; font-weight: 600; margin-bottom: 6px; }
+  .section-desc { font-size: 13px; color: #8a9db5; margin-bottom: 24px; }
+
+  .footer { background: #1a1f2e; border-top: 1px solid #2a3548; padding: 24px 48px; margin-top: 48px; text-align: center; }
+  .footer p { font-size: 12px; color: #8a9db5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>TrustFit — 新機能要件 深掘りロードマップ</h1>
+  <div class="subtitle">2026-04-06 商談シミュレーション（Gemini × MOON）から発見された7要件の設計整理</div>
+  <span class="badge">🔬 商談検証済み</span>
+</div>
+
+<div class="container">
+
+  <!-- サマリー -->
+  <div class="summary-grid">
+    <div class="summary-card p1"><div class="num">3</div><div class="label">フェーズ1（最優先）<br>提案書に即反映</div></div>
+    <div class="summary-card p2"><div class="num">3</div><div class="label">フェーズ2（重要）<br>MVP前に設計確定</div></div>
+    <div class="summary-card p3"><div class="num">1</div><div class="label">フェーズ3（推奨）<br>V2以降</div></div>
+    <div class="summary-card total"><div class="num">7</div><div class="label">要件合計<br>全て商談から発見</div></div>
+  </div>
+
+  <!-- 商談→システム対応表 -->
+  <div class="req-card" style="border-left: 4px solid #4361ee;">
+    <div class="section-title">📋 商談の反論 → システム要件 対応マップ</div>
+    <div class="section-desc">どの反論から、どの機能が生まれたかを整理。提案書作成時の「このシステムがあるから大丈夫」の根拠として使う。</div>
+    <table class="mapping-table">
+      <thead>
+        <tr><th>商談ターゲット</th><th>反論・懸念</th><th>生まれた機能要件</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="target">人事</td><td class="objection">端数ポイントが余って経理に怒られる</td><td class="feature">要件① 端数ポイント自動消化アシスト</td></tr>
+        <tr><td class="target">人事</td><td class="objection">撮影はプライバシー規定でNG</td><td class="feature">要件② プライバシー配慮型キャンペーン</td></tr>
+        <tr><td class="target">人事</td><td class="objection">一度始めたら解約が面倒そう</td><td class="feature">要件③ キャンペーン終了後の自動停止</td></tr>
+        <tr><td class="target">社長</td><td class="objection">忙しくて日程調整できない</td><td class="feature">要件④ エグゼクティブ優先枠（15分コマ）</td></tr>
+        <tr><td class="target">社長</td><td class="objection">単発で終わって意味ない</td><td class="feature">要件⑤ 組織コンディショニング・カルテ</td></tr>
+        <tr><td class="target">社員</td><td class="objection">同僚の枠を奪ってると思われたくない</td><td class="feature">要件⑥ 予約完全匿名制</td></tr>
+        <tr><td class="target">社員</td><td class="objection">1対1が怖い・人間関係が面倒</td><td class="feature">要件⑦ 個人枠×集団枠の併設設計</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- フェーズ1 -->
+  <div class="phase-header">
+    <span class="phase-badge p1">フェーズ1</span>
+    <span class="phase-title">提案書・モニター対応に即反映すべき要件（今すぐ）</span>
+  </div>
+
+  <!-- 要件② プライバシー配慮型 -->
+  <div class="req-card p1">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p1">②</div>
+        <div>
+          <div class="req-title">プライバシー配慮型 10倍キャンペーン（動画なし版）</div>
+          <div class="req-subtitle">動画撮影NGの企業でもモニター条件を適用できるようにする</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-low">難易度：低</span>
+        <span class="tag ops">運用・契約</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>設計内容</h4>
+        <ul>
+          <li>動画の代替条件：「匿名スコアデータ（平均点数）＋匿名テキスト感想」の提供</li>
+          <li>個人特定NG企業は「IT系企業・100名規模」等の属性データのみ</li>
+          <li>社名・社員名・顔・声は一切使わない</li>
+          <li>提供データの範囲と使用目的を契約書に明記</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>なぜ重要か</h4>
+        <ul>
+          <li>人事ターゲット企業の大多数がこの壁で詰まる</li>
+          <li>この選択肢がないと「撮影NGだからモニターになれない」と離脱</li>
+          <li>キャンペーン適用率が大幅に改善する</li>
+          <li>システム開発不要・契約書変更のみで対応可</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">🎯 提案書への反映方法</div>
+      <p>10倍キャンペーンの条件欄に「A案：動画PR協力 / B案：匿名データ提供のみ」の2択を明示。Bを選んだ企業でも同一の10倍特典を適用することを明記する。</p>
+    </div>
+  </div>
+
+  <!-- 要件③ 自動停止 -->
+  <div class="req-card p1">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p1">③</div>
+        <div>
+          <div class="req-title">キャンペーン終了後の「自動停止（自動更新なし）」の明示</div>
+          <div class="req-subtitle">ポイント使い切り＝サービス静かに終了。解約手続き不要。</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-low">難易度：低</span>
+        <span class="tag ops">利用規約・明記</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>設計内容</h4>
+        <ul>
+          <li>ポイント残高0になった時点でサービス停止（自動継続なし）</li>
+          <li>再開したい場合のみ新規ポイント購入で再起動</li>
+          <li>「残高20%以下」で自動アラート通知（メール）</li>
+          <li>提案書・LP・利用規約に太字で明記</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>なぜ重要か</h4>
+        <ul>
+          <li>「一度始めたら止められない」という人事・経理の最大の恐怖を払拭</li>
+          <li>めんどくさがりの人事が「じゃあ始めてみようか」となる心理的ハードルを下げる</li>
+          <li>解約手続きのコストがゼロなのでトライアル導入が増える</li>
+          <li>商談時に「止める手間もゼロ」と言い切れる</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">🎯 商談での言い方</div>
+      <p>「使い切ったら何もしなくていいです。勝手に止まります。また使いたくなったら社内から要望が出た時だけポイントを追加するだけです。解約なんていう概念がありません。」</p>
+    </div>
+  </div>
+
+  <!-- 要件⑤ カルテ -->
+  <div class="req-card p1">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p1">⑤</div>
+        <div>
+          <div class="req-title">組織コンディショニング・カルテ（VIP初回セッション後）</div>
+          <div class="req-subtitle">72時間以内提出。「単発で終わらせない」ための継続設計の核心。</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-mid">難易度：中</span>
+        <span class="tag feature">コンテンツ設計</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>カルテの構成（案）</h4>
+        <ul>
+          <li>①組織の身体的傾向（肩・腰・首どこが詰まりやすいか）</li>
+          <li>②疲労パターン（午前型疲弊 vs 午後型疲弊）</li>
+          <li>③ストレス源の傾向（デスクワーク過多 vs 人間関係 vs 睡眠不足）</li>
+          <li>④継続プログラム処方箋（推奨コンテンツ×頻度×担当ランク）</li>
+          <li>⑤社長・役員向けメモ（経営陣固有の状態と提案）</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>各関係者へのメリット</h4>
+        <ul>
+          <li>人事：「自分で考えずそのまま上に提出できる次期提案書」</li>
+          <li>社長：「プロが診断した会社全体の処方箋（権威性）」</li>
+          <li>VIPトレーナー：「引き継ぎが成功すれば継続報酬ボーナス」</li>
+          <li>TrustFit：「継続利用（ウォレット燃焼）への最強の橋渡し」</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">📌 重要：「単発イベント」問題の根本解決</div>
+      <p>社長の「1回だけで意味ない」という最大の反論を潰す唯一の武器。カルテが存在することで「初回＝診断と処方」という位置づけが確立し、継続が当然の流れになる。</p>
+    </div>
+  </div>
+
+  <!-- フェーズ2 -->
+  <div class="phase-header">
+    <span class="phase-badge p2">フェーズ2</span>
+    <span class="phase-title">MVP（最初の10社）前に設計確定すべき要件</span>
+  </div>
+
+  <!-- 要件⑥ 匿名制 -->
+  <div class="req-card p2">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p2">⑥</div>
+        <div>
+          <div class="req-title">予約の完全匿名制</div>
+          <div class="req-subtitle">「誰が取ったか」が画面に表示されない予約UI設計</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-mid">難易度：中</span>
+        <span class="tag ux">UX設計</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>UI仕様</h4>
+        <ul>
+          <li>予約枠の表示：「空き」/ 「予約済（グレーアウト）」の2択のみ</li>
+          <li>「誰が予約したか」は管理者画面にのみ表示</li>
+          <li>社員間では名前は一切表示しない</li>
+          <li>評価も匿名（ID番号のみ・名前紐付けなし）で提出</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>解決する問題</h4>
+        <ul>
+          <li>「同僚の枠を取ったと思われたくない」という遠慮で使わない問題</li>
+          <li>「上司より先に取るのは気が引ける」という日本の組織文化への対応</li>
+          <li>評価を恐れて参加しない問題（匿名評価で解消）</li>
+          <li>企業内のHR担当が「個人利用状況をのぞき見できない」安心感</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">⚠️ 注意事項</div>
+      <p>管理者（人事担当）は個人の予約状況を確認できる必要がある（安全管理・不正防止のため）。社員間での匿名性を保ちつつ、運営管理には全情報が見える二重構造で設計する。</p>
+    </div>
+  </div>
+
+  <!-- 要件⑦ 個人×集団 -->
+  <div class="req-card p2">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p2">⑦</div>
+        <div>
+          <div class="req-title">個人枠 × 集団枠の併設コマ設計</div>
+          <div class="req-subtitle">1回の訪問に「集団ウォームアップ＋個人深掘り」の2層構造を設ける</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-mid">難易度：中</span>
+        <span class="tag feature">セッション設計</span>
+        <span class="tag ux">UX</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>推奨コマ構成（2時間例）</h4>
+        <ul>
+          <li>前半30分：集団リカバリー（全員参加・誰の枠も奪わない）</li>
+          <li>後半90分：個人枠（15分×6名 ＝ 6人まで。早い者勝ち）</li>
+          <li>集団のみ参加も個人のみ参加も選べる</li>
+          <li>予約画面で「集団のみ」「集団＋個人」を選択できるUI</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>重要：商談で学んだ設計原則</h4>
+        <ul>
+          <li>「個人か集団か」は最初から両方あると説明する（途中から出すと混乱）</li>
+          <li>集団枠は「ハードル低い入口」として機能させる</li>
+          <li>集団参加者が個人枠の価値を体感→次回個人枠を取る好循環</li>
+          <li>集団参加者からも評価スコアを取得（評価件数増）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">🎯 売上インパクト</div>
+      <p>集団枠は「安い入口」だが、個人枠への誘導率を高める重要な導線。集団30分をポイント換算でどう設定するか（スタンダード料金の1/4程度？）は価格設計フェーズで別途確定する。</p>
+    </div>
+  </div>
+
+  <!-- 要件① 端数消化 -->
+  <div class="req-card p2">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p2">①</div>
+        <div>
+          <div class="req-title">端数ポイント自動消化アシスト機能</div>
+          <div class="req-subtitle">年度末に残高をピッタリ0にして経理の期末処理を完璧に終わらせる</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-mid">難易度：中</span>
+        <span class="tag feature">システム機能</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>機能仕様</h4>
+        <ul>
+          <li>年度末X週前：残高検知アラート（メール通知）</li>
+          <li>残高額に1pt単位で合わせた「ミニプログラム候補」を自動提案</li>
+          <li>候補例：「残7,500ptで全社15分ストレッチ×1回」等</li>
+          <li>人事が承認するだけで予約確定・告知自動送信</li>
+          <li>期末にウォレット残高が「0」になることを保証</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>経理・人事へのメリット</h4>
+        <ul>
+          <li>「繰越処理」「端数精算」という経理上の面倒を根本解決</li>
+          <li>「当期予算として全額適切に消化しました」と報告できる</li>
+          <li>人事が自分で考えて提案しなくていい（AI提案を承認するだけ）</li>
+          <li>次期予算の継続申請がしやすくなる（全額消化の実績）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">⚙️ 技術的な実装ポイント</div>
+      <p>単価が固定されていないため、「Nptちょうど」のプログラムを自動生成する計算ロジックが必要。集団枠（安い）×複数回 or 個人枠×少人数 の組み合わせで最適解を算出するアルゴリズムを検討。</p>
+    </div>
+  </div>
+
+  <!-- フェーズ3 -->
+  <div class="phase-header">
+    <span class="phase-badge p3">フェーズ3</span>
+    <span class="phase-title">V2以降の優良施策（今は設計だけ確定しておく）</span>
+  </div>
+
+  <!-- 要件④ エグゼクティブ枠 -->
+  <div class="req-card p3">
+    <div class="req-header">
+      <div class="req-title-block">
+        <div class="req-num p3">④</div>
+        <div>
+          <div class="req-title">エグゼクティブ優先枠（15分・30分 短縮コマ）</div>
+          <div class="req-subtitle">社長・役員が「会議の隙間時間」に使える超短尺コマ</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag diff-high">難易度：高</span>
+        <span class="tag ux">UX設計</span>
+        <span class="tag feature">システム</span>
+      </div>
+    </div>
+    <div class="req-body">
+      <div class="req-section">
+        <h4>設計案</h4>
+        <ul>
+          <li>通常コマ（2時間）に加え、15分・30分コマを追加</li>
+          <li>VIPトレーナーのスケジュールに「エグゼクティブ枠」フラグを設ける</li>
+          <li>企業のカレンダーシステムと同期（Google Calendar等）</li>
+          <li>15分枠のポイント単価：通常2時間の1/6〜1/5程度（割増）</li>
+          <li>エグゼクティブ枠専用の「超短尺リカバリーコンテンツ」をVIPが事前設計</li>
+        </ul>
+      </div>
+      <div class="req-section">
+        <h4>難易度が高い理由</h4>
+        <ul>
+          <li>VIPトレーナーの移動時間との兼ね合いが難しい（15分のために往復するのか？）</li>
+          <li>オンライン×15分コマが現実的な解（最初はオンライン限定推奨）</li>
+          <li>カレンダー同期システムは開発コストが高い</li>
+          <li>社長のスケジューラーとの連携は別途セキュリティ検討が必要</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">💡 現実的なMVP版の提案</div>
+      <p>V1では「エグゼクティブ枠専用のホットライン（LINEや電話でVIPに直接連絡して日程調整）」をアナログで提供し、需要を確認してからシステム化する。</p>
+    </div>
+  </div>
+
+  <!-- 依存関係マップ -->
+  <div class="dep-section">
+    <h3>🔗 要件間の依存関係マップ</h3>
+    <div style="margin-bottom: 20px; font-size: 13px; color: #8a9db5;">フェーズ1を固めることで、フェーズ2・3が自然に機能する階層構造になっている。</div>
+    <div style="background: #0d1b2a; border-radius: 8px; padding: 24px;">
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 12px; color: #e76f51; margin-bottom: 10px; font-weight: 600;">フェーズ1（先行条件）</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="dep-node" style="border-color: #e76f5155;"><div class="n-num">要件②</div><div class="n-name">プライバシー型<br>キャンペーン</div></div>
+          <div class="dep-node" style="border-color: #e76f5155;"><div class="n-num">要件③</div><div class="n-name">自動停止<br>明示</div></div>
+          <div class="dep-node" style="border-color: #e76f5155;"><div class="n-num">要件⑤</div><div class="n-name">組織<br>カルテ</div></div>
+        </div>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 12px; color: #e9c46a; margin-bottom: 10px; font-weight: 600;">フェーズ2（フェーズ1完了後）</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="dep-node" style="border-color: #e9c46a55;"><div class="n-num">要件⑥</div><div class="n-name">予約<br>匿名制</div></div>
+          <div class="dep-node" style="border-color: #e9c46a55;"><div class="n-num">要件⑦</div><div class="n-name">個人×集団<br>併設コマ</div></div>
+          <div class="dep-node" style="border-color: #e9c46a55;"><div class="n-num">要件①</div><div class="n-name">端数ポイント<br>自動消化</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 12px; color: #2a9d8f; margin-bottom: 10px; font-weight: 600;">フェーズ3（フェーズ2完了後）</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="dep-node" style="border-color: #2a9d8f55;"><div class="n-num">要件④</div><div class="n-name">エグゼクティブ<br>優先枠</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- スプリント計画 -->
+  <div class="dep-section">
+    <h3>📅 推奨スプリント計画（モニター10社を目指す3ステップ）</h3>
+    <div class="sprint-grid">
+      <div class="sprint-card s1">
+        <h4>Sprint 1 — 今すぐ対応</h4>
+        <div class="timing">ゴール：提案書をアップデートしてモニター獲得</div>
+        <div class="sprint-item"><span class="dot"></span><span>要件② プライバシー型キャンペーン条件を提案書に追記</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>要件③ 自動停止を提案書・LP・規約に明記</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>要件⑤ カルテのテンプレートをWordまたは専用フォームで作成</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>価格修正（Challenger最大50,000pt）を全資料に反映</span></div>
+      </div>
+      <div class="sprint-card s2">
+        <h4>Sprint 2 — MVP前（初回セッション後）</h4>
+        <div class="timing">ゴール：社員参加率50%以上・継続率80%以上</div>
+        <div class="sprint-item"><span class="dot"></span><span>要件⑥ 予約UIを匿名制で設計・開発</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>要件⑦ 集団枠×個人枠の予約システムを実装</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>要件① 年度末の端数消化アシスト機能を開発</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>カルテをデジタルフォームに移行（Google Forms等）</span></div>
+      </div>
+      <div class="sprint-card s3">
+        <h4>Sprint 3 — V2（成長期）</h4>
+        <div class="timing">ゴール：社長・役員層への浸透率向上</div>
+        <div class="sprint-item"><span class="dot"></span><span>要件④ まずオンライン×15分枠でアナログ提供開始</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>需要確認後にエグゼクティブ枠をシステム化</span></div>
+        <div class="sprint-item"><span class="dot"></span><span>カレンダー連携（Google/Outlook）のAPI統合</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 総まとめ -->
+  <div class="req-card" style="border-left: 4px solid #a8dadc; margin-top: 40px;">
+    <div class="section-title">🏁 このロードマップの核心メッセージ</div>
+    <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h4 style="font-size: 13px; color: #e76f51; margin-bottom: 10px;">⚡ 今すぐできること（開発不要）</h4>
+        <p style="font-size: 13px; color: #c5cdd8; line-height: 1.8;">要件②③⑤はシステム開発ゼロ。提案書の文章変更・カルテのWordテンプレート作成・規約への1行追記だけ。これだけで商談の成約率は確実に上がる。</p>
+      </div>
+      <div>
+        <h4 style="font-size: 13px; color: #2a9d8f; margin-bottom: 10px;">🏗️ 設計先行でやること</h4>
+        <p style="font-size: 13px; color: #c5cdd8; line-height: 1.8;">要件⑥⑦①は予約システムの設計段階で仕様を確定させる必要がある。後付けで変更すると工数が爆発する。MVP設計に必ず組み込むこと。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>TrustFit 新機能要件ロードマップ | 2026-04-06 商談シミュレーション（Gemini × MOON）から作成 | 株式会社MOON</p>
+</div>
+
+</body>
+</html>

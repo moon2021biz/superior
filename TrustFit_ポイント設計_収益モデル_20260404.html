@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — ポイント詳細設計 × 収益モデル｜2026-04-04</title>
+<style>
+  :root {
+    --primary: #0f2a4a;
+    --accent: #e8512a;
+    --accent2: #f0a500;
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+    --green: #16a34a;
+    --blue: #2563eb;
+    --purple: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue','Hiragino Kaku Gothic ProN',sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .hero {
+    background: linear-gradient(135deg, #0f2a4a 0%, #1e3d6b 100%);
+    color: #fff; padding: 56px 40px 44px; text-align: center;
+  }
+  .hero .badge { display:inline-block; background:rgba(240,165,0,0.85); color:#fff; font-size:11px; font-weight:700; letter-spacing:2px; padding:5px 14px; border-radius:20px; margin-bottom:14px; }
+  .hero h1 { font-size:2.2rem; font-weight:800; letter-spacing:-1px; margin-bottom:8px; }
+  .hero h1 em { color:var(--accent2); font-style:normal; }
+  .hero p { color:rgba(255,255,255,0.7); font-size:0.9rem; }
+
+  .container { max-width:920px; margin:0 auto; padding:40px 24px; }
+  .section { margin-bottom:56px; }
+  .section-label { display:flex; align-items:center; gap:10px; margin-bottom:22px; padding-bottom:12px; border-bottom:2px solid var(--border); }
+  .section-label .num { width:32px; height:32px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; }
+  .section-label h2 { font-size:1.25rem; font-weight:700; color:var(--primary); }
+
+  .card { background:var(--card); border-radius:14px; padding:26px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border:1px solid var(--border); margin-bottom:18px; }
+  .card h3 { font-size:0.95rem; font-weight:700; margin-bottom:14px; color:var(--primary); }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+  @media(max-width:640px){ .grid2,.grid3{ grid-template-columns:1fr; } .hero h1{ font-size:1.6rem; } }
+
+  table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+  th { background:var(--primary); color:#fff; padding:9px 13px; text-align:left; font-weight:700; }
+  td { padding:9px 13px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:none; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  .hl-row td { background:#fff8e8 !important; font-weight:700; color:var(--primary); }
+
+  /* パターンカード */
+  .pattern-wrap { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
+  @media(max-width:720px){ .pattern-wrap{ grid-template-columns:1fr; } }
+  .pattern-card { border-radius:16px; overflow:hidden; border:1px solid var(--border); background:var(--card); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .pattern-head { padding:20px; color:#fff; }
+  .pattern-head .ptype { font-size:11px; font-weight:700; letter-spacing:2px; opacity:0.8; margin-bottom:6px; }
+  .pattern-head .ptitle { font-size:1.1rem; font-weight:800; margin-bottom:4px; }
+  .pattern-head .psub { font-size:0.78rem; opacity:0.8; }
+  .pattern-body { padding:18px; }
+  .p-row { display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.82rem; gap:8px; }
+  .p-row:last-child { border-bottom:none; }
+  .p-row .plabel { color:var(--muted); flex-shrink:0; min-width:80px; }
+  .p-row .pval { font-weight:600; text-align:right; }
+  .p-big { font-size:1.6rem; font-weight:800; text-align:center; margin:12px 0 4px; }
+  .p-unit { font-size:0.76rem; color:var(--muted); text-align:center; margin-bottom:12px; }
+  .trainer-tag { display:inline-block; font-size:0.72rem; font-weight:700; padding:3px 9px; border-radius:10px; margin:2px; }
+
+  /* 収益モデル */
+  .revenue-stream { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); }
+  .revenue-stream:last-child { border-bottom:none; }
+  .rs-num { width:36px; height:36px; flex-shrink:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#fff; }
+  .rs-body { flex:1; }
+  .rs-body h4 { font-size:0.92rem; font-weight:700; margin-bottom:3px; }
+  .rs-body p { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+  .rs-amount { font-size:1.1rem; font-weight:800; flex-shrink:0; white-space:nowrap; }
+
+  /* 単体経済性 */
+  .unit-econ { background:linear-gradient(135deg,var(--primary),#1e4080); color:#fff; border-radius:16px; padding:28px; }
+  .unit-econ h3 { font-size:1rem; font-weight:700; margin-bottom:16px; color:rgba(255,255,255,0.85); }
+  .ue-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.1); font-size:0.84rem; }
+  .ue-row:last-child { border-bottom:none; }
+  .ue-label { color:rgba(255,255,255,0.7); }
+  .ue-val { font-weight:700; color:#fff; }
+  .ue-total { display:flex; justify-content:space-between; padding:10px 0 0; font-size:1rem; font-weight:800; color:var(--accent2); margin-top:4px; }
+
+  .highlight { border-left:4px solid var(--accent); background:#fff7f5; padding:12px 16px; border-radius:0 10px 10px 0; font-size:0.84rem; margin-top:10px; }
+  .highlight strong { color:var(--accent); }
+
+  .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media(max-width:640px){ .kpi-grid{ grid-template-columns:repeat(2,1fr); } }
+  .kpi-box { background:var(--card); border-radius:12px; padding:18px 14px; text-align:center; border:1px solid var(--border); }
+  .kpi-box .kv { font-size:1.7rem; font-weight:800; }
+  .kpi-box .kl { font-size:0.74rem; color:var(--muted); margin-top:3px; }
+
+  footer { text-align:center; padding:28px; color:var(--muted); font-size:0.78rem; border-top:1px solid var(--border); background:var(--card); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">POINT SYSTEM × REVENUE MODEL</div>
+  <h1>TrustFit — ポイント詳細設計 × <em>収益モデル</em></h1>
+  <p>パターン別講師設計 + 会社収益構造の試算｜2026-04-04</p>
+</div>
+
+<div class="container">
+
+  <!-- ① ポイント消費パターン別の詳細設計 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">1</div>
+      <h2>ポイント消費パターン × 講師設計</h2>
+    </div>
+
+    <div class="pattern-wrap">
+
+      <!-- Pattern A -->
+      <div class="pattern-card">
+        <div class="pattern-head" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);">
+          <div class="ptype">PATTERN A</div>
+          <div class="ptitle">オフィス特化型</div>
+          <div class="psub">経営陣・マネージャーのパフォーマンスチューニング</div>
+        </div>
+        <div class="pattern-body">
+          <div class="p-big" style="color:#2563eb;">50,000〜150,000pt</div>
+          <div class="p-unit">月間消費ポイント目安</div>
+
+          <div class="p-row">
+            <span class="plabel">対象企業</span>
+            <span class="pval">ITベンチャー・スタートアップ</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">受講者</span>
+            <span class="pval">経営陣3〜10名</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">主な内容</span>
+            <span class="pval" style="text-align:right;">限界突破コーチング<br>目標設定セッション<br>パフォーマンス最適化</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">頻度</span>
+            <span class="pval">月1〜2回</span>
+          </div>
+          <div class="p-row" style="flex-direction:column;gap:6px;">
+            <span class="plabel">担当講師</span>
+            <div>
+              <span class="trainer-tag" style="background:#dbeafe;color:#1d4ed8;">VIP Legend / MOONさん</span>
+              <span class="trainer-tag" style="background:#ede9fe;color:#6d28d9;">VIP Master（高評価者）</span>
+              <span class="trainer-tag" style="background:#dcfce7;color:#15803d;">Elite（月次フォロー）</span>
+            </div>
+          </div>
+          <div class="p-row">
+            <span class="plabel">単価目安</span>
+            <span class="pval">VIP Legend: 220,000〜300,000pt<br>VIP Master: 120,000〜200,000pt<br>Elite: 60,000〜100,000pt</span>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#eff6ff;border-radius:8px;font-size:0.78rem;color:#1d4ed8;">
+            💡 採用PR動画・健康経営認定サポートをセット提案するとポイント消費が増加
+          </div>
+        </div>
+      </div>
+
+      <!-- Pattern B -->
+      <div class="pattern-card">
+        <div class="pattern-head" style="background:linear-gradient(135deg,#14532d,#16a34a);">
+          <div class="ptype">PATTERN B</div>
+          <div class="ptitle">ファミリー特化型</div>
+          <div class="psub">全社員 + 子ども向け福利厚生プログラム</div>
+        </div>
+        <div class="pattern-body">
+          <div class="p-big" style="color:#16a34a;">30,000〜100,000pt</div>
+          <div class="p-unit">月間消費ポイント目安</div>
+
+          <div class="p-row">
+            <span class="plabel">対象企業</span>
+            <span class="pval">製造業・地場中堅企業</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">受講者</span>
+            <span class="pval">全社員 + 社員の子ども</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">主な内容</span>
+            <span class="pval" style="text-align:right;">企業内キッズスクール<br>保護者向けトレーニング<br>出張ヨガ・ストレッチ</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">頻度</span>
+            <span class="pval">週1〜月2回（高頻度・低単価）</span>
+          </div>
+          <div class="p-row" style="flex-direction:column;gap:6px;">
+            <span class="plabel">担当講師</span>
+            <div>
+              <span class="trainer-tag" style="background:#dcfce7;color:#15803d;">Elite（メイン担当）</span>
+              <span class="trainer-tag" style="background:#dcfce7;color:#15803d;">キッズ専門Elite</span>
+              <span class="trainer-tag" style="background:#fef9c3;color:#854d0e;">VIP Master（年1〜2回特別）</span>
+            </div>
+          </div>
+          <div class="p-row">
+            <span class="plabel">単価目安</span>
+            <span class="pval">Elite: 60,000〜100,000pt/回<br>VIP Master: 120,000〜200,000pt（特別）</span>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0fdf4;border-radius:8px;font-size:0.78rem;color:#15803d;">
+            💡 福利厚生の「使用率」が高いパターン。ポイント失効が少なく高継続率が見込める
+          </div>
+        </div>
+      </div>
+
+      <!-- Pattern C -->
+      <div class="pattern-card">
+        <div class="pattern-head" style="background:linear-gradient(135deg,#7c2d12,#e8512a);">
+          <div class="ptype">PATTERN C</div>
+          <div class="ptitle">経営陣特化型</div>
+          <div class="psub">役員・幹部向け健康経営 + マインド公演</div>
+        </div>
+        <div class="pattern-body">
+          <div class="p-big" style="color:#e8512a;">100,000〜300,000pt</div>
+          <div class="p-unit">月間消費ポイント目安</div>
+
+          <div class="p-row">
+            <span class="plabel">対象企業</span>
+            <span class="pval">中堅企業・健康経営推進中</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">受講者</span>
+            <span class="pval">役員・部長クラス5〜20名</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">主な内容</span>
+            <span class="pval" style="text-align:right;">健康経営優良法人認定研修<br>限界突破マインド公演<br>役員専用コーチング</span>
+          </div>
+          <div class="p-row">
+            <span class="plabel">頻度</span>
+            <span class="pval">月1回VIP + 隔週フォロー</span>
+          </div>
+          <div class="p-row" style="flex-direction:column;gap:6px;">
+            <span class="plabel">担当講師</span>
+            <div>
+              <span class="trainer-tag" style="background:#ffedd5;color:#c2410c;">VIP Legend（メイン）</span>
+              <span class="trainer-tag" style="background:#ffedd5;color:#c2410c;">VIP Master（サブ）</span>
+              <span class="trainer-tag" style="background:#dcfce7;color:#15803d;">Elite（定期フォロー）</span>
+            </div>
+          </div>
+          <div class="p-row">
+            <span class="plabel">単価目安</span>
+            <span class="pval">VIP Legend: 220,000〜300,000pt<br>VIP Master: 120,000〜200,000pt<br>Elite: 60,000〜100,000pt/回</span>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#fff7ed;border-radius:8px;font-size:0.78rem;color:#c2410c;">
+            💡 健康経営優良法人認定のサポートが差別化の核心。MOONさんが「Legend」として直接提供できる
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- パターン比較サマリー -->
+    <div class="card" style="margin-top:20px;">
+      <h3>パターン別 比較サマリー</h3>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>パターン</th>
+              <th>月間消費</th>
+              <th>メイン講師</th>
+              <th>継続率見込み</th>
+              <th>単価</th>
+              <th>初期獲得しやすさ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>A：オフィス特化</strong></td>
+              <td>5〜15万pt</td>
+              <td>VIP Legend/Master + VIP Elite（月次）</td>
+              <td>⭐⭐⭐⭐</td>
+              <td>高</td>
+              <td>⭐⭐⭐（スタートアップ感度高）</td>
+            </tr>
+            <tr>
+              <td><strong>B：ファミリー特化</strong></td>
+              <td>3〜10万pt</td>
+              <td>VIP Elite / スタンダード</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>低〜中</td>
+              <td>⭐⭐（決裁に時間かかる）</td>
+            </tr>
+            <tr class="hl-row">
+              <td><strong>C：経営陣特化 ★推奨</strong></td>
+              <td>10〜30万pt</td>
+              <td>VIP Legend + VIP Elite（定期）</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>最高</td>
+              <td>⭐⭐⭐⭐（経営者ネットワーク直結）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="highlight">
+        <strong>初期モニターはCパターンが最適。</strong> MOONさんの既存経営者クライアントをそのまま「パターンC法人」として誘導できる。単価最大・継続率最高・採用PRとも相乗効果大。
+      </div>
+    </div>
+  </section>
+
+  <!-- ② ウォレット詳細設計 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">2</div>
+      <h2>ウォレット × ポイント設計の詳細</h2>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>💰 ポイント購入ティア設計（企業向け）</h3>
+        <table style="margin-top:8px;">
+          <thead>
+            <tr><th>購入額</th><th>付与ポイント</th><th>ボーナス</th><th>推奨企業規模</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>¥50,000</td>
+              <td>50,000pt</td>
+              <td>—</td>
+              <td>初回お試し</td>
+            </tr>
+            <tr>
+              <td>¥100,000</td>
+              <td>105,000pt</td>
+              <td>+5,000pt</td>
+              <td>50名以下</td>
+            </tr>
+            <tr>
+              <td>¥300,000</td>
+              <td>320,000pt</td>
+              <td>+20,000pt</td>
+              <td>50〜100名</td>
+            </tr>
+            <tr class="hl-row">
+              <td>¥500,000+</td>
+              <td>540,000pt+</td>
+              <td>+40,000pt</td>
+              <td>100〜200名</td>
+            </tr>
+            <tr>
+              <td colspan="4" style="background:#fff9e6;font-size:0.8rem;color:#854d0e;">
+                🎯 初回モニター特典: ¥10,000 → 100,000pt（10倍キャンペーン）
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>⏳ ポイント失効ルール詳細</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:0.83rem;">
+            <strong style="color:var(--primary);">失効タイミング</strong><br>
+            購入日から1年後の同日23:59に失効
+          </div>
+          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:0.83rem;">
+            <strong style="color:var(--primary);">失効前アラート</strong><br>
+            残60日・残30日・残7日の3段階でメール通知。「今すぐ予約」CTAを表示
+          </div>
+          <div style="padding:10px;background:#fff7ed;border-radius:8px;font-size:0.83rem;">
+            <strong style="color:var(--accent);">失効後の扱い</strong><br>
+            失効ポイントはTrustFitの収益に計上。経理上は「前受収益 → 雑収入」として処理
+          </div>
+          <div style="padding:10px;background:#f0fdf4;border-radius:8px;font-size:0.83rem;">
+            <strong style="color:var(--green);">企業インセンティブ</strong><br>
+            前年比利用率80%以上の企業は次回購入時5%ボーナス付与（継続維持策）
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔄 セッション予約〜報酬確定の詳細フロー</h3>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:10px;">
+        <div style="text-align:center;padding:12px 6px;">
+          <div style="width:40px;height:40px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 8px;">1</div>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--primary);margin-bottom:4px;">予約</div>
+          <div style="font-size:0.72rem;color:var(--muted);">「最大報酬分」をウォレットからロック</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 4px;"><div style="height:2px;background:var(--border);width:100%;margin-top:-12px;"></div></div>
+        <div style="text-align:center;padding:12px 6px;">
+          <div style="width:40px;height:40px;background:#2563eb;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 8px;">2</div>
+          <div style="font-size:0.75rem;font-weight:700;color:#2563eb;margin-bottom:4px;">セッション実施</div>
+          <div style="font-size:0.72rem;color:var(--muted);">交通費は別途確定・先引落し</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 4px;"><div style="height:2px;background:var(--border);width:100%;margin-top:-12px;"></div></div>
+        <div style="text-align:center;padding:12px 6px;">
+          <div style="width:40px;height:40px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 8px;">3</div>
+          <div style="font-size:0.75rem;font-weight:700;color:#16a34a;margin-bottom:4px;">双方評価</div>
+          <div style="font-size:0.72rem;color:var(--muted);">両者提出後に同時公開（48時間以内）</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:0;">
+        <div style="grid-column:1;"></div>
+        <div style="display:flex;align-items:center;padding:0 4px;grid-column:2;"><div style="height:2px;background:var(--border);width:100%;margin-top:-12px;"></div></div>
+        <div style="text-align:center;padding:12px 6px;grid-column:3;">
+          <div style="width:40px;height:40px;background:#f0a500;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 8px;">4</div>
+          <div style="font-size:0.75rem;font-weight:700;color:#f0a500;margin-bottom:4px;">報酬確定</div>
+          <div style="font-size:0.72rem;color:var(--muted);">スコア→報酬換算・余剰pt即返還</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 4px;grid-column:4;"><div style="height:2px;background:var(--border);width:100%;margin-top:-12px;"></div></div>
+        <div style="text-align:center;padding:12px 6px;grid-column:5;">
+          <div style="width:40px;height:40px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin:0 auto 8px;">5</div>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:4px;">振込</div>
+          <div style="font-size:0.72rem;color:var(--muted);">月末締め・翌月25日払い</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 収益モデル -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">3</div>
+      <h2>TrustFit 収益モデル — 4つの収益ストリーム</h2>
+    </div>
+
+    <div class="card">
+      <h3>収益ストリーム一覧</h3>
+      <div style="margin-top:8px;">
+
+        <div class="revenue-stream">
+          <div class="rs-num" style="background:#e8512a;">1</div>
+          <div class="rs-body">
+            <h4>🔑 プラットフォーム手数料（メイン収益）</h4>
+            <p>セッション報酬確定額からランク別に徴収。ランクが上がるほどトレーナーの手取りが増える設計。<br>
+            例（VIP Master・スコア40pt＝180,000pt確定）→ TrustFit: <strong>32,400pt(18%)</strong>、トレーナー: 147,600pt</p>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:0.75rem;background:#f3f4f6;color:#374151;padding:3px 10px;border-radius:10px;font-weight:700;">スタンダード（非VIP）: 25%</span>
+              <span style="font-size:0.75rem;background:#fee2e2;color:#991b1b;padding:3px 10px;border-radius:10px;font-weight:700;">VIPElite: 20%</span>
+              <span style="font-size:0.75rem;background:#fef9c3;color:#854d0e;padding:3px 10px;border-radius:10px;font-weight:700;">VIP Master: 18%</span>
+              <span style="font-size:0.75rem;background:#dcfce7;color:#166534;padding:3px 10px;border-radius:10px;font-weight:700;">VIP Legend: 15%（高単価で十分）</span>
+            </div>
+          </div>
+          <div class="rs-amount" style="color:#e8512a;">月次発生</div>
+        </div>
+
+        <div class="revenue-stream">
+          <div class="rs-num" style="background:#f0a500;">2</div>
+          <div class="rs-body">
+            <h4>💧 ポイント失効益（隠れた高収益源）</h4>
+            <p>年間未使用ポイントの失効分が収益に。ウォレット燃焼モデルの副産物。<br>
+            業界経験則: 事前購入ポイントの<strong>10〜20%が未使用失効</strong>する傾向。<br>
+            例: 年間2,000万pt購入 × 15%失効 = <strong>300万円/年</strong>の失効益</p>
+          </div>
+          <div class="rs-amount" style="color:#f0a500;">年次計上</div>
+        </div>
+
+        <div class="revenue-stream">
+          <div class="rs-num" style="background:#2563eb;">3</div>
+          <div class="rs-body">
+            <h4>📋 企業向けサブスクリプション（VIPアクセス権）</h4>
+            <p>VIPトレーナーへのアクセス・プレミアム機能・優先予約権をサブスク提供。<br>
+            <strong>月額5,000pt / 半年25,000pt / 年間45,000pt</strong>（現フェーズは保留・需要確認後に設定）<br>
+            ※ ポイント消費とは別建て。「プラットフォーム利用料」として経理処理しやすい</p>
+          </div>
+          <div class="rs-amount" style="color:#2563eb;">月次固定</div>
+        </div>
+
+        <div class="revenue-stream">
+          <div class="rs-num" style="background:#16a34a;">4</div>
+          <div class="rs-body">
+            <h4>🚀 初期導入オンボーディング費</h4>
+            <p>初回契約時のみ発生。企業担当者のシステム研修・利用規約締結・ウォレット設定・<br>
+            担当者アカウント発行・初回マッチングサポートをパッケージ化。<br>
+            <strong>30,000〜50,000pt</strong>（規模・サポート量による）</p>
+          </div>
+          <div class="rs-amount" style="color:#16a34a;">初回のみ</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ユニットエコノミクス -->
+    <div class="grid2">
+      <div class="unit-econ">
+        <h3>📊 1社あたりの年間収益試算（パターンC想定）</h3>
+        <div class="ue-row">
+          <span class="ue-label">年間ポイント購入</span>
+          <span class="ue-val">¥200万円 / 社</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">実消費 (85%)</span>
+          <span class="ue-val">¥170万円</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">① 手数料 (平均17%)</span>
+          <span class="ue-val">+¥28.9万円</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">② 失効益 (15%)</span>
+          <span class="ue-val">+¥30万円</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">③ サブスク (年間)</span>
+          <span class="ue-val">+¥4.5万円</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">④ 初期導入費 (初年のみ)</span>
+          <span class="ue-val">+¥4万円</span>
+        </div>
+        <div class="ue-total">
+          <span>1社あたり年間収益</span>
+          <span>≒ ¥67万円</span>
+        </div>
+      </div>
+
+      <div class="unit-econ" style="background:linear-gradient(135deg,#14532d,#166534);">
+        <h3>📈 企業数別 年間売上スケール試算</h3>
+        <div class="ue-row">
+          <span class="ue-label">モニター期（5社）</span>
+          <span class="ue-val">≒ ¥335万円/年</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">初期フェーズ（15社）</span>
+          <span class="ue-val">≒ ¥1,005万円/年</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">成長フェーズ（30社）</span>
+          <span class="ue-val">≒ ¥2,010万円/年</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">安定フェーズ（50社）</span>
+          <span class="ue-val">≒ ¥3,350万円/年</span>
+        </div>
+        <div class="ue-row">
+          <span class="ue-label">プラットフォーム化（100社）</span>
+          <span class="ue-val">≒ ¥6,700万円/年</span>
+        </div>
+        <div class="ue-total">
+          <span>損益分岐（管理費考慮）</span>
+          <span>≒ 10〜15社</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💡 収益モデル設計のポイント3選</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:32px;height:32px;background:#fff7ed;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🔑</div>
+          <div>
+            <strong style="font-size:0.88rem;">手数料はランク別に逓減させる（Legend15% / Master18% / Elite20%）</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">LegendクラスVIPは単価が高いため15%でも十分な手数料額になる。ランクが上がるほどトレーナーの手取り率が上がる設計にすることで昇格インセンティブを強化。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:32px;height:32px;background:#fff7ed;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">💧</div>
+          <div>
+            <strong style="font-size:0.88rem;">失効益は「隠れた高利益率ストリーム」として重要</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">会計上は「前受収益」として預かり、失効時に「雑収入」へ振替。企業には「使わないと損」というメッセージを失効アラートで伝える。Suica・LINE Payなどと同じ設計思想。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:32px;height:32px;background:#fff7ed;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">📋</div>
+          <div>
+            <strong style="font-size:0.88rem;">サブスクは「ポイント消費促進」の心理設計として機能させる</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">月額5,000ptを払っている企業は「使わないともったいない」心理が働き、ポイント消費率が上がる。サブスク単体の収益より「消費促進効果」がより大きい。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ KPI設計 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">4</div>
+      <h2>KPI設計 — 何を追いかけるか</h2>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-box">
+        <div class="kv" style="color:var(--accent);">GMV</div>
+        <div class="kl">月間総ポイント消費額<br>（Gross Merchandise Value）</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kv" style="color:#2563eb;">Take Rate</div>
+        <div class="kl">手数料率<br>目標平均17〜18%</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kv" style="color:#16a34a;">消費率</div>
+        <div class="kl">購入pt÷消費pt<br>目標85%以上</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kv" style="color:var(--purple);">NPS</div>
+        <div class="kl">企業・トレーナー双方の<br>推奨スコア</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>フェーズ別 重点KPI</h3>
+      <table>
+        <thead>
+          <tr><th>フェーズ</th><th>企業数</th><th>重点KPI</th><th>目標値</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>モニター期</td>
+            <td>5社</td>
+            <td>初回評価スコア・PR動画完成数</td>
+            <td>累計スコア400pt以上 / 低品質セッションゼロ</td>
+          </tr>
+          <tr>
+            <td>初期フェーズ</td>
+            <td>15社</td>
+            <td>継続率・月間GMV</td>
+            <td>6ヶ月継続率70%以上 / GMV月200万円</td>
+          </tr>
+          <tr class="hl-row">
+            <td>成長フェーズ</td>
+            <td>30社</td>
+            <td>Take Rate・ポイント消費率</td>
+            <td>Take Rate 17% / 消費率85%</td>
+          </tr>
+          <tr>
+            <td>安定フェーズ</td>
+            <td>50社+</td>
+            <td>LTV・NPS</td>
+            <td>企業LTV 200万円以上 / NPS 40+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  TrustFit（仮） — ポイント詳細設計 × 収益モデル | 2026-04-04<br>
+  株式会社MOON | 社内設計ドキュメント
+</footer>
+
+</body>
+</html>

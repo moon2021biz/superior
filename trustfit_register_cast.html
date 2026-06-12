@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャスト登録 | TrustFit</title>
+<style>
+  :root { --primary:#1a1a2e; --accent:#e63946; --gold:#f4a261; --light:#f8f9fa; --gray:#6c757d; --border:#dee2e6; --white:#ffffff; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;background:#f5f6fa;line-height:1.7;}
+  header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .logo{font-size:22px;font-weight:900;color:var(--primary);text-decoration:none;} .logo span{color:var(--accent);}
+  nav a{text-decoration:none;color:var(--gray);font-size:14px;margin-left:24px;transition:color .2s;} nav a:hover{color:var(--accent);}
+  .page-hero{background:linear-gradient(135deg,#0d0d1a,#1a1a2e);color:white;padding:60px 24px;text-align:center;}
+  .page-hero h1{font-size:clamp(26px,4vw,42px);font-weight:900;margin-bottom:12px;}
+  .page-hero p{font-size:16px;color:rgba(255,255,255,.75);max-width:540px;margin:0 auto;}
+  .badge{display:inline-block;background:rgba(244,162,97,.15);border:1px solid rgba(244,162,97,.4);color:var(--gold);font-size:13px;font-weight:600;padding:5px 16px;border-radius:20px;margin-bottom:20px;}
+
+  .steps-nav{background:white;border-bottom:1px solid var(--border);padding:0 24px;}
+  .steps-inner{max-width:720px;margin:0 auto;display:flex;}
+  .step-tab{flex:1;padding:18px 8px;text-align:center;font-size:13px;font-weight:700;color:var(--gray);border-bottom:3px solid transparent;}
+  .step-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .step-tab span{display:block;font-size:18px;font-weight:900;margin-bottom:2px;}
+
+  .form-wrap{max-width:720px;margin:40px auto;padding:0 24px 80px;}
+  .form-card{background:white;border-radius:16px;padding:40px;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:24px;}
+  .form-card h2{font-size:20px;font-weight:800;margin-bottom:6px;color:var(--primary);}
+  .form-card .sub{font-size:14px;color:var(--gray);margin-bottom:28px;}
+  .form-group{margin-bottom:22px;}
+  label{display:block;font-size:14px;font-weight:700;margin-bottom:6px;} label .req{color:var(--accent);margin-left:4px;font-size:12px;}
+  input,select,textarea{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;color:var(--primary);transition:border-color .2s;outline:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+  textarea{height:100px;resize:vertical;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+  /* RANK SELECTOR */
+  .rank-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px;}
+  .rank-sel{border:2px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;}
+  .rank-sel input[type=radio]{display:none;}
+  .rank-sel label{cursor:pointer;display:block;}
+  .rank-sel:has(input:checked){border-color:var(--accent);background:rgba(230,57,70,.04);}
+  .rank-badge{font-size:22px;margin-bottom:6px;}
+  .rank-name{font-size:16px;font-weight:800;margin-bottom:2px;}
+  .rank-earn{font-size:13px;color:var(--gold);font-weight:700;}
+  .rank-note{font-size:12px;color:var(--gray);margin-top:4px;}
+  .rank-sel.scout{border-color:rgba(244,162,97,.5);background:rgba(244,162,97,.04);}
+  .rank-sel.scout .rank-name{color:var(--gold);}
+
+  /* CATEGORIES */
+  .cat-check{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+  .cat-item input{display:none;}
+  .cat-item label{padding:8px 16px;border:2px solid var(--border);border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+  .cat-item input:checked + label{border-color:var(--accent);background:rgba(230,57,70,.06);color:var(--accent);}
+
+  .income-box{background:#f5f6fa;border-radius:12px;padding:20px;margin-bottom:28px;}
+  .income-box h3{font-size:15px;font-weight:800;margin-bottom:12px;}
+  .income-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;}
+  .income-row:last-child{border:none;}
+  .income-label{color:var(--gray);}
+  .income-val{font-weight:700;color:var(--primary);}
+  .income-val.gold{color:var(--gold);}
+
+  .btn-submit{width:100%;background:linear-gradient(135deg,var(--accent),#c1121f);color:white;border:none;padding:18px;border-radius:8px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(230,57,70,.3);transition:all .2s;}
+  .btn-submit:hover{transform:translateY(-2px);}
+  .note{font-size:12px;color:var(--gray);text-align:center;margin-top:12px;} .note a{color:var(--accent);}
+  .divider{height:1px;background:var(--border);margin:24px 0;}
+
+  footer{background:var(--primary);color:rgba(255,255,255,.6);padding:32px 24px;text-align:center;font-size:13px;}
+  footer .logo{color:white;display:block;margin-bottom:8px;font-size:18px;}
+  @media(max-width:600px){.form-row,.rank-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span>Fit</span></a>
+  <nav>
+    <a href="trustfit_ranks.html">ランク制度</a>
+    <a href="trustfit_simulator.html">報酬シミュレーター</a>
+    <a href="trustfit_register_company.html">企業登録</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="badge">🏆 キャスト（トレーナー）向け</div>
+  <h1>実力が数字になる、<br>唯一のステージ。</h1>
+  <p>評価連動型の完全成果報酬で、あなたのパフォーマンスが正当に報われる場所。</p>
+</div>
+
+<div class="steps-nav">
+  <div class="steps-inner">
+    <div class="step-tab active"><span>①</span>プロフィール</div>
+    <div class="step-tab"><span>②</span>専門カテゴリ</div>
+    <div class="step-tab"><span>③</span>ランク選択</div>
+    <div class="step-tab"><span>④</span>登録完了</div>
+  </div>
+</div>
+
+<div class="form-wrap">
+  <!-- 収入イメージ -->
+  <div class="income-box">
+    <h3>💰 ランク別 報酬イメージ（1セッション）</h3>
+    <div class="income-row"><span class="income-label">🆕 Challenger</span><span class="income-val">¥10,000〜¥50,000</span></div>
+    <div class="income-row"><span class="income-label">🥉 Elite VIP</span><span class="income-val">¥60,000〜¥100,000</span></div>
+    <div class="income-row"><span class="income-label">🥈 Master VIP</span><span class="income-val">¥120,000〜¥200,000</span></div>
+    <div class="income-row"><span class="income-label">🥇 Legend VIP</span><span class="income-val gold">¥220,000〜¥300,000</span></div>
+  </div>
+
+  <!-- フォーム -->
+  <div class="form-card">
+    <h2>① 基本プロフィール</h2>
+    <p class="sub">登録後にプロフィールページが自動生成されます。</p>
+    <div class="form-row">
+      <div class="form-group"><label>氏名（本名） <span class="req">必須</span></label><input type="text" placeholder="例：荻田 大樹"></div>
+      <div class="form-group"><label>表示名・活動名</label><input type="text" placeholder="例：OGITA DAIKI"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>メールアドレス <span class="req">必須</span></label><input type="email" placeholder="example@mail.com"></div>
+      <div class="form-group"><label>電話番号 <span class="req">必須</span></label><input type="tel" placeholder="090-0000-0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>性別</label>
+        <select><option>男性</option><option>女性</option><option>その他</option><option>非公開</option></select>
+      </div>
+      <div class="form-group"><label>生年月日</label><input type="date"></div>
+    </div>
+    <div class="form-group"><label>活動拠点（主な対応エリア） <span class="req">必須</span></label>
+      <select>
+        <option>北海道</option><option>東北</option><option>関東</option><option>中部</option>
+        <option>近畿</option><option>中国・四国</option><option>九州・沖縄</option><option>全国対応可</option>
+      </select>
+    </div>
+    <div class="form-group"><label>自己紹介・経歴（200字以内）</label><textarea placeholder="例：元陸上競技選手。オリンピック出場経験をもとに企業向けパフォーマンスプログラムを提供しています。"></textarea></div>
+    <div class="form-group"><label>SNS・実績URL</label><input type="url" placeholder="https://instagram.com/yourname"></div>
+
+    <div class="divider"></div>
+    <h2>② 専門カテゴリ（複数選択可）</h2>
+    <p class="sub" style="margin-bottom:14px;">企業の検索に表示されるカテゴリです。</p>
+    <div class="cat-check">
+      <div class="cat-item"><input type="checkbox" id="ct1"><label for="ct1">🤸 ストレッチ・ヨガ</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct2"><label for="ct2">💪 トレーニング・機能改善</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct3"><label for="ct3">🧠 マインドセット・メンタル</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct4"><label for="ct4">🎤 講演・ストーリーテリング</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct5"><label for="ct5">👨‍👩‍👧 ファミリー・キッズ</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct6"><label for="ct6">🏥 健康経営コンサル</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct7"><label for="ct7">🏃 ウォーキング・オフィス巡回</label></div>
+      <div class="cat-item"><input type="checkbox" id="ct8"><label for="ct8">💻 オンライン伴走型</label></div>
+    </div>
+
+    <div class="divider"></div>
+    <h2>③ スタートランクを選択</h2>
+    <p class="sub" style="margin-bottom:14px;">全員 Challenger からのスタートです。スカウト対象者は「スカウト枠（Elite スタート）」をご選択ください。</p>
+    <div class="rank-grid">
+      <div class="rank-sel">
+        <input type="radio" name="rank" id="r1" checked>
+        <label for="r1"><div class="rank-badge">🆕</div><div class="rank-name">Challenger</div><div class="rank-earn">¥10,000〜¥50,000/回</div><div class="rank-note">全キャストの入口。実績を積んでEliteへ</div></label>
+      </div>
+      <div class="rank-sel scout">
+        <input type="radio" name="rank" id="r2">
+        <label for="r2"><div class="rank-badge">🥇</div><div class="rank-name">スカウト枠（Elite直接）</div><div class="rank-earn">¥60,000〜¥100,000/回</div><div class="rank-note">元オリンピアン・日本代表・著名コーチのみ対象。審査あり</div></label>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h2>④ 活動スタンス</h2>
+    <p class="sub" style="margin-bottom:14px;">企業とのマッチング優先度に影響します。</p>
+    <div class="form-group">
+      <label>月間稼働可能セッション数の目安</label>
+      <select>
+        <option>月2〜4回（副業・スポット）</option>
+        <option>月5〜8回（本業と兼務）</option>
+        <option>月9回以上（フリーランス専業）</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>撮影・PR動画への協力</label>
+      <select>
+        <option>可能（顔・名前出しOK）</option>
+        <option>可能（顔出しのみNG）</option>
+        <option>匿名・データのみ提供</option>
+        <option>協力不可</option>
+      </select>
+    </div>
+
+    <button class="btn-submit">キャスト登録を申し込む →</button>
+    <p class="note"><a href="trustfit_terms.html">利用規約</a>・<a href="trustfit_privacy.html">プライバシーポリシー</a>に同意の上お申し込みください</p>
+  </div>
+</div>
+
+<footer>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span style="color:var(--accent)">Fit</span></a>
+  © 2026 株式会社MOON / TrustFit. All rights reserved.
+</footer>
+</body>
+</html>

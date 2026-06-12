@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"早く足を動かせ"は逆効果だった｜OGI LAB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+      line-height: 1.9;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #0d1b4b 0%, #1a3080 100%);
+      color: #fff;
+      padding: 60px 32px 48px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: 0; right: 0;
+      height: 40px;
+      background: #f5f5f0;
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero-label {
+      display: inline-block;
+      background: #c9a227;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+    .hero h1 {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 900;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      color: #f5c842;
+      font-style: normal;
+    }
+    .hero-meta {
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    /* Profile */
+    .profile-card {
+      background: #fff;
+      border-left: 4px solid #c9a227;
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+      font-size: 14px;
+      color: #555;
+    }
+    .profile-card strong { color: #0d1b4b; font-size: 15px; }
+
+    /* Sections */
+    section { margin-bottom: 48px; }
+    h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0d1b4b;
+      border-bottom: 3px solid #c9a227;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    p { margin-bottom: 16px; font-size: 15px; }
+    strong { color: #0d1b4b; }
+
+    /* What you learn */
+    .learn-list {
+      background: #eef2ff;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .learn-list li {
+      list-style: none;
+      padding: 6px 0 6px 28px;
+      position: relative;
+      font-size: 15px;
+    }
+    .learn-list li::before {
+      content: '✅';
+      position: absolute;
+      left: 0;
+    }
+
+    /* NG Cards */
+    .ng-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      border-left: 5px solid #e53935;
+    }
+    .ng-card .ng-label {
+      font-weight: bold;
+      color: #e53935;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .ng-card p { margin: 0; font-size: 14px; color: #555; }
+
+    /* Step Cards */
+    .step-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border-top: 4px solid #c9a227;
+    }
+    .step-num {
+      display: inline-block;
+      background: #0d1b4b;
+      color: #c9a227;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .step-card h3 {
+      font-size: 18px;
+      color: #0d1b4b;
+      margin-bottom: 12px;
+    }
+    .step-card p { font-size: 14px; color: #444; margin: 0; }
+
+    /* Tip box */
+    .tip-box {
+      background: #fffbe6;
+      border: 1px solid #f5c842;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    /* Summary table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .summary-table th, .summary-table td {
+      border: 1px solid #ddd;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .summary-table th { background: #0d1b4b; color: #fff; }
+    .summary-table tr:nth-child(even) { background: #f9f9f9; }
+
+    /* Paywall */
+    .paywall {
+      background: linear-gradient(135deg, #0d1b4b, #1e3a8a);
+      color: #fff;
+      border-radius: 14px;
+      padding: 36px 32px;
+      margin: 48px 0;
+      text-align: center;
+    }
+    .paywall .lock { font-size: 36px; margin-bottom: 12px; }
+    .paywall h2 { color: #f5c842; border: none; font-size: 20px; margin-bottom: 12px; }
+    .paywall p { color: rgba(255,255,255,0.85); margin-bottom: 8px; font-size: 14px; }
+    .paywall .benefit-list {
+      text-align: left;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+    .paywall .benefit-list li {
+      list-style: none;
+      padding: 6px 0 6px 24px;
+      position: relative;
+      font-size: 14px;
+      color: #fff;
+    }
+    .paywall .benefit-list li::before { content: '▶'; position: absolute; left: 0; color: #f5c842; font-size: 11px; top: 9px; }
+    .paywall-btn {
+      display: inline-block;
+      background: #f5c842;
+      color: #0d1b4b;
+      font-weight: 900;
+      font-size: 16px;
+      padding: 14px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      margin-top: 8px;
+      transition: transform 0.2s;
+    }
+    .paywall-btn:hover { transform: scale(1.04); }
+
+    /* Paid sections */
+    .paid-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .paid-badge {
+      display: inline-block;
+      background: #c9a227;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .paid-section h2 { font-size: 18px; margin-bottom: 16px; }
+
+    /* Voice cards */
+    .voice-card {
+      background: #f8f8f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .voice-card .ng { color: #e53935; font-weight: bold; }
+    .voice-card .ok { color: #2e7d32; font-weight: bold; }
+
+    /* Footer profile */
+    .footer-profile {
+      background: #0d1b4b;
+      color: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      margin-top: 48px;
+    }
+    .footer-profile h3 { color: #f5c842; margin-bottom: 8px; font-size: 16px; }
+    .footer-profile p { font-size: 13px; opacity: 0.8; margin-bottom: 4px; }
+    .sns-links { margin-top: 16px; }
+    .sns-links a {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      text-decoration: none;
+      margin: 4px;
+    }
+
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 32px 0; }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <span class="hero-label">OGI LAB｜元リオ五輪代表</span>
+  <h1>"早く足を動かせ"は<em>逆効果</em>だった。<br>運動会スタートで<em>5cm差</em>がつく"1歩目の正解"</h1>
+  <p class="hero-meta">荻田大樹（おぎた ひろき）｜2026.04.05</p>
+</div>
+
+<div class="container">
+
+  <!-- Profile -->
+  <div class="profile-card">
+    <strong>おぎぃ。こと荻田大樹</strong><br>
+    棒高跳びでリオデジャネイロオリンピックに出場した元日本代表。現在は兵庫県で陸上スクールを3拠点運営し、ECCかけっこスクールのプログラムも監修しています。
+  </div>
+
+  <!-- はじめに -->
+  <section>
+    <h2>◆ はじめに</h2>
+    <p>運動会の時期になると、保護者の方からよくこんな言葉をいただきます。「うちの子、もう少し速く走れると思うんですけど…」。</p>
+    <p>この記事を読むと、以下がわかります。</p>
+    <ul class="learn-list">
+      <li>なぜ「早く足を動かせ！」が逆効果なのか</li>
+      <li>スタートの1歩目で5cm差が生まれる仕組み</li>
+      <li>今日から家でできる3ステップドリル</li>
+    </ul>
+  </section>
+
+  <!-- 大誤解 -->
+  <section>
+    <h2>◆ 「速い走り＝足を速く動かすこと」という大誤解</h2>
+    <p>子どもに走りを教えるとき、「もっと早く足を動かして！」と声をかける方は多いと思います。気持ちは十分わかります。一生懸命な子どもに「速くなってほしい」という善意からくる声かけです。</p>
+    <p>でも正直に言います。<strong>その声かけ、子どもの走りを遅くしているかもしれません。</strong></p>
+    <p>「ちょこちょこ走り」をご存知ですか？ 足を素早く動かそうとするあまり、1歩1歩が小さくなってしまう走り方です。子どもたちの多くが「速く走ること＝足を速く動かすこと」だと思い込んでいます。</p>
+    <p>でも実際には、足を小さく速く動かすと「体の重心が前に進むスピード」は落ちます。陸上の世界で「速い選手」と言われる人たちは、<strong>1歩が大きい選手</strong>です。</p>
+  </section>
+
+  <!-- NGな理由 -->
+  <section>
+    <h2>◆ 「早く足を動かせ！」がNGな理由3つ</h2>
+    <div class="ng-card">
+      <div class="ng-label">❌ NG① 1歩が小さくなる</div>
+      <p>足を速く動かそうとすると、1歩1歩の幅が縮まります。たくさん足を動かしているのに前に進まない、という状態になります。</p>
+    </div>
+    <div class="ng-card">
+      <div class="ng-label">❌ NG② 重力が使えなくなる</div>
+      <p>体を少し前に傾けて走ることで、重力を推進力に変えることができます。でも小さく足を動かすと、重力の力をもらう前に走り出してしまうのです。</p>
+    </div>
+    <div class="ng-card">
+      <div class="ng-label">❌ NG③ 本番で崩れやすくなる</div>
+      <p>「ちょこちょこ走り」は力みやすい走り方です。運動会のような緊張する場面で力んで走ると、さらに足が細かくなります。</p>
+    </div>
+  </section>
+
+  <!-- 3ステップドリル -->
+  <section>
+    <h2>◆ スタートの1歩目を変える3ステップドリル</h2>
+    <p><strong>スタートの1歩目を大きく出ること。</strong> これだけです。準備するものはヤクルトのボトル1本だけです。</p>
+
+    <div class="step-card">
+      <span class="step-num">Step 1</span>
+      <h3>障害物を置く</h3>
+      <p>スタート位置から前方20〜30cm（大人の靴半足〜1足分）のところに、ヤクルトや小さいペットボトルを1本置きます。高さ10cm程度で十分。この障害物を越えることで自然に膝が高く上がります（作用反作用の法則）。</p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-num">Step 2</span>
+      <h3>踏みつぶすイメージで走る</h3>
+      <p>「ただ着地する」ではなく「踏みつぶす！」というイメージで足を下ろします。膝の真下か、少し後ろに引くような感覚で踏み込むのが正解。「グングングン」というリズムで走りましょう。</p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-num">Step 3</span>
+      <h3>距離を少しずつ調整する</h3>
+      <p>「体が浮きすぎず、窮屈でもない」位置を少しずつ調整して見つけてください。繰り返しの目安は1日10本×3セット、5分間でOK。</p>
+    </div>
+  </section>
+
+  <!-- 前傾スタート -->
+  <section>
+    <h2>◆ 「前傾スタート」で重力を味方にする</h2>
+    <p>スタートの瞬間、体を少し前に傾けること。「胸をゴールの方向に向けるようなイメージ」で走り始めてください。</p>
+    <div class="tip-box">
+      💡 最初は背筋をまっすぐ伸ばした状態から少し前にかたむける程度で十分。慣れてきたら少しずつ角度を増やしていきましょう。
+    </div>
+  </section>
+
+  <!-- まとめ -->
+  <section>
+    <h2>◆ まとめ</h2>
+    <table class="summary-table">
+      <tr><th>❌ 勘違い</th><td>足を速く動かす</td></tr>
+      <tr><th>✅ 正解</th><td>地面を後ろに押す「1歩目」</td></tr>
+      <tr><th>📋 練習</th><td>3〜10歩スタート × 1日10本 × 3セット</td></tr>
+      <tr><th>📅 頻度</th><td>毎日（最低でも3日に1回）</td></tr>
+      <tr><th>📆 期間</th><td>1週間</td></tr>
+    </table>
+    <p>「早く足を動かせ！」ではなく「1歩目を大きく出よう！」。今日から「グングングン」のリズムで始めましょう。</p>
+  </section>
+
+  <!-- Paywall -->
+  <div class="paywall">
+    <div class="lock">🔒</div>
+    <h2>ここから先はメンバーシップ（有料）コンテンツです</h2>
+    <ul class="benefit-list">
+      <li>おぎぃ。が現場で実際に使う完全版スタートドリル（距離設定・段階別プログラム＋実際の変化事例）</li>
+      <li>速くなる子の親が実践している声かけスクリプト（練習中・前日・当日朝・スタート直前）</li>
+      <li>スタート以外に1週間でできること3つ（姿勢・リズム感・体幹・メンタル準備）</li>
+    </ul>
+    <a href="https://note.com/ogilab" class="paywall-btn">メンバーシップ登録はこちら 👉</a>
+  </div>
+
+  <!-- 有料パート① -->
+  <div class="paid-section">
+    <span class="paid-badge">有料パート①</span>
+    <h2>おぎぃ。が現場で使う完全版スタートドリル</h2>
+    <p><strong>距離設定の段階表</strong></p>
+    <table class="summary-table">
+      <tr><th>期間</th><th>距離</th><th>目的</th></tr>
+      <tr><td>最初の3日間</td><td>15〜20cm</td><td>体感をつかむ段階</td></tr>
+      <tr><td>4〜6日目</td><td>25〜30cm</td><td>力発揮を大きくする段階</td></tr>
+      <tr><td>7日目以降</td><td>障害物なし</td><td>記憶を定着させる段階</td></tr>
+    </table>
+    <p style="margin-top:16px"><strong>繰り返し回数</strong><br>1セット：10本（休憩1分）× 3セット／約5〜7分<br>実施頻度：毎日（最低でも3日に1回）</p>
+    <p style="margin-top:16px"><strong>実際の変化事例</strong><br>ECCかけっこスクールで指導した小学2年生の男の子。このドリルを3日間続けたところ、50mで0.5秒縮まりました。親御さんが「走り方が全然変わった」と驚いていたのが印象的です。</p>
+    <div class="tip-box" style="margin-top:16px">
+      💡 <strong>さらに上のレベルへ：2つの障害物</strong><br>
+      慣れてきたら障害物を2つに増やします。1つ目で膝を上げ、2つ目で着地パターンを整える。この「2点セット練習」でさらに動きが安定します。
+    </div>
+  </div>
+
+  <!-- 有料パート② -->
+  <div class="paid-section">
+    <span class="paid-badge">有料パート②</span>
+    <h2>速くなる子の親が使う「声かけスクリプト完全版」</h2>
+    <p>声かけひとつで、子どものパフォーマンスは大きく変わります。</p>
+
+    <div class="voice-card">
+      <strong>練習中の声かけ</strong><br>
+      <span class="ng">❌ NG：「早く！早く！もっと速く動かして！」</span><br>
+      <span class="ok">✅ OK：「グングングン！そう、それ！その感じ！」</span><br>
+      <span class="ok">✅ OK：「1歩目、思いっきり踏みつぶして！」</span>
+    </div>
+    <div class="voice-card">
+      <strong>前日の声かけ</strong><br>
+      「明日は全力で楽しんでおいで。練習してきたこと、体が覚えてるから大丈夫。」
+    </div>
+    <div class="voice-card">
+      <strong>当日朝の声かけ</strong><br>
+      「今日、1歩目だけ意識してみて。グングングンのリズム、覚えてる？それだけで十分。」
+    </div>
+    <div class="voice-card">
+      <strong>スタート直前の声かけ（最重要）</strong><br>
+      「グングン、グングン。楽しんでおいで！」
+    </div>
+    <p style="margin-top:12px; font-size:14px; color:#555">緊張している状態では複雑な指示を受け取れません。体に入っている「たったひとつのリズム」を引き出す言葉が一番効きます。</p>
+  </div>
+
+  <!-- 有料パート③ -->
+  <div class="paid-section">
+    <span class="paid-badge">有料パート③</span>
+    <h2>スタート以外に1週間でできること3つ</h2>
+
+    <div class="step-card">
+      <span class="step-num">① 姿勢を整える（1日30秒）</span>
+      <p>壁に背中をつけて立ち、頭・肩・お尻・かかとを壁に当てて5秒キープして離れる。これを毎日3〜5回。</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">② リズム感をつける（1日2分）</span>
+      <p>縄跳びで両足跳び30回。縄跳びがなければ両足ジャンプだけでもOK。</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">③ スタート意識を強化する（1日5本）</span>
+      <p>「よーい、ドン！」の声かけに合わせて、1歩目を大きく踏み出して3歩で止まる動作だけ繰り返す。</p>
+    </div>
+  </div>
+
+  <!-- おわりに -->
+  <section>
+    <h2>◆ おわりに</h2>
+    <p>次回は「スタートの姿勢」をさらに深掘りします。「用意！ドン！」の「用意」の瞬間に何を意識するかが次のテーマです。</p>
+    <p>「この記事が役に立ったら」保存・シェアしてもらえると嬉しいです。それが子どもの笑顔を増やすことにつながると信じています。</p>
+  </section>
+
+  <!-- Footer Profile -->
+  <div class="footer-profile">
+    <h3>🎯 おぎぃ。プロフィール</h3>
+    <p>元陸上オリンピック代表｜リオデジャネイロ2016｜棒高跳び</p>
+    <p>陸上スクール3拠点運営｜ECCかけっこスクール監修｜パーソナルジムCARAS</p>
+    <div class="sns-links">
+      <a href="https://www.tiktok.com/@ogilab1230">TikTok @ogilab1230</a>
+      <a href="https://www.youtube.com/@OgiLab">YouTube @OgiLab</a>
+      <a href="https://note.com/ogilab">NOTE</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

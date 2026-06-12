@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ｜ようこそ記事 修正版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', sans-serif; background: #f5f5f0; color: #222; line-height: 1.9; }
+
+  .header { background: linear-gradient(135deg, #1a1a2e, #0f3460); color: #fff; padding: 40px 32px; text-align: center; }
+  .header h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+  .header .sub { font-size: 0.85rem; color: #a0c4ff; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 32px 16px 80px; }
+
+  /* 凡例 */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; background: #fff; border-radius: 12px; padding: 16px 20px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); font-size: 0.85rem; }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot-free { background: #43a047; }
+  .dot-paid { background: #e65100; }
+  .dot-note { background: #1565c0; }
+
+  /* 変更点サマリー */
+  .change-box { background: #e3f0ff; border-radius: 12px; padding: 18px 22px; margin-bottom: 28px; font-size: 0.87rem; }
+  .change-box h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 10px; color: #1a1a2e; }
+  .change-box ul { padding-left: 18px; }
+  .change-box li { margin-bottom: 5px; color: #1a237e; }
+
+  /* 記事本文エリア */
+  .article-area { background: #fff; border-radius: 16px; padding: 32px 36px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+
+  .article-title { font-size: 1.25rem; font-weight: 700; color: #111; margin-bottom: 24px; line-height: 1.6; border-bottom: 2px solid #f0f0f0; padding-bottom: 16px; }
+
+  .section { margin-bottom: 28px; }
+  .section-label { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+
+  /* 色分けブロック */
+  .free-block  { border-left: 4px solid #43a047; padding-left: 16px; }
+  .paid-block  { border-left: 4px solid #e65100; padding-left: 16px; background: #fff8f5; border-radius: 0 8px 8px 0; padding: 12px 16px; }
+  .note-block  { border-left: 4px solid #1565c0; padding-left: 16px; background: #f0f7ff; border-radius: 0 8px 8px 0; padding: 12px 16px; }
+
+  .block-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .tag-free { background: #e8f5e9; color: #2e7d32; }
+  .tag-paid { background: #fff3e0; color: #e65100; }
+  .tag-note { background: #e3f0ff; color: #1565c0; }
+
+  p { font-size: 0.95rem; color: #222; margin-bottom: 12px; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 700; }
+
+  .lab-card { border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .lab-card h4 { font-size: 0.95rem; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .lab-card p { font-size: 0.88rem; color: #444; margin-bottom: 0; }
+
+  .paid-teaser { background: #fff3e0; border: 1px dashed #ffb74d; border-radius: 8px; padding: 12px 16px; margin-top: 10px; font-size: 0.87rem; color: #7c3c00; }
+  .paid-teaser strong { display: block; margin-bottom: 4px; color: #e65100; }
+
+  .cta-box { background: linear-gradient(135deg, #1a1a2e, #0f3460); color: #fff; border-radius: 14px; padding: 24px 28px; margin-top: 32px; text-align: center; }
+  .cta-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+  .cta-box .price { font-size: 1.5rem; font-weight: 900; color: #a0c4ff; margin-bottom: 6px; }
+  .cta-box .notes { font-size: 0.82rem; color: #8eafd4; line-height: 1.8; }
+
+  .annotation { background: #fffde7; border: 1px solid #ffe082; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.83rem; color: #5d4037; }
+  .annotation::before { content: "💬 編集メモ: "; font-weight: 700; }
+
+  hr.divider { border: none; border-top: 2px dashed #e0e0e0; margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 オギラボ ようこそ記事｜修正版</h1>
+  <div class="sub">Note無料公開記事（Week 1）｜2026-04-15 修正</div>
+</div>
+
+<div class="container">
+
+  <!-- 凡例 -->
+  <div class="legend">
+    <div class="legend-item"><span class="dot dot-free"></span>無料公開（そのままNote掲載）</div>
+    <div class="legend-item"><span class="dot dot-paid"></span>有料化を推奨するセクション</div>
+    <div class="legend-item"><span class="dot dot-note"></span>編集・追加メモ</div>
+  </div>
+
+  <!-- 変更点サマリー -->
+  <div class="change-box">
+    <h3>✏️ 主な修正ポイント（原文からの変更点）</h3>
+    <ul>
+      <li>冒頭をTikTok動画と連動させる「薄い情報」フックに差し替え</li>
+      <li>各ラボの説明を「さわり」に絞り、深い内容は有料への誘導に変更</li>
+      <li>末尾CTAに価格・解約条件・初回無料情報を追加</li>
+      <li>「全員が自己ベスト更新」の実績をポールラボの有料テザーとして活用</li>
+    </ul>
+  </div>
+
+  <!-- 記事本文 -->
+  <div class="article-area">
+
+    <div class="article-title">
+      【オギラボへようこそ】<br>TikTokで話せないことを、ここで全部話します。
+    </div>
+
+    <!-- フック -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-note"></span>冒頭フック（修正）</div>
+      <div class="free-block">
+        <span class="block-tag tag-free">無料</span>
+        <p>TikTokで発信を続けながら、ずっともどかしく感じていることがあります。</p>
+        <p><strong>「ここで話せることって、薄い。」</strong></p>
+        <p>60秒の動画に収まる情報は、どうしても「結論だけ」になる。なぜその動きが必要なのか、どういう思考でその指導に行き着いたのか——そこが一番大事なのに、毎回削られていく。</p>
+        <p>その「なぜ」を全部話せる場所を作りたかった。それが、この「オギラボ」です。</p>
+      </div>
+      <div class="annotation">TikTok動画の冒頭フックと連動。動画から来た人が「あの話の続きだ」と感じられる入りにしました。</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- なぜ作ったか -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-free"></span>なぜ作ったか</div>
+      <div class="free-block">
+        <span class="block-tag tag-free">無料</span>
+        <p>私はこれまで、棒高跳び元日本代表として競技を続けながら、保育園児からトップアスリートまで幅広く指導してきました。現場で積み上げてきた経験と、バイオメカニクス・運動生理学・発達心理学の理論が、ようやく自分の中で「言語化」できるようになってきました。</p>
+        <p>それを一度棚卸しして、本当に必要な人に届けたい。そう思って立ち上げたのがこのサロンです。</p>
+        <p>SNSでは「万人向けの結論」しか出せません。でも実際の指導は、その人の年齢・競技・体の使い方・思考パターンによって全部違う。<strong>「なぜそのアプローチなのか」という背景ごと届けられる場所</strong>が、このサロンです。</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 3つのラボ -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-free"></span>3つのラボ（さわりのみ・無料）</div>
+      <div class="free-block">
+        <span class="block-tag tag-free">無料</span>
+        <p>皆さんの目的に合わせて、3つのラボ（カテゴリー）を用意しました。</p>
+
+        <div class="lab-card">
+          <h4>👨‍👧 キッズラボ</h4>
+          <p>子どもの発達段階を踏まえた指導論。「良かれと思ってやっていたことが、実は逆効果だった」というケースを現場から語ります。保護者の方にこそ読んでほしいラボです。</p>
+        </div>
+
+        <div class="lab-card">
+          <h4>💪 パフォーマンスラボ</h4>
+          <p>「体とは何か」「正しく動かすとはどういうことか」にフォーカス。競技・スポーツを問わず、ハイパフォーマンスの土台を作るためのバイオメカニクス・身体操作の知識を届けます。</p>
+        </div>
+
+        <div class="lab-card">
+          <h4>🏃 ポールラボ</h4>
+          <p>棒高跳びに特化した専門ラボ。競技への向き合い方、技術の本質、試合での設計——ここでしか話さないことを全部出します。</p>
+          <div class="paid-teaser">
+            <strong>🔒 会員限定で公開予定</strong>
+            私が指導してきた大学生は、この5年間で全員が自己ベストを更新して卒業しています。その指導の背景にある思考と手法を、ポールラボで順番に公開していきます。
+          </div>
+        </div>
+      </div>
+      <div class="annotation">各ラボの説明は「さわり」に留め、深い内容は「会員限定で公開予定」として有料への期待感を作っています。特にポールラボの実績（全員自己ベスト更新）は有料テザーとして使うのが効果的です。</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 有料化提案セクション -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-paid"></span>有料化を推奨：「3つの得られる価値」の深掘り</div>
+      <div class="paid-block">
+        <span class="block-tag tag-paid">有料化推奨</span>
+        <p>原文にあった「① なぜ？がわかる深い背景知識」「② 個別の状況に合わせた処方箋」「③ 共に作っていくコンテンツ」の3点は、<strong>概要だけ無料で触れて、具体的なエピソードや実例は有料パートへ移す</strong>のがおすすめです。</p>
+        <p>例えば「処方箋型の指導」で過去に起きた具体的なケース（「こういう選手がいて、こう変えたら結果が出た」）は、無料記事ではなく<strong>Week 3・4の専門ラボ記事（有料）</strong>に持っていくことで、入会動機に直結します。</p>
+      </div>
+      <div class="annotation">無料記事では「概念・哲学」を語り、「実例・具体的手法」は有料にする切り分けが基本セオリーです。</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 無料記事版の価値3点（コンパクト版） -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-free"></span>このサロンで得られること（コンパクト版）</div>
+      <div class="free-block">
+        <span class="block-tag tag-free">無料</span>
+        <p>このサロンで届けることを3つに絞ると、こうなります。</p>
+        <p><strong>① 「なぜ？」がわかる背景知識</strong><br>SNSの結論の裏にある思考回路を全部出します。これを知ることで、あなた自身が「自分に合う最適解」を選べるようになります。</p>
+        <p><strong>② 一人ひとりの状況に合わせた情報</strong><br>年齢・競技・体の状態によって、正解は全員違います。メンバーの声を拾いながら、「あなたの場合はどうか」まで踏み込んで書いていきます。</p>
+        <p><strong>③ 私の頭の中をリアルタイムで届けるコンテンツ</strong><br>月4本、毎週更新。現場での気づき・失敗・思考の変化も含めて、リアルな情報をお届けします。</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- クロージング -->
+    <div class="section">
+      <div class="section-label"><span class="dot dot-free"></span>クロージング</div>
+      <div class="free-block">
+        <span class="block-tag tag-free">無料</span>
+        <p>「オギラボ」は、一方的に教える場所ではなく、同じ目線で課題に向き合う場所です。日々の他愛ない会話から、深い競技の悩みまで——皆さんと近い距離で関わりながら、一緒に良いコミュニティを作っていけたら嬉しいです。</p>
+        <p>まず無料の記事を読んでみてください。「こういう話が聞けるなら入りたい」と思ったら、そのままメンバーになれます。</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>📌 オギラボ noteメンバーシップ</h3>
+      <div class="price">全ラボセット ¥1,200 / 月</div>
+      <div class="notes">
+        個別ラボ（1テーマ）¥980 / 月<br>
+        ━━━━━━━━━━━━━━━━<br>
+        👨‍👧 キッズラボ　💪 パフォーマンスラボ　🏃 ポールラボ<br>
+        3テーマすべて読み放題のセットプランがお得<br>
+        いつでも解約OK・まずは無料記事からどうぞ →
+      </div>
+    </div>
+
+    <div class="annotation" style="margin-top:16px;">1ラボ¥980、全部入り¥1,200のバンドル設計。「どうせなら全部」という心理が働きやすく、単価アップにつながります。</div>
+
+  </div><!-- /article-area -->
+
+</div>
+</body>
+</html>

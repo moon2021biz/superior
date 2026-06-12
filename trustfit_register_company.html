@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企業登録（無料）| TrustFit</title>
+<style>
+  :root { --primary:#1a1a2e; --accent:#e63946; --gold:#f4a261; --gray:#6c757d; --border:#dee2e6; --white:#ffffff; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;background:#f5f6fa;line-height:1.7;}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .logo{font-size:22px;font-weight:900;color:var(--primary);text-decoration:none;} .logo span{color:var(--accent);}
+  nav{display:flex;gap:20px;align-items:center;}
+  nav a{text-decoration:none;color:var(--gray);font-size:14px;transition:color .2s;} nav a:hover{color:var(--accent);}
+
+  /* HERO */
+  .page-hero{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;padding:48px 24px;text-align:center;}
+  .page-hero h1{font-size:clamp(22px,4vw,36px);font-weight:900;margin-bottom:8px;}
+  .page-hero p{font-size:15px;color:rgba(255,255,255,.7);max-width:480px;margin:0 auto;}
+  .badge{display:inline-block;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.4);color:#ff8a95;font-size:13px;font-weight:600;padding:5px 16px;border-radius:20px;margin-bottom:16px;}
+
+  /* STEP INDICATOR */
+  .step-nav{background:white;border-bottom:2px solid var(--border);padding:0;overflow:hidden;}
+  .step-nav-inner{max-width:680px;margin:0 auto;display:flex;}
+  .step-item{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 12px;font-size:13px;font-weight:700;color:#bbb;cursor:default;position:relative;transition:color .3s;}
+  .step-item.done{color:var(--accent);cursor:pointer;}
+  .step-item.active{color:var(--primary);}
+  .step-item.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:3px;background:var(--accent);}
+  .step-num{width:28px;height:28px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;transition:all .3s;}
+  .step-item.done .step-num{background:var(--accent);border-color:var(--accent);color:white;}
+  .step-item.done .step-num::after{content:'✓';}
+  .step-item.done .step-num span{display:none;}
+  .step-label{display:none;}
+  @media(min-width:500px){.step-label{display:inline;}}
+
+  /* FORM WRAPPER */
+  .form-wrap{max-width:680px;margin:36px auto 80px;padding:0 20px;}
+
+  /* BENEFIT BANNER */
+  .benefit-banner{background:linear-gradient(135deg,rgba(244,162,97,.1),rgba(230,57,70,.08));border:1px solid rgba(244,162,97,.3);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:center;}
+  .benefit-banner .icon{font-size:28px;flex-shrink:0;}
+  .benefit-banner h3{font-size:14px;font-weight:800;color:var(--primary);margin-bottom:4px;}
+  .benefit-banner p{font-size:13px;color:var(--gray);}
+
+  /* CARD */
+  .form-card{background:white;border-radius:16px;padding:36px 32px;box-shadow:0 2px 16px rgba(0,0,0,.07);}
+  .card-title{font-size:20px;font-weight:900;color:var(--primary);margin-bottom:4px;}
+  .card-sub{font-size:14px;color:var(--gray);margin-bottom:28px;}
+
+  /* FORM ELEMENTS */
+  .form-group{margin-bottom:20px;}
+  label{display:block;font-size:13px;font-weight:700;color:#444;margin-bottom:6px;}
+  .req{color:var(--accent);font-size:11px;margin-left:4px;font-weight:700;}
+  input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;color:var(--primary);outline:none;transition:border-color .2s;background:white;}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(230,57,70,.08);}
+  input.error,select.error{border-color:var(--accent);}
+  .error-msg{font-size:12px;color:var(--accent);margin-top:4px;display:none;}
+  .error-msg.show{display:block;}
+  textarea{height:90px;resize:vertical;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+  /* RADIO PILLS */
+  .radio-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+  .r-pill input{display:none;}
+  .r-pill label{display:block;padding:9px 18px;border:2px solid var(--border);border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .r-pill input:checked + label{border-color:var(--accent);background:rgba(230,57,70,.06);color:var(--accent);}
+
+  /* PLAN CARDS */
+  .plan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px;}
+  .plan-card{border:2px solid var(--border);border-radius:12px;padding:20px 16px;cursor:pointer;transition:all .2s;text-align:center;position:relative;}
+  .plan-card:hover{border-color:#aaa;}
+  .plan-card.selected{border-color:var(--accent);background:rgba(230,57,70,.04);}
+  .plan-card.popular-plan{border-color:var(--gold);}
+  .plan-card.popular-plan.selected{background:rgba(244,162,97,.06);}
+  .plan-pop-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--primary);font-size:11px;font-weight:800;padding:3px 12px;border-radius:10px;white-space:nowrap;}
+  .plan-price{font-size:22px;font-weight:900;color:var(--primary);line-height:1.2;}
+  .plan-pts{font-size:13px;color:var(--gray);margin:4px 0;}
+  .plan-bonus{font-size:13px;font-weight:700;color:var(--accent);}
+  .plan-check{display:none;position:absolute;top:10px;right:12px;font-size:18px;color:var(--accent);}
+  .plan-card.selected .plan-check{display:block;}
+
+  /* CONFIRM TABLE */
+  .confirm-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px;}
+  .confirm-table tr{border-bottom:1px solid var(--border);}
+  .confirm-table tr:last-child{border:none;}
+  .confirm-table th{width:40%;padding:12px 14px;font-weight:700;color:var(--gray);text-align:left;background:#f9f9f9;font-size:13px;}
+  .confirm-table td{padding:12px 14px;font-weight:600;color:var(--primary);}
+  .confirm-table td.highlight{color:var(--accent);font-size:16px;font-weight:900;}
+
+  /* COMPLETE SCREEN */
+  .complete-screen{text-align:center;padding:20px 0;}
+  .complete-icon{font-size:72px;margin-bottom:20px;}
+  .complete-title{font-size:26px;font-weight:900;margin-bottom:12px;color:var(--primary);}
+  .complete-sub{font-size:15px;color:var(--gray);line-height:1.8;max-width:440px;margin:0 auto 32px;}
+  .complete-steps{background:#f5f6fa;border-radius:12px;padding:20px 24px;text-align:left;margin-bottom:28px;}
+  .complete-steps h3{font-size:14px;font-weight:800;margin-bottom:14px;color:var(--primary);}
+  .complete-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;}
+  .complete-step:last-child{margin:0;}
+  .cs-num{width:28px;height:28px;background:var(--accent);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;}
+  .cs-text{font-size:14px;color:#444;padding-top:4px;line-height:1.6;}
+
+  /* NAVIGATION BUTTONS */
+  .btn-group{display:flex;gap:12px;margin-top:28px;}
+  .btn-next{flex:1;background:var(--accent);color:white;border:none;padding:16px;border-radius:8px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(230,57,70,.3);transition:all .2s;font-family:inherit;}
+  .btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(230,57,70,.4);}
+  .btn-next:active{transform:translateY(0);}
+  .btn-back{background:transparent;color:var(--gray);border:1.5px solid var(--border);padding:16px 24px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;}
+  .btn-back:hover{border-color:var(--gray);color:var(--primary);}
+  .btn-lp{display:inline-block;background:var(--primary);color:white;padding:14px 36px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;margin:6px;transition:all .2s;}
+  .btn-lp:hover{opacity:.85;}
+  .btn-outline-lp{display:inline-block;background:transparent;color:var(--accent);border:2px solid var(--accent);padding:14px 36px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;margin:6px;transition:all .2s;}
+  .btn-outline-lp:hover{background:rgba(230,57,70,.05);}
+
+  .note{font-size:12px;color:var(--gray);text-align:center;margin-top:12px;} .note a{color:var(--accent);}
+
+  /* STEP PANELS */
+  .step-panel{display:none;}
+  .step-panel.active{display:block;}
+
+  /* PROGRESS BAR */
+  .progress-bar{height:4px;background:var(--border);margin-bottom:0;}
+  .progress-fill{height:100%;background:var(--accent);transition:width .4s ease;}
+
+  footer{background:var(--primary);color:rgba(255,255,255,.6);padding:28px 24px;text-align:center;font-size:13px;}
+  footer .logo{color:white;display:inline-block;margin-bottom:6px;font-size:18px;}
+
+  @media(max-width:580px){
+    .form-row{grid-template-columns:1fr;}
+    .plan-grid{grid-template-columns:1fr 1fr;}
+    .form-card{padding:24px 18px;}
+    nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span>Fit</span></a>
+  <nav>
+    <a href="trustfit_lp_zehitomo_style.html#how">使い方</a>
+    <a href="trustfit_ranks.html">ランク</a>
+    <a href="trustfit_register_cast.html">キャスト登録</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="badge">🏢 企業向け登録</div>
+  <h1>企業アカウント登録（無料）</h1>
+  <p>初期費用・登録料 完全無料。3分で完了します。</p>
+</div>
+
+<!-- STEP INDICATOR -->
+<div class="step-nav">
+  <div class="step-nav-inner">
+    <div class="step-item active" id="tab1">
+      <div class="step-num"><span>1</span></div>
+      <span class="step-label">会社情報</span>
+    </div>
+    <div class="step-item" id="tab2">
+      <div class="step-num"><span>2</span></div>
+      <span class="step-label">プラン選択</span>
+    </div>
+    <div class="step-item" id="tab3">
+      <div class="step-num"><span>3</span></div>
+      <span class="step-label">内容確認</span>
+    </div>
+    <div class="step-item" id="tab4">
+      <div class="step-num"><span>4</span></div>
+      <span class="step-label">登録完了</span>
+    </div>
+  </div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
+
+<div class="form-wrap">
+
+  <!-- 特典バナー -->
+  <div class="benefit-banner">
+    <div class="icon">🎁</div>
+    <div>
+      <h3>初回モニター特典：¥10,000 → 100,000pt（10倍）</h3>
+      <p>PRISM CUP参加費（100,000pt）に全額充当可能。招待制・先着企業限定。</p>
+    </div>
+  </div>
+
+  <!-- ===== STEP 1: 会社情報 ===== -->
+  <div class="step-panel active" id="panel1">
+    <div class="form-card">
+      <div class="card-title">① 会社情報を入力</div>
+      <div class="card-sub">すべて無料でご登録いただけます。</div>
+
+      <div class="form-group">
+        <label>会社名 <span class="req">必須</span></label>
+        <input type="text" id="companyName" placeholder="例：株式会社サンプル">
+        <div class="error-msg" id="err-companyName">会社名を入力してください</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>業種 <span class="req">必須</span></label>
+          <select id="industry">
+            <option value="">選択してください</option>
+            <option>ITベンチャー・スタートアップ</option>
+            <option>製造業</option>
+            <option>医療・ヘルスケア</option>
+            <option>不動産・建設</option>
+            <option>小売・流通</option>
+            <option>金融・保険</option>
+            <option>教育・人材</option>
+            <option>その他サービス業</option>
+          </select>
+          <div class="error-msg" id="err-industry">業種を選択してください</div>
+        </div>
+        <div class="form-group">
+          <label>従業員数 <span class="req">必須</span></label>
+          <select id="employees">
+            <option value="">選択してください</option>
+            <option>〜30名</option>
+            <option>31〜50名</option>
+            <option>51〜100名</option>
+            <option>101〜200名</option>
+            <option>201〜500名</option>
+            <option>501名以上</option>
+          </select>
+          <div class="error-msg" id="err-employees">従業員数を選択してください</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>ご担当者名 <span class="req">必須</span></label>
+          <input type="text" id="personName" placeholder="例：山田 太郎">
+          <div class="error-msg" id="err-personName">担当者名を入力してください</div>
+        </div>
+        <div class="form-group">
+          <label>役職</label>
+          <input type="text" id="jobTitle" placeholder="例：人事部長">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>メールアドレス <span class="req">必須</span></label>
+        <input type="email" id="email" placeholder="例：hr@company.co.jp">
+        <div class="error-msg" id="err-email">正しいメールアドレスを入力してください</div>
+      </div>
+
+      <div class="form-group">
+        <label>電話番号</label>
+        <input type="tel" id="phone" placeholder="例：06-1234-5678">
+      </div>
+
+      <div class="form-group">
+        <label>最初に興味のあるコンテンツ</label>
+        <div class="radio-group">
+          <div class="r-pill"><input type="radio" name="content" id="c1" value="ストレッチ・ヨガ"><label for="c1">🤸 ストレッチ・ヨガ</label></div>
+          <div class="r-pill"><input type="radio" name="content" id="c2" value="講演・マインドセット"><label for="c2">🎤 講演・マインドセット</label></div>
+          <div class="r-pill"><input type="radio" name="content" id="c3" value="健康経営支援"><label for="c3">🏥 健康経営支援</label></div>
+          <div class="r-pill"><input type="radio" name="content" id="c4" value="PRISM CUP"><label for="c4">⚽ PRISM CUP</label></div>
+          <div class="r-pill"><input type="radio" name="content" id="c5" value="トレーニング"><label for="c5">💪 トレーニング</label></div>
+          <div class="r-pill"><input type="radio" name="content" id="c6" value="未定"><label for="c6">まだ決めていない</label></div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-next" onclick="goStep(2)">次へ：プラン選択 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: プラン選択 ===== -->
+  <div class="step-panel" id="panel2">
+    <div class="form-card">
+      <div class="card-title">② ポイントプランを選択</div>
+      <div class="card-sub">登録後に購入もできます。「まずは登録のみ」でも大丈夫です。</div>
+
+      <div class="plan-grid">
+        <div class="plan-card" id="plan-free" onclick="selectPlan(this,'まずは登録のみ','¥0','登録後にチャージ','—')">
+          <div class="plan-check">✓</div>
+          <div class="plan-price">無料登録<br>のみ</div>
+          <div class="plan-pts">後からチャージ可</div>
+          <div class="plan-bonus">—</div>
+        </div>
+        <div class="plan-card" id="plan-50" onclick="selectPlan(this,'¥50,000プラン','¥50,000','50,000pt','ボーナスなし')">
+          <div class="plan-check">✓</div>
+          <div class="plan-price">¥50,000</div>
+          <div class="plan-pts">50,000pt 付与</div>
+          <div class="plan-bonus">ボーナスなし</div>
+        </div>
+        <div class="plan-card" id="plan-100" onclick="selectPlan(this,'¥100,000プラン','¥100,000','105,000pt','+5,000pt ボーナス')">
+          <div class="plan-check">✓</div>
+          <div class="plan-price">¥100,000</div>
+          <div class="plan-pts">105,000pt 付与</div>
+          <div class="plan-bonus">+5,000pt</div>
+        </div>
+        <div class="plan-card popular-plan" id="plan-300" onclick="selectPlan(this,'¥300,000プラン（お得）','¥300,000','320,000pt','+20,000pt ボーナス')">
+          <div class="plan-pop-tag">★ 最もお得</div>
+          <div class="plan-check">✓</div>
+          <div class="plan-price">¥300,000</div>
+          <div class="plan-pts">320,000pt 付与</div>
+          <div class="plan-bonus">+20,000pt</div>
+        </div>
+      </div>
+
+      <div id="plan-note" style="display:none;background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.3);border-radius:8px;padding:14px 16px;margin-top:16px;font-size:13px;color:#8a5a00;"></div>
+
+      <div style="background:#f5f6fa;border-radius:10px;padding:16px 18px;margin-top:20px;font-size:13px;color:var(--gray);">
+        <strong style="color:var(--primary);">💡 ポイントの仕組み</strong><br>
+        1pt = 1円。予約時にロック → セッション後の評価で確定。余剰分は即日返還。有効期限1年。
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-back" onclick="goStep(1)">← 戻る</button>
+        <button class="btn-next" id="btn-step2-next" onclick="goStep(3)">次へ：内容確認 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: 確認 ===== -->
+  <div class="step-panel" id="panel3">
+    <div class="form-card">
+      <div class="card-title">③ 登録内容の確認</div>
+      <div class="card-sub">以下の内容で登録します。よろしければ「登録する」ボタンを押してください。</div>
+
+      <table class="confirm-table" id="confirmTable">
+        <!-- JS で埋める -->
+      </table>
+
+      <div style="background:rgba(230,57,70,.05);border:1px solid rgba(230,57,70,.15);border-radius:8px;padding:14px 16px;font-size:13px;margin-bottom:8px;">
+        <strong>📌 ご確認ください</strong><br>
+        登録後、ご入力のメールアドレスに確認メールを送信します。<br>
+        ポイント購入は確認メール受信後の管理画面から行えます。
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-back" onclick="goStep(2)">← 戻る</button>
+        <button class="btn-next" onclick="submitForm()">この内容で登録する ✓</button>
+      </div>
+      <p class="note">登録することで<a href="trustfit_terms.html">利用規約</a>・<a href="trustfit_privacy.html">プライバシーポリシー</a>に同意したものとみなします</p>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: 完了 ===== -->
+  <div class="step-panel" id="panel4">
+    <div class="form-card">
+      <div class="complete-screen">
+        <div class="complete-icon">🎉</div>
+        <div class="complete-title">登録ありがとうございます！</div>
+        <div class="complete-sub">
+          ご登録のメールアドレスに確認メールをお送りしました。<br>
+          メールをご確認いただき、アカウントを有効化してください。
+        </div>
+
+        <div class="complete-steps">
+          <h3>📋 次のステップ</h3>
+          <div class="complete-step">
+            <div class="cs-num">1</div>
+            <div class="cs-text"><strong>確認メールを開く</strong><br>trustfit.biz@moontf.com から届くメールのリンクをクリック</div>
+          </div>
+          <div class="complete-step">
+            <div class="cs-num">2</div>
+            <div class="cs-text"><strong>ポイントをチャージ</strong><br>管理画面からご希望のプランでポイント購入。稟議書ひな型も用意しています。</div>
+          </div>
+          <div class="complete-step">
+            <div class="cs-num">3</div>
+            <div class="cs-text"><strong>キャストを選んで予約</strong><br>ランク・カテゴリ・日程で絞り込み。Airbnbのように気軽に予約できます。</div>
+          </div>
+        </div>
+
+        <div id="prism-bonus-msg" style="display:none;background:linear-gradient(135deg,rgba(244,162,97,.12),rgba(230,57,70,.08));border:1px solid rgba(244,162,97,.4);border-radius:12px;padding:18px;margin-bottom:24px;font-size:14px;">
+          <strong>⚽ PRISM CUP参加をご希望の方へ</strong><br>
+          10倍キャンペーン適用の詳細は担当者よりご連絡します。<br>
+          お問い合わせ：<a href="mailto:trustfit.biz@moontf.com" style="color:var(--accent);">trustfit.biz@moontf.com</a>
+        </div>
+
+        <a href="trustfit_lp_zehitomo_style.html" class="btn-lp">TrustFitトップへ</a>
+        <a href="trustfit_prism_cup.html" class="btn-outline-lp">PRISM CUPを見る</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<footer>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span style="color:var(--accent)">Fit</span></a><br>
+  📩 trustfit.biz@moontf.com<br>
+  © 2026 株式会社MOON / TrustFit. All rights reserved.
+</footer>
+
+<script>
+let currentStep = 1;
+let selectedPlan = { label:'まずは登録のみ', price:'¥0', pts:'—', bonus:'—' };
+
+/* ---- PLAN SELECTION ---- */
+function selectPlan(el, label, price, pts, bonus) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlan = { label, price, pts, bonus };
+  // ノート表示
+  const note = document.getElementById('plan-note');
+  if (label === 'PRISM CUPモニター特典（¥10,000→100,000pt）') {
+    note.innerHTML = '⚽ PRISM CUP参加費（100,000pt）に全額充当できます。担当者より個別にご案内します。';
+    note.style.display = 'block';
+  } else if (price === '¥0') {
+    note.innerHTML = '✅ 登録だけ完了し、ポイントは後から管理画面で購入できます。';
+    note.style.display = 'block';
+  } else {
+    note.innerHTML = `💳 ${pts}のポイントが付与されます。セッション予約・PRISM CUP参加費に使えます。`;
+    note.style.display = 'block';
+  }
+}
+
+/* ---- VALIDATION ---- */
+function validateStep1() {
+  let ok = true;
+  const checks = [
+    { id: 'companyName', err: 'err-companyName', test: v => v.trim().length > 0 },
+    { id: 'industry',    err: 'err-industry',    test: v => v !== '' },
+    { id: 'employees',   err: 'err-employees',   test: v => v !== '' },
+    { id: 'personName',  err: 'err-personName',  test: v => v.trim().length > 0 },
+    { id: 'email',       err: 'err-email',       test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+  ];
+  checks.forEach(({ id, err, test }) => {
+    const el = document.getElementById(id);
+    const msg = document.getElementById(err);
+    if (!test(el.value)) {
+      el.classList.add('error');
+      msg.classList.add('show');
+      ok = false;
+    } else {
+      el.classList.remove('error');
+      msg.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+/* ---- BUILD CONFIRM TABLE ---- */
+function buildConfirm() {
+  const rows = [
+    ['会社名',     document.getElementById('companyName').value],
+    ['業種',       document.getElementById('industry').value],
+    ['従業員数',   document.getElementById('employees').value],
+    ['担当者名',   document.getElementById('personName').value],
+    ['役職',       document.getElementById('jobTitle').value || '—'],
+    ['メール',     document.getElementById('email').value],
+    ['電話',       document.getElementById('phone').value || '—'],
+    ['興味コンテンツ', (document.querySelector('input[name=content]:checked')?.value) || '—'],
+    ['選択プラン', selectedPlan.label],
+    ['ポイント付与', selectedPlan.pts],
+  ];
+  const html = rows.map(([k,v]) =>
+    `<tr><th>${k}</th><td${k==='選択プラン'?' class="highlight"':''}>${v}</td></tr>`
+  ).join('');
+  document.getElementById('confirmTable').innerHTML = html;
+}
+
+/* ---- STEP NAVIGATION ---- */
+function goStep(n) {
+  if (n === 2 && currentStep === 1) {
+    if (!validateStep1()) return;
+  }
+  // hide all
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-item').forEach((t, i) => {
+    t.classList.remove('active');
+    if (i + 1 < n) t.classList.add('done');
+    else t.classList.remove('done');
+  });
+  // show current
+  document.getElementById('panel' + n).classList.add('active');
+  document.getElementById('tab' + n).classList.add('active');
+  document.getElementById('progressFill').style.width = (n * 25) + '%';
+  currentStep = n;
+  if (n === 3) buildConfirm();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitForm() {
+  // PRISM CUPを選んでいたら特別メッセージ
+  const selectedContent = document.querySelector('input[name=content]:checked')?.value;
+  const prismMsg = document.getElementById('prism-bonus-msg');
+  if (selectedContent === 'PRISM CUP') prismMsg.style.display = 'block';
+  goStep(4);
+}
+</script>
+
+</body>
+</html>

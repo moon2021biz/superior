@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARAS マダム広告デザイン 1:1</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#1a0f14; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; padding:40px 20px; font-family:'Hiragino Mincho ProN','Noto Serif JP','Hiragino Kaku Gothic ProN',sans-serif; gap:40px; flex-wrap:wrap; }
+.page-title { width:100%; text-align:center; color:#e8c4b8; font-size:18px; margin-bottom:10px; opacity:0.7; letter-spacing:0.1em; }
+
+.ig-frame { background:#fff; border-radius:12px; width:380px; box-shadow:0 20px 60px rgba(0,0,0,0.6); overflow:hidden; }
+.ig-header { display:flex; align-items:center; padding:12px 14px; gap:10px; border-bottom:1px solid #efefef; }
+.ig-avatar { width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2c1a1a,#8b5e52);display:flex;align-items:center;justify-content:center;color:#D4A89A;font-weight:800;font-size:13px;flex-shrink:0; font-family:'Georgia',serif; }
+.ig-account { flex:1; }
+.ig-account-name { font-size:13px;font-weight:700;color:#262626; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ig-account-sub { font-size:11px;color:#8e8e8e; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ig-sponsored { font-size:11px;color:#8e8e8e; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+
+/* ── 広告キャンバス ── */
+.ad-canvas { width:380px;height:380px;position:relative;overflow:hidden;background:#12080d; }
+
+/* 背景グラデーション（夕暮れ・夕焼け風） */
+.ad-bg {
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 20%, rgba(220,120,80,0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 15% 75%, rgba(160,60,80,0.30) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 40% at 50% 50%, rgba(100,30,40,0.20) 0%, transparent 70%),
+    linear-gradient(160deg, #0e0508 0%, #1e0d12 40%, #2a1018 70%, #150810 100%);
+}
+
+/* 光の帯（夕焼けのハイライト） */
+.ad-glow {
+  position:absolute;
+  top:0;right:0;
+  width:200px;height:200px;
+  background:radial-gradient(ellipse at 80% 10%, rgba(230,140,80,0.22) 0%, transparent 60%);
+  pointer-events:none;
+}
+.ad-glow-bottom {
+  position:absolute;
+  bottom:0;left:0;
+  width:180px;height:180px;
+  background:radial-gradient(ellipse at 10% 90%, rgba(180,60,80,0.20) 0%, transparent 55%);
+  pointer-events:none;
+}
+
+/* 装飾サークル */
+.ad-circle { position:absolute;border-radius:50%;border:1px solid rgba(212,168,154,0.12); }
+.ad-circle-1 { width:300px;height:300px;top:-90px;right:-70px; }
+.ad-circle-2 { width:200px;height:200px;top:-20px;right:20px; border-color:rgba(220,120,80,0.12); }
+.ad-circle-3 { width:360px;height:360px;bottom:-130px;left:-90px; border-color:rgba(160,60,80,0.15); }
+
+/* 細い水平線 */
+.ad-line { position:absolute;background:linear-gradient(90deg,transparent,rgba(212,168,154,0.25),transparent);height:1px;width:80%;left:10%; }
+
+/* コンテンツ */
+.ad-content { position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px 18px; }
+.ad-top { display:flex;justify-content:space-between;align-items:center; }
+.ad-badge { background:linear-gradient(135deg,#C9856E,#e8b4a0);color:#fff;font-size:10px;font-weight:700;letter-spacing:0.12em;padding:5px 12px;border-radius:2px; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ad-badge-logo { color:rgba(212,168,154,0.85);font-size:13px;font-weight:800;letter-spacing:0.25em; font-family:'Georgia',serif; }
+
+.ad-middle { flex:1;display:flex;flex-direction:row;align-items:center;gap:0;padding:8px 0; }
+.ad-middle-left { flex:1; }
+
+.ad-sub { color:rgba(212,168,154,0.85);font-size:10px;font-weight:600;letter-spacing:0.15em;margin-bottom:10px;display:flex;align-items:center;gap:6px; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ad-sub::before,.ad-sub::after { content:'';display:inline-block;width:14px;height:1px;background:rgba(212,168,154,0.5); }
+
+.ad-headline { color:#fff;font-size:21px;font-weight:700;line-height:1.5;text-shadow:0 2px 20px rgba(0,0,0,0.7); letter-spacing:0.03em; }
+.ad-headline .accent { color:#E8B4A0;display:block;font-size:26px;font-weight:900;letter-spacing:0.02em; }
+.ad-headline .small { font-size:16px;font-weight:600; color:rgba(255,255,255,0.9); }
+
+/* 右側ロゴ縦列 */
+.ad-logo-right { display:flex;flex-direction:column;align-items:center;justify-content:center;padding-left:14px;border-left:1px solid rgba(212,168,154,0.2);margin-left:14px;gap:6px;min-width:60px; }
+.ad-logo-text { color:rgba(212,168,154,0.9);font-size:12px;font-weight:800;letter-spacing:0.3em;writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap; font-family:'Georgia',serif; }
+.ad-logo-divider { width:1px;height:20px;background:rgba(212,168,154,0.35); }
+.ad-logo-sub-v { color:rgba(212,168,154,0.6);font-size:7px;font-weight:600;letter-spacing:0.15em;writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+
+/* 下部エリア */
+.ad-bottom { display:flex;align-items:center;justify-content:space-between;gap:10px; }
+.ad-points { display:flex;flex-direction:column;gap:5px; }
+.ad-point { display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.82);font-size:10.5px;font-weight:500; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ad-point-dot { width:5px;height:5px;border-radius:50%;background:#E8B4A0;flex-shrink:0; }
+.ad-cta {
+  background:linear-gradient(135deg,#C9856E 0%,#e8b4a0 50%,#d4906a 100%);
+  color:#fff;
+  border-radius:4px;padding:11px 14px;font-size:12px;font-weight:800;
+  text-align:center;line-height:1.4;
+  box-shadow:0 4px 20px rgba(200,100,80,0.45);
+  white-space:nowrap;
+  font-family:'Hiragino Kaku Gothic ProN',sans-serif;
+}
+.ad-cta span { display:block;font-size:9.5px;font-weight:600;opacity:0.85;margin-top:2px; }
+
+/* Instagram フッター */
+.ig-footer { padding:10px 14px 8px; }
+.ig-cta-row {
+  background:#f5f5f5;border-radius:6px;padding:8px 12px;
+  font-size:12px;font-weight:700;color:#262626;
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
+  font-family:'Hiragino Kaku Gothic ProN',sans-serif;
+}
+.ig-caption { font-size:12px;color:#262626;line-height:1.5; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.ig-caption .user { font-weight:700; }
+
+/* コピーパネル */
+.copy-panel { background:#fff;border-radius:12px;padding:24px;width:340px;box-shadow:0 20px 60px rgba(0,0,0,0.5);align-self:flex-start; font-family:'Hiragino Kaku Gothic ProN',sans-serif; }
+.copy-panel h2 { font-size:14px;font-weight:800;color:#2c1a1a;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #C9856E;letter-spacing:0.05em; }
+.copy-section { margin-bottom:18px; }
+.copy-label { font-size:10px;font-weight:700;color:#C9856E;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px; }
+.copy-text { font-size:13px;color:#333;line-height:1.7;background:#fdf8f6;border-radius:6px;padding:10px 12px;border-left:3px solid #C9856E; }
+.copy-text strong { color:#2c1a1a;font-weight:800; }
+.flow-steps { display:flex;flex-direction:column;gap:8px;margin-top:6px; }
+.flow-step { display:flex;align-items:center;gap:10px;font-size:12px;color:#333;font-weight:600; }
+.flow-num { width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#C9856E,#e8b4a0);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.flow-arrow { text-align:center;color:#C9856E;font-size:16px;margin-left:12px; }
+.spec-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px; }
+.spec-item { background:#fdf8f6;border-radius:6px;padding:8px 10px; }
+.spec-item-label { font-size:9px;color:#999;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px; }
+.spec-item-val { font-size:12px;color:#2c1a1a;font-weight:700; }
+</style>
+</head>
+<body>
+
+<div class="page-title">CARAS マダム診断 Meta広告デザイン ／ 1:1 フォーマット</div>
+
+<div class="ig-frame">
+  <div class="ig-header">
+    <div class="ig-avatar">C</div>
+    <div class="ig-account">
+      <div class="ig-account-name">caras_personaltraining</div>
+      <div class="ig-account-sub">夙川・パーソナルジムCARAS</div>
+    </div>
+    <div class="ig-sponsored">スポンサー</div>
+  </div>
+
+  <div class="ad-canvas">
+    <div class="ad-bg"></div>
+    <div class="ad-glow"></div>
+    <div class="ad-glow-bottom"></div>
+    <div class="ad-circle ad-circle-1"></div>
+    <div class="ad-circle ad-circle-2"></div>
+    <div class="ad-circle ad-circle-3"></div>
+    <div class="ad-line" style="top:60px"></div>
+    <div class="ad-line" style="bottom:80px"></div>
+
+    <div class="ad-content">
+      <div class="ad-top">
+        <div class="ad-badge">✨ 無料診断</div>
+        <div class="ad-badge-logo">CARAS</div>
+      </div>
+
+      <div class="ad-middle">
+        <div class="ad-middle-left">
+          <div class="ad-sub">40・50代女性へ</div>
+          <div class="ad-headline">
+            <span class="small">なぜ、頑張るほど</span>
+            <span class="accent">変わらないのか？</span>
+            <span class="small">その理由、診断でわかります。</span>
+          </div>
+        </div>
+        <div class="ad-logo-right">
+          <div class="ad-logo-text">CARAS</div>
+          <div class="ad-logo-divider"></div>
+          <div class="ad-logo-sub-v">PERSONAL GYM</div>
+        </div>
+      </div>
+
+      <div class="ad-bottom">
+        <div class="ad-points">
+          <div class="ad-point"><div class="ad-point-dot"></div>診断は完全無料・30秒</div>
+          <div class="ad-point"><div class="ad-point-dot"></div>あなたの体型タイプが判明</div>
+          <div class="ad-point"><div class="ad-point-dot"></div>夙川・CARASが提案</div>
+        </div>
+        <div class="ad-cta">今すぐ<br>診断する<span>▶ 無料・30秒</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ig-footer">
+    <div class="ig-cta-row">
+      <span>🔗 マダム診断を受ける（無料）</span>
+      <span>→</span>
+    </div>
+    <div class="ig-caption">
+      <span class="user">caras_personaltraining</span>
+      食事制限もジムも試した。でも変わらない…それ、「体型タイプ」が合っていないからかも。
+    </div>
+  </div>
+</div>
+
+<div class="copy-panel">
+  <h2>📝 広告テキストセット</h2>
+  <div class="copy-section">
+    <div class="copy-label">Primary Text（本文）</div>
+    <div class="copy-text">
+      食事制限もジムも試した。でも変わらない…<br><br>
+      実は、<strong>「何をするか」より「自分の体型タイプ」</strong>の方がずっと大切。<br><br>
+      CARASのマダム体型診断で、<br>
+      あなたが変われない本当の理由をチェック👇<br><br>
+      ✅ 診断スタート（30秒）<br>
+      ✅ 体型タイプが判明<br>
+      ✅ タイプ別の改善アドバイス<br><br>
+      完全無料・夙川のパーソナルジムCARASが監修
+    </div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Headline（見出し）</div>
+    <div class="copy-text"><strong>変われない理由、30秒で診断</strong></div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Description（説明文）</div>
+    <div class="copy-text">40・50代女性向け体型診断。タイプ別アドバイスまで完全無料。夙川・パーソナルジムCARAS監修。</div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">ユーザー導線フロー</div>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num">1</div>Meta広告を見る</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">2</div>「今すぐ診断する」をタップ</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">3</div>wondrous-torrone-10ca59.netlify.app で診断</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">4</div>体型タイプ別アドバイスを確認</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">5</div>「CARASの詳細をみる」→ ladies.caraslp.com へ</div>
+    </div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">入稿スペック</div>
+    <div class="spec-grid">
+      <div class="spec-item"><div class="spec-item-label">サイズ</div><div class="spec-item-val">1080 × 1080px</div></div>
+      <div class="spec-item"><div class="spec-item-label">形式</div><div class="spec-item-val">JPG / PNG</div></div>
+      <div class="spec-item"><div class="spec-item-label">テキスト比率</div><div class="spec-item-val">20%以下推奨</div></div>
+      <div class="spec-item"><div class="spec-item-label">目的</div><div class="spec-item-val">診断LP誘導</div></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

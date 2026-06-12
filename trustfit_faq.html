@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問 | TrustFit</title>
+<style>
+  :root { --primary:#1a1a2e; --accent:#e63946; --gold:#f4a261; --gray:#6c757d; --border:#dee2e6; --white:#fff; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;background:#f5f6fa;line-height:1.7;}
+  header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .logo{font-size:22px;font-weight:900;color:var(--primary);text-decoration:none;} .logo span{color:var(--accent);}
+  nav a{text-decoration:none;color:var(--gray);font-size:14px;margin-left:24px;} nav a:hover{color:var(--accent);}
+  .hero{background:linear-gradient(135deg,var(--primary),#16213e);color:white;padding:60px 24px;text-align:center;}
+  .hero h1{font-size:clamp(26px,4vw,40px);font-weight:900;margin-bottom:10px;}
+  .hero p{font-size:15px;color:rgba(255,255,255,.7);max-width:500px;margin:0 auto;}
+  .wrap{max-width:800px;margin:48px auto;padding:0 24px 80px;}
+
+  /* TABS */
+  .tab-bar{background:white;border-radius:12px;padding:8px;display:flex;gap:4px;margin-bottom:32px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .tab-btn{flex:1;padding:10px 8px;border:none;background:transparent;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;color:var(--gray);transition:all .2s;font-family:inherit;}
+  .tab-btn.active{background:var(--accent);color:white;}
+  .tab-content{display:none;} .tab-content.active{display:block;}
+
+  /* SECTION */
+  .faq-section{background:white;border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:24px;}
+  .faq-section h2{font-size:17px;font-weight:800;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--accent);color:var(--primary);display:flex;align-items:center;gap:10px;}
+  .faq-item{border-bottom:1px solid var(--border);cursor:pointer;}
+  .faq-item:last-child{border:none;}
+  .faq-q{padding:16px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .faq-q-text{font-size:15px;font-weight:600;color:var(--primary);}
+  .faq-toggle{font-size:22px;color:var(--accent);font-weight:900;flex-shrink:0;line-height:1;transition:transform .2s;}
+  .faq-item.open .faq-toggle{transform:rotate(45deg);}
+  .faq-a{display:none;font-size:14px;color:var(--gray);line-height:1.8;padding:0 0 16px 14px;border-left:3px solid var(--accent);}
+  .faq-item.open .faq-a{display:block;}
+
+  .contact-card{background:linear-gradient(135deg,var(--primary),#16213e);color:white;border-radius:16px;padding:40px;text-align:center;margin-top:32px;}
+  .contact-card h2{color:white;font-size:20px;font-weight:800;margin-bottom:10px;}
+  .contact-card p{color:rgba(255,255,255,.75);font-size:14px;margin-bottom:28px;}
+  .btn-acc{display:inline-block;background:var(--accent);color:white;padding:14px 36px;border-radius:8px;font-size:15px;font-weight:800;text-decoration:none;margin:6px;}
+  .btn-wh{display:inline-block;background:transparent;color:white;border:2px solid rgba(255,255,255,.4);padding:14px 36px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;margin:6px;}
+
+  footer{background:var(--primary);color:rgba(255,255,255,.6);padding:32px 24px;text-align:center;font-size:13px;}
+  @media(max-width:600px){nav{display:none;}.tab-btn{font-size:11px;padding:8px 4px;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span>Fit</span></a>
+  <nav>
+    <a href="trustfit_lp_zehitomo_style.html">サービス概要</a>
+    <a href="trustfit_ranks.html">ランク制度</a>
+    <a href="trustfit_contact.html">お問い合わせ</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>❓ よくある質問</h1>
+  <p>TrustFitへの疑問・不安をまとめました。解決しない場合はお気軽にお問い合わせください。</p>
+</div>
+
+<div class="wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('company')">🏢 企業向け</button>
+    <button class="tab-btn" onclick="showTab('cast')">🏆 キャスト向け</button>
+    <button class="tab-btn" onclick="showTab('point')">💳 ポイント</button>
+    <button class="tab-btn" onclick="showTab('prism')">⚽ PRISM CUP</button>
+  </div>
+
+  <!-- 企業向け -->
+  <div class="tab-content active" id="tab-company">
+    <div class="faq-section">
+      <h2>🏢 サービス・基本</h2>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">TrustFitとはどんなサービスですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">企業と外部トレーナー（キャスト）をつなぐマッチングプラットフォームです。50点満点の双方評価スコアで報酬が確定する「評価連動型成果報酬」が特徴で、企業は体験した価値だけを払う仕組みです。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">初期費用・月額費用はかかりますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">登録料・初期費用・月額料金はすべて無料です。ポイントを購入した分のみが費用となります。ポイントを使い切ったら自動で終了するため、解約手続きは不要です。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">どんな種類のキャストがいますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">ストレッチ・ヨガ・トレーニングから、マインドセットコーチング、講演、健康経営コンサルティングまで幅広いカテゴリのキャストが在籍しています。特にLegendランクには元オリンピアン・日本代表クラスのアスリートが含まれます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">セッションは会社に来てもらえますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">はい、基本的にキャストがオフィスに訪問する形式です。1セッション最大2時間。コンテンツ内容は企業側が自由に決められます。オンライン形式での実施も可能なキャストがいます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">評価はどのように行いますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">セッション後に10項目×5点満点（50点満点）で双方が評価します。企業・キャスト双方の評価提出後に同時公開されるため、点数の合わせ合いが起きない公正な設計です。低評価（1〜2点）は文字入力が必須です。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">稟議が通るか心配です</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">ポイント購入は「確定費用」として1回の稟議で処理できます。「¥300,000分のポイント購入」として稟議書を作れるため、「いくらかかるかわからない」という問題がありません。稟議書のひな型もご提供できます。</div>
+      </div>
+    </div>
+    <div class="faq-section">
+      <h2>🔒 プライバシー・セキュリティ</h2>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">社員が撮影に協力したくない場合は？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">撮影は任意です。撮影NGの場合でも、匿名スコアデータ＋匿名テキスト感想の提供のみでご利用いただけます。個人特定は一切行いません。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">社員の予約が他の社員に見えますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">予約は完全匿名設計です。他の社員からは「枠が埋まっている（グレーアウト）」とだけ表示されます。誰が取ったかの名前は一切表示されません。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- キャスト向け -->
+  <div class="tab-content" id="tab-cast">
+    <div class="faq-section">
+      <h2>🏆 登録・ランク</h2>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">登録料・手数料はかかりますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">登録料は無料です。報酬が発生した際にプラットフォーム手数料（Challenger 25% / Elite 20% / Master 18% / Legend 15%）が差し引かれます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">法人向けの営業経験がありませんが大丈夫ですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">プラットフォームが企業とのマッチングを担うため、自分で営業する必要はありません。登録・プロフィール充実・評価の蓄積が主な活動です。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">Challengerからいつ昇格できますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">10セッション以上かつ累計400pt以上（平均40pt/回）が条件です。月4回稼働で約3ヶ月が目安です。ただし低品質セッション（≤20pt）がゼロであることも必須です。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">VIP紹介制度とはなんですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">VIPキャスト（Elite以上）が単発訪問後、継続サポートをChallengerへ引き継いだ場合、3ヶ月の売上ptの10%がVIPに還元される制度です。Challengerは安定した案件を得られます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">報酬の支払いはいつですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">セッション後の評価提出・確定後に報酬ptが確定します。pt→現金への換金サイクルは月次で処理される予定です（詳細はローンチ時に確定）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ポイント -->
+  <div class="tab-content" id="tab-point">
+    <div class="faq-section">
+      <h2>💳 ポイントシステム</h2>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">ポイントの有効期限は？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">購入日から1年後の同日23:59に失効します。例：2026年4月1日購入分 → 2027年3月31日23:59に失効。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">余ったポイントはどうなりますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">①キャストへのチップ（追加払い）②好きなキャストの応援スポンサー③TrustFitが支援する社会的プロジェクト（子ども陸上クラブ・むーん等）への寄付、の3通りで活用できます。また端数消化アシスト機能が残高に合わせたミニプログラムを自動提案します。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">ポイントの払い戻しはできますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">基本的に払い戻し不可です。未使用分はサービス内での活用を前提とした設計です。期末に残高が中途半端な場合、端数消化アシスト機能をご活用ください。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">予約時のポイントロックとは？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">予約時に「最大報酬分のポイント」が一時的にロック（引き落とし予約）されます。セッション後の評価スコアで確定額のみ引き落とし、余剰分は即日返還されます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">経理処理はどうすればいいですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">ポイント購入時に請求書・領収書を発行します。「ポイント購入費」として確定費用での稟議処理が可能です。使用時の追加請求はありません。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRISM CUP -->
+  <div class="tab-content" id="tab-prism">
+    <div class="faq-section">
+      <h2>⚽ PRISM CUP</h2>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">PRISM CUPとは何ですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">TrustFitが主催する企業対抗フットサル大会です。元プロ選手・アスリートが参加し、試合を通じて経営者同士がつながる場を提供します。当日の動画・写真を採用PR素材として活用できます。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">フットサルが未経験でも参加できますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">もちろん参加できます。試合よりも「交流・体験・PR」を目的としたイベントですので、スポーツ経験は問いません。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">1チーム何名から参加できますか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">5名1チーム単位でエントリーいただきます。人数が足りない場合は、他社と合同チームを組む形での参加も可能です（個別相談）。</div>
+      </div>
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-q"><span class="faq-q-text">TrustFit経由の10倍キャンペーンはいつまでですか？</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">第1回・最大でも第2回のPRISM CUPまでです。3回目以降は通常料金（100,000pt/チーム）となります。こちらから個別に案内した企業のみに適用される招待制の特典です。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <h2>解決しない場合はお気軽に</h2>
+    <p>TrustFitチームが直接お答えします。</p>
+    <a href="trustfit_contact.html" class="btn-acc">お問い合わせフォーム</a>
+    <a href="mailto:trustfit.biz@moontf.com" class="btn-wh">メールで聞く</a>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggle(el) {
+  el.classList.toggle('open');
+}
+</script>
+
+<footer>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span style="color:var(--accent)">Fit</span></a>
+  © 2026 株式会社MOON / TrustFit. All rights reserved.
+</footer>
+</body>
+</html>

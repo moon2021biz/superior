@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM CUP｜タイムスケジュール確認用</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: #0a0e1a;
+    color: #e8eaf0;
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+  }
+
+  header { text-align: center; margin-bottom: 40px; }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    color: #fff; font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; padding: 4px 14px;
+    border-radius: 20px; margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: clamp(22px, 4vw, 34px); font-weight: 800;
+    letter-spacing: .06em;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 6px;
+  }
+
+  .legend {
+    display: flex; justify-content: center;
+    gap: 28px; margin-bottom: 32px; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+  .legend-dot  { width: 13px; height: 13px; border-radius: 50%; }
+  .dot-flat    { background: #7c3aed; }
+  .dot-court   { background: #0ea5e9; }
+
+  /* ════════════════════════════════
+     TIMELINE GRID
+     ════════════════════════════════ */
+  .tl-outer { max-width: 920px; margin: 0 auto; }
+
+  /* column header row */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 1fr 68px 1fr;
+    margin-bottom: 4px;
+  }
+  .col-h {
+    text-align: center; padding: 10px 14px;
+    border-radius: 8px 8px 0 0;
+    font-size: 13px; font-weight: 700; letter-spacing: .07em;
+  }
+  .col-h.flat  { background: rgba(124,58,237,.25); border: 1px solid rgba(124,58,237,.5); color: #c4b5fd; }
+  .col-h.mid   { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #64748b; }
+  .col-h.court { background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.4); color: #7dd3fc; }
+  .col-h .sub  { font-size: 10px; font-weight: 400; opacity: .7; margin-top: 2px; }
+
+  /*
+    Grid rows (3px/min, 10min slots use 36px minimum):
+    R1  17:30–18:00  30min = 90px
+    R2  18:00–18:10  10min = 36px  ← 受付（短縮）
+    R3  18:10–19:00  50min = 150px ← 開会セレモニー
+    R4  19:00–20:30  90min = 270px ← 試合
+    R5  20:30–20:50  20min = 60px
+    R6  20:50–21:00  10min = 36px
+    R7  21:00–21:30  30min = 90px
+    R8  21:30–22:00  30min = 90px
+    R9  22:00–22:30  30min = 90px
+    R10 end label           = 20px
+  */
+  .tl-grid {
+    display: grid;
+    grid-template-columns: 1fr 68px 1fr;
+    grid-template-rows:
+      minmax(90px, auto)   /* R1  17:30–18:00 */
+      minmax(36px, auto)   /* R2  18:00–18:10 */
+      minmax(150px, auto)  /* R3  18:10–19:00 */
+      minmax(270px, auto)  /* R4  19:00–20:30 */
+      minmax(60px, auto)   /* R5  20:30–20:50 */
+      minmax(36px, auto)   /* R6  20:50–21:00 */
+      minmax(90px, auto)   /* R7  21:00–21:30 */
+      minmax(90px, auto)   /* R8  21:30–22:00 */
+      minmax(90px, auto)   /* R9  22:00–22:30 */
+      20px                 /* R10 end         */
+    ;
+  }
+
+  /* event cell */
+  .ev {
+    padding: 10px 13px;
+    overflow: visible;
+    border-radius: 8px;
+    margin: 3px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .ev-title { font-weight: 700; font-size: 13px; line-height: 1.4; }
+  .ev-time  { font-size: 11px; opacity: .7; margin-top: 2px; }
+  .ev-note  { font-size: 11px; opacity: .6; margin-top: 8px; line-height: 1.55; }
+  .round-list { font-size: 11px; color: #7dd3fc; opacity: .85; margin-top: 8px; line-height: 1.9; }
+
+  .ev.empty { background: none; border: none; margin: 0; }
+
+  /* color themes */
+  .c-prep    { background: rgba(100,116,139,.22); border: 1px solid rgba(100,116,139,.35); color: #cbd5e1; }
+  .c-prep    .ev-title { color: #94a3b8; }
+
+  .c-flat    { background: rgba(124,58,237,.2); border: 1px solid rgba(124,58,237,.45); color: #ddd6fe; }
+  .c-flat    .ev-title { color: #c4b5fd; }
+
+  .c-move    { background: rgba(99,102,241,.14); border: 1px dashed rgba(99,102,241,.4); color: #c7d2fe; }
+  .c-move    .ev-title { color: #a5b4fc; }
+
+  .c-court   { background: rgba(14,165,233,.18); border: 1px solid rgba(14,165,233,.4); color: #bae6fd; }
+  .c-court   .ev-title { color: #7dd3fc; }
+
+  .c-massage { background: rgba(16,185,129,.22); border: 1px solid rgba(16,185,129,.5); color: #a7f3d0; }
+  .c-massage .ev-title { color: #34d399; }
+
+  .c-match   { background: rgba(14,165,233,.3); border: 1px solid rgba(14,165,233,.65); color: #e0f2fe; }
+  .c-match   .ev-title { color: #38bdf8; font-size: 14px; }
+
+  .c-award   { background: rgba(245,158,11,.25); border: 1px solid rgba(245,158,11,.6); color: #fde68a; }
+  .c-award   .ev-title { color: #fbbf24; font-size: 14px; }
+
+  .c-party   { background: rgba(236,72,153,.22); border: 1px solid rgba(236,72,153,.55); color: #fbcfe8; }
+  .c-party   .ev-title { color: #f472b6; font-size: 14px; }
+
+  /* axis cell */
+  .ax {
+    position: relative;
+    /* vertical line */
+    background: linear-gradient(to right,
+      transparent calc(50% - 1px),
+      rgba(255,255,255,.09) calc(50% - 1px),
+      rgba(255,255,255,.09) calc(50% + 1px),
+      transparent calc(50% + 1px));
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  /* highlighted axis rows */
+  .ax.major { border-top-color: rgba(255,255,255,.18); }
+
+  .ax-time {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px; font-weight: 700;
+    color: #94a3b8;
+    background: #0a0e1a;
+    padding: 2px 5px;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  /* summary */
+  .summary-grid {
+    max-width: 920px; margin: 36px auto 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .s-box { border-radius: 12px; padding: 16px 20px; }
+  .s-box-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; margin-bottom: 8px; }
+  .s-box-body  { font-size: 13px; color: #cbd5e1; line-height: 1.9; }
+
+  .cta-wrap { text-align: center; margin-top: 40px; }
+  .cta-box {
+    display: inline-block;
+    background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.35);
+    border-radius: 12px; padding: 20px 32px; max-width: 600px;
+    font-size: 14px; color: #94a3b8; line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">SCHEDULE REVIEW</div>
+  <h1>⚽ PRISM CUP タイムスケジュール</h1>
+  <p style="font-size:14px;color:#94a3b8;margin-top:6px;">8チーム制 ／ 2グループ交互ローテーション ／ 高さは実際の時間に比例</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot dot-flat"></div><span>平面エリア（受付・マッサージ・観戦・懇親会）</span></div>
+  <div class="legend-item"><div class="legend-dot dot-court"></div><span>フットサルコート（試合・アップ・表彰式）</span></div>
+</div>
+
+<div class="tl-outer">
+
+  <!-- column headers -->
+  <div class="col-headers">
+    <div class="col-h flat">🏠 平面エリア<div class="sub">17:30〜22:30 利用可</div></div>
+    <div class="col-h mid">時刻</div>
+    <div class="col-h court">⚽ フットサルコート<div class="sub">18:10〜21:30 利用可</div></div>
+  </div>
+
+  <div class="tl-grid">
+
+    <!-- ══ FLAT COLUMN ══ -->
+
+    <!-- R1: 設営 17:30–18:00 -->
+    <div class="ev c-prep" style="grid-column:1; grid-row:1;">
+      <div class="ev-title">🔧 スタッフ設営・準備</div>
+      <div class="ev-time">17:30 〜 18:00（30分）</div>
+      <div class="ev-note">受付テーブル・マッサージ台設置</div>
+    </div>
+
+    <!-- R2: 受付 18:00–18:10 -->
+    <div class="ev c-flat" style="grid-column:1; grid-row:2;">
+      <div class="ev-title">🎟 受付</div>
+      <div class="ev-time">18:00 〜 18:10（10分）</div>
+    </div>
+
+    <!-- R3: ATマッサージ 19:00–20:30 (span rows 3+4) -->
+    <div class="ev c-massage" style="grid-column:1; grid-row:3/5;">
+      <div class="ev-title">💆 ATマッサージ ＋ 🍺 フリードリンク</div>
+      <div class="ev-time">19:00 〜 20:30（ずっとオープン）</div>
+      <div class="ev-note">
+        ・試合待機チームがいつでも利用可<br>
+        ・AT（アスレティックトレーナー）常駐<br>
+        ・マッサージ台を平面エリアに設置
+      </div>
+    </div>
+
+    <!-- R5: 空き（表彰式中） -->
+    <div class="ev empty" style="grid-column:1; grid-row:5;"></div>
+
+    <!-- R6: 空き（移動中） -->
+    <div class="ev empty" style="grid-column:1; grid-row:6;"></div>
+
+    <!-- R7–R8: 懇親会 21:00–22:00 (span 2 rows) -->
+    <div class="ev c-party" style="grid-column:1; grid-row:7/9;">
+      <div class="ev-title">🥂 懇親会・名刺交換</div>
+      <div class="ev-time">21:00 〜 22:00（60分）</div>
+      <div class="ev-note">
+        ・軽食・ドリンク提供<br>
+        ・ネットワーキング<br>
+        ・平面エリアで実施
+      </div>
+    </div>
+
+    <!-- R9: 撤収 22:00–22:30 -->
+    <div class="ev c-prep" style="grid-column:1; grid-row:9;">
+      <div class="ev-title">📦 撤収・退館準備</div>
+      <div class="ev-time">22:00 〜 22:30（30分）</div>
+      <div class="ev-note">平面エリア完全退館</div>
+    </div>
+
+    <!-- ══ AXIS COLUMN ══ -->
+    <div class="ax" style="grid-column:2; grid-row:1;"><span class="ax-time">17:30</span></div>
+    <div class="ax" style="grid-column:2; grid-row:2;"><span class="ax-time">18:00</span></div>
+    <div class="ax major" style="grid-column:2; grid-row:3;"><span class="ax-time">18:10</span></div>
+    <div class="ax major" style="grid-column:2; grid-row:4;"><span class="ax-time">19:00</span></div>
+    <div class="ax major" style="grid-column:2; grid-row:5;"><span class="ax-time">20:30</span></div>
+    <div class="ax" style="grid-column:2; grid-row:6;"><span class="ax-time">20:50</span></div>
+    <div class="ax major" style="grid-column:2; grid-row:7;"><span class="ax-time">21:00</span></div>
+    <div class="ax" style="grid-column:2; grid-row:8;"><span class="ax-time">21:30</span></div>
+    <div class="ax" style="grid-column:2; grid-row:9;"><span class="ax-time">22:00</span></div>
+    <div class="ax" style="grid-column:2; grid-row:10;"><span class="ax-time">22:30</span></div>
+
+    <!-- ══ COURT COLUMN ══ -->
+
+    <!-- R1–R2: empty (court not open) -->
+    <div class="ev empty" style="grid-column:3; grid-row:1;"></div>
+    <div class="ev empty" style="grid-column:3; grid-row:2;"></div>
+
+    <!-- R3: 開会セレモニー 18:10–19:00 -->
+    <div class="ev c-court" style="grid-column:3; grid-row:3;">
+      <div class="ev-title">🎉 開会セレモニー</div>
+      <div class="ev-time">18:10 〜 19:00（50分）</div>
+      <div class="ev-note">
+        ① 参加者紹介<br>
+        ② 佐々木：参加チーム紹介＋競技説明＋チーム・グループ分け発表<br>
+        ③ 荻田：全員ウォームアップ（オリンピアン指導）<br>
+
+      </div>
+    </div>
+
+    <!-- R4: 試合 19:00–20:30 -->
+    <div class="ev c-match" style="grid-column:3; grid-row:4;">
+      <div class="ev-title">⚽ 予選リーグ（全6ラウンド）</div>
+      <div class="ev-time">19:00 〜 20:30（90分）</div>
+      <div class="ev-note">
+        Aグループ試合中 → Bグループ平面でマッサージ＆観戦<br>
+        1試合8分 ＋ 入替7分 × 6ラウンド<br>
+        各チーム3試合 / 全8チーム出場
+      </div>
+      <div class="round-list">
+        R1: 19:00〜19:08　R2: 19:15〜19:23<br>
+        R3: 19:30〜19:38　R4: 19:45〜19:53<br>
+        R5: 20:00〜20:08　R6: 20:15〜20:23
+      </div>
+    </div>
+
+    <!-- R5: 表彰式 20:30–20:50 -->
+    <div class="ev c-award" style="grid-column:3; grid-row:5;">
+      <div class="ev-title">🏆 表彰式・クロージング</div>
+      <div class="ev-time">20:30 〜 20:50（20分）</div>
+      <div class="ev-note">MVP・最優秀チーム表彰・記念撮影</div>
+    </div>
+
+    <!-- R6: 全員平面へ移動 20:50–21:00 -->
+    <div class="ev c-move" style="grid-column:3; grid-row:6;">
+      <div class="ev-title">🚶 全員平面へ移動</div>
+      <div class="ev-time">20:50 〜 21:00</div>
+    </div>
+
+    <!-- R7: コート退館 21:30 -->
+    <div class="ev c-prep" style="grid-column:3; grid-row:7;">
+      <div class="ev-title">🚪 フットサルコート退館</div>
+      <div class="ev-time">21:30</div>
+    </div>
+
+    <!-- R8–R9: empty (court closed) -->
+    <div class="ev empty" style="grid-column:3; grid-row:8;"></div>
+    <div class="ev empty" style="grid-column:3; grid-row:9;"></div>
+
+  </div><!-- /tl-grid -->
+</div><!-- /tl-outer -->
+
+<!-- summary -->
+<div class="summary-grid">
+  <div class="s-box" style="background:rgba(124,58,237,.1); border:1px solid rgba(124,58,237,.3);">
+    <div class="s-box-label" style="color:#8b5cf6;">📋 試合フォーマット</div>
+    <div class="s-box-body">
+      チーム数：<strong style="color:#c4b5fd;">8チーム</strong><br>
+      グループ：<strong style="color:#c4b5fd;">A・B 各4チーム</strong><br>
+      　※プロチーム各1社が各グループに参加<br>
+      試合：<strong style="color:#c4b5fd;">8分</strong>　入替：<strong style="color:#c4b5fd;">7分</strong>　計<strong style="color:#c4b5fd;">6ラウンド</strong><br>
+      各チーム3試合
+    </div>
+  </div>
+  <div class="s-box" style="background:rgba(14,165,233,.1); border:1px solid rgba(14,165,233,.3);">
+    <div class="s-box-label" style="color:#0ea5e9;">🏟 会場利用時間</div>
+    <div class="s-box-body">
+      平面エリア：<strong style="color:#7dd3fc;">17:30 〜 22:30</strong><br>
+      　設営 / 受付 / マッサージ＆観戦 / 懇親会<br><br>
+      フットサルコート：<strong style="color:#7dd3fc;">18:10 〜 21:30</strong><br>
+      　開会セレモニー(18:10) / 試合 / 表彰式（20:30〜20:50）
+    </div>
+  </div>
+</div>
+
+<div class="cta-wrap">
+  <div class="cta-box">
+    ✅ このスケジュールで <strong style="color:#c4b5fd;">OK</strong> であれば、以下の4ファイルに一括反映します：<br><br>
+    <span style="font-size:12px; color:#7dd3fc;">
+      prismcup-proposal.html　／　プリズムカップ_企画書.html<br>
+      prismcup_participant_guide.html　／　prismcup_sponsor.html
+    </span><br><br>
+    修正がある場合は変更点をお伝えください。
+  </div>
+</div>
+
+</body>
+</html>

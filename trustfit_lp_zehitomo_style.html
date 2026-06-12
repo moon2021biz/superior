@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit | 一流が来る。成果の分だけ払う。</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e63946;
+    --gold: #f4a261;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --border: #dee2e6;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; color: #1a1a2e; line-height: 1.7; }
+
+  /* ===== HEADER ===== */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .logo {
+    font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--primary);
+  }
+  .logo span { color: var(--accent); }
+  nav { display: flex; gap: 28px; align-items: center; }
+  nav a { text-decoration: none; color: var(--gray); font-size: 14px; font-weight: 500; transition: color .2s; }
+  nav a:hover { color: var(--accent); }
+  .btn-header {
+    background: var(--accent); color: white; border: none;
+    padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 700;
+    cursor: pointer; text-decoration: none; transition: opacity .2s;
+  }
+  .btn-header:hover { opacity: .85; }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
+    color: white;
+    padding: 100px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 60% 40%, rgba(230,57,70,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(244,162,97,0.1) 0%, transparent 40%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(230,57,70,0.15);
+    border: 1px solid rgba(230,57,70,0.4);
+    color: #ff8a95;
+    font-size: 13px; font-weight: 600;
+    padding: 6px 18px; border-radius: 20px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    position: relative;
+    letter-spacing: -1px;
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 48px;
+    max-width: 580px;
+    margin-left: auto; margin-right: auto;
+    position: relative;
+  }
+  .hero-cta-group {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    position: relative;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white; border: none;
+    padding: 18px 48px; border-radius: 8px;
+    font-size: 17px; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(230,57,70,0.4);
+    transition: all .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(230,57,70,0.5); }
+  .btn-secondary {
+    background: transparent;
+    color: white; border: 2px solid rgba(255,255,255,0.3);
+    padding: 18px 36px; border-radius: 8px;
+    font-size: 17px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: white; }
+  .hero-note { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 16px; position: relative; }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    background: var(--primary);
+    padding: 32px 24px;
+    display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; color: white; }
+  .stat-num { font-size: 36px; font-weight: 900; color: var(--gold); line-height: 1; }
+  .stat-num sup { font-size: 18px; }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+
+  /* ===== SECTION BASE ===== */
+  section { padding: 80px 24px; }
+  .section-inner { max-width: 960px; margin: 0 auto; }
+  .section-label {
+    display: inline-block;
+    background: rgba(230,57,70,0.08);
+    color: var(--accent);
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    padding: 4px 14px; border-radius: 20px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 900; line-height: 1.3;
+    margin-bottom: 48px;
+  }
+  .text-center { text-align: center; }
+
+  /* ===== PROBLEM ===== */
+  .problem { background: #f5f6fa; }
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px; margin-top: 40px;
+  }
+  .problem-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 24px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .problem-icon { font-size: 28px; margin-bottom: 12px; }
+  .problem-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+  .problem-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  /* ===== SOLUTION ===== */
+  .solution { background: white; }
+  .solution-intro {
+    text-align: center; max-width: 640px; margin: 0 auto 56px;
+    font-size: 17px; color: var(--gray); line-height: 1.8;
+  }
+  .usp-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  .usp-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    transition: all .3s;
+  }
+  .usp-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+  .usp-num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), #c1121f);
+    color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900;
+    margin: 0 auto 20px;
+  }
+  .usp-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 12px; line-height: 1.4; }
+  .usp-card p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  /* ===== HOW IT WORKS ===== */
+  .how { background: #f5f6fa; }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .step {
+    text-align: center; padding: 32px 20px;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: '→';
+    position: absolute; right: -12px; top: 44px;
+    font-size: 24px; color: var(--accent);
+    font-weight: 900;
+  }
+  .step-circle {
+    width: 64px; height: 64px;
+    background: var(--primary);
+    color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 900;
+    margin: 0 auto 16px;
+  }
+  .step h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .step-tag {
+    display: inline-block;
+    background: rgba(230,57,70,0.1);
+    color: var(--accent); font-size: 11px; font-weight: 700;
+    padding: 2px 10px; border-radius: 10px; margin-bottom: 10px;
+  }
+
+  /* ===== RANKS ===== */
+  .ranks { background: var(--primary); color: white; }
+  .ranks h2 { color: white; }
+  .ranks .section-label { background: rgba(244,162,97,0.15); color: var(--gold); }
+  .rank-intro { text-align: center; max-width: 640px; margin: 0 auto 48px; color: rgba(255,255,255,0.7); font-size: 16px; }
+  .rank-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .rank-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: all .3s;
+  }
+  .rank-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+  .rank-card.legend { border-color: var(--gold); background: rgba(244,162,97,0.08); }
+  .rank-badge {
+    font-size: 32px; margin-bottom: 12px;
+  }
+  .rank-name { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+  .rank-name-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+  .rank-price {
+    font-size: 22px; font-weight: 900;
+    color: var(--gold); margin-bottom: 8px; line-height: 1.2;
+  }
+  .rank-price-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+  .rank-features { list-style: none; text-align: left; font-size: 13px; }
+  .rank-features li { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+  .rank-features li::before { content: '✓ '; color: var(--gold); font-weight: 700; }
+  .rank-fee { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  /* ===== POINTS ===== */
+  .points { background: white; }
+  .points-intro { text-align: center; max-width: 640px; margin: 0 auto 40px; font-size: 16px; color: var(--gray); }
+
+  /* インタラクティブ プランカード */
+  .iplan-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px; margin-bottom: 20px;
+  }
+  .iplan-card {
+    border: 2px solid var(--border);
+    border-radius: 14px; padding: 24px 16px; text-align: center;
+    cursor: pointer; transition: all .22s; position: relative;
+    background: white;
+  }
+  .iplan-card:hover { border-color: #aaa; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.07); }
+  .iplan-card.selected {
+    border-color: var(--accent);
+    background: linear-gradient(to bottom, rgba(230,57,70,.04), white);
+    box-shadow: 0 6px 24px rgba(230,57,70,.15);
+    transform: translateY(-2px);
+  }
+  .iplan-card.popular-iplan { border-color: var(--gold); }
+  .iplan-card.popular-iplan.selected { background: linear-gradient(to bottom, rgba(244,162,97,.07), white); box-shadow: 0 6px 24px rgba(244,162,97,.2); }
+  .iplan-pop-tag {
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--primary);
+    font-size: 11px; font-weight: 800; padding: 3px 14px; border-radius: 20px; white-space: nowrap;
+  }
+  .iplan-check {
+    position: absolute; top: 10px; right: 12px;
+    width: 22px; height: 22px; background: var(--accent); color: white;
+    border-radius: 50%; font-size: 12px; font-weight: 900;
+    display: none; align-items: center; justify-content: center;
+  }
+  .iplan-card.selected .iplan-check { display: flex; }
+  .iplan-amount { font-size: 24px; font-weight: 900; color: var(--primary); line-height: 1.2; margin-bottom: 6px; }
+  .iplan-pts { font-size: 13px; color: var(--gray); margin-bottom: 4px; }
+  .iplan-bonus { font-size: 13px; font-weight: 700; color: var(--accent); }
+  .iplan-card.popular-iplan .iplan-bonus { color: #c47d00; }
+
+  /* 選択中サマリーパネル */
+  .plan-summary {
+    background: var(--primary);
+    border-radius: 14px; padding: 24px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+    margin-bottom: 36px;
+    transition: all .3s;
+    opacity: 0; transform: translateY(8px);
+  }
+  .plan-summary.visible { opacity: 1; transform: translateY(0); }
+  .ps-left { flex: 1; min-width: 200px; }
+  .ps-label { font-size: 12px; color: rgba(255,255,255,.55); margin-bottom: 4px; }
+  .ps-plan { font-size: 20px; font-weight: 900; color: white; }
+  .ps-pts { font-size: 14px; color: var(--gold); margin-top: 2px; }
+  .ps-note { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 6px; line-height: 1.6; }
+  .ps-cta {
+    background: var(--accent); color: white; border: none;
+    padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 800;
+    cursor: pointer; white-space: nowrap; transition: all .2s;
+    text-decoration: none; display: inline-block;
+    box-shadow: 0 4px 14px rgba(230,57,70,.35);
+    font-family: inherit;
+  }
+  .ps-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(230,57,70,.45); }
+
+  /* 特徴カード */
+  .point-features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .pf-card {
+    background: #f5f6fa; border-radius: 12px; padding: 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .pf-icon { font-size: 28px; flex-shrink: 0; }
+  .pf-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .pf-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* ===== CATEGORIES ===== */
+  .categories { background: #f5f6fa; }
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px; margin-top: 40px;
+  }
+  .cat-card {
+    background: white; border-radius: 10px; padding: 20px 16px;
+    text-align: center; border: 1px solid var(--border);
+    transition: all .2s;
+  }
+  .cat-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(230,57,70,0.1); }
+  .cat-icon { font-size: 28px; margin-bottom: 8px; }
+  .cat-name { font-size: 13px; font-weight: 600; color: var(--primary); }
+
+  /* ===== FAQ ===== */
+  .faq { background: white; }
+  .faq-list { max-width: 720px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .faq-q {
+    font-size: 16px; font-weight: 700; color: var(--primary);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px;
+  }
+  .faq-q::after { content: '+'; font-size: 22px; color: var(--accent); flex-shrink: 0; }
+  .faq-a { font-size: 14px; color: var(--gray); line-height: 1.8; margin-top: 12px; padding-left: 16px; border-left: 3px solid var(--accent); }
+
+  /* ===== CTA BOTTOM ===== */
+  .cta-bottom {
+    background: linear-gradient(135deg, var(--accent), #c1121f);
+    color: white; text-align: center; padding: 80px 24px;
+  }
+  .cta-bottom h2 { font-size: clamp(24px, 3.5vw, 38px); font-weight: 900; margin-bottom: 16px; color: white; }
+  .cta-bottom p { font-size: 16px; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .btn-white {
+    background: white; color: var(--accent);
+    padding: 18px 52px; border-radius: 8px;
+    font-size: 17px; font-weight: 800;
+    text-decoration: none; display: inline-block;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: all .2s;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--primary); color: rgba(255,255,255,0.6);
+    padding: 48px 24px 24px;
+  }
+  .footer-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; gap: 48px; flex-wrap: wrap;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 24px;
+  }
+  .footer-brand .logo { color: white; margin-bottom: 8px; display: block; }
+  .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 220px; }
+  .footer-col h4 { color: white; font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+  .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+  .footer-col a:hover { color: white; }
+  .footer-copy { max-width: 960px; margin: 0 auto; font-size: 12px; text-align: center; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { display: none; }
+    .stats-bar { gap: 32px; }
+    .step:not(:last-child)::after { display: none; }
+    .steps { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="logo">Trust<span>Fit</span></div>
+  <nav>
+    <a href="#how">使い方</a>
+    <a href="#ranks">キャスト</a>
+    <a href="#points">料金</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a href="trustfit_register_company.html" class="btn-header">無料で企業登録</a>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">🏆 評価連動型トレーナーマッチングプラットフォーム</div>
+  <h1>一流が来る。<br><span class="accent">成果の分だけ</span>払う。</h1>
+  <p class="hero-sub">体験した価値だけ払えばいい。<br>元オリンピアン・プロアスリートが、あなたの会社に来る新しい福利厚生。</p>
+  <div class="hero-cta-group">
+    <a href="trustfit_register_company.html" class="btn-primary">企業登録（無料）をはじめる</a>
+    <a href="#how" class="btn-secondary">使い方を見る</a>
+  </div>
+  <p class="hero-note">初期費用・登録料 完全無料 ／ 成果に応じた後払い型</p>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">¥0</div>
+    <div class="stat-label">初期費用・登録料</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">50<sup>点</sup></div>
+    <div class="stat-label">双方評価スコア満点</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4<sup>ランク</sup></div>
+    <div class="stat-label">Challenger〜Legend</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1<sup>pt</sup>=1円</div>
+    <div class="stat-label">シンプルなポイント決済</div>
+  </div>
+</div>
+
+<!-- ===== PROBLEM ===== -->
+<section class="problem">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">Problem</span>
+      <h2>こんなお悩みありませんか？</h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">😤</div>
+        <h3>使われない福利厚生にお金を払いたくない</h3>
+        <p>導入したはいいが誰も使わない。コストだけかさんで成果がわからない。そんな経験はありませんか？</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⏰</div>
+        <h3>社長も役員も疲弊していて、ジム通いの時間がない</h3>
+        <p>意思決定者のパフォーマンスが落ちていても、外に出る時間は作れない。会社に来てもらえたら…。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📋</div>
+        <h3>健康経営を始めたいが、何から手をつけたらいいかわからない</h3>
+        <p>「健康経営優良法人」に申請したいが、具体的な施策も体制もまだ何もない。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📢</div>
+        <h3>採用に差がつくコンテンツが作れていない</h3>
+        <p>求人媒体に100万円使っても採れない。他社と違う採用PRの切り口がほしい。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🤝</div>
+        <h3>優秀なトレーナーを探す手間が大きい</h3>
+        <p>良い外部トレーナーを自力で探すのは時間がかかる。品質のバラツキも心配。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>予算が不明確で稟議が通らない</h3>
+        <p>成果連動だと予算が読めない。経理処理が複雑になりそうで稟議が通りにくい。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section class="solution">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">Solution</span>
+      <h2>TrustFitなら</h2>
+    </div>
+    <p class="solution-intro">
+      TrustFitは「評価連動型・完全成果報酬×双方評価」で、<br>
+      企業とトレーナーをつなぐまったく新しいプラットフォームです。
+    </p>
+    <div class="usp-grid">
+      <div class="usp-card">
+        <div class="usp-num">1</div>
+        <h3>評価連動型成果報酬<br>業界初の50点満点双方評価</h3>
+        <p>10項目×5点満点のスコアで支払い額を決定。満足した分だけ払えばいいから、失敗リスクがありません。</p>
+      </div>
+      <div class="usp-card">
+        <div class="usp-num">2</div>
+        <h3>VIPアスリート×若手の二層構造<br>高品質と継続性を両立</h3>
+        <p>元オリンピアン・プロ選手がフロントで体験を届け、若手トレーナーが継続サポート。体験価値と継続コストを最適化。</p>
+      </div>
+      <div class="usp-card">
+        <div class="usp-num">3</div>
+        <h3>健康経営認定×採用PR直結<br>投資対効果を可視化</h3>
+        <p>「オリンピアンが来る会社」という30秒動画が採用PR素材になる。健康経営優良法人認定の取得支援も。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">How it works</span>
+      <h2>TrustFitの使い方</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <span class="step-tag">無料・3分</span>
+        <h3>企業アカウント登録</h3>
+        <p>社名・業種・社員数を入力するだけ。初期費用ゼロで今すぐ始められます。</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <span class="step-tag">ポイント購入</span>
+        <h3>ウォレットにポイントをチャージ</h3>
+        <p>1pt=1円でポイントを購入。稟議に通りやすい「確定費用」として経理処理できます。</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <span class="step-tag">簡単予約</span>
+        <h3>キャストを選んで予約</h3>
+        <p>ランク・カテゴリ・日程で絞り込み。Airbnbのように気軽にブラウズして予約できます。</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <span class="step-tag">当日実施</span>
+        <h3>セッション実施</h3>
+        <p>キャストが会社に来て最大2時間のプログラムを実施。参加人数に合わせたコマ数提案も自動で。</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">5</div>
+        <span class="step-tag">評価→確定</span>
+        <h3>双方評価でポイント確定</h3>
+        <p>50点満点の評価スコアで報酬が確定。余剰ポイントは即日返還。使い切れない端数はチップや社会貢献にも使えます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RANKS ===== -->
+<section class="ranks" id="ranks">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">Cast Ranks</span>
+      <h2 style="color:white;">4段階のキャストランク</h2>
+    </div>
+    <p class="rank-intro">Challenger（新進気鋭）からLegend（超一流）まで、<br>企業の規模・目的・予算に合わせて最適なキャストを選べます。</p>
+    <div class="rank-grid">
+      <div class="rank-card">
+        <div class="rank-badge">🆕</div>
+        <div class="rank-name">Challenger</div>
+        <div class="rank-name-sub">チャレンジャー</div>
+        <div class="rank-price">¥10,000〜<br>¥50,000</div>
+        <div class="rank-price-label">/ セッション（成果報酬のみ）</div>
+        <ul class="rank-features">
+          <li>継続サポートに最適</li>
+          <li>週次・月次の定期訪問</li>
+          <li>若手トレーナーの実力派</li>
+        </ul>
+        <div class="rank-fee">プラットフォーム手数料 25%</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-badge">🥉</div>
+        <div class="rank-name">Elite <span style="color:var(--gold);font-size:11px;">VIP</span></div>
+        <div class="rank-name-sub">エリート</div>
+        <div class="rank-price">¥60,000〜<br>¥100,000</div>
+        <div class="rank-price-label">/ セッション（固定¥50,000＋成果）</div>
+        <ul class="rank-features">
+          <li>固定ベース¥50,000保証</li>
+          <li>10回以上・評価累計400pt以上</li>
+          <li>スカウト枠も対象</li>
+        </ul>
+        <div class="rank-fee">プラットフォーム手数料 20%</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-badge">🥈</div>
+        <div class="rank-name">Master <span style="color:var(--gold);font-size:11px;">VIP</span></div>
+        <div class="rank-name-sub">マスター</div>
+        <div class="rank-price">¥120,000〜<br>¥200,000</div>
+        <div class="rank-price-label">/ セッション（固定¥100,000＋成果）</div>
+        <ul class="rank-features">
+          <li>固定ベース¥100,000保証</li>
+          <li>平均40pt以上の実績者</li>
+          <li>組織コンディショニング専門</li>
+        </ul>
+        <div class="rank-fee">プラットフォーム手数料 18%</div>
+      </div>
+      <div class="rank-card legend">
+        <div class="rank-badge">🥇</div>
+        <div class="rank-name" style="color:var(--gold);">Legend <span style="font-size:11px;">VIP</span></div>
+        <div class="rank-name-sub">レジェンド</div>
+        <div class="rank-price">¥220,000〜<br>¥300,000</div>
+        <div class="rank-price-label">/ セッション（固定¥200,000＋成果）</div>
+        <ul class="rank-features">
+          <li>元オリンピアン・日本代表クラス</li>
+          <li>固定ベース¥200,000保証</li>
+          <li>限界突破講演・採用PR撮影</li>
+          <li>組織カルテを72時間以内に提出</li>
+        </ul>
+        <div class="rank-fee">プラットフォーム手数料 15%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POINTS ===== -->
+<section class="points" id="points">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">Pricing</span>
+      <h2>シンプルなポイント料金制</h2>
+    </div>
+    <p class="points-intro">
+      1pt = 1円。まとめて購入するほどお得なボーナスポイント付き。<br>
+      <strong>解約手続き不要</strong>——使い切ったら自動的に終了します。
+    </p>
+
+    <!-- インタラクティブ プランカード -->
+    <div class="iplan-grid">
+      <div class="iplan-card" onclick="selectPlanLP(this,'無料登録のみ','登録後にチャージ可','—','まずは登録だけ完了。ポイントは管理画面からいつでも購入できます。')">
+        <div class="iplan-check">✓</div>
+        <div class="iplan-amount" style="font-size:18px;padding-top:4px;">無料登録<br>のみ</div>
+        <div class="iplan-pts">後からチャージ可</div>
+        <div class="iplan-bonus">—</div>
+      </div>
+      <div class="iplan-card" onclick="selectPlanLP(this,'¥50,000プラン','50,000pt','ボーナスなし','Challengerキャストのセッションを約1〜5回分ご利用いただけます。')">
+        <div class="iplan-check">✓</div>
+        <div class="iplan-amount">¥50,000</div>
+        <div class="iplan-pts">50,000pt 付与</div>
+        <div class="iplan-bonus">ボーナスなし</div>
+      </div>
+      <div class="iplan-card" onclick="selectPlanLP(this,'¥100,000プラン','105,000pt','+5,000pt ボーナス','Elite VIPセッション（¥60,000〜¥100,000）を1〜2回体験するのに最適です。')">
+        <div class="iplan-check">✓</div>
+        <div class="iplan-amount">¥100,000</div>
+        <div class="iplan-pts">105,000pt 付与</div>
+        <div class="iplan-bonus">+5,000pt</div>
+      </div>
+      <div class="iplan-card popular-iplan" onclick="selectPlanLP(this,'¥300,000プラン','320,000pt','+20,000pt ボーナス','Masterクラスの複数回利用や、PRISM CUP参加費（100,000pt）との組み合わせに最適です。')">
+        <div class="iplan-pop-tag">★ 最もお得</div>
+        <div class="iplan-check">✓</div>
+        <div class="iplan-amount">¥300,000</div>
+        <div class="iplan-pts">320,000pt 付与</div>
+        <div class="iplan-bonus">+20,000pt</div>
+      </div>
+      <div class="iplan-card" onclick="selectPlanLP(this,'¥500,000〜プラン','540,000pt〜','+40,000pt ボーナス','Legend VIPセッション（¥220,000〜¥300,000）を複数回ご利用いただける大口プランです。')">
+        <div class="iplan-check">✓</div>
+        <div class="iplan-amount">¥500,000〜</div>
+        <div class="iplan-pts">540,000pt〜 付与</div>
+        <div class="iplan-bonus">+40,000pt</div>
+      </div>
+    </div>
+
+    <!-- サマリーパネル -->
+    <div class="plan-summary" id="planSummary">
+      <div class="ps-left">
+        <div class="ps-label">選択中のプラン</div>
+        <div class="ps-plan" id="ps-plan">—</div>
+        <div class="ps-pts" id="ps-pts"></div>
+        <div class="ps-note" id="ps-note"></div>
+      </div>
+      <a href="trustfit_register_company.html" class="ps-cta" id="ps-cta">このプランで登録する →</a>
+    </div>
+
+    <div class="point-features">
+      <div class="pf-card">
+        <div class="pf-icon">🔒</div>
+        <div>
+          <h3>予約時ロック → セッション後確定</h3>
+          <p>予約時に最大報酬分をロック。セッション後の評価スコアで確定額のみ引き落とし。余剰分は即日返還。</p>
+        </div>
+      </div>
+      <div class="pf-card">
+        <div class="pf-icon">📅</div>
+        <div>
+          <h3>ポイント有効期限 1年間</h3>
+          <p>購入日から1年後の同日23:59に失効。期末に残ったポイントは端数消化アシストで最後まで活用できます。</p>
+        </div>
+      </div>
+      <div class="pf-card">
+        <div class="pf-icon">🚫</div>
+        <div>
+          <h3>仲介手数料・成約手数料ゼロ</h3>
+          <p>企業側の負担は購入ポイントのみ。プラットフォーム手数料はキャストの報酬から差し引かれる設計です。</p>
+        </div>
+      </div>
+      <div class="pf-card">
+        <div class="pf-icon">🎁</div>
+        <div>
+          <h3>端数ポイントは3通りで活用</h3>
+          <p>チップとしてキャストに追加払い、好きなキャストの応援スポンサー、または社会的プロジェクト（子ども陸上クラブ等）への寄付。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="categories">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">Contents</span>
+      <h2>コンテンツカテゴリ</h2>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">🤸</div>
+        <div class="cat-name">ストレッチ・<br>ヨガ</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">💪</div>
+        <div class="cat-name">トレーニング・<br>機能改善</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🧠</div>
+        <div class="cat-name">マインドセット・<br>メンタルコーチ</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🎤</div>
+        <div class="cat-name">講演・<br>ストーリーテリング</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">👨‍👩‍👧</div>
+        <div class="cat-name">ファミリー・<br>キッズスクール</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🏥</div>
+        <div class="cat-name">健康経営<br>コンサルティング</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">⚽</div>
+        <div class="cat-name">PRISM CUP<br>企業フットサル</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🎯</div>
+        <div class="cat-name">目標設定・<br>パフォーマンス</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🏃</div>
+        <div class="cat-name">ウォーキング・<br>オフィス巡回</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">💻</div>
+        <div class="cat-name">オンライン<br>伴走型</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-label">FAQ</span>
+      <h2>よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">初期費用・月額費用はかかりますか？</div>
+        <div class="faq-a">登録料・初期費用・月額料金はすべて無料です。ポイントを購入した時点から利用が始まります。ポイントを使い切ったら自動的に終了するため、解約手続きも不要です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">ポイントが余ったらどうなりますか？</div>
+        <div class="faq-a">購入日から1年後の同日23:59に失効します。残高が中途半端な場合は端数消化アシスト機能が残高に合わせたミニプログラムを自動提案します。また、チップとしてキャストへの追加払いや、子ども陸上クラブ等の社会貢献への寄付にも使えます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">評価はどのように行うのですか？</div>
+        <div class="faq-a">セッション後に「コンテンツの質」「参加者満足度」「安全配慮」など10項目×5点満点（50点満点）で双方が評価します。企業とキャスト双方が提出後に同時公開される設計なので、点数の合わせ合いが起きません。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Legendランクのキャストとは具体的にどんな人ですか？</div>
+        <div class="faq-a">元オリンピアン・日本代表経験者・著名大学コーチ等のトップアスリートです。スカウト制により直接招待された実績者のみが対象です。初回セッション後72時間以内に「組織コンディショニング・カルテ」を提出します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">社員が撮影に協力したくない場合はどうなりますか？</div>
+        <div class="faq-a">撮影は任意です。撮影NGの場合でも、匿名スコアデータ＋匿名テキスト感想の提供のみでご利用いただけます。個人特定は一切行いません。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">予約は誰でも見えるのですか？</div>
+        <div class="faq-a">予約は完全匿名設計です。他の社員からは「枠が埋まっている」とだけ表示されます。誰が予約したかは一切表示されません。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BOTTOM ===== -->
+<section class="cta-bottom" id="cta">
+  <h2>今すぐ、一流を会社に呼ぼう</h2>
+  <p>初期費用ゼロ・解約手続き不要。<br>体験した価値だけ払えばいい。</p>
+  <a href="trustfit_register_company.html" class="btn-white">無料で企業登録する</a>
+  <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:20px;">
+    📩 お問い合わせ: trustfit.biz@moontf.com
+  </p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">Trust<span>Fit</span></span>
+      <p>評価連動型トレーナーマッチングプラットフォーム。<br>運営: 株式会社MOON</p>
+    </div>
+    <div class="footer-col">
+      <h4>企業の方へ</h4>
+      <a href="trustfit_register_company.html">企業登録（無料）</a>
+      <a href="#points">料金・ポイント</a>
+      <a href="trustfit_faq.html">導入事例・FAQ</a>
+      <a href="trustfit_faq.html#tab-company">健康経営認定支援</a>
+    </div>
+    <div class="footer-col">
+      <h4>キャスト（トレーナー）の方へ</h4>
+      <a href="trustfit_register_cast.html">キャスト登録</a>
+      <a href="trustfit_ranks.html">ランク制度</a>
+      <a href="trustfit_simulator.html">報酬シミュレーター</a>
+    </div>
+    <div class="footer-col">
+      <h4>イベント</h4>
+      <a href="trustfit_prism_cup.html">PRISM CUP</a>
+      <a href="trustfit_prism_cup.html">企業フットサル大会</a>
+    </div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <a href="trustfit_faq.html">よくある質問</a>
+      <a href="trustfit_contact.html">お問い合わせ</a>
+      <a href="trustfit_terms.html">利用規約</a>
+      <a href="trustfit_privacy.html">プライバシーポリシー</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 株式会社MOON / TrustFit. All rights reserved.</div>
+</footer>
+
+<script>
+function selectPlanLP(el, planName, pts, bonus, note) {
+  // カード選択状態
+  document.querySelectorAll('.iplan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  // サマリーパネルを更新
+  document.getElementById('ps-plan').textContent = planName;
+  document.getElementById('ps-pts').textContent = pts !== '—' ? pts + ' 付与（' + bonus + '）' : '登録後にポイント購入';
+  document.getElementById('ps-note').textContent = note;
+
+  // CTAリンク（プラン名をクエリで渡す）
+  const cta = document.getElementById('ps-cta');
+  cta.href = 'trustfit_register_company.html?plan=' + encodeURIComponent(planName);
+  cta.textContent = planName === '無料登録のみ' ? '無料で登録する →' : 'このプランで登録する →';
+
+  // パネル表示
+  const summary = document.getElementById('planSummary');
+  summary.classList.add('visible');
+
+  // スムーズスクロールで見えるように
+  setTimeout(() => {
+    summary.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+</script>
+</body>
+</html>

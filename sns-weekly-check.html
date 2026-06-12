@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS週次チェックリスト | AI組織</title>
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --card: #111827;
+    --border: #1e293b;
+    --accent: #3b82f6;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; min-height: 100vh; padding: 24px; }
+  h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
+  .date-bar { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .date-bar label { color: var(--muted); font-size: 0.85rem; }
+  .date-bar input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 6px 12px; font-size: 0.9rem; }
+  .date-bar button { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 7px 16px; font-size: 0.85rem; cursor: pointer; margin-left: auto; }
+  .date-bar button:hover { opacity: 0.85; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .pj-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .pj-header { padding: 14px 18px 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .pj-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .pj-name { font-weight: 700; font-size: 1rem; }
+  .pj-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .platform { display: flex; align-items: flex-start; gap: 10px; }
+  .platform-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .platform-info { flex: 1; }
+  .platform-name { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+  .platform-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .input-small { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 5px 10px; font-size: 0.9rem; width: 90px; text-align: center; }
+  .input-small:focus { outline: none; border-color: var(--accent); }
+  .stale-badge { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); border-radius: 4px; font-size: 0.7rem; padding: 2px 7px; }
+  .ok-badge { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); border-radius: 4px; font-size: 0.7rem; padding: 2px 7px; }
+  .warn-badge { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); border-radius: 4px; font-size: 0.7rem; padding: 2px 7px; }
+  .last-check { font-size: 0.75rem; color: var(--muted); }
+  .days-ago { font-size: 0.75rem; }
+  .confirm-btn { background: rgba(59,130,246,0.15); color: var(--accent); border: 1px solid rgba(59,130,246,0.3); border-radius: 6px; padding: 4px 10px; font-size: 0.78rem; cursor: pointer; white-space: nowrap; }
+  .confirm-btn:hover { background: rgba(59,130,246,0.25); }
+  .save-btn { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 0.9rem; cursor: pointer; display: block; margin: 20px auto 0; width: 100%; max-width: 300px; }
+  .save-btn:hover { opacity: 0.85; }
+  .summary-bar { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; margin-bottom: 20px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+  .summary-item { text-align: center; }
+  .summary-num { font-size: 1.4rem; font-weight: 700; }
+  .summary-label { font-size: 0.75rem; color: var(--muted); }
+  .red { color: var(--red); }
+  .gold { color: var(--gold); }
+  .green { color: var(--green); }
+  .copy-output { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: var(--muted); margin-top: 16px; white-space: pre-wrap; display: none; }
+  .copy-toggle { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer; display: block; margin: 12px auto 0; }
+  .copy-toggle:hover { color: var(--text); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<h1>📱 SNS週次チェックリスト</h1>
+<p class="subtitle">毎週の実測値を入力 → CONTEXT.md更新文を自動生成 / AIに数値を伝えるだけでOK</p>
+
+<div class="date-bar">
+  <label>確認日</label>
+  <input type="date" id="checkDate">
+  <button onclick="updateDaysAgo()">日数再計算</button>
+</div>
+
+<div class="summary-bar">
+  <div class="summary-item"><div class="summary-num red" id="cnt-stale">0</div><div class="summary-label">⚠️ 3日超え</div></div>
+  <div class="summary-item"><div class="summary-num gold" id="cnt-pending">0</div><div class="summary-label">📝 未入力</div></div>
+  <div class="summary-item"><div class="summary-num green" id="cnt-ok">0</div><div class="summary-label">✅ 確認済み</div></div>
+</div>
+
+<div class="grid" id="pjGrid"></div>
+
+<button class="copy-toggle" onclick="generateOutput()">📋 CONTEXT.md更新文を生成</button>
+<div class="copy-output" id="copyOutput"></div>
+
+<script>
+const TODAY = new Date();
+
+const PJS = [
+  {
+    name: "オギラボ",
+    color: "#8b5cf6",
+    platforms: [
+      { id: "ogilab_tiktok", label: "TikTok", icon: "TK", color: "#000", field: "フォロワー", unit: "人", lastDate: "2026-03-27", lastVal: "916人" },
+      { id: "ogilab_instagram", label: "Instagram", icon: "IG", color: "#e1306c", field: "フォロワー", unit: "人", lastDate: "2026-03-27", lastVal: "未確認" },
+      { id: "ogilab_note", label: "Note", icon: "N", color: "#41c9b4", field: "フォロワー", unit: "人", lastDate: "2026-03-27", lastVal: "未確認" },
+      { id: "ogilab_youtube", label: "YouTube", icon: "YT", color: "#ff0000", field: "登録者", unit: "人", lastDate: "2026-03-27", lastVal: "未確認" },
+    ]
+  },
+  {
+    name: "CARAS",
+    color: "#f59e0b",
+    platforms: [
+      { id: "caras_instagram", label: "Instagram", icon: "IG", color: "#e1306c", field: "フォロワー", unit: "人", lastDate: "2026-03-27", lastVal: "68人・投稿81件" },
+      { id: "caras_tiktok", label: "TikTok", icon: "TK", color: "#000", field: "フォロワー", unit: "人", lastDate: "2026-03-27", lastVal: "23人・いいね185" },
+    ]
+  },
+  {
+    name: "SORA",
+    color: "#06b6d4",
+    platforms: [
+      { id: "sora_instagram", label: "Instagram", icon: "IG", color: "#e1306c", field: "フォロワー", unit: "人", lastDate: "—", lastVal: "未確認" },
+    ]
+  },
+  {
+    name: "SUPERIOR",
+    color: "#10b981",
+    platforms: [
+      { id: "superior_instagram", label: "Instagram (@superior_tf_2025)", icon: "IG", color: "#e1306c", field: "フォロワー", unit: "人", lastDate: "2026-03-28", lastVal: "未確認" },
+    ]
+  },
+  {
+    name: "むーん",
+    color: "#ec4899",
+    platforms: [
+      { id: "moon_instagram", label: "Instagram", icon: "IG", color: "#e1306c", field: "フォロワー", unit: "人", lastDate: "—", lastVal: "未確認" },
+    ]
+  },
+];
+
+function daysDiff(dateStr) {
+  if (!dateStr || dateStr === "—") return 999;
+  try {
+    const d = new Date(dateStr);
+    return Math.floor((TODAY - d) / (1000 * 60 * 60 * 24));
+  } catch { return 999; }
+}
+
+function staleBadge(days) {
+  if (days >= 999) return `<span class="stale-badge">未確認</span>`;
+  if (days >= 3) return `<span class="stale-badge">⚠️ ${days}日前</span>`;
+  if (days >= 1) return `<span class="warn-badge">${days}日前</span>`;
+  return `<span class="ok-badge">本日確認</span>`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById("pjGrid");
+  grid.innerHTML = PJS.map(pj => `
+    <div class="pj-card">
+      <div class="pj-header">
+        <div class="pj-dot" style="background:${pj.color}"></div>
+        <div class="pj-name">${pj.name}</div>
+      </div>
+      <div class="pj-body">
+        ${pj.platforms.map(p => {
+          const days = daysDiff(p.lastDate);
+          return `
+          <div class="platform">
+            <div class="platform-icon" style="background:${p.color}">${p.icon}</div>
+            <div class="platform-info">
+              <div class="platform-name">${p.label}</div>
+              <div class="platform-row">
+                <input class="input-small" id="${p.id}" type="text" placeholder="${p.field}数" title="現在の${p.field}数を入力">
+                <span class="last-check">前回: ${p.lastVal}</span>
+                ${staleBadge(days)}
+              </div>
+            </div>
+          </div>`;
+        }).join('<hr>')}
+      </div>
+    </div>
+  `).join('');
+  updateSummary();
+}
+
+function updateDaysAgo() {
+  renderGrid();
+}
+
+function updateSummary() {
+  let stale = 0, pending = 0, ok = 0;
+  PJS.forEach(pj => pj.platforms.forEach(p => {
+    const days = daysDiff(p.lastDate);
+    const val = document.getElementById(p.id)?.value;
+    if (val) ok++;
+    else if (days >= 3) stale++;
+    else pending++;
+  }));
+  document.getElementById("cnt-stale").textContent = stale;
+  document.getElementById("cnt-pending").textContent = pending;
+  document.getElementById("cnt-ok").textContent = ok;
+}
+
+function generateOutput() {
+  const checkDate = document.getElementById("checkDate").value || TODAY.toISOString().slice(0, 10);
+  let lines = ["# CONTEXT.md 更新テキスト（以下をAIに貼り付けてください）", `確認日: ${checkDate}`, ""];
+
+  PJS.forEach(pj => {
+    const updates = [];
+    pj.platforms.forEach(p => {
+      const val = document.getElementById(p.id)?.value;
+      if (val) updates.push(`  ${p.label}: ${val}${p.unit} → 前回確認日を ${checkDate} に更新`);
+    });
+    if (updates.length > 0) {
+      lines.push(`【${pj.name}】`);
+      lines = lines.concat(updates);
+      lines.push("");
+    }
+  });
+
+  if (lines.length <= 3) {
+    lines.push("（入力なし — 各フィールドに現在値を入力してください）");
+  }
+
+  lines.push("\n> AIへの指示文: 上記の数値でCONTEXT.mdの「前回確認フォロワー」と「前回確認日」を更新してください。");
+
+  const out = document.getElementById("copyOutput");
+  out.style.display = "block";
+  out.textContent = lines.join("\n");
+}
+
+// 初期値セット
+document.getElementById("checkDate").value = TODAY.toISOString().slice(0, 10);
+renderGrid();
+
+// 入力変化でサマリー更新
+document.addEventListener("input", e => {
+  if (e.target.classList.contains("input-small")) updateSummary();
+});
+</script>
+</body>
+</html>

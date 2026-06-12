@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — 企業向けモニター提案書</title>
+<style>
+  /* ── リセット＆ベース ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    background: #f2f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px 0;
+  }
+
+  /* ── A4 紙面 ── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── 上部：濃色ヘッダー ── */
+  .header {
+    background: #0d1a2a;
+    padding: 11px 32px 10px;
+    position: relative;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 7px;
+  }
+  .brand-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .brand-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+  }
+  .brand-tag {
+    font-size: 9px;
+    color: #6a8aaa;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* モニターバッジ（右上） */
+  .monitor-badge {
+    background: linear-gradient(135deg, #e83a5a, #c0203a);
+    color: #fff;
+    border-radius: 8px;
+    padding: 5px 12px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .monitor-badge .badge-label { font-size: 9px; letter-spacing: 1px; opacity: 0.85; }
+  .monitor-badge .badge-num { font-size: 20px; font-weight: 900; line-height: 1.1; }
+  .monitor-badge .badge-unit { font-size: 10px; opacity: 0.85; }
+
+  /* メインコピー */
+  .main-copy {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .main-copy span { color: #f0a020; }
+  .sub-copy {
+    font-size: 12px;
+    color: #8aaabb;
+    letter-spacing: 1px;
+  }
+
+  /* ── コンテンツエリア ── */
+  .body {
+    flex: 1;
+    padding: 10px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── セクション共通 ── */
+  .section-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0d6aad;
+    margin-bottom: 4px;
+  }
+
+  /* ── 3つのUSP ── */
+  .usp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .usp-card {
+    background: #f7f9fc;
+    border: 1px solid #dde4ed;
+    border-radius: 8px;
+    padding: 8px 9px;
+    border-top: 3px solid #0d6aad;
+  }
+  .usp-num {
+    font-size: 9px;
+    font-weight: 800;
+    color: #0d6aad;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .usp-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #1a2a3a;
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+  .usp-desc {
+    font-size: 9.5px;
+    color: #6a7a8a;
+    line-height: 1.45;
+  }
+
+  /* ── 仕組み図解 ── */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    flex: 1;
+    background: #eef4fb;
+    border-radius: 6px;
+    padding: 5px 5px;
+    text-align: center;
+  }
+  .flow-step .step-num {
+    font-size: 8px;
+    color: #0d6aad;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .flow-step .step-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a2a3a;
+    line-height: 1.25;
+  }
+  .flow-step .step-sub {
+    font-size: 8px;
+    color: #8a9aaa;
+    margin-top: 1px;
+  }
+  .flow-arrow {
+    font-size: 16px;
+    color: #0d6aad;
+    flex-shrink: 0;
+  }
+
+  /* ── 料金表 ── */
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .price-table thead tr {
+    background: #0d1a2a;
+    color: #fff;
+  }
+  .price-table thead th {
+    padding: 4px 7px;
+    font-weight: 700;
+    font-size: 8.5px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: left;
+  }
+  .price-table tbody tr:nth-child(even) { background: #f7f9fc; }
+  .price-table tbody td {
+    padding: 4px 7px;
+    color: #2a3a4a;
+    border-bottom: 1px solid #dde4ed;
+    vertical-align: middle;
+    font-size: 10px;
+  }
+  .rank-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 800;
+  }
+  .rank-c { background: #e8f0e8; color: #2a6a2a; }
+  .rank-e { background: #fff3d0; color: #9a6a00; }
+  .rank-m { background: #e8e8f8; color: #3a3a9a; }
+  .rank-l { background: #fde8e8; color: #9a2a2a; }
+
+  .price-highlight {
+    font-weight: 800;
+    color: #0d1a2a;
+  }
+
+  /* ── モニター特典ブロック ── */
+  .monitor-block {
+    background: linear-gradient(135deg, #0d1a2a, #1a3050);
+    border-radius: 10px;
+    padding: 9px 16px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .monitor-left { flex: 1; }
+  .monitor-title {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #f0a020;
+    font-weight: 800;
+    margin-bottom: 3px;
+  }
+  .monitor-copy {
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .monitor-copy span { color: #f0a020; }
+  .monitor-note { font-size: 9px; color: #8aaacc; }
+  .monitor-right {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .monitor-price {
+    font-size: 11px;
+    color: #8aaacc;
+    text-decoration: line-through;
+    margin-bottom: 2px;
+  }
+  .monitor-arrow { font-size: 20px; color: #f0a020; }
+  .monitor-special {
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+  .monitor-pt {
+    font-size: 10px;
+    color: #f0a020;
+  }
+  .monitor-cond {
+    font-size: 9px;
+    color: #6a8aaa;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── 採用PR強調 ── */
+  .pr-note {
+    background: #f0f7ee;
+    border: 1px solid #b0d8a0;
+    border-radius: 6px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pr-icon { font-size: 15px; flex-shrink: 0; }
+  .pr-text { font-size: 10px; color: #2a4a2a; line-height: 1.45; }
+  .pr-text strong { color: #1a3a1a; }
+
+  /* ── フッター ── */
+  .footer {
+    background: #f7f9fc;
+    border-top: 1px solid #dde4ed;
+    padding: 7px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-left { }
+  .footer-brand { font-size: 13px; font-weight: 900; color: #0d1a2a; margin-bottom: 2px; }
+  .footer-email { font-size: 11px; color: #0d6aad; }
+  .footer-note { font-size: 9px; color: #9aaabb; margin-top: 3px; }
+
+  /* QRプレースホルダー */
+  .qr-area {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .qr-box {
+    width: 56px;
+    height: 56px;
+    background: #eef2f6;
+    border: 1px dashed #aab4be;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #8a9aaa;
+    margin: 0 auto 4px;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .qr-label { font-size: 9px; color: #9aaabb; }
+
+  /* ── 印刷用 ── */
+  @page { size: A4 portrait; margin: 0; }
+  @media print {
+    html, body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      overflow: hidden;
+    }
+    .page {
+      box-shadow: none;
+      width: 210mm !important;
+      height: 297mm !important;
+      min-height: unset !important;
+      max-height: 297mm !important;
+      overflow: hidden !important;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+  }
+
+  /* ── スマホ対応 ── */
+  @media screen and (max-width: 640px) {
+    body { padding: 0; }
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      box-shadow: none;
+    }
+    .header { padding: 20px 20px 18px; }
+    .body { padding: 18px 20px; }
+    .footer { padding: 14px 20px; flex-direction: column; align-items: flex-start; gap: 14px; }
+    .usp-grid { grid-template-columns: 1fr; }
+    .price-table { font-size: 10px; }
+    .monitor-block { flex-direction: column; gap: 14px; }
+    .main-copy { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ───── ヘッダー ───── -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-logo">
+        <div class="brand-name">TrustFit</div>
+        <div class="brand-tag">Corporate Trainer Matching Platform</div>
+      </div>
+      <div class="monitor-badge">
+        <div class="badge-label">初回モニター限定</div>
+        <div class="badge-num">10<span style="font-size:14px;">倍</span></div>
+        <div class="badge-unit">ポイント特典</div>
+      </div>
+    </div>
+    <div class="main-copy">一流が来る。<span>成果の分だけ</span>払う。</div>
+    <div class="sub-copy">企業に一流トレーナーを派遣。体験価値を評価した分だけ支払う、業界初の成果報酬型プラットフォーム。</div>
+  </div>
+
+  <!-- ───── ボディ ───── -->
+  <div class="body">
+
+    <!-- 3USP -->
+    <div>
+      <div class="section-label">TrustFit 3つの特徴</div>
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-num">FEATURE 01</div>
+          <div class="usp-title">評価連動型<br>成果報酬</div>
+          <div class="usp-desc">50点満点の双方評価スコアで報酬が確定。価値がなければ払わない。業界初の仕組み。</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-num">FEATURE 02</div>
+          <div class="usp-title">VIPアスリート×<br>継続トレーナー</div>
+          <div class="usp-desc">初回はオリンピアン・元プロが来訪。継続は若手精鋭が月次で担当。高品質と低コストを両立。</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-num">FEATURE 03</div>
+          <div class="usp-title">採用PR動画を<br>同時に制作</div>
+          <div class="usp-desc">セッション中に採用広報素材を収録・納品。「求人広告に100万円」より強力な採用PR手段。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- フロー -->
+    <div>
+      <div class="section-label">ご利用の流れ</div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="step-num">STEP 01</div>
+          <div class="step-label">お問い合わせ<br>・ヒアリング</div>
+          <div class="step-sub">課題をお聞きします</div>
+        </div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">
+          <div class="step-num">STEP 02</div>
+          <div class="step-label">ポイント購入<br>（事前決済）</div>
+          <div class="step-sub">1pt = 1円</div>
+        </div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">
+          <div class="step-num">STEP 03</div>
+          <div class="step-label">VIPセッション<br>実施・撮影</div>
+          <div class="step-sub">御社に出張</div>
+        </div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">
+          <div class="step-num">STEP 04</div>
+          <div class="step-label">評価して<br>報酬確定</div>
+          <div class="step-sub">余剰ptは即返還</div>
+        </div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">
+          <div class="step-num">STEP 05</div>
+          <div class="step-label">継続プランを<br>ご提案</div>
+          <div class="step-sub">お任せで設計</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 料金 -->
+    <div>
+      <div class="section-label">トレーナーランク &amp; 料金目安</div>
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>ランク</th>
+            <th>こんな方が来ます</th>
+            <th>固定ベース</th>
+            <th>成果報酬（評価連動）</th>
+            <th>合計レンジ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-badge rank-l">🥇 Legend</span></td>
+            <td style="font-size:10px;">オリンピアン・元日本代表級</td>
+            <td>200,000pt</td>
+            <td>〜100,000pt</td>
+            <td class="price-highlight">22〜30万円/回</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-m">🥈 Master</span></td>
+            <td style="font-size:10px;">元トップアスリート・スペシャリスト</td>
+            <td>100,000pt</td>
+            <td>〜100,000pt</td>
+            <td class="price-highlight">12〜20万円/回</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-e">🥉 Elite</span></td>
+            <td style="font-size:10px;">元プロ・VIPコーチ</td>
+            <td>50,000pt</td>
+            <td>〜50,000pt</td>
+            <td class="price-highlight">6〜10万円/回</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-c">⚡ Challenger</span></td>
+            <td style="font-size:10px;">認定トレーナー・月次継続担当</td>
+            <td>—</td>
+            <td>〜50,000pt</td>
+            <td class="price-highlight">1〜5万円/回</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:9px;color:#9aaabb;margin-top:5px;">※ 1pt = 1円。セッション後の評価スコアで報酬確定。余剰ポイントは即日返還。未使用ポイントは購入日より1年で失効。</div>
+    </div>
+
+    <!-- モニター特典 -->
+    <div class="monitor-block">
+      <div class="monitor-left">
+        <div class="monitor-title">▸ 初回モニター企業限定特典</div>
+        <div class="monitor-copy">¥10,000が<span>100,000pt</span>に。</div>
+        <div class="monitor-note">通常1万円＝1万ptのところ、初回モニター企業限定で<strong>10倍</strong>のポイントを付与。<br>Eliteクラス1回分を実質無料でお試しいただけます。</div>
+      </div>
+      <div class="monitor-right">
+        <div class="monitor-price">通常 ¥10,000 = 10,000pt</div>
+        <div class="monitor-arrow">↓</div>
+        <div class="monitor-special">100,000<span style="font-size:14px;">pt</span></div>
+        <div class="monitor-pt">= 最大¥100,000分</div>
+        <div class="monitor-cond">採用PR動画撮影への<br>ご協力が条件</div>
+      </div>
+    </div>
+
+    <!-- 採用PR補足 -->
+    <div class="pr-note">
+      <div class="pr-icon">🎬</div>
+      <div class="pr-text">
+        <strong>モニター企業には採用PR動画を制作・納品します。</strong>「オリンピアンが来た日の社内風景」を素材として収録。採用媒体への掲載・SNS発信にそのままお使いください。撮影不可の場合は匿名データ提供型でもモニター適用可能です。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ───── フッター ───── -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="footer-brand">TrustFit ／ 株式会社MOON</div>
+      <div class="footer-email">📧 trustfit.biz@moontf.com</div>
+      <div class="footer-note">お問い合わせ・モニター申込はメールにてご連絡ください。<br>担当：荻田大樹（オギダ ヒロキ）</div>
+    </div>
+    <div class="qr-area">
+      <div class="qr-box">QR<br>準備中</div>
+      <div class="qr-label">お問い合わせ</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

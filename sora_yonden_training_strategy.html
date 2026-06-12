@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四国電力 総合研修所「落とす」戦略</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+    --yonden:#0d5da6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 100%);color:#fff;padding:44px 24px;text-align:center;border-bottom:5px solid var(--yonden);position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-20%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(13,93,166,0.3) 0%,transparent 70%)}
+  .hero .badge{display:inline-block;background:var(--yonden);color:#fff;padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:10px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px;position:relative}
+  .hero .sub{font-size:13px;color:#bdc4d0;max-width:720px;margin:8px auto 0;position:relative}
+  .container{max-width:1020px;margin:0 auto;padding:30px 22px}
+
+  section{margin-bottom:36px;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+  h2{font-size:22px;border-left:5px solid var(--gold);padding-left:14px;margin-bottom:18px;color:var(--navy);font-weight:700}
+  h2.yonden{border-color:var(--yonden)}
+  h2.alert{border-color:var(--red)}
+  h3{font-size:17px;color:var(--navy);margin:20px 0 10px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:5px}
+  h4{font-size:14px;color:var(--gold-dark);margin:12px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+
+  .lead{font-size:15px;background:#fdf9ee;border-left:4px solid var(--gold);padding:14px 18px;border-radius:6px;margin-bottom:18px}
+  .lead.yonden{background:#eef5fc;border-color:var(--yonden);color:#0a3c6e}
+  .lead.warn{background:#fbeae5;border-color:var(--red);color:#3a1a14}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+  td.money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);text-align:right}
+  td.center{text-align:center}
+
+  .map-box{background:#fff;border:2px solid var(--gold);border-radius:10px;padding:18px;margin:14px 0}
+  .map-box svg{max-width:100%;height:auto}
+
+  /* ルートカード */
+  .route{border-radius:12px;padding:22px;margin-bottom:18px;border:2px solid;position:relative}
+  .route .route-no{display:inline-block;font-size:11px;padding:3px 12px;border-radius:12px;color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:8px}
+  .route-1{border-color:var(--green);background:linear-gradient(135deg,#fff,#f0f8f4)}
+  .route-1 .route-no{background:var(--green)}
+  .route-2{border-color:var(--yonden);background:linear-gradient(135deg,#fff,#eef5fc)}
+  .route-2 .route-no{background:var(--yonden)}
+  .route-3{border-color:var(--accent);background:linear-gradient(135deg,#fff,#fdf4ef)}
+  .route-3 .route-no{background:var(--accent)}
+  .route-4{border-color:var(--gold);background:linear-gradient(135deg,#fff,#fdfae8)}
+  .route-4 .route-no{background:var(--gold);color:var(--navy)}
+  .route-5{border-color:var(--navy-light);background:linear-gradient(135deg,#fff,#eef0f5)}
+  .route-5 .route-no{background:var(--navy-light)}
+  .route-6{border-color:#888;background:linear-gradient(135deg,#fff,#f0f0f0)}
+  .route-6 .route-no{background:#888}
+  .route-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .route-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .route-meta span{font-size:11px;padding:3px 8px;border-radius:10px;background:rgba(0,0,0,0.05);color:var(--muted)}
+  .route-meta .difficulty{background:var(--accent);color:#fff}
+  .route-meta .difficulty.easy{background:var(--green)}
+  .route-meta .difficulty.hard{background:var(--red)}
+  .route-meta .timeline{background:var(--navy);color:#fff}
+  .route-meta .cost{background:var(--gold);color:var(--navy)}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media(max-width:640px){.pros-cons{grid-template-columns:1fr}}
+  .pros, .cons{padding:12px 16px;border-radius:8px;font-size:13px}
+  .pros{background:#e9f4ee;border-left:3px solid var(--green)}
+  .cons{background:#fbeae5;border-left:3px solid var(--red)}
+  .pros strong, .cons strong{display:block;margin-bottom:6px;font-size:12px}
+  .pros ul, .cons ul{padding-left:18px;margin:0}
+
+  /* 設備カード */
+  .facility-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+  .fac-card{background:#fff;border:1px solid var(--yonden);border-radius:8px;padding:12px;text-align:center;border-top:3px solid var(--yonden)}
+  .fac-card .icon{font-size:24px;margin-bottom:4px}
+  .fac-card .name{font-size:13px;font-weight:bold;color:var(--navy)}
+  .fac-card .desc{font-size:11px;color:var(--muted);margin-top:4px}
+
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+  .alert.green{background:#e9f4ee;border-color:#a5cdb3;color:#1f3a2a}
+  .alert.blue{background:#eef5fc;border-color:#7ba8d0;color:#0a3c6e}
+
+  .quote{font-style:italic;color:var(--gold-dark);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .step-list{counter-reset:step}
+  .step-list .step{counter-increment:step;padding:12px 14px 12px 50px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;position:relative}
+  .step-list .step::before{content:counter(step);position:absolute;left:14px;top:14px;width:24px;height:24px;background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px}
+  .step-list .step h4{margin:0 0 4px;font-size:14px;color:var(--navy)}
+  .step-list .step p{margin:0;font-size:13px;color:var(--text)}
+
+  .keyperson{background:#eef5fc;border:1px solid var(--yonden);border-radius:8px;padding:14px 18px;margin:10px 0}
+  .keyperson-title{font-weight:bold;color:var(--yonden);font-size:13px;margin-bottom:8px}
+  .keyperson ul{padding-left:20px;margin:0;font-size:13px}
+
+  .toc{background:#fdfbf5;border:1px dashed var(--gold);padding:16px 22px;border-radius:8px;margin-bottom:24px}
+  .toc h3{margin:0 0 8px;color:var(--gold-dark);border:none;padding:0}
+  .toc ol{padding-left:22px;margin:0}
+  .toc a{color:var(--navy);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+
+  .big-quote{font-size:22px;font-weight:700;color:var(--navy);text-align:center;padding:24px;background:linear-gradient(135deg,#fff 0%,#fdfbf5 100%);border:2px solid var(--gold);border-radius:10px;margin:14px 0;line-height:1.5}
+  .big-quote .accent{color:var(--yonden)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">YONDEN TRAINING CENTER / 戦略レポート</div>
+  <h1>四国電力 総合研修所を「落とす」<br>段階別アプローチ戦略</h1>
+  <div class="sub">屋島レクザムフィールドの隣に既にある「夢の施設」。<br>SORA BASEで必要な機能がほぼ全部揃っている。<br>買う／借りる／提携する／共同化する — 6つの入り込み方を設計。</div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#s1">施設の現状・設備（リサーチ結果）</a></li>
+    <li><a href="#s2">「落とす」の難易度・戦略マップ</a></li>
+    <li><a href="#s3">ルート1：時間枠の有償利用（最短・最現実）</a></li>
+    <li><a href="#s4">ルート2：CSR共同事業パートナー（本命）</a></li>
+    <li><a href="#s5">ルート3：研修プログラム受託（コンテンツ起点）</a></li>
+    <li><a href="#s6">ルート4：包括連携協定（行政巻き込み）</a></li>
+    <li><a href="#s7">ルート5：部分賃借・共同運営（中期）</a></li>
+    <li><a href="#s8">ルート6：移転・売却時の取得（長期）</a></li>
+    <li><a href="#s9">入り込みのキーパーソン・接触ルート</a></li>
+    <li><a href="#s10">最初の60日のアクションプラン</a></li>
+  </ol>
+</div>
+
+<!-- ========== 施設の現状 ========== -->
+<section id="s1">
+  <h2 class="yonden">1. 四国電力 総合研修所の現状（リサーチ結果）</h2>
+
+  <table>
+    <tr><th>項目</th><th>内容</th></tr>
+    <tr><td>正式名称</td><td>四国電力株式会社 総合研修所</td></tr>
+    <tr><td>所在地</td><td>〒761-0113 香川県高松市屋島西町1850-1</td></tr>
+    <tr><td>電話番号</td><td>087-841-1561</td></tr>
+    <tr><td>位置関係</td><td><strong>屋島レクザムフィールド（屋島中町374-1）の隣接エリア</strong>（西側）</td></tr>
+    <tr><td>主用途</td><td>四国電力グループ社員の集合研修（技術・営業・管理職）</td></tr>
+    <tr><td>運営主体</td><td>四国電力株式会社（東証プライム上場・売上6,500億円規模）</td></tr>
+  </table>
+
+  <h3>確認できた設備（PDF・公式ページから抽出）</h3>
+  <div class="facility-grid">
+    <div class="fac-card"><div class="icon">🏨</div><div class="name">宿泊棟（4階建て）</div><div class="desc">個室・ユニットバス完備</div></div>
+    <div class="fac-card"><div class="icon">🛁</div><div class="name">大浴場</div><div class="desc">17:20〜23:00利用</div></div>
+    <div class="fac-card"><div class="icon">🍽</div><div class="name">食堂</div><div class="desc">研修生用</div></div>
+    <div class="fac-card"><div class="icon">📚</div><div class="name">研修棟・会議室</div><div class="desc">複数室</div></div>
+    <div class="fac-card"><div class="icon">🏀</div><div class="name">体育館</div><div class="desc">四電バスケ部本拠 別棟</div></div>
+    <div class="fac-card"><div class="icon">⚽</div><div class="name">グラウンド</div><div class="desc">敷地内に確認</div></div>
+    <div class="fac-card"><div class="icon">🚗</div><div class="name">駐車場</div><div class="desc">敷地内</div></div>
+    <div class="fac-card"><div class="icon">🛎</div><div class="name">談話室</div><div class="desc">〜23時利用</div></div>
+  </div>
+
+  <div class="alert blue">
+    <strong>＝SORA BASEで欲しい機能のほぼ100%が既に揃っている。</strong><br>
+    自分で1棟ビルを建てるなら<strong>5-7億円</strong>かかる規模の施設が、目の前に存在する。<br>
+    問題は「これを使えるかどうか」「どうやって入り込むか」だけ。
+  </div>
+
+  <div class="map-box">
+    <h4 style="margin:0 0 10px">位置関係マップ（イメージ）</h4>
+    <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="700" height="280" fill="#f0f5fa"/>
+      <!-- 海/瀬戸内 -->
+      <rect x="0" y="0" width="700" height="40" fill="#bdd9ed"/>
+      <text x="350" y="25" text-anchor="middle" font-size="11" fill="#3a6a8c">瀬戸内海</text>
+
+      <!-- 屋島山 -->
+      <polygon points="450,40 530,140 370,140" fill="#7ba87f" opacity="0.5"/>
+      <text x="450" y="100" text-anchor="middle" font-size="11" fill="#3a5c3e">屋島</text>
+
+      <!-- 四電研修所 -->
+      <rect x="80" y="120" width="240" height="120" fill="#0d5da6" stroke="#fff" stroke-width="3" rx="8"/>
+      <text x="200" y="155" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">四国電力</text>
+      <text x="200" y="173" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">総合研修所</text>
+      <text x="200" y="192" text-anchor="middle" font-size="10" fill="#bdd9ed">屋島西町1850-1</text>
+      <text x="200" y="208" text-anchor="middle" font-size="9" fill="#bdd9ed">宿泊・食堂・体育館</text>
+      <text x="200" y="220" text-anchor="middle" font-size="9" fill="#bdd9ed">研修棟・グラウンド</text>
+
+      <!-- レクザムF -->
+      <rect x="380" y="150" width="240" height="90" fill="#c8a85a" stroke="#fff" stroke-width="3" rx="8"/>
+      <text x="500" y="180" text-anchor="middle" font-size="13" fill="#1a2540" font-weight="bold">屋島レクザムフィールド</text>
+      <text x="500" y="200" text-anchor="middle" font-size="10" fill="#1a2540">屋島中町374-1</text>
+      <text x="500" y="218" text-anchor="middle" font-size="9" fill="#1a2540">第2種公認・室内棒高跳び</text>
+
+      <!-- 矢印 -->
+      <line x1="320" y1="180" x2="380" y2="195" stroke="#d4502a" stroke-width="3"/>
+      <polygon points="375,190 385,195 375,200" fill="#d4502a"/>
+      <text x="350" y="178" text-anchor="middle" font-size="10" fill="#d4502a" font-weight="bold">隣接</text>
+
+      <!-- 潟元駅 -->
+      <circle cx="50" cy="100" r="8" fill="#444"/>
+      <text x="50" y="85" text-anchor="middle" font-size="10" fill="#444">潟元駅</text>
+      <text x="50" y="120" text-anchor="middle" font-size="9" fill="#666">琴電志度線</text>
+
+      <!-- 線路 -->
+      <line x1="0" y1="105" x2="700" y2="105" stroke="#888" stroke-width="1" stroke-dasharray="6 3"/>
+      <text x="650" y="100" text-anchor="end" font-size="9" fill="#888">線路</text>
+
+      <!-- 屋島駅 -->
+      <circle cx="650" cy="105" r="6" fill="#444"/>
+      <text x="650" y="125" text-anchor="middle" font-size="9" fill="#444">屋島駅</text>
+
+      <!-- 凡例 -->
+      <rect x="10" y="255" width="14" height="14" fill="#0d5da6"/>
+      <text x="30" y="266" font-size="10" fill="#1a2540">四国電力施設</text>
+      <rect x="130" y="255" width="14" height="14" fill="#c8a85a"/>
+      <text x="150" y="266" font-size="10" fill="#1a2540">屋島レクザムF</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== 戦略マップ ========== -->
+<section id="s2">
+  <h2>2. 「落とす」の難易度マップ</h2>
+
+  <p class="lead">
+    「落とす」と一口に言っても、レベルがあります。<strong>難易度の低い順</strong>から並べると：
+  </p>
+
+  <table>
+    <tr><th>レベル</th><th>ルート</th><th>難易度</th><th>期間</th><th>初期コスト</th></tr>
+    <tr><td>L1</td><td>1. 時間枠の有償利用</td><td><span class="route-meta"><span class="difficulty easy">易</span></span></td><td>3-6ヶ月</td><td class="money">月数十万</td></tr>
+    <tr><td>L2</td><td>2. CSR共同事業パートナー</td><td><span class="route-meta"><span class="difficulty">中</span></span></td><td>6-12ヶ月</td><td class="money">準備100-300万</td></tr>
+    <tr><td>L2</td><td>3. 研修プログラム受託</td><td><span class="route-meta"><span class="difficulty">中</span></span></td><td>3-9ヶ月</td><td class="money">準備50-200万</td></tr>
+    <tr><td>L3</td><td>4. 包括連携協定（行政含む）</td><td><span class="route-meta"><span class="difficulty hard">難</span></span></td><td>1-2年</td><td class="money">準備200-500万</td></tr>
+    <tr><td>L4</td><td>5. 部分賃借・共同運営</td><td><span class="route-meta"><span class="difficulty hard">難</span></span></td><td>1-3年</td><td class="money">月100-300万</td></tr>
+    <tr><td>L5</td><td>6. 移転・売却時の取得</td><td><span class="route-meta"><span class="difficulty hard">極難</span></span></td><td>3-10年</td><td class="money">数億円</td></tr>
+  </table>
+
+  <div class="big-quote">
+    本当の戦略は<br>
+    <span class="accent">「L1〜L3を同時並行で進めて、L4を視野に入れる」</span><br>
+    L5は時間が解決する話で、賭けるべきではない。
+  </div>
+</section>
+
+<!-- ========== ルート1 ========== -->
+<section id="s3">
+  <h2>3. ルート1：時間枠の有償利用</h2>
+
+  <div class="route route-1">
+    <span class="route-no">ROUTE 1 / 最短・最現実</span>
+    <div class="route-title">「平日夜・週末」の遊休時間を有償で借りる</div>
+    <div class="route-meta">
+      <span class="difficulty easy">難易度：易</span>
+      <span class="timeline">期間：3-6ヶ月</span>
+      <span class="cost">月コスト：30-80万円</span>
+    </div>
+
+    <h4>狙い</h4>
+    <p>四国電力の研修は<strong>平日昼間が中心</strong>。夜・土日・年末年始・夏休み期間は研修が少ない。この遊休時間を「外部利用」枠として開放してもらう。</p>
+
+    <h4>具体的な提案内容</h4>
+    <ul>
+      <li>体育館：平日18:00〜22:00、土日終日（SORA トレーニング・フットサル代替）</li>
+      <li>グラウンド：平日18:00〜21:00、土日終日</li>
+      <li>会議室：研修棟の空き枠（合宿時の座学・面談）</li>
+      <li>宿泊棟：夏冬の合宿期間（3〜5泊単位）</li>
+      <li>食堂：合宿時の食事提供</li>
+    </ul>
+
+    <h4>四電側にとってのメリット</h4>
+    <ul>
+      <li>遊休資産の収益化（年数百万円規模）</li>
+      <li>地域貢献の実績作り（CSR報告書に書ける）</li>
+      <li>施設の活用度向上＝四電本社からの予算正当化</li>
+    </ul>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>初期投資ほぼゼロ</li>
+          <li>3-6ヶ月で開始可能</li>
+          <li>使ってみて合わなければ撤退可</li>
+          <li>関係構築の第一歩として最適</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>四電社員研修が優先＝予定が確実でない</li>
+          <li>「電気事業法」「電気主任技術者」など研修施設の本来用途との整合性確認必要</li>
+          <li>毎月の利用料がかかる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ルート2 ========== -->
+<section id="s4">
+  <h2>4. ルート2：CSR共同事業パートナー（本命）</h2>
+
+  <div class="route route-2">
+    <span class="route-no">ROUTE 2 / 本命</span>
+    <div class="route-title">「四国電力 × SORA アスリート育成プログラム」共同企画</div>
+    <div class="route-meta">
+      <span class="difficulty">難易度：中</span>
+      <span class="timeline">期間：6-12ヶ月</span>
+      <span class="cost">準備：100-300万円</span>
+    </div>
+
+    <h4>狙い</h4>
+    <p>四国電力のCSR・地域貢献予算を活用し、<strong>「四電が主催する地域子ども育成事業」をSORAが運営・指導</strong>する形にする。施設利用料は<strong>CSR枠で相殺</strong>。</p>
+
+    <h4>共同事業の名称案</h4>
+    <ul>
+      <li><strong>「よんでん × SORA 香川未来アスリート教室」</strong></li>
+      <li><strong>「四国電力カップ 屋島キッズ陸上記録会」</strong></li>
+      <li><strong>「よんでん地域共生プロジェクト：アスリート育成 in 屋島」</strong></li>
+    </ul>
+
+    <h4>四電にとっての価値</h4>
+    <ul>
+      <li><strong>サステナビリティ報告書のネタになる</strong>（社会(S)の実績）</li>
+      <li>オリンピアン代表 × 四電という<strong>強いPR素材</strong></li>
+      <li>地域から「電力会社が子どもを応援している」という<strong>ブランドイメージ向上</strong></li>
+      <li>四電のスポーツ部（バスケ）との合同イベントも展開可能</li>
+      <li>SDGs目標3・4・11への寄与を訴求可</li>
+    </ul>
+
+    <h4>仕組み</h4>
+    <table>
+      <tr><th>項目</th><th>SORA負担</th><th>四電負担</th></tr>
+      <tr><td>指導・運営</td><td>○</td><td>―</td></tr>
+      <tr><td>施設提供</td><td>―</td><td>○（研修所＋体育館）</td></tr>
+      <tr><td>運営費（人件費等）</td><td>○</td><td>一部協賛</td></tr>
+      <tr><td>広報・告知</td><td>○</td><td>○（四電チャネル）</td></tr>
+      <tr><td>参加費収入</td><td>○</td><td>―</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>施設利用料を実質ゼロにできる可能性</li>
+          <li>四電ブランドの背景でSORAの信頼度が爆上がり</li>
+          <li>メディア露出が圧倒的（四電のPRに乗る）</li>
+          <li>四電グループ全体（送配電・エンジニアリング等）への展開</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>稟議に時間がかかる（電力会社の意思決定は遅い）</li>
+          <li>四電側のキーマンを掴めないと進まない</li>
+          <li>「共同事業」として制約が生じる（自由度低下）</li>
+          <li>SORA側がCSR成果報告の書類作業が増える</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ルート3 ========== -->
+<section id="s5">
+  <h2>5. ルート3：研修プログラム受託（コンテンツ起点）</h2>
+
+  <div class="route route-3">
+    <span class="route-no">ROUTE 3 / コンテンツ起点</span>
+    <div class="route-title">四電社員向け「リーダーシップ・チームビルディング研修」をSORAが提供</div>
+    <div class="route-meta">
+      <span class="difficulty">難易度：中</span>
+      <span class="timeline">期間：3-9ヶ月</span>
+      <span class="cost">準備：50-200万円</span>
+    </div>
+
+    <h4>狙い</h4>
+    <p>四電の社員研修プログラムに「スポーツメンタル・チームビルディング・リーダーシップ」のコンテンツを<strong>SORAが講師として提供</strong>する。これは元々の<strong>SORAプロジェクト「人材育成PGM」の中核</strong>。</p>
+
+    <h4>提供できるコンテンツ例</h4>
+    <ul>
+      <li><strong>「VUCA時代のリーダーシップ — トップアスリート流」</strong>（半日／1日）</li>
+      <li><strong>「目標設定・PDCA — アスリートのフレームを企業に」</strong></li>
+      <li><strong>「チームビルディング体験プログラム」</strong>（体育館・グラウンド活用）</li>
+      <li>新入社員研修：「集中力・メンタル強化セッション」</li>
+      <li>管理職研修：「コーチングと指導の差」</li>
+    </ul>
+
+    <h4>この戦略の妙味</h4>
+    <ul>
+      <li>研修所＝研修プログラムを売り込む<strong>最も自然な口実</strong></li>
+      <li>「研修コンテンツの提供＋施設の相互利用」の<strong>セット提案</strong>が可能</li>
+      <li>四電の研修費予算は<strong>年間数億円規模</strong>（推定）</li>
+      <li>1回50-100万円の単発契約 → 年間契約 → 共同事業化、と段階的に深化</li>
+    </ul>
+
+    <div class="alert green">
+      <strong>戦略上の重要ポイント：</strong>四電社員に「うちの研修もお願いしたい」と言われる関係になれば、施設利用は<strong>「先方からお願いされる」</strong>立場に変わる。
+    </div>
+  </div>
+</section>
+
+<!-- ========== ルート4 ========== -->
+<section id="s6">
+  <h2>6. ルート4：包括連携協定（行政巻き込み）</h2>
+
+  <div class="route route-4">
+    <span class="route-no">ROUTE 4 / 公的フレーム</span>
+    <div class="route-title">高松市 × 四国電力 × 株式会社MOON の3者連携協定</div>
+    <div class="route-meta">
+      <span class="difficulty hard">難易度：難</span>
+      <span class="timeline">期間：1-2年</span>
+      <span class="cost">準備：200-500万円</span>
+    </div>
+
+    <h4>狙い</h4>
+    <p>3者で「<strong>屋島エリアのスポーツ振興・人材育成・地域共生</strong>」の包括連携協定を結ぶ。施設利用・人材交流・補助金活用を一体で進める。指定管理予定業者も巻き込めば<strong>4者枠組み</strong>に。</p>
+
+    <h4>協定の柱</h4>
+    <ul>
+      <li>四電研修所の施設を週末・夜間に地域開放（SORAが運営担当）</li>
+      <li>SORAが四電社員研修を受託</li>
+      <li>市はスポーツ振興・地域貢献の枠で広報・補助</li>
+      <li>3者共同で大会・イベント・合宿事業を企画</li>
+    </ul>
+
+    <h4>この戦略のレバレッジ</h4>
+    <ul>
+      <li>1対1の交渉ではなく<strong>「公的枠組み」</strong>になる＝個別交渉より進む</li>
+      <li>四電にとって「市との関係強化」のインセンティブが大きい</li>
+      <li>補助金・企業版ふるさと納税が組み込める</li>
+      <li>3年〜5年単位の中長期枠組みで安定</li>
+    </ul>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>関係が「正式」になり、属人化しない</li>
+          <li>補助金・行政支援が組み込める</li>
+          <li>メディア露出が大きい（協定締結式）</li>
+          <li>10年単位の安定基盤</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット</strong>
+        <ul>
+          <li>3者調整で時間がかかる（1-2年）</li>
+          <li>SORA側に行政・大企業対応のリソースが必要</li>
+          <li>意思決定が遅い</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ルート5 ========== -->
+<section id="s7">
+  <h2>7. ルート5：部分賃借・共同運営</h2>
+
+  <div class="route route-5">
+    <span class="route-no">ROUTE 5 / 中期</span>
+    <div class="route-title">研修所の一部（例：宿泊棟・食堂・体育館の一部）を継続賃借</div>
+    <div class="route-meta">
+      <span class="difficulty hard">難易度：難</span>
+      <span class="timeline">期間：1-3年</span>
+      <span class="cost">月100-300万円</span>
+    </div>
+
+    <h4>狙い</h4>
+    <p>L1の「時間枠利用」を発展させて、<strong>SORA専用枠</strong>として一部スペースを継続賃借する。四電は遊休資産を収益化、SORAは安定運営拠点を確保。</p>
+
+    <h4>想定スキーム</h4>
+    <ul>
+      <li>SORA専用ロッカー・指導者ルーム・備品保管</li>
+      <li>体育館の特定曜日・時間帯を年間契約</li>
+      <li>宿泊棟の一部フロアを<strong>年間枠で借り切り</strong>（合宿用）</li>
+      <li>四電側の運営は継続、SORAは利用者の1社</li>
+    </ul>
+
+    <div class="alert">
+      <strong>注意：</strong>四国電力は<strong>東証プライム上場・売上6,500億円規模</strong>の企業。研修所の継続賃借契約は<strong>本社決裁が必要</strong>。少なくとも執行役員クラスのコミットが要る。先にL1-L4で実績を作ってから提案するのが正攻法。
+    </div>
+  </div>
+</section>
+
+<!-- ========== ルート6 ========== -->
+<section id="s8">
+  <h2>8. ルート6：移転・売却時の取得</h2>
+
+  <div class="route route-6">
+    <span class="route-no">ROUTE 6 / 長期・賭け要素</span>
+    <div class="route-title">将来、四電が施設を縮小・移転・売却する局面で取得</div>
+    <div class="route-meta">
+      <span class="difficulty hard">難易度：極難</span>
+      <span class="timeline">期間：3-10年</span>
+      <span class="cost">数億〜数十億円</span>
+    </div>
+
+    <h4>状況</h4>
+    <p>電力業界は<strong>再エネシフト・電力自由化・DX推進</strong>で施設見直しの流れにある。研修もオンライン化が進み、大規模研修施設の必要性が下がる傾向。四電もいずれ研修所を統廃合・縮小する可能性は否定できない。</p>
+
+    <h4>戦略</h4>
+    <ul>
+      <li>L1-L4で関係を作っておけば、<strong>「次の活用先」としてSORAが第一候補</strong>になる</li>
+      <li>取得は単独でなく<strong>市・県・自治体PPP・コンソーシアム形式</strong>で</li>
+      <li>「アスリート育成・地域人材育成施設」として行政が買い上げ、SORAが指定管理運営という形もあり得る</li>
+    </ul>
+
+    <div class="alert red">
+      <strong>注意：</strong>これを<strong>「狙って」</strong>動くべきではない。あくまでL1-L4を本道として進め、もし移転・売却の話が出たときに第一候補になれるよう関係を温めておく、という位置付け。
+    </div>
+  </div>
+</section>
+
+<!-- ========== キーパーソン ========== -->
+<section id="s9">
+  <h2 class="yonden">9. 入り込みのキーパーソン・接触ルート</h2>
+
+  <div class="keyperson">
+    <div class="keyperson-title">直接アプローチ先（四電側）</div>
+    <ul>
+      <li><strong>四国電力 総務部・人事部</strong> — 研修所の所管部署</li>
+      <li><strong>四国電力 地域共生・CSR担当</strong> — サステナビリティ統括</li>
+      <li><strong>四国電力 高松支店 地域貢献担当</strong> — 地元との接点</li>
+      <li><strong>四電グループ スポーツ部（バスケットボール）</strong> — スポーツ系の窓口</li>
+      <li><strong>四国電力 総合研修所長</strong> — 現場の意思決定者（087-841-1561）</li>
+    </ul>
+  </div>
+
+  <div class="keyperson">
+    <div class="keyperson-title">経由ルート（紹介・口利き）</div>
+    <ul>
+      <li><strong>高松商工会議所</strong> — 四電とのつながりが強い</li>
+      <li><strong>香川県スポーツ振興課・高松市スポーツ振興課</strong> — 公的ルート</li>
+      <li><strong>四電の地元出身役員・幹部</strong> — 個人ネットワーク経由</li>
+      <li><strong>香川県体育協会／高松市陸上競技協会</strong> — スポーツ業界経由</li>
+      <li><strong>四電取引先（地元金融・建設・サービス業）</strong> — 商流経由</li>
+      <li><strong>関学・四国大学・香川大学のOB</strong> — 学閥経由</li>
+    </ul>
+  </div>
+
+  <div class="keyperson">
+    <div class="keyperson-title">既に持っているレバー</div>
+    <ul>
+      <li>荻田代表が<strong>リオ五輪代表・元日本代表</strong>＝四電のCSR広報素材として理想的</li>
+      <li>ECCかけっこスクール監修＝<strong>「全国レベルの実績」</strong>を示せる</li>
+      <li>香川県観音寺市出身＝<strong>「地元出身の有名選手」</strong>として地元紙・四電グループ広報誌に取り上げられやすい</li>
+      <li>SORA × SUPERIOR の<strong>関西ネットワーク</strong>＝四電グループの大阪支社などにも繋がる</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== アクションプラン ========== -->
+<section id="s10">
+  <h2 class="yonden">10. 最初の60日のアクションプラン</h2>
+
+  <p class="lead">「落とす」は長期戦。だが<strong>最初の60日で関係構築の入口を作る</strong>。</p>
+
+  <div class="step-list">
+    <div class="step">
+      <h4>Week 1〜2：情報収集と接触ルート特定</h4>
+      <p>四電研修所の所管部署・キーマンの特定／四電のCSRレポート・統合報告書を読み込み／既に四電と関係のある人脈の棚卸し</p>
+    </div>
+    <div class="step">
+      <h4>Week 3〜4：1次アプローチ（電話・メール）</h4>
+      <p>四電総合研修所（087-841-1561）に<strong>「地元出身の元日本代表で陸上クラブ運営者として施設見学のお願い」</strong>として連絡／高松市スポーツ振興課経由のルートも並行</p>
+    </div>
+    <div class="step">
+      <h4>Week 5〜6：研修所訪問・キーマン特定</h4>
+      <p>研修所を訪問・所長クラスと顔合わせ／施設の現状・利用状況・空き枠を確認／<strong>「次のステップ」</strong>を必ず約束する</p>
+    </div>
+    <div class="step">
+      <h4>Week 7〜8：CSR・地域貢献担当への提案準備</h4>
+      <p>「よんでん × SORA 共同事業」のα版提案書（A4 3-5枚）を作成／高松市スポーツ振興課・指定管理予定業者と並行して情報交換</p>
+    </div>
+    <div class="step">
+      <h4>Week 9〜10：本社CSR担当への正式アプローチ</h4>
+      <p>研修所長経由 or 商工会議所経由で本社CSR・地域共生部門への面談アポ／「年内の共同イベント開催」を具体目標として打診</p>
+    </div>
+  </div>
+
+  <h3>並行して動かすべき外部要素</h3>
+  <ol>
+    <li>指定管理予定業者との面談で「四電研修所との関係構築の意向」を共有（敵対しないよう連携）</li>
+    <li>高松市スポーツ振興課に「3者連携協定の可能性」を打診</li>
+    <li>四国新聞・四国放送に「香川県出身オリンピアンによる地域育成」のネタとして売り込み（メディア露出は四電を動かす圧力になる）</li>
+    <li>SORA側の<strong>「四電向け研修プログラムα版」</strong>を作成（リーダーシップ・チームビルディング・メンタル）</li>
+  </ol>
+
+  <div class="quote">
+    「電力会社は動くまでに時間がかかる。だが、動き始めれば10年単位の関係になる。<br>急がず、しかし諦めず、3年計画で本気で取りに行く価値のある相手。」
+  </div>
+</section>
+
+<!-- ========== 最後のサマリー ========== -->
+<section>
+  <h2>11. まとめ：3本柱で同時に攻める</h2>
+
+  <div class="big-quote">
+    ① <span class="accent">L1 時間枠利用</span>（半年）<br>
+    ② <span class="accent">L2/L3 CSR共同事業・研修受託</span>（1年）<br>
+    ③ <span class="accent">L4 包括連携協定</span>（2年）<br>
+    <span style="font-size:14px;color:var(--muted);font-weight:normal;display:block;margin-top:10px">この3本を並行で進める。L5は派生で生まれる。L6は時間が解決する。</span>
+  </div>
+
+  <div class="alert blue">
+    <strong>核心：</strong>四国電力にとってSORAは「<strong>遊休資産を有効活用する優良パートナー</strong>」になれる立場にある。<br>SORAにとって四電は「<strong>夢の施設＋ブランド＋資金＋ネットワーク</strong>」を持つ理想のパートナー。<br>Win-Win が成立する構造があるなら、3年あれば落とせる。
+  </div>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜四国電力 総合研修所 戦略レポート v1.0｜<br>
+  ※公開情報からのリサーチ。具体交渉前には四電担当者・指定管理予定業者・高松市スポーツ振興課に確認。
+</div>
+
+</div>
+</body>
+</html>

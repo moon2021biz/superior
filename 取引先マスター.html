@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>取引先マスター｜株式会社MOON 経理部門</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: #f4f6f9;
+      color: #2c3e50;
+      padding: 24px;
+    }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white;
+      padding: 28px 32px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+    .header .sub { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+    .header .date { font-size: 13px; opacity: 0.8; text-align: right; }
+
+    /* 発行元カード */
+    .issuer-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 5px solid #0f3460;
+    }
+    .issuer-card h2 { font-size: 14px; color: #0f3460; font-weight: 700; margin-bottom: 12px; }
+    .issuer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .issuer-item label { font-size: 11px; color: #888; display: block; margin-bottom: 2px; }
+    .issuer-item span { font-size: 13px; font-weight: 600; }
+
+    /* ルールカード */
+    .rules-card {
+      background: #fff8f0;
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      border-left: 5px solid #e67e22;
+    }
+    .rules-card h2 { font-size: 14px; color: #e67e22; font-weight: 700; margin-bottom: 12px; }
+    .rules-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .rule-badge {
+      background: white;
+      border: 1px solid #f0d9c0;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rule-badge .icon { font-size: 14px; }
+
+    /* セクション */
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title span { background: #0f3460; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+
+    /* 取引先カード */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .client-card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 4px solid;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .client-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .client-card.c1 { border-top-color: #3498db; }
+    .client-card.c2 { border-top-color: #2ecc71; }
+    .client-card.c3 { border-top-color: #9b59b6; }
+    .client-card.c4 { border-top-color: #e74c3c; }
+    .client-card.c5 { border-top-color: #f39c12; }
+    .client-card.c6 { border-top-color: #1abc9c; }
+
+    .client-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .client-name { font-size: 14px; font-weight: 700; line-height: 1.4; }
+    .client-person { font-size: 12px; color: #666; margin-top: 3px; }
+    .status-badge {
+      background: #e8f8f0;
+      color: #27ae60;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .client-body { display: grid; gap: 8px; }
+    .info-row { display: flex; gap: 8px; font-size: 12px; }
+    .info-row .lbl { color: #888; min-width: 72px; flex-shrink: 0; }
+    .info-row .val { color: #2c3e50; font-weight: 500; }
+
+    .service-tag {
+      display: inline-block;
+      background: #f0f4ff;
+      color: #3a5ca4;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      margin: 2px 2px 0 0;
+    }
+
+    .divider { border: none; border-top: 1px solid #f0f0f0; margin: 10px 0; }
+
+    .highlight-row {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .highlight-row .amount { font-weight: 700; color: #0f3460; font-size: 13px; }
+
+    /* 特殊フォーマット */
+    .special-badge {
+      background: #fff0e6;
+      color: #c0392b;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* 振込先まとめ */
+    .bank-card {
+      background: linear-gradient(135deg, #0f3460, #1a1a2e);
+      color: white;
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+    }
+    .bank-card h2 { font-size: 14px; font-weight: 700; margin-bottom: 14px; opacity: 0.9; }
+    .bank-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+    .bank-item label { font-size: 11px; opacity: 0.65; display: block; margin-bottom: 3px; }
+    .bank-item span { font-size: 14px; font-weight: 700; }
+
+    /* 請求書番号ルール */
+    .number-rule {
+      background: #f0f7ff;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      margin-bottom: 24px;
+      border-left: 4px solid #3498db;
+    }
+    .number-rule code {
+      background: #ddeeff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* フッター */
+    .footer { text-align: center; color: #aaa; font-size: 11px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div>
+      <h1>📁 取引先マスター</h1>
+      <div class="sub">株式会社MOON｜経理部門</div>
+    </div>
+    <div class="date">
+      更新日：2026年3月28日<br>
+      取引先数：6社
+    </div>
+  </div>
+
+  <!-- 発行元情報 -->
+  <div class="issuer-card">
+    <h2>🏢 請求書発行元（株式会社MOON）</h2>
+    <div class="issuer-grid">
+      <div class="issuer-item">
+        <label>住所</label>
+        <span>〒534-0012 大阪府大阪市都島区御幸町1丁目6-22 ECビル2階</span>
+      </div>
+      <div class="issuer-item">
+        <label>TEL / MAIL</label>
+        <span>06-6167-6091 / moonathlete@gmail.com</span>
+      </div>
+      <div class="issuer-item">
+        <label>インボイス登録番号</label>
+        <span>T3470001018355</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 振込先 -->
+  <div class="bank-card">
+    <h2>🏦 共通振込先（全取引先共通）</h2>
+    <div class="bank-grid">
+      <div class="bank-item"><label>金融機関</label><span>住信SBIネット銀行</span></div>
+      <div class="bank-item"><label>支店名</label><span>法人第一支店</span></div>
+      <div class="bank-item"><label>預金種目</label><span>普通</span></div>
+      <div class="bank-item"><label>口座番号</label><span>1563462</span></div>
+      <div class="bank-item"><label>名義</label><span>カ）ムーン</span></div>
+    </div>
+  </div>
+
+  <!-- 共通ルール -->
+  <div class="rules-card">
+    <h2>📌 請求書作成ルール</h2>
+    <div class="rules-list">
+      <div class="rule-badge"><span class="icon">🔢</span> 消費税 10%（税抜計算・内訳明示）</div>
+      <div class="rule-badge"><span class="icon">📅</span> 入金期日：原則 翌月末</div>
+      <div class="rule-badge"><span class="icon">🚗</span> 交通費は実費精算・別枠記載（領収書添付）</div>
+      <div class="rule-badge"><span class="icon">📋</span> 備考欄に実施日を明記</div>
+      <div class="rule-badge"><span class="icon">✉️</span> 振込手数料は取引先負担</div>
+    </div>
+  </div>
+
+  <!-- 請求書番号ルール -->
+  <div class="number-rule">
+    📎 <strong>請求書番号ルール：</strong>
+    <code>YYYYMM</code> ＋ 連番2桁（例：2026年3月 → <code>202631</code>, <code>202632</code> ...）
+  </div>
+
+  <!-- 取引先一覧 -->
+  <div class="section-title">
+    <span>1</span> 定期取引先一覧
+  </div>
+
+  <div class="clients-grid">
+
+    <!-- 1. 関西学院大学 -->
+    <div class="client-card c1">
+      <div class="client-header">
+        <div>
+          <div class="client-name">関西学院大学<br>体育会陸上競技部</div>
+          <div class="client-person">👤 監督 竹原純一 様</div>
+        </div>
+        <div class="status-badge">● 定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">兵庫県西宮市上ケ原一番町1番155号</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">棒高跳び指導料（グランド）¥15,000/日</span>
+            <span class="service-tag">棒高跳び指導料（試合・合宿）¥20,000/日</span>
+            <span class="service-tag">交通費（実費）</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <!-- 請求書作成ルール（専用） -->
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#3498db;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>練習日程</strong>：毎回MOONさんに実施日を確認してから記載する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#3498db;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>試合・合宿</strong>：名称・場所・交通手段を毎回確認してから記載する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span>交通費は領収書ありと明記。区間・金額を正確に備考欄へ。</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>確認した情報はこのマスターに自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ECC -->
+    <div class="client-card c2">
+      <div class="client-header">
+        <div>
+          <div class="client-name">株式会社ECC</div>
+          <div class="client-person">👤 松本 様</div>
+        </div>
+        <div class="status-badge">● 定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">530-0044 大阪府大阪市北区東天満1-10-20 ECC本社ビル10F</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">コンサルティング費用</span>
+            <span class="service-tag">イベント（全日・半日）</span>
+            <span class="service-tag">講習・研修</span>
+            <span class="service-tag">交通費（実費）</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#2ecc71;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>ミーティング日程</strong>：実施日・内容をMOONさんに確認してから記載</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#2ecc71;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>研修日程</strong>：実施日・内容をMOONさんに確認してから記載</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#2ecc71;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>イベント日程</strong>：実施日・内容（全日／半日）をMOONさんに確認してから記載</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📊</span>
+              <span>確認後、過去の請求書データ（単価・記載形式）を参考に作成する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🚗</span>
+              <span>交通費は区間・金額を正確に備考欄へ。領収書ありと明記。</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>確認した情報はこのマスターに自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 大東倶楽部 -->
+    <div class="client-card c3">
+      <div class="client-header">
+        <div>
+          <div class="client-name">一般社団法人 大東倶楽部</div>
+          <div class="client-person">👤 代表理事 沖 忠寿 様</div>
+        </div>
+        <div class="status-badge">● 定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">（登録情報確認中）</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">STEP UP CLUB 指導料 ¥23,000/回</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#9b59b6;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>実施日確認フロー</strong>：年間予定表の当月日程を提示し「変更はありませんか？」と確認してから記載する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📊</span>
+              <span>¥23,000/回・同形式で作成。変更なければ予定表通りの回数・日付で即作成。</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>変更があればこのマスターの年間予定表に自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+        <hr class="divider">
+        <!-- 年間予定表 -->
+        <div style="font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">📅 2026年度 STEP UP CLUB 年間実施予定</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">4月（4回）</div>
+              <div>6日・13日・20日・27日</div>
+            </div>
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">5月（3回）</div>
+              <div>11日・18日・25日</div>
+            </div>
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">6月（4回＋補講）</div>
+              <div>1日・8日・15日・22日　補講：29日</div>
+            </div>
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">7月（3回）</div>
+              <div>6日・13日・27日</div>
+            </div>
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">8月（4回）</div>
+              <div>3日・17日・24日・31日　※10日休講</div>
+            </div>
+            <div style="background:#f9f0ff;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#8e44ad;margin-bottom:4px;">9月（3回）</div>
+              <div>7日・14日・28日</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">10月（3回）</div>
+              <div>5日・19日・26日</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">11月（4回）</div>
+              <div>2日・9日・16日・30日</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">12月（3回）</div>
+              <div>7日・14日・21日　※28日休講</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">1月（2回）</div>
+              <div>18日・25日　※4日休講・11日成人の日</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">2月（4回）</div>
+              <div>1日・8日・15日・22日</div>
+            </div>
+            <div style="background:#f0f0f0;border-radius:8px;padding:8px 10px;">
+              <div style="font-weight:700;color:#555;margin-bottom:4px;">3月（3回＋補講）</div>
+              <div>1日・8日・15日　補講：29日</div>
+            </div>
+          </div>
+          <div style="margin-top:6px;color:#888;font-size:11px;">紫：上半期（4〜9月）　グレー：下半期（10〜3月）　※変更は都度反映</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. フロム・シェフ -->
+    <div class="client-card c4">
+      <div class="client-header">
+        <div>
+          <div class="client-name">フロム・シェフ株式会社</div>
+          <div class="client-person">👤 青井 様</div>
+        </div>
+        <div class="status-badge">● 定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">563-0022 大阪府池田市旭丘2-11-10</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">HowsportS コーチ派遣 ¥10,000/日</span>
+            <span class="service-tag">スペリオール関連費用</span>
+            <span class="service-tag">セミナー講師料</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#e74c3c;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>基本的に前月と同じ内容</strong>になるため、変更点がないかをMOONさんに確認してから作成する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📊</span>
+              <span>変更なしの場合 → 前月データをそのまま流用して作成</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span>変更ありの場合 → 変更点（日程・金額・内容）を確認してから反映</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>確認した変更内容はこのマスターに自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. メイスンワーク -->
+    <div class="client-card c5">
+      <div class="client-header">
+        <div>
+          <div class="client-name">メイスンワーク株式会社</div>
+          <div class="client-person">👤 陸上競技部 監督 小林雄一 様</div>
+        </div>
+        <div class="status-badge">● 定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">173-0026 東京都板橋区中丸町24-9 メイスンビル4階</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">北田莉亜選手 月額契約金</span>
+            <span class="service-tag">遠征帯同交通費・宿泊費</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#f39c12;font-weight:700;min-width:20px;">📅</span>
+              <span><strong>北田莉亜選手 月額契約金</strong>：月名を当月に変更するだけでOK（金額は固定）</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#f39c12;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>イベント確認</strong>：今月イベント・遠征・帯同等はありましたか？とMOONさんに確認する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span>イベント<strong>あり</strong>の場合 → 名称・日程・場所・交通費（区間・金額）を確認して明細に追加</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span>イベント<strong>なし</strong>の場合 → 月額契約金のみで作成</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📎</span>
+              <span>交通費は「明細添付参照」として高速道路明細等を別添。</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>確認した情報はこのマスターに自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 6. プロストリート関西 -->
+    <div class="client-card c6">
+      <div class="client-header">
+        <div>
+          <div class="client-name">NPO法人 プロストリート関西</div>
+          <div class="client-person">👤 西上和孝 様</div>
+        </div>
+        <div class="status-badge" style="background:#e8f4fd;color:#2980b9;">● イベントベース</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row">
+          <span class="lbl">住所</span>
+          <span class="val">〒630-0142 奈良県生駒市北田原町1414-2</span>
+        </div>
+        <hr class="divider">
+        <div class="info-row">
+          <span class="lbl">主なサービス</span>
+          <span class="val">
+            <span class="service-tag">講師派遣費用 ¥40,000/回</span>
+          </span>
+        </div>
+        <hr class="divider">
+        <div class="highlight-row">
+          <span>📅 入金期日</span>
+          <span class="amount">翌月末</span>
+        </div>
+        <hr class="divider">
+        <div style="background:#eef4ff;border-radius:8px;padding:10px 12px;font-size:12px;">
+          <div style="font-weight:700;color:#1a3a6e;margin-bottom:8px;">⚙️ 請求書作成ルール（この取引先専用）</div>
+          <div style="display:grid;gap:6px;">
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#1abc9c;font-weight:700;min-width:20px;">✅</span>
+              <span><strong>イベント確認</strong>：毎月「今月プロストリート関西のイベントはありましたか？」とMOONさんに確認する</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span><strong>あり</strong>の場合 → 実施日・回数・派遣講師名（例：吉本、北岡）を確認して請求書を作成</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">📝</span>
+              <span><strong>なし</strong>の場合 → 今月は請求書不要</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">💰</span>
+              <span>単価：¥40,000/回（固定）。備考欄に「実施日・派遣講師名」を明記。</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:flex-start;">
+              <span style="color:#888;font-weight:700;min-width:20px;">🔄</span>
+              <span>確認した情報はこのマスターに自動反映・常時最新化する。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 過去に取引あり（不定期） -->
+  <div class="section-title">
+    <span>2</span> 不定期・スポット取引先
+  </div>
+
+  <div class="clients-grid">
+    <div class="client-card" style="border-top-color:#bbb;">
+      <div class="client-header">
+        <div><div class="client-name">大阪ガスネットワーク株式会社</div></div>
+        <div class="status-badge" style="background:#f5f5f5;color:#888;">▲ 不定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row"><span class="lbl">内容</span><span class="val">イベントコーチ派遣（単発）</span></div>
+      </div>
+    </div>
+    <div class="client-card" style="border-top-color:#bbb;">
+      <div class="client-header">
+        <div><div class="client-name">ノームコアマーケティング株式会社</div></div>
+        <div class="status-badge" style="background:#f5f5f5;color:#888;">▲ 不定期</div>
+      </div>
+      <div class="client-body">
+        <div class="info-row"><span class="lbl">内容</span><span class="val">マーケティング関連</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    株式会社MOON｜経理部門｜取引先マスター v1.0｜2026-03-28 作成
+  </div>
+
+</body>
+</html>

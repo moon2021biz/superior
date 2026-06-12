@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; padding: 40px; }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    }
+    .slide + .slide { margin-top: 60px; }
+
+    .logo-mark {
+      position: absolute;
+      bottom: 36px; left: 60px;
+      color: rgba(255,255,255,0.4);
+      font-size: 28px; font-weight: 700; letter-spacing: 0.08em;
+    }
+    .slide-number {
+      position: absolute;
+      bottom: 36px; right: 60px;
+      color: rgba(255,255,255,0.2);
+      font-size: 28px; letter-spacing: 0.1em;
+    }
+
+    /* =====================
+       SLIDE 1: COVER
+    ===================== */
+    #slide-1 {
+      background: linear-gradient(135deg, #7B1A10 0%, #C0392B 60%, #E74C3C 100%);
+      display: flex;
+      align-items: center;
+      padding: 0 140px;
+      gap: 80px;
+    }
+    #slide-1 .deco-circle-1 {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -200px; right: 400px;
+    }
+    #slide-1 .deco-circle-2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(74,158,205,0.1);
+      bottom: -100px; right: 200px;
+    }
+    #slide-1 .deco-line {
+      position: absolute;
+      top: 0; bottom: 0; left: 820px;
+      width: 3px;
+      background: linear-gradient(to bottom, transparent, #4A9ECD, transparent);
+    }
+    #slide-1 .corner {
+      position: absolute;
+      width: 80px; height: 80px;
+      border-color: #4A9ECD; border-style: solid;
+    }
+    #slide-1 .tl { top: 32px; left: 32px; border-width: 5px 0 0 5px; }
+    #slide-1 .tr { top: 32px; right: 32px; border-width: 5px 5px 0 0; }
+    #slide-1 .bl { bottom: 60px; left: 32px; border-width: 0 0 5px 5px; }
+    #slide-1 .br { bottom: 60px; right: 32px; border-width: 0 5px 5px 0; }
+
+    #slide-1 .text-area { flex: 1; position: relative; z-index: 2; }
+    #slide-1 .eyebrow {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.2em; margin-bottom: 32px;
+    }
+    #slide-1 .main-title {
+      color: #fff; font-size: 108px; font-weight: 900;
+      line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 40px;
+    }
+    #slide-1 .main-title .blue { color: #4A9ECD; }
+    #slide-1 .subtitle {
+      color: rgba(255,255,255,0.8); font-size: 46px;
+      line-height: 1.65;
+      border-left: 6px solid #4A9ECD; padding-left: 32px;
+    }
+    #slide-1 .visual-area {
+      flex: 0 0 580px;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+    }
+    #slide-1 .photo-wrap {
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 6px solid #4A9ECD;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(74,158,205,0.3);
+    }
+    #slide-1 .photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    #slide-1 .profile-tag {
+      background: rgba(0,0,0,0.4);
+      border: 2px solid rgba(74,158,205,0.5);
+      border-radius: 12px;
+      padding: 20px 36px;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 30px; line-height: 1.7;
+    }
+
+    /* =====================
+       SLIDE 2: PROBLEM
+    ===================== */
+    #slide-2 {
+      background: #1A2A3A;
+      display: flex;
+      align-items: center;
+      padding: 0 120px;
+      gap: 80px;
+    }
+    #slide-2 .deco-bg {
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(192,57,43,0.15) 0%, transparent 70%);
+    }
+    #slide-2 .text-area { flex: 1; position: relative; z-index: 2; }
+    #slide-2 .label {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.2em; margin-bottom: 40px;
+    }
+    #slide-2 .question {
+      color: #fff; font-size: 84px; font-weight: 900; line-height: 1.3; margin-bottom: 44px;
+    }
+    #slide-2 .question .red { color: #E74C3C; }
+    #slide-2 .body {
+      color: rgba(255,255,255,0.75); font-size: 48px; line-height: 1.7;
+    }
+    #slide-2 .body strong { color: #E74C3C; font-weight: 900; }
+    #slide-2 .visual-area {
+      flex: 0 0 520px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0; position: relative; z-index: 2;
+    }
+    /* SVG親子イラスト */
+
+    /* =====================
+       SLIDE 3: BODY 1 - 脳の発達
+    ===================== */
+    #slide-3 {
+      background: #C0392B;
+      display: flex;
+      align-items: center;
+      padding: 80px 140px;
+      gap: 100px;
+    }
+    #slide-3 .deco-bg {
+      position: absolute;
+      bottom: -200px; left: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+    }
+    #slide-3 .text-area { flex: 1; position: relative; z-index: 2; }
+    #slide-3 .tag {
+      display: inline-block; background: #4A9ECD;
+      color: #fff; font-size: 34px; font-weight: 700;
+      padding: 10px 32px; border-radius: 4px; margin-bottom: 44px;
+    }
+    #slide-3 .heading {
+      color: #fff; font-size: 88px; font-weight: 900;
+      line-height: 1.25; margin-bottom: 40px;
+    }
+    #slide-3 .heading .blue { color: #4A9ECD; }
+    #slide-3 .desc {
+      color: rgba(255,255,255,0.88); font-size: 48px; line-height: 1.7;
+    }
+    #slide-3 .note {
+      margin-top: 36px; padding: 20px 36px;
+      border-left: 6px solid #4A9ECD;
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.65); font-size: 34px; line-height: 1.6;
+    }
+    #slide-3 .visual-area {
+      flex: 0 0 500px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 24px; position: relative; z-index: 2;
+    }
+    #slide-3 .brain-icon { font-size: 180px; line-height: 1; }
+    #slide-3 .brain-caption {
+      background: rgba(0,0,0,0.25); border-radius: 12px;
+      padding: 24px 40px; text-align: center;
+      color: #fff; font-size: 36px; line-height: 1.6;
+    }
+    #slide-3 .brain-caption .blue { color: #4A9ECD; font-weight: 700; font-size: 44px; }
+
+    /* =====================
+       SLIDE 4: BODY 2 - 失敗恐怖フロー
+    ===================== */
+    #slide-4 {
+      background: linear-gradient(150deg, #1A2A3A 0%, #2C1810 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 160px;
+    }
+    #slide-4 .label {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.15em; margin-bottom: 48px;
+    }
+    #slide-4 .heading {
+      color: #fff; font-size: 80px; font-weight: 900;
+      line-height: 1.2; margin-bottom: 60px;
+    }
+    #slide-4 .heading .red { color: #E74C3C; }
+    #slide-4 .flow {
+      display: flex; align-items: center; gap: 0;
+    }
+    #slide-4 .flow-step {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(74,158,205,0.3);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+    }
+    #slide-4 .flow-step .step-icon { font-size: 64px; margin-bottom: 16px; }
+    #slide-4 .flow-step .step-text {
+      color: #fff; font-size: 40px; font-weight: 700; line-height: 1.4;
+    }
+    #slide-4 .flow-arrow {
+      color: #4A9ECD; font-size: 52px; font-weight: 900;
+      flex-shrink: 0; padding: 0 16px;
+    }
+    #slide-4 .flow-result {
+      flex: 1;
+      background: rgba(192,57,43,0.3);
+      border: 3px solid #C0392B;
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+    }
+    #slide-4 .flow-result .result-icon { font-size: 64px; margin-bottom: 16px; }
+    #slide-4 .flow-result .result-text {
+      color: #E74C3C; font-size: 44px; font-weight: 900; line-height: 1.4;
+    }
+    #slide-4 .flow-result .result-sub {
+      color: rgba(255,255,255,0.7); font-size: 34px; margin-top: 12px;
+    }
+
+    /* =====================
+       SLIDE 5: BODY 3 - NG褒め方
+    ===================== */
+    #slide-5 {
+      background: #1A2A3A;
+      display: flex;
+      align-items: center;
+      padding: 80px 120px;
+      gap: 80px;
+    }
+    #slide-5 .deco-bg {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,158,205,0.06) 0%, transparent 70%);
+    }
+    #slide-5 .text-area { flex: 1; position: relative; z-index: 2; }
+    #slide-5 .label {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.2em; margin-bottom: 40px;
+    }
+    #slide-5 .ng-box {
+      background: rgba(74,158,205,0.1); border: 4px solid #4A9ECD;
+      border-radius: 16px; padding: 36px 56px; margin-bottom: 40px; text-align: center;
+    }
+    #slide-5 .ng-text { color: #4A9ECD; font-size: 88px; font-weight: 900; }
+    #slide-5 .arrow-down { color: rgba(255,255,255,0.3); font-size: 56px; text-align: center; margin-bottom: 32px; }
+    #slide-5 .warning { color: #fff; font-size: 64px; font-weight: 700; line-height: 1.5; }
+    #slide-5 .warning .red { color: #E74C3C; }
+    #slide-5 .note {
+      margin-top: 36px; color: rgba(255,255,255,0.5);
+      font-size: 32px; line-height: 1.65;
+    }
+    #slide-5 .visual-area {
+      flex: 0 0 480px;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+    }
+    #slide-5 .compare-cards { width: 100%; display: flex; flex-direction: column; gap: 24px; }
+    #slide-5 .compare-card {
+      border-radius: 12px; padding: 28px 36px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    #slide-5 .compare-card.bad {
+      background: rgba(192,57,43,0.2); border: 2px solid #C0392B;
+    }
+    #slide-5 .compare-card.good {
+      background: rgba(74,158,205,0.15); border: 2px solid #4A9ECD;
+    }
+    #slide-5 .card-icon { font-size: 52px; flex-shrink: 0; }
+    #slide-5 .card-text { color: #fff; font-size: 36px; line-height: 1.5; font-weight: 700; }
+
+    /* =====================
+       SLIDE 6: BODY 4 - 正しい声かけ（吹き出し）
+    ===================== */
+    #slide-6 {
+      background: #C0392B;
+      display: flex;
+      align-items: center;
+      padding: 80px 140px;
+      gap: 80px;
+    }
+    #slide-6 .deco-bg {
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    #slide-6 .text-area { flex: 0 0 560px; position: relative; z-index: 2; }
+    #slide-6 .label {
+      color: rgba(255,255,255,0.65); font-size: 34px; font-weight: 700;
+      letter-spacing: 0.15em; margin-bottom: 32px;
+    }
+    #slide-6 .heading {
+      color: #fff; font-size: 80px; font-weight: 900; line-height: 1.3;
+    }
+    #slide-6 .heading .blue { color: #4A9ECD; font-size: 96px; display: block; }
+    #slide-6 .visual-area {
+      flex: 1; position: relative; z-index: 2;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    #slide-6 .bubble-wrap {
+      display: flex; align-items: flex-start; gap: 24px;
+    }
+    #slide-6 .bubble-wrap.right { flex-direction: row-reverse; }
+    #slide-6 .avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; flex-shrink: 0;
+    }
+    #slide-6 .avatar.parent { background: rgba(74,158,205,0.2); }
+    #slide-6 .avatar.child { background: rgba(255,255,255,0.1); }
+    #slide-6 .bubble {
+      border-radius: 20px; padding: 24px 36px;
+      font-size: 40px; line-height: 1.6; font-weight: 700;
+      max-width: 720px; position: relative;
+    }
+    #slide-6 .bubble.parent-bubble {
+      background: rgba(74,158,205,0.2); border: 2px solid #4A9ECD; color: #fff;
+      border-top-left-radius: 4px;
+    }
+    #slide-6 .bubble.child-bubble {
+      background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.9);
+      border-top-right-radius: 4px;
+    }
+    #slide-6 .bubble .highlight { color: #4A9ECD; }
+    #slide-6 .goal-box {
+      background: rgba(0,0,0,0.2); border-radius: 12px;
+      padding: 24px 36px; border-left: 6px solid #4A9ECD;
+      color: rgba(255,255,255,0.8); font-size: 38px; line-height: 1.6;
+    }
+    #slide-6 .goal-box .blue { color: #4A9ECD; font-weight: 700; }
+
+    /* =====================
+       SLIDE 7: BODY 5 - 問題行動
+    ===================== */
+    #slide-7 {
+      background: linear-gradient(140deg, #1A2A3A 0%, #0D1B2A 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 140px;
+    }
+    #slide-7 .label {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.15em; margin-bottom: 36px;
+    }
+    #slide-7 .heading {
+      color: #fff; font-size: 80px; font-weight: 900;
+      line-height: 1.25; margin-bottom: 52px;
+    }
+    #slide-7 .compare { display: flex; gap: 44px; }
+    #slide-7 .box {
+      flex: 1; border-radius: 20px; padding: 44px 48px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    #slide-7 .bad { background: rgba(192,57,43,0.2); border: 3px solid #C0392B; }
+    #slide-7 .good { background: rgba(74,158,205,0.12); border: 3px solid #4A9ECD; }
+    #slide-7 .box-header {
+      display: flex; align-items: center; gap: 20px;
+    }
+    #slide-7 .box-icon { font-size: 56px; }
+    #slide-7 .box-label { font-size: 36px; font-weight: 700; }
+    #slide-7 .bad .box-label { color: #E74C3C; }
+    #slide-7 .good .box-label { color: #4A9ECD; }
+    #slide-7 .box-text {
+      color: #fff; font-size: 42px; line-height: 1.65;
+    }
+    #slide-7 .box-sub {
+      font-size: 34px; color: rgba(255,255,255,0.55);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 16px; margin-top: 4px;
+    }
+    #slide-7 .caution {
+      margin-top: 32px; padding: 20px 40px;
+      background: rgba(74,158,205,0.08);
+      border-left: 6px solid #4A9ECD;
+      color: rgba(255,255,255,0.65); font-size: 36px; line-height: 1.6;
+    }
+
+    /* =====================
+       SLIDE 8: SUMMARY
+    ===================== */
+    #slide-8 {
+      background: linear-gradient(150deg, #96281B 0%, #C0392B 100%);
+      display: flex;
+      align-items: center;
+      padding: 72px 140px;
+      gap: 80px;
+    }
+    #slide-8 .deco-bg {
+      position: absolute;
+      bottom: -200px; right: -200px;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+    }
+    #slide-8 .text-area { flex: 1; position: relative; z-index: 2; }
+    #slide-8 .label {
+      color: #4A9ECD; font-size: 36px; font-weight: 700;
+      letter-spacing: 0.2em; margin-bottom: 28px;
+    }
+    #slide-8 .heading {
+      color: #fff; font-size: 72px; font-weight: 900; margin-bottom: 40px;
+    }
+    #slide-8 .items { display: flex; flex-direction: column; gap: 18px; }
+    #slide-8 .item {
+      display: flex; align-items: center; gap: 28px;
+      background: rgba(0,0,0,0.16); padding: 20px 36px; border-radius: 10px;
+    }
+    #slide-8 .num {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #4A9ECD;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 34px; font-weight: 900;
+      flex-shrink: 0;
+    }
+    #slide-8 .item-text { color: #fff; font-size: 42px; line-height: 1.5; }
+    #slide-8 .visual-area {
+      flex: 0 0 420px;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+    }
+    #slide-8 .big-icon { font-size: 200px; line-height: 1; text-align: center; }
+    #slide-8 .icon-caption {
+      color: rgba(255,255,255,0.6); font-size: 34px;
+      text-align: center; line-height: 1.6;
+    }
+
+    /* =====================
+       SLIDE 9: CTA
+    ===================== */
+    #slide-9 {
+      background: #1A2A3A;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 52px 96px;
+    }
+    #slide-9 .top-label {
+      text-align: center; color: #fff;
+      font-size: 52px; font-weight: 900; margin-bottom: 40px;
+    }
+    #slide-9 .top-label .red { color: #E74C3C; }
+    #slide-9 .cards { display: flex; gap: 28px; align-items: stretch; }
+    #slide-9 .card {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(74,158,205,0.3);
+      border-radius: 16px; padding: 32px 36px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    #slide-9 .card-icon { font-size: 44px; }
+    #slide-9 .card-title { color: #4A9ECD; font-size: 34px; font-weight: 700; }
+    #slide-9 .card-body {
+      color: rgba(255,255,255,0.78); font-size: 30px; line-height: 1.7; flex: 1;
+    }
+    #slide-9 .card img {
+      width: 100%; height: 140px; object-fit: contain; margin-top: 8px;
+    }
+    #slide-9 .badge {
+      display: inline-block; background: #4A9ECD; color: #fff;
+      font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SLIDE 1: COVER ===== -->
+  <div class="slide" id="slide-1">
+    <div class="deco-circle-1"></div>
+    <div class="deco-circle-2"></div>
+    <div class="deco-line"></div>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="text-area">
+      <div class="eyebrow">元オリンピック選手が教える</div>
+      <div class="main-title">
+        その「<span class="blue">褒め方</span>」が<br>
+        運動嫌いを作っていた。
+      </div>
+      <div class="subtitle">
+        子どもが自分から動き出す<br>声かけの科学
+      </div>
+    </div>
+    <div class="visual-area">
+      <div class="photo-wrap">
+        <img src="オギラボ・写真/IMG_7570.jpg" alt="おぎぃ。">
+      </div>
+      <div class="profile-tag">
+        おぎぃ。<br>
+        棒高跳び・オリンピック代表<br>
+        キッズ陸上クラブ 3拠点運営
+      </div>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">01</div>
+  </div>
+
+  <!-- ===== SLIDE 2: PROBLEM ===== -->
+  <div class="slide" id="slide-2">
+    <div class="deco-bg"></div>
+    <div class="text-area">
+      <div class="label">あなたのお子さんは？</div>
+      <div class="question">
+        「やりたくない」<br>
+        「<span class="red">嫌だ</span>」を繰り返す…
+      </div>
+      <div class="body">
+        どう声をかけていますか？<br>
+        実はその声かけが、<strong>逆効果</strong>になっているかもしれません。
+      </div>
+    </div>
+    <div class="visual-area">
+      <!-- SVG: 親が話しかけ、子どもが拒否する場面 -->
+      <svg width="460" height="500" viewBox="0 0 460 500" xmlns="http://www.w3.org/2000/svg">
+        <!-- 親（左） -->
+        <circle cx="110" cy="90" r="48" fill="#4A9ECD" opacity="0.85"/>
+        <ellipse cx="110" cy="88" rx="22" ry="26" fill="#FFDDB5"/>
+        <circle cx="110" cy="62" r="20" fill="#FFDDB5"/>
+        <line x1="110" y1="140" x2="110" y2="240" stroke="#4A9ECD" stroke-width="14" stroke-linecap="round"/>
+        <line x1="110" y1="165" x2="65" y2="210" stroke="#4A9ECD" stroke-width="12" stroke-linecap="round"/>
+        <line x1="110" y1="165" x2="175" y2="185" stroke="#4A9ECD" stroke-width="12" stroke-linecap="round"/>
+        <line x1="110" y1="240" x2="80" y2="320" stroke="#4A9ECD" stroke-width="12" stroke-linecap="round"/>
+        <line x1="110" y1="240" x2="140" y2="320" stroke="#4A9ECD" stroke-width="12" stroke-linecap="round"/>
+        <!-- 親の吹き出し -->
+        <rect x="170" y="30" width="250" height="75" rx="14" fill="rgba(74,158,205,0.15)" stroke="#4A9ECD" stroke-width="2"/>
+        <polygon points="170,65 148,72 170,80" fill="rgba(74,158,205,0.15)" stroke="#4A9ECD" stroke-width="1"/>
+        <text x="295" y="60" text-anchor="middle" font-family="sans-serif" font-size="24" fill="white" font-weight="bold">ちゃんとしなさい！</text>
+        <text x="295" y="90" text-anchor="middle" font-family="sans-serif" font-size="22" fill="rgba(255,255,255,0.7)">なんでできないの？</text>
+        <!-- 矢印 -->
+        <path d="M230 200 L230 260" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-dasharray="8,5"/>
+        <polygon points="222,258 238,258 230,274" fill="rgba(255,255,255,0.2)"/>
+        <!-- 子ども（右・腕組み） -->
+        <circle cx="320" cy="310" r="40" fill="#E74C3C" opacity="0.8"/>
+        <circle cx="320" cy="282" r="18" fill="#FFDDB5"/>
+        <ellipse cx="320" cy="308" rx="18" ry="22" fill="#FFDDB5"/>
+        <!-- 腕組み -->
+        <path d="M290 330 Q320 318 350 330" stroke="#E74C3C" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <line x1="320" y1="352" x2="295" y2="420" stroke="#E74C3C" stroke-width="12" stroke-linecap="round"/>
+        <line x1="320" y1="352" x2="345" y2="420" stroke="#E74C3C" stroke-width="12" stroke-linecap="round"/>
+        <!-- 子どもの吹き出し -->
+        <rect x="50" y="350" width="220" height="75" rx="14" fill="rgba(192,57,43,0.15)" stroke="#E74C3C" stroke-width="2"/>
+        <polygon points="270,375 292,382 270,390" fill="rgba(192,57,43,0.15)" stroke="#E74C3C" stroke-width="1"/>
+        <text x="160" y="380" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#E74C3C" font-weight="bold">やりたくない…</text>
+        <text x="160" y="408" text-anchor="middle" font-family="sans-serif" font-size="21" fill="rgba(255,255,255,0.6)">どうせできないし</text>
+        <!-- 警告ラベル -->
+        <rect x="80" y="450" width="300" height="40" rx="10" fill="rgba(192,57,43,0.3)" stroke="#C0392B" stroke-width="2"/>
+        <text x="230" y="476" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#E74C3C" font-weight="bold">⚠ この悪循環が運動嫌いを作る</text>
+      </svg>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">02</div>
+  </div>
+
+  <!-- ===== SLIDE 3: BODY 1 - 脳の発達 ===== -->
+  <div class="slide" id="slide-3">
+    <div class="deco-bg"></div>
+    <div class="text-area">
+      <span class="tag">まず知ってほしい前提</span>
+      <div class="heading">
+        幼児〜低学年の子どもは<br>
+        脳が<span class="blue">「発達の途中」</span>
+      </div>
+      <div class="desc">
+        理性より<strong>感情が先に動く</strong>生き物です。<br>
+        言葉の内容より「雰囲気・感情」を強く受け取ります。
+      </div>
+      <div class="note">
+        ※ 抽象的な説明より「その場の体験と感情」が記憶に残りやすい時期です
+      </div>
+    </div>
+    <div class="visual-area">
+      <!-- SVG: 脳の発達図（感情＞理性） -->
+      <svg width="440" height="420" viewBox="0 0 440 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- 頭のシルエット -->
+        <ellipse cx="220" cy="170" rx="160" ry="150" fill="#FFDDB5" opacity="0.15" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <!-- 脳全体 -->
+        <ellipse cx="220" cy="160" rx="130" ry="110" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+        <!-- 感情エリア（大・赤・光） -->
+        <ellipse cx="220" cy="175" rx="100" ry="75" fill="#E74C3C" opacity="0.7"/>
+        <ellipse cx="220" cy="175" rx="80" ry="58" fill="#E74C3C" opacity="0.5"/>
+        <ellipse cx="220" cy="175" rx="55" ry="40" fill="#FF6B6B" opacity="0.8"/>
+        <text x="220" y="182" text-anchor="middle" font-family="sans-serif" font-size="26" fill="white" font-weight="bold">感情・本能</text>
+        <!-- 光の効果 -->
+        <circle cx="190" cy="155" r="15" fill="white" opacity="0.15"/>
+        <!-- 理性エリア（小・青） -->
+        <ellipse cx="220" cy="95" rx="48" ry="28" fill="#4A9ECD" opacity="0.6"/>
+        <text x="220" y="100" text-anchor="middle" font-family="sans-serif" font-size="20" fill="white" font-weight="bold">理性</text>
+        <!-- ラベル -->
+        <text x="220" y="310" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#E74C3C" font-weight="bold">感情 ＞＞ 理性</text>
+        <text x="220" y="345" text-anchor="middle" font-family="sans-serif" font-size="22" fill="rgba(255,255,255,0.65)">幼児期〜小学校低学年のバランス</text>
+        <!-- 矢印説明 -->
+        <path d="M80 175 Q50 175 50 130 Q50 85 110 85" stroke="#4A9ECD" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <text x="30" y="170" font-family="sans-serif" font-size="18" fill="#4A9ECD">理性</text>
+        <path d="M80 200 Q40 200 40 220" stroke="#E74C3C" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <text x="15" y="240" font-family="sans-serif" font-size="18" fill="#E74C3C">感情</text>
+      </svg>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">03</div>
+  </div>
+
+  <!-- ===== SLIDE 4: BODY 2 - 失敗恐怖フロー ===== -->
+  <div class="slide" id="slide-4">
+    <div class="label">「運動嫌い」の本当の理由</div>
+    <div class="heading">
+      嫌いじゃなく、<span class="red">「怖い」</span>んです。
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:12px;">
+          <!-- 怖がっている子ども -->
+          <circle cx="90" cy="50" r="32" fill="#FFDDB5"/>
+          <!-- 目（怖い） -->
+          <ellipse cx="78" cy="46" rx="6" ry="8" fill="#333"/>
+          <ellipse cx="102" cy="46" rx="6" ry="8" fill="#333"/>
+          <circle cx="80" cy="43" r="2" fill="white"/>
+          <circle cx="104" cy="43" r="2" fill="white"/>
+          <!-- 汗 -->
+          <ellipse cx="118" cy="38" rx="5" ry="8" fill="#4A9ECD" opacity="0.7"/>
+          <ellipse cx="125" cy="50" rx="4" ry="6" fill="#4A9ECD" opacity="0.5"/>
+          <!-- 口（震え） -->
+          <path d="M78 65 Q90 60 102 65" stroke="#555" stroke-width="2.5" fill="none"/>
+          <!-- 体 -->
+          <rect x="70" y="84" width="40" height="55" rx="10" fill="#E74C3C" opacity="0.7"/>
+          <!-- 腕（震え） -->
+          <path d="M70 100 L45 120" stroke="#FFDDB5" stroke-width="10" stroke-linecap="round"/>
+          <path d="M110 100 L135 120" stroke="#FFDDB5" stroke-width="10" stroke-linecap="round"/>
+          <!-- 足（すくむ） -->
+          <line x1="80" y1="139" x2="75" y2="170" stroke="#E74C3C" stroke-width="10" stroke-linecap="round"/>
+          <line x1="100" y1="139" x2="105" y2="170" stroke="#E74C3C" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+        <div class="step-text">できない<br>負ける<br>指摘される</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-text" style="font-size:36px; padding-top:20px;">自尊心が<br>傷つく</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-text" style="font-size:36px; padding-top:20px;">失敗への<br>恐怖が蓄積</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-text" style="font-size:36px; padding-top:20px;">脳が<br>「回避」を選ぶ</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">
+        <div class="result-text">「やりたくない！」</div>
+        <div class="result-sub">＝傷つきたくない自衛本能</div>
+      </div>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">04</div>
+  </div>
+
+  <!-- ===== SLIDE 5: BODY 3 - NG褒め方 ===== -->
+  <div class="slide" id="slide-5">
+    <div class="deco-bg"></div>
+    <div class="text-area">
+      <div class="label">気をつけたい褒め方</div>
+      <div class="ng-box">
+        <div class="ng-text">「90点、すごい！」</div>
+      </div>
+      <div class="arrow-down">↓ 子どもはこう受け取ることも</div>
+      <div class="warning">
+        「<span class="red">90点じゃないと</span>すごくない」
+      </div>
+      <div class="note">
+        結果への評価は、取れなかった時の自己否定につながりやすい傾向があります
+      </div>
+    </div>
+    <div class="visual-area">
+      <!-- SVG: NG褒め vs OK褒め -->
+      <svg width="460" height="500" viewBox="0 0 460 500" xmlns="http://www.w3.org/2000/svg">
+        <!-- NG側（上） -->
+        <rect x="10" y="10" width="440" height="200" rx="16" fill="rgba(192,57,43,0.15)" stroke="#E74C3C" stroke-width="2"/>
+        <text x="230" y="40" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#E74C3C" font-weight="bold">❌ 結果を褒める</text>
+        <!-- 親（NG） -->
+        <circle cx="100" cy="110" r="28" fill="#FFDDB5"/>
+        <line x1="100" y1="140" x2="100" y2="195" stroke="#888" stroke-width="10" stroke-linecap="round"/>
+        <line x1="100" y1="160" x2="70" y2="185" stroke="#888" stroke-width="9" stroke-linecap="round"/>
+        <!-- テスト用紙 -->
+        <rect x="115" y="90" width="55" height="65" rx="4" fill="white" stroke="#ccc" stroke-width="1.5"/>
+        <text x="142" y="118" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#E74C3C" font-weight="bold">90点</text>
+        <text x="142" y="140" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#aaa">すごい！</text>
+        <!-- 子ども（不安） -->
+        <circle cx="340" cy="110" r="28" fill="#FFDDB5"/>
+        <ellipse cx="332" cy="106" rx="4" ry="5" fill="#333"/>
+        <ellipse cx="348" cy="106" rx="4" ry="5" fill="#333"/>
+        <path d="M330 122 Q340 118 350 122" stroke="#555" stroke-width="2" fill="none"/>
+        <line x1="340" y1="140" x2="340" y2="195" stroke="#E74C3C" stroke-width="10" stroke-linecap="round"/>
+        <!-- 吹き出し（子・不安） -->
+        <rect x="240" y="65" width="155" height="40" rx="10" fill="rgba(192,57,43,0.1)" stroke="#E74C3C" stroke-width="1.5"/>
+        <text x="317" y="90" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#E74C3C">次は取れなかったら…</text>
+        <!-- 矢印 -->
+        <text x="230" y="230" text-anchor="middle" font-family="sans-serif" font-size="32" fill="rgba(255,255,255,0.3)">↓</text>
+        <!-- OK側（下） -->
+        <rect x="10" y="255" width="440" height="235" rx="16" fill="rgba(74,158,205,0.12)" stroke="#4A9ECD" stroke-width="2"/>
+        <text x="230" y="283" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#4A9ECD" font-weight="bold">✅ 過程・行動を褒める</text>
+        <!-- 親（OK・しゃがむ） -->
+        <circle cx="100" cy="350" r="28" fill="#FFDDB5"/>
+        <line x1="100" y1="380" x2="100" y2="430" stroke="#4A9ECD" stroke-width="10" stroke-linecap="round"/>
+        <line x1="100" y1="395" x2="68" y2="420" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+        <line x1="100" y1="395" x2="132" y2="420" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+        <!-- 吹き出し（親・OK） -->
+        <rect x="135" y="300" width="190" height="55" rx="10" fill="rgba(74,158,205,0.15)" stroke="#4A9ECD" stroke-width="1.5"/>
+        <polygon points="135,322 112,328 135,335" fill="rgba(74,158,205,0.15)"/>
+        <text x="230" y="325" text-anchor="middle" font-family="sans-serif" font-size="18" fill="white">あの時練習したから</text>
+        <text x="230" y="347" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#4A9ECD" font-weight="bold">できたんだね！</text>
+        <!-- 子ども（笑顔） -->
+        <circle cx="360" cy="360" r="28" fill="#FFDDB5"/>
+        <ellipse cx="352" cy="356" rx="4" ry="4" fill="#333"/>
+        <ellipse cx="368" cy="356" rx="4" ry="4" fill="#333"/>
+        <path d="M350 372 Q360 380 370 372" stroke="#E74C3C" stroke-width="2.5" fill="none"/>
+        <!-- ハイタッチ -->
+        <path d="M132 395 L155 370" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+        <path d="M330 380 L307 370" stroke="#FFDDB5" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="230" cy="368" r="10" fill="#FFD700" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">05</div>
+  </div>
+
+  <!-- ===== SLIDE 6: BODY 4 - 正しい声かけ（吹き出し） ===== -->
+  <div class="slide" id="slide-6">
+    <div class="deco-bg"></div>
+    <div class="text-area">
+      <div class="label">正しい声かけのコツ</div>
+      <div class="heading">
+        褒めるのは
+        <span class="blue">「行動と過程」</span>
+      </div>
+    </div>
+    <div class="visual-area">
+      <!-- SVG: 親子の温かい対話 -->
+      <svg width="480" height="380" viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:16px;">
+        <!-- 背景の温かい円 -->
+        <circle cx="240" cy="190" r="180" fill="rgba(255,255,255,0.04)"/>
+        <!-- 親（しゃがんで目線を合わせる） -->
+        <circle cx="140" cy="180" r="42" fill="#FFDDB5"/>
+        <circle cx="140" cy="150" r="30" fill="#FFDDB5"/>
+        <!-- 髪 -->
+        <ellipse cx="140" cy="122" rx="30" ry="14" fill="#6B3A2A"/>
+        <!-- 目（笑顔） -->
+        <path d="M128 148 Q133 143 138 148" stroke="#333" stroke-width="2.5" fill="none"/>
+        <path d="M142 148 Q147 143 152 148" stroke="#333" stroke-width="2.5" fill="none"/>
+        <!-- 口（笑顔） -->
+        <path d="M128 162 Q140 172 152 162" stroke="#E74C3C" stroke-width="2.5" fill="none"/>
+        <!-- 体（しゃがみ） -->
+        <path d="M140 194 L115 260 L165 260 Z" fill="#4A9ECD" opacity="0.7"/>
+        <!-- 手を伸ばす -->
+        <path d="M165 215 Q220 210 255 220" stroke="#FFDDB5" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <!-- ハート -->
+        <path d="M230 185 C230 175 215 165 215 178 C215 165 200 175 200 185 C200 200 215 212 215 212 C215 212 230 200 230 185Z" fill="#E74C3C" opacity="0.8" transform="translate(15,0) scale(1.3)"/>
+        <!-- 子ども -->
+        <circle cx="330" cy="195" r="36" fill="#FFDDB5"/>
+        <circle cx="330" cy="168" r="26" fill="#FFDDB5"/>
+        <!-- 髪 -->
+        <ellipse cx="330" cy="144" rx="26" ry="12" fill="#4A3728"/>
+        <!-- 目（嬉しい） -->
+        <path d="M320 165 Q325 160 330 165" stroke="#333" stroke-width="2.5" fill="none"/>
+        <path d="M330 165 Q335 160 340 165" stroke="#333" stroke-width="2.5" fill="none"/>
+        <!-- 口（大笑い） -->
+        <path d="M320 178 Q330 188 340 178" stroke="#E74C3C" stroke-width="2.5" fill="rgba(255,100,100,0.3)"/>
+        <!-- 体 -->
+        <rect x="308" y="208" width="44" height="60" rx="10" fill="#E74C3C" opacity="0.7"/>
+        <!-- 吹き出し（子） -->
+        <rect x="355" y="145" width="115" height="55" rx="12" fill="rgba(255,255,255,0.1)" stroke="#4A9ECD" stroke-width="1.5"/>
+        <polygon points="355,168 340,175 355,182" fill="rgba(255,255,255,0.1)"/>
+        <text x="412" y="167" text-anchor="middle" font-family="sans-serif" font-size="18" fill="white">もっと</text>
+        <text x="412" y="189" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#4A9ECD" font-weight="bold">やってみる！</text>
+        <!-- 輝き -->
+        <circle cx="240" cy="280" r="50" fill="rgba(74,158,205,0.08)"/>
+        <text x="240" y="310" text-anchor="middle" font-family="sans-serif" font-size="22" fill="rgba(255,255,255,0.5)">安心感が やる気を生む</text>
+      </svg>
+      <div class="goal-box">
+        <span class="blue">チャレンジ＝正解</span> という価値観を育てる。<br>
+        <span style="font-size:32px; color:rgba(255,255,255,0.55);">結果はあくまで過程を見るためのヒント。</span>
+      </div>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">06</div>
+  </div>
+
+  <!-- ===== SLIDE 7: BODY 5 - 問題行動 ===== -->
+  <div class="slide" id="slide-7">
+    <div class="label">問題行動への対処法</div>
+    <div class="heading">
+      良い行動に全力で。問題行動には、無関心。
+    </div>
+    <div class="compare">
+      <div class="box bad">
+        <div class="box-header">
+          <div class="box-icon">❌</div>
+          <div class="box-label">逆効果なパターン</div>
+        </div>
+        <!-- SVG: 問題行動・無関心 -->
+        <svg width="260" height="180" viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" style="margin:12px 0;">
+          <!-- 子ども（騒ぐ） -->
+          <circle cx="80" cy="55" r="28" fill="#FFDDB5"/>
+          <path d="M70 70 Q80 78 90 70" stroke="#E74C3C" stroke-width="2" fill="rgba(255,100,100,0.3)"/>
+          <line x1="80" y1="85" x2="80" y2="135" stroke="#E74C3C" stroke-width="10" stroke-linecap="round"/>
+          <line x1="80" y1="105" x2="50" y2="85" stroke="#FFDDB5" stroke-width="9" stroke-linecap="round"/>
+          <line x1="80" y1="105" x2="110" y2="85" stroke="#FFDDB5" stroke-width="9" stroke-linecap="round"/>
+          <line x1="80" y1="135" x2="60" y2="170" stroke="#E74C3C" stroke-width="9" stroke-linecap="round"/>
+          <line x1="80" y1="135" x2="100" y2="170" stroke="#E74C3C" stroke-width="9" stroke-linecap="round"/>
+          <!-- 騒ぎ表現 -->
+          <text x="45" y="30" font-family="sans-serif" font-size="20" fill="#E74C3C" opacity="0.7">！</text>
+          <text x="100" y="22" font-family="sans-serif" font-size="20" fill="#E74C3C" opacity="0.7">！</text>
+          <!-- 親（背を向ける） -->
+          <circle cx="200" cy="55" r="28" fill="#FFDDB5"/>
+          <circle cx="197" cy="27" r="18" fill="#6B3A2A"/>
+          <line x1="200" y1="85" x2="200" y2="140" stroke="#888" stroke-width="10" stroke-linecap="round"/>
+          <line x1="200" y1="108" x2="225" y2="130" stroke="#888" stroke-width="9" stroke-linecap="round"/>
+          <line x1="200" y1="108" x2="175" y2="130" stroke="#888" stroke-width="9" stroke-linecap="round"/>
+          <!-- 無関心マーク -->
+          <text x="155" y="45" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.3)">…</text>
+        </svg>
+        <div class="box-text">
+          問題行動を注意する<br>→「注目」というご褒美に
+        </div>
+      </div>
+      <div class="box good">
+        <div class="box-header">
+          <div class="box-icon">✅</div>
+          <div class="box-label">効果的なパターン</div>
+        </div>
+        <div class="box-text" style="margin-top:16px;">
+          問題行動 → 淡々と無関心<br>
+          良い行動 → 大げさなくらい褒める
+        </div>
+        <div class="box-sub">
+          💡 「良い行動をすると関わってもらえる」<br>
+          → 良い行動が増えていく
+        </div>
+      </div>
+    </div>
+    <div class="caution">
+      ⚠️ 前提として「見ているよ」という安心感は必ずキープしてください
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">07</div>
+  </div>
+
+  <!-- ===== SLIDE 8: SUMMARY ===== -->
+  <div class="slide" id="slide-8">
+    <div class="deco-bg"></div>
+    <div class="text-area">
+      <div class="label">まとめ</div>
+      <div class="heading">今日から使える 5つのポイント</div>
+      <div class="items">
+        <div class="item"><span class="num">1</span><span class="item-text">子どもの脳は感情が先。言葉より「雰囲気」が伝わる</span></div>
+        <div class="item"><span class="num">2</span><span class="item-text">「運動嫌い」の裏には、失敗への恐怖がある</span></div>
+        <div class="item"><span class="num">3</span><span class="item-text">褒めるのは「結果」ではなく「行動・過程」を具体的に</span></div>
+        <div class="item"><span class="num">4</span><span class="item-text">問題行動より「良い行動」に注目・反応する</span></div>
+        <div class="item"><span class="num">5</span><span class="item-text">チャレンジすること自体を「正解」として伝える</span></div>
+      </div>
+    </div>
+    <div class="visual-area">
+        <!-- SVG: 成長の3ステップ -->
+        <svg width="380" height="320" viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- ステップ1：内気な子 -->
+          <circle cx="60" cy="200" r="22" fill="#FFDDB5"/>
+          <path d="M52 212 Q60 218 68 212" stroke="#aaa" stroke-width="2" fill="none"/>
+          <line x1="60" y1="224" x2="60" y2="268" stroke="#aaa" stroke-width="8" stroke-linecap="round"/>
+          <line x1="60" y1="240" x2="40" y2="255" stroke="#FFDDB5" stroke-width="7" stroke-linecap="round"/>
+          <line x1="60" y1="240" x2="80" y2="255" stroke="#FFDDB5" stroke-width="7" stroke-linecap="round"/>
+          <line x1="60" y1="268" x2="46" y2="300" stroke="#aaa" stroke-width="8" stroke-linecap="round"/>
+          <line x1="60" y1="268" x2="74" y2="300" stroke="#aaa" stroke-width="8" stroke-linecap="round"/>
+          <text x="60" y="316" text-anchor="middle" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.5)">不安</text>
+          <!-- 矢印1 -->
+          <path d="M95 240 L135 240" stroke="#4A9ECD" stroke-width="3" marker-end="url(#arrow)"/>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4A9ECD"/></marker></defs>
+          <!-- ステップ2：挑戦中 -->
+          <circle cx="190" cy="185" r="26" fill="#FFDDB5"/>
+          <path d="M181 198 Q190 206 199 198" stroke="#E74C3C" stroke-width="2.5" fill="rgba(255,100,100,0.2)"/>
+          <line x1="190" y1="213" x2="190" y2="262" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+          <line x1="190" y1="232" x2="162" y2="250" stroke="#FFDDB5" stroke-width="8" stroke-linecap="round"/>
+          <line x1="190" y1="232" x2="218" y2="220" stroke="#FFDDB5" stroke-width="8" stroke-linecap="round"/>
+          <line x1="190" y1="262" x2="174" y2="300" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+          <line x1="190" y1="262" x2="206" y2="300" stroke="#4A9ECD" stroke-width="9" stroke-linecap="round"/>
+          <text x="190" y="316" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#4A9ECD">挑戦中</text>
+          <!-- 矢印2 -->
+          <path d="M228 230 L270 215" stroke="#4A9ECD" stroke-width="3" marker-end="url(#arrow)"/>
+          <!-- ステップ3：自信あふれる -->
+          <circle cx="320" cy="155" r="32" fill="#FFDDB5"/>
+          <path d="M308 170 Q320 180 332 170" stroke="#E74C3C" stroke-width="3" fill="rgba(255,100,100,0.3)"/>
+          <line x1="320" y1="189" x2="320" y2="248" stroke="#E74C3C" stroke-width="11" stroke-linecap="round"/>
+          <!-- 両手を上げる -->
+          <line x1="320" y1="210" x2="280" y2="178" stroke="#FFDDB5" stroke-width="10" stroke-linecap="round"/>
+          <line x1="320" y1="210" x2="360" y2="178" stroke="#FFDDB5" stroke-width="10" stroke-linecap="round"/>
+          <line x1="320" y1="248" x2="300" y2="300" stroke="#E74C3C" stroke-width="11" stroke-linecap="round"/>
+          <line x1="320" y1="248" x2="340" y2="300" stroke="#E74C3C" stroke-width="11" stroke-linecap="round"/>
+          <!-- 輝き -->
+          <circle cx="280" cy="160" r="8" fill="#FFD700" opacity="0.7"/>
+          <circle cx="360" cy="148" r="6" fill="#FFD700" opacity="0.6"/>
+          <circle cx="320" cy="120" r="10" fill="#FFD700" opacity="0.5"/>
+          <text x="320" y="316" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#FFD700" font-weight="bold">自信！</text>
+        </svg>
+      <div class="icon-caption">
+        声かけひとつで<br>子どもの<span style="color:#4A9ECD; font-weight:700;">可能性</span>は<br>大きく変わる
+      </div>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">08</div>
+  </div>
+
+  <!-- ===== SLIDE 9: CTA ===== -->
+  <div class="slide" id="slide-9">
+    <div class="top-label">
+      続きや深い学びは <span class="red">『オギラボ』</span> で！
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <div class="card-title">オンラインサロン『オギラボ』</div>
+        <div class="card-body">
+          ・現場のリアルなノウハウを公開<br>
+          ・コーチ・親御さんと交流できる<br>
+          ・子どもの可能性を引き出す情報を毎月配信
+        </div>
+        <img src="オギラボ・写真/オギラボインサート(１).png" alt="オギラボ">
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">公式LINE『オギラボ』</div>
+        <div class="card-body">
+          3つの目的に合わせた特別な内容を公開予定！<br><br>
+          ① 親御さん向け<br>
+          ② スピード＆フィジカル強化向け<br>
+          ③ 棒高跳びノウハウ向け
+        </div>
+        <span class="badge">開設準備中</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">▶️</div>
+        <div class="card-title">YouTube『オギラボ』</div>
+        <div class="card-body">
+          より詳しい解説動画を続々配信中！<br><br>
+          チャンネル登録よろしくお願いします！
+        </div>
+        <img src="オギラボ・写真/IMG_7570.jpg" alt="YouTube オギラボ">
+      </div>
+    </div>
+    <div class="logo-mark">@ogii</div>
+    <div class="slide-number">09</div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit 利用規約</title>
+<style>
+  :root {
+    --primary: #0a1628;
+    --accent: #c9a84c;
+    --accent2: #e8c96a;
+    --white: #ffffff;
+    --light: #f8f6f1;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; color: var(--primary); background: var(--white); line-height: 1.85; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a1628, #1a2d50);
+    color: var(--white);
+    padding: 56px 40px 48px;
+    text-align: center;
+  }
+  .header-badge { display: inline-block; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); color: var(--accent2); font-size: 11px; font-weight: 700; letter-spacing: 3px; padding: 5px 18px; border-radius: 20px; margin-bottom: 20px; }
+  .header h1 { font-size: clamp(22px, 3.5vw, 32px); font-weight: 900; margin-bottom: 12px; }
+  .header-meta { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 16px; }
+  .header-meta span { background: rgba(255,255,255,0.08); padding: 4px 14px; border-radius: 20px; }
+
+  /* TOC */
+  .toc-wrapper {
+    background: var(--light);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px;
+  }
+  .toc { max-width: 860px; margin: 0 auto; }
+  .toc-title { font-size: 13px; font-weight: 700; color: var(--gray); letter-spacing: 2px; margin-bottom: 16px; }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .toc-item { font-size: 13px; color: var(--primary); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: background 0.15s; display: flex; align-items: center; gap: 6px; }
+  .toc-item:hover { background: rgba(201,168,76,0.12); color: #7a5c1a; }
+  .toc-num { font-size: 11px; font-weight: 700; color: var(--accent); min-width: 24px; }
+
+  /* MAIN */
+  main { max-width: 860px; margin: 0 auto; padding: 56px 40px 80px; }
+
+  /* SECTION */
+  .terms-section { margin-bottom: 52px; }
+  .section-anchor { display: block; height: 80px; margin-top: -80px; visibility: hidden; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-num {
+    min-width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 20px; font-weight: 900; }
+
+  /* BODY TEXT */
+  .terms-body p { margin-bottom: 14px; font-size: 14.5px; color: #1e293b; }
+  .terms-body ol, .terms-body ul { padding-left: 22px; margin-bottom: 14px; }
+  .terms-body li { margin-bottom: 8px; font-size: 14.5px; color: #1e293b; }
+  .terms-body li::marker { color: var(--accent); font-weight: 700; }
+
+  /* HIGHLIGHT */
+  .highlight-box {
+    background: #fef3c7;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .highlight-box strong { color: #92701a; }
+
+  .info-box {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 14px;
+    border: 1px solid var(--border);
+  }
+  .info-box h4 { font-size: 13px; font-weight: 700; color: var(--gray); margin-bottom: 10px; letter-spacing: 1px; }
+
+  /* TABLE */
+  .terms-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13.5px; }
+  .terms-table th { background: var(--primary); color: var(--white); padding: 10px 16px; text-align: left; font-size: 12px; letter-spacing: 1px; }
+  .terms-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .terms-table tr:last-child td { border-bottom: none; }
+  .terms-table tr:nth-child(even) td { background: var(--light); }
+
+  /* RANK BADGE */
+  .rank-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .rank-table th { background: var(--primary); color: rgba(255,255,255,0.8); padding: 10px 14px; font-size: 12px; }
+  .rank-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .rb { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .rb-c { background: #f3f4f6; color: #374151; }
+  .rb-e { background: #dbeafe; color: #1e40af; }
+  .rb-m { background: #ede9fe; color: #5b21b6; }
+  .rb-l { background: #fef3c7; color: #92701a; }
+
+  /* DIVIDER */
+  .terms-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  /* FOOTER */
+  .terms-footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 40px;
+    font-size: 13px;
+  }
+  .terms-footer strong { color: var(--accent2); font-size: 16px; display: block; margin-bottom: 8px; }
+  .update-bar { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px 20px; margin-bottom: 40px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+  .update-bar .dot { width: 8px; height: 8px; background: #0284c7; border-radius: 50%; flex-shrink: 0; }
+
+  /* PRINT */
+  @media print {
+    .toc-wrapper, .header-meta { display: none; }
+    main { padding: 20px; }
+  }
+  @media (max-width: 640px) {
+    main { padding: 40px 20px 60px; }
+    .toc-wrapper { padding: 24px 20px; }
+    .header { padding: 48px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">TERMS OF SERVICE</div>
+  <h1>TrustFit 利用規約</h1>
+  <div class="header-meta">
+    <span>制定日：2026年4月15日</span>
+    <span>最終改定：2026年4月15日</span>
+    <span>版数：Ver.1.0</span>
+  </div>
+</div>
+
+<!-- 目次 -->
+<div class="toc-wrapper">
+  <div class="toc">
+    <div class="toc-title">目次</div>
+    <div class="toc-grid">
+      <a href="#sec1" class="toc-item"><span class="toc-num">第1条</span>適用・定義</a>
+      <a href="#sec2" class="toc-item"><span class="toc-num">第2条</span>サービスの内容</a>
+      <a href="#sec3" class="toc-item"><span class="toc-num">第3条</span>利用登録</a>
+      <a href="#sec4" class="toc-item"><span class="toc-num">第4条</span>ポイントシステム</a>
+      <a href="#sec5" class="toc-item"><span class="toc-num">第5条</span>予約・キャンセル</a>
+      <a href="#sec6" class="toc-item"><span class="toc-num">第6条</span>セッションの実施</a>
+      <a href="#sec7" class="toc-item"><span class="toc-num">第7条</span>評価システム</a>
+      <a href="#sec8" class="toc-item"><span class="toc-num">第8条</span>トレーナーランク制度</a>
+      <a href="#sec9" class="toc-item"><span class="toc-num">第9条</span>コンテンツ・知的財産</a>
+      <a href="#sec10" class="toc-item"><span class="toc-num">第10条</span>禁止事項</a>
+      <a href="#sec11" class="toc-item"><span class="toc-num">第11条</span>広告起用・撮影</a>
+      <a href="#sec12" class="toc-item"><span class="toc-num">第12条</span>個人情報・データ</a>
+      <a href="#sec13" class="toc-item"><span class="toc-num">第13条</span>免責事項</a>
+      <a href="#sec14" class="toc-item"><span class="toc-num">第14条</span>損害賠償</a>
+      <a href="#sec15" class="toc-item"><span class="toc-num">第15条</span>停止・解約</a>
+      <a href="#sec16" class="toc-item"><span class="toc-num">第16条</span>規約の変更</a>
+      <a href="#sec17" class="toc-item"><span class="toc-num">第17条</span>準拠法・管轄</a>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <div class="update-bar">
+    <div class="dot"></div>
+    <div>本規約はTrustFit（運営：株式会社MOON）をご利用になる全てのクライアント企業・トレーナーに適用されます。ご利用の前に必ずお読みください。</div>
+  </div>
+
+  <!-- 第1条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec1"></a>
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">適用・定義</div>
+    </div>
+    <div class="terms-body">
+      <p>本規約は、株式会社MOON（以下「当社」という）が提供するトレーナーマッチングプラットフォーム「TrustFit」（以下「本サービス」という）の利用条件を定めるものです。本サービスを利用する全ての者（以下「利用者」という）は、本規約に同意した上でご利用ください。</p>
+      <p>本規約において使用する用語の定義は以下の通りとします。</p>
+      <table class="terms-table">
+        <thead>
+          <tr><th>用語</th><th>定義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>クライアント企業</strong></td><td>本サービスを通じてトレーナーを招聘する法人・個人事業主</td></tr>
+          <tr><td><strong>トレーナー</strong></td><td>本サービスに登録し、クライアント企業にコンテンツを提供する個人事業主・法人</td></tr>
+          <tr><td><strong>セッション</strong></td><td>トレーナーがクライアント企業に対して提供するコンテンツの1回分の実施単位</td></tr>
+          <tr><td><strong>ポイント（pt）</strong></td><td>本サービス内でのみ使用できる仮想通貨単位。1pt = 1円</td></tr>
+          <tr><td><strong>ウォレット</strong></td><td>クライアント企業が保有するポイントの残高管理口座</td></tr>
+          <tr><td><strong>評価スコア</strong></td><td>セッション後に双方が入力する10項目・50点満点の評価値</td></tr>
+          <tr><td><strong>VIPトレーナー</strong></td><td>Elite・Master・Legendランクのトレーナー</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 第2条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec2"></a>
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">サービスの内容</div>
+    </div>
+    <div class="terms-body">
+      <p>本サービスは、フィジカル・マインドセット・ウェルビーイング等のコンテンツを提供するトレーナーと、企業の福利厚生・研修・採用ブランディング等の目的でコンテンツを求める企業をマッチングするプラットフォームです。</p>
+      <p>本サービスが提供する主な機能は以下の通りです。</p>
+      <ol>
+        <li>トレーナーの検索・閲覧・プロフィール・評価履歴の確認</li>
+        <li>セッションの予約・スケジュール管理・リマインダー通知</li>
+        <li>ポイントウォレットの管理・購入・消費・残高照会</li>
+        <li>双方向評価システム（10項目・50点満点）の実施・集計</li>
+        <li>組織コンディショニング・カルテの受領・管理</li>
+        <li>利用履歴・評価履歴・ポイント明細のレポート出力</li>
+      </ol>
+      <div class="highlight-box">
+        <strong>⚠️ 本サービスは「業務委託」形式で運営されています。</strong><br>
+        トレーナーはクライアント企業に雇用されるものではなく、独立した事業者として業務を遂行します。クライアント企業からトレーナーへの指揮命令関係は生じません。労働者派遣法の適用はありません。
+      </div>
+    </div>
+  </div>
+
+  <!-- 第3条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec3"></a>
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">利用登録</div>
+    </div>
+    <div class="terms-body">
+      <p>本サービスの利用を希望する者は、当社の定める方法により利用申込みを行い、当社が承認した場合に利用登録が完了します。</p>
+      <ol>
+        <li>利用登録の申込みに際して虚偽の情報を提供した場合、当社は登録を取り消すことができます。</li>
+        <li>クライアント企業は、評価担当者を1名以上事前に登録するものとします。担当者の変更は当社所定の手続きにより行うものとします。</li>
+        <li>トレーナーの登録には、当社が定める審査（資格・実績・コンテンツ内容の確認）を経るものとします。</li>
+        <li>利用者はアカウント情報（ID・パスワード等）を自己の責任において管理するものとします。第三者によるアカウントの使用に起因する損害について、当社は責任を負いません。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第4条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec4"></a>
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">ポイントシステム</div>
+    </div>
+    <div class="terms-body">
+      <p>本サービスにおける全ての支払いはポイント（pt）を通じて行われます。</p>
+
+      <h3 style="margin: 20px 0 12px; font-size: 16px; font-weight: 800;">4-1. ポイントの購入</h3>
+      <ol>
+        <li>クライアント企業は1pt = 1円でポイントを事前購入します。購入は当社が定める決済手段（銀行振込・クレジットカード等）により行います。</li>
+        <li>ポイント購入額に応じてボーナスポイントが付与されます。ボーナスポイントの内容は別途購入ティアに定める通りです。</li>
+        <li>ポイントの購入は取引単位で完結し、サービス継続の義務を生じるものではありません。</li>
+      </ol>
+
+      <h3 style="margin: 20px 0 12px; font-size: 16px; font-weight: 800;">4-2. ポイントのロックと確定</h3>
+      <ol>
+        <li>セッション予約時に、当該セッションの最大報酬相当分のポイントがウォレットからロックされます。
+          <div class="info-box" style="margin-top: 10px;">
+            <h4>ロック額の計算例（Eliteトレーナーの場合）</h4>
+            固定ベース 50,000pt ＋ 成果報酬上限 50,000pt ＝ <strong>最大 100,000pt をロック</strong><br>
+            セッション後、評価スコアに応じた確定額のみ引き落とし → 余剰分は即返還
+          </div>
+        </li>
+        <li>セッション完了・双方評価確定後、評価スコアに基づく報酬計算を行い確定額をトレーナーに支払います。余剰ポイントは即日クライアント企業のウォレットに返還されます。</li>
+      </ol>
+
+      <h3 style="margin: 20px 0 12px; font-size: 16px; font-weight: 800;">4-3. ポイントの失効</h3>
+      <ol>
+        <li>購入ポイントは購入日から1年後の同日23:59に失効します（例：2026年4月1日購入分 → 2027年4月1日23:59失効）。</li>
+        <li>ボーナスポイントの有効期限は、原資となる購入ポイントと同一とします。</li>
+        <li>失効ポイントの返金は行いません。</li>
+        <li>失効ポイントは当社の社会事業（児童発達支援・子どもスポーツクラブ等）に充当されます。</li>
+      </ol>
+      <div class="highlight-box">
+        <strong>💡 端数ポイントの活用方法</strong><br>
+        失効前の端数ポイントは以下の方法で活用できます。<br>
+        ①チップ（セッション後のトレーナーへの任意追加払い）<br>
+        ②トレーナー応援（好きなトレーナーへの継続スポンサー支援）<br>
+        ③弊社社会事業への寄付（CSR活動・健康経営優良法人認定の加点対象となる場合があります）
+      </div>
+
+      <h3 style="margin: 20px 0 12px; font-size: 16px; font-weight: 800;">4-4. 交通費・宿泊費</h3>
+      <ol>
+        <li>トレーナーの交通費・宿泊費は、評価連動の報酬とは別建てで発生します。</li>
+        <li>エリア別固定ポイントとして予約時に事前引き落としを行うか、クライアント企業が現物チケットを手配します。詳細は予約時に表示されます。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第5条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec5"></a>
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">予約・キャンセル</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>予約はシステム上で行い、当社からの確認通知をもって予約確定とします。</li>
+        <li>予約後のキャンセルについては以下のポリシーを適用します。
+          <table class="terms-table" style="margin-top: 12px;">
+            <thead><tr><th>キャンセルタイミング</th><th>ポイント返還</th></tr></thead>
+            <tbody>
+              <tr><td>予約確定から48時間以内</td><td>ロックポイント全額返還</td></tr>
+              <tr><td>セッション7日前まで</td><td>ロックポイントの80%返還</td></tr>
+              <tr><td>セッション3日前まで</td><td>ロックポイントの50%返還</td></tr>
+              <tr><td>セッション3日前〜当日</td><td>返還なし（固定ベースのみ確定支払い）</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>天災・感染症拡大・その他の不可抗力によるキャンセルは、上記ポリシーに関わらず全額返還とします。</li>
+        <li>トレーナー都合のキャンセルの場合、ロックポイントは全額返還し、当社から代替トレーナーの提案を行います。</li>
+        <li>予約は完全匿名制です。他の社員から誰が予約したかは一切表示されません。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第6条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec6"></a>
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">セッションの実施</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>セッションの標準時間は1コマ2時間（上限）とします。</li>
+        <li>コンテンツ区分に応じた参加人数上限は以下の通りとします。上限を超える場合、システムが必要コマ数を自動提案します。
+          <table class="terms-table" style="margin-top: 12px;">
+            <thead><tr><th>コンテンツ区分</th><th>人数上限</th></tr></thead>
+            <tbody>
+              <tr><td>ヨガ・ストレッチ・ウォーキング・講演・食事交流会・社内運動会</td><td>制限なし</td></tr>
+              <tr><td>トレーニング・機能改善・アクティブリカバリー</td><td>30名/コマ</td></tr>
+              <tr><td>コーチング・個別指導・新規プロジェクト開発支援</td><td>5名/コマ</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>エグゼクティブ向けには15分・30分の短縮コマも設定できます（別途VIPトレーナーとの調整が必要）。</li>
+        <li>クライアント企業はセッション当日、安全な実施環境（スペース・換気・備品等）の確保に協力するものとします。</li>
+        <li>セッション中の無断録画・録音・撮影は禁止します（第11条に基づく広告起用・撮影オプションを除く）。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第7条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec7"></a>
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">評価システム</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>セッション完了後、クライアント企業・トレーナーの双方は72時間以内に評価を実施するものとします。</li>
+        <li>評価は10項目（各5点満点）の計50点満点で行います。評価スコアがそのまま報酬確定額の計算に使用されます。</li>
+        <li>評価結果は双方が提出した後に同時公開されます。一方が先に見て点数を合わせることを防止する設計です。</li>
+        <li>低評価（各項目1〜2点）の場合は、理由の文章入力が必須です。</li>
+        <li>高評価（各項目4〜5点）のコメント欄は任意です。</li>
+        <li>評価を72時間以内に実施しなかった場合、当該セッションの評価スコアは自動的に中間値（25点/50点）として処理されます。</li>
+        <li>評価の虚偽入力・他者への成りすまし・組織的な評価操作は禁止します。発覚した場合、当社は利用停止・ポイント没収等の措置を講じることができます。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第8条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec8"></a>
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div class="section-title">トレーナーランク制度</div>
+    </div>
+    <div class="terms-body">
+      <p>トレーナーは実績・評価スコアに応じて以下の4段階にランク分けされます。</p>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th>ランク</th>
+            <th>固定ベース</th>
+            <th>成果報酬</th>
+            <th>プラットフォーム手数料</th>
+            <th>昇格条件（概要）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rb rb-c">🆕 Challenger</span></td>
+            <td>なし</td>
+            <td>10,000〜50,000pt</td>
+            <td>25%</td>
+            <td>登録直後</td>
+          </tr>
+          <tr>
+            <td><span class="rb rb-e">🥉 Elite VIP</span></td>
+            <td>50,000pt</td>
+            <td>10,000〜50,000pt</td>
+            <td>20%</td>
+            <td>累計10回以上 / 累計400pt以上 / 低品質ゼロ</td>
+          </tr>
+          <tr>
+            <td><span class="rb rb-m">🥈 Master VIP</span></td>
+            <td>100,000pt</td>
+            <td>20,000〜100,000pt</td>
+            <td>18%</td>
+            <td>累計20回 / 平均40pt以上 / 45pt以上を3回</td>
+          </tr>
+          <tr>
+            <td><span class="rb rb-l">🥇 Legend VIP</span></td>
+            <td>200,000pt</td>
+            <td>20,000〜100,000pt</td>
+            <td>15%</td>
+            <td>累計30回 / 平均40pt以上 / 45pt以上を3回</td>
+          </tr>
+        </tbody>
+      </table>
+      <ol style="margin-top: 16px;">
+        <li>直近3セッション連続で平均25pt以下の場合、当社はトレーナーのランクを1段階降格させることができます。</li>
+        <li>オリンピアン・日本代表選手・著名コーチ等のスカウト枠はElite VIPからスタートします。</li>
+        <li>VIPトレーナーが継続担当者（Challengerトレーナー）を紹介し3ヶ月継続した場合、Challengerの売上ptの10%が紹介フィーとしてVIPに還元されます（支払いはプラットフォーム手数料内から）。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第9条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec9"></a>
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <div class="section-title">コンテンツ・知的財産</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>トレーナーが本サービスを通じて提供するコンテンツ・資料・プログラムの著作権はトレーナーに帰属します。</li>
+        <li>クライアント企業は、当該セッションの目的の範囲内においてのみ、上記コンテンツを利用することができます。</li>
+        <li>クライアント企業がセッションで取得した情報・ノウハウを社外に公開・販売・転用することは禁止します。</li>
+        <li>当社が提供するプラットフォームのシステム・UI・評価フォーム・スコアリングロジック等の知的財産権は当社に帰属します。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第10条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec10"></a>
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div class="section-title">禁止事項</div>
+    </div>
+    <div class="terms-body">
+      <p>利用者は以下の行為を行ってはなりません。</p>
+      <ol>
+        <li>トレーナーへの違法・不当な指示・強要・ハラスメント行為</li>
+        <li>本プラットフォームを介さないトレーナーとの直接取引（利用登録から2年間）</li>
+        <li>第三者への権限の無断譲渡・アカウントの共有・貸与</li>
+        <li>評価システムの不正操作（虚偽評価・事前打ち合わせによる点数合わせ等）</li>
+        <li>セッション内容の無断録画・録音・撮影（第11条の場合を除く）</li>
+        <li>本サービスのシステム・データへの不正アクセス・改ざん・クローリング</li>
+        <li>法令・公序良俗に反する行為</li>
+        <li>当社・他の利用者の信用を毀損する行為</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第11条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec11"></a>
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div class="section-title">広告起用・撮影オプション</div>
+    </div>
+    <div class="terms-body">
+      <p>本サービスに登録するトレーナー（特にVIPトレーナー）を広告・映像・SNS・採用PR等の目的で起用・撮影する場合は、以下の手続きが必要です。</p>
+      <ol>
+        <li>広告起用・撮影は、本サービスの通常セッションとは別の「広告起用オプション」として取り扱われ、別途料金が発生します。</li>
+        <li>広告起用・撮影を希望する場合は、事前に当社事務局への申請が必要です。申請内容には、利用媒体・使用期間・掲載地域・用途を含むものとします。</li>
+        <li>当社はトレーナーの意向を確認した上で、起用の可否・条件（出演料・肖像権使用料・掲載期間等）をクライアント企業に提示します。</li>
+        <li>トレーナーの肖像・声・氏名の商業利用については、別途「肖像権使用許諾契約」を締結するものとします。</li>
+        <li>セッション中に採用PR目的での撮影を行う場合（初回モニターキャンペーン等）は、事前に担当者の書面による承諾を得るものとし、出演するトレーナーの同意も確認します。</li>
+        <li>撮影済みコンテンツの二次利用・SNS転載・第三者への提供は、別途当社の承諾を得るものとします。</li>
+      </ol>
+      <div class="highlight-box">
+        <strong>📸 初回モニターキャンペーンの撮影条件</strong><br>
+        撮影が難しい場合は、個人・社名を特定しない「匿名評価データ（スコア＋テキスト）」の提供によりキャンペーンを適用できます。詳細は別途申込書の「キャンペーン条件B」をご確認ください。
+      </div>
+    </div>
+  </div>
+
+  <!-- 第12条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec12"></a>
+    <div class="section-header">
+      <div class="section-num">12</div>
+      <div class="section-title">個人情報・データの取り扱い</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>当社は、利用者から取得した個人情報を当社が別途定める「プライバシーポリシー」に従い適切に管理します。</li>
+        <li>クライアント企業が提供する評価データ・セッション記録は、以下の目的で当社が利用できるものとします。
+          <ul>
+            <li>サービスの品質改善・マッチング精度向上のための統計分析（個人特定不可な形式）</li>
+            <li>個人・社名を特定しないPR素材・事例紹介への活用（クライアント企業の事前同意のある場合）</li>
+          </ul>
+        </li>
+        <li>予約情報は完全匿名制で管理されます。社員の予約状況は管理担当者のみが確認でき、他の社員からは「枠の空き状況」のみが表示されます。</li>
+        <li>当社は、法令に基づく場合を除き、個人情報を第三者に提供しません。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第13条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec13"></a>
+    <div class="section-header">
+      <div class="section-num">13</div>
+      <div class="section-title">免責事項</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>当社は、トレーナーが提供するセッション内容・コンテンツの品質・効果を保証しません。ただし、評価システムを通じた品質管理に最大限努めます。</li>
+        <li>セッション中の事故・怪我・健康被害について、トレーナーの故意または重過失に起因する場合を除き、当社は直接の責任を負いません。クライアント企業は参加者の健康状態を事前に確認するものとします。</li>
+        <li>システム障害・通信障害・天災等の不可抗力による損害について、当社は責任を負いません。ただし、速やかな復旧と代替措置の提案に努めます。</li>
+        <li>クライアント企業とトレーナー間のトラブルについて、当社は仲介・調整に努めますが、法的責任を負いません。</li>
+        <li>当社のサービスに起因して利用者が被った損害の賠償責任は、当該サービスに関してクライアント企業が実際に支払ったポイント額（円換算）を上限とします。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第14条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec14"></a>
+    <div class="section-header">
+      <div class="section-num">14</div>
+      <div class="section-title">損害賠償</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>利用者が本規約に違反したことにより当社または第三者に損害を与えた場合、利用者は一切の損害を賠償する責任を負います。</li>
+        <li>当社は、利用者の故意または重過失に起因しない限り、間接損害・逸失利益・機会損失についての賠償責任を負いません。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第15条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec15"></a>
+    <div class="section-header">
+      <div class="section-num">15</div>
+      <div class="section-title">サービスの停止・解約</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>クライアント企業のウォレット残高がゼロになった時点で、サービスは自動的に停止します。<strong>解約手続きは不要です。</strong></li>
+        <li>継続利用する場合は、ポイントを追加購入するだけで再開できます。</li>
+        <li>クライアント企業はポイント残高がある場合でも、当社への書面通知（メール可）により任意にサービスを解約できます。残高返金はキャンペーン適用外のポイント（実費払い分）のみ対応します。</li>
+        <li>当社は以下の場合、事前通知なくサービス提供を停止・アカウントを削除することができます。
+          <ul>
+            <li>本規約への重大な違反が判明した場合</li>
+            <li>評価の不正操作・システムへの不正アクセス等が発覚した場合</li>
+            <li>破産・民事再生等の申立てがあった場合</li>
+            <li>長期間（12ヶ月以上）未利用かつウォレット残高ゼロの場合</li>
+          </ul>
+        </li>
+        <li>トレーナーが本規約に反した場合、当社はランク降格・アカウント停止・登録削除等の措置を講じることができます。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第16条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec16"></a>
+    <div class="section-header">
+      <div class="section-num">16</div>
+      <div class="section-title">規約の変更</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>当社は法令の改正・サービス内容の変更等に伴い、本規約を改定することがあります。</li>
+        <li>重要な改定については、効力発生日の30日前までに当社ウェブサイトまたは登録メールアドレス宛に通知します。</li>
+        <li>通知後も継続してサービスを利用した場合、改定後の規約に同意したものとみなします。</li>
+        <li>改定内容に同意しない場合は、効力発生日前にサービスの解約手続きを行ってください。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 第17条 -->
+  <div class="terms-section">
+    <a class="section-anchor" id="sec17"></a>
+    <div class="section-header">
+      <div class="section-num">17</div>
+      <div class="section-title">準拠法・合意管轄</div>
+    </div>
+    <div class="terms-body">
+      <ol>
+        <li>本規約は日本法に準拠し、日本法に従って解釈されます。</li>
+        <li>本規約に関する紛争については、大阪地方裁判所を第一審の専属的合意管轄裁判所とします。</li>
+        <li>当社とクライアント企業・トレーナーの間で本規約に関する紛争が生じた場合、誠意をもって協議の上解決することを目指します。</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="terms-divider">
+  <div style="text-align: right; font-size: 13px; color: var(--gray); line-height: 2.2;">
+    制定日：2026年4月15日<br>
+    最終改定：2026年4月14日<br>
+    <strong style="color:var(--primary);font-size:15px;">株式会社MOON</strong><br>
+    TrustFit 運営事務局<br>
+    E-mail: trustfit.biz@moontf.com
+  </div>
+
+</main>
+
+<div class="terms-footer">
+  <strong>TrustFit</strong>
+  <span>利用規約 Ver.1.0 — © 2026 株式会社MOON. All rights reserved.</span><br>
+  <span style="font-size: 11px; margin-top: 8px; display: block;">E-mail: trustfit.biz@moontf.com　｜　TrustFit 運営事務局（株式会社MOON）</span>
+</div>
+
+<!-- ===== 固定同意バー ===== -->
+<div id="agree-bar">
+  <div class="agree-inner">
+    <label class="agree-check-wrap">
+      <input type="checkbox" id="agree-check" onchange="toggleBtn()">
+      <span class="agree-check-box" id="check-box-visual"></span>
+      <span class="agree-label">利用規約を全て読み、内容に同意します</span>
+    </label>
+    <a id="apply-btn"
+       href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
+       target="_blank"
+       class="apply-btn disabled"
+       onclick="return checkAgree(event)">
+      同意して申込む →
+    </a>
+  </div>
+  <div class="agree-note" id="agree-note-msg">
+    ☝️ チェックを入れるとボタンが有効になります
+  </div>
+</div>
+
+<style>
+  body { padding-bottom: 100px; }
+
+  #agree-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #ffffff;
+    border-top: 3px solid #c9a84c;
+    padding: 14px 40px 16px;
+    z-index: 9999;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+  }
+  .agree-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .agree-check-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    color: #0a1628;
+    font-size: 14px;
+    font-weight: 700;
+    user-select: none;
+  }
+  .agree-check-wrap input[type="checkbox"] {
+    display: none;
+  }
+  .agree-check-box {
+    width: 22px; height: 22px;
+    border: 2px solid rgba(201,168,76,0.6);
+    border-radius: 5px;
+    background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 14px;
+  }
+  .agree-check-box.checked {
+    background: #c9a84c;
+    border-color: #c9a84c;
+  }
+  .agree-check-box.checked::after {
+    content: '✓';
+    color: #0a1628;
+    font-weight: 900;
+  }
+  .agree-label {
+    line-height: 1.4;
+  }
+  .apply-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #c9a84c, #e8c96a);
+    color: #0a1628;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 12px 36px;
+    border-radius: 40px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  }
+  .apply-btn:hover:not(.disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.5);
+  }
+  .apply-btn.disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  .agree-note {
+    max-width: 900px;
+    margin: 6px auto 0;
+    font-size: 11px;
+    color: #92701a;
+    text-align: center;
+    transition: opacity 0.3s;
+  }
+  @media (max-width: 640px) {
+    #agree-bar { padding: 12px 16px 14px; }
+    .agree-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .apply-btn { width: 100%; text-align: center; }
+    .agree-label { font-size: 13px; }
+  }
+</style>
+
+<script>
+  // Google FormsのURLをここに入力（公開後に差し替え）
+  const GOOGLE_FORM_URL = 'https://forms.gle/vnrreDd1kYgLd5nK7';
+
+  function toggleBtn() {
+    const checked = document.getElementById('agree-check').checked;
+    const btn = document.getElementById('apply-btn');
+    const box = document.getElementById('check-box-visual');
+    const note = document.getElementById('agree-note-msg');
+
+    if (checked) {
+      btn.classList.remove('disabled');
+      btn.href = GOOGLE_FORM_URL;
+      box.classList.add('checked');
+      note.textContent = '✅ 同意済み — ボタンを押してGoogle Formsへ';
+      note.style.color = 'rgba(201,168,76,0.8)';
+    } else {
+      btn.classList.add('disabled');
+      btn.href = '#';
+      box.classList.remove('checked');
+      note.textContent = '☝️ チェックを入れるとボタンが有効になります';
+      note.style.color = 'rgba(255,255,255,0.4)';
+    }
+  }
+
+  function checkAgree(e) {
+    if (document.getElementById('apply-btn').classList.contains('disabled')) {
+      e.preventDefault();
+      document.getElementById('agree-check-wrap')?.scrollIntoView({behavior:'smooth'});
+      return false;
+    }
+    return true;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORAプロジェクト 香川展開プラン 2027</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --bg:#f7f5f0;
+    --card:#ffffff;
+    --text:#222;
+    --muted:#666;
+    --line:#e3ddd0;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;padding:60px 24px;text-align:center;border-bottom:6px solid var(--gold)}
+  .hero .badge{display:inline-block;background:var(--gold);color:var(--navy);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:bold;letter-spacing:0.1em;margin-bottom:18px}
+  .hero h1{font-size:34px;font-weight:700;letter-spacing:0.05em;margin-bottom:10px}
+  .hero h1 .accent{color:var(--gold)}
+  .hero .sub{font-size:15px;opacity:0.85;max-width:720px;margin:14px auto 0}
+  .hero .meta{margin-top:24px;font-size:12px;opacity:0.7}
+  .container{max-width:1080px;margin:0 auto;padding:40px 24px}
+  section{margin-bottom:60px;background:var(--card);border-radius:14px;padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+  h2{font-size:24px;border-left:6px solid var(--gold);padding-left:14px;margin-bottom:22px;color:var(--navy);font-weight:700}
+  h3{font-size:18px;color:var(--navy);margin:24px 0 12px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:6px}
+  h4{font-size:15px;color:var(--gold-dark);margin:16px 0 8px;font-weight:700}
+  p{margin-bottom:12px}
+  ul,ol{padding-left:22px;margin-bottom:14px}
+  li{margin-bottom:6px}
+  .lead{font-size:16px;background:#f8f4e9;border-left:4px solid var(--gold);padding:16px 20px;border-radius:6px;margin-bottom:24px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:760px){.grid-2,.grid-3{grid-template-columns:1fr}}
+  .card{background:#fafafa;border:1px solid var(--line);border-radius:10px;padding:20px}
+  .card h4{margin-top:0}
+  .pill{display:inline-block;padding:3px 10px;border-radius:14px;font-size:11px;font-weight:bold;margin-right:4px}
+  .pill.now{background:#e8f3ed;color:var(--green)}
+  .pill.next{background:#fef0e8;color:var(--accent)}
+  .pill.future{background:#eef0f7;color:var(--navy)}
+  .pill.gold{background:var(--gold);color:#fff}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+  tr:nth-child(even) td{background:#faf8f3}
+  .money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy)}
+  .timeline{position:relative;padding-left:36px;margin-top:20px}
+  .timeline::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--gold) 0%,var(--navy) 100%)}
+  .tl-item{position:relative;margin-bottom:30px}
+  .tl-item::before{content:"";position:absolute;left:-28px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 0 0 2px var(--gold)}
+  .tl-item .date{font-size:12px;color:var(--accent);font-weight:bold;letter-spacing:0.05em}
+  .tl-item .title{font-size:17px;font-weight:700;color:var(--navy);margin:4px 0 8px}
+  .phase-box{background:linear-gradient(135deg,#fff 0%,#fdfbf5 100%);border:2px solid var(--gold);border-radius:12px;padding:24px;margin-bottom:24px}
+  .phase-box.mini{border-color:#88aabb}
+  .phase-box.standard{border-color:var(--gold)}
+  .phase-box.full{border-color:var(--accent)}
+  .phase-box .price{font-size:28px;font-weight:bold;color:var(--navy);margin:8px 0}
+  .phase-box .price .yen{font-size:14px;color:var(--muted);font-weight:normal}
+  .check{color:var(--green);font-weight:bold;margin-right:6px}
+  .warn{color:var(--accent);font-weight:bold;margin-right:6px}
+  .footer{text-align:center;padding:30px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:40px}
+  .quote{font-style:italic;color:var(--gold-dark);font-size:16px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0}
+  .num{display:inline-block;width:28px;height:28px;background:var(--gold);color:var(--navy);border-radius:50%;text-align:center;line-height:28px;font-weight:bold;margin-right:8px;font-size:13px}
+  .toc{background:#fdfbf5;border:1px dashed var(--gold);padding:20px;border-radius:8px;margin-bottom:30px}
+  .toc h3{border:none;padding:0;margin-bottom:10px}
+  .toc ol{padding-left:20px}
+  .toc a{color:var(--navy);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+  .small{font-size:12px;color:var(--muted)}
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:14px 18px;border-radius:8px;margin:14px 0;font-size:13px}
+  .compare-row{display:grid;grid-template-columns:140px 1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--line)}
+  .compare-row > div{padding:12px 14px;font-size:13px}
+  .compare-row.head > div{background:var(--navy);color:#fff;font-weight:bold;font-size:12px}
+  .compare-row.head > div:first-child{background:#0f1626}
+  .compare-row > div:first-child{background:#f5f1e6;font-weight:bold;color:var(--navy)}
+  @media(max-width:760px){.compare-row{grid-template-columns:1fr 1fr}.compare-row > div:first-child{grid-column:span 2}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">SORA PROJECT / KAGAWA EXPANSION</div>
+  <h1>SORAプロジェクト <span class="accent">香川展開プラン</span></h1>
+  <div class="sub">「地域に根差した、一貫型アスリート育成事業」を、地元・香川県から本格始動する。<br>2027年4月開始を前提とした具体的な流れと、3パターンの資金見立て。</div>
+  <div class="meta">作成日: 2026年5月24日 / 株式会社MOON 代表 荻田大樹</div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#section1">プロジェクトの全体像（プレゼン資料の再確認）</a></li>
+    <li><a href="#section2">現在地：既に動いているもの／まだ動いていないもの</a></li>
+    <li><a href="#section3">香川県の市場環境と勝ち筋</a></li>
+    <li><a href="#section4">2027年4月開始の具体ロードマップ（Phase 0〜3）</a></li>
+    <li><a href="#section5">資金見立て：3パターン比較</a></li>
+    <li><a href="#section6">資金調達の組み合わせ戦略</a></li>
+    <li><a href="#section7">最初の90日アクションリスト</a></li>
+    <li><a href="#section8">リスクと対応策</a></li>
+    <li><a href="#section9">推奨ルートと次のアクション</a></li>
+  </ol>
+</div>
+
+<!-- ========================= -->
+<section id="section1">
+  <h2>1. プロジェクトの全体像</h2>
+  <p class="lead">
+    SORAプロジェクト本来の構想は、現在運営している「子ども向け陸上クラブ」だけにとどまらない。<br>
+    プレゼン資料に描かれた未来像は、<strong>香川県を舞台にした「アスリート育成 × 人材育成 × 地域拠点」のエコシステム</strong>である。
+  </p>
+
+  <div class="quote">「スポーツを通じて香川県の未来を創る」</div>
+
+  <div class="grid-3" style="margin-top:20px">
+    <div class="card">
+      <h4>① アスリート育成</h4>
+      <p>キッズ〜トップアスリートまでの<strong>一貫指導</strong>。香川県から世界を舞台に活躍する選手を輩出する縦軸。</p>
+    </div>
+    <div class="card">
+      <h4>② 人材育成PGM（企業共同）</h4>
+      <p>地元企業と組み、スポーツ経験を教材にしたVUCA時代のリーダー育成。ライフスキル・リーダートレーニング等。</p>
+    </div>
+    <div class="card">
+      <h4>③ SORA BASE（地域拠点）</h4>
+      <p>社交の場・学ぶ場・プロジェクト実行拠点・宿泊拠点・食の場を兼ねた、エネルギーが集まる物理スペース。</p>
+    </div>
+  </div>
+
+  <h3>SORAが目指すゴール</h3>
+  <ul>
+    <li>香川県から世界を舞台に活躍する<strong>トップアスリート</strong>を輩出</li>
+    <li>香川県の未来に貢献する<strong>グローバルリーダー</strong>を輩出</li>
+    <li>質の高いスポーツ指導の実現（学校部活動への貢献を含む）</li>
+    <li>未来を共創する<strong>企業ユニット</strong>を香川中心に形成</li>
+    <li>地域へ、スポーツを通じた<strong>賑わいの創出</strong></li>
+  </ul>
+</section>
+
+<!-- ========================= -->
+<section id="section2">
+  <h2>2. 現在地：既に動いているもの／まだ動いていないもの</h2>
+  <p class="lead">SORAは「子ども向け陸上クラブ」としてすでに香川で稼働中。全体構想の中で<strong>到達度はおおよそ20〜25%</strong>。次に進むのは「中高生の一貫指導」と「企業共同PGM」「BASEの種まき」。</p>
+
+  <h3>現在 稼働中（Phase 0完了済）</h3>
+  <table>
+    <tr><th>領域</th><th>状態</th><th>詳細</th></tr>
+    <tr><td>運営法人</td><td><span class="pill now">稼働中</span></td><td>株式会社MOON</td></tr>
+    <tr><td>クラブ運営</td><td><span class="pill now">稼働中</span></td><td>Basic Sports Club SORA／観音寺・高松／7コース／月会費5,500〜6,600円</td></tr>
+    <tr><td>コーチ体制</td><td><span class="pill now">稼働中</span></td><td>代表＋4名（短距離・幅跳・やり投げ等の元日本代表級）</td></tr>
+    <tr><td>公式サイト・LP</td><td><span class="pill now">稼働中</span></td><td>moonathlete.com/sora</td></tr>
+    <tr><td>SNS</td><td><span class="pill now">稼働中</span></td><td>Instagram フォロワー516人・投稿286件</td></tr>
+    <tr><td>姉妹事業</td><td><span class="pill now">稼働中</span></td><td>SUPERIOR（関西）・ECCかけっこスクール（監修）</td></tr>
+    <tr><td>予定表ページ</td><td><span class="pill now">稼働中</span></td><td>sora-schedule.pages.dev（Cloudflare自動デプロイ）</td></tr>
+  </table>
+
+  <h3>未着手・準備中</h3>
+  <table>
+    <tr><th>領域</th><th>状態</th><th>展望</th></tr>
+    <tr><td>中学生・高校生向け一貫プログラム</td><td><span class="pill next">未着手</span></td><td>現アスリートコースを延伸。卒業後の受け皿が不足</td></tr>
+    <tr><td>トップアスリート支援（社会人）</td><td><span class="pill future">構想段階</span></td><td>合宿・遠征費・栄養指導・科学的アプローチ</td></tr>
+    <tr><td>企業共同・人材育成PGM</td><td><span class="pill next">未着手</span></td><td>香川の地元企業へ営業 → スポンサー＋研修受託モデル</td></tr>
+    <tr><td>SORA BASE（物理拠点）</td><td><span class="pill future">構想段階</span></td><td>多目的スペース → 拠点化 → 宿泊機能拡張</td></tr>
+    <tr><td>合宿・キャンプ事業</td><td><span class="pill next">未着手</span></td><td>夏冬の短期合宿で県外からも誘客可能</td></tr>
+    <tr><td>インターンPGM</td><td><span class="pill future">構想段階</span></td><td>大学生インターン受入 → 指導者育成パイプライン</td></tr>
+    <tr><td>NPO/一般社団化の検討</td><td><span class="pill next">未着手</span></td><td>補助金・寄付・行政連携で有利になる可能性</td></tr>
+  </table>
+
+  <div class="alert">
+    <strong>戦略的示唆：</strong> 既に「子ども陸上クラブ」という収益基盤と地域認知があるため、ゼロからの起業ではなく<strong>「既存事業に乗せて展開する」</strong>形で進められる。初期リスクは想像よりずっと低い。
+  </div>
+</section>
+
+<!-- ========================= -->
+<section id="section3">
+  <h2>3. 香川県の市場環境と勝ち筋</h2>
+
+  <h3>マーケット規模（概算）</h3>
+  <table>
+    <tr><th>エリア</th><th>人口（2026年）</th><th>備考</th></tr>
+    <tr><td>香川県全体</td><td>約93.5万人</td><td>2025年4月時点・継続的に微減傾向</td></tr>
+    <tr><td>観音寺市</td><td>約5.6万人</td><td>高齢化率34.1%・小学生は推定2,500〜3,000人</td></tr>
+    <tr><td>三豊市</td><td>約5.7万人</td><td>観音寺と一体経済圏</td></tr>
+    <tr><td>高松市</td><td>約41万人</td><td>県都・最大の市場</td></tr>
+    <tr><td>丸亀市</td><td>約11万人</td><td>中讃エリアの中核</td></tr>
+  </table>
+  <p class="small">出典：国土地理院 市町村別人口データ（2025年4月）、観音寺市公式統計、ecitizen.jp 人口推移データ</p>
+
+  <h3>勝ち筋となる3つのポジショニング</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h4><span class="num">1</span>「香川出身・元日本代表」の希少性</h4>
+      <p>香川県出身でリオオリンピック代表クラスの指導者は極めて希少。地元での圧倒的な信頼性と独占的なブランドポジションを既に確保している。</p>
+    </div>
+    <div class="card">
+      <h4><span class="num">2</span>「キッズ→トップ」一貫の物語</h4>
+      <p>現在は小学生〜中学生中心。これを<strong>高校・大学・社会人</strong>まで拡張することで、保護者にとって「長期で預けられる場所」になる。</p>
+    </div>
+    <div class="card">
+      <h4><span class="num">3</span>「地元企業の人材育成パートナー」</h4>
+      <p>香川県は中小オーナー企業が多く、人材育成への投資意欲は高いが選択肢が少ない。スポーツ×人材育成は新鮮なフックになる。</p>
+    </div>
+  </div>
+
+  <h3>追い風となる外部要因</h3>
+  <ul>
+    <li>香川県には<strong>起業等スタートアップ支援補助金（地域課題解決型）</strong>があり、地域人材育成は対象になりやすい</li>
+    <li>観音寺市・高松市ともに<strong>創業支援事業計画</strong>を実施しており、特定創業支援制度を受けると登録免許税の減免などが受けられる</li>
+    <li>ECCかけっこスクール（幼児向け／荻田監修）からの<strong>送客導線</strong>を整備すれば、全国の卒園生がSORA/SUPERIORに繋がる</li>
+    <li>スポーツ庁の<strong>「総合型地域スポーツクラブ」制度</strong>に登録すれば、施設利用や補助で有利</li>
+  </ul>
+</section>
+
+<!-- ========================= -->
+<section id="section4">
+  <h2>4. 2027年4月開始の具体ロードマップ</h2>
+  <p class="lead">2027年4月を「Phase 1（拡張）」の開始点とし、それまでの10ヶ月で土台を固める。BASE本格化は3年計画。</p>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="date">PHASE 0｜2026年6月〜2027年3月（残り10ヶ月）</div>
+      <div class="title">準備フェーズ：種をまく10ヶ月</div>
+      <p><strong>ゴール：</strong>「中高生クラス開設」「企業パートナー1〜3社内定」「BASE候補地調査完了」「補助金1件採択」</p>
+      <ul>
+        <li><span class="check">✓</span><strong>6〜8月：</strong>市場調査・既存中学生の継続意向ヒアリング・補助金リストアップ</li>
+        <li><span class="check">✓</span><strong>9〜10月：</strong>地元企業10社訪問（観音寺信用金庫・四国電力・百十四銀行・地元製造業など）／パートナー仮説検証</li>
+        <li><span class="check">✓</span><strong>11〜12月：</strong>中高生コース案・人材育成PGMα版設計／補助金申請（持続化・スタートアップ支援）</li>
+        <li><span class="check">✓</span><strong>1〜3月：</strong>採用（コーディネーター1名）・LP・パンフ・契約書整備／BASE候補物件3〜5件視察</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="date">PHASE 1｜2027年4月〜2027年12月</div>
+      <div class="title">拡張フェーズ：一貫型の骨子を作る</div>
+      <p><strong>ゴール：</strong>「中高生コース10名」「企業契約2社」「BASE β（間借り）運用開始」</p>
+      <ul>
+        <li><strong>4月：</strong>中学生・高校生コース正式開設（観音寺・高松）／プレ合宿1回</li>
+        <li><strong>5〜6月：</strong>地元企業向け「スポーツ×リーダーシップ研修」1社目契約</li>
+        <li><strong>7〜8月：</strong>夏合宿開催（県内中四国向け30〜50名）／SNS強化（Instagram 1,000人到達）</li>
+        <li><strong>9〜10月：</strong>BASE β：既存施設・カフェ等を借りた「定例集合場所」運用開始（月2回）</li>
+        <li><strong>11〜12月：</strong>1年目決算／企業パートナー2社目契約／2年目計画策定</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="date">PHASE 2｜2028年1月〜2028年12月</div>
+      <div class="title">エコシステム本格化フェーズ</div>
+      <p><strong>ゴール：</strong>「企業契約3〜5社」「BASE仮拠点開設」「インターン受入開始」</p>
+      <ul>
+        <li>SORA BASE 仮拠点（リノベ物件 or 居抜き／50〜80㎡）開設</li>
+        <li>大学・専門学校とのインターン提携（香川大学・四国学院・徳島大など）</li>
+        <li>中四国エリア大会・記録会の開催（年2回）</li>
+        <li>NPO法人または一般社団法人化を検討・実行（補助金・寄付を取りやすくする）</li>
+        <li>クラウドファンディング第1弾（BASE本格化の前哨戦）</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="date">PHASE 3｜2029年以降</div>
+      <div class="title">SORA BASE 本格化フェーズ</div>
+      <p><strong>ゴール：</strong>「BASE本拠地完成」「宿泊・食堂機能」「グローバル接続」</p>
+      <ul>
+        <li>BASE本拠地（土地取得 or 長期賃借＋本格リノベ）</li>
+        <li>宿泊棟（短期合宿対応・最大20名）／食堂（管理栄養士監修）</li>
+        <li>トップアスリート支援プログラム（社会人選手2〜3名のサポート）</li>
+        <li>海外との接続（豪・米のクラブとの選手交流）／グローバルリーダー育成</li>
+        <li>香川県・観音寺市との包括連携協定の締結を目指す</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================= -->
+<section id="section5">
+  <h2>5. 資金見立て：3パターン比較</h2>
+  <p class="lead">未定とのことなので、選択しやすいよう<strong>「ミニ」「標準」「本格」</strong>の3パターンで提示。すべて2027年4月〜2027年12月（Phase 1初年度）の数字。</p>
+
+  <!-- ミニパターン -->
+  <div class="phase-box mini">
+    <span class="pill" style="background:#88aabb;color:#fff">A. ミニスタート</span>
+    <h3 style="border:none;padding:0;margin:8px 0">既存リソースを最大活用する低リスク型</h3>
+    <div class="price">¥800,000<span class="yen"> 〜 ¥1,200,000</span></div>
+    <p>既存コーチ・既存施設・既存事業に「中高生コース」と「企業1社向け研修」を載せるだけ。新規スタッフは雇わず、荻田代表＋既存コーチで回す。</p>
+
+    <h4>初期投資の内訳</h4>
+    <table>
+      <tr><th>項目</th><th>金額</th><th>備考</th></tr>
+      <tr><td>備品（中高生向け器具・タイマー・動画分析機材）</td><td class="money">¥300,000</td><td>iPad＋分析アプリ含む</td></tr>
+      <tr><td>パンフレット・LP更新・撮影費</td><td class="money">¥150,000</td><td>外注最小化</td></tr>
+      <tr><td>人材育成PGM α版開発（教材作成）</td><td class="money">¥100,000</td><td>テンプレ＋既存ノウハウ</td></tr>
+      <tr><td>営業活動費（交通・接待・印刷）</td><td class="money">¥150,000</td><td>地元10社訪問</td></tr>
+      <tr><td>補助金申請の専門家費用</td><td class="money">¥100,000</td><td>持続化補助金の申請支援</td></tr>
+      <tr><td>予備費</td><td class="money">¥200,000</td><td>―</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>¥1,000,000</strong></td><td>―</td></tr>
+    </table>
+
+    <h4>運営費（月次）</h4>
+    <p>既存運営費＋ 月 <span class="money">¥50,000〜80,000</span>（追加施設費・備品消耗・広報）</p>
+
+    <h4>収益見込み（Phase 1初年度・追加分）</h4>
+    <ul>
+      <li>中高生コース 10名 × 月7,700円 × 12ヶ月 = 約 <span class="money">¥920,000</span></li>
+      <li>企業研修 1社 × 年30万円 = <span class="money">¥300,000</span></li>
+      <li>夏合宿 30名 × 1.5万円 = <span class="money">¥450,000</span></li>
+      <li><strong>追加年商 約 ¥1,670,000 ／ 営業利益 約 ¥80〜120万円</strong></li>
+    </ul>
+    <p class="small">→ 初期投資を1年でほぼ回収。低リスクで「やってみる」のに最適。</p>
+  </div>
+
+  <!-- 標準パターン -->
+  <div class="phase-box standard">
+    <span class="pill gold">B. 標準スタート（推奨）</span>
+    <h3 style="border:none;padding:0;margin:8px 0">BASEβと企業パートナー2社を確保する成長型</h3>
+    <div class="price">¥3,500,000<span class="yen"> 〜 ¥5,000,000</span></div>
+    <p>常駐コーディネーター1名雇用、小規模物件（BASE β）の月額賃借、企業パートナー獲得のための本格的なマーケティングを行う。<strong>「事業として明確に拡大フェーズに入る」</strong>パターン。</p>
+
+    <h4>初期投資の内訳</h4>
+    <table>
+      <tr><th>項目</th><th>金額</th><th>備考</th></tr>
+      <tr><td>BASE β 物件初期費用（敷礼・改装）</td><td class="money">¥1,200,000</td><td>30〜50㎡の事務所兼ミーティング兼小教室</td></tr>
+      <tr><td>什器・AV機材・備品</td><td class="money">¥600,000</td><td>PC・プロジェクター・ホワイトボード等</td></tr>
+      <tr><td>ブランディング刷新（ロゴ周辺・PR動画）</td><td class="money">¥500,000</td><td>外注プロ品質</td></tr>
+      <tr><td>マーケティング（Web広告・地元媒体）</td><td class="money">¥600,000</td><td>香川県内ターゲティング</td></tr>
+      <tr><td>採用関連費（コーディネーター1名）</td><td class="money">¥200,000</td><td>求人・採用ツール</td></tr>
+      <tr><td>人材育成PGM 本格開発（教材・LMS）</td><td class="money">¥400,000</td><td>企業納品レベル</td></tr>
+      <tr><td>イベント費（合宿・大会）</td><td class="money">¥500,000</td><td>年2回想定</td></tr>
+      <tr><td>専門家・士業（補助金・契約書）</td><td class="money">¥300,000</td><td>顧問契約</td></tr>
+      <tr><td>予備費</td><td class="money">¥700,000</td><td>―</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>¥5,000,000</strong></td><td>―</td></tr>
+    </table>
+
+    <h4>運営費（月次）</h4>
+    <table>
+      <tr><th>項目</th><th>月額</th></tr>
+      <tr><td>BASE β 賃料</td><td class="money">¥80,000</td></tr>
+      <tr><td>コーディネーター人件費</td><td class="money">¥250,000</td></tr>
+      <tr><td>水道光熱・通信</td><td class="money">¥30,000</td></tr>
+      <tr><td>広告宣伝</td><td class="money">¥80,000</td></tr>
+      <tr><td>消耗品・その他</td><td class="money">¥40,000</td></tr>
+      <tr><td><strong>合計（追加分）</strong></td><td class="money"><strong>¥480,000</strong></td></tr>
+    </table>
+
+    <h4>収益見込み（Phase 1初年度・追加分）</h4>
+    <ul>
+      <li>中高生コース 20名 × 月7,700円 × 12ヶ月 = <span class="money">¥1,850,000</span></li>
+      <li>企業研修 2社 × 年60万円 = <span class="money">¥1,200,000</span></li>
+      <li>夏冬合宿 60名 × 1.8万円 = <span class="money">¥1,080,000</span></li>
+      <li>BASEレンタル・イベント収入 = <span class="money">¥300,000</span></li>
+      <li><strong>追加年商 約 ¥4,430,000 ／ 運営費年 ¥5,760,000 → 初年度はマイナス約130万円（投資年）</strong></li>
+      <li>2年目から黒字化想定（収益+50%、運営費維持で約+200万円）</li>
+    </ul>
+  </div>
+
+  <!-- 本格パターン -->
+  <div class="phase-box full">
+    <span class="pill" style="background:var(--accent);color:#fff">C. 本格スタート</span>
+    <h3 style="border:none;padding:0;margin:8px 0">BASE本拠地を一気に作るフラッグシップ型</h3>
+    <div class="price">¥18,000,000<span class="yen"> 〜 ¥30,000,000</span></div>
+    <p>BASEを最初から本拠地として開設。物件取得（中古戸建リノベ等）、専属スタッフ2〜3名、合宿対応の宿泊機能まで整備する。<strong>クラウドファンディング＋融資＋補助金</strong>を組み合わせて調達する前提。</p>
+
+    <h4>初期投資の内訳（中央値¥25,000,000の場合）</h4>
+    <table>
+      <tr><th>項目</th><th>金額</th><th>備考</th></tr>
+      <tr><td>物件取得 or 長期賃借＋大規模リノベ</td><td class="money">¥15,000,000</td><td>中古戸建/廃校活用/旧店舗活用など</td></tr>
+      <tr><td>宿泊棟整備（簡易宿所相当）</td><td class="money">¥3,000,000</td><td>2段ベッド・水回り改修</td></tr>
+      <tr><td>食堂・厨房設備</td><td class="money">¥1,500,000</td><td>業務用機器</td></tr>
+      <tr><td>什器・備品・トレーニング機材</td><td class="money">¥1,500,000</td><td>本格仕様</td></tr>
+      <tr><td>ブランディング・PR（クラウドファンディング含）</td><td class="money">¥1,500,000</td><td>動画・特設サイト</td></tr>
+      <tr><td>採用（コーディネーター＋管理栄養士＋PR担当）</td><td class="money">¥500,000</td><td>―</td></tr>
+      <tr><td>許認可・士業</td><td class="money">¥500,000</td><td>簡易宿所許可・飲食店営業など</td></tr>
+      <tr><td>予備費</td><td class="money">¥1,500,000</td><td>―</td></tr>
+      <tr><td><strong>合計</strong></td><td class="money"><strong>¥25,000,000</strong></td><td>―</td></tr>
+    </table>
+
+    <h4>運営費（月次）</h4>
+    <p>固定費 月 約 <span class="money">¥1,200,000〜1,500,000</span>（人件費3名分・物件維持・水道光熱・広告）<br>年間で約 <span class="money">¥1,500万〜1,800万円</span> の固定費が発生。</p>
+
+    <h4>収益見込み（Phase 1初年度・追加分）</h4>
+    <ul>
+      <li>中高生＋アスリートコース拡張 40名 → 年 <span class="money">¥3,500,000</span></li>
+      <li>企業研修 5社 × 年80万円 → <span class="money">¥4,000,000</span></li>
+      <li>合宿事業（県外誘客含）120名 → <span class="money">¥3,000,000</span></li>
+      <li>BASE宿泊・カフェ・イベント収入 → <span class="money">¥2,500,000</span></li>
+      <li>スポンサーシップ 3社 × 年100万円 → <span class="money">¥3,000,000</span></li>
+      <li><strong>追加年商 約 ¥16,000,000 ／ 初年度は赤字（投資年） → 3年目で単月黒字化想定</strong></li>
+    </ul>
+    <div class="alert">
+      <strong>注意：</strong>本格パターンは「短期回収」ではなく「3〜5年で地域シンボル化」を狙う長期投資。融資・補助金・寄付を多層的に組まなければ、キャッシュフローが厳しくなる。
+    </div>
+  </div>
+
+  <h3>3パターン比較サマリー</h3>
+  <div class="compare-row head">
+    <div>項目</div><div>A. ミニ</div><div>B. 標準（推奨）</div><div>C. 本格</div>
+  </div>
+  <div class="compare-row">
+    <div>初期投資</div><div>80〜120万円</div><div>350〜500万円</div><div>1,800〜3,000万円</div>
+  </div>
+  <div class="compare-row">
+    <div>月次追加運営費</div><div>5〜8万円</div><div>約48万円</div><div>120〜150万円</div>
+  </div>
+  <div class="compare-row">
+    <div>初年度追加売上</div><div>約167万円</div><div>約443万円</div><div>約1,600万円</div>
+  </div>
+  <div class="compare-row">
+    <div>初年度収支</div><div>黒字（+80〜120万）</div><div>マイナス130万円</div><div>大幅マイナス</div>
+  </div>
+  <div class="compare-row">
+    <div>新規雇用</div><div>0名</div><div>1名</div><div>2〜3名</div>
+  </div>
+  <div class="compare-row">
+    <div>物理拠点</div><div>なし</div><div>BASE β（間借り）</div><div>BASE本拠地</div>
+  </div>
+  <div class="compare-row">
+    <div>到達フェーズ</div><div>Phase 1の前半</div><div>Phase 1〜2</div><div>Phase 2〜3</div>
+  </div>
+  <div class="compare-row">
+    <div>リスク</div><div>低</div><div>中</div><div>高</div>
+  </div>
+  <div class="compare-row">
+    <div>未来へのレバレッジ</div><div>小</div><div>中</div><div>大</div>
+  </div>
+</section>
+
+<!-- ========================= -->
+<section id="section6">
+  <h2>6. 資金調達の組み合わせ戦略</h2>
+  <p class="lead">どのパターンを選んでも、<strong>自己資金100%は非効率</strong>。補助金・融資・スポンサー・クラファンを組み合わせるのが鉄則。</p>
+
+  <h3>使える主な資金源</h3>
+  <table>
+    <tr><th>区分</th><th>制度・手段</th><th>想定金額</th><th>使いやすさ</th></tr>
+    <tr><td rowspan="4">補助金</td><td>香川県 起業等スタートアップ支援補助金（地域課題解決型）</td><td>最大200〜300万円</td><td>★★★</td></tr>
+    <tr><td>小規模事業者持続化補助金（通常枠）</td><td>50〜200万円</td><td>★★★★</td></tr>
+    <tr><td>事業再構築補助金 / 新事業進出補助金（後継）</td><td>500〜数千万円</td><td>★★</td></tr>
+    <tr><td>スポーツ庁・JSC 各種助成</td><td>30〜300万円</td><td>★★</td></tr>
+    <tr><td rowspan="2">融資</td><td>日本政策金融公庫 新規開業資金 / 創業融資</td><td>500〜2,000万円</td><td>★★★★</td></tr>
+    <tr><td>香川銀行・百十四銀行・観音寺信用金庫 創業支援融資</td><td>500〜1,500万円</td><td>★★★</td></tr>
+    <tr><td rowspan="2">寄付・賛同</td><td>クラウドファンディング（CAMPFIRE・READYFOR等）</td><td>100〜1,000万円</td><td>★★★</td></tr>
+    <tr><td>企業版ふるさと納税（観音寺市・三豊市と連携）</td><td>規模次第</td><td>★★</td></tr>
+    <tr><td rowspan="2">スポンサー</td><td>地元企業 単年契約スポンサー</td><td>30〜100万円/社</td><td>★★★★</td></tr>
+    <tr><td>研修受託＋スポンサー一体契約</td><td>50〜200万円/社</td><td>★★★</td></tr>
+    <tr><td>自己資金</td><td>株式会社MOON 内部留保</td><td>必要分</td><td>―</td></tr>
+  </table>
+
+  <h3>パターン別の推奨組み合わせ</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h4>A. ミニ（100万円）</h4>
+      <ul>
+        <li>持続化補助金：60万円</li>
+        <li>自己資金：40万円</li>
+      </ul>
+      <p class="small">→ ほぼ補助金で完結。リスクほぼゼロ。</p>
+    </div>
+    <div class="card">
+      <h4>B. 標準（500万円）</h4>
+      <ul>
+        <li>持続化補助金：100万円</li>
+        <li>香川県スタートアップ補助：200万円</li>
+        <li>公庫融資：150万円</li>
+        <li>自己資金：50万円</li>
+      </ul>
+      <p class="small">→ 補助金優先＋少額融資でレバレッジ。</p>
+    </div>
+    <div class="card">
+      <h4>C. 本格（2,500万円）</h4>
+      <ul>
+        <li>事業再構築/新事業進出：1,000万円</li>
+        <li>公庫＋銀行融資：1,000万円</li>
+        <li>クラファン：300万円</li>
+        <li>企業スポンサー：100万円</li>
+        <li>自己資金：100万円</li>
+      </ul>
+      <p class="small">→ 多層調達。準備期間（Phase 0）に申請・交渉を集中。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= -->
+<section id="section7">
+  <h2>7. 最初の90日アクションリスト</h2>
+  <p class="lead">2027年4月開始を目指すなら、今動けば余裕がある。逆に2026年中に動かなければ間に合わない要素もある。</p>
+
+  <h3>2026年6月〜8月（最初の90日）でやるべきこと</h3>
+  <table>
+    <tr><th>週</th><th>カテゴリ</th><th>アクション</th></tr>
+    <tr><td>1〜2週</td><td>意思決定</td><td>3パターンのうちどれを目指すか仮決定（後で変更可）</td></tr>
+    <tr><td>1〜2週</td><td>市場確認</td><td>現中学2〜3年生の継続意向ヒアリング（5〜10名）</td></tr>
+    <tr><td>2〜4週</td><td>補助金</td><td>かがわ産業支援財団に面談予約／持続化補助金の次回公募スケジュール確認</td></tr>
+    <tr><td>3〜5週</td><td>パートナー</td><td>地元企業10社リストアップ（百十四銀行・四国電力・地元製造業・建設業）</td></tr>
+    <tr><td>4〜6週</td><td>BASE候補地</td><td>不動産業者2〜3社に物件相談（予算別に複数案）</td></tr>
+    <tr><td>6〜8週</td><td>パートナー</td><td>企業訪問開始（月3〜5社ペース）</td></tr>
+    <tr><td>7〜9週</td><td>PGM設計</td><td>人材育成PGMα版の骨子作成（A4×5枚程度）</td></tr>
+    <tr><td>9〜12週</td><td>補助金</td><td>持続化補助金 申請書ドラフト作成</td></tr>
+    <tr><td>9〜12週</td><td>採用</td><td>必要に応じてコーディネーター候補のリサーチ開始</td></tr>
+    <tr><td>12週</td><td>振り返り</td><td>3ヶ月レビュー → 計画修正 → 次の90日計画</td></tr>
+  </table>
+</section>
+
+<!-- ========================= -->
+<section id="section8">
+  <h2>8. リスクと対応策</h2>
+  <table>
+    <tr><th>リスク</th><th>影響度</th><th>対応策</th></tr>
+    <tr><td>中高生コースの集客が想定下回る</td><td>中</td><td>既存小学生の進級＋県内クラブからの引き受け＋SUPERIORからの交流で母集団確保</td></tr>
+    <tr><td>企業パートナーが取れない</td><td>大</td><td>地元金融機関を最初の1社にする／持株関係のある企業から攻める／無料お試し研修で実績作り</td></tr>
+    <tr><td>BASE物件取得が長期化</td><td>中</td><td>Phase 1は「間借り」で実績を作り、Phase 2以降に本格化。最初から本拠地に賭けない</td></tr>
+    <tr><td>荻田代表の稼働限界</td><td>大</td><td>Phase 1で必ずコーディネーター1名雇用。代表が「営業＋象徴」に集中できる体制を作る</td></tr>
+    <tr><td>補助金不採択</td><td>中</td><td>専門家（行政書士・中小企業診断士）に申請支援を依頼／複数の補助金に並行申請</td></tr>
+    <tr><td>キャッシュフロー悪化</td><td>大</td><td>標準・本格パターンでは「最低6ヶ月分の運営費」を現金で確保してからスタート</td></tr>
+    <tr><td>関西SUPERIOR運営との両立</td><td>中</td><td>香川側に独立採算のコーディネーターを置き、代表は方針決定と象徴的役割に絞る</td></tr>
+  </table>
+</section>
+
+<!-- ========================= -->
+<section id="section9">
+  <h2>9. 推奨ルートと次のアクション</h2>
+
+  <div class="lead">
+    <strong>推奨は「B. 標準パターン」での2027年4月スタート。</strong><br>
+    根拠：① 既存事業の基盤があるため、Aだと小さすぎてレバレッジが効かない。② Cは魅力的だが、Phase 1からいきなり固定費1,500万円を背負うのはリスクが高すぎる。③ Bなら補助金中心の調達で済み、2年目から黒字化できる現実的なライン。
+  </div>
+
+  <h3>2026年中にやれば確実に間に合う3つの判断</h3>
+  <ol>
+    <li><strong>「中高生コース」開設の意思決定</strong>（今すぐ）— 既存小学6年生の進級先がなければ流出する</li>
+    <li><strong>地元企業1社目との関係構築</strong>（2026年9月までに着手）— 1社目が決まれば2社目以降は加速</li>
+    <li><strong>持続化補助金または香川県スタートアップ補助の申請</strong>（2026年内）— 採択まで時間がかかる</li>
+  </ol>
+
+  <h3>即決できる「1週間以内のネクストアクション」</h3>
+  <ul>
+    <li>かがわ産業支援財団に「起業等スタートアップ支援補助金」について面談予約を入れる（電話1本）</li>
+    <li>観音寺市役所 商工観光課に「特定創業支援等事業」の対象になるか確認</li>
+    <li>現中学生・保護者3〜5組と「もしSORAに中高生コースができたら通いますか」ヒアリング</li>
+    <li>「人材育成PGM」のα版骨子（A4×3〜5枚）をAIに作らせてたたき台にする</li>
+    <li>BASE β候補物件をスーモ・アットホームで5件ピックアップ（30〜50㎡・観音寺or高松・月8万円以下）</li>
+  </ul>
+
+  <div class="quote" style="margin-top:30px">
+    「運動が苦手でもいい。全力でおもしろがればいい。<br>
+    自分のことが、仲間のことが好きになればいい。」
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:13px">— SORA メッセージ</p>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜株式会社MOON 代表 荻田大樹｜SORAプロジェクト 香川展開プラン v1.0<br>
+  ※本資料の数値は概算・想定値です。実際の補助金・物件・人件費は最新情報で要確認。
+</div>
+
+</div>
+</body>
+</html>

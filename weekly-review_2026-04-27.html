@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー | 2026-04-27（月）</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #22253a;
+    --accent: #5b8dee;
+    --gold: #f0c040;
+    --green: #3dd68c;
+    --red: #f06060;
+    --orange: #f09040;
+    --gray: #8890a8;
+    --text: #e8eaf6;
+    --text2: #b0b8d0;
+    --border: #2d3248;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', 'Hiragino Sans', sans-serif; line-height: 1.6; }
+
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 32px 40px 24px;
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .header .date { color: var(--gray); font-size: 14px; margin-top: 4px; }
+  .badge { background: var(--accent); color: white; border-radius: 20px; padding: 4px 14px; font-size: 13px; font-weight: 600; }
+  .header-meta { color: var(--text2); font-size: 13px; margin-top: 12px; }
+  .header-meta strong { color: var(--gold); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+  .section-title {
+    font-size: 18px; font-weight: 700; color: var(--gold);
+    border-left: 4px solid var(--gold); padding-left: 12px;
+    margin-bottom: 20px; margin-top: 40px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .card-title { font-weight: 700; font-size: 16px; }
+  .card-subtitle { color: var(--gray); font-size: 12px; margin-top: 2px; }
+
+  .progress-bar-wrap { margin: 10px 0; }
+  .progress-label { display: flex; justify-content: space-between; color: var(--gray); font-size: 12px; margin-bottom: 6px; }
+  .progress-bar { height: 10px; background: var(--card2); border-radius: 5px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 5px; transition: width 0.3s; }
+  .fill-green { background: linear-gradient(90deg, #3dd68c, #20a060); }
+  .fill-blue { background: linear-gradient(90deg, #5b8dee, #3060cc); }
+  .fill-gold { background: linear-gradient(90deg, #f0c040, #d08000); }
+  .fill-orange { background: linear-gradient(90deg, #f09040, #d06010); }
+  .fill-red { background: linear-gradient(90deg, #f06060, #c02020); }
+  .fill-gray { background: var(--gray); }
+
+  .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .stat-item { background: var(--card2); border-radius: 8px; padding: 6px 12px; }
+  .stat-label { color: var(--gray); font-size: 11px; }
+  .stat-value { font-weight: 700; font-size: 14px; }
+
+  .mg-gauge { display: flex; gap: 4px; margin: 8px 0; }
+  .mg-box { width: 28px; height: 18px; border-radius: 4px; border: 1px solid var(--border); }
+  .mg-filled { background: var(--green); border-color: var(--green); }
+  .mg-empty { background: var(--card2); }
+  .mg-label { color: var(--text2); font-size: 12px; margin-top: 4px; }
+
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .pill-green { background: rgba(61, 214, 140, 0.15); color: var(--green); border: 1px solid rgba(61, 214, 140, 0.4); }
+  .pill-gold { background: rgba(240, 192, 64, 0.15); color: var(--gold); border: 1px solid rgba(240, 192, 64, 0.4); }
+  .pill-red { background: rgba(240, 96, 96, 0.15); color: var(--red); border: 1px solid rgba(240, 96, 96, 0.4); }
+  .pill-blue { background: rgba(91, 141, 238, 0.15); color: var(--accent); border: 1px solid rgba(91, 141, 238, 0.4); }
+  .pill-gray { background: rgba(136, 144, 168, 0.15); color: var(--gray); border: 1px solid rgba(136, 144, 168, 0.4); }
+  .pill-orange { background: rgba(240, 144, 64, 0.15); color: var(--orange); border: 1px solid rgba(240, 144, 64, 0.4); }
+
+  ul.task-list { list-style: none; padding: 0; }
+  ul.task-list li { padding: 6px 0; border-bottom: 1px dashed var(--border); color: var(--text2); font-size: 13px; }
+  ul.task-list li:last-child { border-bottom: none; }
+  ul.task-list .check { color: var(--green); font-weight: 700; margin-right: 6px; }
+  ul.task-list .pause { color: var(--orange); font-weight: 700; margin-right: 6px; }
+  ul.task-list .target { color: var(--gold); font-weight: 700; margin-right: 6px; }
+
+  .sprint-card {
+    background: linear-gradient(135deg, #2a2d44 0%, #1a1d27 100%);
+    border: 2px solid var(--gold);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .sprint-pj { font-size: 26px; font-weight: 800; color: var(--gold); margin: 6px 0; }
+  .sprint-reason { color: var(--text); font-size: 14px; line-height: 1.8; }
+
+  .action-list { counter-reset: act; }
+  .action-row {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .action-row.priority-1 { border-left-color: var(--red); }
+  .action-row.priority-2 { border-left-color: var(--orange); }
+  .action-row.priority-3 { border-left-color: var(--gold); }
+  .action-num {
+    counter-increment: act;
+    background: var(--card2);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .action-num::before { content: counter(act); }
+  .action-body { flex: 1; }
+  .action-title { font-weight: 700; font-size: 14px; }
+  .action-meta { color: var(--gray); font-size: 12px; margin-top: 4px; }
+
+  .footer { text-align: center; color: var(--gray); padding: 32px 24px; font-size: 13px; }
+
+  .alert-card {
+    background: rgba(240, 96, 96, 0.08);
+    border: 1px solid rgba(240, 96, 96, 0.4);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .alert-card-warn {
+    background: rgba(240, 144, 64, 0.08);
+    border-color: rgba(240, 144, 64, 0.4);
+  }
+  .alert-card-ok {
+    background: rgba(61, 214, 140, 0.08);
+    border-color: rgba(61, 214, 140, 0.4);
+  }
+
+  .table-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .table-summary th, .table-summary td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .table-summary th {
+    color: var(--gold);
+    font-weight: 700;
+    background: var(--card2);
+  }
+  .table-summary tr:hover td { background: rgba(91, 141, 238, 0.05); }
+
+  .delta-up { color: var(--green); font-weight: 700; }
+  .delta-flat { color: var(--gray); }
+  .delta-down { color: var(--red); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>📅 週次レビュー</h1>
+      <div class="date">2026-04-27（月）｜ 振り返り対象期間：2026-04-20（月）〜 2026-04-26（日）</div>
+    </div>
+    <span class="badge">Weekly Review</span>
+  </div>
+  <div class="header-meta">
+    📚 CONTEXT読み込み完了（全8件）｜ <strong>今週は「5/7 noteメンバーシップ公開」「5/6 PRISM CUP CF公開」が連続するクリティカルウィーク</strong>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ========== STEP 1: 先週の振り返り ========== -->
+  <div class="section-title">📝 STEP 1｜先週の振り返り（4/20〜4/26）</div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header"><div class="card-title">✅ 完了タスク</div></div>
+      <div style="font-size:32px; font-weight:800; color:var(--green); margin:8px 0;">12<span style="font-size:14px; color:var(--gray); font-weight:400;"> 件</span></div>
+      <div style="color:var(--text2); font-size:12px;">SNS投稿・行政届出・データ確認を含む</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">📈 SNS総増分</div></div>
+      <div style="font-size:32px; font-weight:800; color:var(--accent); margin:8px 0;">+59<span style="font-size:14px; color:var(--gray); font-weight:400;"> フォロワー</span></div>
+      <div style="color:var(--text2); font-size:12px;">TikTok+53・YouTube+1・SORA±0・SUPERIOR±0・CARAS±0</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">⚠️ 期限超過 / 要注意</div></div>
+      <div style="font-size:32px; font-weight:800; color:var(--red); margin:8px 0;">2<span style="font-size:14px; color:var(--gray); font-weight:400;"> 件</span></div>
+      <div style="color:var(--text2); font-size:12px;">PRISM CUP法人DM期限超過・健康診断予約3月末超過</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header"><div class="card-title">📋 PJ別 先週の動き（ハンドオフ・進捗ログより）</div></div>
+    <table class="table-summary">
+      <thead>
+        <tr>
+          <th>PJ</th>
+          <th>先週の主な動き</th>
+          <th>SNS / KPI 変化</th>
+          <th>状態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>オギラボ</strong></td>
+          <td>note公開日「5/7（木）」確定（4/24）／告知スクリプト・5本タイトル準備済み／4/21・4/24バズ調査実施</td>
+          <td>TikTok 1,238→<span class="delta-up">1,291人（+53）</span>／YouTube 89→<span class="delta-up">90人（+1）</span></td>
+          <td><span class="pill pill-gold">公開直前</span></td>
+        </tr>
+        <tr>
+          <td><strong>CARAS</strong></td>
+          <td>GBP投稿（4/21火・4/24金）／Instagram投稿（4/22 GOLF・4/24 STUDIO）公開／IG手動投稿（VOICE/RESULT）4/24完了</td>
+          <td>IG 70人 <span class="delta-flat">±0</span>／TikTok 24人 <span class="delta-flat">±0</span></td>
+          <td><span class="pill pill-green">運用安定</span></td>
+        </tr>
+        <tr>
+          <td><strong>健康経営</strong></td>
+          <td>大きな進捗なし／西宮市スポーツ振興基金（塚本氏案件）協力方向で合意済み／健康診断予約（3月末期限）未完了継続</td>
+          <td>—</td>
+          <td><span class="pill pill-red">停滞</span></td>
+        </tr>
+        <tr>
+          <td><strong>SORA</strong></td>
+          <td>申込累計316→<span class="delta-up">318件（+2）</span>／5/9おおじ兄弟2名（小3・小1）新規追加／予定表HTML 4/23更新（3〜5月）</td>
+          <td>IG 515人・283件 <span class="delta-flat">±0</span></td>
+          <td><span class="pill pill-green">体験継続流入</span></td>
+        </tr>
+        <tr>
+          <td><strong>SUPERIOR</strong></td>
+          <td>Week4 TRIAL投稿承認（4/22・91点）／生駒5/7体験（まつもとゆうせい・小2男）確定／箕面：6/5まで体験申込なし</td>
+          <td>IG 4人・17件 <span class="delta-flat">±0</span></td>
+          <td><span class="pill pill-orange">SNS伸び悩み</span></td>
+        </tr>
+        <tr>
+          <td><strong>TrustFit</strong></td>
+          <td>トレーナーマッチデモUI完成（4/20）／PRISM CUP CF告知準備（CF公開5/6）／法人DM送付期限（4/20）<span class="delta-down">超過</span></td>
+          <td>—（B2B運営型）</td>
+          <td><span class="pill pill-red">期限超過あり</span></td>
+        </tr>
+        <tr>
+          <td><strong>むーん</strong></td>
+          <td>看護職員加配加算届出申請完了（4/22・期限8日前）／4/21運営指導課お知らせ確認済み・対応不要</td>
+          <td>定員9割稼働継続</td>
+          <td><span class="pill pill-green">安定稼働</span></td>
+        </tr>
+        <tr>
+          <td><strong>関学陸上部</strong></td>
+          <td>CDST監視継続（4/21・4/22・4/23・4/24に変更検出）／4/25 東大阪記録会・5/4 香川県選手権など5月予定確定／4月分KGAD報告書5/7期限</td>
+          <td>—</td>
+          <td><span class="pill pill-blue">監視中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ========== STEP 2 + STEP 3: 進捗% & 収益化ゲージ ========== -->
+  <div class="section-title">📊 STEP 2-3｜各PJ進捗 + 収益化ゲージ</div>
+
+  <div class="grid">
+
+    <!-- オギラボ -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🎓 オギラボ</div>
+          <div class="card-subtitle">noteメンバーシップ・SNS発信</div>
+        </div>
+        <span class="pill pill-gold">42%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>42% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-gold" style="width:42%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--green)">8pt/20pt</strong>（MG-2達成）｜次：MG-1 noteメンバーシップ公開</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">TikTok</div><div class="stat-value">1,291人 (+53)</div></div>
+        <div class="stat-item"><div class="stat-label">YouTube</div><div class="stat-value">90人 (+1)</div></div>
+        <div class="stat-item"><div class="stat-label">公開日</div><div class="stat-value" style="color:var(--gold)">5/7 (残10日)</div></div>
+      </div>
+    </div>
+
+    <!-- CARAS -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">💪 CARAS</div>
+          <div class="card-subtitle">パーソナルジム・西宮夙川</div>
+        </div>
+        <span class="pill pill-green">61%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>61% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-green" style="width:61%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--green)">4pt/20pt</strong>（MG-1完了）｜SNS経由の新規獲得測定が次</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">IG</div><div class="stat-value">70人 ±0</div></div>
+        <div class="stat-item"><div class="stat-label">TikTok</div><div class="stat-value">24人 ±0</div></div>
+        <div class="stat-item"><div class="stat-label">投稿</div><div class="stat-value" style="color:var(--green)">先週4本</div></div>
+      </div>
+    </div>
+
+    <!-- 健康経営 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🏢 健康経営</div>
+          <div class="card-subtitle">B2B法人向けウェルネス支援</div>
+        </div>
+        <span class="pill pill-red">20%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>20% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-red" style="width:20%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--red)">0pt/20pt</strong>｜🚧 MG-1ブロック中（LP・提案資料未完成）</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">スプレッドシート未完了</div><div class="stat-value" style="color:var(--red)">健康診断予約3月末超過</div></div>
+      </div>
+    </div>
+
+    <!-- SORA -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🏃 SORA（香川）</div>
+          <div class="card-subtitle">子ども陸上クラブ・観音寺/高松</div>
+        </div>
+        <span class="pill pill-gold">53%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>53% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-gold" style="width:53%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--green)">4pt/20pt</strong>（MG-1達成）｜申込318件継続流入中</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">IG</div><div class="stat-value">515人 ±0</div></div>
+        <div class="stat-item"><div class="stat-label">体験申込累計</div><div class="stat-value" style="color:var(--green)">318件 (+2)</div></div>
+      </div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">⚡ SUPERIOR（生駒・箕面）</div>
+          <div class="card-subtitle">子ども陸上クラブ・関西</div>
+        </div>
+        <span class="pill pill-gold">57%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>57% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-gold" style="width:57%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--green)">4pt/20pt</strong>（MG-1達成）｜MG-2〜4はスプレッドシート確認で追加可能性</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">IG</div><div class="stat-value">4人 ±0</div></div>
+        <div class="stat-item"><div class="stat-label">5月体験</div><div class="stat-value">5/7生駒1名</div></div>
+        <div class="stat-item"><div class="stat-label">箕面入会率</div><div class="stat-value" style="color:var(--orange)">課題</div></div>
+      </div>
+    </div>
+
+    <!-- TrustFit -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🤝 TrustFit / PRISM CUP</div>
+          <div class="card-subtitle">トレーナー派遣プラットフォーム</div>
+        </div>
+        <span class="pill pill-red">5%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>5% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-red" style="width:5%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+        <div class="mg-box mg-empty"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--gray)">0pt/20pt</strong>｜CF公開5/6まで残9日・法人DM期限<span class="delta-down">超過</span></div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">CF公開</div><div class="stat-value" style="color:var(--gold)">5/6 (残9日)</div></div>
+        <div class="stat-item"><div class="stat-label">マッチデモ</div><div class="stat-value" style="color:var(--green)">完成 4/20</div></div>
+      </div>
+    </div>
+
+    <!-- むーん -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🌙 むーん</div>
+          <div class="card-subtitle">運動療育・大阪都島</div>
+        </div>
+        <span class="pill pill-green">80%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>80% <span class="delta-flat">（変化なし）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-green" style="width:80%"></div></div>
+      </div>
+      <div class="mg-gauge">
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-filled"></div>
+        <div class="mg-box mg-filled"></div>
+      </div>
+      <div class="mg-label">収益化ゲージ <strong style="color:var(--green)">20pt/20pt</strong> 🎉 全ステップ達成（定員9割稼働）</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">看護加配加算</div><div class="stat-value" style="color:var(--green)">届出完了 4/22</div></div>
+        <div class="stat-item"><div class="stat-label">SK-3 PDF</div><div class="stat-value" style="color:var(--orange)">未着手</div></div>
+      </div>
+    </div>
+
+    <!-- 関学陸上部 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🎓 関西学院大学陸上部</div>
+          <div class="card-subtitle">大学陸上部サポート（法人）</div>
+        </div>
+        <span class="pill pill-blue">0%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>進捗</span><span>0% <span class="delta-flat">（事業化前）</span></span></div>
+        <div class="progress-bar"><div class="progress-fill fill-gray" style="width:5%"></div></div>
+      </div>
+      <div class="mg-label" style="color:var(--text2)">事業性プロジェクトではないため収益化ゲージ非適用｜KGAD報告書ワークフロー稼働中</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-label">CDST監視</div><div class="stat-value" style="color:var(--green)">継続中</div></div>
+        <div class="stat-item"><div class="stat-label">4月分報告書</div><div class="stat-value" style="color:var(--gold)">5/7 期限</div></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ========== STEP 4: 今週の集中PJ提案 ========== -->
+  <div class="section-title">🎯 STEP 4｜今週の集中PJ提案</div>
+
+  <div class="sprint-card">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div>
+        <div style="color:var(--gray); font-size:12px; margin-bottom:8px;">🥇 最推奨</div>
+        <div class="sprint-pj">オギラボ</div>
+        <div class="sprint-reason">
+          <strong style="color:var(--gold)">5/7（木）noteメンバーシップ公開まで残り10日</strong>。<br>
+          TikTok 1,291人（+53/週）の集客力は確保済み・告知スクリプト/5本タイトルも完成。<br>
+          <strong>「記事5本本文の執筆」と「30秒告知ショート撮影・投稿」</strong>の2アクションで一気にMG-1（収益化導線完成）を達成し、<br>
+          MG-2→MG-3（DM問い合わせ→初成約）への加速が可能。<br>
+          <span class="pill pill-gold">機会窓 10日間</span>
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--gray); font-size:12px; margin-bottom:8px;">🥈 次点</div>
+        <div class="sprint-pj">TrustFit / PRISM CUP</div>
+        <div class="sprint-reason">
+          <strong style="color:var(--red)">CF公開（5/6）まで残9日／法人事前DM期限（4/20）は既に超過</strong>。<br>
+          初速48時間で勝負が決まるクラファン特性上、今週中の法人DM一斉送付は<strong>必須リカバリー</strong>。<br>
+          <strong>「法人向けDM送付」「個人向けDM準備（4/28期限）」「CF本文最終チェック」</strong>を最優先で実行。<br>
+          マッチデモUIは完成しておりLP同梱可能。<br>
+          <span class="pill pill-red">緊急度：高</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px; padding-top:16px; border-top:1px dashed var(--border); color:var(--text2); font-size:13px;">
+      ✅ ご承認後にCLAUDE.md「今週の集中PJ」欄を更新します。<br>
+      「この2つで」「1番だけ」「変更：○○」でお知らせください。
+    </div>
+  </div>
+
+
+  <!-- ========== STEP 5: 推奨アクション TOP5 ========== -->
+  <div class="section-title">🚀 STEP 5｜今週の推奨アクション TOP5</div>
+
+  <div class="action-list">
+    <div class="action-row priority-1">
+      <div class="action-num"></div>
+      <div class="action-body">
+        <div class="action-title">【オギラボ】noteメンバーシップ記事5本の本文執筆（5/7公開前完成）</div>
+        <div class="action-meta">期限：5/6（火）まで／キッズラボ・パフォーマンスラボ・ポールラボの初月コンテンツ／タイトル・スクリプトは既に完成</div>
+      </div>
+    </div>
+    <div class="action-row priority-1">
+      <div class="action-num"></div>
+      <div class="action-body">
+        <div class="action-title">【TrustFit】法人向け事前DM送付開始（期限超過のリカバリー）</div>
+        <div class="action-meta">期限：今週中／対象：S/A/Bランク18社／企画書LP・DMテンプレ完成済み／チーム参加権6社限定</div>
+      </div>
+    </div>
+    <div class="action-row priority-2">
+      <div class="action-num"></div>
+      <div class="action-body">
+        <div class="action-title">【オギラボ】30秒告知TikTok/YouTubeショート撮影・投稿（5/7前後）</div>
+        <div class="action-meta">期限：5/5（火）まで／スクリプト完成済み／運動会カウントダウンシリーズも今週1本目投稿</div>
+      </div>
+    </div>
+    <div class="action-row priority-2">
+      <div class="action-num"></div>
+      <div class="action-body">
+        <div class="action-title">【関学陸上部】4月分KGAD月次活動報告書作成（5/7期限）</div>
+        <div class="action-meta">期限：5/7（水）／4/25(土) 東大阪記録会など4月のオレンジ日確認→generate_kgad_report.py実行</div>
+      </div>
+    </div>
+    <div class="action-row priority-3">
+      <div class="action-num"></div>
+      <div class="action-body">
+        <div class="action-title">【TrustFit】個人向け事前DM準備（4/28期限）＋ CF本文最終チェック</div>
+        <div class="action-meta">期限：4/28（火）／友人・アスリート仲間にCF公開直前一報／CAMPFIRE URL：https://camp-fire.jp/projects/945642/</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== STEP 6: ブロック中タスク ========== -->
+  <div class="section-title">🚧 STEP 6｜ブロック中タスク（前提条件未完了）</div>
+
+  <div class="grid-2">
+    <div class="alert-card alert-card-warn">
+      <strong style="color:var(--orange)">🏢 健康経営：MG-1ブロック中</strong>
+      <div style="margin-top:8px; color:var(--text2); font-size:13px;">
+        「法人向けLP制作」「提案資料(PPT)作成」が共に未完了 → サービスパッケージ設計が前提。<br>
+        収益化ゲージ 0pt/20pt から脱出するには、まずサービスパッケージ設計を完了させる必要あり。<br>
+        <span class="pill pill-orange">前提タスク：サービスパッケージ設計</span>
+      </div>
+    </div>
+    <div class="alert-card alert-card-warn">
+      <strong style="color:var(--orange)">🤝 TrustFit：池田版フットサル DM未着手</strong>
+      <div style="margin-top:8px; color:var(--text2); font-size:13px;">
+        「健康経営認定企業リストへのDM送付」は、その前提となる「池田版フットサル企業交流会 企画書作成」が未着手のため実行不可。<br>
+        フロム・シェフ（青井さん・矢澤さん）との5月末MTG前に企画書を仕上げる必要あり。<br>
+        <span class="pill pill-orange">前提タスク：池田版フットサル企画書作成</span>
+      </div>
+    </div>
+    <div class="alert-card alert-card-warn">
+      <strong style="color:var(--orange)">🌙 むーん：SK-3 相談支援専門員向け施設案内PDF 未着手</strong>
+      <div style="margin-top:8px; color:var(--text2); font-size:13px;">
+        前提条件は満たしているが優先度低のまま停滞中。<br>
+        スターターキット完了でSK-4 LINE自動返信の前提も解除される。<br>
+        <span class="pill pill-blue">空きスプリントで即着手可能</span>
+      </div>
+    </div>
+    <div class="alert-card alert-card-warn">
+      <strong style="color:var(--orange)">🏢 健康経営：健康診断予約 3月末期限超過</strong>
+      <div style="margin-top:8px; color:var(--text2); font-size:13px;">
+        健康経営優良法人取得の準備期タスクが期限超過のまま継続。<br>
+        実践期（4〜7月）の他タスク全てに影響する基盤タスクのため至急対応推奨。<br>
+        <span class="pill pill-red">期限超過：約1ヶ月</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== STEP 7: Decision Log 再評価アラート ========== -->
+  <div class="section-title">🔄 STEP 7｜Decision Log 再評価アラート</div>
+
+  <div class="alert-card alert-card-ok">
+    <strong style="color:var(--green)">✅ 当月（4月）以内の再評価期限あり：0件</strong>
+    <div style="margin-top:8px; color:var(--text2); font-size:13px;">
+      全PJの outputs/decisions/ をスキャン。Decision Logファイルが未蓄積（CONTEXT.md参照リストには記載あり：<br>
+      ・CARAS「価格設定（新規+15〜20%・既存6ヶ月後+10%）」（2026-03 → 6ヶ月後 ≒ 9月再評価）<br>
+      ・健康経営「ターゲット：中小主軸・大手パイロット並走（6ヶ月後再評価）」（2026-03 → 9月再評価）<br>
+      ・オギラボ「SNS戦略：Instagramメイン・TikTok実験」（2026-03 → 3ヶ月後 = 6月再評価）<br>
+      → 4月内アラートはなし。次回 weekly-review（5/4）でも再確認予定。
+    </div>
+  </div>
+
+
+  <!-- ========== STEP 7.5: クロスPJシナジー ========== -->
+  <div class="section-title">🔗 STEP 7.5｜今週のシナジーチャンス</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">オギラボ note公開 → SORA/SUPERIOR 保護者層誘導</div></div>
+      <div style="color:var(--text2); font-size:13px;">
+        5/7公開のキッズラボ記事は、SORA/SUPERIOR保護者にも刺さる内容。<br>
+        SORA Instagram（515人）・SUPERIOR LINE登録者へnote公開告知をクロスポストすると、初期会員獲得が加速。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">TrustFit PRISM CUP → 健康経営リード取得</div></div>
+      <div style="color:var(--text2); font-size:13px;">
+        PRISM CUP参加企業に体組成測定を組み込むことで、健康経営認定支援への自然な誘導が可能（CONTEXT.md記載済み）。<br>
+        CF公開タイミングで健康経営認定企業リストへのDMを連動させると、両PJのリード源を共有できる。
+      </div>
+    </div>
+  </div>
+
+
+  <!-- フッター -->
+  <div class="footer">
+    Generated by weekly-review｜2026-04-27（月）｜ AI組織共通ルール CLAUDE.md v2026-04-24<br>
+    次回 weekly-review: 2026-05-04（月）｜ 次回 monthly-review: 2026-05-01（金）
+  </div>
+
+</div>
+
+</body>
+</html>

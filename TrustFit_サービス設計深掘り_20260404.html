@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — サービス設計深掘りレポート｜2026-04-04</title>
+<style>
+  :root {
+    --primary: #0f2a4a;
+    --accent: #e8512a;
+    --accent2: #f0a500;
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+    --green: #16a34a;
+    --blue: #2563eb;
+    --purple: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  /* ─── HEADER ─── */
+  .hero {
+    background: linear-gradient(135deg, #0f2a4a 0%, #1a3d6b 50%, #0f2a4a 100%);
+    color: #fff;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,81,42,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(232,81,42,0.85);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+  .hero h1 span { color: #f0a500; }
+  .hero p { color: rgba(255,255,255,0.75); font-size: 0.95rem; }
+  /* ─── LAYOUT ─── */
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+  .section { margin-bottom: 56px; }
+  .section-label {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-label .num {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .section-label h2 { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+  /* ─── CARD ─── */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 14px; color: var(--primary);
+  }
+  /* ─── CONCEPT BOX ─── */
+  .concept-big {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e4080 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .concept-big .tagline {
+    font-size: 2rem; font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .concept-big .tagline em { color: var(--accent2); font-style: normal; }
+  .concept-big .sub {
+    font-size: 0.9rem; color: rgba(255,255,255,0.7);
+    max-width: 500px; margin: 0 auto;
+  }
+  /* ─── GRID ─── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) {
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.7rem; }
+  }
+  /* ─── PERSONA CARD ─── */
+  .persona {
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .persona .avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 12px;
+  }
+  .persona h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .persona .role { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
+  .persona .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .persona .tag {
+    font-size: 0.75rem; padding: 3px 10px;
+    border-radius: 12px; font-weight: 600;
+  }
+  .tag-pain { background: #fee2e2; color: #991b1b; }
+  .tag-want { background: #dcfce7; color: #166534; }
+  .tag-trigger { background: #fef9c3; color: #854d0e; }
+  .detail-row { font-size: 0.85rem; margin-bottom: 6px; color: var(--text); }
+  .detail-row strong { color: var(--primary); }
+  /* ─── POSITIONING MAP ─── */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 65%;
+    background: #f0f4ff;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .map-inner { position: absolute; inset: 0; }
+  .map-axis-x {
+    position: absolute; bottom: 50%; left: 0; right: 0;
+    height: 1px; background: #94a3b8;
+  }
+  .map-axis-y {
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 1px; background: #94a3b8;
+  }
+  .map-label {
+    position: absolute; font-size: 11px; font-weight: 700;
+    color: #64748b; white-space: nowrap;
+  }
+  .map-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .map-dot .dot {
+    width: 14px; height: 14px; border-radius: 50%;
+  }
+  .map-dot .dlabel {
+    font-size: 10px; font-weight: 700;
+    white-space: nowrap; text-align: center;
+    line-height: 1.2;
+  }
+  /* ─── FLOW ─── */
+  .flow-steps { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: flex; align-items: flex-start; gap: 16px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px; top: 42px;
+    width: 2px; height: calc(100% - 10px);
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+  }
+  .step-num {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px;
+    position: relative; z-index: 1;
+  }
+  .step-body { flex: 1; padding-bottom: 28px; }
+  .step-body h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--primary); }
+  .step-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .step-body .step-sub {
+    margin-top: 8px;
+    background: #f8fafc;
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.82rem; color: var(--text);
+  }
+  /* ─── COMPARISON TABLE ─── */
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th {
+    background: var(--primary); color: #fff;
+    padding: 10px 14px; text-align: left;
+    font-weight: 700;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .trust-row td { background: #fff8e8 !important; font-weight: 700; }
+  .check { color: var(--green); font-weight: 700; }
+  .cross { color: #dc2626; }
+  .tri { color: var(--accent2); }
+  /* ─── TAGS LIST ─── */
+  .kw-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .kw { font-size: 0.82rem; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+  .kw-a { background: #dbeafe; color: #1d4ed8; }
+  .kw-b { background: #f0fdf4; color: #166534; }
+  .kw-c { background: #fdf2f8; color: #86198f; }
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight {
+    border-left: 4px solid var(--accent);
+    background: #fff7f5;
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    font-size: 0.88rem;
+    margin-top: 12px;
+  }
+  .highlight strong { color: var(--accent); }
+  /* ─── SCORE CARD ─── */
+  .score-bar-wrap { margin-top: 16px; }
+  .score-item { margin-bottom: 12px; }
+  .score-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 4px; }
+  .score-label strong { font-weight: 700; color: var(--primary); }
+  .score-label span { color: var(--muted); font-size: 0.78rem; }
+  .bar-bg { background: #e2e8f0; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center; padding: 32px;
+    color: var(--muted); font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">Service Design Deep Dive</div>
+  <h1>Trust<span>Fit</span></h1>
+  <p>サービス設計・コンセプト深掘りレポート｜2026-04-04</p>
+</div>
+
+<div class="container">
+
+  <!-- ① コアコンセプト -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">1</div>
+      <h2>コアコンセプト — 何者か？を一言で言う</h2>
+    </div>
+
+    <div class="concept-big">
+      <div class="tagline">一流が来る。<em>成果の分だけ</em>払う。</div>
+      <p class="sub">企業向けトレーナーマッチング × 評価連動成果報酬型プラットフォーム</p>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>🎯 企業向けキャッチ</h3>
+        <p style="font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
+          「体験した価値だけ払えばいい。」
+        </p>
+        <p style="font-size:0.85rem;color:var(--muted);">
+          固定費ゼロ。セッションの満足度が報酬を決める成果報酬型。リスクなしで一流トレーナーを体験できる。
+        </p>
+      </div>
+      <div class="card">
+        <h3>💪 トレーナー向けキャッチ</h3>
+        <p style="font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
+          「実力が数字になる、唯一のステージ。」
+        </p>
+        <p style="font-size:0.85rem;color:var(--muted);">
+          営業不要。評価スコアが積み上がるほど報酬レンジが上がる。頑張りが可視化される仕組み。
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔑 3つの独自価値（USP）</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#fff7f0;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🏆</div>
+          <div>
+            <strong style="font-size:0.9rem;">評価連動型成果報酬</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">業界初。50点満点の双方評価スコアで支払い額が確定。企業は「効果が出た分だけ」支払う。従来の固定費型とは根本的に異なる発想。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#fff7f0;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⭐</div>
+          <div>
+            <strong style="font-size:0.9rem;">VIPアスリート × 若手トレーナーの二層構造</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">オリンピアン・日本代表クラスの「看板VIP」が体験価値を上げ、若手トレーナーが継続コストを下げる。高品質と継続性を両立。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#fff7f0;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📋</div>
+          <div>
+            <strong style="font-size:0.9rem;">健康経営認定 × 採用PRへの直結設計</strong>
+            <p style="font-size:0.82rem;color:var(--muted);margin-top:2px;">福利厚生の枠を超えて「健康経営優良法人認定サポート」「採用PR動画制作」まで一気通貫。投資対効果が可視化できる唯一のサービス。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② ポジショニング -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">2</div>
+      <h2>ポジショニング — 競合との差別化マップ</h2>
+    </div>
+
+    <div class="card">
+      <h3>競合比較マトリクス</h3>
+      <div style="overflow-x:auto;margin-top:8px;">
+        <table>
+          <thead>
+            <tr>
+              <th>サービス</th>
+              <th>料金体系</th>
+              <th>コンテンツ品質</th>
+              <th>評価連動</th>
+              <th>健康経営対応</th>
+              <th>採用PR連携</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RIZAP for Business</td>
+              <td>固定費（高額）</td>
+              <td>◯ 高品質</td>
+              <td class="cross">✗</td>
+              <td class="tri">△</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>GYYM（従量課金）</td>
+              <td>従量課金</td>
+              <td>△ 施設利用のみ</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>シェイプ21（出張ヨガ）</td>
+              <td>固定費</td>
+              <td>△ 汎用インスト</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>chocoZAP 法人</td>
+              <td>月額固定</td>
+              <td>△ 無人ジム</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>フリーランストレーナー直接</td>
+              <td>都度交渉</td>
+              <td>△〜◯ 不安定</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr class="trust-row">
+              <td>🔥 <strong>TrustFit（仮）</strong></td>
+              <td>🔥 成果報酬型</td>
+              <td>🔥 VIP〜若手</td>
+              <td class="check">✓ 業界唯一</td>
+              <td class="check">✓ 一気通貫</td>
+              <td class="check">✓ 初回特典</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>ポジショニングマップ（料金体系 × コンテンツ品質）</h3>
+      <div class="map-wrap" style="padding-top:55%;">
+        <div class="map-inner">
+          <div class="map-axis-x"></div>
+          <div class="map-axis-y"></div>
+          <!-- 軸ラベル -->
+          <div class="map-label" style="left:2%;top:50%;transform:translateY(-50%);">汎用</div>
+          <div class="map-label" style="right:2%;top:50%;transform:translateY(-50%);">プレミアム</div>
+          <div class="map-label" style="left:50%;top:2%;transform:translateX(-50%);">成果報酬型</div>
+          <div class="map-label" style="left:50%;bottom:4%;transform:translateX(-50%);">固定費型</div>
+          <!-- 競合 -->
+          <div class="map-dot" style="left:72%;top:80%;">
+            <div class="dot" style="background:#6b7280;"></div>
+            <div class="dlabel" style="color:#6b7280;">RIZAP</div>
+          </div>
+          <div class="map-dot" style="left:30%;top:65%;">
+            <div class="dot" style="background:#94a3b8;"></div>
+            <div class="dlabel" style="color:#94a3b8;">GYYM</div>
+          </div>
+          <div class="map-dot" style="left:35%;top:75%;">
+            <div class="dot" style="background:#94a3b8;"></div>
+            <div class="dlabel" style="color:#94a3b8;">出張ヨガ系</div>
+          </div>
+          <div class="map-dot" style="left:20%;top:72%;">
+            <div class="dot" style="background:#94a3b8;"></div>
+            <div class="dlabel" style="color:#94a3b8;">chocoZAP</div>
+          </div>
+          <!-- TrustFit -->
+          <div class="map-dot" style="left:78%;top:22%;">
+            <div class="dot" style="background:#e8512a;width:18px;height:18px;box-shadow:0 0 12px rgba(232,81,42,0.5);"></div>
+            <div class="dlabel" style="color:#e8512a;font-size:12px;">🔥 TrustFit</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.82rem;color:var(--muted);text-align:center;">「プレミアム × 成果報酬型」の象限は<strong>ブルーオーシャン</strong></p>
+    </div>
+  </section>
+
+  <!-- ③ ペルソナ設計 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">3</div>
+      <h2>ペルソナ設計 — 誰に刺さるか</h2>
+    </div>
+
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:20px;">企業側（購買者）2名 × トレーナー側（供給者）2名の計4ペルソナを定義</p>
+
+    <!-- 企業側 -->
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:14px;">── 企業側ペルソナ ──</h3>
+    <div class="grid2">
+      <div class="persona">
+        <div class="avatar" style="background:#dbeafe;">👔</div>
+        <h4>Aさん｜総務・人事部長</h4>
+        <p class="role">45歳・男性 / 社員100名のITベンチャー勤務</p>
+        <div class="tags">
+          <span class="tag tag-pain">採用コスト増</span>
+          <span class="tag tag-pain">離職率が上がっている</span>
+          <span class="tag tag-trigger">健康経営認定を取りたい</span>
+        </div>
+        <div class="detail-row"><strong>最大の悩み:</strong> 「使われない福利厚生にお金を払いたくない」</div>
+        <div class="detail-row"><strong>購買トリガー:</strong> 「効果が出た分だけ払えばいい」という安心感</div>
+        <div class="detail-row"><strong>意思決定軸:</strong> ROI・コスト効率・稟議の通りやすさ</div>
+        <div class="highlight">
+          <strong>刺さる訴求:</strong> 「ポイント買い切り=確定費用として経理処理OK。使った分だけ報酬確定、余ったら返還。」
+        </div>
+      </div>
+      <div class="persona">
+        <div class="avatar" style="background:#f0fdf4;">💼</div>
+        <h4>Bさん｜創業社長・オーナー経営者</h4>
+        <p class="role">42歳・男性 / 製造業・社員80名 / 2代目</p>
+        <div class="tags">
+          <span class="tag tag-pain">自分の体・メンタルが限界</span>
+          <span class="tag tag-pain">役員も疲弊している</span>
+          <span class="tag tag-trigger">採用PR・企業ブランディングをしたい</span>
+        </div>
+        <div class="detail-row"><strong>最大の悩み:</strong> 「ジムに通う時間がない。質の高いトレーナーに来てほしい」</div>
+        <div class="detail-row"><strong>購買トリガー:</strong> 「VIPアスリートが会社に来てくれる」という体験価値</div>
+        <div class="detail-row"><strong>意思決定軸:</strong> 自分自身の体験・ブランド価値・社員への見せ方</div>
+        <div class="highlight">
+          <strong>刺さる訴求:</strong> 「元オリンピアンがあなたの会社に来る。その1日が会社を変える。」
+        </div>
+      </div>
+    </div>
+
+    <!-- トレーナー側 -->
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:14px;margin-top:28px;">── トレーナー側ペルソナ ──</h3>
+    <div class="grid2">
+      <div class="persona">
+        <div class="avatar" style="background:#fef9c3;">🏋️</div>
+        <h4>Cさん｜フリーランストレーナー</h4>
+        <p class="role">28歳・男性 / 個人クライアント中心・月収30万円前後</p>
+        <div class="tags">
+          <span class="tag tag-pain">法人案件を取りたいが営業できない</span>
+          <span class="tag tag-want">安定収入が欲しい</span>
+          <span class="tag tag-want">実績・ポートフォリオを作りたい</span>
+        </div>
+        <div class="detail-row"><strong>最大の悩み:</strong> 「単発で終わる。継続案件になかなかならない」</div>
+        <div class="detail-row"><strong>参加トリガー:</strong> 「頑張れば評価が上がって報酬も上がる仕組み」</div>
+        <div class="detail-row"><strong>魅力:</strong> 営業不要・評価の透明性・法人実績が積める</div>
+      </div>
+      <div class="persona">
+        <div class="avatar" style="background:#fdf2f8;">🥇</div>
+        <h4>Dさん｜元アスリート・引退選手</h4>
+        <p class="role">32歳・男性 / 陸上・実業団引退後のキャリア移行期</p>
+        <div class="tags">
+          <span class="tag tag-pain">競技後のキャリアが不安</span>
+          <span class="tag tag-want">実績・名前を活かしたい</span>
+          <span class="tag tag-trigger">VIP Elite→Legendへのステップに魅力</span>
+        </div>
+        <div class="detail-row"><strong>最大の悩み:</strong> 「トレーナーとしての実績がゼロから。どう信頼を積むか」</div>
+        <div class="detail-row"><strong>参加トリガー:</strong> 「競技実績が初期信頼になるスカウト枠がある」</div>
+        <div class="detail-row"><strong>魅力:</strong> Eliteスタートで実績積み上げ→Legendへの成長ストーリー</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ VIP→通常引き継ぎフロー -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">4</div>
+      <h2>VIP→通常引き継ぎフロー — 継続課金設計</h2>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <h3>フロー全体像</h3>
+      <div class="flow-steps" style="margin-top:16px;">
+        <div class="flow-step">
+          <div class="step-num">①</div>
+          <div class="step-body">
+            <h4>初回VIPセッション（Legend・Master）</h4>
+            <p>経営陣向け「限界突破コーチング」全社員向け「パフォーマンス体験会」など。1回完結型のインパクト重視コンテンツ。</p>
+            <div class="step-sub">
+              企業負担: ポイント消費（セッション後に評価スコアで確定）<br>
+              企業の感情ゴール: 「こんなトレーナーがいるんだ。また呼びたい」
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">②</div>
+          <div class="step-body">
+            <h4>引き継ぎヒアリング（セッション後72時間以内）</h4>
+            <p>VIPトレーナー or プラットフォーム担当が企業にコンタクト。継続ニーズと課題をヒアリングする。</p>
+            <div class="step-sub">
+              VIPが「企業カルテ」を記入 → 継続向けトレーナーへ引き継ぐ情報を構造化<br>
+              記載内容: 企業文化・参加者の特性・課題感・おすすめプログラムタイプ
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">③</div>
+          <div class="step-body">
+            <h4>継続トレーナー提案（3名マッチング）</h4>
+            <p>企業カルテをもとにアルゴリズムが「マッチング候補3名」を提示。プロフィール・過去評価・動画で比較できる。</p>
+            <div class="step-sub">
+              Eliteランクの若手トレーナー中心（継続コストを抑える設計）<br>
+              企業が選択 or プラットフォームが推薦モードで自動決定
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">④</div>
+          <div class="step-body">
+            <h4>継続稼働 × ウォレット燃焼サイクル</h4>
+            <p>週次・月次の定期セッション開始。毎回の評価スコアが積み上がり、トレーナーランクが向上する。企業は評価の高いセッションに追加ポイントを振る仕組み。</p>
+            <div class="step-sub">
+              ポイント失効ルール（年間）が「使い切るインセンティブ」に<br>
+              評価が高いセッションほど企業もトレーナーも嬉しい → 好循環
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">⑤</div>
+          <div class="step-body">
+            <h4>VIPとのリレーション維持（年1〜2回）</h4>
+            <p>継続中も「VIPの特別セッション」を年間スポット利用。モチベーションのリフレッシュ・企業PRとして活用。</p>
+            <div class="step-sub">
+              VIPのインセンティブ: 「継続成約」での紹介報酬ポイント付与（案）<br>
+              企業のベネフィット: 「一流が継続的に関わる会社」というブランディング
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 引き継ぎ設計の未設計箇所を解決 -->
+    <div class="grid2">
+      <div class="card">
+        <h3>🔧 VIP引き継ぎインセンティブ（案）</h3>
+        <ul style="font-size:0.84rem;padding-left:16px;line-height:1.9;color:var(--text);">
+          <li>継続トレーナーが<strong>初月評価40pt以上</strong>を取れた場合、紹介VIPに<strong>ボーナスポイント</strong>付与</li>
+          <li>継続3ヶ月以上になったらVIPに<strong>「引き継ぎ成功バッジ」</strong>を付与（プロフィールに表示）</li>
+          <li>VIPの「紹介実績数」がランク評価の補助スコアになる（Legend昇格の加点要素）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💬 企業への説明テンプレート（案）</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;">引き継ぎ時の説明文（担当者向け）</p>
+        <div style="background:#f8fafc;border-radius:8px;padding:12px;font-size:0.82rem;line-height:1.7;border-left:3px solid var(--accent2);">
+          「今回のVIPセッションのご体験を踏まえて、継続サポートのご提案があります。VIPトレーナーは<em style="color:var(--accent);">特別体験に特化した存在</em>で、日常的な継続サポートは専属トレーナーとのご契約がベストです。引き続きVIPとの特別セッションも年間でご利用いただけます。」
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ 市場背景・成長余地 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">5</div>
+      <h2>市場背景 — なぜ今TrustFitか</h2>
+    </div>
+
+    <div class="grid3">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;font-weight:800;color:var(--accent);">7,100億円</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">国内フィットネス市場規模<br>（2024年・過去最高）</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;font-weight:800;color:var(--blue);">3.6万社+</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">健康経営優良法人認定企業数<br>（2024年・前年比増加中）</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;font-weight:800;color:var(--green);">50〜200名</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">TrustFitのターゲット企業規模<br>（決裁が早い・福利厚生余地あり）</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>参入タイミングが「今」の理由</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <div style="display:flex;gap:10px;">
+          <span style="color:var(--accent);font-weight:800;font-size:1.1rem;">→</span>
+          <p style="font-size:0.86rem;">健康経営優良法人認定の取得ニーズが急増中。2025年以降、認定取得が「採用差別化」の必須要件になりつつある。</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <span style="color:var(--accent);font-weight:800;font-size:1.1rem;">→</span>
+          <p style="font-size:0.86rem;">フリーランストレーナーの増加（競技人口の引退後活用）により、質の高い供給側が形成される条件が整っている。</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <span style="color:var(--accent);font-weight:800;font-size:1.1rem;">→</span>
+          <p style="font-size:0.86rem;">「固定費型の使われない福利厚生」への企業の不満が顕在化。成果報酬型に切り替えたいニーズが高まっている。</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <span style="color:var(--accent);font-weight:800;font-size:1.1rem;">→</span>
+          <p style="font-size:0.86rem;">MOONさん自身がVIPとして出演できる「顔のある創業者ブランディング」が可能。信頼性の立ち上げが最速。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑥ 評価10項目 設計案 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">6</div>
+      <h2>評価10項目 — 設計案（CONTEXT.md TODO消化）</h2>
+    </div>
+
+    <div class="card">
+      <h3>5段階 × 10項目 = 50点満点 評価設計案</h3>
+      <p style="font-size:0.83rem;color:var(--muted);margin-bottom:16px;">双方評価。低評価（1〜2）は文字入力必須。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>評価項目</th>
+              <th>カテゴリ</th>
+              <th>なぜ重要か</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>コンテンツの質・内容の専門性</td>
+              <td>🏋️ 技術</td>
+              <td>トレーナーの本質価値</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>参加者の体感・満足度</td>
+              <td>😊 体験</td>
+              <td>「また来てほしい」の指標</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>目標・課題へのフィット度</td>
+              <td>🎯 成果</td>
+              <td>企業のニーズに応えたか</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>コミュニケーション・説明力</td>
+              <td>🗣️ 対話</td>
+              <td>伝わったか・わかりやすかったか</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>時間厳守・進行管理</td>
+              <td>⏰ プロ意識</td>
+              <td>法人取引の基本信頼</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>安全配慮・リスク管理</td>
+              <td>🛡️ 安全</td>
+              <td>怪我・事故リスクへの対応</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>場の雰囲気づくり・場マネジメント</td>
+              <td>✨ 空間</td>
+              <td>グループセッション特有の評価軸</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>準備・資料・道具の充実度</td>
+              <td>📋 準備</td>
+              <td>プロとしての事前努力</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>継続・発展への提案力</td>
+              <td>🔄 継続</td>
+              <td>次につながるかどうか</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>総合的な価値（コスト対効果）</td>
+              <td>💰 価値</td>
+              <td>報酬に見合う体験だったか</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="highlight">
+        <strong>設計ポイント:</strong> 項目10（コスト対効果）は報酬決定に最も直結。低評価時の理由記述が「トレーナー改善フィードバック」として機能する。
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑦ 次の優先アクション -->
+  <section class="section">
+    <div class="section-label">
+      <div class="num">7</div>
+      <h2>次の優先アクション — 5%→15%への道筋</h2>
+    </div>
+
+    <div class="grid3">
+      <div class="card" style="border-top:4px solid var(--accent);">
+        <h3 style="color:var(--accent);">🔴 最優先</h3>
+        <p style="font-weight:700;margin-bottom:6px;">1枚モノ提案書の作成</p>
+        <p style="font-size:0.82rem;color:var(--muted);">モニター企業向けのA4提案資料（PDF/HTML）。今日設計した内容をそのまま資料化できる状態。</p>
+        <p style="font-size:0.78rem;color:var(--accent);margin-top:8px;font-weight:700;">→ 前提OK。即着手可能</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--accent2);">
+        <h3 style="color:var(--accent2);">🟡 重要</h3>
+        <p style="font-weight:700;margin-bottom:6px;">正式プロジェクト名の決定</p>
+        <p style="font-size:0.82rem;color:var(--muted);">「TrustFit（仮）」を正式化 or 新名称を決定。LP・提案書・SNSの方向性が確定する。</p>
+        <p style="font-size:0.78rem;color:var(--accent2);margin-top:8px;font-weight:700;">→ MOONさんの意思決定が必要</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--blue);">
+        <h3 style="color:var(--blue);">📋 並行</h3>
+        <p style="font-weight:700;margin-bottom:6px;">MOONさんのメニュー表作成</p>
+        <p style="font-size:0.82rem;color:var(--muted);">LegendクラスVIPとして提供するコンテンツ一覧（料金目安・対象・内容）。提案書に組み込む素材。</p>
+        <p style="font-size:0.78rem;color:var(--blue);margin-top:8px;font-weight:700;">→ 前提OK。提案書と同時進行可</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>キーワード整理（コンテンツ・SEO・提案書で使う言葉）</h3>
+      <div class="kw-cloud">
+        <span class="kw kw-a">評価連動型報酬</span>
+        <span class="kw kw-a">成果報酬フィットネス</span>
+        <span class="kw kw-a">法人トレーナーマッチング</span>
+        <span class="kw kw-b">健康経営優良法人</span>
+        <span class="kw kw-b">福利厚生 × 採用PR</span>
+        <span class="kw kw-b">人的資本経営</span>
+        <span class="kw kw-c">VIPアスリート派遣</span>
+        <span class="kw kw-c">オリンピアン × 企業</span>
+        <span class="kw kw-c">トレーナー双方評価</span>
+        <span class="kw kw-a">ウォレット燃焼モデル</span>
+        <span class="kw kw-b">業務委託型フィットネス</span>
+        <span class="kw kw-c">パフォーマンスチューニング</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  TrustFit（仮） — サービス設計深掘りレポート | 作成: 2026-04-04<br>
+  株式会社MOON | 本資料は社内設計用ドキュメントです
+</footer>
+
+</body>
+</html>

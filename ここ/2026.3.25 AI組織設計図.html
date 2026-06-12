@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織設計図 v2 — 情報共有・フィードバックループ</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: #0f0f1a;
+    color: #e0e0f0;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .version {
+    text-align: center;
+    font-size: 0.7rem;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid #7c3aed;
+    color: #a78bfa;
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    margin: 6px auto 4px;
+  }
+  .version-wrap { text-align: center; margin-bottom: 48px; }
+  .subtitle {
+    text-align: center;
+    font-size: 0.83rem;
+    color: #6b7280;
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .org-wrap { max-width: 1020px; margin: 0 auto; }
+
+  /* ===== SHARED MEMORY BAR ===== */
+  .memory-bar {
+    background: linear-gradient(135deg, #0a1628, #0c1a2a);
+    border: 1.5px solid #1e40af;
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 0 24px rgba(30,64,175,0.15);
+  }
+  .memory-bar .mb-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .memory-bar .mb-content { flex: 1; }
+  .memory-bar .mb-title { font-size: 0.9rem; font-weight: 700; color: #93c5fd; }
+  .memory-bar .mb-desc { font-size: 0.72rem; color: #4b6a9a; margin-top: 4px; line-height: 1.5; }
+  .memory-bar .mb-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .mb-tag {
+    font-size: 0.62rem;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(96,165,250,0.3);
+    color: #60a5fa;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  /* ===== USER ===== */
+  .user-row { display: flex; justify-content: center; margin-bottom: 20px; }
+  .user-box {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 2px solid #334155;
+    border-radius: 14px;
+    padding: 14px 32px;
+    text-align: center;
+    min-width: 180px;
+  }
+  .user-box .icon { font-size: 1.8rem; }
+  .user-box .label { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+  .user-box .name { font-size: 1rem; font-weight: 700; color: #e2e8f0; }
+
+  .arrow-down { text-align: center; font-size: 1.4rem; color: #4f5f80; margin: 4px 0; line-height: 1; }
+  .arrow-label { text-align: center; font-size: 0.65rem; color: #4b5563; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+  /* ===== ORCHESTRATOR ===== */
+  .orch-row { display: flex; justify-content: center; margin-bottom: 8px; }
+  .orch-box {
+    background: linear-gradient(135deg, #2e1065, #1e1b4b);
+    border: 2.5px solid #7c3aed;
+    border-radius: 16px;
+    padding: 20px 40px;
+    text-align: center;
+    min-width: 360px;
+    box-shadow: 0 0 30px rgba(124,58,237,0.25);
+    position: relative;
+  }
+  .orch-box .badge {
+    position: absolute;
+    top: -12px; left: 50%; transform: translateX(-50%);
+    background: #7c3aed; color: white;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 3px 14px; border-radius: 20px;
+    letter-spacing: 0.1em; white-space: nowrap;
+  }
+  .orch-box .icon { font-size: 2.2rem; }
+  .orch-box .name { font-size: 1.1rem; font-weight: 700; color: #c4b5fd; margin-top: 4px; }
+  .orch-box .desc { font-size: 0.72rem; color: #8b7fc7; margin-top: 6px; line-height: 1.5; }
+  .orch-box .tags { margin-top: 10px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.62rem;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #a78bfa;
+    padding: 2px 8px; border-radius: 20px;
+  }
+
+  /* ===== SECTION LABEL ===== */
+  .section-label {
+    text-align: center; font-size: 0.68rem;
+    color: #4b5563; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+
+  /* ===== AGENTS GRID ===== */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    position: relative;
+  }
+
+  .agent-card {
+    border-radius: 14px; padding: 18px 14px;
+    text-align: center; border: 1.5px solid;
+    position: relative; transition: transform 0.2s;
+  }
+  .agent-card:hover { transform: translateY(-3px); }
+
+  .agent-card.research { background: linear-gradient(135deg,#0c2a1e,#052e16); border-color: #16a34a; box-shadow: 0 0 18px rgba(22,163,74,0.12); }
+  .agent-card.content  { background: linear-gradient(135deg,#1c1917,#0c0a09); border-color: #f59e0b; box-shadow: 0 0 18px rgba(245,158,11,0.12); }
+  .agent-card.file     { background: linear-gradient(135deg,#0c1a2e,#030712); border-color: #3b82f6; box-shadow: 0 0 18px rgba(59,130,246,0.12); }
+  .agent-card.review   { background: linear-gradient(135deg,#1c0a14,#0f0306); border-color: #f43f5e; box-shadow: 0 0 18px rgba(244,63,94,0.12); }
+
+  .agent-card .a-icon { font-size: 2rem; }
+  .agent-card .a-role { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
+  .research .a-role { color: #4ade80; }
+  .content  .a-role { color: #fbbf24; }
+  .file     .a-role { color: #60a5fa; }
+  .review   .a-role { color: #fb7185; }
+
+  .agent-card .a-name { font-size: 0.92rem; font-weight: 700; margin-top: 6px; color: #e2e8f0; }
+  .agent-card .a-desc { font-size: 0.68rem; color: #9ca3af; margin-top: 8px; line-height: 1.5; text-align: left; }
+  .agent-card .a-tools { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .tool-tag { font-size: 0.58rem; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
+  .research .tool-tag { background: rgba(22,163,74,0.2);  color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+  .content  .tool-tag { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+  .file     .tool-tag { background: rgba(59,130,246,0.2); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+  .review   .tool-tag { background: rgba(244,63,94,0.2);  color: #fb7185; border: 1px solid rgba(251,113,133,0.3); }
+
+  /* ===== 情報共有フロー ===== */
+  .share-section {
+    margin-top: 40px;
+  }
+  .share-title {
+    text-align: center; font-size: 0.7rem;
+    color: #4b5563; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+
+  .share-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .share-card {
+    background: #0d1117;
+    border-radius: 14px;
+    border: 1px solid #1f2937;
+    padding: 18px 20px;
+  }
+  .share-card .sc-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .share-card .sc-icon { font-size: 1.4rem; }
+  .share-card .sc-title { font-size: 0.9rem; font-weight: 700; color: #e2e8f0; }
+  .share-card .sc-sub { font-size: 0.65rem; color: #4b5563; }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    background: #111827;
+    border-radius: 8px;
+  }
+  .flow-item:last-child { margin-bottom: 0; }
+  .flow-item .fi-num {
+    font-size: 0.65rem; font-weight: 700;
+    color: #4b5563;
+    flex-shrink: 0;
+    width: 18px;
+    margin-top: 1px;
+  }
+  .flow-item .fi-body .fi-title { font-size: 0.78rem; font-weight: 600; color: #cbd5e1; }
+  .flow-item .fi-body .fi-desc { font-size: 0.67rem; color: #6b7280; margin-top: 3px; line-height: 1.45; }
+  .fi-from { font-size: 0.6rem; padding: 1px 6px; border-radius: 10px; font-weight: 700; margin-left: 4px; }
+  .fi-from.g { background: rgba(22,163,74,0.2); color: #4ade80; }
+  .fi-from.y { background: rgba(245,158,11,0.2); color: #fbbf24; }
+  .fi-from.b { background: rgba(59,130,246,0.2); color: #60a5fa; }
+  .fi-from.r { background: rgba(244,63,94,0.2);  color: #fb7185; }
+  .fi-from.p { background: rgba(124,58,237,0.2); color: #a78bfa; }
+
+  /* ===== FEEDBACK LOOP ===== */
+  .loop-section {
+    margin-top: 28px;
+    background: #0a0f1e;
+    border: 1px solid #1a2744;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .loop-title {
+    font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #4b5563;
+    margin-bottom: 18px; text-align: center;
+  }
+  .loop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .loop-item {
+    background: #111827;
+    border-radius: 10px;
+    padding: 14px;
+    border-top: 3px solid;
+  }
+  .loop-item.l1 { border-color: #7c3aed; }
+  .loop-item.l2 { border-color: #f43f5e; }
+  .loop-item.l3 { border-color: #f59e0b; }
+  .loop-item .li-title { font-size: 0.82rem; font-weight: 700; color: #e2e8f0; margin-bottom: 6px; }
+  .loop-item .li-step {
+    font-size: 0.68rem; color: #6b7280;
+    line-height: 1.6;
+    padding-left: 10px;
+    border-left: 2px solid #1f2937;
+  }
+  .loop-item .li-step b { color: #94a3b8; }
+
+  /* ===== CLAUDE.md SECTION ===== */
+  .claudemd-section {
+    margin-top: 28px;
+    background: linear-gradient(135deg, #0c1a14, #061008);
+    border: 1.5px solid #166534;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 0 20px rgba(22,101,52,0.1);
+  }
+  .claudemd-section h3 {
+    font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #4ade80;
+    margin-bottom: 16px;
+  }
+  .claudemd-section pre {
+    background: #020d04;
+    border: 1px solid #14532d;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 0.68rem;
+    color: #86efac;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-family: 'Menlo', 'Monaco', monospace;
+  }
+
+  /* ===== TOOLS SECTION ===== */
+  .tools-section {
+    margin-top: 28px;
+    padding: 24px;
+    background: #0d1117;
+    border-radius: 16px;
+    border: 1px solid #1f2937;
+  }
+  .tools-section h3 {
+    font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #4b5563;
+    margin-bottom: 16px;
+  }
+  .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .tool-row {
+    display: flex; align-items: center; gap: 10px;
+    background: #161b27; border-radius: 8px; padding: 10px 12px;
+  }
+  .tool-row .t-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .tool-row .t-name { font-size: 0.8rem; font-weight: 600; color: #94a3b8; }
+  .tool-row .t-for  { font-size: 0.65rem; color: #4b5563; }
+
+  footer {
+    text-align: center; margin-top: 48px;
+    font-size: 0.65rem; color: #374151; letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 700px) {
+    .agents-grid { grid-template-columns: repeat(2,1fr); }
+    .share-grid  { grid-template-columns: 1fr; }
+    .loop-grid   { grid-template-columns: 1fr; }
+    .tools-grid  { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="org-wrap">
+
+  <h1>AI組織設計図</h1>
+  <div class="version-wrap">
+    <span class="version">v2 — 情報共有 &amp; フィードバックループ</span>
+    <div class="subtitle">相互に情報を共有して修正・生成精度を高めるアーキテクチャ</div>
+  </div>
+
+  <!-- SHARED MEMORY -->
+  <div class="memory-bar">
+    <div class="mb-icon">🧠</div>
+    <div class="mb-content">
+      <div class="mb-title">共有コンテキスト（Shared Memory）— 全エージェント共通の記憶</div>
+      <div class="mb-desc">
+        全エージェントが読み書きできる共通メモリ。ユーザーの目的・過去の成果・NG情報・スタイルガイドを保持し、
+        どのエージェントも同じ前提で動く。Claude では CLAUDE.md がこの役割を担う。
+      </div>
+      <div class="mb-tags">
+        <span class="mb-tag">ユーザーゴール</span>
+        <span class="mb-tag">過去の成果物サマリー</span>
+        <span class="mb-tag">NGルール・制約</span>
+        <span class="mb-tag">文体・トーン定義</span>
+        <span class="mb-tag">スキル一覧</span>
+        <span class="mb-tag">修正履歴</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER -->
+  <div class="user-row">
+    <div class="user-box">
+      <div class="icon">👤</div>
+      <div class="label">依頼者</div>
+      <div class="name">MOON</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+  <div class="arrow-label">依頼・フィードバック</div>
+
+  <!-- ORCHESTRATOR -->
+  <div class="orch-row">
+    <div class="orch-box">
+      <div class="badge">🎯 ORCHESTRATOR — 司令塔 &amp; 情報統合</div>
+      <div class="icon">🤖</div>
+      <div class="name">総括エージェント</div>
+      <div class="desc">
+        全エージェントの入出力を管理。各エージェントの結果を受け取り、<br>
+        共有メモリを更新しながら次のエージェントへ文脈を引き渡す。
+      </div>
+      <div class="tags">
+        <span class="tag">タスク分解</span>
+        <span class="tag">文脈引き渡し</span>
+        <span class="tag">共有メモリ更新</span>
+        <span class="tag">成果統合</span>
+        <span class="tag">修正指示</span>
+        <span class="tag">ユーザー提案</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down" style="margin:10px 0;">↓ 文脈付きでタスク分配</div>
+
+  <!-- AGENTS -->
+  <div class="section-label">専門エージェント — Specialist Agents</div>
+  <div class="agents-grid">
+    <div class="agent-card research">
+      <div class="a-icon">🔍</div>
+      <div class="a-role">Research Agent</div>
+      <div class="a-name">リサーチ<br>エージェント</div>
+      <div class="a-desc">情報収集後、「何が分かったか・何が分からなかったか」を共有メモリに書き込む。コンテンツエージェントはこれを読んで文章を生成する。</div>
+      <div class="a-tools">
+        <span class="tool-tag">WebSearch</span>
+        <span class="tool-tag">WebFetch</span>
+        <span class="tool-tag">要約生成</span>
+        <span class="tool-tag">→共有MEM書込</span>
+      </div>
+    </div>
+    <div class="agent-card content">
+      <div class="a-icon">✍️</div>
+      <div class="a-role">Content Agent</div>
+      <div class="a-name">コンテンツ制作<br>エージェント</div>
+      <div class="a-desc">リサーチ結果と文体ルールを共有メモリから読み込んで生成。完成物をレビューエージェントに渡す前に自己採点スコアを付与する。</div>
+      <div class="a-tools">
+        <span class="tool-tag">SNSスキル</span>
+        <span class="tool-tag">PPTX/DOCX</span>
+        <span class="tool-tag">自己採点</span>
+        <span class="tool-tag">→レビューへ</span>
+      </div>
+    </div>
+    <div class="agent-card file">
+      <div class="a-icon">📁</div>
+      <div class="a-role">File Agent</div>
+      <div class="a-name">ファイル処理<br>エージェント</div>
+      <div class="a-desc">処理結果のメタ情報（ファイル名・列構造・エラー箇所）を共有メモリに書き込む。他エージェントがデータを参照できるようにする。</div>
+      <div class="a-tools">
+        <span class="tool-tag">PDF/XLSX</span>
+        <span class="tool-tag">Bash/Python</span>
+        <span class="tool-tag">メタ情報共有</span>
+        <span class="tool-tag">→共有MEM書込</span>
+      </div>
+    </div>
+    <div class="agent-card review">
+      <div class="a-icon">🧐</div>
+      <div class="a-role">Review Agent</div>
+      <div class="a-name">レビュー&amp;QA<br>エージェント</div>
+      <div class="a-desc">成果物を採点し「OK / 要修正」を判定。要修正の場合は具体的な改善指示を添えて元エージェントに差し戻す。NGパターンを共有メモリに蓄積する。</div>
+      <div class="a-tools">
+        <span class="tool-tag">ファクトチェック</span>
+        <span class="tool-tag">差分確認</span>
+        <span class="tool-tag">NGパターン蓄積</span>
+        <span class="tool-tag">差し戻し指示</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 情報共有フロー -->
+  <div class="share-section">
+    <div class="share-title">🔄 エージェント間の情報共有フロー</div>
+    <div class="share-grid">
+
+      <div class="share-card">
+        <div class="sc-header">
+          <div class="sc-icon">📤</div>
+          <div>
+            <div class="sc-title">各エージェントが「共有メモリへ書く」情報</div>
+            <div class="sc-sub">Output to Shared Memory</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">①</div>
+          <div class="fi-body">
+            <div class="fi-title">リサーチ結果サマリー <span class="fi-from g">リサーチ</span></div>
+            <div class="fi-desc">収集したキーワード・URL・事実・未解決の疑問点を構造化して書き込む</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">②</div>
+          <div class="fi-body">
+            <div class="fi-title">生成物の自己採点 <span class="fi-from y">コンテンツ</span></div>
+            <div class="fi-desc">「訴求力:80点、正確性:90点、トーン:要改善」などスコアと根拠を記録</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">③</div>
+          <div class="fi-body">
+            <div class="fi-title">ファイルのメタ情報 <span class="fi-from b">ファイル</span></div>
+            <div class="fi-desc">列名・データ型・エラー行番号・処理済みファイルパスを書き込む</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">④</div>
+          <div class="fi-body">
+            <div class="fi-title">NGパターン・改善履歴 <span class="fi-from r">レビュー</span></div>
+            <div class="fi-desc">「前回このフレーズがNGだった」「この構成は高評価」を蓄積して次回に活かす</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="share-card">
+        <div class="sc-header">
+          <div class="sc-icon">📥</div>
+          <div>
+            <div class="sc-title">各エージェントが「共有メモリから読む」情報</div>
+            <div class="sc-sub">Input from Shared Memory</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">①</div>
+          <div class="fi-body">
+            <div class="fi-title">ユーザーゴール・制約 <span class="fi-from p">全員</span></div>
+            <div class="fi-desc">「誰向けか」「NG表現」「ファイル保存先」「文体ルール」を毎回参照</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">②</div>
+          <div class="fi-body">
+            <div class="fi-title">前回のリサーチ結果 <span class="fi-from y">コンテンツ</span></div>
+            <div class="fi-desc">コンテンツ制作時にリサーチ結果を読み込み、根拠のある文章を生成する</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">③</div>
+          <div class="fi-body">
+            <div class="fi-title">NGパターン・過去の修正指示 <span class="fi-from y">コンテンツ</span> <span class="fi-from g">リサーチ</span></div>
+            <div class="fi-desc">過去にレビューで指摘された点を事前に回避して品質を底上げする</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="fi-num">④</div>
+          <div class="fi-body">
+            <div class="fi-title">ファイル構造・データ定義 <span class="fi-from y">コンテンツ</span> <span class="fi-from r">レビュー</span></div>
+            <div class="fi-desc">ファイル処理エージェントが書いたメタ情報を使って正確な文章・分析を生成</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEEDBACK LOOP -->
+  <div class="loop-section">
+    <div class="loop-title">♻️ フィードバックループ — 3つの修正サイクル</div>
+    <div class="loop-grid">
+
+      <div class="loop-item l1">
+        <div class="li-title">🔁 ループ①：即時修正ループ</div>
+        <div class="li-step">
+          <b>生成</b> → コンテンツエージェントが成果物を作成<br>
+          <b>採点</b> → 自己採点でスコアを付与（閾値:70点）<br>
+          <b>判定</b> → 70点未満なら自動で再生成（最大3回）<br>
+          <b>提出</b> → 70点以上でレビューエージェントへ渡す
+        </div>
+      </div>
+
+      <div class="loop-item l2">
+        <div class="li-title">🔁 ループ②：レビュー差し戻しループ</div>
+        <div class="li-step">
+          <b>検証</b> → レビューエージェントが成果物をチェック<br>
+          <b>判定</b> → OK → 総括へ / 要修正 → 差し戻し<br>
+          <b>修正</b> → 具体的な指示と共に元エージェントへ<br>
+          <b>蓄積</b> → NGパターンを共有メモリに追記して次回防止
+        </div>
+      </div>
+
+      <div class="loop-item l3">
+        <div class="li-title">🔁 ループ③：ユーザーフィードバックループ</div>
+        <div class="li-step">
+          <b>提案</b> → 総括エージェントが複数案を提示<br>
+          <b>選択</b> → ユーザーが選択 or 修正コメントを入力<br>
+          <b>学習</b> → コメントを共有メモリのルールとして追記<br>
+          <b>反映</b> → 次回以降の生成に自動反映（精度向上）
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CLAUDE.md -->
+  <div class="claudemd-section">
+    <h3>📄 CLAUDE.md — 共有メモリの実装（このフォルダに配置）</h3>
+    <pre>
+# AI組織 — 共有コンテキスト (CLAUDE.md)
+
+## ユーザー情報
+- 名前: MOON
+- 目的: マルチAIエージェントによるコンテンツ制作・リサーチ・ファイル処理の自動化
+
+## AI組織の役割
+- 総括エージェント: タスク分解・文脈引き渡し・成果統合・ユーザー提案
+- リサーチエージェント: WebSearch/WebFetchで情報収集 → サマリーを共有
+- コンテンツエージェント: SNS投稿・スライド・記事生成（スキルを活用）
+- ファイル処理エージェント: PDF/Excel/PPT変換・加工・データ抽出
+- レビューエージェント: 採点・差し戻し・NGパターン蓄積
+
+## 文体・トーンルール
+- 読者: 一般ビジネスパーソン〜AI活用に関心のある層
+- トーン: 親しみやすく、かつ信頼感のある専門的な文体
+- 文章: 体言止め・箇条書きを適度に使用
+
+## NGルール（レビュー指摘の蓄積）
+- （修正フィードバック後にここに追記していく）
+
+## 過去の生成物サマリー
+- AI組織設計図 v2（2026-03）: マルチエージェント構造 + フィードバックループ設計
+</pre>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="tools-section">
+    <h3>🛠️ 実装で使う武器（現在のCowork環境）</h3>
+    <div class="tools-grid">
+      <div class="tool-row">
+        <div class="t-icon">📄</div>
+        <div><div class="t-name">CLAUDE.md</div><div class="t-for">共有メモリ実装 — フォルダに配置するだけで全セッションに反映</div></div>
+      </div>
+      <div class="tool-row">
+        <div class="t-icon">⚡</div>
+        <div><div class="t-name">スキル（Skills）</div><div class="t-for">各エージェントの専門能力 — pptx/pdf/xlsx/SNS/Shorts等</div></div>
+      </div>
+      <div class="tool-row">
+        <div class="t-icon">🤖</div>
+        <div><div class="t-name">サブエージェント（Agent tool）</div><div class="t-for">並列処理・独立タスク委譲・レビュー用サブエージェント</div></div>
+      </div>
+      <div class="tool-row">
+        <div class="t-icon">🕐</div>
+        <div><div class="t-name">スケジュールタスク</div><div class="t-for">定期リサーチ・朝のサマリー生成・自動レポート</div></div>
+      </div>
+      <div class="tool-row">
+        <div class="t-icon">🌐</div>
+        <div><div class="t-name">WebSearch / WebFetch</div><div class="t-for">リサーチエージェントの情報収集エンジン</div></div>
+      </div>
+      <div class="tool-row">
+        <div class="t-icon">📬</div>
+        <div><div class="t-name">Gmail MCP</div><div class="t-for">メール検索・下書き作成・スレッド読み込み</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>AI組織設計図 v2 — 2026.03 — MOON × Claude</footer>
+</div>
+</body>
+</html>

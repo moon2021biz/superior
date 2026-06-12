@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>競合比較 × 改善提案レポート | MOON Projects 2026.03</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161b26;
+    --card: #1e2535;
+    --border: #2a3347;
+    --accent1: #4f8ef7;
+    --accent2: #f7934f;
+    --accent3: #4ff79a;
+    --accent4: #f74f7a;
+    --accent5: #c44ff7;
+    --text: #e4e8f0;
+    --text2: #8a95a8;
+    --text3: #c0c8d8;
+    --warn: #f7c34f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0d0f14 0%, #1a2040 50%, #0d0f14 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50px; left: -50px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: 10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(247,147,79,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .header-badge {
+    display: inline-block;
+    background: rgba(79,142,247,0.15);
+    border: 1px solid rgba(79,142,247,0.4);
+    color: var(--accent1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header-sub {
+    color: var(--text2);
+    font-size: 13px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text2);
+    font-size: 12px;
+  }
+  .meta-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent1);
+  }
+
+  /* Nav tabs */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    padding: 0 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent1);
+    border-bottom-color: var(--accent1);
+  }
+
+  /* Main layout */
+  .main { padding: 32px; max-width: 1200px; margin: 0 auto; }
+
+  /* Section */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Summary bar */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .summary-card.blue::before { background: var(--accent1); }
+  .summary-card.orange::before { background: var(--accent2); }
+  .summary-card.green::before { background: var(--accent3); }
+  .summary-card.red::before { background: var(--accent4); }
+  .summary-card.purple::before { background: var(--accent5); }
+  .summary-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; letter-spacing: 0.05em; }
+  .summary-value { font-size: 22px; font-weight: 700; color: #fff; }
+  .summary-desc { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .compare-table th {
+    background: var(--surface);
+    color: var(--text2);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+  .compare-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text3);
+    line-height: 1.6;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 2px;
+  }
+  .tag-good { background: rgba(79,247,154,0.15); color: var(--accent3); }
+  .tag-bad { background: rgba(247,79,122,0.15); color: var(--accent4); }
+  .tag-warn { background: rgba(247,195,79,0.15); color: var(--warn); }
+  .tag-info { background: rgba(79,142,247,0.15); color: var(--accent1); }
+
+  /* Score bar */
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .score-label { width: 100px; font-size: 12px; color: var(--text2); flex-shrink: 0; }
+  .score-bar-wrap {
+    flex: 1;
+    background: var(--border);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .score-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .score-val { width: 36px; text-align: right; font-size: 12px; font-weight: 600; color: var(--text); }
+
+  /* Proposal blocks */
+  .proposal {
+    border-left: 3px solid var(--accent1);
+    padding: 16px 20px;
+    background: rgba(79,142,247,0.05);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
+  .proposal.orange { border-left-color: var(--accent2); background: rgba(247,147,79,0.05); }
+  .proposal.green { border-left-color: var(--accent3); background: rgba(79,247,154,0.05); }
+  .proposal.red { border-left-color: var(--accent4); background: rgba(247,79,122,0.05); }
+  .proposal.purple { border-left-color: var(--accent5); background: rgba(196,79,247,0.05); }
+  .proposal-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .proposal-category {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent1);
+    text-transform: uppercase;
+  }
+  .proposal.orange .proposal-category { color: var(--accent2); }
+  .proposal.green .proposal-category { color: var(--accent3); }
+  .proposal.red .proposal-category { color: var(--accent4); }
+  .proposal.purple .proposal-category { color: var(--accent5); }
+  .proposal-title { font-size: 14px; font-weight: 700; color: #fff; }
+  .proposal-body { color: var(--text3); font-size: 13px; line-height: 1.7; }
+  .proposal-example {
+    margin-top: 10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text3);
+    font-style: italic;
+  }
+  .proposal-example strong { color: var(--warn); font-style: normal; }
+
+  /* Competitor profile */
+  .competitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .competitor-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .competitor-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .competitor-handle {
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 12px;
+  }
+  .competitor-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .stat { text-align: center; }
+  .stat-val { font-size: 16px; font-weight: 700; color: var(--accent1); }
+  .stat-label { font-size: 10px; color: var(--text2); }
+  .competitor-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+  .competitor-strength {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  /* Grid 2col */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Priority badge */
+  .priority {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .priority-high { background: rgba(247,79,122,0.2); color: var(--accent4); }
+  .priority-mid { background: rgba(247,195,79,0.2); color: var(--warn); }
+  .priority-low { background: rgba(79,247,154,0.2); color: var(--accent3); }
+
+  /* Hook examples */
+  .hook-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .hook-box .before { color: var(--accent4); font-weight: 600; font-size: 11px; margin-bottom: 4px; }
+  .hook-box .after { color: var(--accent3); font-weight: 600; font-size: 11px; margin-bottom: 4px; }
+  .hook-box .text { color: var(--text3); line-height: 1.5; }
+
+  /* Project switcher */
+  .pj-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .pj-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pj-btn:hover { color: var(--text); border-color: var(--text2); }
+  .pj-btn.active { background: var(--accent1); border-color: var(--accent1); color: #fff; }
+
+  /* PJ section */
+  .pj-section { display: none; }
+  .pj-section.active { display: block; }
+
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text3);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { margin-top: 2px; flex-shrink: 0; }
+
+  /* Platform badge */
+  .platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .platform-tiktok { background: rgba(0,0,0,0.5); color: #69c9d0; border: 1px solid #69c9d0; }
+  .platform-insta { background: rgba(193,53,132,0.2); color: #e1306c; border: 1px solid #e1306c; }
+  .platform-youtube { background: rgba(255,0,0,0.15); color: #ff4444; border: 1px solid #ff4444; }
+  .platform-note { background: rgba(79,79,247,0.15); color: #6b6bff; border: 1px solid #6b6bff; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text2);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-badge">🔍 競合比較 × 改善提案レポート</div>
+    <h1>SNSコンテンツ 他者比較分析<br>& 改善アクションプラン</h1>
+    <p class="header-sub">オギラボ / CARAS / SORA / SUPERIOR / 健康経営 ─ 全5プロジェクト対象</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="dot"></span>調査日: 2026年3月26日</div>
+      <div class="meta-item"><span class="dot" style="background:var(--accent2)"></span>対象媒体: TikTok / Instagram / YouTube / Note</div>
+      <div class="meta-item"><span class="dot" style="background:var(--accent3)"></span>分析軸: フック / 文面 / ビジュアル / 構成 / 投稿内容</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Nav -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('overview')">📊 全体サマリー</button>
+  <button class="tab-btn" onclick="switchTab('ogilab')">🏃 オギラボ</button>
+  <button class="tab-btn" onclick="switchTab('caras')">💪 CARAS</button>
+  <button class="tab-btn" onclick="switchTab('kids')">🏅 SORA / SUPERIOR</button>
+  <button class="tab-btn" onclick="switchTab('kenko')">🏢 健康経営</button>
+  <button class="tab-btn" onclick="switchTab('action')">🎯 アクションリスト</button>
+</div>
+
+<div class="main">
+
+<!-- ===== OVERVIEW ===== -->
+<div class="section active" id="tab-overview">
+
+  <div class="summary-bar">
+    <div class="summary-card blue">
+      <div class="summary-label">現在の最重要課題</div>
+      <div class="summary-value">フック</div>
+      <div class="summary-desc">冒頭3秒で離脱を止める設計が全PJ共通の弱点</div>
+    </div>
+    <div class="summary-card orange">
+      <div class="summary-label">オギラボ TikTok</div>
+      <div class="summary-value">888人</div>
+      <div class="summary-desc">目標1,000人まで あと112人</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">最大の差別化資産</div>
+      <div class="summary-value">オリンピアン</div>
+      <div class="summary-desc">リオ出場・棒高跳び専門性を前面に出せていない</div>
+    </div>
+    <div class="summary-card red">
+      <div class="summary-label">緊急改善</div>
+      <div class="summary-value">YouTube</div>
+      <div class="summary-desc">79人 → サムネ・タイトルが競合比較で大幅に見劣り</div>
+    </div>
+    <div class="summary-card purple">
+      <div class="summary-label">未着手PJ</div>
+      <div class="summary-value">2件</div>
+      <div class="summary-desc">SORA / SUPERIOR は今すぐアカウント設計が必要</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:rgba(79,142,247,0.15)">📋</div>
+      5プロジェクト × 5軸 評価マトリクス
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>プロジェクト</th>
+          <th>投稿内容</th>
+          <th>フック</th>
+          <th>文面・コピー</th>
+          <th>ビジュアル</th>
+          <th>構成</th>
+          <th>総合</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:#fff">オギラボ</strong><br><span style="font-size:11px;color:var(--text2)">TikTok/YouTube/Note</span></td>
+          <td><span class="tag tag-warn">要改善</span><br>テーマ分散気味</td>
+          <td><span class="tag tag-bad">弱い</span><br>冒頭が説明調</td>
+          <td><span class="tag tag-warn">普通</span><br>強みが埋もれている</td>
+          <td><span class="tag tag-warn">普通</span><br>サムネが弱い</td>
+          <td><span class="tag tag-warn">普通</span><br>流れが不統一</td>
+          <td><span style="color:var(--warn);font-weight:700">△ 要強化</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">CARAS</strong><br><span style="font-size:11px;color:var(--text2)">Instagram/TikTok</span></td>
+          <td><span class="tag tag-warn">普通</span><br>ビフォーアフター不足</td>
+          <td><span class="tag tag-warn">普通</span><br>悩み共感がやや弱い</td>
+          <td><span class="tag tag-good">良い</span><br>専門性が伝わる</td>
+          <td><span class="tag tag-bad">弱い</span><br>統一感が課題</td>
+          <td><span class="tag tag-warn">普通</span><br>CTA導線が不明確</td>
+          <td><span style="color:var(--warn);font-weight:700">△ 要強化</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">SORA</strong><br><span style="font-size:11px;color:var(--text2)">Instagram（予定）</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span style="color:var(--accent4);font-weight:700">✗ 未着手</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">SUPERIOR</strong><br><span style="font-size:11px;color:var(--text2)">Instagram（予定）</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span class="tag tag-bad">未着手</span></td>
+          <td><span style="color:var(--accent4);font-weight:700">✗ 未着手</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">健康経営</strong><br><span style="font-size:11px;color:var(--text2)">Note/LinkedIn（予定）</span></td>
+          <td><span class="tag tag-bad">設計前</span></td>
+          <td><span class="tag tag-bad">設計前</span></td>
+          <td><span class="tag tag-bad">設計前</span></td>
+          <td><span class="tag tag-bad">設計前</span></td>
+          <td><span class="tag tag-bad">設計前</span></td>
+          <td><span style="color:var(--text2);font-weight:700">─ 設計前</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><div class="icon" style="background:rgba(79,247,154,0.15)">✅</div>競合が徹底してやっていること</div>
+      <ul class="checklist">
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>冒頭0〜3秒で「誰に・何が得られるか」を言い切る</li>
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>サムネイルに数字（「3つのコツ」「10秒で変わる」）を必ず入れる</li>
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>ビフォーアフターを映像・写真で"視覚的に"証明する</li>
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>プロフィール・ハイライト・CTA（LINE/体験予約）の導線を統一</li>
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>投稿テーマを1つに絞り、アルゴリズムにジャンルを学習させる</li>
+        <li><span class="check-icon" style="color:var(--accent4)">●</span>コメントへの24時間以内の返信でエンゲージメントを維持</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon" style="background:rgba(247,79,122,0.15)">🚫</div>競合がやっていないこと（差別化チャンス）</div>
+      <ul class="checklist">
+        <li><span class="check-icon" style="color:var(--accent3)">▶</span>オリンピアンとしての「一次情報」「体験談」を深堀り発信</li>
+        <li><span class="check-icon" style="color:var(--accent3)">▶</span>科学的根拠（バイオメカニクス）を"わかりやすく"映像で解説</li>
+        <li><span class="check-icon" style="color:var(--accent3)">▶</span>「子どもの変化を親の視点で記録」するシリーズコンテンツ</li>
+        <li><span class="check-icon" style="color:var(--accent3)">▶</span>「オリンピック選手が教える健康経営」の法人向け切り口</li>
+        <li><span class="check-icon" style="color:var(--accent3)">▶</span>AI×スポーツ指導の組み合わせ（完全ブルーオーシャン）</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /overview -->
+
+
+<!-- ===== OGILAB ===== -->
+<div class="section" id="tab-ogilab">
+
+  <div class="summary-bar">
+    <div class="summary-card orange">
+      <div class="summary-label">TikTok フォロワー</div>
+      <div class="summary-value">888人</div>
+      <div class="summary-desc">目標1,000人まで残り112人</div>
+    </div>
+    <div class="summary-card red">
+      <div class="summary-label">YouTube 登録者</div>
+      <div class="summary-value">79人</div>
+      <div class="summary-desc">動画10本 / 最大の改善余地あり</div>
+    </div>
+    <div class="summary-card blue">
+      <div class="summary-label">主要競合 フォロワー帯</div>
+      <div class="summary-value">1〜10万</div>
+      <div class="summary-desc">同ジャンルの上位アカウント水準</div>
+    </div>
+  </div>
+
+  <!-- 競合比較 -->
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(247,147,79,0.15)">🏃</div>競合アカウント分析</div>
+    <div class="competitor-grid">
+
+      <div class="competitor-card">
+        <div class="competitor-name">土田ゆうや（ストレスフリートレーナー）</div>
+        <div class="competitor-handle">📸 Instagram / TikTok</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">10万+</div><div class="stat-label">フォロワー</div></div>
+          <div class="stat"><div class="stat-val">3-4日</div><div class="stat-label">投稿頻度</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-good">ビジネスパーソン向け</span>
+          <span class="tag tag-good">コンビニ食×ダイエット</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 日常に根ざした「すぐ使える」情報。抽象論ゼロ。コメント返信でエンゲージ維持。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> 専門性・希少性が低い。誰でも発信できる内容。
+        </div>
+      </div>
+
+      <div class="competitor-card">
+        <div class="competitor-name">俊足塾（長谷川大竜）</div>
+        <div class="competitor-handle">📸 Instagram / 🎵 TikTok</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">数千〜<br>1万</div><div class="stat-label">フォロワー</div></div>
+          <div class="stat"><div class="stat-val">週複数</div><div class="stat-label">投稿頻度</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-good">かけっこ教室</span>
+          <span class="tag tag-good">SNSコーチ月1500円</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> ローカル教室+オンライン指導の組み合わせ。月額低価格でファンを広範囲に獲得。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> オリンピアンのような圧倒的な実績・信頼性はない。
+        </div>
+      </div>
+
+      <div class="competitor-card">
+        <div class="competitor-name">堀米雄斗（スケートボード金メダリスト）</div>
+        <div class="competitor-handle">🎵 TikTok</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">70万+</div><div class="stat-label">2ヶ月で獲得</div></div>
+          <div class="stat"><div class="stat-val">競技映像</div><div class="stat-label">コンテンツ</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-good">オリンピック金メダル</span>
+          <span class="tag tag-good">競技の迫力映像</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 競技の圧倒的なビジュアルインパクト。「本物」の説得力。開始2ヶ月で70万人。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> 金メダリストという知名度前提。おぎぃ。との差は「知名度」のみ。
+        </div>
+      </div>
+
+      <div class="competitor-card">
+        <div class="competitor-name">AI×ビジネス系発信者（上位帯）</div>
+        <div class="competitor-handle">🎵 TikTok / 📸 Instagram</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">1〜10万</div><div class="stat-label">フォロワー</div></div>
+          <div class="stat"><div class="stat-val">毎日</div><div class="stat-label">投稿頻度</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-warn">AI活用術</span>
+          <span class="tag tag-warn">副業×AI</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 「時短・工数削減・収益」の数値化が明確。フックが洗練されている。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> レッドオーシャン。差別化軸がない発信者は埋もれている。
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5軸改善提案 -->
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(79,247,154,0.15)">💡</div>オギラボ 5軸改善提案（競合比較ベース）</div>
+
+    <div class="proposal">
+      <div class="proposal-head">
+        <span class="proposal-category">① 投稿内容</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「オリンピアン×身体科学」に完全特化する</div>
+      <div class="proposal-body">
+        競合（AI発信者・一般トレーナー）が持っていない唯一の資産は<strong style="color:#fff">「リオ五輪出場・バイオメカニクスの専門家」</strong>という実績。
+        現状はAI活用・ビジネス・スポーツと分散しており、アルゴリズムがジャンルを学習できていない。
+        テーマを<strong style="color:#fff">「身体と動きの科学」→「子どもの運動・かけっこ」→「アスリート思考のビジネス転用」</strong>の3軸に絞り、毎週のテーマローテーションを設計する。
+      </div>
+      <div class="proposal-example">
+        競合: 「AIで業務効率化！○選」（汎用・差別化なし）<br>
+        <strong>おぎぃ。版: 「オリンピック選手が実践してた"集中力の作り方"をビジネスに転用したら…」</strong>
+      </div>
+    </div>
+
+    <div class="proposal orange">
+      <div class="proposal-head">
+        <span class="proposal-category">② フック（冒頭0〜3秒）</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「なぜ私が言えるか」を0秒で証明する</div>
+      <div class="proposal-body">
+        競合のトップアカウントは冒頭3秒で視聴者の「これは自分に関係ある」をトリガーする。
+        現状のオギラボは説明から入ることが多く、離脱率が高い構造。
+        TikTok冒頭は<strong style="color:#fff">「衝撃の事実 or 強烈な問いかけ or 数字の提示」</strong>のいずれかで始める。
+      </div>
+      <div class="proposal-example">
+        <div class="hook-box">
+          <div class="before">❌ 現状（説明型）</div>
+          <div class="text">「今日は子どもの足が速くなる方法について解説していきたいと思います」</div>
+        </div>
+        <div class="hook-box" style="margin-top:8px">
+          <div class="after">✅ 改善後（フック型）</div>
+          <div class="text">「<strong>リオ五輪で気づいた、足が遅い子に共通する"あること"</strong>。知らないと、どれだけ練習しても速くならない」</div>
+        </div>
+        <div class="hook-box" style="margin-top:8px">
+          <div class="after">✅ パターン2（数字型）</div>
+          <div class="text">「<strong>1ヶ月で50m走を0.8秒縮めた</strong>子が、唯一変えたことがある」</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proposal green">
+      <div class="proposal-head">
+        <span class="proposal-category">③ 文面・コピーライティング</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「等身大×数字×実証型」テンプレートを導入する</div>
+      <div class="proposal-body">
+        2026年最高エンゲージメントの文言パターンは<strong style="color:#fff">「等身大 × 数字 × 実証」</strong>の組み合わせ。
+        Note・キャプションの文章を「結論先出し → 根拠（科学 or 体験） → 具体的行動」の構造で統一する。
+        キャプションにはSEOキーワード（「子ども 走り方」「かけっこ 速くなる」）を自然に織り込む。
+      </div>
+      <div class="proposal-example">
+        <strong>Noteタイトル改善例:</strong><br>
+        ❌「走り方のコツについて」<br>
+        ✅「<strong>リオ五輪選手が断言する「足が速い子の親」が絶対やっていること3つ</strong>」
+      </div>
+    </div>
+
+    <div class="proposal red">
+      <div class="proposal-head">
+        <span class="proposal-category">④ ビジュアル・サムネイル</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「数字 + 表情 + 対比」のサムネ公式を採用する</div>
+      <div class="proposal-body">
+        YouTube登録者79人の最大要因はサムネイルの訴求力不足。競合の上位動画サムネは
+        <strong style="color:#fff">「大きな数字 / 驚いた表情 / ビフォーアフター対比 / 赤・黄・白の配色」</strong>の組み合わせ。
+        TikTokは統一したカラーパレット（背景色・テロップ色）でアカウントの認知を高める。
+      </div>
+      <div class="proposal-example">
+        <strong>YouTube サムネ公式:</strong><br>
+        「<strong>【0.8秒速くなった】</strong>（大文字・赤）＋ おぎぃ。の驚き顔 ＋「たった1つのポイント」（白テキスト）」<br><br>
+        <strong>TikTok ビジュアル統一案:</strong><br>
+        背景: 深いネイビー / テロップ: 白+黄色 / ロゴ: 右下固定
+      </div>
+    </div>
+
+    <div class="proposal purple">
+      <div class="proposal-head">
+        <span class="proposal-category">⑤ 構成（動画・投稿の流れ）</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「フック → 問題提起 → 解決策 → 証拠 → CTA」の5段構造を全投稿に適用</div>
+      <div class="proposal-body">
+        競合上位アカウントは投稿の流れが完全にパターン化されており、視聴者が「次に何が来るか」を心地よく予測できる。
+        オギラボはこの構造が不統一で、動画によってバラつきがある。
+        TikTok 60〜90秒版の構成テンプレートを固定し、全動画で使い回す。
+      </div>
+      <div class="proposal-example">
+        <strong>TikTok 90秒テンプレート:</strong><br>
+        0〜5秒: フック（結論 or 驚き事実）<br>
+        5〜15秒: 「なぜこの話をするか」（自己紹介・権威付け）<br>
+        15〜60秒: 解決策を3ステップで解説（テロップ必須）<br>
+        60〜75秒: 証拠・事例（子どもの変化 / 数字）<br>
+        75〜90秒: CTA（「フォローすると毎週届きます」「プロフのリンクから体験申込」）
+      </div>
+    </div>
+  </div>
+
+</div><!-- /ogilab -->
+
+
+<!-- ===== CARAS ===== -->
+<div class="section" id="tab-caras">
+
+  <div class="summary-bar">
+    <div class="summary-card blue">
+      <div class="summary-label">メイン媒体</div>
+      <div class="summary-value">Instagram</div>
+      <div class="summary-desc">保存率3%以上がバズ基準（2026年）</div>
+    </div>
+    <div class="summary-card orange">
+      <div class="summary-label">競合 参考アカウント</div>
+      <div class="summary-value">10万人規模</div>
+      <div class="summary-desc">ビジネスパーソン向けパーソナルジム</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">最大の差別化</div>
+      <div class="summary-value">元五輪選手</div>
+      <div class="summary-desc">一般トレーナーにない信頼性</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(247,147,79,0.15)">💪</div>CARAS 5軸改善提案</div>
+
+    <div class="proposal">
+      <div class="proposal-head">
+        <span class="proposal-category">① 投稿内容</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">ビフォーアフターを投稿の核心に据える</div>
+      <div class="proposal-body">
+        パーソナルジム分野で最もコンバージョンに直結するのは<strong style="color:#fff">ビジュアルなビフォーアフター</strong>。
+        「本当に変われるんだ」という視覚的証明が体験予約を生む。
+        現状の投稿は知識・情報寄りで、成果の視覚化が不足。週1本はビフォーアフター事例を投稿する。
+      </div>
+      <div class="proposal-example">
+        <strong>投稿テーマ比率（推奨）:</strong><br>
+        ビフォーアフター: 30% / 知識・Tips: 30% / 日常・密着: 20% / お客様の声: 20%
+      </div>
+    </div>
+
+    <div class="proposal orange">
+      <div class="proposal-head">
+        <span class="proposal-category">② フック</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「30代男性のリアルな悩み」を冒頭に全面に出す</div>
+      <div class="proposal-body">
+        ターゲットが共感する具体的な悩みから始めると保存率が上がる。
+        「食事制限してるのに体重が落ちない」「運動する時間が取れない」などのリアルな声を
+        冒頭カルーセル1枚目に大きく出す設計が競合上位の定番。
+      </div>
+      <div class="proposal-example">
+        ❌「パーソナルトレーニングのご案内です」<br>
+        ✅「<strong>週2回だけ。仕事しながら-8kg達成した43歳男性がやったこと</strong>」
+      </div>
+    </div>
+
+    <div class="proposal green">
+      <div class="proposal-head">
+        <span class="proposal-category">③ 文面</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">キャプションSEOを導入する</div>
+      <div class="proposal-body">
+        2026年InstagramはAIがキャプションのテキストも読んで配信先を最適化する。
+        「パーソナルジム 兵庫」「40代 ダイエット」「ビジネスパーソン 体型管理」などの
+        ローカル+ニーズキーワードをキャプションに自然に組み込む。
+      </div>
+    </div>
+
+    <div class="proposal red">
+      <div class="proposal-head">
+        <span class="proposal-category">④ ビジュアル</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">統一カラーパレット + フォントルールを制定する</div>
+      <div class="proposal-body">
+        競合の成功アカウントはプロフィールを見た瞬間に「このアカウントの世界観」が伝わる
+        統一されたビジュアルデザインを持っている。現状のCARASは投稿ごとにデザインがバラつき、
+        プロフィールの印象が弱い。<strong style="color:#fff">メインカラー2色・フォント1種・余白ルール</strong>を固定する。
+      </div>
+      <div class="proposal-example">
+        <strong>推奨カラーセット（案）:</strong><br>
+        メイン: ブラック/ダークネイビー（高級感・信頼感）<br>
+        アクセント: ゴールドまたはホワイト<br>
+        → 「結果を出すプロフェッショナル」のブランドイメージ
+      </div>
+    </div>
+
+    <div class="proposal purple">
+      <div class="proposal-head">
+        <span class="proposal-category">⑤ 構成・CTA</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「見る → 保存 → 予約」の導線を1投稿で完結させる</div>
+      <div class="proposal-body">
+        カルーセル最終スライドに必ずCTAを入れる。「体験トレーニング無料」「LINE登録で詳細」など、
+        次のアクションを1つだけ提示する。競合はプロフィールのリンクツリーも整理されており、
+        投稿→プロフィール→予約の流れが3タップ以内で完結する。
+      </div>
+    </div>
+  </div>
+
+</div><!-- /caras -->
+
+
+<!-- ===== KIDS ===== -->
+<div class="section" id="tab-kids">
+
+  <div class="summary-bar">
+    <div class="summary-card red">
+      <div class="summary-label">現在の状態</div>
+      <div class="summary-value">未着手</div>
+      <div class="summary-desc">今すぐアカウント設計が必要</div>
+    </div>
+    <div class="summary-card blue">
+      <div class="summary-label">ターゲットの意思決定者</div>
+      <div class="summary-value">30〜45歳保護者</div>
+      <div class="summary-desc">Instagram利用率が高い層</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">競合の手薄ジャンル</div>
+      <div class="summary-value">科学×かけっこ</div>
+      <div class="summary-desc">バイオメカニクスを子ども向けに解説する発信者はほぼゼロ</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(196,79,247,0.15)">🏅</div>SORA / SUPERIOR 競合アカウント分析</div>
+
+    <div class="competitor-grid">
+      <div class="competitor-card">
+        <div class="competitor-name">俊足塾（長谷川大竜）</div>
+        <div class="competitor-handle">📸 Instagram / 🎵 TikTok</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">数千〜<br>1万</div><div class="stat-label">フォロワー</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-good">かけっこ教室</span>
+          <span class="tag tag-good">SNSで月1500円指導</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 低価格SNS指導でファンを全国規模で獲得。練習動画の解説が丁寧。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> 科学的根拠が薄い。「なぜそうなのか」の解説が感覚的。
+        </div>
+      </div>
+
+      <div class="competitor-card">
+        <div class="competitor-name">子どもスポーツ系アカウント全般</div>
+        <div class="competitor-handle">📸 Instagram 中心</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">〜5千</div><div class="stat-label">フォロワー</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-warn">練習風景</span>
+          <span class="tag tag-warn">大会結果</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 地域コミュニティへのリーチ。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> 「保護者が保存したくなる情報」がない。再生されても記憶に残らない。
+        </div>
+      </div>
+
+      <div class="competitor-card">
+        <div class="competitor-name">日テレ運営 かけっこ教室</div>
+        <div class="competitor-handle">🌐 Web / YouTube</div>
+        <div class="competitor-stats">
+          <div class="stat"><div class="stat-val">一流コーチ</div><div class="stat-label">個人指導</div></div>
+        </div>
+        <div class="competitor-tags">
+          <span class="tag tag-good">ブランド力あり</span>
+        </div>
+        <div class="competitor-strength">
+          <strong style="color:var(--accent3)">強み:</strong> 日テレブランド × 一流コーチの組み合わせ。<br>
+          <strong style="color:var(--accent4)">弱み:</strong> 高価格・SNSがほぼない・地域限定。おぎぃ。の優位性は「価格と親近感」。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(196,79,247,0.15)">💡</div>SORA / SUPERIOR 5軸改善提案</div>
+
+    <div class="proposal purple">
+      <div class="proposal-head">
+        <span class="proposal-category">① 投稿内容</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「子どもの変化を記録するシリーズ」を主軸にする</div>
+      <div class="proposal-body">
+        保護者が最も反応するコンテンツは<strong style="color:#fff">「入会前 → 3ヶ月後の変化」</strong>を記録した成長ドキュメント。
+        競合はほぼやっていないブルーオーシャン。個人を特定しない形（後ろ姿・タイムだけ）でも十分機能する。
+        入会者の許可を得た上でシリーズ化し、「あの子は今どうなった？」という継続視聴を作る。
+      </div>
+      <div class="proposal-example">
+        シリーズ案: 「#SORA成長記録」<br>
+        第1話「50m走9.2秒だった〇〇くん、3ヶ月後…」<br>
+        第2話「運動が嫌いだった子が、大会に出たいと言い始めた理由」
+      </div>
+    </div>
+
+    <div class="proposal orange">
+      <div class="proposal-head">
+        <span class="proposal-category">② フック（保護者向け）</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「うちの子だ」と思わせる悩みから始める</div>
+      <div class="proposal-body">
+        保護者がInstagramで足を止めるのは「自分の子どもの悩みそのもの」が出てきたとき。
+        「運動会でビリだった」「体育が嫌いで…」など、実際の保護者の声をフックに使う。
+      </div>
+      <div class="proposal-example">
+        ✅「<strong>「走るのが嫌い」と言っていた小学3年生が、半年で学年1位になった話</strong>」<br>
+        ✅「<strong>親がやりがちな「声かけの間違い」3選。これ言ってませんか？</strong>」
+      </div>
+    </div>
+
+    <div class="proposal green">
+      <div class="proposal-head">
+        <span class="proposal-category">③ 文面</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「オリンピック選手監修」の権威性を必ず入れる</div>
+      <div class="proposal-body">
+        プロフィール・投稿キャプション・サムネの全てに「元オリンピック代表・荻田大樹が指導」という
+        事実を入れる。一般の「元陸上部」コーチとの最大の違いがここ。競合にはない圧倒的な信頼性。
+      </div>
+    </div>
+
+    <div class="proposal red">
+      <div class="proposal-head">
+        <span class="proposal-category">④ ビジュアル</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">練習風景の動画に「解説テロップ」を必ず入れる</div>
+      <div class="proposal-body">
+        競合の子どもスポーツアカウントは練習風景をそのまま投稿するだけで「なぜそれが効果的か」の
+        説明がない。視聴者に「保存する理由」を与えるために、動画に科学的根拠のテロップを入れる。
+        「腕振りの角度が重要な理由」「スタートの姿勢で0.3秒変わる」など。
+      </div>
+    </div>
+
+    <div class="proposal">
+      <div class="proposal-head">
+        <span class="proposal-category">⑤ 構成</span>
+        <span class="priority priority-low">🟢 推奨</span>
+      </div>
+      <div class="proposal-title">SORA / SUPERIOR をアカウントで差別化する</div>
+      <div class="proposal-body">
+        姉妹クラブとして別アカウントで運営するなら、コンテンツの差別化が必要。
+        <strong style="color:#fff">SORA = 初心者・楽しさ重視</strong>のトーン、<strong style="color:#fff">SUPERIOR = 本気・競技志向</strong>のトーンで設計し、
+        フォロワー層を意図的に分けることで相互送客が機能する。
+      </div>
+      <div class="proposal-example">
+        SORA: 「走ることが好きになる教室」→ 温かみのあるビジュアル・体験会重視<br>
+        SUPERIOR: 「タイムで証明する教室」→ データ・記録・大会実績重視
+      </div>
+    </div>
+  </div>
+
+</div><!-- /kids -->
+
+
+<!-- ===== KENKO ===== -->
+<div class="section" id="tab-kenko">
+
+  <div class="summary-bar">
+    <div class="summary-card blue">
+      <div class="summary-label">フェーズ</div>
+      <div class="summary-value">設計期</div>
+      <div class="summary-desc">B2B向けSNSはNote/LinkedIn中心</div>
+    </div>
+    <div class="summary-card orange">
+      <div class="summary-label">最有効コンテンツ</div>
+      <div class="summary-value">事例記事</div>
+      <div class="summary-desc">「導入企業の数値変化」が最強コンテンツ</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(79,142,247,0.15)">🏢</div>健康経営 SNS / コンテンツ改善提案</div>
+
+    <div class="proposal">
+      <div class="proposal-head">
+        <span class="proposal-category">① 投稿内容（Note中心）</span>
+        <span class="priority priority-high">🔴 最優先</span>
+      </div>
+      <div class="proposal-title">「中小企業の健康経営 導入事例」を定期発信する</div>
+      <div class="proposal-body">
+        B2B分野で最も見込み客を動かすのは<strong style="color:#fff">「自社と同規模の会社が導入して変わった」</strong>という事例。
+        競合他社が出していない「従業員50〜200名規模の中小企業リアル事例」を独占的に発信する。
+        オギラボでの発信 → 健康経営の問い合わせ というシナジーフローを設計。
+      </div>
+      <div class="proposal-example">
+        Noteタイトル案:<br>
+        「従業員80名の製造業が健康経営を始めて1年後、離職率が○%下がった話」<br>
+        「社長1人でできる健康経営の始め方（コスト○万円以下で）」
+      </div>
+    </div>
+
+    <div class="proposal orange">
+      <div class="proposal-head">
+        <span class="proposal-category">② フック（法人決裁者向け）</span>
+        <span class="priority priority-mid">🟡 優先</span>
+      </div>
+      <div class="proposal-title">「コスト・リスク・数字」を冒頭に出す</div>
+      <div class="proposal-body">
+        法人の意思決定者（経営者・人事）が反応するのは<strong style="color:#fff">「数字・ROI・リスク回避」</strong>。
+        感情訴求より論理訴求が効く。「健康経営未導入の会社が3年後に直面する問題」という
+        危機感喚起型のフックが有効。
+      </div>
+      <div class="proposal-example">
+        ✅「<strong>社員の医療費が年間○万円増加。中小企業が今すぐ始めるべき健康投資の話</strong>」<br>
+        ✅「<strong>優秀な人材が「健康経営」を軸に就職先を選ぶ時代が来ている</strong>」
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /kenko -->
+
+
+<!-- ===== ACTION LIST ===== -->
+<div class="section" id="tab-action">
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(79,247,154,0.15)">🎯</div>全プロジェクト 優先アクションリスト（今週〜来月）</div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>優先度</th>
+          <th>プロジェクト</th>
+          <th>アクション</th>
+          <th>媒体</th>
+          <th>期待効果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--text2)">1</td>
+          <td><span class="priority priority-high">🔴 今週</span></td>
+          <td><strong style="color:#fff">オギラボ</strong></td>
+          <td>TikTokフック改善: 冒頭3秒を「オリンピアン×驚き事実」型に切り替える</td>
+          <td><span class="platform platform-tiktok">TikTok</span></td>
+          <td>視聴完了率↑ → フォロワー1000人達成</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">2</td>
+          <td><span class="priority priority-high">🔴 今週</span></td>
+          <td><strong style="color:#fff">オギラボ</strong></td>
+          <td>YouTubeサムネを「数字+表情+対比」公式に全本リデザイン</td>
+          <td><span class="platform platform-youtube">YouTube</span></td>
+          <td>クリック率3〜5倍改善</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">3</td>
+          <td><span class="priority priority-high">🔴 今週</span></td>
+          <td><strong style="color:#fff">CARAS</strong></td>
+          <td>ビフォーアフター投稿を1本作成・投稿（既存顧客の許可取り）</td>
+          <td><span class="platform platform-insta">Instagram</span></td>
+          <td>保存率・問い合わせ率の改善</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">4</td>
+          <td><span class="priority priority-mid">🟡 来週</span></td>
+          <td><strong style="color:#fff">オギラボ</strong></td>
+          <td>投稿テーマを3軸（身体科学/かけっこ/ビジネス転用）に固定・月間カレンダー作成</td>
+          <td><span class="platform platform-tiktok">TikTok</span><span class="platform platform-insta">Instagram</span></td>
+          <td>アルゴリズム学習の安定化</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">5</td>
+          <td><span class="priority priority-mid">🟡 来週</span></td>
+          <td><strong style="color:#fff">CARAS</strong></td>
+          <td>統一カラーパレット（2色+フォント1種）を決定し、テンプレート化</td>
+          <td><span class="platform platform-insta">Instagram</span></td>
+          <td>プロフィールの第一印象強化</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">6</td>
+          <td><span class="priority priority-mid">🟡 今月中</span></td>
+          <td><strong style="color:#fff">SORA/SUPERIOR</strong></td>
+          <td>Instagramアカウント開設・プロフィール設計（権威性＋ターゲット明示）</td>
+          <td><span class="platform platform-insta">Instagram</span></td>
+          <td>会員募集の起点を作る</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">7</td>
+          <td><span class="priority priority-mid">🟡 今月中</span></td>
+          <td><strong style="color:#fff">SORA/SUPERIOR</strong></td>
+          <td>「子どもの変化記録」シリーズ1話目を撮影・投稿</td>
+          <td><span class="platform platform-insta">Instagram</span><span class="platform platform-tiktok">TikTok</span></td>
+          <td>保護者層へのリーチ開始</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">8</td>
+          <td><span class="priority priority-low">🟢 来月</span></td>
+          <td><strong style="color:#fff">オギラボ</strong></td>
+          <td>Note記事を「等身大×数字×実証型」タイトルで月2本投稿開始</td>
+          <td><span class="platform platform-note">Note</span></td>
+          <td>サロン集客の母数作り</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">9</td>
+          <td><span class="priority priority-low">🟢 来月</span></td>
+          <td><strong style="color:#fff">健康経営</strong></td>
+          <td>「中小企業の健康経営事例」をNote記事として1本作成（オギラボで告知）</td>
+          <td><span class="platform platform-note">Note</span></td>
+          <td>B2B問い合わせの起点</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text2)">10</td>
+          <td><span class="priority priority-low">🟢 継続</span></td>
+          <td><strong style="color:#fff">全PJ</strong></td>
+          <td>毎週月曜 ogilab-buzz-research の結果をCONTEXT.mdに反映 → 投稿テーマに転用</td>
+          <td>全媒体</td>
+          <td>競合比較の継続的な改善サイクル</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><div class="icon" style="background:rgba(247,79,122,0.15)">⚡</div>共通 NGパターン（全PJ）</div>
+      <ul class="checklist">
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>説明から始まる冒頭（「今日は〜について解説します」）</li>
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>抽象的な価値訴求（「一緒に成長しましょう」）</li>
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>数字のない主張（「効果があります」）</li>
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>テーマがバラバラな投稿（アルゴリズムが学習できない）</li>
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>CTAなし・プロフリンク未整備のまま投稿</li>
+        <li><span class="check-icon" style="color:var(--accent4)">✗</span>競合が既に飽和しているジャンルでの汎用情報発信</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon" style="background:rgba(79,247,154,0.15)">🏆</div>共通 GOパターン（全PJ）</div>
+      <ul class="checklist">
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>冒頭3秒: 数字 or 問いかけ or 衝撃事実</li>
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>「オリンピアン監修」の権威性を必ず入れる</li>
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>テーマを1軸に絞って週単位でローテーション</li>
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>ビフォーアフター・変化の可視化を週1回以上</li>
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>毎投稿の最後にCTA（LINE/体験/フォロー）を1つだけ</li>
+        <li><span class="check-icon" style="color:var(--accent3)">✓</span>コメントへの24時間以内返信でエンゲージメント維持</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /action -->
+
+</div><!-- /main -->
+
+<div class="footer">
+  MOON Projects — 競合比較 & 改善提案レポート v1.0 | 2026.03.26<br>
+  <span style="opacity:0.5">Generated by AI組織 (Claude Sonnet 4.6)</span>
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

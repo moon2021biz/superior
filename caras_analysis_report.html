@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARAS 課題分析レポート | 2026-03</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --dark: #0D0D0D;
+    --dark2: #141414;
+    --dark3: #1C1C1C;
+    --red: #E05252;
+    --green: #52C47A;
+    --blue: #5299E0;
+    --yellow: #E0C352;
+    --text: #F0EDE6;
+    --muted: #888;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .header {
+    background: linear-gradient(135deg, #0D0D0D 0%, #1A1208 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    padding: 48px 40px 40px;
+  }
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 4px 14px;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--gold); }
+  .header-sub {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 40px 80px; }
+
+  /* ===== SECTION ===== */
+  .section { margin-bottom: 56px; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ===== KPI CARDS ===== */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .kpi-card {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .kpi-card.warn { border-color: rgba(224,82,82,0.3); background: rgba(224,82,82,0.05); }
+  .kpi-card.ok { border-color: rgba(82,196,122,0.3); background: rgba(82,196,122,0.05); }
+  .kpi-num {
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .kpi-card.warn .kpi-num { color: var(--red); }
+  .kpi-card.ok .kpi-num { color: var(--green); }
+  .kpi-card .kpi-num { color: var(--gold); }
+  .kpi-label { font-size: 11px; color: var(--muted); }
+  .kpi-note { font-size: 10px; color: var(--red); margin-top: 4px; }
+
+  /* ===== ISSUE CARDS ===== */
+  .issue-list { display: flex; flex-direction: column; gap: 16px; }
+  .issue-card {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .issue-card.critical { border-left: 3px solid var(--red); }
+  .issue-card.major { border-left: 3px solid var(--yellow); }
+  .issue-card.minor { border-left: 3px solid var(--blue); }
+  .issue-num {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 4px;
+  }
+  .issue-card.critical .issue-num { color: var(--red); }
+  .issue-card.major .issue-num { color: var(--yellow); }
+  .issue-card.minor .issue-num { color: var(--blue); }
+  .issue-severity {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .issue-card.critical .issue-severity { color: var(--red); }
+  .issue-card.major .issue-severity { color: var(--yellow); }
+  .issue-card.minor .issue-severity { color: var(--blue); }
+  .issue-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .issue-desc { font-size: 13px; color: #BBB; line-height: 1.8; }
+  .issue-evidence {
+    margin-top: 10px;
+    font-size: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--muted);
+    border-left: 2px solid rgba(255,255,255,0.15);
+  }
+  .issue-evidence strong { color: var(--text); }
+
+  /* ===== COMPETITOR TABLE ===== */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .comp-table th {
+    background: var(--dark3);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .comp-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .comp-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .badge-red { background: rgba(224,82,82,0.2); color: var(--red); }
+  .badge-green { background: rgba(82,196,122,0.2); color: var(--green); }
+  .badge-gold { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .badge-blue { background: rgba(82,153,224,0.2); color: var(--blue); }
+
+  /* ===== BUZZ RESEARCH ===== */
+  .buzz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .buzz-card {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .buzz-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .buzz-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .buzz-rank {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 28px;
+    text-align: center;
+  }
+  .buzz-content { font-size: 13px; color: #CCC; line-height: 1.6; }
+  .buzz-content strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+  /* ===== ACTION PLAN ===== */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .plan-card {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .plan-phase {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .plan-card:nth-child(1) .plan-phase { color: var(--red); }
+  .plan-card:nth-child(2) .plan-phase { color: var(--yellow); }
+  .plan-card:nth-child(3) .plan-phase { color: var(--green); }
+  .plan-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .plan-period {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .plan-items { list-style: none; }
+  .plan-items li {
+    font-size: 13px;
+    color: #CCC;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 8px;
+    line-height: 1.5;
+  }
+  .plan-items li::before { content: "→"; color: var(--gold); flex-shrink: 0; }
+
+  /* ===== FUNNEL ===== */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .funnel-step {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 18px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .funnel-step:first-child { border-radius: 12px 12px 0 0; }
+  .funnel-step:last-child { border-radius: 0 0 12px 12px; }
+  .funnel-step::after {
+    content: "▼";
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--gold);
+    font-size: 14px;
+    z-index: 2;
+  }
+  .funnel-step:last-child::after { display: none; }
+  .funnel-label { font-size: 11px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 4px; }
+  .funnel-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .funnel-desc { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .funnel-step.highlight { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.06); }
+  .funnel-step.highlight .funnel-title { color: var(--gold); }
+
+  .summary-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 24px;
+  }
+  .summary-box h3 { color: var(--gold); font-size: 15px; margin-bottom: 12px; }
+  .summary-box p { font-size: 13px; color: #CCC; line-height: 1.9; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">CARAS Strategic Analysis 2026.03</div>
+  <h1>CARAS <span>課題分析 & 対策レポート</span></h1>
+  <p class="header-sub">競合調査・バズ研究・SNS現状分析をもとに課題を洗い出し、優先アクションを提示</p>
+</div>
+
+<div class="container">
+
+  <!-- ===== SNS現状 ===== -->
+  <div class="section">
+    <div class="section-label">Current Status</div>
+    <div class="section-title">SNS現状スコアカード</div>
+    <div class="kpi-grid">
+      <div class="kpi-card warn">
+        <span class="kpi-num">68</span>
+        <div class="kpi-label">Instagram フォロワー</div>
+        <div class="kpi-note">⚠ 81投稿で68人は異常</div>
+      </div>
+      <div class="kpi-card warn">
+        <span class="kpi-num">23</span>
+        <div class="kpi-label">TikTok フォロワー</div>
+        <div class="kpi-note">⚠ ほぼ機能していない</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num">81</span>
+        <div class="kpi-label">Instagram 投稿数</div>
+      </div>
+      <div class="kpi-card ok">
+        <span class="kpi-num">100%</span>
+        <div class="kpi-label">顧客継続率</div>
+      </div>
+    </div>
+    <div class="summary-box">
+      <h3>📌 現状の核心問題</h3>
+      <p>81投稿してフォロワー68人は「投稿量 ÷ フォロワー = 1.19」という異常値。通常の地域密着パーソナルジムなら20〜50投稿で数百フォロワーは到達できる。<br>
+      原因は明確：<strong>コンテンツがターゲットと完全に噛み合っていない。</strong>アスリート・競技者向けの技術投稿では、ゴルファー・マダム層は「自分ごと」に感じられない。</p>
+    </div>
+  </div>
+
+  <!-- ===== 課題 ===== -->
+  <div class="section">
+    <div class="section-label">Problem Analysis</div>
+    <div class="section-title">課題一覧（重要度順）</div>
+    <div class="issue-list">
+
+      <div class="issue-card critical">
+        <div>
+          <div class="issue-num">01</div>
+          <div class="issue-severity">🔴 CRITICAL</div>
+        </div>
+        <div>
+          <div class="issue-title">コンテンツ×ターゲットの完全ミスマッチ</div>
+          <div class="issue-desc">現在のInstagram・TikTok投稿は「アスリート競技パフォーマンス向上」「専門的な動作分析」が中心。しかし集客ターゲットはゴルファー（趣味）と西宮マダム（ボディメイク・姿勢改善）。ターゲットが「自分ごと」に感じられるコンテンツがほぼゼロ。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>Instagram 81投稿中、ゴルフ向けコンテンツ → 0件 / マダム向けコンテンツ → 0件 / ビフォーアフター → 0件（確認できず）<br>
+            投稿例：「膝関節、股関節のスタビリティ向上と競技パフォーマンスのリンク」「外的刺激に合わせた動作エラー確認」→ 一般人には難解すぎる
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card critical">
+        <div>
+          <div class="issue-num">02</div>
+          <div class="issue-severity">🔴 CRITICAL</div>
+        </div>
+        <div>
+          <div class="issue-title">Meta広告→SNS→LPの一貫性がない</div>
+          <div class="issue-desc">「ゴルフ診断・マダム診断」の広告を打っても、クリックしてInstagramを見た瞬間に「なんか違う…」と離脱するリスクが高い。広告クリエイティブ・診断ページ・SNSプロフィール・LPのすべてが同じターゲット言語で統一されていないと、広告費が無駄になる。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>診断ページ（CARAS GOLF / CARAS LADIES）は高品質。しかしInstagramのバイオは「元陸上オリンピック選手が作る本格パーソナルジム」→ ゴルファー・マダムへの訴求になっていない
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card critical">
+        <div>
+          <div class="issue-num">03</div>
+          <div class="issue-severity">🔴 CRITICAL</div>
+        </div>
+        <div>
+          <div class="issue-title">ビフォーアフターコンテンツが皆無</div>
+          <div class="issue-desc">パーソナルジムSNSで最もバズり・問い合わせに直結するのは「ビフォーアフター」。視覚的な変化は「本当に変われるんだ」という確信を生む。24/7Workoutはこれだけでフォロワー44万人超を獲得。CARASの継続率100%という強みがあるのに、実績を見せていない。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>Instagram全81投稿にビフォーアフター確認できず。顧客の声「肩こりが改善した」「3ヶ月で10kg減」という実績はあるが、視覚的に証明する投稿ゼロ
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card major">
+        <div>
+          <div class="issue-num">04</div>
+          <div class="issue-severity">🟡 MAJOR</div>
+        </div>
+        <div>
+          <div class="issue-title">ジャンル統一ができておらずアルゴリズムに嫌われている</div>
+          <div class="issue-desc">TikTok・Instagramのアルゴリズムは「このアカウントは○○専門」とジャンルを認識して似た興味層にリーチを広げる。現在のCARASは「アスリート」「一般ダイエット」「ゴルフ」「ストレッチ」「店舗情報」が混在しており、アルゴリズムが認識できない状態。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>ハッシュタグ分析：#陸上競技 #アメフト #走り方 #パーソナルジム #ダイエット が混在。ゴルフ向け・40-50代女性向けのハッシュタグは使用されていない
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card major">
+        <div>
+          <div class="issue-num">05</div>
+          <div class="issue-severity">🟡 MAJOR</div>
+        </div>
+        <div>
+          <div class="issue-title">西宮・夙川の地域密着感が薄い</div>
+          <div class="issue-desc">「西宮マダム」を狙うなら「西宮・夙川に住む40-50代女性が共感できる文脈」が必須。地域の話題、季節感、近隣スポット、夙川の桜・イベントなどを絡めた「私たちの街のジム」感がない。検索で「西宮 パーソナルジム」で出てくるのは女性専用・地域密着の競合ばかり。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>競合のBREEZE「西宮唯一の女性専用」、First Class Trainers「苦楽園口1分」など地域密着訴求が強い。CARASは大阪・京橋まで含めた広域展開を意識しすぎている
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card major">
+        <div>
+          <div class="issue-num">06</div>
+          <div class="issue-severity">🟡 MAJOR</div>
+        </div>
+        <div>
+          <div class="issue-title">診断ページのbookingURLが未整備</div>
+          <div class="issue-desc">マダム診断の bookingUrl が「https://caras.co.jp」（トップページ）のまま。ゴルフ診断のblogUrlも存在しないページ（/blog/cognitive-overload等）にリンクしている。広告を打つ前に修正必須。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>caras_madame_diagnosis.html / caras_golf_diagnosis.html 内のbookingUrl確認済み。正しいURL：https://caras.co.jp/entry#form
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card minor">
+        <div>
+          <div class="issue-num">07</div>
+          <div class="issue-severity">🔵 MINOR</div>
+        </div>
+        <div>
+          <div class="issue-title">ブログ更新が止まっている（最終更新2024年12月）</div>
+          <div class="issue-desc">最終ブログ投稿は2024年12月（Vol.31）。2025年1月〜2026年3月まで約15ヶ月間ほぼ更新なし。SEOとしても問題だが、SNSからブログへ誘導する際の「信頼感」にも影響。定期更新があることで「活動しているジム」と認識される。</div>
+          <div class="issue-evidence">
+            <strong>根拠：</strong>caras.co.jp/news の最新記事確認：2024-12-04が最終。投稿テーマも汎用的（「寒さを和らげる方法」「トレーニングの順番」）でゴルフ・マダム特化になっていない
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 競合分析 ===== -->
+  <div class="section">
+    <div class="section-label">Competitor Research</div>
+    <div class="section-title">西宮エリア競合マップ</div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>ジム名</th>
+          <th>特徴</th>
+          <th>ターゲット</th>
+          <th>CARASとの差別化</th>
+          <th>脅威度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>BREEZE</strong></td>
+          <td>「西宮唯一の女性専用」<br>ホルモンバランス配慮</td>
+          <td>西宮女性全般</td>
+          <td>女性専用→安心感。ただし「アスリートの専門知識」はない</td>
+          <td><span class="badge badge-red">高</span></td>
+        </tr>
+        <tr>
+          <td><strong>First Class Trainers</strong><br>（苦楽園口）</td>
+          <td>苦楽園口1分の好立地<br>夙川・芦屋からアクセス良</td>
+          <td>夙川・芦屋の女性</td>
+          <td>立地が近くCARASと客層が被る可能性。ただし「オリンピアン在籍」はCARASのみ</td>
+          <td><span class="badge badge-red">高</span></td>
+        </tr>
+        <tr>
+          <td><strong>24 Diamond Gym</strong><br>（西宮）</td>
+          <td>女性専用24時間<br>競技タイトル保持者多数</td>
+          <td>女性全般（24時間対応）</td>
+          <td>24時間は便利だがパーソナル感は低い。CARASは完全個室マンツーマン</td>
+          <td><span class="badge badge-gold">中</span></td>
+        </tr>
+        <tr>
+          <td><strong>Rat 西宮北口</strong></td>
+          <td>完全個室・女性向け</td>
+          <td>西宮北口エリア女性</td>
+          <td>夙川エリアとは少し離れる。ただしSNS集客は強い印象</td>
+          <td><span class="badge badge-gold">中</span></td>
+        </tr>
+        <tr>
+          <td><strong>ゴルフ特化ジム（全国）</strong></td>
+          <td>ゴルフ専用施設<br>シミュレーター等完備</td>
+          <td>ゴルファー全般</td>
+          <td>CARASは「身体から変える」身体評価特化。シミュレーターなし。元オリンピアンが指導する独自性あり</td>
+          <td><span class="badge badge-blue">低〜中</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="summary-box">
+      <h3>🎯 CARASの本当の差別化ポイント</h3>
+      <p>
+        競合の多くは「女性専用・女性向け」で勝負しているが、CARASには<strong>「元オリンピック選手が身体を科学的に評価する」</strong>という唯一無二の武器がある。これを「ゴルフ向け」「マダム向け」の言語に翻訳できていないのが問題。<br><br>
+        例：「コルチゾール過多で代謝が落ちている」← 正しい→ 「頑張っているのに痩せない理由は"疲れすぎた神経"にある」← 刺さる<br>
+        例：「股関節可動域制限でスイング弧が狭い」← 正しい → 「飛距離が出ない本当の原因は関節の"さび"にある」← 刺さる
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== バズ研究 ===== -->
+  <div class="section">
+    <div class="section-label">Buzz Research</div>
+    <div class="section-title">ターゲット別バズコンテンツパターン</div>
+    <div class="buzz-grid">
+      <div class="buzz-card">
+        <div class="buzz-card-title">🏌️ ゴルフ向けバズパターン</div>
+        <div class="buzz-item">
+          <div class="buzz-rank">1</div>
+          <div class="buzz-content">
+            <strong>「なぜ飛距離が出ないか？」原因解説動画</strong>
+            「スイング技術」でなく「身体の問題」にフォーカスすると差別化できる。CARASの診断と直結
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">2</div>
+          <div class="buzz-content">
+            <strong>ゴルファーの体型チェック動画</strong>
+            「あなたは何タイプ？」診断系はリーチが広い。スイングエラー診断へ誘導しやすい
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">3</div>
+          <div class="buzz-content">
+            <strong>ゴルファー向け体幹1分エクササイズ</strong>
+            「明日のラウンドから変わる」系の即効性訴求。保存率が高い
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">4</div>
+          <div class="buzz-content">
+            <strong>ラウンド後の疲れ対策・回復ストレッチ</strong>
+            「腰痛・肩こりが気になる40代ゴルファー」に直刺さり
+          </div>
+        </div>
+      </div>
+      <div class="buzz-card">
+        <div class="buzz-card-title">👩 西宮マダム向けバズパターン</div>
+        <div class="buzz-item">
+          <div class="buzz-rank">1</div>
+          <div class="buzz-content">
+            <strong>ビフォーアフター（3ヶ月・6ヶ月）</strong>
+            最強コンテンツ。TikTokで「パーソナルジム ビフォーアフター」は最多検索ワードの一つ。顧客の許可を得て掲載へ
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">2</div>
+          <div class="buzz-content">
+            <strong>「痩せない理由はこれ」系暴露コンテンツ</strong>
+            「頑張っているのに変わらない」「更年期でも変えられる」は40-50代女性の保存率トップ
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">3</div>
+          <div class="buzz-content">
+            <strong>姿勢改善ビフォーアフター</strong>
+            「猫背が1ヶ月で変わった」は見た目変化が大きくシェアされやすい。CARASの骨格評価との相性◎
+          </div>
+        </div>
+        <div class="buzz-item">
+          <div class="buzz-rank">4</div>
+          <div class="buzz-content">
+            <strong>「西宮在住〇〇さんの変化」地域密着事例</strong>
+            「夙川に住む△△さん（47歳）が〇ヶ月で変わった話」は地元への拡散効果大
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- アルゴリズム情報 -->
+    <div class="buzz-card" style="margin-bottom:0">
+      <div class="buzz-card-title">📱 2026年アルゴリズム 重要ポイント</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px">
+        <div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px">Instagram（優先順位）</div>
+          <div style="font-size:13px; color:#CCC; line-height:1.8">
+            1位 シェア数（DM送信）<br>
+            2位 保存数<br>
+            3位 視聴完了率<br>
+            4位 いいね<br>
+            <span style="color:var(--gold); font-size:12px">→ 「保存したくなる」「送りたくなる」コンテンツが鍵</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px">TikTok（重要ルール）</div>
+          <div style="font-size:13px; color:#CCC; line-height:1.8">
+            ジャンル統一が必須<br>
+            0〜8秒フックが命<br>
+            ビジネス系バズライン：5万再生〜<br>
+            <span style="color:var(--gold); font-size:12px">→ 「ゴルフ」か「女性ボディメイク」に特化すること</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ファネル ===== -->
+  <div class="section">
+    <div class="section-label">Growth Funnel</div>
+    <div class="section-title">集客ファネル設計（あるべき姿）</div>
+    <div class="funnel">
+      <div class="funnel-step">
+        <div class="funnel-label">STEP 1 — 認知</div>
+        <div class="funnel-title">Meta広告 / Instagram・TikTok投稿</div>
+        <div class="funnel-desc">ゴルフ向け・マダム向けに分けたターゲティング広告 + 有機投稿でリーチ拡大</div>
+      </div>
+      <div class="funnel-step" style="height:16px;"></div>
+      <div class="funnel-step highlight">
+        <div class="funnel-label">STEP 2 — 興味（★ここが今の弱点）</div>
+        <div class="funnel-title">診断ページ（ゴルフ診断 / マダム診断）</div>
+        <div class="funnel-desc">クリック後に「自分のタイプ」がわかる体験 → 結果を見せてCTAへ誘導</div>
+      </div>
+      <div class="funnel-step" style="height:16px;"></div>
+      <div class="funnel-step">
+        <div class="funnel-label">STEP 3 — 信頼</div>
+        <div class="funnel-title">SNSアカウント / ブログ / 顧客事例</div>
+        <div class="funnel-desc">診断後にInstagramを見ても「このジムは私向け」と確認できる状態にする</div>
+      </div>
+      <div class="funnel-step" style="height:16px;"></div>
+      <div class="funnel-step">
+        <div class="funnel-label">STEP 4 — 行動</div>
+        <div class="funnel-title">体験申込み（LINE / フォーム）</div>
+        <div class="funnel-desc">体験¥5,500でハードルを下げ、入会へ繋げる</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== アクションプラン ===== -->
+  <div class="section">
+    <div class="section-label">Action Plan</div>
+    <div class="section-title">優先アクション（フェーズ別）</div>
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-phase">🔴 Phase 1 — 今すぐ（〜2週間）</div>
+        <div class="plan-title">土台の修正</div>
+        <div class="plan-period">広告を打つ前に必ず完了</div>
+        <ul class="plan-items">
+          <li>診断ページのbookingURLを /entry#form に修正</li>
+          <li>Instagramプロフィールをゴルフ・マダム訴求に変更</li>
+          <li>TikTokプロフィールも統一</li>
+          <li>Instagramのジャンルを「ゴルフ/マダム向けボディメイク」に統一宣言</li>
+          <li>ビフォーアフター掲載の顧客許可を取得開始</li>
+        </ul>
+      </div>
+      <div class="plan-card">
+        <div class="plan-phase">🟡 Phase 2 — 1〜2ヶ月</div>
+        <div class="plan-title">コンテンツ転換</div>
+        <div class="plan-period">SNS → 診断ページ の流れを作る</div>
+        <ul class="plan-items">
+          <li>週2〜3投稿（ゴルフ・マダム交互）</li>
+          <li>ビフォーアフター投稿を月2本以上</li>
+          <li>「診断してみて」系投稿で診断ページへ誘導</li>
+          <li>ブログ週1本自動生成 → 手動投稿</li>
+          <li>西宮・夙川地域密着コンテンツを月2本</li>
+        </ul>
+      </div>
+      <div class="plan-card">
+        <div class="plan-phase">🟢 Phase 3 — 2〜3ヶ月</div>
+        <div class="plan-title">Meta広告 本格展開</div>
+        <div class="plan-period">ファネルが整ってから広告投下</div>
+        <ul class="plan-items">
+          <li>ゴルフ向け広告 → スイング診断ページ</li>
+          <li>マダム向け広告 → 身体タイプ診断ページ</li>
+          <li>リターゲティング（診断完了者 → 体験申込みCTA）</li>
+          <li>SNSのフォロワー反応を見て勝ちコンテンツを特定</li>
+          <li>LINEリスト構築 → 体験フォロー自動化</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 最終サマリー ===== -->
+  <div class="section">
+    <div class="summary-box">
+      <h3>🦅 総括 — MOONさんへ</h3>
+      <p>
+        CARASの<strong>サービス品質・実績・トレーナーの専門性は間違いなくトップクラス</strong>です。継続率100%・元オリンピアン・オーダーメイドプログラム——これは本物の強みです。<br><br>
+        問題は<strong>「伝わり方」</strong>だけです。<br><br>
+        現在の投稿は「すごい専門家がいる」を伝えようとして、「私には関係ないプロ向けの話」に見えてしまっている。これをゴルファー・マダムの「自分ごと言語」に翻訳するだけで、集客は大きく変わるはずです。<br><br>
+        Meta広告の前に2週間でSNSの方向性を整え、その後診断ページへの導線を整備する。この順番で進めることを強くお勧めします。
+      </p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

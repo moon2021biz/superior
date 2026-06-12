@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit｜コンテンツ全体設計書</title>
+<style>
+:root {
+  --gold:#C9A84C; --gold-l:#F0D98A;
+  --dark:#1A1A2E; --dark2:#16213E; --accent:#0F3460;
+  --bg:#F7F6F2; --white:#fff; --text:#2C2C2C; --sub:#777; --border:#E5DDD0;
+  --pine:#2E7D32; --pine-l:#E8F5E9; --pine-m:#81C784;
+  --blue:#1565C0; --blue-l:#E3F2FD; --blue-m:#90CAF9;
+  --purp:#6A1B9A; --purp-l:#F3E5F5; --purp-m:#CE93D8;
+  --amber:#BF6000; --amber-l:#FFF8E1; --amber-m:#FFD54F;
+  --red:#C62828; --red-l:#FFEBEE;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--dark) 0%,var(--accent) 100%);padding:52px 40px 44px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 35%,rgba(201,168,76,.13) 0%,transparent 60%);pointer-events:none}
+.eyebrow{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--dark);font-size:11px;font-weight:700;letter-spacing:2px;padding:4px 16px;border-radius:20px;margin-bottom:14px}
+.hero h1{font-size:24px;font-weight:700;margin-bottom:8px}
+.hero p{font-size:13px;color:rgba(255,255,255,.65)}
+
+/* WRAP */
+.wrap{max-width:980px;margin:0 auto;padding:44px 24px 80px}
+
+/* SECTION */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sub);margin-bottom:6px}
+.sec-h{font-size:19px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.sec-sub{font-size:13px;color:var(--sub);margin-bottom:24px}
+.divider{border:none;border-top:1px solid var(--border);margin:44px 0}
+
+/* DECISION BAND */
+.decision-band{background:var(--dark2);border-left:4px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:32px;color:#fff}
+.decision-band h3{font-size:13px;font-weight:700;color:var(--gold-l);margin-bottom:10px;letter-spacing:.5px}
+.decision-band ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.decision-band li{font-size:12.5px;color:rgba(255,255,255,.8);padding-left:16px;position:relative}
+.decision-band li::before{content:'✓';position:absolute;left:0;color:var(--gold);font-weight:700}
+
+/* ROLE MAP */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
+@media(max-width:680px){.role-grid{grid-template-columns:1fr}}
+.role-card{border-radius:12px;padding:20px;border:2px solid transparent}
+.role-card.matsu{background:var(--dark);border-color:var(--gold)}
+.role-card.vip{background:#FFFDF5;border-color:#E8C87A}
+.role-card.norm{background:#F5F5F5;border-color:#DDD}
+.role-label{font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
+.role-card.matsu .role-label{color:var(--gold-l)}
+.role-card.vip .role-label{color:#8B6914}
+.role-card.norm .role-label{color:#555}
+.role-name{font-size:15px;font-weight:700;margin-bottom:8px}
+.role-card.matsu .role-name{color:#fff}
+.role-card.vip .role-name{color:var(--dark)}
+.role-card.norm .role-name{color:var(--dark)}
+.role-covers{font-size:12px;line-height:1.8}
+.role-card.matsu .role-covers{color:rgba(255,255,255,.75)}
+.role-card.vip .role-covers{color:#555}
+.role-card.norm .role-covers{color:#666}
+.role-note{font-size:11px;margin-top:8px;padding:6px 10px;border-radius:6px;font-style:italic}
+.role-card.matsu .role-note{background:rgba(201,168,76,.15);color:var(--gold-l)}
+.role-card.vip .role-note{background:#FFF3CC;color:#8B6914}
+.role-card.norm .role-note{background:#EBEBEB;color:#666}
+
+/* PROGRAM CARDS */
+.prog-section{margin-top:44px}
+.prog-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+.prog-header-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.prog-header-title{font-size:16px;font-weight:700;color:var(--dark)}
+.prog-header-sub{font-size:12px;color:var(--sub);margin-left:auto}
+
+.prog-card{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:16px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.prog-top{display:grid;grid-template-columns:1fr auto;gap:16px;padding:20px 22px 16px;align-items:start}
+.prog-name{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:6px}
+.prog-tagline{font-size:12.5px;color:var(--sub);line-height:1.6}
+.prog-price-box{text-align:right;flex-shrink:0}
+.prog-price{font-size:18px;font-weight:700;color:var(--dark)}
+.prog-price small{font-size:11px;font-weight:400;color:var(--sub);display:block;margin-top:2px}
+
+.prog-body{border-top:1px solid #F0EBE3;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+@media(max-width:680px){.prog-body{grid-template-columns:1fr}}
+.prog-col{padding:16px 20px;border-right:1px solid #F0EBE3}
+.prog-col:last-child{border-right:none}
+.prog-col-title{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--sub);margin-bottom:8px}
+.prog-col ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.prog-col li{font-size:12.5px;color:var(--text);padding-left:12px;position:relative;line-height:1.6}
+.prog-col li::before{content:'▸';position:absolute;left:0;font-size:10px;top:3px;color:var(--gold)}
+
+.prog-result{background:linear-gradient(90deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border-top:1px solid rgba(201,168,76,.2);padding:12px 22px;display:flex;align-items:center;gap:10px}
+.prog-result-label{font-size:11px;font-weight:700;color:var(--amber);flex-shrink:0}
+.prog-result-text{font-size:12.5px;color:#555;line-height:1.5}
+
+/* TAG */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:5px;margin-bottom:4px}
+.tag-time{background:#F0F4FF;color:#3A5BD0}
+.tag-freq{background:#F0FFF4;color:#1B6B31}
+.tag-target{background:#FFF4F0;color:#BF4900}
+
+/* NORMAL TRAINER */
+.normal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.normal-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.normal-card-name{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.normal-card-desc{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px}
+.normal-card-foot{font-size:11.5px;color:#888;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #F0EBE3;padding-top:8px;margin-top:4px}
+
+/* PACKAGE */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:680px){.pkg-grid{grid-template-columns:1fr}}
+.pkg-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.pkg-head{padding:18px 20px 14px}
+.pkg-tier{font-size:10px;font-weight:700;letter-spacing:1.5px;margin-bottom:6px}
+.pkg-name{font-size:15px;font-weight:700;margin-bottom:6px}
+.pkg-sub{font-size:12px;line-height:1.6;opacity:.8}
+.pkg-body{background:var(--white);padding:16px 20px}
+.pkg-items{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.pkg-items li{font-size:12.5px;color:var(--text);padding-left:14px;position:relative;line-height:1.5}
+.pkg-items li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:10px;top:4px}
+.pkg-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:10px;font-size:13px}
+.pkg-total-label{color:var(--sub)}
+.pkg-total-price{font-weight:700;color:var(--dark)}
+
+/* ENTRY */
+.pkg-card.entry .pkg-head{background:#F5F5F5}
+.pkg-card.entry .pkg-tier{color:#666}
+.pkg-card.entry .pkg-name{color:var(--dark)}
+.pkg-card.entry .pkg-sub{color:#666}
+
+/* STD */
+.pkg-card.std .pkg-head{background:var(--dark2)}
+.pkg-card.std .pkg-tier{color:var(--gold-l)}
+.pkg-card.std .pkg-name{color:#fff}
+.pkg-card.std .pkg-sub{color:rgba(255,255,255,.65)}
+
+/* PREM */
+.pkg-card.prem .pkg-head{background:linear-gradient(135deg,var(--dark),var(--accent))}
+.pkg-card.prem .pkg-tier{color:var(--gold-l)}
+.pkg-card.prem .pkg-name{color:#fff}
+.pkg-card.prem .pkg-sub{color:rgba(255,255,255,.65)}
+
+/* PENDING */
+.pending-block{margin-top:44px;background:var(--red-l);border:1px solid rgba(198,40,40,.2);border-radius:12px;padding:22px 24px}
+.pending-block h3{font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px}
+.pending-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.pending-list li{font-size:12.5px;color:#555;padding-left:18px;position:relative;line-height:1.6}
+.pending-list li::before{content:'?';position:absolute;left:0;color:var(--red);font-weight:700;font-size:12px}
+
+footer{text-align:center;padding:24px;font-size:11px;color:#bbb;border-top:1px solid #eee;margin-top:40px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">CONTENT FULL DESIGN v2</div>
+  <h1>TrustFit｜コンテンツ全体設計書</h1>
+  <p>本日の対話で確定した方針を反映 ／ 2026-04-04</p>
+</div>
+
+<div class="wrap">
+
+  <!-- 確定事項 -->
+  <div class="decision-band">
+    <h3>📌 本日確定した設計方針</h3>
+    <ul>
+      <li>Legend（MOON）はメンタル・講演・健康経営に絞る。フィジカル系は通常トレーナー／Elite/Masterが担う</li>
+      <li>TrustFitはB2B法人のみ。個人顧客はCARASへ誘導する</li>
+      <li>スカウト枠（オリンピアン等）はEliteスタート。実績を積み上げて昇格</li>
+      <li>VIP単発が入口 → 通常トレーナーで年間継続するファネル設計を採用</li>
+      <li>モニター企業には「一緒に作る」ことを正直に伝える（10倍ポイントキャンペーン活用）</li>
+    </ul>
+  </div>
+
+  <!-- 役割マップ -->
+  <div class="sec-label">ROLE MAP</div>
+  <div class="sec-h">誰が何を担うか</div>
+  <div class="sec-sub">3層で役割を分担し、企業体験の質と継続性を両立する</div>
+
+  <div class="role-grid">
+    <div class="role-card matsu">
+      <div class="role-label">VIP Legendクラス</div>
+      <div class="role-name">MOON（オリンピアン）</div>
+      <div class="role-covers">
+        🧠 メンタル・目標設定<br>
+        🎤 ストーリーテリング講演<br>
+        🏢 健康経営サポート<br>
+        <span style="color:rgba(255,255,255,.4);">※フィジカル系は担わない</span>
+      </div>
+      <div class="role-note">「体験価値」で入口を作る。稼働を絞って高単価を維持</div>
+    </div>
+    <div class="role-card vip">
+      <div class="role-label">VIP Elite / Masterクラス</div>
+      <div class="role-name">専門VIPトレーナー</div>
+      <div class="role-covers">
+        🏋️ 専門フィジカル指導<br>
+        🧘 コンディショニング<br>
+        🏃 スポーツパフォーマンス<br>
+        💪 継続的な専門指導
+      </div>
+      <div class="role-note">Legendが作った「体験の文脈」を引き継いで専門性で深める</div>
+    </div>
+    <div class="role-card norm">
+      <div class="role-label">通常トレーナー</div>
+      <div class="role-name">継続サポート担当</div>
+      <div class="role-covers">
+        🤸 全社ストレッチWS<br>
+        🚶 オフィス巡回型<br>
+        📱 オンライン伴走<br>
+        👧 キッズスクール
+      </div>
+      <div class="role-note">年間を通じて「当たり前の健康文化」を定着させる</div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px;font-size:12px;color:var(--sub);text-align:center;">
+    企業体験の流れ：
+    <strong style="color:var(--dark);">Legendの単発高体験</strong>
+    　→
+    <strong style="color:#8B6914);">Elite/Masterの専門継続</strong>
+    　または
+    <strong style="color:#555;">通常トレーナーの年間サポート</strong>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Legendコンテンツ詳細 -->
+  <div class="prog-section">
+    <div class="prog-header">
+      <div class="prog-header-icon" style="background:var(--dark);">⭐</div>
+      <div class="prog-header-title">Legendクラス（MOON）コンテンツ詳細</div>
+      <div class="prog-header-sub">メンタル × ストーリー × 健康経営 の3本柱</div>
+    </div>
+
+    <!-- ① 限界突破講演 -->
+    <div class="prog-card">
+      <div class="prog-top">
+        <div>
+          <div class="prog-name">① 限界突破マインドセット 特別講演</div>
+          <div class="prog-tagline">「なぜ人は限界を超えられるのか」— オリンピアンが語る本番力・プレッシャー管理・チームの超え方</div>
+          <div style="margin-top:10px;">
+            <span class="tag tag-target">全社員向け（30〜300名）</span>
+            <span class="tag tag-time">60〜90分</span>
+            <span class="tag tag-freq">年1〜2回</span>
+          </div>
+        </div>
+        <div class="prog-price-box">
+          <div class="prog-price">200,000<span style="font-size:12px;">〜</span>250,000<span style="font-size:12px;">pt</span></div>
+          <small>1回あたり（交通費別）</small>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-col">
+          <div class="prog-col-title">SESSION FLOW</div>
+          <ul>
+            <li>オープニング：なぜ限界は突破できるか（体験談）</li>
+            <li>準備の質が本番を決める思考法</li>
+            <li>プレッシャーを「燃料」に変える技術</li>
+            <li>チームで限界を超えるコミュニケーション</li>
+            <li>Q&A・ワーク</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">こんな企業課題に効く</div>
+          <ul>
+            <li>全社集会・キックオフに「刺さる体験」が欲しい</li>
+            <li>採用ブランディングに本物のストーリーが必要</li>
+            <li>社員のエンゲージメントが下がっている</li>
+            <li>大事なプレゼン・商談前に士気を上げたい</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">企業が得る成果</div>
+          <ul>
+            <li>「うちの会社すごい」という体験を社員全員で共有</li>
+            <li>当日の撮影で採用PR動画に転用可能</li>
+            <li>翌日からの行動変容につながるワーク付き</li>
+            <li>健康経営「活動事例」として認定申請に記載可</li>
+          </ul>
+        </div>
+      </div>
+      <div class="prog-result">
+        <div class="prog-result-label">💡 提案ポイント</div>
+        <div class="prog-result-text">「オリンピアンが来る」という体験自体が稟議を通す理由になる。まず1回やってみれば、継続に繋がりやすい最初の接点。</div>
+      </div>
+    </div>
+
+    <!-- ② 目標設定コーチング -->
+    <div class="prog-card">
+      <div class="prog-top">
+        <div>
+          <div class="prog-name">② チーム目標設定 × パフォーマンスコーチング</div>
+          <div class="prog-tagline">日本代表が実践した「逆算×感情活用」の目標設定メソッドをチームに応用。KPI達成率と個人の内発的動機を同時に上げる</div>
+          <div style="margin-top:10px;">
+            <span class="tag tag-target">経営陣・管理職チーム（3〜15名）</span>
+            <span class="tag tag-time">90〜120分/回</span>
+            <span class="tag tag-freq">3〜4回シリーズ推奨</span>
+          </div>
+        </div>
+        <div class="prog-price-box">
+          <div class="prog-price">200,000pt</div>
+          <small>1回あたり<br>シリーズ3回〜</small>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-col">
+          <div class="prog-col-title">SESSION FLOW（3回シリーズ）</div>
+          <ul>
+            <li>第1回：現状の目標棚卸し・「ゴールの解像度」を上げるワーク</li>
+            <li>第2回：個人→チームへの目標翻訳・障壁の特定</li>
+            <li>第3回：継続の仕組み設計・振り返りプロトコル構築</li>
+            <li>（第4回）：3ヶ月後の中間レビュー</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">こんな企業課題に効く</div>
+          <ul>
+            <li>KPIはあるが達成率が低い・目標が形骸化している</li>
+            <li>チームのベクトルがバラバラで動きが遅い</li>
+            <li>管理職が「目標設定の仕方」を知らない</li>
+            <li>やる気はあるが継続できない個人が多い</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">企業が得る成果</div>
+          <ul>
+            <li>チームが「同じゴール」に向かって動き出す</li>
+            <li>個人の「なぜやるか」が言語化され、自律的な行動が増える</li>
+            <li>毎回のセッション議事録を資産として蓄積可能</li>
+            <li>健康経営「ストレス対策・メンタルサポート」事例に該当</li>
+          </ul>
+        </div>
+      </div>
+      <div class="prog-result">
+        <div class="prog-result-label">💡 提案ポイント</div>
+        <div class="prog-result-text">1回あたり20万ptは高く見えるが、3回×管理職10名で計算すると1人あたり60,000pt。外部研修の相場（1人5〜15万円）と比較しても競争力がある。</div>
+      </div>
+    </div>
+
+    <!-- ③ 健康経営サポート -->
+    <div class="prog-card">
+      <div class="prog-top">
+        <div>
+          <div class="prog-name">③ 健康経営優良法人 認定サポートプログラム</div>
+          <div class="prog-tagline">認定取得に必要な施策を研修形式で実施。制度理解から申請書類まで一気通貫。TrustFitでの活動実績を「認定の証拠」として活用できる</div>
+          <div style="margin-top:10px;">
+            <span class="tag tag-target">経営者・人事担当（2〜5名）</span>
+            <span class="tag tag-time">90分 × 5回</span>
+            <span class="tag tag-freq">3〜6ヶ月で完結</span>
+          </div>
+        </div>
+        <div class="prog-price-box">
+          <div class="prog-price">1,000,000pt</div>
+          <small>5回セット<br>（200,000pt×5）</small>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-col">
+          <div class="prog-col-title">SESSION FLOW（5回）</div>
+          <ul>
+            <li>第1回：制度理解・現状診断（何が足りないか洗い出し）</li>
+            <li>第2回：フィジカル施策の設計・実施（TrustFit活用）</li>
+            <li>第3回：メンタル・ストレス対策施策の設計・実施</li>
+            <li>第4回：制度整備・社内周知の設計</li>
+            <li>第5回：申請書類作成支援・提出前チェック</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">こんな企業課題に効く</div>
+          <ul>
+            <li>健康経営に興味はあるが何から始めればいいか分からない</li>
+            <li>認定取得を経営課題として位置づけたい</li>
+            <li>採用・IR・取引先へのブランディングに活用したい</li>
+            <li>社員の離職・疾病コストを下げたい</li>
+          </ul>
+        </div>
+        <div class="prog-col">
+          <div class="prog-col-title">企業が得る成果</div>
+          <ul>
+            <li>健康経営優良法人（中小規模法人部門）の認定取得</li>
+            <li>ロゴ使用権・求人・入札への活用</li>
+            <li>TrustFitでの活動が全て「認定の証拠」として機能</li>
+            <li>社内に健康文化が定着し、翌年以降の継続申請が容易に</li>
+          </ul>
+        </div>
+      </div>
+      <div class="prog-result">
+        <div class="prog-result-label">💡 提案ポイント</div>
+        <div class="prog-result-text">認定取得という明確なゴールがあるため稟議が通りやすい。TrustFitを使えば使うほど認定の「証拠」が溜まる構造で、継続利用のインセンティブになる。</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 通常トレーナーコンテンツ -->
+  <div class="prog-section">
+    <div class="prog-header">
+      <div class="prog-header-icon" style="background:#F0F0F0;">🏃</div>
+      <div class="prog-header-title">通常トレーナー｜フィジカル継続サポート</div>
+      <div class="prog-header-sub">Legendの単発体験を「日常」に変えるプログラム群</div>
+    </div>
+
+    <div class="normal-grid">
+      <div class="normal-card">
+        <div class="normal-card-name">全社員 疲労撃退ストレッチWS</div>
+        <div class="normal-card-desc">バイオメカニクスベース。座りっぱなし・スマホ首・腰痛を全員参加型で即効改善</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">45〜60分 / 月1〜隔月</span>
+          <span style="font-weight:700;color:var(--dark);">〜50,000pt</span>
+        </div>
+      </div>
+      <div class="normal-card">
+        <div class="normal-card-name">オフィス巡回 コンディショニング</div>
+        <div class="normal-card-desc">週次・隔週でオフィスを訪問。個別対応で継続的に身体を整える。若手トレーナーの安定稼働に</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">60分 / 週1〜隔週</span>
+          <span style="font-weight:700;color:var(--dark);">〜30,000pt/回</span>
+        </div>
+      </div>
+      <div class="normal-card">
+        <div class="normal-card-name">オンライン伴走サポート</div>
+        <div class="normal-card-desc">週次チェックイン・フォームアップ確認・習慣化サポート。地方企業にも対応</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">30分 / 週1</span>
+          <span style="font-weight:700;color:var(--dark);">〜10,000pt/回</span>
+        </div>
+      </div>
+      <div class="normal-card">
+        <div class="normal-card-name">企業内キッズスクール</div>
+        <div class="normal-card-desc">社員のお子さん向け運動体験。かけっこ・基礎体力。福利厚生コンテンツとして差別化</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">90分 / 月1〜</span>
+          <span style="font-weight:700;color:var(--dark);">〜50,000pt</span>
+        </div>
+      </div>
+      <div class="normal-card">
+        <div class="normal-card-name">保護者向けボディメイクWS</div>
+        <div class="normal-card-desc">子育て中社員向けの短時間フィットネス。隙間時間でできるトレーニング・食事改善の基本</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">60分 / 隔月〜</span>
+          <span style="font-weight:700;color:var(--dark);">〜30,000pt</span>
+        </div>
+      </div>
+      <div class="normal-card">
+        <div class="normal-card-name">親子スポーツ体験イベント</div>
+        <div class="normal-card-desc">社員家族参加型。「うちの会社いい会社」体験を家族ごと作る。採用広報にも転用可</div>
+        <div class="normal-card-foot">
+          <span style="font-size:11px;">90〜120分 / 年1〜2回</span>
+          <span style="font-weight:700;color:var(--dark);">〜80,000pt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 企業提案パッケージ -->
+  <div>
+    <div class="sec-label">PACKAGE PROPOSAL</div>
+    <div class="sec-h">企業への提案パターン（3種）</div>
+    <div class="sec-sub">VIP単発→通常継続ファネルを意識した組み合わせ設計</div>
+
+    <div class="pkg-grid">
+
+      <!-- エントリー -->
+      <div class="pkg-card entry">
+        <div class="pkg-head">
+          <div class="pkg-tier">ENTRY</div>
+          <div class="pkg-name">まず体験する</div>
+          <div class="pkg-sub">オリンピアン体験を1回。まず会社に変化を起こす</div>
+        </div>
+        <div class="pkg-body">
+          <ul class="pkg-items">
+            <li>限界突破マインド講演 × 1回（Legend・MOON）</li>
+            <li>全社員ストレッチWS × 2回（通常）</li>
+            <li>撮影・PR動画制作セット</li>
+          </ul>
+          <div style="font-size:11.5px;color:var(--sub);margin-bottom:12px;line-height:1.7;">
+            ↑ モニター企業にはこのパッケージを<br>
+            <strong style="color:var(--amber);">10倍ポイントキャンペーン</strong>で提供
+          </div>
+          <div class="pkg-total">
+            <span class="pkg-total-label">目安ポイント</span>
+            <span class="pkg-total-price">〜350,000pt</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- スタンダード -->
+      <div class="pkg-card std">
+        <div class="pkg-head">
+          <div class="pkg-tier">STANDARD</div>
+          <div class="pkg-name">チームを変える</div>
+          <div class="pkg-sub">目標設定から継続まで。組織の動き方を変える</div>
+        </div>
+        <div class="pkg-body">
+          <ul class="pkg-items">
+            <li>目標設定コーチング × 3回（Legend・MOON）</li>
+            <li>全社ストレッチWS × 月1回（通常・年間）</li>
+            <li>オンライン伴走サポート（希望者）</li>
+          </ul>
+          <div class="pkg-total">
+            <span class="pkg-total-label">目安ポイント</span>
+            <span class="pkg-total-price">〜1,100,000pt/年</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- プレミアム -->
+      <div class="pkg-card prem">
+        <div class="pkg-head">
+          <div class="pkg-tier">PREMIUM</div>
+          <div class="pkg-name">健康経営認定まで</div>
+          <div class="pkg-sub">認定取得＋組織文化の定着まで一気通貫</div>
+        </div>
+        <div class="pkg-body">
+          <ul class="pkg-items">
+            <li>健康経営優良法人認定サポート × 5回（Legend）</li>
+            <li>限界突破講演 × 1回（Legend・社員向け）</li>
+            <li>フィジカル継続サポート（通常・月2回）</li>
+            <li>認定取得後の定着WS × 2回（通常）</li>
+          </ul>
+          <div class="pkg-total">
+            <span class="pkg-total-label">目安ポイント</span>
+            <span class="pkg-total-price">〜1,800,000pt/年</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 未設計事項 -->
+  <div class="pending-block">
+    <h3>⚠️ 未設計・要確認事項</h3>
+    <ul class="pending-list">
+      <li>目標設定コーチングの「逆算×感情活用」メソッドの具体的な内容・固有メソッド名（MOONさんの言語で確認したい）</li>
+      <li>VIP Elite/Masterに入れるトレーナー像・採用基準（フィジカル専門家の具体的なプロフィール要件）</li>
+      <li>VIP→通常トレーナー引き継ぎの具体的プロトコル（企業への説明文・トレーナー選定フロー）</li>
+      <li>ポイント管理の最小限システム設計（スプレッドシート or 簡易フォームで代替できるか）</li>
+      <li>モニター企業への提案書のトーン（「テスト中です」の伝え方の文言）</li>
+      <li>健康経営優良法人の申請タイミング（年度・締め切り）との整合確認</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  TrustFit — Content Full Design v2 ／ 株式会社MOON ／ 2026-04-04
+</footer>
+
+</body>
+</html>

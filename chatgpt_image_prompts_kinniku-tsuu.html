@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT画像生成指示書｜筋肉痛と筋肥大の誤解 ｜ OGI LAB</title>
+<style>
+:root{
+  --navy:#1A2A3A;
+  --navy-dark:#0F1B27;
+  --red:#C0392B;
+  --red-dark:#96281B;
+  --red-light:#E74C3C;
+  --gold:#C9A84C;
+  --green:#3D6B4F;
+  --white:#FFFFFF;
+  --gray-light:#E0E0E0;
+  --gray:#9CA8B5;
+  --code-bg:#0d1b26;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  line-height:1.85;
+  font-size:15px;
+}
+.container{max-width:920px;margin:0 auto;padding:32px 24px 80px}
+header.hero{
+  background:linear-gradient(135deg,var(--navy-dark) 0%,var(--red-dark) 100%);
+  padding:48px 24px 56px;
+  border-bottom:4px solid var(--gold);
+  text-align:center;
+}
+header.hero .brand{font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:bold;margin-bottom:14px}
+header.hero h1{font-size:26px;font-weight:900;line-height:1.4;margin-bottom:14px}
+header.hero h1 .accent{color:var(--gold)}
+header.hero .subtitle{font-size:14px;color:var(--gray-light);max-width:680px;margin:0 auto}
+.howto{
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:8px;padding:20px 24px;margin:24px 0;
+}
+.howto h3{color:var(--gold);font-size:16px;margin-bottom:10px}
+.howto ol{margin-left:24px;color:var(--gray-light);font-size:14px}
+.howto li{margin-bottom:6px}
+.toc{
+  background:rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.1);
+  padding:20px 24px;border-radius:8px;margin-bottom:24px;
+}
+.toc h3{color:var(--gold);font-size:15px;margin-bottom:12px}
+.toc .toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;
+}
+.toc a{
+  color:var(--gray-light);text-decoration:none;font-size:13px;
+  padding:6px 10px;background:rgba(255,255,255,.04);
+  border-left:3px solid var(--red);border-radius:0 4px 4px 0;
+  display:block;transition:.2s;
+}
+.toc a:hover{background:rgba(192,57,43,.2);color:var(--white)}
+.section{margin:36px 0;background:rgba(0,0,0,.2);border-radius:12px;overflow:hidden}
+.section-header{
+  background:linear-gradient(90deg,var(--red-dark) 0%,var(--navy-dark) 100%);
+  padding:14px 22px;
+  border-left:6px solid var(--gold);
+}
+.section-header .label{
+  font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:bold;
+}
+.section-header h2{font-size:20px;font-weight:900;color:var(--white);margin-top:4px;line-height:1.3}
+.section-body{padding:20px 24px}
+.section-body p{color:var(--gray-light);font-size:14px;margin-bottom:12px}
+.prompt-box{
+  position:relative;
+  background:var(--code-bg);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:8px;
+  margin:14px 0;
+  overflow:hidden;
+}
+.prompt-box .prompt-header{
+  background:rgba(201,168,76,.15);
+  padding:8px 14px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+.prompt-box .prompt-title{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:1px}
+.copy-btn{
+  background:var(--red);color:var(--white);border:none;
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:bold;
+  cursor:pointer;transition:.2s;
+}
+.copy-btn:hover{background:var(--red-dark);transform:translateY(-1px)}
+.copy-btn.copied{background:var(--green)}
+.prompt-content{
+  padding:16px 18px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-family:'SF Mono','Consolas','Menlo',monospace;
+  font-size:13px;
+  color:var(--gray-light);
+  line-height:1.7;
+  max-height:600px;
+  overflow-y:auto;
+}
+.prompt-content::-webkit-scrollbar{width:8px}
+.prompt-content::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
+.prompt-content::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
+.tips{
+  background:rgba(61,107,79,.15);
+  border-left:4px solid var(--green);
+  padding:18px 22px;border-radius:0 8px 8px 0;margin:24px 0;
+}
+.tips h3{color:var(--green);font-size:16px;margin-bottom:10px}
+.tips ul{margin-left:22px;font-size:14px}
+.tips li{margin-bottom:6px;color:var(--gray-light)}
+.text-block{
+  background:rgba(255,255,255,.04);
+  border-left:4px solid var(--gold);
+  padding:14px 18px;border-radius:0 6px 6px 0;margin:10px 0;
+  font-size:14px;color:var(--white);
+}
+.text-block .label{display:block;color:var(--gold);font-size:11px;letter-spacing:1px;margin-bottom:4px;font-weight:bold}
+.divider{height:2px;background:linear-gradient(90deg,transparent 0%,var(--red) 50%,transparent 100%);margin:32px 0}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.spec-table th,.spec-table td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.08)}
+.spec-table th{background:rgba(201,168,76,.15);color:var(--gold);font-weight:bold}
+.spec-table td{color:var(--gray-light)}
+.badge-thumb{background:var(--gold);color:#000}
+.badge-slide{background:var(--red);color:var(--white)}
+.size-badge{
+  display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:bold;letter-spacing:.5px;
+}
+@media(max-width:600px){
+  header.hero h1{font-size:20px}
+  .section-header h2{font-size:17px}
+  .container{padding:20px 14px 60px}
+  .toc .toc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand">OGI LAB ／ Image Generation Workflow</div>
+  <h1>ChatGPT 画像生成指示書<br><span class="accent">サムネ＋スライド 全9枚</span></h1>
+  <div class="subtitle">テーマ：筋肉痛と筋肥大の誤解 ／ オリンピアンの思考<br>NOTE記事の内容に整合・オギラボキャラ使用</div>
+</header>
+
+<div class="container">
+
+<div class="howto">
+  <h3>📌 使い方</h3>
+  <ol>
+    <li>ChatGPT（GPT-4o）を開き、新規スレッドを作成</li>
+    <li>「<strong>オギラボインサート.png</strong>」（キャラ画像）を添付</li>
+    <li>下記「共通仕様」を最初に1回送信</li>
+    <li>サムネ → スライド01 → 02 → ... を <strong>同じスレッドで連続生成</strong>（キャラの一貫性が保たれます）</li>
+    <li>各プロンプト右上の「<strong>コピー</strong>」ボタンで簡単にコピペできます</li>
+  </ol>
+</div>
+
+<div class="toc">
+  <h3>📑 目次（クリックでジャンプ）</h3>
+  <div class="toc-grid">
+    <a href="#common">🎨 共通仕様</a>
+    <a href="#thumb">📌 NOTEサムネ <span class="size-badge badge-thumb">1792×1024</span></a>
+    <a href="#s01">スライド01 表紙</a>
+    <a href="#s02">スライド02 結論</a>
+    <a href="#s03">スライド03 経験①</a>
+    <a href="#s04">スライド04 経験②</a>
+    <a href="#s05">スライド05 経験③</a>
+    <a href="#s06">スライド06 センサー＋警報</a>
+    <a href="#s07">スライド07 順調指標</a>
+    <a href="#s08">スライド08 note誘導</a>
+    <a href="#tips">💡 制作Tips＆統一文言</a>
+  </div>
+</div>
+
+<!-- 共通仕様 -->
+<div class="section" id="common">
+  <div class="section-header">
+    <div class="label">STEP 1 ／ 最初に必ず送信</div>
+    <h2>🎨 ブランド共通仕様</h2>
+  </div>
+  <div class="section-body">
+    <p>キャラ画像（オギラボインサート.png）を添付した後、まずこれを送って「以降の画像はすべてこの仕様で」と宣言します。</p>
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">COMMON SPEC / 共通仕様</span>
+        <button class="copy-btn" data-copy="common">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="common">【ブランド共通仕様】※全画像で統一してください
+
+# キャラクター
+- 添付画像「オギラボインサート.png」のキャラクター（おぎぃ。）をそのまま使用
+- キャラのデザイン・服装・髪型・表情の特徴を変えないこと
+- スライドごとに表情・ポーズを変えるが、キャラ本人は同一人物として描写
+
+# カラーパレット
+- 背景ベース：ネイビーブルー #1A2A3A
+- メインアクセント：レッド #C0392B
+- 強調用ダークレッド：#96281B
+- 強調用ライトレッド：#E74C3C
+- 競技者層アクセント：ゴールド #C9A84C（数字・キーワードに使用）
+- テキスト基本：ホワイト #FFFFFF
+- サブテキスト：ライトグレー #E0E0E0
+
+# タイポグラフィ
+- 日本語フォント：太めゴシック体（Noto Sans JP Black / Bold相当）
+- 数字・英字：力強いサンセリフ（Bebas Neue / Montserrat ExtraBold相当）
+- メインキャッチは超大型（画面高の20〜25%）／本文は中型
+
+# レイアウト原則
+- 余白を取りすぎず、密度高めで「情報がギュッと詰まった」印象に
+- キャラは右下または左下に小さめ配置（画像高の25〜35%）
+- メインテキストは画面上部または中央に配置
+- 重要ワードはレッドまたはゴールドで強調
+- ブランド名「OGI LAB」または「おぎぃ。」を右上または左上に小さくロゴ風配置
+
+# トーン
+- 専門性 × オリンピアンの権威性
+- ターゲット：陸上競技者・棒高跳び・スプリント選手（メイン）／本格トレーニング層（サブ）
+- 信頼感とインパクトを両立。煽りすぎず「現場の本物」感
+
+# 言語
+- すべて日本語で出力（英数字を除く）
+- 文字は鮮明に・誤字なく・読みやすく表示
+
+# 解像度
+- NOTEサムネ：1792×1024（横長）
+- TikTok/Instagramスライド：1024×1792（縦長）</div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTEサムネ -->
+<div class="section" id="thumb">
+  <div class="section-header">
+    <div class="label">📌 NOTEサムネイル ／ <span class="size-badge badge-thumb">1792×1024 横長</span></div>
+    <h2>サムネ｜数字訴求＋警告ハイブリッド型</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">NOTE THUMBNAIL</span>
+        <button class="copy-btn" data-copy="p-thumb">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-thumb">あなたはプロのSNSデザイナーです。NOTE記事のサムネイル画像を作成してください。
+
+【画像仕様】
+- サイズ：1792×1024（横長）
+- 高解像度・文字が鮮明
+- 日本語表記
+
+【上記の共通仕様を厳守】
+
+【メインキャッチ（中央〜左上）】
+※2行構成・超大型・白＋ゴールド強調
+
+  「筋肉痛＝筋肥大」
+  ─ それ、半分ウソです。
+
+【サブキャッチ（メインの下）】
+※やや小さめ・ホワイト＋レッド強調
+
+  リオ五輪オリンピアンが断言する
+  「本当のトレーニング指標」
+
+【右下のバッジ】
+※ゴールド円形＋黒文字、目立つ位置
+
+  「完全版」
+
+【キャラクター配置】
+- 添付の「オギラボインサート.png」のキャラ（おぎぃ。）を右下に配置
+- 表情：真剣・本気・少し挑発的な口元（「ちゃんと聞け」というメッセージ性）
+- ポーズ：胸を張って堂々と立つ、または腕を組んでこちらを見ている
+- キャラの背景に薄くシルエットで「棒高跳びのバー＋走る人」のラインアートを配置
+
+【背景】
+- メインカラー：ネイビー #1A2A3A
+- 左上から右下にかけてダークレッド #96281B のグラデーションオーバーレイ
+- 背景に薄く「DOMS／3RM／48h／2 weeks」などの英数字を小さく散らす（モチーフ程度）
+
+【その他】
+- 左上に小さく「OGI LAB」ロゴ風テキスト（ゴールド）
+- 右上に「note記事」とアイコン</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- スライド01 -->
+<div class="section" id="s01">
+  <div class="section-header">
+    <div class="label">スライド 01 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>表紙（フック）｜「筋肉痛＝筋肉が育つ」はウソです</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 01 / COVER</span>
+        <button class="copy-btn" data-copy="p-s01">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s01">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※上記の共通仕様（カラー・キャラ・フォント・解像度）を厳守
+
+【画像仕様】1024×1792（縦長）
+
+【トップに小さく】
+  OGI LAB / リオ五輪オリンピアン
+
+【中央メインキャッチ ※超大型2行】
+  「筋肉痛＝
+   筋肉が育つ」
+
+【その下にレッドで斜めスタンプ風】
+  → ウソです。
+
+【画面下部1/3にキャラ配置】
+- オギラボインサート.pngのキャラ
+- 表情：眉をひそめて少し怒ったような・本気で訴えかける顔
+- ポーズ：人差し指でこちらを指さしている（「今日はその話する」の合図）
+
+【最下部に小さく】
+  完全版｜現役オリンピアンの思考
+
+【背景】ネイビー基調、上部にうっすら赤いグラデーション、警告色を意識</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド02 -->
+<div class="section" id="s02">
+  <div class="section-header">
+    <div class="label">スライド 02 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>結論｜筋肉痛は筋肥大の必須条件じゃない</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 02 / CONCLUSION</span>
+        <button class="copy-btn" data-copy="p-s02">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s02">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※白＋大型
+  「結論」
+
+【メインキャッチ】※2行・超大型
+  筋肉痛は
+  筋肥大の必須条件じゃない
+
+【中央】3つの円バッジを横一列に並べる
+※それぞれゴールドの円＋中に数字＋下にキーワード
+
+  ①機械的張力（最重要）
+  ②代謝ストレス
+  ③筋損傷
+
+  ※①の周りに赤い光輝のエフェクトをつけて「最重要」を強調
+
+【下部にコメント】
+  「痛み＝育つ」じゃない。
+   覚えておいてください。
+
+【右下にキャラ】
+- 表情：教師のような落ち着き＋指を1本立てて「ここポイント」のポーズ
+
+【背景】ネイビー、中央に放射状の光（重要事項を強調する演出）</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド03 -->
+<div class="section" id="s03">
+  <div class="section-header">
+    <div class="label">スライド 03 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>経験①｜反復効果（Repeated Bout Effect）</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 03 / REPEATED BOUT EFFECT</span>
+        <button class="copy-btn" data-copy="p-s03">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s03">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※左上小型・ゴールド
+  経験① ／ Repeated Bout Effect
+
+【メインキャッチ】※大型2行
+  ひと冬越したら、
+  鉄棒で筋肉痛が来なくなった
+
+【中央のビジュアル】
+- 鉄棒にぶら下がるシルエットの人物アイコン
+- 矢印で「11月」→「2月」と時間軸を示す
+- 11月：「💥 強い筋肉痛」/ 2月：「✨ 筋肉痛ゼロ」
+
+【中段の解説テキスト】
+  これが「反復効果」。
+  神経系＋筋線維の構造が
+  適応した証拠。
+
+【強調】※レッド枠で囲む
+  痛みが消えても
+  筋肥大は止まらない。
+
+【左下にキャラ】
+- 表情：「これ意外と知られてないんだよね」と少し笑みを浮かべる
+- ポーズ：腕を組んで頷いている
+
+【背景】ネイビー、薄く鉄棒のシルエットを背景に配置</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド04 -->
+<div class="section" id="s04">
+  <div class="section-header">
+    <div class="label">スライド 04 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>経験②｜未経験のエキセントリック収縮が痛みの正体</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 04 / ECCENTRIC</span>
+        <button class="copy-btn" data-copy="p-s04">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s04">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※左上小型・ゴールド
+  経験② ／ エキセントリック収縮
+
+【メインキャッチ】※大型2行
+  たまに跳ぶと
+  バキバキになる理由
+
+【中央のビジュアル】
+- 棒高跳びをしている人物のシルエット（着地の瞬間を強調）
+- 着地脚に赤い炎エフェクトで「ハム／ふくらはぎ／お尻」と部位ラベル
+- 大きく「未経験の刺激」とゴールド文字
+
+【解説】
+  着地で体重の数倍の負荷を
+  「伸ばされながら」受け止める。
+  これがウエイトでは再現できない
+  極めて強烈なエキセントリック収縮。
+
+【強調】※レッド帯
+  筋肉痛は「未経験負荷の
+  センサー・アラート」
+
+【右下にキャラ】
+- 表情：「俺もまだ痛くなるんだよ」と苦笑い
+- ポーズ：腰に手を当てて、もう片方の手でハムストリングを触っている
+
+【背景】ネイビー、右上に棒高跳びのバーをアクセントで配置</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド05 -->
+<div class="section" id="s05">
+  <div class="section-header">
+    <div class="label">スライド 05 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>経験③｜試合翌日ウエイト＋48時間休養</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 05 / POST-MEET WEIGHT</span>
+        <button class="copy-btn" data-copy="p-s05">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s05">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※左上小型・ゴールド
+  経験③ ／ テーパリング期の筋量維持術
+
+【メインキャッチ】※大型2行
+  試合の翌日、
+  あえてウエイトを入れる。
+
+【中央のタイムライン図】※横長の矢印
+  [試合当日] → [翌日：ウエイト🔥] → [+1日：完全休養💤] → [+2日：ストレッチ／ケア🧘]
+
+  ※ウエイトの下に「追い込まない」と赤字注釈
+  ※完全休養〜ケアの下に「副交感優位へ」と注釈
+
+【右下に強調ボックス】※ゴールド枠
+  中枢性疲労を
+  48時間で除去する
+
+【下部CTA】※小さく
+  🔒 重量と種目構成はnoteで開示
+
+【左下にキャラ】
+- 表情：トレーナーモード・真面目・指導的
+- ポーズ：ノートとペンを持って解説しているような立ち姿
+
+【背景】ネイビー、中央タイムラインの背景に薄くカレンダーグリッド</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド06 -->
+<div class="section" id="s06">
+  <div class="section-header">
+    <div class="label">スライド 06 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>センサーとしての使い方＋7日超は警報</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 06 / SENSOR + ALERT</span>
+        <button class="copy-btn" data-copy="p-s06">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s06">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※大型
+  筋肉痛は「センサー」
+
+【中央上半分】※3つの円形アイコン
+  ①使った筋群の答え合わせ
+  ②普段の負荷不足の発見
+  ③弱点筋の発見
+
+  ※それぞれゴールドの円アイコン＋日本語キャプション
+
+【中央分割線】※赤い稲妻アイコンで分割
+
+【中央下半分】※警告ボックス
+  ⚠️ 警報
+  「7日を超える痛み」は
+  もう筋肉痛じゃない
+
+  ・肉離れ
+  ・腱炎・腱障害
+  ・筋膜の癒着
+
+【強調】※赤帯
+  「痛い＝効いてる」
+  と盲信するのは危険。
+  特に高速度トレーニングは注意。
+
+【右下にキャラ】
+- 表情：少し厳しい表情・警告の発信者
+- ポーズ：手のひらを前に出して「ストップ」のジェスチャー
+
+【背景】ネイビー、上半分は青みのライト、下半分は赤みのアラート色で分割</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド07 -->
+<div class="section" id="s07">
+  <div class="section-header">
+    <div class="label">スライド 07 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>順調の指標は3RMと競技パフォーマンス</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 07 / KPI / 3RM</span>
+        <button class="copy-btn" data-copy="p-s07">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s07">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※大型2行
+  順調かどうかは
+  ココで判断する
+
+【中央メインボックス】※ゴールド枠＋大型数字
+  3RM
+  ↓
+  「1レップでも更新できていれば、順調」
+
+【サブボックス】※白枠
+  例：先週まで3RMで3回 → 今週は4回挙がる
+  → トレーニングは機能している証拠
+
+【下段ボックス】※レッド枠
+  停滞期の判定基準：
+  3ヶ月以上強化しても1RMが動かない
+  → そこで初めてプログラム見直し
+
+【強調】※下部に大型
+  判断基準は
+  競技パフォーマンスの伸び
+
+【右下にキャラ】
+- 表情：自信に満ちた・確信を持って語っている
+- ポーズ：親指を立てている（GOOD・OKサイン）
+
+【背景】ネイビー、中央の3RMボックスに金色の光輪</div>
+    </div>
+  </div>
+</div>
+
+<!-- スライド08 -->
+<div class="section" id="s08">
+  <div class="section-header">
+    <div class="label">スライド 08 ／ <span class="size-badge badge-slide">1024×1792 縦長</span></div>
+    <h2>NOTE誘導（最終ページ）</h2>
+  </div>
+  <div class="section-body">
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">SLIDE 08 / NOTE CTA</span>
+        <button class="copy-btn" data-copy="p-s08">📋 コピー</button>
+      </div>
+      <div class="prompt-content" id="p-s08">TikTok / Instagram用の縦長スライド画像を1枚作成してください。
+※共通仕様を厳守
+
+【トップキャッチ】※大型
+  続きが、ある。
+
+【中央メインボックス】※note風カラーで囲む
+  🔒 noteメンバーシップ限定
+
+  ▪️ 春先「筋肉痛マップ」
+  　 ─ 部位別＝対応の一覧
+
+  ▪️ オリンピアン式スピード化プロトコル
+  　 ─ 2週間サイクル×2〜4の具体メニュー
+
+  ▪️ 試合翌日ウエイト 実メニュー
+  　 ─ 60%/80%/95%/60% 全公開
+
+  ▪️ SSC統合トレーニング
+  　 ─ クリーン×ドロップジャンプの実例
+
+【強調CTA】※ゴールド大型
+  プロフィールのリンクから
+  noteへ📖
+
+【下部に小さくフォロー誘導】
+  TikTok：@ogilab1230
+  YouTube：@OgiLab
+  note：@ogilab
+
+【中央にキャラを大きめに配置】
+- 表情：温かく・親しみのある笑顔
+- ポーズ：noteのスマホ画面を持って見せている／OKサイン
+- 隣に「保存・シェアお願いします！」の吹き出し
+
+【背景】ネイビー基調、中央に光の輪でnoteブランドカラー（緑寄り）を少しだけアクセント</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Tips & 統一文言 -->
+<div class="section" id="tips">
+  <div class="section-header">
+    <div class="label">💡 制作Tips ／ 統一文言</div>
+    <h2>うまく生成するためのコツ＆他媒体用テキスト</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="tips">
+      <h3>🎯 キャラの一貫性を保つには</h3>
+      <ul>
+        <li>必ず<strong>同じスレッドで連続生成</strong>してください（GPT-4oは前の画像を参照できます）</li>
+        <li>「前と同じキャラで」「服装と顔は変えないで」と毎回追記すると安定</li>
+      </ul>
+    </div>
+
+    <div class="tips">
+      <h3>📝 文字が崩れた場合の対処</h3>
+      <ul>
+        <li>「文字をもう少し大きく、明朝ではなくゴシック体で」と再指示</li>
+        <li>どうしても日本語が崩れる場合は、Photoshop / Canvaで後乗せ編集を推奨</li>
+      </ul>
+    </div>
+
+    <div class="tips">
+      <h3>🖼 NOTEサムネのリサイズ</h3>
+      <ul>
+        <li>ChatGPT出力（1792×1024）→ NOTE推奨サイズ（1280×670）にトリミング</li>
+        <li>Canva無料テンプレートでガイド付きトリミング可能</li>
+      </ul>
+    </div>
+
+    <h3 style="color:var(--gold);margin-top:32px;font-size:18px;border-bottom:1px dashed rgba(201,168,76,.4);padding-bottom:6px">📝 統一文言（他媒体でも使用）</h3>
+
+    <div class="text-block">
+      <span class="label">YouTube エンディング読み上げ用（15〜20秒）</span>
+      「今日話した内容の"実践編"はnoteに詳しく書いています。<br>
+      春先のスピード移行で怪我しないための"筋肉痛マップ"や、<br>
+      オリンピアン式スピード化プロトコル、試合翌日のウエイトメニューを<br>
+      メンバーシップ限定で公開中。概要欄のリンクからどうぞ。」
+    </div>
+
+    <div class="text-block">
+      <span class="label">TikTok キャプション末尾用（50〜80字）</span>
+      🔒続きはnoteで公開中📖<br>
+      オリンピアン式"筋肉痛マップ＆スピード化プロトコル"→プロフのリンクから✨
+    </div>
+
+    <div class="text-block">
+      <span class="label">TikTok スライド最終ページ用（20〜30字）</span>
+      もっと詳しく知りたい方はnoteへ📖
+    </div>
+
+    <div class="text-block">
+      <span class="label">Instagram キャプション末尾用（40〜60字）</span>
+      💡春先の怪我ゼロ運用法は @ogilab1230 のnoteで公開中🔒<br>
+      プロフィールのリンクからチェックしてみてね✨
+    </div>
+
+    <div class="text-block">
+      <span class="label">Instagram ストーリーズ用テキスト（10〜20字）</span>
+      続きはnoteで📖 → プロフリンクから
+    </div>
+
+    <h3 style="color:var(--gold);margin-top:32px;font-size:18px;border-bottom:1px dashed rgba(201,168,76,.4);padding-bottom:6px">🚀 おすすめ生成順序</h3>
+    <ol style="margin-left:24px;color:var(--gray-light);font-size:14px;line-height:2">
+      <li><strong>NOTEサムネ</strong>を最初に作る → デザインの方向性が決まる</li>
+      <li><strong>スライド01（表紙）</strong> → キャラの表情・ポーズの基準を固定</li>
+      <li><strong>スライド02〜07</strong> → 同じスレッドで連続生成（一貫性◎）</li>
+      <li><strong>スライド08（NOTE誘導）</strong> → 最後にCTAの強い画像で締める</li>
+    </ol>
+
+    <p style="margin-top:20px;text-align:center;color:var(--gold);font-weight:bold;font-size:16px">
+      合計：サムネ1枚 + スライド8枚 = 9枚 の生成で完成です。
+    </p>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.getAttribute('data-copy');
+    const el=document.getElementById(id);
+    if(!el)return;
+    const text=el.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const orig=btn.textContent;
+      btn.textContent='✓ コピー完了';
+      btn.classList.add('copied');
+      setTimeout(()=>{
+        btn.textContent=orig;
+        btn.classList.remove('copied');
+      },1500);
+    }).catch(err=>{
+      // Fallback for older browsers
+      const ta=document.createElement('textarea');
+      ta.value=text;document.body.appendChild(ta);ta.select();
+      document.execCommand('copy');document.body.removeChild(ta);
+      btn.textContent='✓ コピー完了';btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='📋 コピー';btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

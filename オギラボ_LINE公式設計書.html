@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ LINE公式アカウント 設計・運用マニュアル</title>
+<style>
+  :root {
+    --green: #06C755;
+    --green-dark: #04A344;
+    --green-light: #E8F8EE;
+    --gray-dark: #1a1a2e;
+    --gray: #4a4a68;
+    --gray-light: #f4f6f9;
+    --border: #e0e6ef;
+    --accent: #FF6B35;
+    --accent-light: #FFF3EE;
+    --blue: #3B82F6;
+    --blue-light: #EFF6FF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: #f0f4f8;
+    color: var(--gray-dark);
+    line-height: 1.7;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: white;
+    padding: 48px 40px;
+    text-align: center;
+  }
+  header .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 16px;
+    padding: 12px 24px;
+    margin-bottom: 24px;
+  }
+  header .logo .line-icon {
+    width: 40px; height: 40px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  header .logo-text { color: var(--green-dark); font-weight: 700; font-size: 18px; }
+  header h1 { font-size: 28px; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 8px; }
+  header p { opacity: 0.9; font-size: 15px; }
+  .updated { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 16px; font-size: 13px; margin-top: 12px; }
+
+  /* ===== NAV ===== */
+  nav {
+    background: white;
+    border-bottom: 2px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  nav a {
+    display: inline-block;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--green); border-bottom-color: var(--green); }
+
+  /* ===== MAIN ===== */
+  main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ===== SECTION ===== */
+  .section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    padding: 40px;
+    margin-bottom: 40px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .icon-green { background: var(--green-light); }
+  .icon-blue { background: var(--blue-light); }
+  .icon-accent { background: var(--accent-light); }
+  .icon-purple { background: #F3EEFF; }
+  .icon-yellow { background: #FFFBEA; }
+
+  .section-title { font-size: 22px; font-weight: 800; color: var(--gray-dark); }
+  .section-desc { font-size: 14px; color: var(--gray); margin-top: 4px; }
+
+  /* ===== OVERVIEW CARDS ===== */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .overview-card {
+    background: var(--gray-light);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid var(--border);
+  }
+  .overview-card .label { font-size: 12px; color: var(--gray); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .overview-card .value { font-size: 20px; font-weight: 800; color: var(--gray-dark); }
+  .overview-card .sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+  /* ===== MESSAGE BOX ===== */
+  .message-box {
+    background: var(--green-light);
+    border: 2px solid var(--green);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .message-box .msg-label {
+    display: inline-block;
+    background: var(--green);
+    color: white;
+    border-radius: 8px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .message-box pre {
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--gray-dark);
+  }
+  .copy-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: var(--green-dark); }
+
+  /* ===== RICH MENU ===== */
+  .rich-menu-preview {
+    background: #f0f4f8;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .rich-menu-title { font-size: 14px; font-weight: 700; color: var(--gray); margin-bottom: 16px; text-align: center; }
+  .rich-menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .menu-btn {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .menu-btn:hover { border-color: var(--green); background: var(--green-light); }
+  .menu-btn .btn-icon { font-size: 28px; }
+  .menu-btn .btn-label { font-size: 12px; font-weight: 700; color: var(--gray-dark); }
+  .menu-btn .btn-sub { font-size: 10px; color: var(--gray); }
+
+  /* ===== STEPS ===== */
+  .steps { margin: 20px 0; }
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 36px; height: 36px;
+    background: var(--green);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; padding-top: 4px; }
+  .step-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .step-content p { font-size: 14px; color: var(--gray); }
+
+  /* ===== CONTENT CALENDAR ===== */
+  .calendar-week {
+    background: var(--gray-light);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 12px 0;
+    border-left: 4px solid var(--green);
+  }
+  .calendar-week.special { border-left-color: var(--accent); background: var(--accent-light); }
+  .week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .week-tag {
+    background: var(--green);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .week-tag.alt { background: var(--accent); }
+  .week-theme { font-weight: 700; font-size: 16px; color: var(--gray-dark); }
+  .week-content { font-size: 14px; color: var(--gray); }
+  .week-content ul { padding-left: 20px; margin-top: 8px; }
+  .week-content li { margin-bottom: 4px; }
+
+  /* ===== SNS INDUCTION ===== */
+  .induction-card {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 16px 0;
+    transition: border-color 0.2s;
+  }
+  .induction-card:hover { border-color: var(--green); }
+  .induction-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .induction-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gray-dark);
+    color: white;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .induction-platform.tiktok { background: #000; }
+  .induction-platform.youtube { background: #FF0000; }
+  .induction-platform.note { background: #3DA835; }
+  .induction-platform.offline { background: var(--gray); }
+
+  .induction-where {
+    font-size: 13px;
+    color: var(--gray);
+    background: var(--gray-light);
+    border-radius: 8px;
+    padding: 4px 12px;
+  }
+
+  .script-box {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 12px 0;
+  }
+  .script-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .script-text {
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+
+  /* ===== TABLE ===== */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th {
+    background: var(--gray-dark);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  tr:nth-child(even) td { background: var(--gray-light); }
+
+  /* ===== BADGE ===== */
+  .badge {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 2px 4px 2px 0;
+  }
+  .badge-green { background: var(--green-light); color: var(--green-dark); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-accent { background: var(--accent-light); color: var(--accent); }
+  .badge-gray { background: var(--gray-light); color: var(--gray); border: 1px solid var(--border); }
+
+  /* ===== ALERT BOX ===== */
+  .alert {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert-green { background: var(--green-light); border: 1px solid var(--green); }
+  .alert-yellow { background: #FFFBEA; border: 1px solid #F59E0B; }
+  .alert-red { background: #FEF2F2; border: 1px solid #EF4444; }
+  .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .alert-text { font-size: 14px; }
+  .alert-text strong { display: block; font-weight: 700; margin-bottom: 4px; }
+
+  /* ===== CHECKLIST ===== */
+  .checklist { list-style: none; padding: 0; margin: 16px 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray);
+    font-size: 13px;
+  }
+
+  /* ===== RICH MENU SPEC ===== */
+  .spec-table { margin: 20px 0; }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    font-size: 14px;
+  }
+  .spec-row:last-child { border-bottom: 1px solid var(--border); }
+  .spec-row:first-child { border-radius: 8px 8px 0 0; }
+  .spec-row:last-child { border-radius: 0 0 8px 8px; }
+  .spec-key {
+    background: var(--gray-light);
+    padding: 12px 16px;
+    font-weight: 700;
+    color: var(--gray);
+    border-right: 1px solid var(--border);
+  }
+  .spec-val { padding: 12px 16px; }
+
+  @media (max-width: 640px) {
+    header { padding: 32px 20px; }
+    header h1 { font-size: 22px; }
+    .section { padding: 24px 20px; }
+    nav { padding: 0 16px; }
+    nav a { padding: 14px 12px; font-size: 13px; }
+    .rich-menu-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="line-icon">💬</div>
+    <div class="logo-text">オギラボ × LINE公式</div>
+  </div>
+  <h1>LINE公式アカウント 設計・運用マニュアル</h1>
+  <p>挨拶メッセージ ／ リッチメニュー ／ 定期コンテンツ ／ 各SNS誘導文</p>
+  <span class="updated">📅 作成日: 2026-04-14 ｜ 対象: オギラボ（荻田大樹 / おぎぃ。）</span>
+</header>
+
+<nav>
+  <a href="#overview">📋 全体概要</a>
+  <a href="#greeting">👋 挨拶メッセージ</a>
+  <a href="#richmenu">📱 リッチメニュー</a>
+  <a href="#content">📆 定期コンテンツ</a>
+  <a href="#induction">🔗 SNS誘導文</a>
+  <a href="#settings">⚙️ 初期設定</a>
+  <a href="#checklist">✅ 運用チェック</a>
+</nav>
+
+<main>
+
+<!-- ===== OVERVIEW ===== -->
+<section class="section" id="overview">
+  <div class="section-header">
+    <div class="section-icon icon-green">📋</div>
+    <div>
+      <div class="section-title">LINE公式アカウント 全体設計</div>
+      <div class="section-desc">アカウントの役割・目的・KPIの定義</div>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="label">アカウント名</div>
+      <div class="value">おぎぃ。/ オギラボ</div>
+      <div class="sub">LINE公式表示名</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">配信頻度</div>
+      <div class="value">週1回</div>
+      <div class="sub">毎週木曜日 朝8:00</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">メイン誘導先</div>
+      <div class="value">noteメンバーシップ</div>
+      <div class="sub">¥980/月</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">サービス開始</div>
+      <div class="value">2026年5月</div>
+      <div class="sub">メンバーシップ正式オープン</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:17px; font-weight:800; margin-bottom:16px; color:var(--gray-dark);">📌 LINEを使う2つの目的</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+    <div style="background:var(--green-light); border:2px solid var(--green); border-radius:14px; padding:20px;">
+      <div style="font-size:13px; font-weight:700; color:var(--green-dark); margin-bottom:8px;">🎯 目的①</div>
+      <div style="font-weight:800; font-size:16px; margin-bottom:8px;">ノウハウ定期配信</div>
+      <div style="font-size:13px; color:var(--gray);">登録者に毎週ノウハウを届け、noteへ自然に誘導する。直接告知ではなく「もっと深く知りたい」と思わせる設計。</div>
+    </div>
+    <div style="background:var(--blue-light); border:2px solid var(--blue); border-radius:14px; padding:20px;">
+      <div style="font-size:13px; font-weight:700; color:var(--blue); margin-bottom:8px;">🎯 目的②</div>
+      <div style="font-weight:800; font-size:16px; margin-bottom:8px;">個別サポート窓口</div>
+      <div style="font-size:13px; color:var(--gray);">noteメンバーシップ会員との個別やり取り。Zoom相談・動画フォーム診断・質問対応などのサポート連絡用。</div>
+    </div>
+  </div>
+
+  <div class="alert alert-yellow">
+    <div class="alert-icon">💡</div>
+    <div class="alert-text">
+      <strong>告知ポリシー（重要）</strong>
+      「サロン入ってね」という直接告知は絶対NG。コンテンツの末尾で「続きはnoteで」と自然に誘導する設計を徹底する。これはTikTok・YouTube・Noteすべてに共通するオギラボの告知方針。
+    </div>
+  </div>
+
+  <h3 style="font-size:17px; font-weight:800; margin:24px 0 16px; color:var(--gray-dark);">📊 登録者の流入経路</h3>
+  <table>
+    <tr>
+      <th>流入元</th>
+      <th>現在のフォロワー数</th>
+      <th>誘導方法</th>
+      <th>ターゲット層</th>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">🎵 TikTok</span></td>
+      <td>1,130人 ✅ 目標達成</td>
+      <td>プロフィールリンク・動画コメント欄</td>
+      <td>AI活用×ビジネスパーソン</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">🎥 YouTube</span></td>
+      <td>86人</td>
+      <td>概要欄・エンディングカード</td>
+      <td>バイオメカニクスに興味ある層</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">📝 Note</span></td>
+      <td>メンバー招集前</td>
+      <td>記事末尾・プロフィール欄</td>
+      <td>深く学びたい読者</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">👥 口コミ/対面</span></td>
+      <td>SORA/SUPERIOR保護者など</td>
+      <td>QRコード・名刺・チラシ</td>
+      <td>子どもの成長に関心のある親御さん</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ===== GREETING ===== -->
+<section class="section" id="greeting">
+  <div class="section-header">
+    <div class="section-icon icon-green">👋</div>
+    <div>
+      <div class="section-title">挨拶メッセージ（友だち追加後の自動返信）</div>
+      <div class="section-desc">友だち追加した直後に自動で送られるウェルカムメッセージ</div>
+    </div>
+  </div>
+
+  <div class="alert alert-green">
+    <div class="alert-icon">✅</div>
+    <div class="alert-text">
+      <strong>設計のポイント</strong>
+      ①「何をくれる人か」を3秒で伝える ②押しつけがましくなく自己紹介 ③最初のアクション（リッチメニュー）を促す ④直接的なサロン宣伝は避ける
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:24px 0 12px;">💬 メッセージ①（テキスト）</h3>
+  <div class="message-box">
+    <span class="msg-label">📨 自動返信テキスト</span>
+    <button class="copy-btn" onclick="copyText(this)">コピー</button>
+    <pre id="msg1">はじめまして！
+おぎぃ。です🙌
+
+元棒高跳び日本代表・リオ五輪出場選手として活動したのち、
+今は兵庫でパーソナルジム「CARAS」とキッズ陸上クラブを運営しています。
+
+このLINEでは
+┗ 週1回「身体・スポーツ・ビジネス」の
+　ノウハウを送っています📩
+
+身体操作の科学×AIフル活用の実験日記を
+リアルタイムでお届けしていくので、
+ゆるっと受け取ってもらえたら嬉しいです！
+
+まずは↓のメニューから気になるところを見てみてください✨</pre>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:24px 0 12px;">💬 メッセージ②（イメージカード＋ボタン）※オプション</h3>
+  <div class="message-box">
+    <span class="msg-label">📎 カード型メッセージ（LINE公式の「ボタン」テンプレート使用）</span>
+    <button class="copy-btn" onclick="copyText(this)">コピー</button>
+    <pre id="msg2">【カード設定内容】
+
+タイトル: おぎぃ。とはこんな人👇
+テキスト: オリンピアン × バイオメカニクス × AIチーム運営
+　　　　  身体と仕事の「なぜ」を科学で解説中
+
+ボタン①: 📖 noteで記事を読む
+　　　　  → https://note.com/ogilab
+ボタン②: 🎵 TikTokを見る
+　　　　  → https://www.tiktok.com/@ogilab1230</pre>
+  </div>
+
+  <div class="alert alert-yellow">
+    <div class="alert-icon">⚙️</div>
+    <div class="alert-text">
+      <strong>設定場所</strong>
+      LINE公式アカウントマネージャー →「あいさつメッセージ」→ 「メッセージを設定する」。メッセージ①はテキスト形式、メッセージ②はカード（ボタンテンプレート）として追加。1つのあいさつで最大3件まとめて送れます。
+    </div>
+  </div>
+</section>
+
+<!-- ===== RICH MENU ===== -->
+<section class="section" id="richmenu">
+  <div class="section-header">
+    <div class="section-icon icon-blue">📱</div>
+    <div>
+      <div class="section-title">リッチメニュー設計</div>
+      <div class="section-desc">トーク画面下部に常時表示されるメニューボタン（4ボタン構成）</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin-bottom:16px;">🖼 ビジュアルイメージ（2×2レイアウト）</h3>
+  <div class="rich-menu-preview">
+    <div class="rich-menu-title">▼ スマホ画面での見え方（イメージ）</div>
+    <div class="rich-menu-grid">
+      <div class="menu-btn">
+        <div class="btn-icon">📚</div>
+        <div class="btn-label">コンテンツ</div>
+        <div class="btn-sub">note・TikTok・YouTube一覧</div>
+      </div>
+      <div class="menu-btn">
+        <div class="btn-icon">👤</div>
+        <div class="btn-label">おぎぃの自己紹介</div>
+        <div class="btn-sub">経歴・どんな人か知りたい方へ</div>
+      </div>
+      <div class="menu-btn">
+        <div class="btn-icon">📓</div>
+        <div class="btn-label">メンバーになる</div>
+        <div class="btn-sub">noteメンバーシップ ¥980/月</div>
+      </div>
+      <div class="menu-btn" style="border-color:#FFD700; background:#FFFBEA;">
+        <div class="btn-icon">💬</div>
+        <div class="btn-label">おぎぃに質問 🔑</div>
+        <div class="btn-sub">メンバーシップ限定</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:28px 0 16px;">📐 各ボタンの詳細設定</h3>
+  <table>
+    <tr>
+      <th>ボタン</th>
+      <th>表示テキスト</th>
+      <th>アクションタイプ</th>
+      <th>リンク先URL / テキスト</th>
+    </tr>
+    <tr>
+      <td><strong>① 左上</strong></td>
+      <td>📚 コンテンツ</td>
+      <td>URL遷移</td>
+      <td>https://note.com/ogilab<br><span style="font-size:12px; color:var(--gray);">※note記事一覧（TikTok・YouTubeへの誘導も記事内で）</span></td>
+    </tr>
+    <tr>
+      <td><strong>② 右上</strong></td>
+      <td>👤 おぎぃの自己紹介</td>
+      <td>URL遷移</td>
+      <td>https://ogilab.pages.dev<br><span style="font-size:12px; color:var(--gray);">※Cloudflare Pages（設定済み）</span></td>
+    </tr>
+    <tr>
+      <td><strong>③ 左下</strong></td>
+      <td>📓 メンバーになる</td>
+      <td>URL遷移</td>
+      <td>https://note.com/ogilab/membership<br><span style="font-size:12px; color:var(--gray);">※noteメンバーシップページ ¥980/月</span></td>
+    </tr>
+    <tr>
+      <td><strong>④ 右下</strong></td>
+      <td>💬 おぎぃに質問 🔑</td>
+      <td>テキスト送信</td>
+      <td>「質問」と送信 → メンバー確認後に個別返信<br><span style="font-size:12px; color:var(--gray);">※メンバーシップ会員限定。非会員には「入会案内」を自動返信</span></td>
+    </tr>
+  </table>
+
+  <h3 style="font-size:16px; font-weight:800; margin:28px 0 16px;">🎨 リッチメニュー 画像仕様</h3>
+  <div class="spec-table">
+    <div class="spec-row">
+      <div class="spec-key">推奨サイズ</div>
+      <div class="spec-val">2500 × 1686 px（2分割: 各 1250 × 843 px）または 800 × 540 px（小サイズ）</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-key">ファイル形式</div>
+      <div class="spec-val">JPG または PNG（最大1MB）</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-key">レイアウト</div>
+      <div class="spec-val">2列 × 2行（計4ボタン）/ LINEのテンプレ「タイプA」を選択</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-key">デザイン指示</div>
+      <div class="spec-val">背景：深めのグリーン（#04A344）/ テキスト：白 / アイコン：各ボタンに絵文字アイコン / フォント：太字ゴシック</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-key">タイトルテキスト</div>
+      <div class="spec-val">「メニュー」（LINE標準 or 非表示でもOK）</div>
+    </div>
+  </div>
+
+  <div class="alert alert-yellow">
+    <div class="alert-icon">🖌</div>
+    <div class="alert-text">
+      <strong>画像制作のヒント</strong>
+      Canva（無料）でリッチメニュー用テンプレートを検索すると「LINE リッチメニュー」テンプレが複数あります。上記の4ボタン・カラー指定でカスタマイズするのが最速です。
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENT CALENDAR ===== -->
+<section class="section" id="content">
+  <div class="section-header">
+    <div class="section-icon icon-accent">📆</div>
+    <div>
+      <div class="section-title">定期コンテンツ配信カレンダー</div>
+      <div class="section-desc">週1回（毎週木曜 朝8:00）の配信テンプレート</div>
+    </div>
+  </div>
+
+  <div class="alert alert-green">
+    <div class="alert-icon">🎯</div>
+    <div class="alert-text">
+      <strong>配信の黄金ルール</strong>
+      LINE配信はTikTok・YouTube・Noteの「続き」として機能させる。SNSで触れた内容をLINEでもう一歩深掘りし、「さらに深く知りたい人はnoteで」という流れを毎回つくる。
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:24px 0 16px;">🗓 月4回ローテーション（テーマ固定型）</h3>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div>
+        <span class="week-tag">第1週 木曜</span>
+        <div class="week-theme" style="margin-top:6px;">🏃 身体・スポーツのロジック</div>
+      </div>
+      <div style="font-size:12px; color:var(--gray); text-align:right;">テーマ柱 ①</div>
+    </div>
+    <div class="week-content">
+      <p><strong>配信内容の型：</strong></p>
+      <ul>
+        <li>「今週TikTok/YouTubeで話したテーマ」の深掘りポイントを1つ</li>
+        <li>バイオメカニクスや運動生理学の「使える知識」を1つ</li>
+        <li>末尾：「この続き（実践ドリル）はnoteで限定公開中です」</li>
+      </ul>
+      <div style="margin-top:12px; background:white; border-radius:10px; padding:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gray); margin-bottom:8px;">📝 テンプレート文例</div>
+        <pre style="white-space:pre-wrap; font-family:inherit; font-size:13px; line-height:1.8;">【今週のおぎぃ。ノウハウ🏃】
+
+「速く走る」ためのキーポイント、ちゃんと説明できますか？
+
+今週TikTokで話した「腸腰筋の使い方」ですが、
+実は「股関節の引き出しの速さ」がすべてを決めています。
+
+✅ ポイントは「膝を上げる」より「脚を後ろに引かない」こと
+✅ これを理解するだけで指導の声かけが変わります
+
+続きの実践ドリル（3ステップ）は
+今月のnote限定記事で公開しています👇
+
+↓ 続きを読む（note）
+https://note.com/ogilab</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div>
+        <span class="week-tag">第2週 木曜</span>
+        <div class="week-theme" style="margin-top:6px;">👨‍👩‍👧 子どもの才能を伸ばす関わり方</div>
+      </div>
+      <div style="font-size:12px; color:var(--gray); text-align:right;">テーマ柱 ②</div>
+    </div>
+    <div class="week-content">
+      <p><strong>配信内容の型：</strong></p>
+      <ul>
+        <li>「保護者がやりがちなNG声かけ」や「成功体験の作り方」など発達心理学×スポーツのネタ</li>
+        <li>SORA/SUPERIORの現場から見たリアル事例（個人特定なし）</li>
+        <li>末尾：「キッズラボ（note限定）でさらに詳しく解説中」</li>
+      </ul>
+      <div style="margin-top:12px; background:white; border-radius:10px; padding:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gray); margin-bottom:8px;">📝 テンプレート文例</div>
+        <pre style="white-space:pre-wrap; font-family:inherit; font-size:13px; line-height:1.8;">【子どもの「やる気スイッチ」の話🔑】
+
+「頑張れ！」って声かけてますか？
+
+実はあの言葉、子どもによっては
+逆効果になることがあります😅
+
+発達心理学的には
+「頑張れ」より「やってみな」のほうが
+自己効力感が上がりやすい。
+
+小さな成功体験をどう積ませるかで
+3ヶ月後の伸びが全然違います。
+
+詳しい声かけパターン（状況別5選）は
+noteのキッズラボ記事に書いています👇
+
+https://note.com/ogilab</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div>
+        <span class="week-tag">第3週 木曜</span>
+        <div class="week-theme" style="margin-top:6px;">💼 ビジネス × AI活用の実験日記</div>
+      </div>
+      <div style="font-size:12px; color:var(--gray); text-align:right;">テーマ柱 ③</div>
+    </div>
+    <div class="week-content">
+      <p><strong>配信内容の型：</strong></p>
+      <ul>
+        <li>AI活用・ジム経営・オンラインサロン構築のリアルな体験談</li>
+        <li>「今週やってみたこと」「失敗したこと」の等身大レポート</li>
+        <li>末尾：「パフォーマンスラボ（note限定）でビジネス×身体の深掘りを発信中」</li>
+      </ul>
+      <div style="margin-top:12px; background:white; border-radius:10px; padding:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gray); margin-bottom:8px;">📝 テンプレート文例</div>
+        <pre style="white-space:pre-wrap; font-family:inherit; font-size:13px; line-height:1.8;">【今週のAI実験報告🤖】
+
+今週、AIチームに任せてみた業務 → [タスク名]
+結果：時間が○時間→○分に短縮
+
+正直、最初は「ほんとに使えるの？」
+って思ってたんですが、使い方次第で
+アホほど変わりますねこれ笑
+
+元アスリートが「なぜAIをここまで推すか」は
+身体トレーニングの「反復×フォーム改善」と
+まったく同じロジックで動いてるから。
+
+詳しくはnoteのパフォーマンスラボに書きました👇
+
+https://note.com/ogilab</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week special">
+    <div class="week-header">
+      <div>
+        <span class="week-tag alt">第4週 木曜</span>
+        <div class="week-theme" style="margin-top:6px;">💭 おぎぃ。の頭の中（フリー）</div>
+      </div>
+      <div style="font-size:12px; color:var(--gray); text-align:right;">テーマ柱 ④</div>
+    </div>
+    <div class="week-content">
+      <p><strong>配信内容の型：</strong></p>
+      <ul>
+        <li>日々の思考・展望・試行錯誤をリアルに吐き出す「人柄が見える」投稿</li>
+        <li>オリンピックの裏話、現役時代の後悔、今やりたいことなど等身大で</li>
+        <li>末尾：note全体への誘導（特定記事でなく「最近書いたこと」程度でOK）</li>
+      </ul>
+      <div style="margin-top:12px; background:white; border-radius:10px; padding:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gray); margin-bottom:8px;">📝 テンプレート文例</div>
+        <pre style="white-space:pre-wrap; font-family:inherit; font-size:13px; line-height:1.8;">【ちょっと真面目な話💭】
+
+オリンピック出場して、何が変わったか。
+
+「すごいね」「かっこいいね」はたくさん言ってもらえるけど
+「何を感じたか」を聞いてくれる人はほとんどいなくて。
+
+あの4年間で学んだいちばん大事なことは
+「本番より練習に人格が出る」ということ。
+
+これ、子育てにも経営にも全部通じると思ってて。
+
+最近のnoteにそのあたりの話を書いてます。
+よかったら読んでみてください🙌
+
+https://note.com/ogilab</pre>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:28px 0 16px;">⏰ 配信設定</h3>
+  <table>
+    <tr>
+      <th>項目</th>
+      <th>設定値</th>
+    </tr>
+    <tr><td>配信曜日</td><td>毎週木曜日</td></tr>
+    <tr><td>配信時刻</td><td>朝8:00（通勤前・朝の習慣タイムを狙う）</td></tr>
+    <tr><td>配信方法</td><td>LINE公式マネージャー「メッセージ配信」→「予約配信」で事前設定</td></tr>
+    <tr><td>配信ターゲット</td><td>全友だち（属性分けは登録100人超えてから検討）</td></tr>
+    <tr><td>1回の配信メッセージ数</td><td>1〜2件（テキスト1件 ＋ 画像 or URL 1件が最大）</td></tr>
+  </table>
+</section>
+
+<!-- ===== INDUCTION ===== -->
+<section class="section" id="induction">
+  <div class="section-header">
+    <div class="section-icon icon-purple">🔗</div>
+    <div>
+      <div class="section-title">各SNS・メディアからのLINE誘導文</div>
+      <div class="section-desc">TikTok / YouTube / Note / 口コミ・対面 それぞれの誘導テンプレート</div>
+    </div>
+  </div>
+
+  <!-- TikTok -->
+  <div class="induction-card">
+    <div class="induction-header">
+      <span class="induction-platform tiktok">🎵 TikTok</span>
+      <span class="induction-where">プロフィール欄 ＆ 動画コメント欄</span>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📌 プロフィール欄テキスト（140文字以内）</div>
+      <div class="script-text">棒高跳び元日本代表・リオ五輪🇯🇵|
+パーソナルジム・陸上クラブ・AI活用実験中
+身体操作×ビジネスのロジックを発信📊
+
+👇 週イチのノウハウ配信はLINEで
+（リンクから登録してね）</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">💬 動画コメント欄への固定コメント文</div>
+      <div class="script-text">この動画の「続き（実践編）」はLINEとnoteで先行公開してます🔗
+プロフのリンクから登録できます！</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">🎬 動画エンディングトーク（口頭）</div>
+      <div class="script-text">「もっと深く知りたい人は、プロフィールのLINEに登録しておいてください。毎週木曜日にこういうネタを深掘りして送ってるので、ぜひ。」</div>
+    </div>
+  </div>
+
+  <!-- YouTube -->
+  <div class="induction-card">
+    <div class="induction-header">
+      <span class="induction-platform youtube">🎥 YouTube</span>
+      <span class="induction-where">概要欄（全動画共通）＆ エンディングカード</span>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📌 概要欄テキスト（全動画に共通で入れるテンプレ）</div>
+      <div class="script-text">━━━━━━━━━━━━━━━━━━━
+🔔 LINE公式で週1ノウハウ配信中
+　→ [ LINE登録リンクをここに貼る ]
+　　毎週木曜、動画では話せない深掘りを送ってます
+
+📓 noteメンバーシップ「オギラボ」
+　→ https://note.com/ogilab
+　　実践ドリル・個別サポートはnoteで
+
+━━━━━━━━━━━━━━━━━━━
+🏃 荻田大樹（おぎぃ。）プロフィール
+元棒高跳び日本代表 / リオデジャネイロ五輪出場
+パーソナルジムCARAS・キッズ陸上SUPERIOR運営
+バイオメカニクス × AI活用 × ビジネスを発信中
+━━━━━━━━━━━━━━━━━━━</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">🎬 エンディングトーク（口頭スクリプト）</div>
+      <div class="script-text">「今日の内容をもっと深く知りたい方は、概要欄にLINEの登録リンク貼っておきます。毎週木曜日に、動画では話しきれない実践的なノウハウを送ってるので、ぜひ登録してみてください。」</div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div class="induction-card">
+    <div class="induction-header">
+      <span class="induction-platform note">📝 Note</span>
+      <span class="induction-where">記事末尾（無料記事すべてに挿入）＆ プロフィール欄</span>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📌 noteプロフィール欄テキスト</div>
+      <div class="script-text">棒高跳び元日本代表・リオ五輪🇯🇵
+身体操作のロジック × AI × ビジネスを発信
+
+📩 LINE公式：週1ノウハウ配信（無料）
+→ [ LINE登録リンク ]
+
+💬 メンバーシップ「オギラボ」¥980/月
+→ キッズラボ / パフォーマンスラボ / ポールラボ</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📝 無料記事の末尾に毎回挿入するブロック</div>
+      <div class="script-text">---
+
+📩 **毎週木曜、LINEでこういう話を深掘りして送っています**
+
+この記事のような「身体とビジネスの交差点」を
+週1回、LINE登録者に先行配信しています。
+
+登録は無料です。読むだけでOKなので
+よかったら気軽に登録してみてください🙌
+
+👇 LINE登録（無料）
+[ ここにLINEリンクを貼る ]
+
+---</div>
+    </div>
+  </div>
+
+  <!-- Offline -->
+  <div class="induction-card">
+    <div class="induction-header">
+      <span class="induction-platform offline">👥 口コミ・対面</span>
+      <span class="induction-where">SORA/SUPERIOR保護者・名刺・チラシ・QRコード</span>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">🗣 保護者への口頭トーク（SORA/SUPERIOR現場）</div>
+      <div class="script-text">「LINEで毎週、子どもの運動や声かけのコツを送ってるんですよ。
+無料なので、よかったらQRコードで登録してみてください。
+スクールのお知らせとは別のアカウントなので、気軽に読んでもらえます。」</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📇 名刺裏面テキスト</div>
+      <div class="script-text">📱 LINE公式「おぎぃ。/ オギラボ」
+毎週木曜に身体・スポーツ・AI活用の
+ノウハウをお届けしています。
+
+[ QRコードをここに配置 ]</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">📄 チラシ・掲示物テキスト（保護者向け）</div>
+      <div class="script-text">🏃 おぎぃ。の「子どもの走り方・伸ばし方」
+LINE公式に登録すると毎週届きます
+
+✅ 保護者への声かけのコツ
+✅ 発達段階に合った関わり方
+✅ バイオメカニクスで解説する「速くなる理由」
+
+登録無料 ／ いつでも解除OK
+👇 QRコードをスキャン</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SETTINGS ===== -->
+<section class="section" id="settings">
+  <div class="section-header">
+    <div class="section-icon icon-yellow">⚙️</div>
+    <div>
+      <div class="section-title">初期設定ガイド</div>
+      <div class="section-desc">LINE公式アカウントマネージャーでの設定手順</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>アカウント名・プロフィール設定</h4>
+        <p>アカウント名：<strong>おぎぃ。/ オギラボ</strong> ／ プロフィール画像：おぎぃ。の顔写真（統一感のある白背景推奨）／ 背景画像：アクション写真や棒高跳びの写真</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>あいさつメッセージの設定</h4>
+        <p>「チャット」→「あいさつメッセージ」→ 本マニュアルの「挨拶メッセージ①」を貼り付け。必要に応じてカード型メッセージ②も追加。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>リッチメニューの設定</h4>
+        <p>「ホーム」→「リッチメニュー」→「作成」→ テンプレートから「タイプA（2×2）」を選択 → Canvaで作った画像をアップロード → 各ボタンにURLを設定。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>自動返信の設定（オプション）</h4>
+        <p>「キーワード応答メッセージ」で「オギラボ」「note」「入会」などのキーワードに対して自動でnoteリンクを返す設定を追加できます。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>LINE URLの取得・各SNSへの貼り付け</h4>
+        <p>「ホーム」→「友だちを増やす」→「友だち追加URL」をコピー → TikTokプロフィール・YouTube概要欄・noteプロフィールに貼り付け。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>初回配信のテスト送信</h4>
+        <p>自分のLINEで友だち追加し、あいさつメッセージとリッチメニューが正常に表示されるか確認。配信前にも「テスト送信」機能で実際の見た目をチェック。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin:24px 0 16px;">💰 料金プランについて</h3>
+  <table>
+    <tr>
+      <th>プラン</th>
+      <th>月額</th>
+      <th>無料メッセージ数</th>
+      <th>推奨タイミング</th>
+    </tr>
+    <tr>
+      <td><strong>フリー</strong></td>
+      <td>無料</td>
+      <td>200通/月</td>
+      <td>登録者0〜200人の立ち上げ期</td>
+    </tr>
+    <tr>
+      <td><strong>ライト</strong></td>
+      <td>¥5,000/月</td>
+      <td>5,000通/月</td>
+      <td>登録者200〜500人</td>
+    </tr>
+    <tr>
+      <td><strong>スタンダード</strong></td>
+      <td>¥15,000/月</td>
+      <td>30,000通/月</td>
+      <td>登録者500人〜</td>
+    </tr>
+  </table>
+  <div class="alert alert-green">
+    <div class="alert-icon">💡</div>
+    <div class="alert-text">
+      <strong>まずはフリープランからスタートでOK</strong>
+      登録者が200人を超えたらライトへアップグレード。週1配信（1通）なら、月に200人以上の友だちに送れるようになったら切り替えるイメージ。
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHECKLIST ===== -->
+<section class="section" id="checklist">
+  <div class="section-header">
+    <div class="section-icon icon-green">✅</div>
+    <div>
+      <div class="section-title">運用チェックリスト</div>
+      <div class="section-desc">初期設定 ＆ 毎週の運用チェック</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; font-weight:800; margin-bottom:16px;">📋 初期設定チェックリスト（5月オープン前に完了）</h3>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span>LINE公式アカウント 新規作成完了</span></li>
+    <li><div class="check-box"></div><span>アカウント名「おぎぃ。/ オギラボ」に設定</span></li>
+    <li><div class="check-box"></div><span>プロフィール画像・背景画像のアップロード</span></li>
+    <li><div class="check-box"></div><span>あいさつメッセージ①（テキスト）の設定完了</span></li>
+    <li><div class="check-box"></div><span>あいさつメッセージ②（カード型）の設定完了 ※任意</span></li>
+    <li><div class="check-box"></div><span>リッチメニュー用画像の制作（Canvaなど）</span></li>
+    <li><div class="check-box"></div><span>リッチメニューの設定・公開完了</span></li>
+    <li><div class="check-box"></div><span>LINE URLをTikTokプロフィールに設定</span></li>
+    <li><div class="check-box"></div><span>LINE URLをYouTube概要欄（全動画）に追記</span></li>
+    <li><div class="check-box"></div><span>LINE URLをnoteプロフィールに追記</span></li>
+    <li><div class="check-box"></div><span>自分のLINEでテスト登録・動作確認完了</span></li>
+    <li><div class="check-box"></div><span>初回配信（5月第1週木曜）の内容を事前作成・予約設定</span></li>
+  </ul>
+
+  <h3 style="font-size:16px; font-weight:800; margin:28px 0 16px;">🔄 毎週の運用チェック（木曜配信前）</h3>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span>今週のテーマ確認（①身体 / ②子ども / ③AI×ビジネス / ④フリー の4週ローテ）</span></li>
+    <li><div class="check-box"></div><span>TikTok・YouTubeで今週話したネタと連携した内容になっているか確認</span></li>
+    <li><div class="check-box"></div><span>note記事のURLが正しいか確認</span></li>
+    <li><div class="check-box"></div><span>テスト送信で文字化け・リンク切れがないか確認</span></li>
+    <li><div class="check-box"></div><span>配信予約（木曜8:00）が正しく設定されているか確認</span></li>
+  </ul>
+
+  <h3 style="font-size:16px; font-weight:800; margin:28px 0 16px;">📊 月次確認事項</h3>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span>友だち増減数の確認（目標：月+〇〇人）</span></li>
+    <li><div class="check-box"></div><span>メッセージ開封率・ブロック率のチェック</span></li>
+    <li><div class="check-box"></div><span>リッチメニューのクリック数確認（どのボタンが人気か）</span></li>
+    <li><div class="check-box"></div><span>noteへの流入（メンバーシップ会員数の変化）との相関確認</span></li>
+    <li><div class="check-box"></div><span>200通/月を超えそうなら有料プランへの切り替えを検討</span></li>
+  </ul>
+
+  <div class="alert alert-yellow" style="margin-top:32px;">
+    <div class="alert-icon">🎯</div>
+    <div class="alert-text">
+      <strong>個別サポート（メンバーシップ会員向け）の運用方針</strong>
+      noteメンバーシップ会員からのサポート依頼は、LINE公式の「チャット」機能で1対1対応。Zoom相談・動画フォーム診断・メニュー作成などの有料アップセルもLINEチャット経由でクローズする設計。フリープランはチャット無制限なので最初はコスト0で運用可能。
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>オギラボ LINE公式アカウント 設計・運用マニュアル ｜ 作成: 2026-04-14</p>
+  <p style="margin-top:8px;">荻田大樹（おぎぃ。）/ 株式会社MOON</p>
+</footer>
+
+<script>
+function copyText(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  if (pre) {
+    navigator.clipboard.writeText(pre.textContent).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'コピーしました！';
+      btn.style.background = '#04A344';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+      }, 2000);
+    });
+  }
+}
+</script>
+
+</body>
+</html>

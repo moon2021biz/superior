@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📱 SNSフォロワー日次レポート｜2026-03-30</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      background: #0f0f13;
+      color: #e8e8e8;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    .header {
+      text-align: center;
+      padding: 32px 20px 24px;
+      border-bottom: 1px solid #2a2a3a;
+      margin-bottom: 28px;
+    }
+    .header .emoji { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+    .header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .header .date { font-size: 0.85rem; color: #888; }
+
+    /* アラートバナー */
+    .alert-banner {
+      background: linear-gradient(135deg, #ff6b35, #f7c59f);
+      color: #1a0a00;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .alert-banner .alert-emoji { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .alert-banner .alert-text { font-size: 1.05rem; }
+    .alert-banner .alert-sub { font-size: 0.85rem; font-weight: 500; margin-top: 4px; opacity: 0.8; }
+
+    /* PJカード */
+    .pj-section { margin-bottom: 24px; }
+    .pj-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .pj-icon { font-size: 1.3rem; }
+    .pj-name { font-size: 1.05rem; font-weight: 700; color: #fff; }
+
+    .account-card {
+      background: #1a1a26;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      border-left: 3px solid #3a3a55;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .account-card.changed { border-left-color: #4ade80; }
+    .account-card.big-change { border-left-color: #f59e0b; background: #1e1a10; }
+    .account-card.no-change { border-left-color: #3a3a55; }
+    .account-card.first-check { border-left-color: #60a5fa; }
+    .account-card.warning { border-left-color: #ef4444; background: #1e1010; }
+
+    .platform {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 110px;
+    }
+    .platform-icon { font-size: 1.1rem; }
+    .platform-name { font-size: 0.8rem; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    .followers {
+      flex: 1;
+      min-width: 80px;
+    }
+    .followers-count { font-size: 1.4rem; font-weight: 800; color: #fff; }
+    .followers-posts { font-size: 0.75rem; color: #777; margin-top: 2px; }
+
+    .change-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .change-plus { background: #052e16; color: #4ade80; }
+    .change-big { background: #451a03; color: #f59e0b; }
+    .change-zero { background: #1c1c2e; color: #666; }
+    .change-first { background: #0c1e35; color: #60a5fa; }
+    .change-low { background: #1e0909; color: #f87171; }
+
+    .goal-bar-wrap { margin-top: 14px; }
+    .goal-label { font-size: 0.8rem; color: #aaa; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .goal-bar-bg { background: #2a2a3a; border-radius: 99px; height: 8px; overflow: hidden; }
+    .goal-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      transition: width 0.4s;
+    }
+    .goal-bar-fill.near { background: linear-gradient(90deg, #10b981, #34d399); }
+
+    .summary-section {
+      background: #1a1a26;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .summary-section h2 { font-size: 0.95rem; color: #aaa; margin-bottom: 14px; font-weight: 600; }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .summary-item { text-align: center; }
+    .summary-num { font-size: 1.8rem; font-weight: 800; color: #fff; }
+    .summary-label { font-size: 0.72rem; color: #777; margin-top: 2px; }
+
+    .note-section {
+      background: #1a1a26;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: #888;
+    }
+    .note-section strong { color: #aaa; }
+
+    .footer { text-align: center; padding: 20px; font-size: 0.75rem; color: #444; }
+
+    @media (max-width: 480px) {
+      .account-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .platform { min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <span class="emoji">📱</span>
+    <h1>SNSフォロワー日次レポート</h1>
+    <div class="date">2026年3月30日（月）｜自動生成レポート</div>
+  </div>
+
+  <!-- 🎉 特別アラート: オギラボTikTok急増 -->
+  <div class="alert-banner">
+    <span class="alert-emoji">🚀</span>
+    <div class="alert-text">オギラボTikTok 急増中！ 目標まであと45人！</div>
+    <div class="alert-sub">916人 → 955人（+39人）｜目標1,000人まで残り45人</div>
+  </div>
+
+  <!-- ====== オギラボ ====== -->
+  <div class="pj-section">
+    <div class="pj-header">
+      <span class="pj-icon">🏋️</span>
+      <span class="pj-name">オギラボ</span>
+    </div>
+
+    <!-- TikTok -->
+    <div class="account-card big-change">
+      <div class="platform">
+        <span class="platform-icon">📱</span>
+        <span class="platform-name">TikTok</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">955人</div>
+        <div class="followers-posts">いいね 13.1K</div>
+      </div>
+      <span class="change-badge change-big">前回比 +39人 🔥</span>
+    </div>
+    <!-- 目標バー -->
+    <div class="goal-bar-wrap" style="margin-bottom:12px; padding: 0 4px;">
+      <div class="goal-label">
+        <span>🎯 目標: 1,000人（サロン開始）</span>
+        <span>955 / 1,000</span>
+      </div>
+      <div class="goal-bar-bg">
+        <div class="goal-bar-fill near" style="width: 95.5%;"></div>
+      </div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="account-card changed">
+      <div class="platform">
+        <span class="platform-icon">▶️</span>
+        <span class="platform-name">YouTube</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">81人</div>
+        <div class="followers-posts">動画 10本</div>
+      </div>
+      <span class="change-badge change-plus">前回比 +2人</span>
+    </div>
+
+    <!-- Note -->
+    <div class="account-card warning">
+      <div class="platform">
+        <span class="platform-icon">📝</span>
+        <span class="platform-name">Note</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">0人</div>
+        <div class="followers-posts">記事複数投稿済み</div>
+      </div>
+      <span class="change-badge change-low">フォロワー獲得が課題</span>
+    </div>
+  </div>
+
+  <!-- ====== CARAS ====== -->
+  <div class="pj-section">
+    <div class="pj-header">
+      <span class="pj-icon">💪</span>
+      <span class="pj-name">CARAS（パーソナルジム）</span>
+    </div>
+
+    <!-- Instagram -->
+    <div class="account-card no-change">
+      <div class="platform">
+        <span class="platform-icon">📸</span>
+        <span class="platform-name">Instagram</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">68人</div>
+        <div class="followers-posts">投稿 82件（+1件）</div>
+      </div>
+      <span class="change-badge change-zero">フォロワー変化なし</span>
+    </div>
+
+    <!-- TikTok -->
+    <div class="account-card no-change">
+      <div class="platform">
+        <span class="platform-icon">📱</span>
+        <span class="platform-name">TikTok</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">23人</div>
+        <div class="followers-posts">いいね 185</div>
+      </div>
+      <span class="change-badge change-zero">変化なし</span>
+    </div>
+  </div>
+
+  <!-- ====== SORA ====== -->
+  <div class="pj-section">
+    <div class="pj-header">
+      <span class="pj-icon">🏃</span>
+      <span class="pj-name">陸上クラブ SORA（香川）</span>
+    </div>
+
+    <div class="account-card first-check">
+      <div class="platform">
+        <span class="platform-icon">📸</span>
+        <span class="platform-name">Instagram</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">515人</div>
+        <div class="followers-posts">投稿 279件</div>
+      </div>
+      <span class="change-badge change-first">初回確認</span>
+    </div>
+  </div>
+
+  <!-- ====== SUPERIOR ====== -->
+  <div class="pj-section">
+    <div class="pj-header">
+      <span class="pj-icon">⚡</span>
+      <span class="pj-name">陸上クラブ SUPERIOR（奈良・大阪）</span>
+    </div>
+
+    <div class="account-card warning">
+      <div class="platform">
+        <span class="platform-icon">📸</span>
+        <span class="platform-name">Instagram</span>
+      </div>
+      <div class="followers">
+        <div class="followers-count">3人</div>
+        <div class="followers-posts">投稿 14件</div>
+      </div>
+      <span class="change-badge change-low">要強化</span>
+    </div>
+  </div>
+
+  <!-- 合計サマリー -->
+  <div class="summary-section">
+    <h2>📊 4PJ 合計フォロワー数</h2>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="summary-num">1,645</div>
+        <div class="summary-label">総フォロワー（4PJ合計）</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-num" style="color:#4ade80;">+41</div>
+        <div class="summary-label">前回比合計増加</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-num" style="color:#f59e0b;">955</div>
+        <div class="summary-label">オギラボTikTok（最重要KPI）</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-num" style="color:#60a5fa;">45</div>
+        <div class="summary-label">TikTok目標まで残り</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注記 -->
+  <div class="note-section">
+    <strong>⚠️ 取得失敗アカウント:</strong> なし（全アカウント取得成功）<br>
+    <strong>📅 前回確認日:</strong> オギラボ・CARAS = 2026-03-27 / SORA・SUPERIOR = 初回確認<br>
+    <strong>📌 注記:</strong> SORAはInstagramアカウントが「Basic Sports Club SORA」として確認。フォロワー515人は4PJ中最多。SUPERIORはアカウント新設から間もないため3人。
+  </div>
+
+  <div class="footer">
+    自動生成 by AI組織（daily-sns-follower-check）｜2026-03-30 08:00
+  </div>
+</div>
+</body>
+</html>

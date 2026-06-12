@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SORA × 屋島レクザムフィールド 全体像</title>
+<style>
+  body{margin:0;padding:20px;background:#1a2540;font-family:"Hiragino Sans","Yu Gothic",sans-serif;display:flex;justify-content:center}
+  .frame{background:#f6f3ec;border-radius:20px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+  svg{display:block;width:100%;max-width:1500px;height:auto;background:#f6f3ec;border-radius:14px}
+  .print-link{position:fixed;top:10px;right:20px;color:#c8a85a;font-size:12px;background:rgba(0,0,0,0.4);padding:6px 14px;border-radius:14px;text-decoration:none}
+  @media print{body{background:#fff;padding:0}.frame{box-shadow:none;padding:0}.print-link{display:none}}
+</style>
+</head>
+<body>
+<a class="print-link" href="javascript:window.print()">🖨 印刷／PDF保存</a>
+<div class="frame">
+
+<svg viewBox="0 0 1500 1100" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<title id="title">SORA × 屋島レクザムフィールド 全体像インフォグラフィック</title>
+<desc id="desc">屋島レクザムフィールドを中心に、キッズ／アスリート／棒高跳びの3層構造、香川展開のエコシステム、収支見立てを1枚にまとめた図。</desc>
+
+<defs>
+  <linearGradient id="bgHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#0d1428"/>
+    <stop offset="60%" stop-color="#1a2540"/>
+    <stop offset="100%" stop-color="#1f6fa6"/>
+  </linearGradient>
+  <linearGradient id="bgKids" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#f3f8fc"/>
+    <stop offset="100%" stop-color="#dfeaf5"/>
+  </linearGradient>
+  <linearGradient id="bgAth" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#fdf4ef"/>
+    <stop offset="100%" stop-color="#f5dcc8"/>
+  </linearGradient>
+  <linearGradient id="bgPv" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#fdfae8"/>
+    <stop offset="100%" stop-color="#f1e2a8"/>
+  </linearGradient>
+  <radialGradient id="bgHub" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ffffff"/>
+    <stop offset="100%" stop-color="#e8e0c5"/>
+  </radialGradient>
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+    <feOffset dx="0" dy="2"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.15"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<!-- ========= 背景 ========= -->
+<rect x="0" y="0" width="1500" height="1100" fill="#f6f3ec"/>
+
+<!-- ========= ヘッダー ========= -->
+<rect x="0" y="0" width="1500" height="100" fill="url(#bgHeader)"/>
+<rect x="0" y="96" width="1500" height="4" fill="#c8a85a"/>
+<text x="40" y="42" fill="#c8a85a" font-size="13" font-weight="bold" letter-spacing="3">SORA PROJECT × YASHIMA REXXAM FIELD / OVERVIEW MAP 2027</text>
+<text x="40" y="78" fill="#fff" font-size="28" font-weight="700" letter-spacing="1">SORAプロジェクト 全体像 — <tspan fill="#c8a85a">香川県・屋島レクザムフィールドを拠点に</tspan></text>
+<text x="1460" y="42" fill="#c8a85a" font-size="12" text-anchor="end">2026.05.24 / 株式会社MOON</text>
+<text x="1460" y="62" fill="#fff" font-size="11" text-anchor="end" opacity="0.7">代表 荻田大樹（リオ五輪 棒高跳び日本代表）</text>
+<text x="1460" y="78" fill="#fff" font-size="11" text-anchor="end" opacity="0.7">Phase 1 start: 2027.04</text>
+
+<!-- ========= ビジョンバナー ========= -->
+<rect x="40" y="120" width="1420" height="50" rx="8" fill="#fff" stroke="#c8a85a" stroke-width="2"/>
+<text x="750" y="142" fill="#9c7f3d" font-size="13" text-anchor="middle" font-weight="bold" letter-spacing="2">VISION</text>
+<text x="750" y="162" fill="#1a2540" font-size="18" text-anchor="middle" font-weight="700">スポーツを通じて香川県の未来を創る — トップアスリート × グローバルリーダーを輩出</text>
+
+<!-- ========= 中央ハブ：屋島レクザムフィールド ========= -->
+<g transform="translate(750, 410)">
+  <circle r="170" fill="url(#bgHub)" stroke="#c8a85a" stroke-width="3" filter="url(#shadow)"/>
+  <circle r="145" fill="none" stroke="#c8a85a" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+  <text y="-115" font-size="11" text-anchor="middle" fill="#9c7f3d" font-weight="bold" letter-spacing="2">CENTRAL HUB</text>
+  <text y="-90" font-size="20" text-anchor="middle" fill="#1a2540" font-weight="700">屋島レクザムフィールド</text>
+  <text y="-72" font-size="11" text-anchor="middle" fill="#6a6a6a">高松市屋島中町374-1 / 第2種公認</text>
+
+  <!-- 施設アイコン群 -->
+  <g transform="translate(0, -30)">
+    <!-- 室内棒高跳び -->
+    <rect x="-130" y="-15" width="100" height="30" rx="15" fill="#c8a85a"/>
+    <text x="-80" y="4" font-size="11" text-anchor="middle" fill="#1a2540" font-weight="bold">🏟 室内棒高跳び</text>
+    <text x="-80" y="22" font-size="9" text-anchor="middle" fill="#1a2540">天井10m＋ 全国初</text>
+
+    <!-- 400m -->
+    <rect x="30" y="-15" width="100" height="30" rx="15" fill="#1f6fa6"/>
+    <text x="80" y="4" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">🏃 400m 8レーン</text>
+    <text x="80" y="22" font-size="9" text-anchor="middle" fill="#fff">第2種公認・青色舗装</text>
+  </g>
+
+  <g transform="translate(0, 25)">
+    <rect x="-130" y="-15" width="100" height="30" rx="15" fill="#3d8b6b"/>
+    <text x="-80" y="4" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">🌱 天然芝</text>
+    <text x="-80" y="22" font-size="9" text-anchor="middle" fill="#fff">106×69m</text>
+
+    <rect x="30" y="-15" width="100" height="30" rx="15" fill="#d4502a"/>
+    <text x="80" y="4" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">📐 屋内150m走路</text>
+    <text x="80" y="22" font-size="9" text-anchor="middle" fill="#fff">400mと同曲率</text>
+  </g>
+
+  <g transform="translate(0, 80)">
+    <rect x="-130" y="-15" width="100" height="30" rx="15" fill="#2c3a5e"/>
+    <text x="-80" y="4" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">💪 トレ室</text>
+    <text x="-80" y="22" font-size="9" text-anchor="middle" fill="#fff">マシン・ウェイト</text>
+
+    <rect x="30" y="-15" width="100" height="30" rx="15" fill="#2c3a5e"/>
+    <text x="80" y="4" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">🅿 駐車300台</text>
+    <text x="80" y="22" font-size="9" text-anchor="middle" fill="#fff">夜間照明あり</text>
+  </g>
+
+  <text y="135" font-size="10" text-anchor="middle" fill="#6a6a6a">＋ 会議室4室 / 更衣室 / シャワー / 授乳室 / 大型映像</text>
+</g>
+
+<!-- ========= 3層ピラミッド（左に配置） ========= -->
+<g transform="translate(50, 220)">
+  <text x="0" y="0" font-size="13" font-weight="bold" fill="#9c7f3d" letter-spacing="2">3-LAYER PROGRAM STRUCTURE</text>
+  <text x="0" y="20" font-size="11" fill="#6a6a6a">広く・深く・尖って</text>
+
+  <!-- ピラミッド -->
+  <g transform="translate(0, 40)">
+    <polygon points="40,0 240,0 200,40 80,40" fill="#1f6fa6" stroke="#fff" stroke-width="2"/>
+    <text x="140" y="25" font-size="13" text-anchor="middle" fill="#fff" font-weight="bold">LAYER 1: KIDS（100名）</text>
+
+    <polygon points="80,40 200,40 175,80 105,80" fill="#d4502a" stroke="#fff" stroke-width="2"/>
+    <text x="140" y="65" font-size="12" text-anchor="middle" fill="#fff" font-weight="bold">LAYER 2: ATHLETE（30）</text>
+
+    <polygon points="105,80 175,80 155,120 125,120" fill="#c8a85a" stroke="#fff" stroke-width="2"/>
+    <text x="140" y="105" font-size="10" text-anchor="middle" fill="#1a2540" font-weight="bold">YPV（10）</text>
+  </g>
+</g>
+
+<!-- ========= LAYER 1: KIDS （左上） ========= -->
+<g transform="translate(50, 430)">
+  <rect width="280" height="290" rx="12" fill="url(#bgKids)" stroke="#1f6fa6" stroke-width="2" filter="url(#shadow)"/>
+  <rect width="280" height="32" rx="12" fill="#1f6fa6"/>
+  <rect y="20" width="280" height="12" fill="#1f6fa6"/>
+  <text x="14" y="22" font-size="12" fill="#fff" font-weight="bold" letter-spacing="1">LAYER 1 / KIDS</text>
+  <text x="266" y="22" font-size="11" fill="#fff" text-anchor="end">広く：可能性を引き出す</text>
+
+  <text x="14" y="55" font-size="13" fill="#1f6fa6" font-weight="bold">対象：小学生〜中1</text>
+
+  <g font-size="11" fill="#1a2540">
+    <text x="14" y="80">▸ 4種目ローテーション（走・跳・投・コーディ）</text>
+    <text x="14" y="100">▸ 月例 <tspan font-weight="bold">SORA CHALLENGE DAY</tspan>（自己ベスト主義）</text>
+    <text x="14" y="120">▸ 年4回 <tspan font-weight="bold">オリンピアンの時間</tspan></text>
+    <text x="14" y="140">▸ <tspan font-weight="bold">POLE FUN体験会</tspan>（室内棒高跳び施設）</text>
+    <text x="14" y="160">▸ 親子参加 <tspan font-weight="bold">FAMILY DAY</tspan> 年2回</text>
+    <text x="14" y="180">▸ 成長記録ブック「SORAパスポート」</text>
+    <text x="14" y="200">▸ ECCかけっこ → SORAへの送客ファネル</text>
+  </g>
+
+  <rect x="14" y="220" width="252" height="56" rx="6" fill="#fff" stroke="#1f6fa6" stroke-width="1"/>
+  <text x="22" y="238" font-size="10" fill="#1f6fa6" font-weight="bold">運営原則</text>
+  <text x="22" y="254" font-size="10" fill="#1a2540">勝ち負け＜自己更新／早期専門化を避ける</text>
+  <text x="22" y="268" font-size="10" fill="#1a2540">記録を残す／保護者を巻き込む</text>
+</g>
+
+<!-- ========= LAYER 2: ATHLETE （右上） ========= -->
+<g transform="translate(1170, 430)">
+  <rect width="280" height="290" rx="12" fill="url(#bgAth)" stroke="#d4502a" stroke-width="2" filter="url(#shadow)"/>
+  <rect width="280" height="32" rx="12" fill="#d4502a"/>
+  <rect y="20" width="280" height="12" fill="#d4502a"/>
+  <text x="14" y="22" font-size="12" fill="#fff" font-weight="bold" letter-spacing="1">LAYER 2 / ATHLETE</text>
+  <text x="266" y="22" font-size="11" fill="#fff" text-anchor="end">深く：安心して取り組む</text>
+
+  <text x="14" y="55" font-size="13" fill="#d4502a" font-weight="bold">対象：中高大社</text>
+
+  <text x="14" y="78" font-size="11" fill="#1a2540" font-weight="bold">「安心」を支える6本柱</text>
+
+  <g font-size="10.5" fill="#1a2540">
+    <text x="14" y="98">① 入会時アセスメント（体力・既往歴・目標）</text>
+    <text x="14" y="116">② 個別年間計画（ピリオダイゼーション）</text>
+    <text x="14" y="134">③ 動画分析＋データ管理（iPad＋大型映像）</text>
+    <text x="14" y="152">④ 栄養相談＋身体ケア（提携トレーナー）</text>
+    <text x="14" y="170">⑤ メンタルサポート＋振り返り面談</text>
+    <text x="14" y="188">⑥ 進路・キャリア相談（競技後まで）</text>
+  </g>
+
+  <rect x="14" y="208" width="252" height="68" rx="6" fill="#fff" stroke="#d4502a" stroke-width="1"/>
+  <text x="22" y="226" font-size="10" fill="#d4502a" font-weight="bold">1日の練習フロー</text>
+  <text x="22" y="242" font-size="10" fill="#1a2540">17:30 体調チェック → ウォームアップ →</text>
+  <text x="22" y="256" font-size="10" fill="#1a2540">種目別 → 補強 → 振り返り → 20:00解散</text>
+  <text x="22" y="270" font-size="10" fill="#1a2540">＊全コーチ救命講習必須／2名以上常駐</text>
+</g>
+
+<!-- ========= LAYER 3: POLE VAULT （下中央） ========= -->
+<g transform="translate(420, 760)">
+  <rect width="660" height="240" rx="12" fill="url(#bgPv)" stroke="#c8a85a" stroke-width="2.5" filter="url(#shadow)"/>
+  <rect width="660" height="36" rx="12" fill="#c8a85a"/>
+  <rect y="24" width="660" height="12" fill="#c8a85a"/>
+  <text x="14" y="24" font-size="13" fill="#1a2540" font-weight="bold" letter-spacing="1">LAYER 3 / POLE VAULT ACADEMY</text>
+  <text x="646" y="24" font-size="11" fill="#1a2540" text-anchor="end">尖って：世界を目指す — Yashima Pole Vault Academy（YPV）</text>
+
+  <!-- 4ステップ -->
+  <g transform="translate(20, 60)">
+    <!-- Step 1 -->
+    <rect x="0" y="0" width="145" height="100" rx="8" fill="#fff" stroke="#c8a85a"/>
+    <rect x="0" y="0" width="145" height="22" rx="8" fill="#c8a85a"/>
+    <rect y="14" width="145" height="8" fill="#c8a85a"/>
+    <text x="72" y="16" font-size="11" fill="#1a2540" font-weight="bold" text-anchor="middle">STEP 1 / POLE FUN</text>
+    <text x="72" y="40" font-size="10" fill="#1a2540" text-anchor="middle">小4〜中1</text>
+    <text x="72" y="56" font-size="10" fill="#1a2540" text-anchor="middle">軽量ポール＋低バー</text>
+    <text x="72" y="72" font-size="10" fill="#1a2540" text-anchor="middle">月2回 / 90分 / 6名</text>
+    <text x="72" y="90" font-size="13" fill="#d4502a" text-anchor="middle" font-weight="bold">¥4,400/月</text>
+
+    <!-- 矢印 -->
+    <polygon points="148,46 158,52 148,58" fill="#9c7f3d"/>
+
+    <!-- Step 2 -->
+    <rect x="160" y="0" width="145" height="100" rx="8" fill="#fff" stroke="#c8a85a"/>
+    <rect x="160" y="0" width="145" height="22" rx="8" fill="#c8a85a"/>
+    <rect x="160" y="14" width="145" height="8" fill="#c8a85a"/>
+    <text x="232" y="16" font-size="11" fill="#1a2540" font-weight="bold" text-anchor="middle">STEP 2 / BASIC</text>
+    <text x="232" y="40" font-size="10" fill="#1a2540" text-anchor="middle">中学・高校初心者</text>
+    <text x="232" y="56" font-size="10" fill="#1a2540" text-anchor="middle">短助走＋動画FB</text>
+    <text x="232" y="72" font-size="10" fill="#1a2540" text-anchor="middle">週1回 / 120分 / 8名</text>
+    <text x="232" y="90" font-size="13" fill="#d4502a" text-anchor="middle" font-weight="bold">¥8,800/月</text>
+
+    <polygon points="308,46 318,52 308,58" fill="#9c7f3d"/>
+
+    <!-- Step 3 -->
+    <rect x="320" y="0" width="145" height="100" rx="8" fill="#fff" stroke="#c8a85a"/>
+    <rect x="320" y="0" width="145" height="22" rx="8" fill="#c8a85a"/>
+    <rect x="320" y="14" width="145" height="8" fill="#c8a85a"/>
+    <text x="392" y="16" font-size="11" fill="#1a2540" font-weight="bold" text-anchor="middle">STEP 3 / COMPETITIVE</text>
+    <text x="392" y="40" font-size="10" fill="#1a2540" text-anchor="middle">高校・大学</text>
+    <text x="392" y="56" font-size="10" fill="#1a2540" text-anchor="middle">中〜全助走</text>
+    <text x="392" y="72" font-size="10" fill="#1a2540" text-anchor="middle">週2回 / 150分 / 6名</text>
+    <text x="392" y="90" font-size="13" fill="#d4502a" text-anchor="middle" font-weight="bold">¥16,500/月</text>
+
+    <polygon points="468,46 478,52 468,58" fill="#9c7f3d"/>
+
+    <!-- Step 4 -->
+    <rect x="480" y="0" width="140" height="100" rx="8" fill="#1a2540" stroke="#c8a85a" stroke-width="2"/>
+    <rect x="480" y="0" width="140" height="22" rx="8" fill="#c8a85a"/>
+    <rect x="480" y="14" width="140" height="8" fill="#c8a85a"/>
+    <text x="550" y="16" font-size="11" fill="#1a2540" font-weight="bold" text-anchor="middle">STEP 4 / ELITE</text>
+    <text x="550" y="40" font-size="10" fill="#c8a85a" text-anchor="middle">記録挑戦選手</text>
+    <text x="550" y="56" font-size="10" fill="#fff" text-anchor="middle">海外遠征・個別契約</text>
+    <text x="550" y="72" font-size="10" fill="#fff" text-anchor="middle">完全カスタム</text>
+    <text x="550" y="90" font-size="13" fill="#c8a85a" text-anchor="middle" font-weight="bold">¥200,000+/月</text>
+  </g>
+
+  <!-- YPV独自イベント -->
+  <g transform="translate(20, 180)">
+    <text x="0" y="0" font-size="10" fill="#9c7f3d" font-weight="bold">YPV独自イベント：</text>
+    <rect x="100" y="-12" width="100" height="18" rx="9" fill="#fff" stroke="#c8a85a"/>
+    <text x="150" y="0" font-size="9" text-anchor="middle" fill="#1a2540">月例記録会</text>
+    <rect x="208" y="-12" width="110" height="18" rx="9" fill="#fff" stroke="#c8a85a"/>
+    <text x="263" y="0" font-size="9" text-anchor="middle" fill="#1a2540">夏冬合宿（3泊4日）</text>
+    <rect x="326" y="-12" width="120" height="18" rx="9" fill="#fff" stroke="#c8a85a"/>
+    <text x="386" y="0" font-size="9" text-anchor="middle" fill="#1a2540">YPV CHAMPIONSHIP</text>
+    <rect x="454" y="-12" width="160" height="18" rx="9" fill="#fff" stroke="#c8a85a"/>
+    <text x="534" y="0" font-size="9" text-anchor="middle" fill="#1a2540">OGITA SESSION（公開クリニック）</text>
+  </g>
+
+  <!-- 安全プロトコル -->
+  <g transform="translate(20, 210)">
+    <rect x="0" y="0" width="620" height="22" rx="6" fill="#fbeae5" stroke="#c1422e" stroke-width="1"/>
+    <text x="10" y="15" font-size="10" fill="#c1422e" font-weight="bold">⚠ SAFETY-FIRST</text>
+    <text x="100" y="15" font-size="10" fill="#1a2540">公認マット／体格別ポール選定／2名コーチ立会／進級は合議制／「やめさせる勇気」を制度化</text>
+  </g>
+</g>
+
+<!-- ========= 中央ハブから3層への接続線 ========= -->
+<g stroke-width="2.5" fill="none" opacity="0.6">
+  <!-- → KIDS -->
+  <line x1="595" y1="410" x2="335" y2="500" stroke="#1f6fa6"/>
+  <!-- → ATHLETE -->
+  <line x1="905" y1="410" x2="1165" y2="500" stroke="#d4502a"/>
+  <!-- → POLE VAULT -->
+  <line x1="750" y1="585" x2="750" y2="760" stroke="#c8a85a"/>
+</g>
+
+<!-- ========= 左下：エコシステム（観音寺・SUPERIOR・ECC・企業） ========= -->
+<g transform="translate(50, 230)">
+  <!-- 観音寺 -->
+  <g transform="translate(280, 0)">
+    <rect width="140" height="50" rx="8" fill="#fff" stroke="#3d8b6b" stroke-width="1.5"/>
+    <text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold" fill="#3d8b6b">姉妹拠点</text>
+    <text x="70" y="38" font-size="10" text-anchor="middle" fill="#1a2540">観音寺スクール</text>
+  </g>
+  <!-- SUPERIOR -->
+  <g transform="translate(440, 0)">
+    <rect width="140" height="50" rx="8" fill="#fff" stroke="#3d8b6b" stroke-width="1.5"/>
+    <text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold" fill="#3d8b6b">関西姉妹クラブ</text>
+    <text x="70" y="38" font-size="10" text-anchor="middle" fill="#1a2540">SUPERIOR</text>
+  </g>
+  <!-- ECC -->
+  <g transform="translate(600, 0)">
+    <rect width="140" height="50" rx="8" fill="#fff" stroke="#3d8b6b" stroke-width="1.5"/>
+    <text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold" fill="#3d8b6b">送客パートナー</text>
+    <text x="70" y="38" font-size="10" text-anchor="middle" fill="#1a2540">ECCかけっこ（幼児）</text>
+  </g>
+  <!-- 企業 -->
+  <g transform="translate(760, 0)">
+    <rect width="140" height="50" rx="8" fill="#fff" stroke="#3d8b6b" stroke-width="1.5"/>
+    <text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold" fill="#3d8b6b">企業パートナー</text>
+    <text x="70" y="38" font-size="10" text-anchor="middle" fill="#1a2540">人材育成PGM共同</text>
+  </g>
+  <!-- 補助金行政 -->
+  <g transform="translate(920, 0)">
+    <rect width="140" height="50" rx="8" fill="#fff" stroke="#3d8b6b" stroke-width="1.5"/>
+    <text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold" fill="#3d8b6b">行政・補助金</text>
+    <text x="70" y="38" font-size="10" text-anchor="middle" fill="#1a2540">香川県／観音寺市</text>
+  </g>
+  <!-- 接続線 中央ハブへ -->
+  <g stroke="#3d8b6b" stroke-width="1.5" fill="none" opacity="0.4" stroke-dasharray="3 3">
+    <line x1="420" y1="50" x2="640" y2="170"/>
+    <line x1="580" y1="50" x2="680" y2="170"/>
+    <line x1="670" y1="50" x2="700" y2="170"/>
+    <line x1="830" y1="50" x2="780" y2="170"/>
+    <line x1="990" y1="50" x2="850" y2="170"/>
+  </g>
+</g>
+
+<!-- ========= 右側：3層ピラミッドの数値補足（縦のキャプション） ========= -->
+<g transform="translate(1300, 220)">
+  <text font-size="13" font-weight="bold" fill="#9c7f3d" letter-spacing="2">PIPELINE</text>
+  <text y="20" font-size="11" fill="#6a6a6a">下が広いほど、上が育つ</text>
+  <g transform="translate(0, 40)">
+    <rect width="20" height="32" fill="#1f6fa6"/>
+    <text x="28" y="20" font-size="11" fill="#1a2540">100名</text>
+    <rect y="36" width="14" height="32" fill="#d4502a"/>
+    <text x="28" y="56" font-size="11" fill="#1a2540">30名</text>
+    <rect y="72" width="8" height="32" fill="#c8a85a"/>
+    <text x="28" y="92" font-size="11" fill="#1a2540">10名</text>
+  </g>
+</g>
+
+<!-- ========= 数値サマリーフッター ========= -->
+<g transform="translate(40, 1020)">
+  <rect width="1420" height="60" rx="8" fill="#1a2540"/>
+  <text x="20" y="22" font-size="11" fill="#c8a85a" font-weight="bold" letter-spacing="2">NUMBERS（Phase 1 初年度・YPV含む追加分）</text>
+
+  <g transform="translate(20, 32)">
+    <!-- 施設利用料 -->
+    <text font-size="10" fill="#c8a85a" font-weight="bold">月施設利用</text>
+    <text y="18" font-size="14" fill="#fff" font-weight="bold">約¥105,000</text>
+
+    <!-- 初期投資 -->
+    <text x="180" font-size="10" fill="#c8a85a" font-weight="bold">最小初期投資</text>
+    <text x="180" y="18" font-size="14" fill="#fff" font-weight="bold">¥700,000</text>
+
+    <!-- 追加年売上ポテンシャル -->
+    <text x="350" font-size="10" fill="#c8a85a" font-weight="bold">追加売上ポテンシャル</text>
+    <text x="350" y="18" font-size="14" fill="#fff" font-weight="bold">年¥11,390,000</text>
+
+    <!-- Phase1 初年度実現 -->
+    <text x="570" font-size="10" fill="#c8a85a" font-weight="bold">Phase1初年度（達成率50%）</text>
+    <text x="570" y="18" font-size="14" fill="#fff" font-weight="bold">+¥240,000（微黒字）</text>
+
+    <!-- 施設の独占性 -->
+    <text x="820" font-size="10" fill="#c8a85a" font-weight="bold">差別化資産</text>
+    <text x="820" y="18" font-size="13" fill="#fff" font-weight="bold">全国初・室内棒高跳び公認</text>
+
+    <!-- start -->
+    <text x="1080" font-size="10" fill="#c8a85a" font-weight="bold">Phase 1 START</text>
+    <text x="1080" y="18" font-size="14" fill="#fff" font-weight="bold">2027.04</text>
+
+    <!-- 推奨パターン -->
+    <text x="1220" font-size="10" fill="#c8a85a" font-weight="bold">推奨資金パターン</text>
+    <text x="1220" y="18" font-size="14" fill="#fff" font-weight="bold">B. 標準（500万）</text>
+  </g>
+</g>
+
+<!-- ========= 凡例 ========= -->
+<g transform="translate(40, 1090)">
+  <text font-size="9" fill="#6a6a6a">凡例：</text>
+  <circle cx="40" cy="-3" r="4" fill="#1f6fa6"/>
+  <text x="50" y="0" font-size="9" fill="#1a2540">広く（キッズ）</text>
+  <circle cx="135" cy="-3" r="4" fill="#d4502a"/>
+  <text x="145" y="0" font-size="9" fill="#1a2540">深く（アスリート）</text>
+  <circle cx="245" cy="-3" r="4" fill="#c8a85a"/>
+  <text x="255" y="0" font-size="9" fill="#1a2540">尖って（棒高跳び）</text>
+  <circle cx="345" cy="-3" r="4" fill="#3d8b6b"/>
+  <text x="355" y="0" font-size="9" fill="#1a2540">連携エコシステム</text>
+  <text x="1460" y="0" font-size="9" fill="#6a6a6a" text-anchor="end">SORA × Yashima Pole Vault Academy / v1.0</text>
+</g>
+
+</svg>
+
+</div>
+
+</body>
+</html>

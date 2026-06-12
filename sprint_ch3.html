@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第3章 制作原稿｜生理学的限界とSSCの残酷な真実</title>
+  <style>
+    :root{--bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--border:#2e2e3e;--accent:#5b6af0;--accent2:#a78bfa;--gold:#f59e0b;--red:#f87171;--green:#34d399;--text:#e2e2ee;--muted:#8888aa;--dim:#555568;--r:12px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;line-height:1.9;font-size:15px;}
+    .page-header{background:linear-gradient(135deg,#0f0f13,#200a0a,#0f0f13);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
+    .page-header .badge{display:inline-block;background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);color:var(--red);font-size:11px;font-weight:700;letter-spacing:.15em;padding:3px 12px;border-radius:99px;margin-bottom:14px;}
+    .page-header h1{font-size:clamp(18px,3vw,28px);font-weight:900;background:linear-gradient(135deg,#fff,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4;}
+    .page-header p{color:var(--muted);font-size:13px;margin-top:10px;}
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);max-width:800px;margin:32px auto 0;padding:0 24px;}
+    .tab{padding:10px 20px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;}
+    .tab.active{color:var(--accent2);border-bottom-color:var(--accent2);}
+    .section{max-width:800px;margin:0 auto;padding:32px 24px 80px;display:none;}
+    .section.active{display:block;}
+    .note-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px;margin-bottom:16px;}
+    .label-free{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .label-paid{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+    .note-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+    .note-block h2{font-size:20px;font-weight:900;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+    .note-block h3{font-size:15px;font-weight:800;color:var(--accent2);margin:24px 0 10px;padding-left:10px;border-left:3px solid var(--accent2);}
+    .note-block p{color:#ccc;font-size:14.5px;margin-bottom:14px;line-height:1.9;}
+    .note-block strong{color:#fff;font-weight:700;}
+    .callout{border-radius:8px;padding:16px 20px;margin:16px 0;font-size:14px;color:#ccc;}
+    .c-warn{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);}
+    .c-ok{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.3);}
+    .c-blue{background:rgba(91,106,240,.08);border:1px solid rgba(91,106,240,.3);}
+    .c-gold{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);}
+    .free-end{border:2px dashed rgba(52,211,153,.4);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--green);}
+    .paid-start{border:2px dashed rgba(245,158,11,.5);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--gold);}
+    .wall-card{background:var(--surface2);border:1px solid rgba(248,113,113,.3);border-radius:var(--r);padding:20px 24px;margin:20px 0;display:flex;gap:16px;align-items:flex-start;}
+    .wall-card .icon{font-size:24px;flex-shrink:0;}
+    .wall-card h4{font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;}
+    .wall-card p{font-size:13.5px;color:#b0b0c8;margin:0;}
+    .slides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+    .slide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+    .slide-num{background:var(--red);color:#fff;font-size:11px;font-weight:800;padding:6px 14px;letter-spacing:.05em;}
+    .slide-body{padding:18px 18px 20px;}
+    .slide-body .headline{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.5;}
+    .slide-body .body-text{font-size:13px;color:var(--muted);line-height:1.8;}
+    .slide-body .cta{margin-top:10px;font-size:12px;font-weight:700;color:var(--accent2);border-top:1px solid var(--border);padding-top:10px;}
+    .tiktok-meta{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-top:24px;}
+    .tiktok-meta h3{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;}
+    .tiktok-meta p{font-size:13px;color:#ccc;line-height:1.8;}
+    .tag{display:inline-block;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.3);color:var(--accent2);font-size:11px;padding:2px 8px;border-radius:4px;margin:2px;}
+    @media(max-width:600px){.note-block{padding:20px 18px;}.section{padding:24px 16px 60px;}}
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="badge">Chapter 03 ／ 有料メンバーシップ</div>
+  <h1>生理学的限界とSSCの残酷な真実<br>制作原稿｜note ＋ TikTok</h1>
+  <p>「0.1秒の壁」の導入まで無料 ／ SSCの仕組み・速筋の絶対条件は有料</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('note')">📝 note原稿</div>
+  <div class="tab" onclick="switchTab('tiktok')">🎬 TikTokスライド</div>
+</div>
+
+<!-- ━━━ NOTE ━━━ -->
+<div class="section active" id="note">
+
+  <div class="note-label label-free">✅ 無料公開エリア（「0.1秒の壁」の正体まで）</div>
+
+  <div class="note-block">
+    <h2>【スプリント科学③】「筋力を上げれば速くなる」の限界——0.1秒で筋肉は壁になれるか</h2>
+
+    <p>こんにちは、おぎぃ。です。</p>
+    <p>第1章ではスタートの力学、第2章では代償動作とストライドの誤解を解説しました。今回のテーマは「生理学的限界」です。トップスピードの局面（接地時間0.1秒未満）において、筋肉の役割はエンジンからシャーシへと劇的に変化します。この転換を理解していない指導は、どれだけ熱心でも選手を正しい方向へ連れていけません。</p>
+
+    <h3>「遅筋優位の選手は、筋力でゴリ押しさせるべきか？」という問い</h3>
+    <p>ここでおぎぃ。が現場で指導する上で疑問に思ったのが、「速筋繊維の割合が低い（遅筋優位）、あるいはSSCの反射を使うのが苦手な選手に対して、絶対的な筋力アップによる馬力で、SSCに頼らずゴリ押しする走りをさせるべきか？」ということです。</p>
+    <p>確かに、最大筋力（ベース）の天井を高めることで、Force-Time曲線を全体的に上方にシフトさせ、結果的に短い時間で発揮できる出力（RFD：Rate of Force Development）を高めることは可能です。「今のその選手を速くする」という観点では非常に有効なアプローチです。</p>
+    <p>しかし、トップエンドの最高速（10m/s以上の世界）を追求した場合、この「純粋な筋肉の収縮力（非SSC）」に依存するモデルは、必ず越えられない生理学的な壁に激突します。</p>
+
+    <h3>「0.1秒の壁」——随意収縮では間に合わない</h3>
+
+    <div class="wall-card">
+      <div class="icon">⚡</div>
+      <div>
+        <h4>接地時間 0.1秒未満で体重の4〜5倍（約300kg）の反発力が必要</h4>
+        <p>脳から「収縮しろ」という随意指令では、物理的に間に合わない。特に遅筋線維（Type I）はミオシンATPase活性が低く、張力がピークに達するまでに時間がかかる。</p>
+      </div>
+    </div>
+
+    <div class="wall-card">
+      <div class="icon">⚠️</div>
+      <div>
+        <h4>筋肉を大きくするほど、「質量のペナルティ」が跳ね上がる</h4>
+        <p>エンジン（筋断面積）を巨大化させると、重くなった脚を振り回すコストが増大。生み出した推進力が相殺されてしまう。</p>
+      </div>
+    </div>
+
+    <div class="free-end">✅ ここまで無料公開｜この「壁」を突破するSSCの仕組みと、筋肉の真の役割は続きで解説します</div>
+    <p style="color:var(--muted);font-size:13px;">この先では「SSCとは何か」「筋肉がアイソメトリック・アンカーになるとはどういうことか」「速筋が絶対条件な理由」を解説します。</p>
+  </div>
+
+  <!-- 有料 -->
+  <div class="note-label label-paid" style="margin-top:32px;">🔒 有料メンバーシップエリア</div>
+  <div class="paid-start">🔒 ここから先はメンバーシップ限定コンテンツです</div>
+
+  <div class="note-block" style="border-color:rgba(245,158,11,.3);">
+    <h3>解決策：SSC（伸張・短縮サイクル）という「ハック」</h3>
+    <p>この壁を解決するハックが、アキレス腱や膝蓋腱の弾性エネルギーを利用する<strong>「SSC（伸張・短縮サイクル）」</strong>です。</p>
+    <p>SSCの走りにおいて、筋肉は伸び縮みする役割を免除されます。その代わり、<strong>「0.05秒という一瞬で、300kgの激突に耐えられる硬さまで瞬間凍結する壁」</strong>になることが強烈に要求されます。</p>
+
+    <h3>筋肉は「エンジン」ではなく「アイソメトリック・アンカー」になる</h3>
+    <p>最新の生体内（In vivo）超音波エコー研究が示す通り、極限のSSCが発揮されている時、筋肉（筋束：Fascicle）そのものは長さをほぼ変えていません（準等尺性収縮：Quasi-isometric contraction）。</p>
+    <p>主動筋と拮抗筋（下腿三頭筋と前脛骨筋、ハムストリングスと大腿四頭筋、そして体幹のシリンダー）を接地の瞬間に強烈に<strong>「同時収縮（Co-contraction）」</strong>させ、関節をアイソメトリックにロックする。筋肉がコンクリートのような剛体になるからこそ、腱だけが強制的に引き伸ばされ（Decoupling）、カタパルトのように爆発的な反発を生むのです。</p>
+
+    <div class="callout c-gold">
+      <strong>腱がバネとして機能するためには、筋肉が「絶対に動かない固定壁」でなければならない。</strong>筋肉がぐらつく柱では、バネの反発は逃げる。
+    </div>
+
+    <h3>だからこそ「速筋繊維」は絶対条件</h3>
+    <p>この「瞬間的に極大のアイソメトリック張力を発揮する」というタスクにおいて、収縮スピードと最大張力に優れた<strong>「速筋繊維」の存在は絶対的な前提条件</strong>となります。</p>
+    <p>SSCスプリントにおいて筋力は「大して必要ない」どころか、「筋肉が1ミリも伸び縮みしないために、極限のアイソメトリック筋力が必要である」というのが真実です。</p>
+
+    <div class="callout c-ok">
+      <strong>✅ まとめ：</strong>トップスピードでの筋肉の役割は「収縮して推進力を生む」ではなく「腱のバネを固定するための壁になる」。この転換を理解した上でのトレーニング設計が、速さの限界を決める。
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ TikTok ━━━ -->
+<div class="section" id="tiktok">
+  <div class="tiktok-meta" style="margin-bottom:24px;">
+    <h3>📌 動画設計メモ</h3>
+    <p>テーマ：「筋肉を鍛えても速くならない理由がある」<br>「0.1秒の壁」という強烈な数字フックから入る。SSCへの興味喚起まで。<br>尺感：45〜60秒</p>
+  </div>
+
+  <div class="slides-grid">
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 01 ／ フック</div>
+      <div class="slide-body">
+        <div class="headline">接地時間は0.1秒。脳からの指令は間に合わない。</div>
+        <div class="body-text">筋肉を大きくして「収縮力で走る」モデルには、越えられない生理学的な壁がある。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 02 ／ 事実</div>
+      <div class="slide-body">
+        <div class="headline">体重の4〜5倍の反力が0.1秒で必要。随意収縮は遅すぎる。</div>
+        <div class="body-text">遅筋（Type I）は張力ピークまでに時間がかかる。物理的に間に合わないんです。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 03 ／ 落とし穴</div>
+      <div class="slide-body">
+        <div class="headline">筋肉を大きくするほど、脚が重くなるペナルティも増える。</div>
+        <div class="body-text">「質量のペナルティ」で推進力が相殺。エンジンを大きくしても上限がある。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 04 ／ 解答</div>
+      <div class="slide-body">
+        <div class="headline">解決策は「腱のバネ」——SSCという人体の最強ハック。</div>
+        <div class="body-text">アキレス腱・膝蓋腱の弾性エネルギーを使えば、随意収縮を使わずに爆発的な反発が得られる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 05 ／ 真実</div>
+      <div class="slide-body">
+        <div class="headline">SSC中、筋肉は「収縮するな」。ただの壁になれ。</div>
+        <div class="body-text">超音波エコー研究が示す通り、極限SSCで筋束の長さはほぼ変わらない。筋肉の役割は「固定する壁」。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 06 ／ CTA</div>
+      <div class="slide-body">
+        <div class="headline">「なぜ速筋が絶対条件なのか」——逆説的な答えはnoteで。</div>
+        <div class="body-text">「筋肉が動かないために、極限の筋力が必要」という真実を解説しています。</div>
+        <div class="cta">→ メンバーシップ記事で続きを読む</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiktok-meta">
+    <h3>📎 推奨ハッシュタグ</h3>
+    <p>
+      <span class="tag">#スプリント</span><span class="tag">#SSC</span><span class="tag">#バイオメカニクス</span><span class="tag">#速筋</span><span class="tag">#陸上競技</span><span class="tag">#スポーツ科学</span><span class="tag">#筋肉の仕組み</span><span class="tag">#おぎぃ</span>
+    </p>
+  </div>
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['note','tiktok'][i]===id);});
+  document.querySelectorAll('.section').forEach(s=>{s.classList.toggle('active',s.id===id);});
+}
+</script>
+</body>
+</html>

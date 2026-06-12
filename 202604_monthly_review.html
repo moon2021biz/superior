@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 月次進捗レポート｜2026年4月</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #161616;
+      --border: #2a2a2a;
+      --gold: #c4a45a;
+      --gold-light: #dfc07a;
+      --white: #f0f0f0;
+      --muted: #888;
+      --green: #4caf82;
+      --red: #e05252;
+      --yellow: #f0b840;
+      --blue: #5a9fd4;
+      --purple: #9b7dea;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 32px;
+    }
+    .header .badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 28px;
+      color: var(--gold-light);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Progress Cards */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .pj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pj-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .pj-card.up::before { background: var(--green); }
+    .pj-card.down::before { background: var(--red); }
+    .pj-card.same::before { background: var(--muted); }
+    .pj-card.big-up::before { background: linear-gradient(90deg, var(--gold), var(--green)); }
+
+    .pj-name {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .pj-progress-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .pj-pct {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .pj-change {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .pj-change.up { background: rgba(76,175,130,0.2); color: var(--green); }
+    .pj-change.down { background: rgba(224,82,82,0.2); color: var(--red); }
+    .pj-change.same { background: rgba(136,136,136,0.2); color: var(--muted); }
+    .pj-change.big-up { background: rgba(196,164,90,0.2); color: var(--gold); }
+
+    .pj-bar-bg {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .pj-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+    .pj-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* MG Gauge */
+    .mg-row {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .mg-dot {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      font-size: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mg-dot.filled { background: var(--gold); }
+    .mg-dot.empty { background: var(--border); }
+
+    /* Alert Cards */
+    .alert-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--yellow);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .alert-card.green { border-left-color: var(--green); }
+    .alert-card.red { border-left-color: var(--red); }
+    .alert-card.blue { border-left-color: var(--blue); }
+    .alert-card.purple { border-left-color: var(--purple); }
+
+    .alert-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Handoff Summary */
+    .handoff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .handoff-table th {
+      background: #1e1e1e;
+      color: var(--muted);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .handoff-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .handoff-table tr:last-child td { border-bottom: none; }
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+    .tag.done { background: rgba(76,175,130,0.2); color: var(--green); }
+    .tag.pending { background: rgba(240,184,64,0.2); color: var(--yellow); }
+    .tag.inbox { background: rgba(90,159,212,0.2); color: var(--blue); }
+
+    /* Recommendations */
+    .rec-list { list-style: none; }
+    .rec-list li {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .rec-num {
+      background: var(--gold);
+      color: #111;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .rec-title { font-weight: 700; margin-bottom: 4px; }
+    .rec-detail { font-size: 13px; color: var(--muted); }
+
+    /* Synergy */
+    .synergy-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .synergy-arrow {
+      color: var(--gold);
+      font-weight: 700;
+      margin: 0 6px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* Calculation note */
+    .calc-note {
+      font-size: 11px;
+      color: var(--muted);
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">MONTHLY REVIEW</div>
+    <h1>📊 月次進捗レポート｜2026年4月</h1>
+    <div class="subtitle">実行日時: 2026-04-01 ｜ 対象期間: 2026年3月〜4月初旬 ｜ 自動生成</div>
+  </div>
+
+  <!-- STEP 2: 進捗 -->
+  <div class="section-title">📈 各プロジェクト進捗（前月比）</div>
+
+  <div class="progress-grid">
+
+    <!-- オギラボ -->
+    <div class="pj-card same">
+      <div class="pj-name">🏃 オギラボ（オンラインサロン）</div>
+      <div class="pj-progress-row">
+        <span class="pj-pct">42%</span>
+        <span class="pj-change same">→ 変化なし（+1% / ±2%未満）</span>
+      </div>
+      <div class="pj-bar-bg">
+        <div class="pj-bar-fill" style="width:42%; background: var(--muted);"></div>
+      </div>
+      <div class="pj-desc">
+        TikTok 955人（目標1000人まで残り45人）。コンテンツ蓄積中だが、noteメンバーシップ未設定・LP未完成。自動化フロー（buzz-research・daily-briefing）は稼働中。
+      </div>
+      <div class="mg-row">
+        <div class="mg-dot empty" title="MG-1"></div>
+        <div class="mg-dot empty" title="MG-2"></div>
+        <div class="mg-dot empty" title="MG-3"></div>
+        <div class="mg-dot empty" title="MG-4"></div>
+        <div class="mg-dot empty" title="MG-5"></div>
+      </div>
+      <div class="pj-desc" style="margin-top:6px;">収益化ゲージ: 0pt/20pt（全MG未達）</div>
+    </div>
+
+    <!-- CARAS -->
+    <div class="pj-card up">
+      <div class="pj-name">💪 パーソナルジムCARAS</div>
+      <div class="pj-progress-row">
+        <span class="pj-pct">61%</span>
+        <span class="pj-change up">↑ +3%（前月58%）</span>
+      </div>
+      <div class="pj-bar-bg">
+        <div class="pj-bar-fill" style="width:61%; background: var(--green);"></div>
+      </div>
+      <div class="pj-desc">
+        HP月次コンテンツ自動生成（4月分4本生成済み）、MEO戦略策定、GBP自動投稿テスト成功。ターゲットペルソナ詳細設計が次のブロック解除の鍵。
+      </div>
+      <div class="mg-row">
+        <div class="mg-dot filled" title="MG-1"></div>
+        <div class="mg-dot empty" title="MG-2"></div>
+        <div class="mg-dot empty" title="MG-3"></div>
+        <div class="mg-dot empty" title="MG-4"></div>
+        <div class="mg-dot empty" title="MG-5"></div>
+      </div>
+      <div class="pj-desc" style="margin-top:6px;">収益化ゲージ: 4pt/20pt（MG-1完了 / 既存実績）</div>
+    </div>
+
+    <!-- 健康経営 -->
+    <div class="pj-card down">
+      <div class="pj-name">🏥 健康経営有料法人</div>
+      <div class="pj-progress-row">
+        <span class="pj-pct">20%</span>
+        <span class="pj-change down">↓ -5%（前月25%）</span>
+      </div>
+      <div class="pj-bar-bg">
+        <div class="pj-bar-fill" style="width:20%; background: var(--red);"></div>
+      </div>
+      <div class="pj-desc">
+        計算式を厳密適用した結果の下方修正（実態悪化ではない）。競合調査完了・サービスパッケージ設計中が現状。サービス設計完了でLP・提案資料・契約書の前提タスクが一気に解放。
+      </div>
+      <div class="mg-row">
+        <div class="mg-dot empty" title="MG-1"></div>
+        <div class="mg-dot empty" title="MG-2"></div>
+        <div class="mg-dot empty" title="MG-3"></div>
+        <div class="mg-dot empty" title="MG-4"></div>
+        <div class="mg-dot empty" title="MG-5"></div>
+      </div>
+      <div class="pj-desc" style="margin-top:6px;">収益化ゲージ: 0pt/20pt（MG-1ブロック中：LP制作前提未完了）</div>
+    </div>
+
+    <!-- SORA -->
+    <div class="pj-card big-up">
+      <div class="pj-name">🌟 陸上クラブ SORA（香川）</div>
+      <div class="pj-progress-row">
+        <span class="pj-pct">48%</span>
+        <span class="pj-change big-up">↑ +48%（前月0%）</span>
+      </div>
+      <div class="pj-bar-bg">
+        <div class="pj-bar-fill" style="width:48%; background: var(--gold);"></div>
+      </div>
+      <div class="pj-desc">
+        初回月次評価で実態を反映。既存公式サイト稼働・Instagram 515人/279件・クラブ実運営中。0%は情報整備前の仮置き値。次のアクション: SK-2（Instagram初期投稿3本）。
+      </div>
+      <div class="mg-row">
+        <div class="mg-dot filled" title="MG-1"></div>
+        <div class="mg-dot empty" title="MG-2"></div>
+        <div class="mg-dot empty" title="MG-3"></div>
+        <div class="mg-dot empty" title="MG-4"></div>
+        <div class="mg-dot empty" title="MG-5"></div>
+      </div>
+      <div class="pj-desc" style="margin-top:6px;">収益化ゲージ: 4pt/20pt（MG-1達成）</div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="pj-card big-up">
+      <div class="pj-name">⚡ 陸上クラブ SUPERIOR（奈良/大阪）</div>
+      <div class="pj-progress-row">
+        <span class="pj-pct">52%</span>
+        <span class="pj-change big-up">↑ +52%（前月0%）</span>
+      </div>
+      <div class="pj-bar-bg">
+        <div class="pj-bar-fill" style="width:52%; background: var(--gold);"></div>
+      </div>
+      <div class="pj-desc">
+        初回月次評価で実態を反映。既存公式サイト・Instagram・4週ローテーションテンプレート・superior-trial-check自動化・スプレッドシート管理稼働中。次のアクション: SK-3（保護者向け入会案内PDF）。
+      </div>
+      <div class="mg-row">
+        <div class="mg-dot filled" title="MG-1"></div>
+        <div class="mg-dot empty" title="MG-2"></div>
+        <div class="mg-dot empty" title="MG-3"></div>
+        <div class="mg-dot empty" title="MG-4"></div>
+        <div class="mg-dot empty" title="MG-5"></div>
+      </div>
+      <div class="pj-desc" style="margin-top:6px;">収益化ゲージ: 4pt/20pt（MG-1達成・MG-2〜4確認中）</div>
+    </div>
+
+  </div>
+
+  <div class="calc-note">
+    📐 進捗計算式: コアコンテンツ完成×40% + 集客導線確立×25% + 収益化開始×20% + 自動化フロー稼働×15%<br>
+    ⚠️ SORA/SUPERIORの0%→大幅変化は「計算式の初回適用」によるもの（実態悪化ではなく、仮置き0%を実態値に修正）<br>
+    ⚠️ 健康経営の25%→20%は計算式厳密適用による修正（実態の悪化ではない）
+  </div>
+
+  <hr class="divider">
+
+  <!-- STEP 1: ハンドオフ確認 -->
+  <div class="section-title">⏸ 先月の継続タスク（ハンドオフより）</div>
+
+  <table class="handoff-table">
+    <thead>
+      <tr>
+        <th>PJ</th>
+        <th>状態</th>
+        <th>タスク</th>
+        <th>次ステップ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>オギラボ</td>
+        <td><span class="tag pending">⏸ 未着手</span></td>
+        <td>YouTube台本「足が速い子」シリーズ</td>
+        <td>NOTE記事→台本生成（TikTok 1,000人達成への最優先施策）</td>
+      </tr>
+      <tr>
+        <td>オギラボ</td>
+        <td><span class="tag inbox">📥 素材あり</span></td>
+        <td>TikTok動画化（スライド7枚 outputs/tiktok_slides_20260329/）</td>
+        <td>youtube-shortsスキルで動画変換</td>
+      </tr>
+      <tr>
+        <td>CARAS</td>
+        <td><span class="tag pending">⏸ 確認待ち</span></td>
+        <td>関西学院大学コーチ就任の公開可否・文字数ルール統一</td>
+        <td>MOONさんに確認が必要（指示書200-300字 vs ルール150-250字の整合）</td>
+      </tr>
+      <tr>
+        <td>CARAS</td>
+        <td><span class="tag pending">⏸ 最優先</span></td>
+        <td>ターゲットペルソナ詳細設計</td>
+        <td>全TODO前提タスク。完了でLP/SNS戦略/料金ページが一気に解放</td>
+      </tr>
+      <tr>
+        <td>健康経営</td>
+        <td><span class="tag pending">⏸ 進行中</span></td>
+        <td>サービスパッケージ設計（価格・提供範囲・差別化軸を確定）</td>
+        <td>競合調査完了済み。次は価格・提供範囲の意思決定が必要</td>
+      </tr>
+      <tr>
+        <td>SORA</td>
+        <td><span class="tag done">🔓 解除</span></td>
+        <td>SK-2: Instagram初期投稿3本（自己紹介・コーチ紹介・体験会案内）</td>
+        <td>SK-1完了→ブロック解除済み。着手可能</td>
+      </tr>
+      <tr>
+        <td>SUPERIOR</td>
+        <td><span class="tag done">🔓 解除</span></td>
+        <td>SK-3: 保護者向け入会案内PDF（生駒・箕面 各スクール版）</td>
+        <td>SK-2完了→ブロック解除済み。着手可能</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <!-- STEP 3: ブロック解除 -->
+  <div class="section-title">🔓 ブロック解除タスク</div>
+
+  <div class="alert-card green">
+    <div class="alert-title">✅ SORA: SK-2「Instagram初期投稿3本」— ブロック解除</div>
+    SK-1（LP/公式サイト）✅完了確認済み → SK-2の前提クリア。<br>
+    コンテンツ: 自己紹介投稿・コーチ紹介投稿・体験会案内投稿（@basic_sports_club_sora）
+  </div>
+
+  <div class="alert-card green">
+    <div class="alert-title">✅ SUPERIOR: SK-3「保護者向け入会案内PDF」— ブロック解除</div>
+    SK-2（LP/公式サイト）✅完了確認済み → SK-3の前提クリア。<br>
+    生駒スクール版 + 箕面スクール版の2種類を制作。前提: SK-2完了✅
+  </div>
+
+  <div class="alert-card blue">
+    <div class="alert-title">🔓 健康経営: 「サービスパッケージ設計」完了で複数タスクが一気に解放</div>
+    完了すると → LP制作・提案資料(PPT)・契約書テンプレートの3タスクが同時にブロック解除される
+  </div>
+
+  <div class="alert-card blue">
+    <div class="alert-title">🔓 CARAS: 「ターゲットペルソナ詳細設計」完了で最大タスク解放</div>
+    完了すると → LP/メインページ・SNSコンテンツ戦略・Instagram投稿テンプレートの前提がクリアされる
+  </div>
+
+  <hr class="divider">
+
+  <!-- STEP 4: GOODパターン有効期限 -->
+  <div class="section-title">⚠️ GOODパターン 有効期限チェック</div>
+
+  <div class="alert-card" style="border-left-color: var(--muted);">
+    <div class="alert-title" style="color: var(--muted);">✅ 期限切れなし</div>
+    全プロジェクトのGOODパターンは2026-03記録。有効期限（6ヶ月）まで余裕あり（次回チェック: 2026-09）。<br>
+    <small style="color: var(--muted);">CARAS: 3件記録済み（2026-03-29）/ その他: 蓄積開始待ち</small>
+  </div>
+
+  <hr class="divider">
+
+  <!-- STEP 5: 意思決定ログ再評価 -->
+  <div class="section-title">⏰ 意思決定ログ 再評価チェック</div>
+
+  <div class="alert-card" style="border-left-color: var(--muted);">
+    <div class="alert-title" style="color: var(--muted);">今月の再評価対象: なし</div>
+    各PJのdecisions/ディレクトリにフォーマル記録なし。CONTEXT.md参照リストより：<br>
+    • オギラボSNS戦略: 再評価 2026-06頃（3ヶ月後データ評価）<br>
+    • CARAS価格設定: 再評価 2026-09頃（既存顧客6ヶ月後+10%の移行タイミング）<br>
+    • 健康経営ターゲット: 再評価 2026-09頃（6ヶ月後・実績3社揃った時点）
+  </div>
+
+  <hr class="divider">
+
+  <!-- STEP 6: 来月の推奨戦略 -->
+  <div class="section-title">🎯 来月（4月）の推奨戦略 TOP3</div>
+
+  <ul class="rec-list">
+    <li>
+      <div class="rec-num">1</div>
+      <div>
+        <div class="rec-title">🏃 オギラボ TikTok 1,000人達成ラストスパート</div>
+        <div class="rec-detail">
+          現在955人で目標まで残り45人。YouTube台本「足が速い子」シリーズをTikTok動画に変換するのが最短経路。
+          既存スライド7枚（outputs/tiktok_slides_20260329/）の動画化を優先実行すること。
+          フォロワー1,000人達成 → noteメンバーシップ本格稼働のトリガー。
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="rec-num">2</div>
+      <div>
+        <div class="rec-title">💪 CARAS ターゲットペルソナ詳細設計</div>
+        <div class="rec-detail">
+          全TODOの前提タスク。これを完了するとLP・SNS戦略・Instagram投稿テンプレートが同時に着手可能になる。
+          4月の最重要投資。ゴルフ層（経営者男性）とマダム層（富裕層女性）の2ペルソナを深掘りする。
+          MEO戦略（2026-04-01策定済み）を参照してペルソナに落とし込む。
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="rec-num">3</div>
+      <div>
+        <div class="rec-title">⚡ SUPERIOR SK-3「保護者向け入会案内PDF」制作</div>
+        <div class="rec-detail">
+          既にブロック解除済み。生駒・箕面の2スクール版PDF制作で体験→入会の離脱を防ぐ。
+          会員管理スプレッドシートに実績データあり。MG-2〜4の確認と合わせて実施することで
+          収益化ゲージが大幅に改善する可能性がある。
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <hr class="divider">
+
+  <!-- シナジーチャンス -->
+  <div class="section-title">🔗 今月のシナジーチャンス</div>
+
+  <div class="synergy-item">
+    <strong>SORA Instagram投稿</strong><span class="synergy-arrow">→</span><strong>オギラボ</strong>
+    「子ども陸上×AI×保護者向けコンテンツ」としてオギラボのSNSで展開可能。香川（SORA）と関西（SUPERIOR）のクラブ情報を
+    おぎぃ。の発信として統合して「子どもの可能性を広げる方法」コンテンツへ転用。
+  </div>
+
+  <div class="synergy-item">
+    <strong>CARAS MEO戦略</strong><span class="synergy-arrow">→</span><strong>健康経営</strong>
+    「健康経営優良法人の認定サポート実績あり」というCARASのUSPを健康経営PJの法人向け提案資料に組み込む。
+    CARAS × 健康経営の統合パッケージとして法人向けLPを共同制作。
+  </div>
+
+  <div class="synergy-item">
+    <strong>SUPERIOR 体験管理データ</strong><span class="synergy-arrow">→</span><strong>CARAS保護者クロスセル</strong>
+    SUPERIORスプレッドシートの体験参加者（保護者）に向けてCARASの保護者向けトレーニングを案内できる状態が整っている。
+    SK-3（PDF）完成後、入会案内PDFにCARASの保護者プログラムへの誘導を1行追加するだけで実現可能。
+  </div>
+
+  <hr class="divider">
+
+  <!-- SNS未確認アラート -->
+  <div class="section-title">📱 SNSフォロワー数 確認状況</div>
+
+  <div class="alert-card">
+    <div class="alert-title">📱 SNSフォロワー数（最終確認日: 2026-03-30）</div>
+    • オギラボ TikTok: 955人（次回確認推奨: 2026-04-02以降）<br>
+    • オギラボ YouTube: 81人<br>
+    • CARAS Instagram: 68人・投稿82件<br>
+    • CARAS TikTok: 23人<br>
+    • SORA Instagram: 515人・投稿279件<br>
+    • SUPERIOR Instagram: 3人・投稿14件<br>
+    <small style="color: var(--muted); margin-top:6px; display:block;">
+      ⚠️ 全て2026-03-30確認の値。SNSデータは推測・前回値流用禁止ルールにより、次回確認時に実測値で上書きすること。
+    </small>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Footer -->
+  <div class="footer">
+    📊 月次進捗レポート 2026年4月号<br>
+    生成: 2026-04-01 ｜ スケジュールタスク: monthly-review ｜ AI組織 自動生成<br>
+    保存先: outputs/monthly/202604_monthly_review.html ｜ バックアップ: backups/*_CONTEXT_20260401.md
+  </div>
+
+</div>
+</body>
+</html>

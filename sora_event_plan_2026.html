@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SORA 集客動線 × イベント企画書 2026</title>
+  <style>
+    :root {
+      --sky: #1a6fc4;
+      --sky-light: #3b9ee8;
+      --sky-pale: #e8f4fd;
+      --gold: #c8922a;
+      --gold-light: #f5c842;
+      --dark: #1a1a2e;
+      --mid: #4a4a6a;
+      --light: #f7f9fc;
+      --white: #ffffff;
+      --green: #2e7d52;
+      --green-light: #e8f5ee;
+      --orange: #d45f00;
+      --orange-light: #fff3e0;
+      --red: #c0392b;
+      --red-light: #fdf0ee;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+    /* Header */
+    .hero {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--sky) 60%, var(--sky-light) 100%);
+      color: white;
+      padding: 52px 40px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '🏃';
+      position: absolute;
+      right: 60px;
+      top: 30px;
+      font-size: 100px;
+      opacity: 0.12;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .hero h1 span { color: var(--gold-light); }
+    .hero p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-top: 10px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      background: rgba(255,255,255,0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    /* Container */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    /* Section */
+    .section { padding: 44px 0 32px; }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--sky);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--mid);
+      margin-bottom: 28px;
+    }
+
+    /* Funnel */
+    .funnel {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .funnel-step {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+    .funnel-step:not(:last-child)::after {
+      content: '▼';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--sky-light);
+      font-size: 16px;
+      z-index: 1;
+    }
+    .funnel-step + .funnel-step { margin-top: 20px; }
+    .funnel-num {
+      width: 44px;
+      min-height: 80px;
+      background: var(--sky);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      border-radius: 12px 0 0 12px;
+      flex-shrink: 0;
+    }
+    .funnel-num.done { background: var(--green); }
+    .funnel-num.gap  { background: var(--red); }
+    .funnel-body {
+      flex: 1;
+      background: white;
+      border: 1.5px solid #e0e8f4;
+      border-left: none;
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .funnel-body.done { border-color: #a3d9b8; background: #f4fbf7; }
+    .funnel-body.gap  { border-color: #f5c2bb; background: #fdf7f6; }
+    .funnel-content { flex: 1; }
+    .funnel-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .funnel-detail { font-size: 12px; color: var(--mid); }
+    .funnel-badge {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .badge-done { background: var(--green-light); color: var(--green); }
+    .badge-gap  { background: var(--red-light); color: var(--red); }
+    .badge-act  { background: #fff3cd; color: #856404; }
+
+    /* Event Cards */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .event-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1.5px solid #e8eef6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .event-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .event-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid #f0f4fa;
+    }
+    .event-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .event-priority {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .prio-high { background: #fde8e8; color: #c0392b; }
+    .prio-mid  { background: #fff3cd; color: #856404; }
+    .prio-low  { background: #e8f5ee; color: #2e7d52; }
+    .event-timing {
+      font-size: 11px;
+      color: var(--mid);
+    }
+    .event-icon { font-size: 28px; margin-bottom: 6px; }
+    .event-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .event-subtitle {
+      font-size: 12px;
+      color: var(--mid);
+    }
+    .event-body { padding: 16px 20px; }
+    .event-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .event-row-label {
+      width: 56px;
+      flex-shrink: 0;
+      font-weight: 700;
+      color: var(--sky);
+    }
+    .event-row-val { color: var(--mid); }
+    .event-expect {
+      background: var(--sky-pale);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+    .event-expect-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--sky);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .event-cta {
+      display: block;
+      margin: 14px 20px 16px;
+      background: var(--sky);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* Timeline */
+    .timeline {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 28px;
+      border: 1.5px solid #e8eef6;
+    }
+    .timeline-row {
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+    }
+    .tl-month {
+      width: 56px;
+      flex-shrink: 0;
+      text-align: center;
+      padding-top: 4px;
+    }
+    .tl-month-label {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--sky);
+    }
+    .tl-month-sub {
+      font-size: 10px;
+      color: var(--mid);
+    }
+    .tl-line {
+      width: 2px;
+      background: #e0e8f4;
+      margin: 0 16px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .tl-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--sky);
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      left: -4px;
+    }
+    .tl-content {
+      flex: 1;
+      padding: 4px 0 24px;
+    }
+    .tl-item {
+      display: inline-block;
+      background: var(--sky-pale);
+      border: 1px solid #c9e4f9;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--sky);
+      margin: 2px 4px 2px 0;
+    }
+    .tl-item.gold {
+      background: #fff8e1;
+      border-color: #ffe082;
+      color: #9e6c00;
+    }
+    .tl-item.green {
+      background: var(--green-light);
+      border-color: #a3d9b8;
+      color: var(--green);
+    }
+
+    /* Action Cards */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .action-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 16px;
+      border: 1.5px solid #e8eef6;
+      text-align: center;
+    }
+    .action-num {
+      width: 28px;
+      height: 28px;
+      background: var(--sky);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      margin: 0 auto 10px;
+    }
+    .action-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .action-desc  { font-size: 11px; color: var(--mid); line-height: 1.6; }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d0dde8, transparent);
+      margin: 8px 0;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 22px; }
+      .event-grid { grid-template-columns: 1fr; }
+      .action-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-tag">SORA 2026 STRATEGY</div>
+    <h1>集客動線 × <span>イベント企画書</span></h1>
+    <p>Basic Sports Club SORA（香川県 観音寺・高松）</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">📅 2026年4月 策定</div>
+      <div class="hero-meta-item">📍 観音寺・高松スクール</div>
+      <div class="hero-meta-item">📸 Instagram 516人（委託運用中）</div>
+      <div class="hero-meta-item">🎯 MG-2 見込み客10件 → MG-3 体験1件 へ</div>
+    </div>
+  </div>
+</div>
+
+<!-- Funnel Section -->
+<div class="container">
+  <div class="section">
+    <div class="section-label">ACQUISITION FUNNEL</div>
+    <div class="section-title">現状の集客動線マップ</div>
+    <div class="section-desc">「認知→体験→入会」の各ステップと、現在の空白（ボトルネック）を可視化</div>
+
+    <div class="funnel">
+      <div class="funnel-step">
+        <div class="funnel-num done">1</div>
+        <div class="funnel-body done">
+          <div class="funnel-content">
+            <div class="funnel-title">認知 — Instagram（委託運用）</div>
+            <div class="funnel-detail">フォロワー516人・投稿281件 / 保護者層へのリーチ稼働中</div>
+          </div>
+          <div class="funnel-badge badge-done">✅ 稼働中</div>
+        </div>
+      </div>
+
+      <div class="funnel-step">
+        <div class="funnel-num done">2</div>
+        <div class="funnel-body done">
+          <div class="funnel-content">
+            <div class="funnel-title">興味 — 公式LP（moonathlete.com/sora）</div>
+            <div class="funnel-detail">コース・料金・コーチ紹介を掲載。体験申込フォームあり</div>
+          </div>
+          <div class="funnel-badge badge-done">✅ 稼働中</div>
+        </div>
+      </div>
+
+      <div class="funnel-step">
+        <div class="funnel-num done">3</div>
+        <div class="funnel-body done">
+          <div class="funnel-content">
+            <div class="funnel-title">行動 — 体験申込フォーム</div>
+            <div class="funnel-detail">Webサイトから随時受付。無料体験・随時受付（定員次第終了）</div>
+          </div>
+          <div class="funnel-badge badge-done">✅ 稼働中</div>
+        </div>
+      </div>
+
+      <div class="funnel-step">
+        <div class="funnel-num gap">4</div>
+        <div class="funnel-body gap">
+          <div class="funnel-content">
+            <div class="funnel-title">🚨 フォロー — 申込後のリマインド・案内</div>
+            <div class="funnel-detail">申込後3日フォロー / 体験後アンケート / 未入会リマインドが未整備。ここで離脱が起きている可能性大</div>
+          </div>
+          <div class="funnel-badge badge-gap">❌ 未整備</div>
+        </div>
+      </div>
+
+      <div class="funnel-step">
+        <div class="funnel-num gap">5</div>
+        <div class="funnel-body gap">
+          <div class="funnel-content">
+            <div class="funnel-title">🚨 保護者への入会案内資料</div>
+            <div class="funnel-detail">「体験した後に何を渡す？」が不明確。入会案内PDFがなく、判断材料が不足している</div>
+          </div>
+          <div class="funnel-badge badge-gap">❌ 未整備</div>
+        </div>
+      </div>
+
+      <div class="funnel-step">
+        <div class="funnel-num">6</div>
+        <div class="funnel-body">
+          <div class="funnel-content">
+            <div class="funnel-title">入会 — LINE問い合わせ → 入会手続き</div>
+            <div class="funnel-detail">問い合わせ受付中。自動返信は未設定</div>
+          </div>
+          <div class="funnel-badge badge-act">⚙️ 要整備</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #fff8e1; border: 1.5px solid #ffe082; border-radius: 12px; padding: 16px 20px; margin-top: 24px; font-size: 13px;">
+      <strong>💡 最優先で埋めるべきボトルネック</strong>：STEP4「フォロー自動化」 → SUPERIORの <code>superior-trial-check</code> と同様のシステムをスプレッドシートで構築。体験申込後3日でLINEリマインドするだけで入会率が大幅改善する見込み。
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Events -->
+  <div class="section">
+    <div class="section-label">EVENT PROPOSALS</div>
+    <div class="section-title">イベント企画提案 4案</div>
+    <div class="section-desc">新規流入を生み、「体験→入会」転換率を高めるイベント設計</div>
+
+    <div class="event-grid">
+
+      <!-- Event 1 -->
+      <div class="event-card">
+        <div class="event-header">
+          <div class="event-header-top">
+            <span class="event-priority prio-high">🔴 最優先</span>
+            <span class="event-timing">4月〜5月</span>
+          </div>
+          <div class="event-icon">🌸</div>
+          <div class="event-name">春の無料体験会（集中開催）</div>
+          <div class="event-subtitle">新学期に合わせた体験枠の一斉開放</div>
+        </div>
+        <div class="event-body">
+          <div class="event-row">
+            <div class="event-row-label">目的</div>
+            <div class="event-row-val">「新学期に何か始めたい」保護者の背中を押す。MG-2→MG-3の転換</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">対象</div>
+            <div class="event-row-val">新小学1〜3年生（初めてスポーツクラブを検討する層）</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">内容</div>
+            <div class="event-row-val">通常体験を土曜日に集中開催。1枠5名・3枠設定。保護者見学OK</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">場所</div>
+            <div class="event-row-val">観音寺：土 / 高松：土（屋島レクザムフィールド）</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">参加費</div>
+            <div class="event-row-val">無料（入会案内PDF + LINE登録を促す）</div>
+          </div>
+          <div class="event-expect">
+            <div class="event-expect-label">期待効果</div>
+            Instagram → LP → 体験予約 の流れを一気に回し、MG-3（体験実施1件）を確実に達成。入会2〜3名の獲得を目標にする。
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2 -->
+      <div class="event-card">
+        <div class="event-header">
+          <div class="event-header-top">
+            <span class="event-priority prio-high">🔴 最優先</span>
+            <span class="event-timing">5月〜6月</span>
+          </div>
+          <div class="event-icon">⚡</div>
+          <div class="event-name">かけっこ教室（地域開放イベント）</div>
+          <div class="event-subtitle">オリンピアン指導の「足が速くなる1日体験」</div>
+        </div>
+        <div class="event-body">
+          <div class="event-row">
+            <div class="event-row-label">目的</div>
+            <div class="event-row-val">SORAを知らない層へのリーチ拡大。口コミ・紹介経由の獲得</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">対象</div>
+            <div class="event-row-val">小学生（会員外OK）・保護者同伴</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">内容</div>
+            <div class="event-row-val">走り方の基礎・反応練習・タイム計測。「学校より速くなる体験」を提供</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">場所</div>
+            <div class="event-row-val">観音寺 or 高松のスクール会場（学校区単位で告知）</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">参加費</div>
+            <div class="event-row-val">500〜1,000円（低価格で参加ハードルを下げる）</div>
+          </div>
+          <div class="event-expect">
+            <div class="event-expect-label">期待効果</div>
+            学校内での口コミ・紹介獲得。「こんな教室があるんだ」という認知を地域に浸透させる。運動会前（5〜6月）に開催すると保護者の関心が高まりやすい。
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 3 -->
+      <div class="event-card">
+        <div class="event-header">
+          <div class="event-header-top">
+            <span class="event-priority prio-mid">🟡 準優先</span>
+            <span class="event-timing">7月〜8月（夏休み）</span>
+          </div>
+          <div class="event-icon">🤝</div>
+          <div class="event-name">SORA×SUPERIOR 合同強化合宿</div>
+          <div class="event-subtitle">姉妹クラブ合同の夏の特別イベント</div>
+        </div>
+        <div class="event-body">
+          <div class="event-row">
+            <div class="event-row-label">目的</div>
+            <div class="event-row-val">両クラブの会員満足度UP・ブランド力強化・保護者への訴求</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">対象</div>
+            <div class="event-row-val">SORA会員＋SUPERIOR会員（小中学生）</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">内容</div>
+            <div class="event-row-val">合同練習・タイム計測・荻田代表の特別講義・交流会</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">場所</div>
+            <div class="event-row-val">香川（SORA本拠地）or 奈良/大阪（SUPERIOR拠点）を交互に</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">参加費</div>
+            <div class="event-row-val">会員：5,000〜8,000円 / 非会員体験参加：10,000円</div>
+          </div>
+          <div class="event-expect">
+            <div class="event-expect-label">期待効果</div>
+            「全国レベルの仲間と練習できる」という付加価値が入会継続動機になる。SNSでの発信ネタ（合宿動画・写真）にもなり、オギラボのAI×スポーツ事例としても活用可能。
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 4 -->
+      <div class="event-card">
+        <div class="event-header">
+          <div class="event-header-top">
+            <span class="event-priority prio-mid">🟡 準優先</span>
+            <span class="event-timing">随時（月1回）</span>
+          </div>
+          <div class="event-icon">👩‍👧</div>
+          <div class="event-name">保護者向け説明会・相談会</div>
+          <div class="event-subtitle">「うちの子に向いてる？」不安を解消するミニセミナー</div>
+        </div>
+        <div class="event-body">
+          <div class="event-row">
+            <div class="event-row-label">目的</div>
+            <div class="event-row-val">体験申込を迷っている保護者の不安解消→体験予約・入会決断</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">対象</div>
+            <div class="event-row-val">入会検討中の保護者（子どもが運動苦手・未経験でも可）</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">内容</div>
+            <div class="event-row-val">クラブ紹介15分 + コーチによるQ&A15分 + 個別相談10分</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">形式</div>
+            <div class="event-row-val">月1回・練習見学後に30〜40分。ZoomやLINE通話でのオンライン対応も可</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">参加費</div>
+            <div class="event-row-val">無料</div>
+          </div>
+          <div class="event-expect">
+            <div class="event-expect-label">期待効果</div>
+            「運動が苦手でもいい」というSORAのメッセージを保護者に直接届ける。LINEで継続的な関係が生まれ、将来的な紹介・口コミの源泉になる。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Timeline -->
+  <div class="section">
+    <div class="section-label">ROADMAP</div>
+    <div class="section-title">2026年 集客カレンダー</div>
+    <div class="section-desc">イベントと動線整備のロードマップ</div>
+
+    <div class="timeline">
+      <div class="timeline-row">
+        <div class="tl-month">
+          <div class="tl-month-label">4月</div>
+          <div class="tl-month-sub">今すぐ</div>
+        </div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <span class="tl-item gold">🔥 入会案内PDF作成（SK-3）</span>
+          <span class="tl-item gold">🔥 LINE自動返信設定（SK-4）</span>
+          <span class="tl-item">🌸 春の体験会 告知・申込受付開始</span>
+          <span class="tl-item">📊 スプレッドシート構造確認→trial-check設計</span>
+        </div>
+      </div>
+      <div class="timeline-row">
+        <div class="tl-month">
+          <div class="tl-month-label">5月</div>
+          <div class="tl-month-sub">運動会前</div>
+        </div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <span class="tl-item">🌸 春の体験会 開催（観音寺・高松）</span>
+          <span class="tl-item">⚡ かけっこ教室 企画・告知</span>
+          <span class="tl-item green">✅ trial-check 自動化 稼働</span>
+        </div>
+      </div>
+      <div class="timeline-row">
+        <div class="tl-month">
+          <div class="tl-month-label">6月</div>
+          <div class="tl-month-sub">運動会後</div>
+        </div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <span class="tl-item">⚡ かけっこ教室 開催</span>
+          <span class="tl-item">👩‍👧 保護者説明会 初回実施</span>
+        </div>
+      </div>
+      <div class="timeline-row">
+        <div class="tl-month">
+          <div class="tl-month-label">7-8月</div>
+          <div class="tl-month-sub">夏休み</div>
+        </div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <span class="tl-item">🤝 SORA×SUPERIOR 合同合宿 企画・開催</span>
+          <span class="tl-item">⚡ 夏の集中かけっこ教室（オプション）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Next Actions -->
+  <div class="section">
+    <div class="section-label">NEXT ACTIONS</div>
+    <div class="section-title">今すぐ着手すべき3アクション</div>
+    <div class="section-desc">イベント前に動線の「穴」を埋めることが最優先</div>
+
+    <div class="action-grid">
+      <div class="action-card">
+        <div class="action-num">1</div>
+        <div class="action-title">SK-3 入会案内PDF作成</div>
+        <div class="action-desc">観音寺・高松 各スクール版。体験後に渡す「判断材料」を整備。体験会の前に完成させること。</div>
+      </div>
+      <div class="action-card">
+        <div class="action-num">2</div>
+        <div class="action-title">スプレッドシート確認→trial-check設計</div>
+        <div class="action-desc">SUPERIORと同じ構造ならsuperior-trial-checkをSORA版に転用するだけ。URL確認後すぐに設計可能。</div>
+      </div>
+      <div class="action-card">
+        <div class="action-num">3</div>
+        <div class="action-title">春の体験会 告知文作成</div>
+        <div class="action-desc">Instagram（委託先）に渡す告知素材テキストを作成。「4月・5月 無料体験枠あり」の案内。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div>Basic Sports Club SORA — 集客動線 × イベント企画書 2026 | 株式会社MOON</div>
+  <div style="margin-top:4px;">作成日: 2026-04-02 | 次回見直し: 2026-05-01（春の体験会結果を受けて）</div>
+</div>
+
+</body>
+</html>

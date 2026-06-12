@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI組織 監視レポート | 2026-03-30</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #1a1a1a;
+      --card2: #1e1e1e;
+      --border: #2a2a2a;
+      --gold: #C4A45A;
+      --white: #F8F8F8;
+      --muted: #888;
+      --red: #ff4444;
+      --yellow: #ffaa00;
+      --green: #44bb44;
+      --blue: #4499ff;
+      --purple: #aa77ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ヘッダー */
+    .header {
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 16px;
+      margin-bottom: 28px;
+    }
+    .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .header h1 { color: var(--gold); font-size: 20px; font-weight: 700; }
+    .header .timestamp { color: var(--muted); font-size: 12px; }
+    .header .badge-auto {
+      background: #1a2a1a; color: var(--green);
+      font-size: 10px; font-weight: bold;
+      padding: 2px 8px; border-radius: 12px; border: 1px solid var(--green);
+      margin-left: auto;
+    }
+
+    /* サマリーカード */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 600px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .summary-card .icon { font-size: 22px; margin-bottom: 6px; }
+    .summary-card .value { font-size: 30px; font-weight: 800; }
+    .summary-card .label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .s-ok   .value { color: var(--green); }
+    .s-warn .value { color: var(--yellow); }
+    .s-crit .value { color: var(--red); }
+    .s-info .value { color: var(--blue); }
+    .s-purple .value { color: var(--purple); }
+
+    /* セクション */
+    .section { margin-bottom: 32px; }
+    .section-title {
+      color: var(--gold);
+      font-size: 15px;
+      font-weight: 700;
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .count {
+      background: var(--gold);
+      color: #000;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* テーブル */
+    .task-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .task-table th {
+      background: #222;
+      color: var(--muted);
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .task-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #1e1e1e;
+      vertical-align: middle;
+    }
+    .task-table tr:hover td { background: #1e1e1e; }
+    .task-table .task-id { font-family: monospace; color: #ccc; font-size: 11px; }
+
+    /* バッジ */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .b-ok     { background: #0a2a0a; color: var(--green); border: 1px solid #1a4a1a; }
+    .b-warn   { background: #2a1a00; color: var(--yellow); border: 1px solid #4a3a00; }
+    .b-crit   { background: #2a0000; color: var(--red); border: 1px solid #4a1010; }
+    .b-stop   { background: #1a1a3a; color: var(--blue); border: 1px solid #2a2a5a; }
+    .b-today  { background: #1a1a2a; color: var(--purple); border: 1px solid #3a2a5a; }
+    .b-info   { background: #1a1a1a; color: var(--muted); border: 1px solid #333; }
+
+    /* PJカード（アコーディオン） */
+    .pj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .pj-card.alert  { border-left: 4px solid var(--red); }
+    .pj-card.pending { border-left: 4px solid var(--yellow); }
+    .pj-card.clean  { border-left: 4px solid var(--green); }
+    .pj-header {
+      padding: 13px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .pj-header:hover { background: var(--card2); }
+    .pj-name { font-weight: 600; font-size: 14px; flex: 1; }
+    .pj-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pj-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+    .pj-card.open .pj-arrow { transform: rotate(90deg); }
+    .pj-body {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: none;
+      font-size: 13px;
+    }
+    .pj-body.show { display: block; }
+    .handoff-item { margin-bottom: 10px; }
+    .handoff-item .hi-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .handoff-item .hi-content { color: var(--white); }
+    .handoff-item ul { padding-left: 16px; margin-top: 4px; }
+    .handoff-item li { margin-bottom: 3px; }
+    .tag-inline {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      background: #333;
+      color: #aaa;
+      margin-left: 4px;
+    }
+    .tag-red { background: #2a0000; color: var(--red); }
+    .tag-yellow { background: #2a1a00; color: var(--yellow); }
+    .tag-green { background: #0a2a0a; color: var(--green); }
+
+    /* 提案カード */
+    .proposal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .proposal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+    }
+    .proposal-card.high::before { background: var(--red); }
+    .proposal-card.mid::before  { background: var(--yellow); }
+    .proposal-card.low::before  { background: var(--green); }
+    .proposal-priority {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .high .proposal-priority { color: var(--red); }
+    .mid  .proposal-priority { color: var(--yellow); }
+    .low  .proposal-priority { color: var(--green); }
+    .proposal-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .proposal-meta { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+    .proposal-effect {
+      background: #222;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #ccc;
+      margin-top: 8px;
+    }
+    .proposal-effect span { color: var(--gold); font-weight: 600; }
+
+    /* アクション推奨 */
+    .action-list { list-style: none; }
+    .action-list li {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .action-num {
+      background: var(--gold);
+      color: #000;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .action-text { flex: 1; }
+    .action-text .a-title { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+    .action-text .a-desc { color: var(--muted); font-size: 12px; }
+
+    /* アラートバナー */
+    .alert-banner {
+      background: #1a0a0a;
+      border: 1px solid #4a1010;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .alert-banner .icon { color: var(--yellow); font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .alert-banner .content { font-size: 13px; }
+    .alert-banner .content strong { color: var(--yellow); }
+
+    /* セッション行 */
+    .session-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .session-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-running { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot-idle    { background: var(--muted); }
+    .session-title { flex: 1; color: #ddd; }
+    .session-status { font-size: 10px; }
+
+    /* フッター */
+    .footer {
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      color: var(--muted);
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 曜日ヒートマップ */
+    .schedule-heat {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .heat-day {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 11px;
+      text-align: center;
+      min-width: 70px;
+    }
+    .heat-day .day-name { color: var(--muted); margin-bottom: 4px; }
+    .heat-day .day-count { font-size: 20px; font-weight: 800; }
+    .heat-day.heat-high { border-color: var(--red); }
+    .heat-day.heat-high .day-count { color: var(--red); }
+    .heat-day.heat-mid  { border-color: var(--yellow); }
+    .heat-day.heat-mid  .day-count { color: var(--yellow); }
+    .heat-day.heat-low  .day-count { color: var(--green); }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div class="header-top">
+    <div style="font-size:22px">🔍</div>
+    <h1>AI組織 監視レポート</h1>
+    <div class="badge-auto">oversight-monitor 手動実行</div>
+  </div>
+  <div class="timestamp">実行日時: 2026-03-30 06:12（月曜日） &nbsp;|&nbsp; 対象: 全6PJ + 全スケジュールタスク</div>
+</div>
+
+<!-- サマリーカード -->
+<div class="summary-grid">
+  <div class="summary-card s-ok">
+    <div class="icon">🗓️</div>
+    <div class="value">15</div>
+    <div class="label">スケジュール<br>稼働中</div>
+  </div>
+  <div class="summary-card s-warn">
+    <div class="icon">⚠️</div>
+    <div class="value">2</div>
+    <div class="label">確認推奨<br>アラート</div>
+  </div>
+  <div class="summary-card s-warn">
+    <div class="icon">📥</div>
+    <div class="value">5</div>
+    <div class="label">ハンドオフ<br>未記録PJ</div>
+  </div>
+  <div class="summary-card s-purple">
+    <div class="icon">🤖</div>
+    <div class="value">3</div>
+    <div class="label">エージェント化<br>提案</div>
+  </div>
+</div>
+
+<!-- アラートバナー -->
+<div class="alert-banner">
+  <div class="icon">⚠️</div>
+  <div class="content">
+    <strong>【月曜日タスク過負荷】</strong> 本日（月曜）に7タスクが集中しています（9:07〜13:03）。
+    weekly-review・ogilab-buzz-research・caras-blog-generator・caras-content-generator が連続実行予定。
+    エラーや遅延が発生した場合は夜の oversight-monitor レポートで検知します。
+  </div>
+</div>
+
+<!-- PHASE 1: スケジュールタスク -->
+<div class="section">
+  <div class="section-title">
+    🗓️ スケジュールタスク健全性チェック
+    <span class="count">16タスク</span>
+  </div>
+
+  <!-- 曜日ヒートマップ -->
+  <div style="margin-bottom:12px; color: var(--muted); font-size: 12px;">曜日別タスク集中度</div>
+  <div class="schedule-heat">
+    <div class="heat-day heat-high">
+      <div class="day-name">月曜</div>
+      <div class="day-count">7</div>
+      <div style="font-size:9px; color:var(--red); margin-top:2px">過負荷注意</div>
+    </div>
+    <div class="heat-day heat-low">
+      <div class="day-name">火曜</div>
+      <div class="day-count">2</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">余裕あり</div>
+    </div>
+    <div class="heat-day heat-mid">
+      <div class="day-name">水曜</div>
+      <div class="day-count">3</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">普通</div>
+    </div>
+    <div class="heat-day heat-low">
+      <div class="day-name">木曜</div>
+      <div class="day-count">2</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">余裕あり</div>
+    </div>
+    <div class="heat-day heat-low">
+      <div class="day-name">金曜</div>
+      <div class="day-count">2</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">余裕あり</div>
+    </div>
+    <div class="heat-day heat-low">
+      <div class="day-name">毎日</div>
+      <div class="day-count">3</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">daily系</div>
+    </div>
+    <div class="heat-day heat-low">
+      <div class="day-name">月次</div>
+      <div class="day-count">3</div>
+      <div style="font-size:9px; color:var(--muted); margin-top:2px">1日・25日</div>
+    </div>
+  </div>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th>タスクID</th>
+        <th>スケジュール</th>
+        <th>最終実行</th>
+        <th>次回実行</th>
+        <th>状態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="task-id">daily-morning-briefing</td>
+        <td>毎日 09:07</td>
+        <td>2026-03-29</td>
+        <td>本日 09:07</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">superior-trial-check</td>
+        <td>毎日 10:05</td>
+        <td>2026-03-29</td>
+        <td>本日 10:05</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">oversight-monitor</td>
+        <td>毎日 20:00</td>
+        <td>（初回・新規）</td>
+        <td>本日 20:00</td>
+        <td><span class="badge b-today">🆕 本日初回</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">weekly-review</td>
+        <td>月曜 11:10</td>
+        <td>（未実行・新規）</td>
+        <td>本日 11:10</td>
+        <td><span class="badge b-today">📅 本日初回</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">ogilab-buzz-research</td>
+        <td>月曜 10:07</td>
+        <td>（未実行）</td>
+        <td>本日 10:07</td>
+        <td><span class="badge b-today">📅 本日初回</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-blog-generator</td>
+        <td>月曜 12:07</td>
+        <td>（未実行）</td>
+        <td>本日 12:07</td>
+        <td><span class="badge b-today">📅 本日初回</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-content-generator</td>
+        <td>月曜・木曜 13:00</td>
+        <td>（未実行）</td>
+        <td>本日 13:03</td>
+        <td><span class="badge b-today">📅 本日初回</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-gbp-autoposter</td>
+        <td>火曜・金曜 10:01</td>
+        <td>2026-03-27（金）</td>
+        <td>2026-03-31（火）</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-instagram-wednesday</td>
+        <td>水曜 09:08</td>
+        <td>2026-03-29</td>
+        <td>2026-04-01（水）</td>
+        <td><span class="badge b-warn">🟡 要確認</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">superior-instagram-weekly</td>
+        <td>水曜 09:02</td>
+        <td>（未実行）</td>
+        <td>2026-04-01（水）</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">sns-buzz-research</td>
+        <td>火曜・金曜 08:05</td>
+        <td>（未実行）</td>
+        <td>2026-03-31（火）</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-meo-posts</td>
+        <td>木曜 09:10</td>
+        <td>（未実行）</td>
+        <td>2026-04-02（木）</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-instagram-friday</td>
+        <td>金曜 09:00</td>
+        <td>（未実行）</td>
+        <td>2026-04-03（金）</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">caras-hp-monthly-content</td>
+        <td>毎月1日 08:00</td>
+        <td>（未実行）</td>
+        <td>2026-03-31</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">monthly-review</td>
+        <td>毎月1日 09:00</td>
+        <td>（未実行）</td>
+        <td>2026-04-01</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr>
+        <td class="task-id">monthly-invoice-reminder</td>
+        <td>毎月25日 09:00</td>
+        <td>（未実行）</td>
+        <td>2026-04-25</td>
+        <td><span class="badge b-ok">✅ 正常</span></td>
+      </tr>
+      <tr style="background: #1a1a2a;">
+        <td class="task-id" style="color: var(--blue);">caras-instagram-weekly</td>
+        <td style="color: var(--muted);">水曜 09:03</td>
+        <td style="color: var(--muted);">—</td>
+        <td style="color: var(--muted);">—</td>
+        <td><span class="badge b-stop">🔵 意図的停止</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 12px; padding: 10px 14px; background: #1a1500; border: 1px solid #3a2a00; border-radius: 6px; font-size: 12px; color: var(--yellow);">
+    🟡 <strong>要確認:</strong> <code>caras-instagram-wednesday</code> が水曜ではなく日曜(3/29)に lastRunAt が記録されています。
+    手動実行またはスケジュールズレの可能性あり。次回4/1（水）の正常実行で問題なければOK。
+  </div>
+</div>
+
+<!-- PHASE 2: セッション状況 -->
+<div class="section">
+  <div class="section-title">📋 セッション状況（直近10件）</div>
+
+  <div class="session-row">
+    <div class="session-dot dot-running"></div>
+    <div class="session-title">Parental voice guidance for young runners</div>
+    <div class="session-status"><span class="badge b-warn">🟡 running</span></div>
+    <div style="font-size:11px; color:var(--muted);">SORA/SUPERIOR関連</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-running"></div>
+    <div class="session-title">Optimize organization structure and processes</div>
+    <div class="session-status"><span class="badge b-warn">🟡 running</span></div>
+    <div style="font-size:11px; color:var(--muted);">AI組織改善</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-running"></div>
+    <div class="session-title">3月29日 – Caras instagram wednesday</div>
+    <div class="session-status"><span class="badge b-warn">🟡 running</span></div>
+    <div style="font-size:11px; color:var(--muted);">CARAS</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">Create invoice</div>
+    <div class="session-status"><span class="badge b-info">⚪ idle</span></div>
+    <div style="font-size:11px; color:var(--muted);">請求書</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">Confirm Caras auto-posting status</div>
+    <div class="session-status"><span class="badge b-info">⚪ idle</span></div>
+    <div style="font-size:11px; color:var(--muted);">CARAS自動投稿確認</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">3月29日 – Superior trial check</div>
+    <div class="session-status"><span class="badge b-ok">✅ 完了</span></div>
+    <div style="font-size:11px; color:var(--muted);">SUPERIOR</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">Update daily briefing followers</div>
+    <div class="session-status"><span class="badge b-ok">✅ 完了</span></div>
+    <div style="font-size:11px; color:var(--muted);">フォロワー更新</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">3月29日 – Daily morning briefing</div>
+    <div class="session-status"><span class="badge b-ok">✅ 完了</span></div>
+    <div style="font-size:11px; color:var(--muted);">朝ブリーフィング</div>
+  </div>
+  <div class="session-row">
+    <div class="session-dot dot-idle"></div>
+    <div class="session-title">健康経営スプレッドシート確認</div>
+    <div class="session-status"><span class="badge b-ok">✅ 完了</span></div>
+    <div style="font-size:11px; color:var(--muted);">健康経営</div>
+  </div>
+  <div class="session-row" style="border-color: var(--gold);">
+    <div class="session-dot" style="background: var(--gold); width:8px; height:8px; border-radius:50%;"></div>
+    <div class="session-title" style="color: var(--gold);">（現在のセッション）oversight-agent 実行中</div>
+    <div class="session-status"><span class="badge b-today">🔄 実行中</span></div>
+    <div style="font-size:11px; color:var(--muted);">本レポート生成</div>
+  </div>
+
+  <div style="margin-top: 10px; padding: 10px 14px; background: #1a1500; border: 1px solid #3a2a00; border-radius: 6px; font-size: 12px; color: #ddd;">
+    🟡 <strong>running セッション 3件</strong> — いずれも昨日(3/29)開始のスケジュール実行セッションと推測。
+    6時間以上継続しているセッションがある可能性あり。次回監視時に再確認推奨。
+  </div>
+</div>
+
+<!-- PHASE 3: CONTEXT.md ハンドオフ -->
+<div class="section">
+  <div class="section-title">📥 各PJ ハンドオフ・承認待ちチェック</div>
+
+  <!-- オギラボ -->
+  <div class="pj-card pending" id="pj-ogilab">
+    <div class="pj-header" onclick="togglePJ('pj-ogilab')">
+      <div style="font-size:16px">📊</div>
+      <div class="pj-name">オギラボ</div>
+      <div class="pj-tags">
+        <span class="badge b-warn">📥 承認待ち 2件</span>
+        <span class="badge b-warn">⏸ 中断 2件</span>
+        <span class="badge b-ok">✅ ハンドオフ記録済み</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-ogilab-body">
+      <div class="handoff-item">
+        <div class="hi-label">✅ 直近完了タスク</div>
+        <ul>
+          <li>NOTE記事「足が速い子の親ほど危険」生成・保存</li>
+          <li>NotebookLMサムネイル Pattern A 確定</li>
+          <li>TikTokスライド（7枚・縦型1080×1920）生成・保存</li>
+          <li>TikTok投稿キャプション保存</li>
+          <li>sns-voirecoスキルパッケージ化</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">⏸ 中断タスク（次セッションで続ける）</div>
+        <ul>
+          <li>YouTube台本（NOTE記事ベース・10分動画想定）<span class="tag-inline tag-yellow">次回着手</span></li>
+          <li>TikTok動画化（youtube-shortsスキル・スライドJPG揃い済み）<span class="tag-inline tag-yellow">準備完了</span></li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📥 承認待ちアイテム</div>
+        <ul>
+          <li>TikTokスライド7枚の最終確認（デザイン・文言チェック）<span class="tag-inline tag-red">要対応</span></li>
+          <li>sns-voireco.skillのインストール確認<span class="tag-inline tag-yellow">確認済み？</span></li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">🎯 推奨次アクション</div>
+        <div class="hi-content">「足が速い子」シリーズのYouTube台本作成（10分動画想定・NOTE記事ベース）</div>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📝 メモ</div>
+        <div class="hi-content" style="color:var(--muted)">TikTok 916人→目標1,000人まであと84人。連続投稿で一気に伸びる可能性あり。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARAS -->
+  <div class="pj-card pending" id="pj-caras">
+    <div class="pj-header" onclick="togglePJ('pj-caras')">
+      <div style="font-size:16px">💪</div>
+      <div class="pj-name">CARAS</div>
+      <div class="pj-tags">
+        <span class="badge b-warn">⚠️ ハンドオフ未記録</span>
+        <span class="badge b-ok">✅ 自動化稼働中</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-caras-body">
+      <div class="handoff-item">
+        <div class="hi-label">⚠️ ハンドオフ状態</div>
+        <div class="hi-content" style="color: var(--yellow);">「未記録 — 次のセッション終了時に自動生成」状態。直近セッションから推定:</div>
+        <ul style="margin-top:6px; color:#ccc;">
+          <li>Instagram投稿（Week1 RESULT）承認済み ✅</li>
+          <li>画像テンプレート（Black+Gold）承認済み ✅</li>
+          <li>Week4スタジオ紹介画像生成完了</li>
+          <li>GBP投稿文（2026-03-27）公開済み ✅</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">🗓️ 稼働中スケジュール</div>
+        <ul>
+          <li>caras-gbp-autoposter（火・金）→ 正常稼働 ✅</li>
+          <li>caras-instagram-wednesday（水）→ 次回4/1 ✅</li>
+          <li>caras-instagram-friday（金）→ 次回4/3 ✅</li>
+          <li>caras-blog-generator（月）→ 本日初回実行予定</li>
+          <li>caras-content-generator（月・木）→ 本日初回実行予定</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📊 収益化ゲージ</div>
+        <div class="hi-content">■□□□□ 4pt/20pt（MG-1完了・MG-2以降はSNS経由新規獲得が先決）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPERIOR -->
+  <div class="pj-card alert" id="pj-superior">
+    <div class="pj-header" onclick="togglePJ('pj-superior')">
+      <div style="font-size:16px">🏃</div>
+      <div class="pj-name">SUPERIOR</div>
+      <div class="pj-tags">
+        <span class="badge b-crit">🔴 LP未制作（収益化ブロック中）</span>
+        <span class="badge b-warn">⚠️ ハンドオフ未記録</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-superior-body">
+      <div class="handoff-item">
+        <div class="hi-label">🚧 ブロック中タスク</div>
+        <ul>
+          <li><strong>SK-2 体験会・入会LP制作</strong><span class="tag-inline tag-red">🔴高優先度</span> — LP完成でMG-1達成・収益化フェーズ移行</li>
+          <li>SK-3 保護者向け入会案内PDF（生駒・箕面各版）<span class="tag-inline tag-yellow">LP完成後</span></li>
+          <li>SK-4 公式LINE自動返信設定<span class="tag-inline tag-yellow">PDF完成後</span></li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">✅ 完了済み</div>
+        <ul>
+          <li>クラブ基本情報・ペルソナ整理（2026-03-28）</li>
+          <li>月謝確認（箕面7,700円・生駒6,600円）</li>
+          <li>SNSアカウント確認（@superior_tf_2025）</li>
+          <li>Instagram週次自動化設定（2026-03-28）</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📊 収益化ゲージ</div>
+        <div class="hi-content" style="color:var(--red);">□□□□□ 0pt/20pt（LP完成でMG-1達成へ）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SORA -->
+  <div class="pj-card alert" id="pj-sora">
+    <div class="pj-header" onclick="togglePJ('pj-sora')">
+      <div style="font-size:16px">🌟</div>
+      <div class="pj-name">SORA</div>
+      <div class="pj-tags">
+        <span class="badge b-crit">🔴 スターターキット未着手</span>
+        <span class="badge b-warn">⚠️ ハンドオフ未記録</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-sora-body">
+      <div class="handoff-item">
+        <div class="hi-label">🚧 優先タスク（スターターキット）</div>
+        <ul>
+          <li><strong>SK-1 クラブ概要LP（HTML）制作</strong><span class="tag-inline tag-red">前提クリア済み・即着手可</span></li>
+          <li>SK-2 Instagram初期投稿3本（SK-1完了後）</li>
+          <li>SK-3 保護者向け入会案内PDF</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📊 収益化ゲージ</div>
+        <div class="hi-content" style="color:var(--red);">□□□□□ 0pt/20pt（LP着手でゲージ動き出す）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 健康経営 -->
+  <div class="pj-card pending" id="pj-kenkou">
+    <div class="pj-header" onclick="togglePJ('pj-kenkou')">
+      <div style="font-size:16px">🏢</div>
+      <div class="pj-name">健康経営</div>
+      <div class="pj-tags">
+        <span class="badge b-warn">⚠️ ハンドオフ未記録</span>
+        <span class="badge b-warn">🚧 LP制作待ち</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-kenkou-body">
+      <div class="handoff-item">
+        <div class="hi-label">🚧 ブロック中</div>
+        <ul>
+          <li>法人向けLP制作 → 前提: サービスパッケージ設計完了（未完）</li>
+          <li>提案資料（PPT）→ 同上</li>
+          <li>契約書テンプレート → 同上</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">🎯 最優先タスク</div>
+        <div class="hi-content">市場調査・競合分析レポート完成 → サービスパッケージ設計（この2つが詰まりの根本）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- むーん -->
+  <div class="pj-card alert" id="pj-moon">
+    <div class="pj-header" onclick="togglePJ('pj-moon')">
+      <div style="font-size:16px">🌙</div>
+      <div class="pj-name">むーん</div>
+      <div class="pj-tags">
+        <span class="badge b-crit">🔴 スターターキット未着手</span>
+        <span class="badge b-warn">⚠️ ハンドオフ未記録</span>
+      </div>
+      <div class="pj-arrow">▶</div>
+    </div>
+    <div class="pj-body" id="pj-moon-body">
+      <div class="handoff-item">
+        <div class="hi-label">🚀 スターターキット（即着手可能）</div>
+        <ul>
+          <li><strong>SK-1 保護者向けLP（HTML）制作</strong><span class="tag-inline tag-red">前提: 基本情報確定✅ 即着手可</span></li>
+          <li>SK-2 Instagram初期投稿3本（施設紹介・スタッフ・受給者証ガイド）</li>
+          <li>SK-3 相談支援専門員向け施設案内PDF</li>
+        </ul>
+      </div>
+      <div class="handoff-item">
+        <div class="hi-label">📊 収益化ゲージ</div>
+        <div class="hi-content" style="color:var(--red);">□□□□□ 0pt/20pt（LP完成でMG-1達成）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 4: エージェント化提案 -->
+<div class="section">
+  <div class="section-title">🤖 エージェント化提案 <span class="count">3件</span></div>
+
+  <div class="proposal-card high">
+    <div class="proposal-priority">🔴 優先度: 高</div>
+    <div class="proposal-title">SORA / むーん スターターキット自動実行エージェント</div>
+    <div class="proposal-meta">
+      発見: SORA・むーん両PJのTODOに「SK-1 LP制作」が前提クリア済みで放置中 ／
+      SUPERIOR LP制作も同様（3PJ共通の詰まりポイント）
+    </div>
+    <p style="font-size: 13px; color: #ccc; margin-top: 8px;">
+      LP制作（HTML）→ Instagram初期投稿3本 → 案内PDF の3点セットを
+      1セッションで一気に生成するスケジュールタスクを作成。
+      週1回（火曜朝）に「未制作LPリスト」を確認し、あれば自動生成を試みる。
+    </p>
+    <div class="proposal-effect">
+      <span>期待効果:</span> SORA・むーん・SUPERIORの収益化ゲージが0pt→4pt（MG-1達成）に一気に上昇。
+      MOONさんの判断コスト削減（週1回の承認だけでよくなる）。
+    </div>
+  </div>
+
+  <div class="proposal-card high">
+    <div class="proposal-priority">🔴 優先度: 高</div>
+    <div class="proposal-title">CONTEXT.md ハンドオフ自動生成エージェント</div>
+    <div class="proposal-meta">
+      発見: 6PJ中5PJのハンドオフが「未記録」状態 ／
+      CLAUDE.mdルールでは「タスク完了後即記録」が義務だが徹底されていない
+    </div>
+    <p style="font-size: 13px; color: #ccc; margin-top: 8px;">
+      各スケジュールタスク完了後に自動でCONTEXT.mdのハンドオフセクションを更新する
+      「handoff-writer」タスクを毎日23時に実行。直近セッション記録を読んで
+      完了タスク・中断タスク・承認待ちを自動整理してCONTEXT.mdを更新する。
+    </p>
+    <div class="proposal-effect">
+      <span>期待効果:</span> 翌朝のdaily-morning-briefingが「前回の継続事項」を正確に把握できる。
+      セッション間の文脈断絶ゼロ。MOONさんの「前回どこまでやったっけ」時間がゼロに。
+    </div>
+  </div>
+
+  <div class="proposal-card mid">
+    <div class="proposal-priority">🟡 優先度: 中</div>
+    <div class="proposal-title">月曜タスク負荷分散リバランス</div>
+    <div class="proposal-meta">
+      発見: 月曜日に7タスクが集中（9:07〜13:03）。
+      caras-blog-generator / caras-content-generator は月曜でなくても機能する。
+    </div>
+    <p style="font-size: 13px; color: #ccc; margin-top: 8px;">
+      caras-blog-generator を月曜→火曜 10:00 に移動。
+      caras-content-generator（月・木）を月曜分を火曜に変更。
+      月曜の実質タスク数: 7→5件。エラー時のリカバリー余裕が生まれる。
+    </p>
+    <div class="proposal-effect">
+      <span>期待効果:</span> 月曜朝のタスク詰まりリスク低減。
+      各タスクのログ確認がしやすくなる。
+    </div>
+  </div>
+</div>
+
+<!-- 次のアクション推奨 -->
+<div class="section">
+  <div class="section-title">✅ 次のアクション推奨 TOP3</div>
+  <ul class="action-list">
+    <li>
+      <div class="action-num">1</div>
+      <div class="action-text">
+        <div class="a-title">TikTokスライド7枚を確認・承認してオギラボ投稿へ</div>
+        <div class="a-desc">承認待ち最長。TikTok916人→1,000人まであと84人。このシリーズで一気に伸ばすチャンス。<span class="tag-inline tag-red">🔴 承認待ち</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="action-num">2</div>
+      <div class="action-text">
+        <div class="a-title">SUPERIOR LP（SK-2）制作 → 収益化ゲージ 0pt→4pt</div>
+        <div class="a-desc">基本情報・月謝・SNSアカウント全て確定済み。LP制作の前提がすべてクリア。「作って」と一言で即着手可能。<span class="tag-inline tag-red">🔴 即着手可</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="action-num">3</div>
+      <div class="action-text">
+        <div class="a-title">本日の月曜スケジュールタスク群（週次review・buzz研究）の結果を夜に確認</div>
+        <div class="a-desc">weekly-review・ogilab-buzz-research・caras-blog-generator が本日初実行。20時の oversight-monitor 自動レポートで結果を検知します。<span class="tag-inline">🗓️ 自動監視</span></div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <div>AI組織 oversight-agent v1.0 | 手動実行 2026-03-30 06:12</div>
+  <div>次回自動実行: 本日 20:00（oversight-monitor）</div>
+</div>
+
+<script>
+  function togglePJ(id) {
+    const card = document.getElementById(id);
+    const body = document.getElementById(id + '-body');
+    card.classList.toggle('open');
+    body.classList.toggle('show');
+  }
+  // デフォルトでアラートPJを展開
+  ['pj-ogilab', 'pj-superior', 'pj-sora'].forEach(id => {
+    const card = document.getElementById(id);
+    const body = document.getElementById(id + '-body');
+    if (card && body) {
+      card.classList.add('open');
+      body.classList.add('show');
+    }
+  });
+</script>
+</body>
+</html>

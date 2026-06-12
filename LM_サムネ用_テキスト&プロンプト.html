@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NotebookLM｜サムネ用 前提テキスト & プロンプト</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', sans-serif; background: #f5f5f2; color: #222; }
+
+  .header {
+    background: #1a1a2e; color: #fff;
+    padding: 24px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header h1 { font-size: 1rem; font-weight: 700; }
+  .header .sub { font-size: 0.78rem; color: #a0c4ff; margin-top: 4px; }
+
+  .container { max-width: 760px; margin: 32px auto 80px; padding: 0 16px; }
+
+  /* カード共通 */
+  .card {
+    background: #fff; border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 14px 22px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-head-left { display: flex; align-items: center; gap: 10px; }
+  .step-badge {
+    font-size: 0.72rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .step1 { background: #e3f0ff; color: #1565c0; }
+  .step2 { background: #e8f5e9; color: #2e7d32; }
+  .card-title { font-size: 0.97rem; font-weight: 700; color: #111; }
+  .copy-btn {
+    font-size: 0.78rem; font-weight: 700;
+    background: #f0f0f0; border: none; cursor: pointer;
+    padding: 5px 14px; border-radius: 16px; color: #444;
+  }
+  .copy-btn:hover { background: #e0e0e0; }
+  .copy-btn.copied { background: #c8e6c9; color: #2e7d32; }
+
+  .card-body { padding: 20px 22px; }
+
+  /* テキストエリア風 */
+  .text-block {
+    background: #f8f8f6; border: 1px solid #e8e8e8;
+    border-radius: 8px; padding: 18px 20px;
+    font-size: 0.92rem; line-height: 1.9; color: #333;
+    white-space: pre-wrap; word-break: break-all;
+    cursor: text;
+  }
+
+  .note-box {
+    background: #fff8e1; border-left: 3px solid #ffb300;
+    padding: 10px 16px; border-radius: 0 8px 8px 0;
+    font-size: 0.83rem; color: #5d3a00; margin-top: 14px;
+    line-height: 1.7;
+  }
+
+  /* 手順ガイド */
+  .guide {
+    background: #f0f7ff; border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 24px;
+    font-size: 0.85rem; color: #1a3a5c; line-height: 1.8;
+  }
+  .guide strong { display: block; margin-bottom: 6px; font-size: 0.88rem; color: #0d2b4a; }
+  .guide ol { padding-left: 18px; }
+  .guide li { margin-bottom: 4px; }
+
+  /* 非表示コピー用 */
+  .hidden-copy { position: absolute; left: -9999px; top: 0; width: 1px; height: 1px; white-space: pre; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header h1" style="font-size:1rem;font-weight:700;">📋 NotebookLM｜サムネ作成用 テキスト & プロンプト</div>
+    <div class="sub">オギラボ noteメンバーシップ｜アイキャッチサムネ用｜2026-04-15</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 手順ガイド -->
+  <div class="guide">
+    <strong>🗂 NotebookLMでのサムネ作成手順</strong>
+    <ol>
+      <li>NotebookLMを開き、新規ノートブックを作成</li>
+      <li>「STEP 1：前提テキスト」をソースとして追加（テキストを貼り付け）</li>
+      <li>「ノートブックガイド」→「スライドを作成」をクリック</li>
+      <li>「STEP 2：スライド生成プロンプト」をそのまま入力欄に貼り付けてスライドを生成</li>
+      <li>生成された1枚目のスライドをスクリーンショット → noteアイキャッチに設定</li>
+    </ol>
+  </div>
+
+  <!-- STEP 1: 前提テキスト -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <span class="step-badge step1">STEP 1</span>
+        <span class="card-title">前提テキスト（ソースとして貼り付ける）</span>
+      </div>
+      <button class="copy-btn" onclick="copyText('src1', this)">コピー</button>
+    </div>
+    <div class="card-body">
+      <div class="text-block" id="src1">【オギラボ】noteメンバーシップ開設 記事概要
+
+■ 記事タイトル
+「TikTokで話せないことを、ここで全部話します。」
+
+■ サブタイトル
+オギラボへようこそ
+
+■ 発信者プロフィール
+おぎぃ。（荻田大樹）
+・棒高跳び元日本代表
+・バイオメカニクス・運動生理学・発達心理学を指導に応用
+・保育園児〜トップアスリートまで幅広く指導
+・指導した大学生は5年間で全員が自己ベストを更新して卒業
+
+■ コアメッセージ
+TikTokの60秒動画には「結論」しか入らない。
+「なぜそうなのか」「背景にある思考」を全部話せる場所を作りたかった。
+それがこのnoteメンバーシップ「オギラボ」。
+
+■ 3つのラボ（コンテンツカテゴリー）
+・👨‍👧 キッズラボ：子どもの発達と指導論（保護者向け）
+・💪 パフォーマンスラボ：バイオメカニクス・身体操作（アスリート向け）
+・🏃 ポールラボ：棒高跳び特化の専門ラボ（競技者向け）
+
+■ 料金
+・個別ラボ：各¥980/月
+・全ラボセット（3テーマ読み放題）：¥1,200/月
+
+■ キーワード
+陸上・棒高跳び・スポーツ・コーチング・子どもの運動・パフォーマンス向上・バイオメカニクス・TikTok</div>
+      <div class="note-box">💡 NotebookLMの「ソースを追加」→「テキストを貼り付け」からそのまま入力してください</div>
+    </div>
+  </div>
+
+  <!-- STEP 2: スライド生成プロンプト -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <span class="step-badge step2">STEP 2</span>
+        <span class="card-title">スライド生成プロンプト（LMに入力するプロンプト）</span>
+      </div>
+      <button class="copy-btn" onclick="copyText('src2', this)">コピー</button>
+    </div>
+    <div class="card-body">
+      <div class="text-block" id="src2">このソースをもとに、noteアイキャッチ用のスライドを1枚作ってください。
+
+【条件】
+・スライドは横長（16:9）の1枚のみ
+・メインコピー：「TikTokで話せないことを、ここで全部話します。」
+・サブコピー：「オギラボ｜noteメンバーシップ」
+・デザインイメージ：ダーク系の背景（ネイビーまたはブラック）に白・水色テキスト
+・陸上・スポーツを感じさせるシンプルなビジュアル
+・文字は大きく、読みやすく
+・余計な説明テキストは不要。タイトルスライド1枚のみ作成してください</div>
+      <div class="note-box">💡 「ノートブックガイド」→「スライドを作成」→ カスタム指示欄にこのプロンプトを貼り付けてください</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 非表示コピー用 -->
+<textarea class="hidden-copy" id="src1-hidden">【オギラボ】noteメンバーシップ開設 記事概要
+
+■ 記事タイトル
+「TikTokで話せないことを、ここで全部話します。」
+
+■ サブタイトル
+オギラボへようこそ
+
+■ 発信者プロフィール
+おぎぃ。（荻田大樹）
+・棒高跳び元日本代表
+・バイオメカニクス・運動生理学・発達心理学を指導に応用
+・保育園児〜トップアスリートまで幅広く指導
+・指導した大学生は5年間で全員が自己ベストを更新して卒業
+
+■ コアメッセージ
+TikTokの60秒動画には「結論」しか入らない。
+「なぜそうなのか」「背景にある思考」を全部話せる場所を作りたかった。
+それがこのnoteメンバーシップ「オギラボ」。
+
+■ 3つのラボ（コンテンツカテゴリー）
+・👨‍👧 キッズラボ：子どもの発達と指導論（保護者向け）
+・💪 パフォーマンスラボ：バイオメカニクス・身体操作（アスリート向け）
+・🏃 ポールラボ：棒高跳び特化の専門ラボ（競技者向け）
+
+■ 料金
+・個別ラボ：各¥980/月
+・全ラボセット（3テーマ読み放題）：¥1,200/月
+
+■ キーワード
+陸上・棒高跳び・スポーツ・コーチング・子どもの運動・パフォーマンス向上・バイオメカニクス・TikTok</textarea>
+
+<textarea class="hidden-copy" id="src2-hidden">このソースをもとに、noteアイキャッチ用のスライドを1枚作ってください。
+
+【条件】
+・スライドは横長（16:9）の1枚のみ
+・メインコピー：「TikTokで話せないことを、ここで全部話します。」
+・サブコピー：「オギラボ｜noteメンバーシップ」
+・デザインイメージ：ダーク系の背景（ネイビーまたはブラック）に白・水色テキスト
+・陸上・スポーツを感じさせるシンプルなビジュアル
+・文字は大きく、読みやすく
+・余計な説明テキストは不要。タイトルスライド1枚のみ作成してください</textarea>
+
+<script>
+function copyText(id, btn) {
+  const ta = document.getElementById(id + '-hidden');
+  ta.style.position = 'fixed';
+  ta.style.left = '0';
+  ta.style.width = '100%';
+  ta.style.height = '1px';
+  ta.select();
+  document.execCommand('copy');
+  ta.style.position = 'absolute';
+  ta.style.left = '-9999px';
+  btn.textContent = '✅ コピー済み';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2500);
+}
+</script>
+</body>
+</html>

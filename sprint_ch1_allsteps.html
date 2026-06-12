@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 全ステップまとめ｜おぎぃ。スプリント解説</title>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #e8e6e1;
+    --muted: #777;
+    --green: #3D6B4F;
+    --gold: #C9A84C;
+    --blue: #4a9eff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    line-height: 1.8;
+    font-size: 15px;
+  }
+  .wrapper { max-width: 860px; margin: 0 auto; padding: 40px 24px 100px; }
+
+  /* Nav tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 40px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-btn:hover { color: var(--text); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Header */
+  .doc-header {
+    background: linear-gradient(135deg, rgba(61,107,79,0.15), rgba(201,168,76,0.08));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+  }
+  .doc-header h1 { font-size: clamp(18px,3vw,26px); font-weight: 900; margin-bottom: 8px; }
+  .doc-header p { color: var(--muted); font-size: 13px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+  .badge-green { background: var(--green); color: #fff; }
+  .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid var(--gold); }
+  .badge-blue { background: rgba(74,158,255,0.1); color: var(--blue); border: 1px solid var(--blue); }
+
+  /* Step label */
+  .step-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .step-label .num {
+    background: var(--gold);
+    color: #000;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+
+  /* Section */
+  .section { margin-bottom: 48px; }
+  .section h2 {
+    font-size: 18px; font-weight: 800;
+    padding-left: 14px;
+    border-left: 3px solid var(--green);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+  .section h3 {
+    font-size: 14px; font-weight: 700;
+    color: var(--gold);
+    margin: 28px 0 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  p { color: #ccc; margin-bottom: 16px; }
+
+  /* Code / script blocks */
+  .script-block {
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #ddd;
+  }
+  .slide-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+  .slide-header {
+    background: rgba(201,168,76,0.1);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .slide-body {
+    padding: 18px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #ccc;
+  }
+
+  /* Message axis */
+  .axis-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .axis-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    align-items: start;
+  }
+  .axis-row:last-child { border-bottom: none; }
+  .axis-key { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; }
+  .axis-val { color: var(--text); }
+
+  /* Score */
+  .score-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+  .score-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .score-row:last-child { border-bottom: none; }
+  .score-label { width: 140px; font-size: 13px; color: var(--muted); }
+  .score-dots { display: flex; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.fill { background: var(--green); }
+  .dot.empty { background: var(--border); }
+  .score-grade { font-weight: 700; font-size: 13px; margin-left: 8px; }
+  .grade-S { color: var(--gold); }
+  .grade-A { color: var(--green); }
+  .grade-B { color: #aaa; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="doc-header">
+    <h1>Chapter 1｜sns-voireco 全ステップまとめ</h1>
+    <p>後ろに着くと転ぶ——は、半分しか正しくない</p>
+    <div class="badge-row">
+      <span class="badge badge-green">Step 2〜6 完了</span>
+      <span class="badge badge-gold">コラムリスト介入フレーム</span>
+      <span class="badge badge-blue">全文無料｜Chapter 1</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('note')">📝 note記事</button>
+    <button class="tab-btn" onclick="switchTab('axis')">🎯 メッセージ軸</button>
+    <button class="tab-btn" onclick="switchTab('tiktok')">🎬 TikTokコピー</button>
+    <button class="tab-btn" onclick="switchTab('lm')">📊 LMスライド原稿</button>
+    <button class="tab-btn" onclick="switchTab('yt')">▶️ YouTube台本</button>
+    <button class="tab-btn" onclick="switchTab('score')">📊 品質スコア</button>
+  </div>
+
+  <!-- note記事 -->
+  <div id="tab-note" class="tab-panel active">
+    <div class="step-label"><span class="num">2</span> Step 2 — note記事（全文無料）</div>
+    <p style="margin-bottom:20px;">完成版HTMLは <strong>sprint_ch1_note.html</strong> を参照。以下は本文の構成サマリーです。</p>
+
+    <div class="section">
+      <h2>記事構成</h2>
+      <div class="axis-box">
+        <div class="axis-row"><span class="axis-key">記事タイトル</span><span class="axis-val">「文脈」を外した指導が、現場に誤解を生んでいる。</span></div>
+        <div class="axis-row"><span class="axis-key">書き出し</span><span class="axis-val">「文脈を無視したコーチングが現場に誤解を生んでいる」を問題提起としてフックに立てる（データは証拠として後出し）</span></div>
+        <div class="axis-row"><span class="axis-key">視聴者疑問返し</span><span class="axis-val">接地位置を典型例として提示 → 「おぎぃ。が前に言ったことと矛盾しない？」は文脈依存の論拠として使用</span></div>
+        <div class="axis-row"><span class="axis-key">データ</span><span class="axis-val">Bezodis et al. 2023 / TDD実測値テーブル（−0.15m〜+0.07m）</span></div>
+        <div class="axis-row"><span class="axis-key">理論</span><span class="axis-val">τ = Fₓ・h − Fz・d（推進トルク式）</span></div>
+        <div class="axis-row"><span class="axis-key">締め</span><span class="axis-val">「分かってた」と「データで確認した」の間には深い溝がある</span></div>
+        <div class="axis-row"><span class="axis-key">CTA</span><span class="axis-val">Ch.2〜4メンバーシップ誘導</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- メッセージ軸 -->
+  <div id="tab-axis" class="tab-panel">
+    <div class="step-label"><span class="num">3</span> Step 3 — 統一メッセージング軸</div>
+    <div class="section">
+      <div class="axis-box">
+        <div class="axis-row"><span class="axis-key">ビッグアイデア</span><span class="axis-val">「正しいかどうか」ではなく「どの文脈か」で語れ</span></div>
+        <div class="axis-row"><span class="axis-key">1行フック</span><span class="axis-val">「文脈」を外した指導が、現場に誤解を生んでいる。</span></div>
+        <div class="axis-row"><span class="axis-key">気づき①</span><span class="axis-val">同じ動作でも局面が違えば意味が逆転する</span></div>
+        <div class="axis-row"><span class="axis-key">気づき②</span><span class="axis-val">「良い接地 / 悪い接地」の二項対立は幻想</span></div>
+        <div class="axis-row"><span class="axis-key">気づき③</span><span class="axis-val">データを見れば、直感と逆のことが起きている</span></div>
+        <div class="axis-row"><span class="axis-key">トレーニング層</span><span class="axis-val">「なんか違和感あったあの指導、これで解消された」</span></div>
+        <div class="axis-row"><span class="axis-key">競技者・指導者</span><span class="axis-val">「局面依存の力学——こういう整理の仕方があったか」</span></div>
+        <div class="axis-row"><span class="axis-key">コラムリスト軸</span><span class="axis-val">「教える」でなく「一緒に疑問を解体していく」語り口</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TikTok -->
+  <div id="tab-tiktok" class="tab-panel">
+    <div class="step-label"><span class="num">4</span> Step 4 — TikTok コピー（6スライド）</div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 1 / フック（問題提起）</div><div class="slide-body">「前に足を出せ」
+「後ろで大きく押せ」
+
+どっちが正しいか——
+そもそもその問い方が間違ってる。</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 2 / 問題の核心</div><div class="slide-body">同じ動作でも
+局面が変われば
+意味は180度逆転する
+
+この「文脈の違い」を無視した
+指導が、現場に誤解を生んでいる。</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 3 / 典型例として接地位置を提示</div><div class="slide-body">典型例：接地位置
+
+スタート局面
+　→ 後ろに着く ✅ 推進力が増す
+
+最高速局面
+　→ 後ろに着く ❌ ブレーキになる
+
+Bezodis et al. 2023 のデータが証明</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 4 / メカニズム</div><div class="slide-body">なぜ局面で逆転するのか
+
+τ = Fₓ · h − Fz · d
+
+スタートは水平力の最大化が目的
+→ 後方接地で推進トルクが支配的に
+
+最高速は垂直支持が主役
+→ 後方接地が制動力になる</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 5 / コラムリスト的まとめ</div><div class="slide-body">「良い接地・悪い接地」
+という二項対立は幻想だ
+
+問うべきは
+「それはどの局面の話か？」
+
+文脈を持たない技術論は
+現場を混乱させる</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 6 / CTA</div><div class="slide-body">文脈で変わる
+スプリントの力学
+
+フル解説は
+note で無料公開中 📖
+
+「おぎぃ。スプリント」で検索</div></div>
+  </div>
+
+  <!-- LM slides -->
+  <div id="tab-lm" class="tab-panel">
+    <div class="step-label"><span class="num">5</span> Step 5 — LM スライド原稿（NotebookLM用・横長16:9・6枚）</div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 1 / タイトルスライド</div><div class="slide-body">【メインタイトル】
+「文脈」を外した指導が、現場に誤解を生んでいる
+
+【サブタイトル】
+同じ動作でも局面が変われば意味は逆転する——スタート局面のバイオメカニクス
+
+【発行】おぎぃ。スポーツバイオメカニクス解説 Ch.1</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 2 / 問題提起（フック）</div><div class="slide-body">【見出し】
+指導言語に欠けている最も重要な前提
+
+【本文】
+「前に足を出せ」「後ろで大きく押せ」「膝を柔らかく使え」
+
+これらは正しいか？——答えは「局面による」
+
+同じ動作でも、どの局面かによって意味が180度変わる
+これがスプリントバイオメカニクスの最も重要な前提だ
+
+この「文脈の違い」を無視したまま語られるコーチングが
+現場に大量の誤解を生んでいる</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 3 / データ提示</div><div class="slide-body">【見出し】
+Bezodis et al. 2023 ——実測値が示すもの
+
+【本文・表形式】
+歩数      │ 接地距離（TDD）│ 意味
+第1歩目   │ −0.15m ←後方  │ 推進トルクを最大化
+第2歩目   │ −0.05m ←後方  │ 後方接地が継続
+第3歩目   │ +0.02m →前方  │ 重心直下付近に推移
+第4歩目〜 │ +0.07m →前方  │ "後ろ＝転倒"の文脈はここ
+
+▶ スタートと加速後では接地の役割が逆転する</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 4 / メカニズム解説</div><div class="slide-body">【見出し】
+推進トルクの正体——τ = Fₓ・h − Fz・d
+
+【本文】
+τ（推進トルク）= 水平分力 × 重心高さ − 垂直分力 × 接地距離
+
+接地点が後方（d がマイナス）になると：
+→ Fz による制動トルクが「マイナス×マイナス＝プラス」に転じる
+→ 推進トルクが増大する
+
+スタート局面の後方接地は
+「転倒リスク」ではなく「水平力最大化の力学的選択」</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 5 / 実践への橋渡し</div><div class="slide-body">【見出し】
+「分かってた」と「データで確認した」の違い
+
+【本文】
+現場でよく見る指導：
+「スタートで前に足を出して」→ ブレーキ防止が意図
+
+しかしデータは逆を示す：
+→ 上位選手ほど初期の後方接地が大きい
+→ 前に出そうとする意識が推進効率を下げている可能性
+
+「文脈」なき指導が現場に誤解を生む
+→ 局面ごとに力学を分けて語ることが指導の第一歩</div></div>
+
+    <div class="slide-block"><div class="slide-header">SLIDE 6 / まとめ＆次章予告</div><div class="slide-body">【見出し】
+Chapter 1 まとめ
+
+【本文】
+✅ スタート局面では後方接地が推進トルクを最大化する
+✅ 「後ろに着くと転ぶ」は最高速局面の話（文脈が違う）
+✅ Bezodis データ：第1歩目−0.15m・第2歩目−0.05m（後方接地）
+✅ τ = Fₓ・h − Fz・d がその根拠
+
+【次章】Chapter 2：
+「ならば意識的に後ろに着けばいいのか？」
+→ 補償動作の罠とストライド最適化の真実へ
+
+noteで全文無料公開中 → 「おぎぃ。スプリント」</div></div>
+  </div>
+
+  <!-- YouTube -->
+  <div id="tab-yt" class="tab-panel">
+    <div class="step-label"><span class="num">6</span> Step 6 — YouTube 台本（3〜5分想定）</div>
+    <div class="script-block">【冒頭フック：0〜10秒】
+（カメラ目線・断言するトーン）
+
+「スプリントの指導現場に、ずっと引っかかっていることがある。
+ 『前に足を出せ』も『後ろで押せ』も、
+ どちらが正しいかより先に聞くべきことがある。
+ ——それは、『どの局面の話をしているのか』です。」
+
+────
+【問題提起：10〜30秒】
+
+「同じ動作でも、局面が変われば意味は180度逆転する。
+ これがスプリントバイオメカニクスの最も重要な前提です。
+
+ そしてこの『文脈』を無視したまま語られる指導が、
+ 現場に大量の誤解を生んでいる。
+ 今日はその典型例として、接地位置の話をします。」
+
+────
+【典型例の提示：30〜50秒】
+
+「接地位置——重心より前に着くのか、後ろに着くのか。
+ これ、局面によって正解が逆になります。
+
+ スタート局面では、後ろに着くことが推進力を生む。
+ 最高速局面では、後ろに着くことがブレーキになる。
+
+ 2023年、Bezodisらが実測したデータがそれを証明しています。」
+
+────
+【データ提示：50〜80秒】
+
+「スタート第1歩目——接地点が重心より0.15メートル後方。
+ 第2歩目でも0.05メートル後方を維持。
+ 第3歩目でようやく前方に転じる。
+
+ トップ選手のデータが示しているのは、
+ スタートでは意図的に後方接地が選ばれているということです。」
+
+────
+【メカニズム解説：80〜130秒】
+
+「なぜスタート局面では後方接地が有効なのか。
+ トルクという概念で整理できます。
+
+ τ＝Fₓかけるh、マイナス、Fzかけるd。
+
+ 接地点が後方になると——この式の第二項がプラスに転じ、
+ 推進トルクが支配的になる。
+
+ スタート局面の目的は水平力の最大化。
+ 後方接地はその力学的な選択です。
+ 転倒のリスクではない。」
+
+────
+【コラムリスト的まとめ：130〜170秒】
+
+「『良い接地・悪い接地』という二項対立に答えはない。
+ 問うべきは——それはどの局面の話か、です。
+
+ 現場で頻繁に聞く『スタートで前に足を出して』という指導。
+ 意図はわかる。ブレーキをかけないため。
+ でもデータは、それが推進効率を下げている可能性を示している。
+
+ 文脈を持たない技術論は現場を混乱させる。
+ これが、今日言いたかったことです。」
+
+────
+【CTA：170〜185秒】
+
+「この解説のフル版、noteに書きました。全文無料です。
+ 概要欄のリンクからどうぞ。
+
+ Chapter 2は『じゃあ意識的に後ろに着けばいいのか？』
+ 補償動作の罠、次回です。」
+
+────
+▼ 概要欄テキスト
+
+📖 note全文無料記事（Chapter 1）
+「後ろに着くと転ぶ——は、半分しか正しくない」
+→ [noteリンク]
+
+#スプリント #バイオメカニクス #陸上 #走り方 #トレーニング科学
+#スプリントトレーニング #接地 #スタートダッシュ</div>
+  </div>
+
+  <!-- Score -->
+  <div id="tab-score" class="tab-panel">
+    <div class="step-label">📊 品質スコア</div>
+    <div class="section">
+      <h2>SNS投稿文スコアカード（Step 4 TikTok）</h2>
+      <div class="score-bar">
+        <div class="score-row">
+          <span class="score-label">フック（冒頭1行）</span>
+          <div class="score-dots">
+            <div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div>
+          </div>
+          <span class="score-grade grade-S">◎ 25/25</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">読みやすさ</span>
+          <div class="score-dots">
+            <div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot empty"></div>
+          </div>
+          <span class="score-grade grade-A">○ 17/20</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">CTA</span>
+          <div class="score-dots">
+            <div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot empty"></div>
+          </div>
+          <span class="score-grade grade-A">○ 17/20</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">ターゲット適合</span>
+          <div class="score-dots">
+            <div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div>
+          </div>
+          <span class="score-grade grade-S">◎ 20/20</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">ブランドトーン</span>
+          <div class="score-dots">
+            <div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot fill"></div><div class="dot empty"></div>
+          </div>
+          <span class="score-grade grade-A">○ 13/15</span>
+        </div>
+      </div>
+      <p style="margin-top:20px; color:var(--gold); font-weight:700; font-size:16px;">
+        📊 品質スコア：92点 ｜ フック:◎ 読みやすさ:○ CTA:○ ターゲット:◎ トーン:○
+      </p>
+      <p style="color:var(--muted); font-size:13px; margin-top:8px;">
+        コラムリスト介入フレームにより「教える系」との差別化が明確。<br>
+        視聴者疑問の先回りがフックの信頼性を大幅に底上げ。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

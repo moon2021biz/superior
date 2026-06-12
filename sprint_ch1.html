@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第1章 制作原稿｜スタート局面のパラドックス</title>
+  <script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+  <style>
+    :root{--bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--border:#2e2e3e;--accent:#5b6af0;--accent2:#a78bfa;--gold:#f59e0b;--red:#f87171;--green:#34d399;--text:#e2e2ee;--muted:#8888aa;--dim:#555568;--r:12px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;line-height:1.9;font-size:15px;}
+    /* ページヘッダー */
+    .page-header{background:linear-gradient(135deg,#0f0f13,#1a1040,#0f1a30);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
+    .page-header .badge{display:inline-block;background:rgba(91,106,240,.15);border:1px solid rgba(91,106,240,.4);color:var(--accent2);font-size:11px;font-weight:700;letter-spacing:.15em;padding:3px 12px;border-radius:99px;margin-bottom:14px;}
+    .page-header h1{font-size:clamp(18px,3vw,28px);font-weight:900;background:linear-gradient(135deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4;}
+    .page-header p{color:var(--muted);font-size:13px;margin-top:10px;}
+    /* タブ */
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);max-width:800px;margin:32px auto 0;padding:0 24px;}
+    .tab{padding:10px 20px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;}
+    .tab.active{color:var(--accent2);border-bottom-color:var(--accent2);}
+    /* コンテンツ */
+    .section{max-width:800px;margin:0 auto;padding:32px 24px 80px;display:none;}
+    .section.active{display:block;}
+    /* note原稿 */
+    .note-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px;margin-bottom:16px;}
+    .label-free{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .label-paid{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+    .note-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+    .note-block h2{font-size:20px;font-weight:900;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+    .note-block h3{font-size:15px;font-weight:800;color:var(--accent2);margin:24px 0 10px;padding-left:10px;border-left:3px solid var(--accent2);}
+    .note-block p{color:#ccc;font-size:14.5px;margin-bottom:14px;line-height:1.9;}
+    .note-block strong{color:#fff;font-weight:700;}
+    .note-block .data-table{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:16px 0;}
+    .note-block .data-table h4{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+    .data-row{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border);}
+    .data-row:last-child{border:none;}
+    .d-step{font-size:12px;color:var(--muted);font-weight:600;min-width:70px;}
+    .d-val{font-size:17px;font-weight:800;font-family:monospace;}
+    .neg{color:var(--red)}.pos{color:var(--green)}
+    .d-desc{font-size:12px;color:var(--muted);}
+    .math-box{background:#111120;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:16px 0;text-align:center;}
+    .math-box .note{font-size:11px;color:var(--dim);margin-top:8px;text-align:left;}
+    .callout{border-radius:8px;padding:16px 20px;margin:16px 0;font-size:14px;color:#ccc;}
+    .c-warn{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);}
+    .c-ok{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.3);}
+    .c-blue{background:rgba(91,106,240,.08);border:1px solid rgba(91,106,240,.3);}
+    .free-end{border:2px dashed rgba(52,211,153,.4);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--green);}
+    /* TikTokスライド */
+    .slides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+    .slide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+    .slide-num{background:var(--accent);color:#fff;font-size:11px;font-weight:800;padding:6px 14px;letter-spacing:.05em;}
+    .slide-body{padding:18px 18px 20px;}
+    .slide-body .headline{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.5;}
+    .slide-body .body-text{font-size:13px;color:var(--muted);line-height:1.8;}
+    .slide-body .cta{margin-top:10px;font-size:12px;font-weight:700;color:var(--accent2);border-top:1px solid var(--border);padding-top:10px;}
+    .tiktok-meta{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-top:24px;}
+    .tiktok-meta h3{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:.05em;}
+    .tiktok-meta p{font-size:13px;color:#ccc;line-height:1.8;}
+    .tag{display:inline-block;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.3);color:var(--accent2);font-size:11px;padding:2px 8px;border-radius:4px;margin:2px;}
+    @media(max-width:600px){.note-block{padding:20px 18px;}.section{padding:24px 16px 60px;}}
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="badge">Chapter 01</div>
+  <h1>スタート局面のパラドックス<br>制作原稿｜note ＋ TikTok</h1>
+  <p>第1章は全文無料公開 ／ TikTokスライド6枚構成</p>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" onclick="switchTab('note')">📝 note原稿</div>
+  <div class="tab" onclick="switchTab('tiktok')">🎬 TikTokスライド</div>
+</div>
+
+<!-- ━━━ NOTE原稿 ━━━ -->
+<div class="section active" id="note">
+
+  <div class="note-label label-free">✅ 無料公開エリア（全文）</div>
+
+  <div class="note-block">
+    <h2>【スプリント科学①】「重心の後ろで接地すると転倒する」は本当か？エリートスプリンターの初期加速の力学的真実</h2>
+
+    <p>こんにちは、おぎぃ。です。</p>
+    <p>スプリントの指導現場において、私たちはしばしば「感覚的な指導言語」と「バイオメカニクス（生体力学）が示す物理法則」の強烈な乖離に直面します。「後ろで大きく押す」「脚を前に振り出してストライドを伸ばす」「膝のクッションを柔らかく使う」——こうした言葉たちは、選手に何らかの動きの変化を促す「キュー（外的・内的合図）」としては一時的に機能するかもしれません。しかし、指導者自身がその裏にある力学的な真実（キネマティクスおよびキネティクス）を誤認したままコーチングを進めれば、アスリートが本来持っている出力のベクトルを大きく歪め、才能の限界値を強制的に下げてしまうことになります。</p>
+    <p>このシリーズでは、感覚論を徹底的に排し、エビデンスと力学に基づく「究極の個別最適化」のメカニクスを解き明かしていきます。</p>
+
+    <h3>「重心より後ろで接地すると転倒する」——私の過去の誤りと訂正</h3>
+    <p>スプリントにおける最も根源的なテーマは「いかにして身体重心（CoM: Center of Mass）を前方へ効率よく、かつ爆発的に進めるか」です。指導現場では古くから「スタートや初期加速局面では、重心の後ろに足をついて力強く押し出せ」と指導されてきました。</p>
+    <p>しかし、ここで皆さんはこう反論したくなるはずです。</p>
+    <div class="callout c-warn">
+      <strong>「接地（Touchdown）の瞬間に足が重心より後ろにあれば、支持基底面を失って顔面から転倒するとおぎぃ。が言っていたじゃないか？」</strong>
+    </div>
+    <p>まさにその通りです。実は私自身、過去に「トップスピード時の力学」と「スタート時の力学」を混同し、そのような解説をしてしまったことがあります。トップスピードの局面において、重心より後方に接地することは確かに物理的に不可能であり、転倒を招きます。</p>
+    <p>しかし、バイオメカニクスの最新の知見とデータを突き合わせた結論から言えば、スタート直後の初期加速局面（第1歩目〜第2歩目）においては、足が身体重心よりも後方に接地する「ネガティブ・タッチダウン・ディスタンス（Negative Touchdown Distance）」は、エリートスプリンター特有の科学的事実として証明されています。</p>
+
+    <h3>エリートスプリンターのデータ（Bezodis et al., 2023）</h3>
+    <div class="data-table">
+      <h4>初期加速における重心〜接地足の水平距離推移</h4>
+      <div class="data-row"><span class="d-step">第1歩目</span><span class="d-val neg">−0.15 m</span><span class="d-desc">重心より <strong>15cm 後方</strong></span></div>
+      <div class="data-row"><span class="d-step">第2歩目</span><span class="d-val neg">−0.05 m</span><span class="d-desc">重心より <strong>5cm 後方</strong></span></div>
+      <div class="data-row"><span class="d-step">第3歩目</span><span class="d-val pos">+0.02 m</span><span class="d-desc">重心より <strong>2cm 前方</strong>へ移行</span></div>
+      <div class="data-row"><span class="d-step">第4歩目</span><span class="d-val pos">+0.07 m</span><span class="d-desc">重心より <strong>7cm 前方</strong></span></div>
+    </div>
+
+    <h3>なぜ転倒しないのか？——トルクの拮抗関係</h3>
+    <p>通常、足が重心より後ろにある状態で地面を強く押し込むと、鉛直方向の地面反力（$F_z$）は身体を前方へ回転させようとする「前転トルク」を生み出します。しかし、スターティングブロックからの飛び出し直後は、空気抵抗によるブレーキ成分がほぼ皆無であり、極めて巨大な水平方向の推進力（$F_x$）が発生します。この推進力（$F_x$）が身体重心よりも低い位置（足元）で前方に強烈に働くため、作用・反作用の法則によって<strong>「身体を後方へ起き上がらせようとする非常に強い後転トルク」</strong>が発生するのです。</p>
+    <div class="math-box">
+      $$\Sigma \tau = (F_x \cdot h) - (F_z \cdot d)$$
+      <div class="note">※ $h$ は重心高、$d$ は重心から接地足までの水平距離</div>
+    </div>
+    <p>スタート局面ではこの $F_x$ が異常に大きいため、前転しようとする力と後転しようとする力が拮抗します。その結果、エリート選手は極端な深い前傾姿勢のまま、重心より後ろに足を着き続けても転倒することなく、前方への弾丸のような並進運動を成立させているのです。</p>
+
+    <h3>育成年代への応用——「形だけ真似」の危険性</h3>
+    <div class="callout c-warn">
+      <strong>⚠️ 落とし穴：</strong>エリート選手が転倒しないのは「圧倒的な筋力と出力（強大な $F_x$）」によって後転トルクを生み出しているからです。ベースとなる筋力やパワーが少ない若い選手や育成年代の選手が、この「深い前傾と重心後方での接地」を形だけ真似ることはほぼ不可能です。
+    </div>
+    <div class="callout c-ok">
+      <strong>✅ 育成年代への正しいアプローチ：</strong>無理に後ろで押そうとせず、<strong>「体のやや前で接地し、力発揮は重心の真下あたりで行う」</strong>のが妥当かつ安全なアプローチとなります。骨盤や体幹部を起点とした出力を意識しつつも、自身の現在の筋力レベルに合わせた接地位置と前傾角度の最適解を見つけることが、育成年代における正しい加速の構築です。
+    </div>
+    <p>そして速度が上がり身体が起きるにつれ、$F_x$（水平推進力）は減少し、滞空時間を稼ぐための $F_z$（鉛直支持力）が支配的になります。この力学的な移行（トランジション）を理解せず、「いつまでも重心の後ろで押し続けよう」とすれば、ピッチが間延びする致命的なエラーに直面することになります。</p>
+
+    <div class="free-end">✅ ここまで無料公開｜次の記事（第2章）ではストライドの誤解と代償動作の力学的トレードオフを解説します</div>
+
+    <p style="color:var(--muted);font-size:13px;">このシリーズは全4章構成です。第2〜4章はメンバーシップ（有料）でお読みいただけます。</p>
+  </div>
+</div>
+
+<!-- ━━━ TikTokスライド ━━━ -->
+<div class="section" id="tiktok">
+
+  <div class="tiktok-meta" style="margin-bottom:24px;">
+    <h3>📌 動画設計メモ</h3>
+    <p>テーマ：「重心の後ろで接地すると転倒する、は本当か？」<br>対象：スプリント指導者・コーチ志望・陸上競技者<br>尺感：45〜60秒（スライド1枚 6〜8秒目安）</p>
+  </div>
+
+  <div class="slides-grid">
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 01 ／ フック</div>
+      <div class="slide-body">
+        <div class="headline">「重心より後ろで接地したら転倒する」——これ、半分ウソです。</div>
+        <div class="body-text">過去に私がそう言ったのは事実です。でも、あれはスタートの力学を見落としていた。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 02 ／ データ提示</div>
+      <div class="slide-body">
+        <div class="headline">エリートスプリンターは第1歩目、重心より15cm後ろに着地している。</div>
+        <div class="body-text">Bezodis et al.(2023)のデータ。第2歩目は5cm後方。第3歩目からようやく前方へ移行する。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 03 ／ 理由説明</div>
+      <div class="slide-body">
+        <div class="headline">なぜ転倒しないのか？「後転トルク」が働いているから。</div>
+        <div class="body-text">ブロックからの爆発的な水平推進力（Fx）が、前転しようとする力を相殺している。だから倒れない。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 04 ／ 落とし穴</div>
+      <div class="slide-body">
+        <div class="headline">問題は「形だけ真似すること」。</div>
+        <div class="body-text">エリート選手が転倒しないのは、圧倒的な出力があるから。筋力が足りないまま真似をすれば、必ず前に潰れる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 05 ／ 結論</div>
+      <div class="slide-body">
+        <div class="headline">育成年代の正解：「体のやや前に接地、力発揮は重心の真下」</div>
+        <div class="body-text">自分の筋力レベルに合わせた接地位置が最適解。今の力で出せる最大のベクトルを作ることが最優先。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 06 ／ CTA</div>
+      <div class="slide-body">
+        <div class="headline">感覚論ではなく力学で指導する。それが才能の限界値を変える。</div>
+        <div class="body-text">第2章では「ストライドの誤解と代償動作の連鎖」を解説。</div>
+        <div class="cta">→ noteで続きを読む（リンクはプロフから）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiktok-meta">
+    <h3>📎 推奨ハッシュタグ</h3>
+    <p>
+      <span class="tag">#スプリント</span><span class="tag">#バイオメカニクス</span><span class="tag">#陸上競技</span><span class="tag">#走り方</span><span class="tag">#スポーツ科学</span><span class="tag">#コーチング</span><span class="tag">#短距離</span><span class="tag">#おぎぃ</span>
+    </p>
+  </div>
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['note','tiktok'][i]===id);});
+  document.querySelectorAll('.section').forEach(s=>{s.classList.toggle('active',s.id===id);});
+}
+</script>
+</body>
+</html>

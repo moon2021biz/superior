@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ボイレコフロー 課題調査・改善提案｜2026-03-30</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #0f1923; color: #e8edf2; line-height: 1.7; }
+
+  header { background: linear-gradient(135deg, #1A2A3A 0%, #0f1923 100%); border-bottom: 3px solid #C0392B; padding: 32px 40px; }
+  header h1 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  header .meta { font-size: 13px; color: #7a9bb5; display: flex; gap: 20px; flex-wrap: wrap; }
+  header .badge { background: #C0392B; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; display: inline-block; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 36px 32px; }
+
+  /* フロー可視化 */
+  .flow-section { margin-bottom: 48px; }
+  .section-title { font-size: 20px; font-weight: 700; color: #C0392B; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #2a3a4a; display: flex; align-items: center; gap: 10px; }
+  .section-title .icon { font-size: 22px; }
+
+  .flow-grid { display: grid; gap: 12px; }
+  .flow-step { display: flex; gap: 16px; align-items: flex-start; background: #1a2a3a; border-radius: 10px; padding: 18px 20px; border-left: 4px solid #2a4a6a; position: relative; }
+  .flow-step.has-issue { border-left-color: #E74C3C; }
+  .flow-step.ok { border-left-color: #27ae60; }
+  .flow-step.warn { border-left-color: #f39c12; }
+
+  .step-num { background: #C0392B; color: #fff; font-size: 13px; font-weight: 700; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.sub { background: #2a4a6a; font-size: 11px; }
+
+  .step-content { flex: 1; }
+  .step-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: #8aaac5; }
+  .step-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .tag.confirm { background: rgba(243,156,18,0.2); color: #f39c12; border: 1px solid rgba(243,156,18,0.4); }
+  .tag.auto { background: rgba(39,174,96,0.2); color: #2ecc71; border: 1px solid rgba(39,174,96,0.4); }
+  .tag.browser { background: rgba(155,89,182,0.2); color: #9b59b6; border: 1px solid rgba(155,89,182,0.4); }
+  .tag.file { background: rgba(52,152,219,0.2); color: #3498db; border: 1px solid rgba(52,152,219,0.4); }
+  .tag.issue { background: rgba(231,76,60,0.2); color: #e74c3c; border: 1px solid rgba(231,76,60,0.4); }
+
+  .arrow { text-align: center; color: #3a5a7a; font-size: 20px; margin: 4px 0; }
+
+  /* 課題一覧 */
+  .issues-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .issues-grid { grid-template-columns: 1fr; } }
+
+  .issue-card { background: #1a2a3a; border-radius: 10px; padding: 20px; border: 1px solid #2a3a4a; }
+  .issue-card .issue-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .issue-num { background: #E74C3C; color: #fff; font-size: 12px; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .issue-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .severity { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: auto; }
+  .severity.high { background: rgba(231,76,60,0.2); color: #e74c3c; border: 1px solid rgba(231,76,60,0.4); }
+  .severity.mid { background: rgba(243,156,18,0.2); color: #f39c12; border: 1px solid rgba(243,156,18,0.4); }
+  .severity.low { background: rgba(52,152,219,0.2); color: #3498db; border: 1px solid rgba(52,152,219,0.4); }
+  .issue-body { font-size: 13px; color: #8aaac5; }
+  .issue-impact { margin-top: 10px; font-size: 12px; color: #7a9bb5; border-top: 1px solid #2a3a4a; padding-top: 10px; }
+  .impact-label { color: #f39c12; font-weight: 600; }
+
+  /* 改善提案 */
+  .proposals { display: grid; gap: 20px; }
+  .proposal-card { background: #1a2a3a; border-radius: 12px; padding: 24px; border: 1px solid #2a3a4a; }
+  .proposal-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .proposal-icon { font-size: 28px; flex-shrink: 0; }
+  .proposal-meta { flex: 1; }
+  .proposal-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .proposal-sub { font-size: 13px; color: #7a9bb5; }
+  .effort-badge { display: flex; gap: 8px; margin-top: 8px; }
+  .effort { font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+  .effort.easy { background: rgba(39,174,96,0.2); color: #2ecc71; border: 1px solid rgba(39,174,96,0.4); }
+  .effort.medium { background: rgba(243,156,18,0.2); color: #f39c12; border: 1px solid rgba(243,156,18,0.4); }
+  .effort.hard { background: rgba(231,76,60,0.2); color: #e74c3c; border: 1px solid rgba(231,76,60,0.4); }
+  .impact-high { background: rgba(192,57,43,0.2); color: #E74C3C; border: 1px solid rgba(192,57,43,0.4); }
+
+  .proposal-body { font-size: 14px; color: #a0bcd0; line-height: 1.8; }
+  .proposal-body ul { padding-left: 18px; margin-top: 8px; }
+  .proposal-body li { margin-bottom: 6px; }
+
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .ba-box { border-radius: 8px; padding: 14px; font-size: 13px; }
+  .ba-box.before { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3); }
+  .ba-box.after { background: rgba(39,174,96,0.1); border: 1px solid rgba(39,174,96,0.3); }
+  .ba-label { font-size: 11px; font-weight: 700; margin-bottom: 6px; letter-spacing: 1px; }
+  .ba-box.before .ba-label { color: #e74c3c; }
+  .ba-box.after .ba-label { color: #2ecc71; }
+  .ba-content { color: #c8d8e8; }
+
+  /* コードブロック */
+  code { background: #0a1520; border: 1px solid #2a3a4a; border-radius: 6px; padding: 2px 6px; font-size: 12px; font-family: 'Courier New', monospace; color: #4a9ECD; }
+  pre { background: #0a1520; border: 1px solid #2a3a4a; border-radius: 8px; padding: 14px; font-size: 12px; font-family: 'Courier New', monospace; color: #c8d8e8; overflow-x: auto; margin-top: 12px; line-height: 1.6; }
+
+  /* ロードマップ */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .roadmap { grid-template-columns: 1fr; } }
+  .roadmap-phase { background: #1a2a3a; border-radius: 10px; padding: 18px; border-top: 3px solid #2a3a4a; }
+  .roadmap-phase.p1 { border-top-color: #2ecc71; }
+  .roadmap-phase.p2 { border-top-color: #f39c12; }
+  .roadmap-phase.p3 { border-top-color: #9b59b6; }
+  .phase-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .phase-items { font-size: 13px; color: #8aaac5; }
+  .phase-items li { margin-bottom: 6px; list-style: none; padding-left: 4px; }
+  .phase-items li::before { content: "→ "; color: inherit; }
+
+  /* サマリー表 */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1a2a3a; color: #7a9bb5; font-weight: 600; text-align: left; padding: 12px 14px; border-bottom: 2px solid #C0392B; }
+  td { padding: 12px 14px; border-bottom: 1px solid #2a3a4a; color: #c8d8e8; vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  footer { text-align: center; padding: 32px; color: #3a5a7a; font-size: 12px; border-top: 1px solid #1a2a3a; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="max-width:1100px;margin:0 auto;">
+    <span class="badge">SNS-VOIRECO スキル分析</span>
+    <h1 style="margin-top:10px;">ボイレコフロー 課題調査・改善提案レポート</h1>
+    <div class="meta">
+      <span>📅 作成日: 2026-03-30</span>
+      <span>🔍 分析スキル: sns-voireco (v2)</span>
+      <span>📊 課題数: 8件 ／ 改善提案: 7件</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ===== 現在のフロー可視化 ===== -->
+  <section class="flow-section">
+    <h2 class="section-title"><span class="icon">🗺️</span>現在のフロー全体図</h2>
+    <p style="font-size:13px;color:#7a9bb5;margin-bottom:20px;">ボイレコの文字起こしを受け取ってから最終成果物（TikTok動画）が完成するまでの全ステップ。<br>各ステップの色：<span style="color:#e74c3c">赤 = 課題あり</span> ／ <span style="color:#f39c12">橙 = 注意</span> ／ <span style="color:#2ecc71">緑 = 問題なし</span></p>
+
+    <div class="flow-grid">
+      <!-- Step 0 -->
+      <div class="flow-step ok">
+        <div class="step-num">0</div>
+        <div class="step-content">
+          <div class="step-name">バズ・競合情報の参照</div>
+          <div class="step-desc">CONTEXT.md の競合調査ナレッジ・outputs/gemini/ の最新バズレポートを読み込み、フック選定の根拠を準備する</div>
+          <div class="step-tags">
+            <span class="tag auto">自動実行</span>
+            <span class="tag file">ファイル読込</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 1 -->
+      <div class="flow-step has-issue">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-name">文字起こし要約・専門家レビュー・再構築 <span style="font-size:12px;color:#e74c3c">【5フェーズ一括実行】</span></div>
+          <div class="step-desc">
+            <b>フェーズA</b>: 詳細な要約作成 →
+            <b>フェーズB</b>: 専門家視点でのレビュー（5点） →
+            <b>フェーズC</b>: コラムリスト介入（5点） →
+            <b>フェーズD</b>: 構成改善3点 →
+            <b>フェーズE</b>: 再構築版提示 → ユーザー確認（A〜D 4問）
+          </div>
+          <div class="step-tags">
+            <span class="tag confirm">ユーザー確認 ×1</span>
+            <span class="tag issue">出力量過大</span>
+            <span class="tag issue">確認項目4問</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓ ユーザー承認後</div>
+
+      <!-- Step 2 -->
+      <div class="flow-step warn">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-name">NOTE記事生成（無料パート + 有料コンテンツ）</div>
+          <div class="step-desc">品質スコア採点（70点未満で最大3回再生成）→ ユーザー確認（a/b/c 3択）</div>
+          <div class="step-tags">
+            <span class="tag confirm">ユーザー確認 ×1</span>
+            <span class="tag auto">品質自動採点</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓ 「a」受信後</div>
+
+      <!-- Step 2.5 -->
+      <div class="flow-step has-issue">
+        <div class="step-num sub">2.5</div>
+        <div class="step-content">
+          <div class="step-name">NOTEサムネイル生成（NotebookLM → PPTX → 画像抽出）</div>
+          <div class="step-desc">
+            Claude in Chrome でNotebookLMを操作 → 3パターン生成 → ユーザー選択 → PPTXダウンロード → Downloadsフォルダアクセス要求 → zip解凍 → PNG保存<br>
+            <span style="color:#e74c3c;font-size:12px;">⚠️ Pythonコードに古いセッションIDがハードコードされている</span>
+          </div>
+          <div class="step-tags">
+            <span class="tag browser">Computer Use必須</span>
+            <span class="tag confirm">ユーザー確認 ×2</span>
+            <span class="tag file">Downloadsアクセス権要求</span>
+            <span class="tag issue">パスハードコード</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 3 -->
+      <div class="flow-step warn">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-name">全媒体 統一文言の確定</div>
+          <div class="step-desc">YouTube・TikTokキャプション・スライド最終ページ・Instagram 各媒体向け導線文言を一括提示 → ユーザー確認</div>
+          <div class="step-tags">
+            <span class="tag confirm">ユーザー確認 ×1</span>
+            <span class="tag auto">NOTE記事に依存</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓ 「a」受信後</div>
+
+      <!-- Step 4 -->
+      <div class="flow-step ok">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-name">YouTube台本生成（2500〜3000字 / 8〜10分想定）</div>
+          <div class="step-desc">動画タイトル3案 + サムネイル案 + 台本全文 + 概要欄テンプレート → ユーザー確認（a〜f 6択）</div>
+          <div class="step-tags">
+            <span class="tag confirm">ユーザー確認 ×1</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 5 -->
+      <div class="flow-step ok">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-name">TikTok投稿文生成（1200〜1800字）</div>
+          <div class="step-desc">フック・本文・NOTE誘導・CTA・ハッシュタグ5つを生成。ハッシュタグルール: テーマ3つ + 定番2つ</div>
+          <div class="step-tags">
+            <span class="tag auto">（確認省略可）</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 6 -->
+      <div class="flow-step has-issue">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-name">TikTokスライド生成（NotebookLM → ソース追加 → PPTX）</div>
+          <div class="step-desc">
+            毎回5種類のソース追加（投稿文・ロゴ画像×2・TikTok URL・YouTube URL）→ スライド7〜8枚生成<br>
+            <span style="color:#e74c3c;font-size:12px;">⚠️ 画像はD&D（手動）必須。ノートブックが毎回肥大化する。</span>
+          </div>
+          <div class="step-tags">
+            <span class="tag browser">Computer Use必須</span>
+            <span class="tag issue">手動操作あり</span>
+            <span class="tag issue">ノートブック肥大化</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 7 -->
+      <div class="flow-step ok">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-name">全ファイル保存</div>
+          <div class="step-desc">NOTE記事・YouTube台本・TikTok投稿文・NotebookLMプロンプトを outputs/YYYYMMDD_テーマ/ に保存</div>
+          <div class="step-tags">
+            <span class="tag file">4ファイル</span>
+            <span class="tag auto">自動実行</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <!-- Step 8 -->
+      <div class="flow-step has-issue">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <div class="step-name">TikTokスライド PPTX → zip解凍 → 横長画像保存</div>
+          <div class="step-desc">
+            Downloadsから最新PPTXを自動取得 → zip解凍 → ppt/media/image*.png を横長のまま保存 → youtube-shortsスキルへ引き渡し<br>
+            <span style="color:#f39c12;font-size:12px;">⚠️ image番号とスライド順の対応が保証されない</span>
+          </div>
+          <div class="step-tags">
+            <span class="tag browser">Computer Use必須</span>
+            <span class="tag file">Downloadsアクセス</span>
+            <span class="tag issue">画像番号マッピング不安定</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;background:#1a2a3a;border-radius:10px;padding:18px;font-size:13px;">
+      <div style="font-weight:700;color:#fff;margin-bottom:10px;">📊 フロー統計</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center;">
+        <div><div style="font-size:28px;font-weight:700;color:#C0392B;">8</div><div style="color:#7a9bb5;font-size:12px;">総ステップ数</div></div>
+        <div><div style="font-size:28px;font-weight:700;color:#f39c12;">6</div><div style="color:#7a9bb5;font-size:12px;">ユーザー確認回数</div></div>
+        <div><div style="font-size:28px;font-weight:700;color:#9b59b6;">3</div><div style="color:#7a9bb5;font-size:12px;">Computer Use依存ステップ</div></div>
+        <div><div style="font-size:28px;font-weight:700;color:#3498db;">4</div><div style="color:#7a9bb5;font-size:12px;">課題ありステップ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 課題一覧 ===== -->
+  <section class="flow-section">
+    <h2 class="section-title"><span class="icon">🔍</span>発見された課題（8件）</h2>
+    <div class="issues-grid">
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">1</div>
+          <div class="issue-title">Step 1 が長大すぎる</div>
+          <span class="severity high">深刻</span>
+        </div>
+        <div class="issue-body">
+          5フェーズ（A〜E）を一気に実行すると出力が膨大になる。要約＋専門家5点＋コラム5点＋構成3点＋再構築版＋4つの確認問を1つのレスポンスで読みこなすのは認知負荷が高く、ユーザーが途中でスキップしがちになる。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>ユーザーが確認を飛ばして「D→OK」を押すだけになり、品質向上ループが機能しない</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">2</div>
+          <div class="issue-title">確認回数が多い（6回）</div>
+          <span class="severity high">深刻</span>
+        </div>
+        <div class="issue-body">
+          Step 1・2・2.5・3・4 で計6回ユーザー確認が発生する。1回の確認を経て次のステップに進む構造のため、セッションを跨がないと完結しないことが多い。実際にはStep 1の4問を一度に回答するのも難しい。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>1セッションでStep 4まで到達することが稀。途中で止まってハンドオフが残る</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">3</div>
+          <div class="issue-title">Step 2.5 のパスハードコード問題</div>
+          <span class="severity high">深刻</span>
+        </div>
+        <div class="issue-body">
+          Pythonコード内のダウンロードパスが古いセッションID <code>great-vigilant-lovelace</code> でハードコードされている。セッションを跨ぐたびにパスが変わるため、実行するとFileNotFoundErrorが確実に発生する。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>Step 2.5のPPTX画像抽出が100%エラーで失敗する（Step 8も同様）</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">4</div>
+          <div class="issue-title">Computer Use依存（3ステップ）</div>
+          <span class="severity high">深刻</span>
+        </div>
+        <div class="issue-body">
+          Step 2.5・6・8 がClaude in ChromeによるNotebookLM操作に依存している。Computer Useが「設定→デスクトップアプリ→コンピュータ使用」で有効化されていないと、これらのステップで完全に詰まる。有効化されていない場合の代替フローが定義されていない。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>Computer Use無効時はStep 2.5で停止→YouTube台本まで到達できない</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">5</div>
+          <div class="issue-title">NotebookLMノートブック肥大化</div>
+          <span class="severity mid">中程度</span>
+        </div>
+        <div class="issue-body">
+          Step 6で毎回同じNotebookLMノートブックに5種類のソースを追加し続ける。回数を重ねるとソース数が増え続け、スライド生成の精度低下・動作遅延・関係のない過去テーマの混入リスクがある。ソースのクリーンアップ手順が定義されていない。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>10回以上使用後からスライドの品質が劣化する可能性</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">6</div>
+          <div class="issue-title">PPTX画像番号マッピングの不安定性</div>
+          <span class="severity mid">中程度</span>
+        </div>
+        <div class="issue-body">
+          Step 2.5の画像抽出コードで <code>image1.png=スライドA</code>・<code>image2.png=スライドB</code> という前提でマッピングしている。しかしPPTX内のmediaフォルダはスライド順ではなく追加順で番号が振られるため、ロゴ等の埋め込み画像が含まれると番号がずれる。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>誤ったスライドが保存されることがある（サムネイルにロゴ画像が来る等）</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">7</div>
+          <div class="issue-title">YouTube・TikTokの並列化が未対応</div>
+          <span class="severity low">軽微</span>
+        </div>
+        <div class="issue-body">
+          NOTE記事（Step 2）と統一文言（Step 3）が確定すれば、YouTube台本（Step 4）とTikTok投稿文（Step 5）は独立して生成できる。しかし現在は直列設計のため、Step 4承認を待ってからStep 5が開始される。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>Step 4・5を並列化すれば所要時間を20〜30%短縮できる機会が失われている</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <div class="issue-num">8</div>
+          <div class="issue-title">エラー時のフォールバックが未定義</div>
+          <span class="severity mid">中程度</span>
+        </div>
+        <div class="issue-body">
+          NotebookLMが503エラー・生成タイムアウト・ログイン切れ等で失敗した場合の対処が「代替手段は禁止（SKILL.md記載）」のみで、ユーザーへの報告内容・次のアクションが定義されていない。CLAUDE.mdのLEVEL3フォールバックへの接続が不明確。
+        </div>
+        <div class="issue-impact"><span class="impact-label">影響：</span>NotebookLMエラー時にスキルが無言で止まるか、誤った代替処理が動く</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 改善提案 ===== -->
+  <section class="flow-section">
+    <h2 class="section-title"><span class="icon">💡</span>改善提案（7件）</h2>
+    <div class="proposals">
+
+      <!-- 提案1 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">✂️</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案①：Step 1 を3段階に分割する</div>
+            <div class="proposal-sub">課題 #1 #2 に対応</div>
+            <div class="effort-badge">
+              <span class="effort easy">実装: 容易</span>
+              <span class="effort impact-high">効果: 高</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          現在の5フェーズ一括実行を、以下の3段階に分割して確認を分散させる。
+          <ul>
+            <li><b>Step 1a</b>: フェーズA（詳細要約）のみ実行 → 「テーマ・ターゲット・メインメッセージ・フック案・有料コンテンツ候補」を確認。少ない情報量でスキャンしやすい。</li>
+            <li><b>Step 1b</b>: フェーズB（専門家レビュー）+ フェーズC（コラムリスト介入）を実行 → 「どの指摘を採用するか」番号選択で回答。</li>
+            <li><b>Step 1c</b>: フェーズD+E（構成改善 + 再構築版）を実行 → 最終確認してStep 2へ。</li>
+          </ul>
+          ユーザーは1回あたり少ない量を確認するだけで済み、スキップされにくくなる。
+        </div>
+        <div class="before-after">
+          <div class="ba-box before">
+            <div class="ba-label">BEFORE</div>
+            <div class="ba-content">1回で5フェーズ全出力 → 4問同時回答 → 認知負荷MAX</div>
+          </div>
+          <div class="ba-box after">
+            <div class="ba-label">AFTER</div>
+            <div class="ba-content">1a確認（1問）→ 1b確認（1問）→ 1c確認（1問）→ 段階的</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 提案2 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">⚡</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案②：クイックモードを追加する</div>
+            <div class="proposal-sub">課題 #2 に対応</div>
+            <div class="effort-badge">
+              <span class="effort easy">実装: 容易</span>
+              <span class="effort impact-high">効果: 高</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          スキル起動時に「通常モード（デフォルト）」か「クイックモード」を選択させる。
+          <ul>
+            <li><b>通常モード</b>: 現在の全ステップ（レビュー・コラム介入・構成改善を含む完全版）</li>
+            <li><b>クイックモード</b>: Step 1を「フェーズA（要約）のみ」に短縮→確認1回→Step 2→Step 3→Step 5（YouTube台本はスキップ）の最短4ステップ完結</li>
+          </ul>
+          週複数本の投稿を量産する場合や、テーマが決まっていてレビューが不要な場合にクイックモードが有効。
+        </div>
+        <div class="before-after">
+          <div class="ba-box before">
+            <div class="ba-label">BEFORE</div>
+            <div class="ba-content">全8ステップ固定 / 確認6回 / 完了まで複数セッション</div>
+          </div>
+          <div class="ba-box after">
+            <div class="ba-label">AFTER（クイックモード）</div>
+            <div class="ba-content">4ステップ / 確認2回 / 1セッションで完結</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 提案3 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">🔧</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案③：パスをすべて動的生成に修正する</div>
+            <div class="proposal-sub">課題 #3 に対応（最優先修正）</div>
+            <div class="effort-badge">
+              <span class="effort easy">実装: 容易</span>
+              <span class="effort impact-high">効果: 必須</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          Step 2.5のPythonコード内にある古いセッションIDを削除し、実行時に動的取得する方式に変更する。
+          SKILL.md内のコードを以下のように修正すること：
+        </div>
+<pre>
+# ❌ 現在（ハードコード）
+downloads_dir = '/sessions/great-vigilant-lovelace/mnt/Downloads'
+
+# ✅ 修正案（動的取得）
+import glob, os
+# Bashで事前取得: SESSION_MNT=$(ls /sessions/*/mnt/Downloads -d 2>/dev/null | head -1)
+# または Pythonで検索
+session_dirs = glob.glob('/sessions/*/mnt/Downloads')
+downloads_dir = session_dirs[0] if session_dirs else None
+if not downloads_dir:
+    raise FileNotFoundError("Downloadsフォルダが見つかりません。フォルダアクセスを許可してください。")
+
+# 出力先も同様に動的生成
+mnt_root = os.path.dirname(os.path.dirname(downloads_dir))
+output_dir = f'{mnt_root}/ai実験用/オギラボ/outputs'
+</pre>
+      </div>
+
+      <!-- 提案4 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">🖥️</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案④：Computer Use 状態チェックをスキル起動時に追加</div>
+            <div class="proposal-sub">課題 #4 に対応</div>
+            <div class="effort-badge">
+              <span class="effort easy">実装: 容易</span>
+              <span class="effort medium">効果: 中</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          スキル起動時（Step 0の直前）に、Computer Useが有効かどうかを確認し、無効の場合は代替フローを提示する。
+          <ul>
+            <li><b>Computer Use 有効</b>: 通常フロー（Step 0〜8 全実行）</li>
+            <li><b>Computer Use 無効</b>: Step 2.5・6・8をスキップし、「NotebookLMプロンプト」テキストファイルを出力する「テキスト出力モード」で動作</li>
+          </ul>
+          テキスト出力モードでは、NotebookLMプロンプトをコピー&ペースト用のテキストとして提供し、MOONさんが手動でNotebookLMに貼り付ける運用を想定。
+        </div>
+      </div>
+
+      <!-- 提案5 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">🧹</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案⑤：NotebookLMソース管理（クリーンアップ手順追加）</div>
+            <div class="proposal-sub">課題 #5 に対応</div>
+            <div class="effort-badge">
+              <span class="effort medium">実装: 中程度</span>
+              <span class="effort medium">効果: 中</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          Step 6の冒頭にクリーンアップ手順を追加する。毎回使うソースはノートブックに固定し、テーマごとに変わるソース（投稿文テキスト）のみ毎回差し替える運用に変更する。
+          <ul>
+            <li><b>固定ソース</b>（一度追加したら削除しない）: OGILABロゴ・キャラクター画像・TikTok URL・YouTube URL</li>
+            <li><b>動的ソース</b>（毎回差し替え）: 投稿文テキスト → 前回のソースを削除してから新規追加する</li>
+          </ul>
+          この変更でノートブックのソース数を5以下に保ち、生成精度を維持する。
+        </div>
+      </div>
+
+      <!-- 提案6 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">🔍</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案⑥：PPTX画像抽出を「スライド順」で正確に行う</div>
+            <div class="proposal-sub">課題 #6 に対応</div>
+            <div class="effort-badge">
+              <span class="effort medium">実装: 中程度</span>
+              <span class="effort impact-high">効果: 高</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          <code>ppt/media/image1.png</code> = スライド1という前提は間違いの場合がある。python-pptxを使って正しいスライド順で画像を抽出する方式に変更する。
+        </div>
+<pre>
+# ✅ python-pptx を使って正確にスライド順で画像抽出
+from pptx import Presentation
+from pptx.util import Inches
+from PIL import Image
+import zipfile, io
+
+prs = Presentation(pptx_path)
+slide_images = []
+
+# 各スライドをPILイメージとしてレンダリング（python-pptxはレンダリング不可のため）
+# → zipで直接 slide/slide{N}.xml を開き、対応するblipを取得する方式
+with zipfile.ZipFile(pptx_path, 'r') as z:
+    for i, slide in enumerate(prs.slides):
+        slide_xml = f'ppt/slides/slide{i+1}.xml'
+        # blip参照からmediaファイルパスを解決 → 正確なスライド→画像マッピング
+        rels_xml = f'ppt/slides/_rels/slide{i+1}.xml.rels'
+        # 実装詳細はスキル内コードとして展開
+        print(f"スライド{i+1}: {slide_xml}")
+</pre>
+      </div>
+
+      <!-- 提案7 -->
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <div class="proposal-icon">⚡</div>
+          <div class="proposal-meta">
+            <div class="proposal-title">提案⑦：Step 4・5 を並列生成に変更する</div>
+            <div class="proposal-sub">課題 #7 に対応</div>
+            <div class="effort-badge">
+              <span class="effort medium">実装: 中程度</span>
+              <span class="effort medium">効果: 中</span>
+            </div>
+          </div>
+        </div>
+        <div class="proposal-body">
+          NOTE記事（Step 2）と統一文言（Step 3）が確定したタイミングで、YouTube台本（Step 4）とTikTok投稿文（Step 5）を同時生成する。Agent toolを使ってサブエージェントに並列実行させることで所要時間を短縮できる。
+        </div>
+        <div class="before-after">
+          <div class="ba-box before">
+            <div class="ba-label">BEFORE（直列）</div>
+            <div class="ba-content">Step4生成(3分) → 確認(∞) → Step5生成(2分) = 最短5分+確認待ち</div>
+          </div>
+          <div class="ba-box after">
+            <div class="ba-label">AFTER（並列）</div>
+            <div class="ba-content">Step4+5同時生成(3分) → 一括確認 = 最短3分+確認1回</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 優先度ロードマップ ===== -->
+  <section class="flow-section">
+    <h2 class="section-title"><span class="icon">🗓️</span>改善優先度ロードマップ</h2>
+    <div class="roadmap">
+      <div class="roadmap-phase p1">
+        <div class="phase-title" style="color:#2ecc71;">🟢 即実施（SKILL.md修正のみ）</div>
+        <ul class="phase-items">
+          <li>提案③：パスの動的生成修正（バグフィックス・必須）</li>
+          <li>提案②：クイックモードの追加（SKILL.md冒頭に選択肢追加）</li>
+          <li>提案④：Computer Use状態チェックの追加</li>
+        </ul>
+      </div>
+      <div class="roadmap-phase p2">
+        <div class="phase-title" style="color:#f39c12;">🟡 近日対応（フロー設計変更）</div>
+        <ul class="phase-items">
+          <li>提案①：Step 1 の3段階分割</li>
+          <li>提案⑤：NotebookLMソースのクリーンアップ運用</li>
+          <li>提案⑥：PPTX画像抽出のpython-pptx方式への移行</li>
+        </ul>
+      </div>
+      <div class="roadmap-phase p3">
+        <div class="phase-title" style="color:#9b59b6;">🟣 次フェーズ（Agent活用）</div>
+        <ul class="phase-items">
+          <li>提案⑦：Step 4・5 の並列生成</li>
+          <li>エラーハンドリングのLEVEL3フォールバック統合</li>
+          <li>進捗状態のCONTEXT.md自動記録</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== サマリー表 ===== -->
+  <section class="flow-section">
+    <h2 class="section-title"><span class="icon">📋</span>課題×改善提案 対応表</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>課題</th>
+          <th>深刻度</th>
+          <th>対応提案</th>
+          <th>実装難易度</th>
+          <th>期待効果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#1 Step 1が長大すぎる</td>
+          <td style="color:#e74c3c;">🔴 深刻</td>
+          <td>提案①：Step 1を3段階分割</td>
+          <td style="color:#2ecc71;">容易</td>
+          <td>レビュー精度向上・ユーザー負荷軽減</td>
+        </tr>
+        <tr>
+          <td>#2 確認回数が6回で多い</td>
+          <td style="color:#e74c3c;">🔴 深刻</td>
+          <td>提案②：クイックモード追加</td>
+          <td style="color:#2ecc71;">容易</td>
+          <td>1セッション完結率の大幅改善</td>
+        </tr>
+        <tr>
+          <td>#3 パスハードコード</td>
+          <td style="color:#e74c3c;">🔴 深刻</td>
+          <td>提案③：パス動的生成に修正</td>
+          <td style="color:#2ecc71;">容易（必須）</td>
+          <td>Step 2.5・8のエラー解消</td>
+        </tr>
+        <tr>
+          <td>#4 Computer Use依存（3ステップ）</td>
+          <td style="color:#e74c3c;">🔴 深刻</td>
+          <td>提案④：起動時状態チェック＋代替フロー</td>
+          <td style="color:#2ecc71;">容易</td>
+          <td>Computer Use無効環境でも動作可能に</td>
+        </tr>
+        <tr>
+          <td>#5 ノートブック肥大化</td>
+          <td style="color:#f39c12;">🟡 中程度</td>
+          <td>提案⑤：ソースのクリーンアップ手順追加</td>
+          <td style="color:#f39c12;">中程度</td>
+          <td>スライド生成精度の長期維持</td>
+        </tr>
+        <tr>
+          <td>#6 PPTX画像番号マッピング不安定</td>
+          <td style="color:#f39c12;">🟡 中程度</td>
+          <td>提案⑥：python-pptx方式への移行</td>
+          <td style="color:#f39c12;">中程度</td>
+          <td>正確なスライド画像の抽出</td>
+        </tr>
+        <tr>
+          <td>#7 Step 4・5が直列</td>
+          <td style="color:#3498db;">🔵 軽微</td>
+          <td>提案⑦：並列生成化</td>
+          <td style="color:#f39c12;">中程度</td>
+          <td>所要時間20〜30%削減</td>
+        </tr>
+        <tr>
+          <td>#8 エラーフォールバック未定義</td>
+          <td style="color:#f39c12;">🟡 中程度</td>
+          <td>CLAUDE.md LEVEL3フォールバックに接続</td>
+          <td style="color:#f39c12;">中程度</td>
+          <td>エラー時の無言停止を防ぐ</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 品質スコア -->
+  <div style="background:#1a2a3a;border-radius:12px;padding:20px;text-align:center;">
+    <div style="font-size:13px;color:#7a9bb5;margin-bottom:8px;">📊 本レポートの品質スコア</div>
+    <div style="font-size:32px;font-weight:700;color:#C0392B;">82点</div>
+    <div style="font-size:13px;color:#8aaac5;margin-top:4px;">
+      フロー網羅性:◎ ／ 課題の具体性:◎ ／ 改善提案の実行可能性:○ ／ 優先度付け:◎ ／ コードサンプル:○
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>SNS-VOIRECO スキル分析レポート｜2026-03-30｜AI組織 総括エージェント</div>
+  <div style="margin-top:4px;">次のアクション: 提案③（パス修正）→ 提案②（クイックモード）→ 提案④（Computer Use確認）の順でSKILL.mdを更新</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit | コンテンツメニュー</title>
+<style>
+  :root {
+    --primary: #0a1628;
+    --accent: #c9a84c;
+    --accent2: #e8c96a;
+    --white: #ffffff;
+    --light: #f8f6f1;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --challenger: #6b7280;
+    --elite: #0077cc;
+    --master: #8b5cf6;
+    --legend: #c9a84c;
+    --cat-physical: #059669;
+    --cat-mind: #7c3aed;
+    --cat-family: #db2777;
+    --cat-health: #0284c7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; color: var(--primary); background: var(--light); }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a1628, #1a2d50);
+    color: var(--white);
+    padding: 48px 40px 40px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.2);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .header h1 { font-size: clamp(24px, 4vw, 38px); font-weight: 900; margin-bottom: 10px; }
+  .header h1 span { color: var(--accent2); }
+  .header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--white);
+    padding: 24px 40px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .filter-container { max-width: 1100px; margin: 0 auto; }
+  .filter-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .filter-label { font-size: 12px; font-weight: 700; color: var(--gray); white-space: nowrap; }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 2px solid var(--border);
+    background: var(--white);
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--primary); }
+  .filter-btn.active { background: var(--primary); border-color: var(--primary); color: var(--white); }
+  .filter-btn.cat-physical.active { background: var(--cat-physical); border-color: var(--cat-physical); }
+  .filter-btn.cat-mind.active { background: var(--cat-mind); border-color: var(--cat-mind); }
+  .filter-btn.cat-family.active { background: var(--cat-family); border-color: var(--cat-family); }
+  .filter-btn.cat-health.active { background: var(--cat-health); border-color: var(--cat-health); }
+  .filter-btn.rank-legend.active { background: #92701a; border-color: #92701a; }
+  .filter-btn.rank-master.active { background: var(--master); border-color: var(--master); }
+  .filter-btn.rank-elite.active { background: var(--elite); border-color: var(--elite); }
+  .filter-btn.rank-challenger.active { background: var(--challenger); border-color: var(--challenger); }
+  .result-count { font-size: 13px; color: var(--gray); margin-top: 12px; }
+  .result-count span { font-weight: 700; color: var(--primary); }
+
+  /* GRID */
+  .content-area { max-width: 1100px; margin: 0 auto; padding: 32px 40px 60px; }
+  .category-section { margin-bottom: 48px; }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid;
+  }
+  .category-header.physical { border-color: var(--cat-physical); }
+  .category-header.mind { border-color: var(--cat-mind); }
+  .category-header.family { border-color: var(--cat-family); }
+  .category-header.health { border-color: var(--cat-health); }
+  .cat-icon { font-size: 24px; }
+  .cat-name { font-size: 18px; font-weight: 900; }
+  .cat-count { font-size: 12px; color: var(--gray); margin-left: auto; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* CARD */
+  .menu-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .menu-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .menu-card.hidden { display: none; }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 16px; font-weight: 800; line-height: 1.3; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .tag-physical { background: #d1fae5; color: #065f46; }
+  .tag-mind { background: #ede9fe; color: #5b21b6; }
+  .tag-family { background: #fce7f3; color: #9d174d; }
+  .tag-health { background: #dbeafe; color: #1e40af; }
+  .tag-legend { background: #fef3c7; color: #92701a; }
+  .tag-master { background: #ede9fe; color: #5b21b6; }
+  .tag-elite { background: #dbeafe; color: #1e40af; }
+  .tag-challenger { background: #f3f4f6; color: #374151; }
+
+  .card-desc { font-size: 13px; color: var(--gray); line-height: 1.7; }
+
+  .card-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .meta-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--gray); }
+  .meta-item .ico { font-size: 14px; }
+
+  .card-rank-list { display: flex; gap: 6px; flex-wrap: wrap; }
+  .rank-pip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    cursor: default;
+  }
+  .pip-legend { background: #fef3c7; color: #92701a; }
+  .pip-master { background: #ede9fe; color: #5b21b6; }
+  .pip-elite { background: #dbeafe; color: #1e40af; }
+  .pip-challenger { background: #f3f4f6; color: #374151; }
+
+  .card-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .price-label { font-size: 11px; color: var(--gray); }
+  .price-value { font-size: 14px; font-weight: 800; color: var(--primary); }
+  .price-note { font-size: 10px; color: var(--gray); }
+
+  /* EMPTY */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--gray);
+    display: none;
+  }
+  .empty-state.visible { display: block; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 640px) {
+    .filter-bar { padding: 16px 20px; }
+    .content-area { padding: 24px 20px 48px; }
+    .header { padding: 40px 20px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">CONTENT MENU</div>
+  <h1>TrustFit <span>コンテンツメニュー</span></h1>
+  <p>企業が選べる全プログラム一覧 — カテゴリ・対象・ランクで絞り込み可能</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-container">
+    <div class="filter-row">
+      <div class="filter-group">
+        <span class="filter-label">カテゴリ</span>
+        <button class="filter-btn active" data-filter="cat" data-value="all">すべて</button>
+        <button class="filter-btn cat-physical" data-filter="cat" data-value="physical">💪 フィジカル</button>
+        <button class="filter-btn cat-mind" data-filter="cat" data-value="mind">🧠 マインド</button>
+        <button class="filter-btn cat-family" data-filter="cat" data-value="family">👨‍👩‍👧 ファミリー</button>
+        <button class="filter-btn cat-health" data-filter="cat" data-value="health">🏢 健康経営</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">ランク</span>
+        <button class="filter-btn active" data-filter="rank" data-value="all">すべて</button>
+        <button class="filter-btn rank-legend" data-filter="rank" data-value="legend">🥇 Legend</button>
+        <button class="filter-btn rank-master" data-filter="rank" data-value="master">🥈 Master</button>
+        <button class="filter-btn rank-elite" data-filter="rank" data-value="elite">🥉 Elite</button>
+        <button class="filter-btn rank-challenger" data-filter="rank" data-value="challenger">🆕 Challenger</button>
+      </div>
+    </div>
+    <div class="result-count">表示中: <span id="count">24</span>件のプログラム</div>
+  </div>
+</div>
+
+<!-- CONTENT AREA -->
+<div class="content-area">
+
+  <!-- ① フィジカル・ヘルスケア -->
+  <div class="category-section" id="sec-physical">
+    <div class="category-header physical">
+      <span class="cat-icon">💪</span>
+      <span class="cat-name">フィジカル・ヘルスケア</span>
+      <span class="cat-count" id="count-physical">8件</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">全身ストレッチ&リカバリー</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">デスクワーク由来の肩・腰・股関節のこわばりを解消。1回60〜120分で全身の可動域を回復するセッション。参加人数制限なし。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ（ランクにより異なる）</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜300,000 pt</div><div class="price-note">1pt = 1円 / 評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">機能改善トレーニング<br>（個人〜30名）</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">姿勢・体幹・下半身機能を中心とした本格トレーニング。30名を超える場合はコマ分割を自動提案します。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>90〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>〜30名/コマ</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">エグゼクティブ・<br>コンディショニング</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">社長・役員向けの15〜30分スポットコンディショニング。会議の合間でも実施可能な短縮コマ設計。脳のパフォーマンスを意思決定前に整える。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>15〜30分</div>
+          <div class="meta-item"><span class="ico">👥</span>〜5名</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">VIP限定コンテンツ</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">疲労撃退ボディメンテナンス</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">繁忙期・残業後の社員向け。蓄積疲労をその場でリセットするセルフケア技術を習得。翌日のパフォーマンスを底上げ。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張 / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">ウォーキング&姿勢改善<br>ランチセッション</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">ランチ休憩を活用した30〜45分のウォーキング指導。正しい歩き方・姿勢の習慣化で慢性的な身体トラブルを予防する。人数無制限。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>30〜45分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス周辺</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜200,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">オンライン伴走型<br>週次チェックイン</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">週1回のオンラインセッション（30〜45分）で体のコンディションを確認。フォームの動画確認・セルフケア処方を毎週更新していく継続型プログラム。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>30〜45分/週</div>
+          <div class="meta-item"><span class="ico">👥</span>〜5名/回</div>
+          <div class="meta-item"><span class="ico">💻</span>オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ（月4回想定）</div></div>
+          <div style="text-align: right;"><div class="price-value">40,000〜400,000 pt/月</div><div class="price-note">継続サポート向け</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">オフィス巡回型<br>身体測定&フィットネス診断</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">トレーナーがオフィスを訪問して全社員の身体特性・姿勢・可動域を個別チェック。データを元に「チーム全体の弱点」を可視化するレポートを提出。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>120分（人数により変動）</div>
+          <div class="meta-item"><span class="ico">👥</span>〜50名</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">レポート込み</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="physical" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">ヨガ&マインドフルネス<br>アクティブリカバリー</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-physical">フィジカル</span>
+        </div>
+        <div class="card-desc">ヨガポーズ×呼吸法で心身を同時にリセット。怪我リスクが低く人数無制限で実施可能。朝活・昼休み・終業後の導入にも最適。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>45〜90分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜200,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ② マインドセット・パフォーマンス -->
+  <div class="category-section" id="sec-mind">
+    <div class="category-header mind">
+      <span class="cat-icon">🧠</span>
+      <span class="cat-name">マインドセット・パフォーマンス</span>
+      <span class="cat-count" id="count-mind">6件</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend">
+        <div class="card-top">
+          <div class="card-title">限界突破 ストーリーテリング講演</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+          <span class="tag tag-legend">Legend限定</span>
+        </div>
+        <div class="card-desc">オリンピアンの実体験を軸に「限界の超え方」「失敗からの復活」を語る講演型セッション。参加人数無制限。採用PR動画撮影にも最適。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>貴社会場 / 外部ホール</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend のみ</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">220,000〜300,000 pt</div><div class="price-note">VIP最高額コンテンツ</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend master">
+        <div class="card-top">
+          <div class="card-title">目標設定&<br>パフォーマンスコーチング</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+        </div>
+        <div class="card-desc">個人またはチームの目標を構造化し、行動計画に落とし込むコーチングセッション。アスリートが実践するゴール設定フレームワークを応用。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>90〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>〜5名</div>
+          <div class="meta-item"><span class="ico">📍</span>対面 / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">120,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">チームビルディング&<br>組織診断ワークショップ</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+        </div>
+        <div class="card-desc">チームの強み・弱みを可視化し、コミュニケーション改善・心理的安全性の構築を進めるワークショップ。合宿・研修合わせての実施も可。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>120分〜半日</div>
+          <div class="meta-item"><span class="ico">👥</span>5〜30名</div>
+          <div class="meta-item"><span class="ico">📍</span>対面（会議室推奨）</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend master">
+        <div class="card-top">
+          <div class="card-title">経営陣 脳チューニング<br>セッション</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+        </div>
+        <div class="card-desc">社長・役員の意思決定精度を上げるための「脳のコンディショニング」。運動×マインドセットで重要会議・プレゼン前に集中力を最大化。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>30〜60分</div>
+          <div class="meta-item"><span class="ico">👥</span>〜5名</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">120,000〜300,000 pt</div><div class="price-note">VIP限定</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">内定者・新入社員向け<br>マインドセット研修</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+        </div>
+        <div class="card-desc">アスリート思考を応用した新入社員研修。「失敗の受け止め方」「成長マインドセット」「自律的な目標設定」を1日で習得するプログラム。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>半日〜1日</div>
+          <div class="meta-item"><span class="ico">👥</span>5〜50名</div>
+          <div class="meta-item"><span class="ico">📍</span>対面</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="mind" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">月次 パフォーマンス振り返り<br>オンラインセッション</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-mind">マインド</span>
+        </div>
+        <div class="card-desc">月1回のオンラインで先月の行動・成果を振り返り、翌月の目標を設定。個人またはチームの成長を継続的にサポートする伴走型コーチング。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60分/月</div>
+          <div class="meta-item"><span class="ico">👥</span>〜10名</div>
+          <div class="meta-item"><span class="ico">💻</span>オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ（月1回）</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜200,000 pt/月</div><div class="price-note">継続推奨</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ③ ファミリー・ウェルビーイング -->
+  <div class="category-section" id="sec-family">
+    <div class="category-header family">
+      <span class="cat-icon">👨‍👩‍👧</span>
+      <span class="cat-name">ファミリー・ウェルビーイング</span>
+      <span class="cat-count" id="count-family">5件</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="menu-card" data-cat="family" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">保護者向けボディメンテナンス</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-family">ファミリー</span>
+        </div>
+        <div class="card-desc">子育て中の社員・保護者向けに特化したコンディショニングセッション。育児疲れの解消・産後の身体回復・家でできるセルフケアを伝授。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60〜90分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜200,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="family" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">企業内キッズスクール<br>（社員の子ども対象）</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-family">ファミリー</span>
+        </div>
+        <div class="card-desc">社員の子どもを対象にした運動スクール。夏休み・土日に社内スペースを使って実施。「子どもが楽しめる福利厚生」として採用PRにも活用できる。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>90〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス / 外部施設</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜100,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="family" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">ファミリー参加型<br>スポーツイベント</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-family">ファミリー</span>
+        </div>
+        <div class="card-desc">社員とその家族が一緒に楽しめる運動イベント。会社の一体感・帰属意識の向上と同時に「家族に自慢できる職場」として採用PRになる。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>半日〜1日</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>外部施設</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">人数・内容による</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="family" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">親子かけっこ教室<br>（オリンピアン特別開催）</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-family">ファミリー</span>
+          <span class="tag tag-legend">Legend限定</span>
+        </div>
+        <div class="card-desc">オリンピアン（荻田大樹）が直接指導するかけっこ教室。「なぜ速く走れるのか」を子どもにも分かる言葉で伝え、保護者も一緒に楽しめる特別体験。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>90分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>グラウンド / 体育館</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend のみ</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">220,000〜300,000 pt</div><div class="price-note">特別体験コンテンツ</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="family" data-ranks="legend master elite challenger">
+        <div class="card-top">
+          <div class="card-title">ウェルビーイング<br>サポートプログラム（月次）</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-family">ファミリー</span>
+        </div>
+        <div class="card-desc">子育て・介護・ライフイベントを抱える社員に特化した月次の健康サポート。身体×メンタルの両面から継続的に寄り添うプログラム。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60分/月</div>
+          <div class="meta-item"><span class="ico">👥</span>〜20名</div>
+          <div class="meta-item"><span class="ico">💻</span>オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+          <span class="rank-pip pip-challenger">🆕 Challenger</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ（月1回）</div></div>
+          <div style="text-align: right;"><div class="price-value">10,000〜100,000 pt/月</div><div class="price-note">継続推奨</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ④ 健康経営・コンサルティング -->
+  <div class="category-section" id="sec-health">
+    <div class="category-header health">
+      <span class="cat-icon">🏢</span>
+      <span class="cat-name">健康経営・コンサルティング</span>
+      <span class="cat-count" id="count-health">5件</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="menu-card" data-cat="health" data-ranks="legend master">
+        <div class="card-top">
+          <div class="card-title">健康経営優良法人<br>認定サポート研修</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-health">健康経営</span>
+        </div>
+        <div class="card-desc">経済産業省の健康経営優良法人認定取得を支援。認定申請に必要な取り組みの設計・実施・書類作成まで一貫してサポート。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>複数回（要打ち合わせ）</div>
+          <div class="meta-item"><span class="ico">👥</span>担当者〜役員層</div>
+          <div class="meta-item"><span class="ico">📍</span>対面 / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ（複数回込み）</div></div>
+          <div style="text-align: right;"><div class="price-value">要相談（120,000pt〜）</div><div class="price-note">期間・工数による</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="health" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">法人向け健康経営<br>導入セミナー</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-health">健康経営</span>
+        </div>
+        <div class="card-desc">「なぜ健康経営が採用・生産性・離職率に直結するのか」を経営者・人事向けに解説するセミナー。認定取得の必要性を社内で啓蒙する場として活用可能。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>60〜90分</div>
+          <div class="meta-item"><span class="ico">👥</span>人数制限なし</div>
+          <div class="meta-item"><span class="ico">📍</span>対面 / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="health" data-ranks="legend master">
+        <div class="card-top">
+          <div class="card-title">健康経営プログラム<br>設計コンサルティング</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-health">健康経営</span>
+        </div>
+        <div class="card-desc">企業の課題・規模・業種に合わせて年間健康経営プログラムを設計。TrustFitのトレーナーリソースを組み合わせた実行計画まで提案。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>複数回（ヒアリング含む）</div>
+          <div class="meta-item"><span class="ico">👥</span>人事・経営陣</div>
+          <div class="meta-item"><span class="ico">📍</span>対面 / オンライン</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">要相談（120,000pt〜）</div><div class="price-note">期間・工数による</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="health" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">ストレスチェック後<br>フォローアップ研修</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-health">健康経営</span>
+        </div>
+        <div class="card-desc">法定ストレスチェック実施後の「高ストレス群」向けフォロー研修。個別対応ではなくグループでの集団ストレスマネジメントを実施。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>90〜120分</div>
+          <div class="meta-item"><span class="ico">👥</span>〜30名</div>
+          <div class="meta-item"><span class="ico">📍</span>対面</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">評価連動</div></div>
+        </div>
+      </div>
+
+      <div class="menu-card" data-cat="health" data-ranks="legend master elite">
+        <div class="card-top">
+          <div class="card-title">採用PR動画・<br>コンテンツ制作コラボ</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-health">健康経営</span>
+        </div>
+        <div class="card-desc">「オリンピアンが来る会社」の様子を採用PR素材として撮影・活用。自社のWantedly・採用ページ・Instagramで発信できる動画・写真を制作。</div>
+        <div class="card-meta">
+          <div class="meta-item"><span class="ico">⏱</span>セッション中に撮影</div>
+          <div class="meta-item"><span class="ico">👥</span>〜50名</div>
+          <div class="meta-item"><span class="ico">📍</span>オフィス出張</div>
+        </div>
+        <div class="card-rank-list">
+          <span class="rank-pip pip-legend">🥇 Legend</span>
+          <span class="rank-pip pip-master">🥈 Master</span>
+          <span class="rank-pip pip-elite">🥉 Elite</span>
+        </div>
+        <div class="card-price">
+          <div><div class="price-label">報酬レンジ</div></div>
+          <div style="text-align: right;"><div class="price-value">60,000〜300,000 pt</div><div class="price-note">初回モニター特典対象</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="empty-state" id="empty">
+    <div class="empty-icon">🔍</div>
+    <p>該当するプログラムが見つかりませんでした。<br>フィルタを変えてみてください。</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong style="color: var(--accent2);">TrustFit</strong> コンテンツメニュー<br>
+  <span style="font-size: 11px;">© 2026 株式会社MOON — お問い合わせ: trustfit.biz@moontf.com</span>
+</div>
+
+<script>
+  let activeCategory = 'all';
+  let activeRank = 'all';
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filterType = btn.dataset.filter;
+      const value = btn.dataset.value;
+
+      // update active state
+      document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (filterType === 'cat') activeCategory = value;
+      if (filterType === 'rank') activeRank = value;
+
+      applyFilter();
+    });
+  });
+
+  function applyFilter() {
+    const cards = document.querySelectorAll('.menu-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const cat = card.dataset.cat;
+      const ranks = card.dataset.ranks.split(' ');
+
+      const catMatch = activeCategory === 'all' || cat === activeCategory;
+      const rankMatch = activeRank === 'all' || ranks.includes(activeRank);
+
+      if (catMatch && rankMatch) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('count').textContent = visible;
+    document.getElementById('empty').classList.toggle('visible', visible === 0);
+
+    // update section visibility
+    ['physical','mind','family','health'].forEach(cat => {
+      const sec = document.getElementById('sec-' + cat);
+      if (!sec) return;
+      const sectionVisible = sec.querySelectorAll('.menu-card:not(.hidden)').length > 0;
+      sec.style.display = sectionVisible ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

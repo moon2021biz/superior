@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第4章 制作原稿｜現場プロファイリングと神経系チューニング</title>
+  <style>
+    :root{--bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--border:#2e2e3e;--accent:#5b6af0;--accent2:#a78bfa;--gold:#f59e0b;--red:#f87171;--green:#34d399;--text:#e2e2ee;--muted:#8888aa;--dim:#555568;--r:12px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;line-height:1.9;font-size:15px;}
+    .page-header{background:linear-gradient(135deg,#0f0f13,#0a1a10,#0f0f13);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
+    .page-header .badge{display:inline-block;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.4);color:var(--green);font-size:11px;font-weight:700;letter-spacing:.15em;padding:3px 12px;border-radius:99px;margin-bottom:14px;}
+    .page-header h1{font-size:clamp(18px,3vw,28px);font-weight:900;background:linear-gradient(135deg,#fff,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4;}
+    .page-header p{color:var(--muted);font-size:13px;margin-top:10px;}
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);max-width:800px;margin:32px auto 0;padding:0 24px;}
+    .tab{padding:10px 20px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;}
+    .tab.active{color:var(--accent2);border-bottom-color:var(--accent2);}
+    .section{max-width:800px;margin:0 auto;padding:32px 24px 80px;display:none;}
+    .section.active{display:block;}
+    .note-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px;margin-bottom:16px;}
+    .label-free{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .label-paid{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+    .note-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+    .note-block h2{font-size:20px;font-weight:900;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+    .note-block h3{font-size:15px;font-weight:800;color:var(--accent2);margin:24px 0 10px;padding-left:10px;border-left:3px solid var(--accent2);}
+    .note-block p{color:#ccc;font-size:14.5px;margin-bottom:14px;line-height:1.9;}
+    .note-block strong{color:#fff;font-weight:700;}
+    .callout{border-radius:8px;padding:16px 20px;margin:16px 0;font-size:14px;color:#ccc;}
+    .c-warn{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);}
+    .c-ok{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.3);}
+    .c-blue{background:rgba(91,106,240,.08);border:1px solid rgba(91,106,240,.3);}
+    .c-gold{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);}
+    .free-end{border:2px dashed rgba(52,211,153,.4);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--green);}
+    .paid-start{border:2px dashed rgba(245,158,11,.5);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--gold);}
+    .test-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0;}
+    .test-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:16px 14px;}
+    .test-card .abbr{font-size:22px;font-weight:900;color:var(--accent2);font-family:monospace;margin-bottom:4px;}
+    .test-card .name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .test-card .desc{font-size:12px;color:var(--muted);line-height:1.7;}
+    .profile-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;}
+    .profile-table th{background:var(--surface2);color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+    .profile-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:#ccc;vertical-align:top;}
+    .profile-table tr:last-child td{border:none;}
+    .profile-table .tag-e{display:inline-block;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--red);font-size:11px;padding:2px 6px;border-radius:4px;}
+    .profile-table .tag-s{display:inline-block;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);font-size:11px;padding:2px 6px;border-radius:4px;}
+    .numbered-list{display:flex;flex-direction:column;gap:18px;margin:18px 0;}
+    .num-item{display:flex;gap:14px;}
+    .num-item .num{flex-shrink:0;width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;margin-top:2px;}
+    .num-item .body strong{display:block;font-size:14px;font-weight:800;color:#fff;margin-bottom:6px;background:none;padding:0;}
+    .num-item .body p{margin:0;font-size:13.5px;color:#b0b0c8;}
+    .slides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+    .slide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+    .slide-num{background:var(--green);color:#111;font-size:11px;font-weight:800;padding:6px 14px;letter-spacing:.05em;}
+    .slide-body{padding:18px 18px 20px;}
+    .slide-body .headline{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.5;}
+    .slide-body .body-text{font-size:13px;color:var(--muted);line-height:1.8;}
+    .slide-body .cta{margin-top:10px;font-size:12px;font-weight:700;color:var(--accent2);border-top:1px solid var(--border);padding-top:10px;}
+    .tiktok-meta{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-top:24px;}
+    .tiktok-meta h3{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;}
+    .tiktok-meta p{font-size:13px;color:#ccc;line-height:1.8;}
+    .tag{display:inline-block;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.3);color:var(--accent2);font-size:11px;padding:2px 8px;border-radius:4px;margin:2px;}
+    @media(max-width:600px){.note-block{padding:20px 18px;}.section{padding:24px 16px 60px;}.test-cards{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="badge">Chapter 04 ／ 有料メンバーシップ</div>
+  <h1>現場でのプロファイリングと<br>神経系チューニングの極意<br>制作原稿｜note ＋ TikTok</h1>
+  <p>SBJ/S5B/R5Bの概念説明まで無料 ／ プロファイリング判定・マーク走設計は有料</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('note')">📝 note原稿</div>
+  <div class="tab" onclick="switchTab('tiktok')">🎬 TikTokスライド</div>
+</div>
+
+<!-- ━━━ NOTE ━━━ -->
+<div class="section active" id="note">
+
+  <div class="note-label label-free">✅ 無料公開エリア（3種目テストの概念まで）</div>
+
+  <div class="note-block">
+    <h2>【スプリント科学④】目の前のアスリートをどう読むか——3種目テストで「エンジン型」か「シャーシ型」かを見分ける</h2>
+
+    <p>こんにちは、おぎぃ。です。</p>
+    <p>第3章では、トップスピードにおける筋肉の役割が「エンジン」から「アイソメトリック・アンカー（壁）」へと変化するという生理学的真実をお伝えしました。最終章となる今回は、「ではどうやって目の前の選手を評価し、個別に最適なアプローチを設計するか」という極めて実践的な内容です。</p>
+
+    <h3>3種目テストで「エンジン型」vs「シャーシ型」を見分ける</h3>
+    <p>現場の最前線で行うべき、極めて精度の高いスクリーニング手法が、「立ち幅跳び（SBJ）」「立ち5段跳び（S5B）」「助走付き5段跳び（R5B）」の3種目の記録比率（ギャップ）評価です。</p>
+    <p>これは「自力で生み出すパワー（エンジンの排気量）」と「反発で得られるパワー（シャーシの剛性・神経系の発火）」の適性を明確に切り分けるテストです。</p>
+
+    <div class="test-cards">
+      <div class="test-card">
+        <div class="abbr">SBJ</div>
+        <div class="name">立ち幅跳び</div>
+        <div class="desc">腱・SSCの恩恵なし。純粋な速筋（Type II）の割合と初期RFDのテスト。<br><strong>エンジンの排気量</strong>を測る。</div>
+      </div>
+      <div class="test-card">
+        <div class="abbr">S5B</div>
+        <div class="name">立ち5段跳び</div>
+        <div class="desc">低〜中速度のSSC。神経系が多少遅くても筋肉の「押し切り」でカバーできる。<br><strong>中間指標</strong>。</div>
+      </div>
+      <div class="test-card">
+        <div class="abbr">R5B</div>
+        <div class="name">助走付き5段跳び</div>
+        <div class="desc">高速SSC。極限のアイソメトリック・ロック能力が試される。<br><strong>シャーシの剛性</strong>を測る。</div>
+      </div>
+    </div>
+
+    <p>この3種目の「比率のギャップ」を見ることで、その選手が何を強みにして、どこがボトルネックなのかが明確に見えてきます。</p>
+
+    <div class="free-end">✅ ここまで無料公開｜「ギャップの読み方」と「神経系を鍛えるマーク走の設計法」は続きで解説します</div>
+    <p style="color:var(--muted);font-size:13px;">この先では、SBJ○でR5B×の選手を「どう診断し・どう鍛えるか」と、制約主導型アプローチによる高速マーク走の設計指針を解説します。</p>
+  </div>
+
+  <!-- 有料 -->
+  <div class="note-label label-paid" style="margin-top:32px;">🔒 有料メンバーシップエリア</div>
+  <div class="paid-start">🔒 ここから先はメンバーシップ限定コンテンツです</div>
+
+  <div class="note-block" style="border-color:rgba(245,158,11,.3);">
+    <h3>ギャップの読み方——「SBJは跳べるのにR5Bで伸びない選手」の正体</h3>
+
+    <table class="profile-table">
+      <thead>
+        <tr><th>パターン</th><th>診断</th><th>ボトルネック</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag-e">SBJ高 / R5B低</span></td>
+          <td><strong>エンジン型・神経系未熟</strong></td>
+          <td>速筋（馬力）はあるが、高速接地時の関節剛性化・神経発火が追いついていない。スピードが上がると潰れる（Yielding）。</td>
+        </tr>
+        <tr>
+          <td><span class="tag-s">SBJ平凡 / R5B高</span></td>
+          <td><strong>シャーシ型・SSC適性高</strong></td>
+          <td>絶対的な速筋は少ないが、腱の弾性と関節剛性化が優秀。SSCを活かす走りが得意。最高速への伸びしろが高い。</td>
+        </tr>
+        <tr>
+          <td>SBJ高 / R5B高</td>
+          <td><strong>両立型（エリート）</strong></td>
+          <td>エンジンもシャーシも揃っている。このレベルへの育成が最終ゴール。</td>
+        </tr>
+        <tr>
+          <td>SBJ低 / R5B低</td>
+          <td><strong>総合的に発展途上</strong></td>
+          <td>まずSBJ向上（筋力・RFD強化）から。基礎筋力がすべての土台。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>制約主導型アプローチ：高速マーク走の設計指針</h3>
+    <p>「助走スピードが上がると神経系の発火が追いつかない」というボトルネックを解消するために、私が強く推奨するのが<strong>「制約主導型アプローチ（Constraint-Led Approach）を用いた高速度でのマーク走」</strong>です。</p>
+
+    <div class="numbered-list">
+      <div class="num-item">
+        <div class="num">1</div>
+        <div class="body">
+          <strong>間隔設定（コンフォートストライド −20cm）</strong>
+          <p>通常の歩幅からあえて20cm程度狭く設定します。物理的に「足を前へ伸ばして獲りにいく（オーバーストライド）」選択肢を奪います。短い距離間に次の接地を間に合わせるため、脳と神経系は「最も高い位置から、最短距離で真下へ脚を引き戻す（スイングダウン）」動作をオートマチックに選択せざるを得なくなります。</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <div class="num">2</div>
+        <div class="body">
+          <strong>キューイング「マークの奥側に落とす」（エクスターナル・キュー）</strong>
+          <p>「重心の真下で踏め」というインターナル・キューは0.1秒未満の世界では脳の処理が追いつきません。代わりに<strong>「マークの奥側（進行方向側）の近くに足を落とせ」</strong>という外部環境への意識を与えます。「奥側」を意識させることで視覚的錯覚が相殺され、身体重心がマークの上を通過する絶好のタイミングで真下への巨大な鉛直ベクトルが実現します。</p>
+        </div>
+      </div>
+    </div>
+
+    <p>さらに、足首関節の負けを防ぐために「足首から下はギプスで固められている」とイメージさせ、「ベチャッ」という鈍い音ではなく<strong>「パンッ」という乾いた破裂音</strong>を鳴らすような外部キューも併用します。</p>
+
+    <div class="callout c-blue">
+      言葉でフォームを修正するのではなく、環境（マークの間隔）と目標（マークの奥）をデザインすることで、選手がエラーを起こそうと思っても起こせない状況を作り出す。神経系に最適解を強制的に選ばせる。これこそが、バイオメカニクスの理を現場の血肉へと変えるコーチングの真髄です。
+    </div>
+
+    <div class="callout c-ok">
+      <strong>✅ シリーズを通じたまとめ：</strong>才能の壁、物理法則の壁、そして感覚のズレ。これらに対して、指導者は「気合い」や「抽象論」で誤魔化してはいけません。冷徹な科学的数値と緻密な環境設計こそが、選手の才能を限界まで引き上げる唯一の道です。
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ TikTok ━━━ -->
+<div class="section" id="tiktok">
+  <div class="tiktok-meta" style="margin-bottom:24px;">
+    <h3>📌 動画設計メモ</h3>
+    <p>テーマ：「3種目テストで選手の"型"を見抜く方法」<br>SBJ/S5B/R5Bという具体的な数字が出るので親しみやすい。現場コーチへのリーチが高い。<br>尺感：45〜60秒</p>
+  </div>
+
+  <div class="slides-grid">
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 01 ／ フック</div>
+      <div class="slide-body">
+        <div class="headline">「立ち幅跳びは跳べるのに、試合で速くない選手」——その理由、わかりますか？</div>
+        <div class="body-text">エンジンはあるのに、シャーシが追いついていないんです。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 02 ／ テスト紹介</div>
+      <div class="slide-body">
+        <div class="headline">3種目テストで「エンジン型」か「シャーシ型」かを見分ける。</div>
+        <div class="body-text">SBJ（立ち幅跳び）/ S5B（立ち5段）/ R5B（助走付き5段）。この比率のギャップがすべてを教えてくれる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 03 ／ SBJ解説</div>
+      <div class="slide-body">
+        <div class="headline">SBJが高い = 速筋が豊富。エンジンの排気量が大きい。</div>
+        <div class="body-text">腱のバネや助走の恩恵がない分、純粋な速筋の割合と正の相関がある。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 04 ／ R5B解説</div>
+      <div class="slide-body">
+        <div class="headline">R5Bが伸びる = 高速SSCが使えている。シャーシが強い。</div>
+        <div class="body-text">助走スピードで接地時間が強制短縮。0.1秒で関節を固める神経系の発火が問われる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 05 ／ 落とし穴</div>
+      <div class="slide-body">
+        <div class="headline">SBJ○、R5B×の選手は「速くなれない」のではなく「神経系の回路がまだない」だけ。</div>
+        <div class="body-text">制約主導型のマーク走で、神経系に正しい回路を強制的に作れる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 06 ／ CTA</div>
+      <div class="slide-body">
+        <div class="headline">「どの間隔で、どんなキューで走らせるか」——設計図はnoteで。</div>
+        <div class="body-text">制約主導型マーク走の具体的な設計指針を全部公開しています。</div>
+        <div class="cta">→ メンバーシップ記事で続きを読む</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiktok-meta">
+    <h3>📎 推奨ハッシュタグ</h3>
+    <p>
+      <span class="tag">#スプリント</span><span class="tag">#陸上競技</span><span class="tag">#プロファイリング</span><span class="tag">#コーチング</span><span class="tag">#バイオメカニクス</span><span class="tag">#神経系トレーニング</span><span class="tag">#SSC</span><span class="tag">#おぎぃ</span>
+    </p>
+  </div>
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['note','tiktok'][i]===id);});
+  document.querySelectorAll('.section').forEach(s=>{s.classList.toggle('active',s.id===id);});
+}
+</script>
+</body>
+</html>

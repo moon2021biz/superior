@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ｜note有料コンテンツ 販売戦略 2026-04-07</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: #0f0f14; color: #e8e8f0; line-height: 1.7; }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 60px 40px;
+    text-align: center;
+    border-bottom: 2px solid #e94560;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(233,69,96,0.1) 0%, transparent 60%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+  .hero-tag { display: inline-block; background: #e94560; color: white; padding: 6px 18px; border-radius: 20px; font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; }
+  .hero h1 { font-size: 2.2rem; font-weight: 900; color: white; margin-bottom: 12px; position: relative; }
+  .hero h1 span { color: #e94560; }
+  .hero p { color: #a0a0c0; font-size: 1rem; }
+  .hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-size: 2rem; font-weight: 900; color: #e94560; }
+  .hero-stat .label { font-size: 11px; color: #808090; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+  .section { margin-bottom: 50px; }
+  .section-title {
+    font-size: 1.3rem; font-weight: 800; color: #e94560;
+    border-left: 4px solid #e94560; padding-left: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* 3サロン */
+  .salon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media(max-width:700px){.salon-grid{grid-template-columns:1fr;}}
+  .salon-card {
+    background: #1a1a2e;
+    border-radius: 16px;
+    padding: 28px 22px;
+    border: 2px solid transparent;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .salon-card:hover { transform: translateY(-6px); }
+  .salon-card.blue { border-color: #4a90d9; }
+  .salon-card.green { border-color: #27ae60; }
+  .salon-card.gold { border-color: #f39c12; }
+  .salon-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .salon-card.blue::before { background: #4a90d9; }
+  .salon-card.green::before { background: #27ae60; }
+  .salon-card.gold::before { background: #f39c12; }
+  .salon-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .salon-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+  .salon-card.blue .salon-name { color: #4a90d9; }
+  .salon-card.green .salon-name { color: #27ae60; }
+  .salon-card.gold .salon-name { color: #f39c12; }
+  .salon-sub { font-size: 11px; color: #808090; margin-bottom: 14px; }
+  .salon-target { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #c0c0d8; margin-bottom: 14px; }
+  .salon-price { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; }
+  .salon-card.blue .salon-price { color: #4a90d9; }
+  .salon-card.green .salon-price { color: #27ae60; }
+  .salon-card.gold .salon-price { color: #f39c12; }
+  .salon-price-note { font-size: 11px; color: #606070; }
+  .salon-contents { margin-top: 14px; }
+  .salon-contents li { font-size: 12px; color: #a0a0b8; margin-bottom: 6px; padding-left: 14px; position: relative; }
+  .salon-contents li::before { content: '▶'; position: absolute; left: 0; color: #606070; font-size: 10px; }
+  .tanpin-badge {
+    display: inline-block;
+    background: rgba(233,69,96,0.15);
+    border: 1px solid rgba(233,69,96,0.4);
+    color: #e94560;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+
+  /* 価格設計 */
+  .pricing-box {
+    background: linear-gradient(135deg, #1a1a2e, #0f1a3e);
+    border: 1px solid #2a2a4e;
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .pricing-main { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
+  .pricing-main .price-big { font-size: 3.5rem; font-weight: 900; color: #e94560; }
+  .pricing-main .price-desc { color: #a0a0c0; font-size: 14px; }
+  .pricing-main .price-logic { background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3); border-radius: 10px; padding: 12px 18px; font-size: 13px; color: #e0a0a0; }
+
+  .tanpin-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  .tanpin-table th { background: rgba(233,69,96,0.15); color: #e94560; padding: 12px 14px; text-align: left; font-size: 12px; font-weight: 700; }
+  .tanpin-table td { padding: 12px 14px; font-size: 13px; color: #c0c0d8; border-bottom: 1px solid #1e1e3e; }
+  .tanpin-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .price-tag-green { color: #27ae60; font-weight: 700; }
+  .price-tag-gold { color: #f39c12; font-weight: 700; }
+  .price-tag-red { color: #e94560; font-weight: 700; }
+
+  /* ローンチスケジュール */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before { content:''; position:absolute; left:16px; top:0; bottom:0; width:2px; background: linear-gradient(to bottom, #e94560, #4a90d9, #27ae60); }
+  .timeline-item { position: relative; margin-bottom: 32px; }
+  .timeline-dot {
+    position: absolute;
+    left: -32px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 900;
+    border: 2px solid;
+  }
+  .timeline-item.phase1 .timeline-dot { background: rgba(233,69,96,0.2); border-color: #e94560; color: #e94560; }
+  .timeline-item.phase2 .timeline-dot { background: rgba(74,144,217,0.2); border-color: #4a90d9; color: #4a90d9; }
+  .timeline-item.phase3 .timeline-dot { background: rgba(39,174,96,0.2); border-color: #27ae60; color: #27ae60; }
+  .timeline-date { font-size: 12px; color: #606070; margin-bottom: 6px; }
+  .timeline-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .timeline-item.phase1 .timeline-title { color: #e94560; }
+  .timeline-item.phase2 .timeline-title { color: #4a90d9; }
+  .timeline-item.phase3 .timeline-title { color: #27ae60; }
+  .timeline-body { background: #1a1a2e; border-radius: 10px; padding: 16px 18px; font-size: 13px; color: #a0a0b8; }
+  .timeline-body ul { margin: 8px 0 0; }
+  .timeline-body li { margin-bottom: 6px; padding-left: 14px; position: relative; }
+  .timeline-body li::before { content: '→'; position: absolute; left: 0; color: #606070; }
+
+  /* コンテンツカレンダー */
+  .content-calendar { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .content-week {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .content-week.w1 { border-color: #e94560; }
+  .content-week.w2 { border-color: #4a90d9; }
+  .content-week.w3 { border-color: #27ae60; }
+  .content-week.w4 { border-color: #f39c12; }
+  .week-label { font-size: 10px; font-weight: 900; letter-spacing: 1px; min-width: 50px; padding-top: 4px; }
+  .content-week.w1 .week-label { color: #e94560; }
+  .content-week.w2 .week-label { color: #4a90d9; }
+  .content-week.w3 .week-label { color: #27ae60; }
+  .content-week.w4 .week-label { color: #f39c12; }
+  .week-content h4 { font-size: 14px; font-weight: 700; color: #e8e8f0; margin-bottom: 6px; }
+  .week-content p { font-size: 12px; color: #808090; }
+  .week-salon-badge { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; margin-right: 6px; margin-bottom: 4px; }
+  .badge-blue { background: rgba(74,144,217,0.2); color: #4a90d9; }
+  .badge-green { background: rgba(39,174,96,0.2); color: #27ae60; }
+  .badge-gold { background: rgba(243,156,18,0.2); color: #f39c12; }
+  .badge-all { background: rgba(233,69,96,0.2); color: #e94560; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media(max-width:600px){.kpi-grid{grid-template-columns:1fr;}}
+  .kpi-card { background: #1a1a2e; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #2a2a4e; }
+  .kpi-num { font-size: 2rem; font-weight: 900; color: #e94560; }
+  .kpi-label { font-size: 11px; color: #606070; margin-top: 4px; }
+  .kpi-desc { font-size: 12px; color: #a0a0b8; margin-top: 8px; }
+
+  /* 創設メンバー特典 */
+  .founder-box {
+    background: linear-gradient(135deg, rgba(233,69,96,0.1), rgba(74,144,217,0.1));
+    border: 2px solid rgba(233,69,96,0.4);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .founder-box h3 { color: #e94560; font-size: 1.1rem; margin-bottom: 16px; }
+  .founder-benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media(max-width:500px){.founder-benefits{grid-template-columns:1fr;}}
+  .founder-benefit { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 14px; }
+  .founder-benefit .icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .founder-benefit .title { font-size: 13px; font-weight: 700; color: #e8e8f0; margin-bottom: 4px; }
+  .founder-benefit .desc { font-size: 11px; color: #808090; }
+
+  /* TikTok告知案 */
+  .tiktok-scripts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media(max-width:600px){.tiktok-scripts{grid-template-columns:1fr;}}
+  .tiktok-script {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 20px;
+    border-top: 3px solid;
+  }
+  .tiktok-script.s1 { border-color: #e94560; }
+  .tiktok-script.s2 { border-color: #4a90d9; }
+  .tiktok-script.s3 { border-color: #27ae60; }
+  .tiktok-script.s4 { border-color: #f39c12; }
+  .script-num { font-size: 10px; color: #606070; margin-bottom: 8px; }
+  .script-hook { font-size: 14px; font-weight: 700; color: #e8e8f0; margin-bottom: 10px; line-height: 1.5; }
+  .script-desc { font-size: 12px; color: #808090; }
+
+  /* 収益シミュレーション */
+  .sim-table { width: 100%; border-collapse: collapse; }
+  .sim-table th { background: rgba(233,69,96,0.15); color: #e94560; padding: 12px 14px; text-align: center; font-size: 12px; font-weight: 700; }
+  .sim-table td { padding: 12px 14px; font-size: 13px; color: #c0c0d8; border-bottom: 1px solid #1e1e3e; text-align: center; }
+  .sim-table tr.highlight td { background: rgba(233,69,96,0.08); color: #e8e8f0; font-weight: 700; }
+  .sim-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+  .alert-box {
+    background: rgba(243,156,18,0.1);
+    border: 1px solid rgba(243,156,18,0.4);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .alert-box h4 { color: #f39c12; font-size: 14px; margin-bottom: 10px; }
+  .alert-box p { font-size: 13px; color: #c0a060; line-height: 1.7; }
+
+  footer { text-align: center; padding: 30px; color: #404060; font-size: 11px; border-top: 1px solid #1a1a3e; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🏋️ オギラボ｜STRATEGY 2026</div>
+  <h1>note有料コンテンツ<br><span>販売戦略プラン</span></h1>
+  <p>3サロン同時開設 × 980円 + 単品販売 × 5月初ローンチ</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">1,030</div>
+      <div class="label">TikTokフォロワー（🎉目標達成）</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">¥980</div>
+      <div class="label">月額（税込）</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">5/1</div>
+      <div class="label">ローンチ目標日</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">3</div>
+      <div class="label">同時開設サロン数</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ① 3サロン設計 -->
+  <div class="section">
+    <div class="section-title">① 3サロン設計｜何を売るか</div>
+    <div class="salon-grid">
+
+      <div class="salon-card blue">
+        <div class="salon-icon">👨‍👧</div>
+        <div class="salon-name">キッズラボ</div>
+        <div class="salon-sub">保護者向けサロン</div>
+        <div class="salon-target">
+          📌 ターゲット<br>子どもの走り・運動に悩む親御さん（30〜45歳）<br>SORA/SUPERIORの保護者層と親和性◎
+        </div>
+        <div class="salon-price">¥980<span style="font-size:0.5em;font-weight:400;">/月</span></div>
+        <div class="salon-price-note">創設メンバー限定 永年固定</div>
+        <ul class="salon-contents">
+          <li>月2本｜走りの科学 解説記事</li>
+          <li>月1本｜声かけ・関わり方の実践ガイド</li>
+          <li>月1本｜おぎぃ。コーチ目線の現場レポート</li>
+        </ul>
+        <div class="tanpin-badge">＋単品：個別フォーム診断 3,000円〜</div>
+      </div>
+
+      <div class="salon-card green">
+        <div class="salon-icon">💪</div>
+        <div class="salon-name">パフォーマンスラボ</div>
+        <div class="salon-sub">アスリート向けサロン</div>
+        <div class="salon-target">
+          📌 ターゲット<br>限界突破を目指す競技者・指導者（全競技対象）<br>科学ベースの身体操作を学びたい層
+        </div>
+        <div class="salon-price">¥980<span style="font-size:0.5em;font-weight:400;">/月</span></div>
+        <div class="salon-price-note">創設メンバー限定 永年固定</div>
+        <ul class="salon-contents">
+          <li>月2本｜バイオメカニクス深掘り解説</li>
+          <li>月1本｜運動生理学×競技成績の相関</li>
+          <li>月1本｜おぎぃ。のトレーニング実験報告</li>
+        </ul>
+        <div class="tanpin-badge">＋単品：動画フォーム分析 5,000円〜</div>
+      </div>
+
+      <div class="salon-card gold">
+        <div class="salon-icon">🏃</div>
+        <div class="salon-name">ポールラボ</div>
+        <div class="salon-sub">棒高跳び特化サロン</div>
+        <div class="salon-target">
+          📌 ターゲット<br>棒高跳び競技者・指導者（ニッチ×超高熱量）<br>日本唯一級のオリンピアン直伝コンテンツ
+        </div>
+        <div class="salon-price">¥980<span style="font-size:0.5em;font-weight:400;">/月</span></div>
+        <div class="salon-price-note">※将来的に1,980円への値上げあり</div>
+        <ul class="salon-contents">
+          <li>月2本｜棒高跳び技術の深掘り解説</li>
+          <li>月1本｜競技への向き合い方（メンタル）</li>
+          <li>月1本｜おぎぃ。の競技実績から学ぶロジック</li>
+        </ul>
+        <div class="tanpin-badge">＋単品：オンライン技術相談 10,000円〜</div>
+      </div>
+
+    </div>
+
+    <!-- 共通コンテンツ -->
+    <div style="margin-top:20px; background:#1a1a2e; border-radius:12px; padding:20px; border:1px dashed rgba(233,69,96,0.4);">
+      <p style="font-size:13px; color:#e94560; font-weight:700; margin-bottom:10px;">🔴 全サロン共通｜月1本「おぎぃ。の頭の中」</p>
+      <p style="font-size:13px; color:#a0a0b8;">3サロン全会員に届く特別コンテンツ。その月の思考・挑戦・失敗・展望をリアルに開示。<br>「ジム経営の裏側」「AI活用でどう変わったか」「家族と仕事のバランス」など、SNSでは言えない本音。</p>
+    </div>
+  </div>
+
+  <!-- ② 価格設計 -->
+  <div class="section">
+    <div class="section-title">② 価格設計｜980円 ＋ 単品販売</div>
+    <div class="pricing-box">
+      <div class="pricing-main">
+        <div>
+          <div style="font-size:12px;color:#606070;margin-bottom:4px;">月額メンバーシップ</div>
+          <div class="price-big">¥980</div>
+          <div class="price-desc">コーヒー1杯の心理的安さ<br>入会ハードルを最低限に</div>
+        </div>
+        <div class="price-logic">
+          <strong style="color:#e94560;">なぜ980円か</strong><br>
+          ・1,000円の心理的壁を下回る<br>
+          ・サブスク感覚で入りやすい<br>
+          ・解約率を下げる価格帯<br>
+          ・単品販売との「入口 × アップセル」設計
+        </div>
+      </div>
+
+      <p style="font-size:13px; color:#e94560; font-weight:700; margin-bottom:12px;">📦 単品販売メニュー（メンバー・非メンバー両方購入可）</p>
+      <table class="tanpin-table">
+        <thead>
+          <tr>
+            <th>サロン</th>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👨‍👧 キッズラボ</td>
+            <td>子どもの走り方 個別診断</td>
+            <td class="price-tag-green">¥3,000</td>
+            <td>動画を送ってもらい、おぎぃ。がフォームを分析・解説</td>
+          </tr>
+          <tr>
+            <td>👨‍👧 キッズラボ</td>
+            <td>保護者向け 声かけ完全ガイドPDF</td>
+            <td class="price-tag-green">¥1,500</td>
+            <td>発達心理学×スポーツのノウハウ凝縮ドキュメント</td>
+          </tr>
+          <tr>
+            <td>💪 パフォーマンスラボ</td>
+            <td>動画フォーム分析（競技者向け）</td>
+            <td class="price-tag-gold">¥5,000</td>
+            <td>バイオメカニクス×運動生理学の視点でフォームを解説</td>
+          </tr>
+          <tr>
+            <td>💪 パフォーマンスラボ</td>
+            <td>身体操作 深掘り解説記事（単発）</td>
+            <td class="price-tag-gold">¥2,000</td>
+            <td>テーマ指定の深掘り記事（非メンバーも購入可）</td>
+          </tr>
+          <tr>
+            <td>🏃 ポールラボ</td>
+            <td>オンライン技術相談（30分）</td>
+            <td class="price-tag-red">¥10,000</td>
+            <td>Zoom 1on1 / リオ五輪出場者から直接指導</td>
+          </tr>
+          <tr>
+            <td>🏃 ポールラボ</td>
+            <td>棒高跳び 技術解説記事（単発）</td>
+            <td class="price-tag-red">¥2,500</td>
+            <td>動画では言えない「真のロジック」を文章で完全解説</td>
+          </tr>
+          <tr style="background:rgba(233,69,96,0.05)">
+            <td>🔴 共通</td>
+            <td>おぎぃ。月次ブリーフィング（単発）</td>
+            <td class="price-tag-red">¥500</td>
+            <td>メンバー限定コンテンツの一部を単品で解放。入会への導線</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ③ 収益シミュレーション -->
+  <div class="section">
+    <div class="section-title">③ 収益シミュレーション</div>
+    <table class="sim-table">
+      <thead>
+        <tr>
+          <th>フェーズ</th>
+          <th>会員数（3サロン合計）</th>
+          <th>月額収入</th>
+          <th>単品販売（月平均想定）</th>
+          <th>月次合計（概算）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🚀 ローンチ月（5月）</td>
+          <td>〜30人</td>
+          <td>¥29,400</td>
+          <td>¥15,000</td>
+          <td>約 ¥44,000</td>
+        </tr>
+        <tr>
+          <td>📈 3ヶ月後</td>
+          <td>〜80人</td>
+          <td>¥78,400</td>
+          <td>¥30,000</td>
+          <td>約 ¥108,000</td>
+        </tr>
+        <tr class="highlight">
+          <td>🎯 6ヶ月後（目標）</td>
+          <td>〜150人</td>
+          <td>¥147,000</td>
+          <td>¥50,000</td>
+          <td>約 ¥197,000</td>
+        </tr>
+        <tr>
+          <td>🏆 1年後（理想）</td>
+          <td>〜300人</td>
+          <td>¥294,000</td>
+          <td>¥100,000+</td>
+          <td>約 ¥400,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert-box">
+      <h4>⚠️ 現実的な補足</h4>
+      <p>TikTokフォロワー1,030人の転換率は通常1〜5%程度。<br>
+      初月は10〜30人の入会を現実的な目標とし、創設メンバー特典で「最初の30人」を確実に確保することが最重要。<br>
+      単品販売は会員がオンライン相談を1件購入するだけで月額10件分の収益。高単価商品の早期展開を推奨。</p>
+    </div>
+  </div>
+
+  <!-- ④ 創設メンバー特典 -->
+  <div class="section">
+    <div class="section-title">④ 創設メンバー特典設計</div>
+    <div class="founder-box">
+      <h3>🎖️ 創設メンバー限定（各サロン最初の30人）</h3>
+      <div class="founder-benefits">
+        <div class="founder-benefit">
+          <div class="icon">🔒</div>
+          <div class="title">月額 ¥980 永年固定</div>
+          <div class="desc">将来値上げ（1,480円〜）しても創設メンバーは980円のまま。これが最大のインセンティブ。</div>
+        </div>
+        <div class="founder-benefit">
+          <div class="icon">👑</div>
+          <div class="title">創設メンバーバッジ</div>
+          <div class="desc">noteのコメント欄に「創設メンバー」として認識される特別感。コミュニティのOG感。</div>
+        </div>
+        <div class="founder-benefit">
+          <div class="icon">💬</div>
+          <div class="title">オープン前コンテンツ先行配信</div>
+          <div class="desc">5月1日公開の1週間前（4月24日）から先行アクセス。「最初の読者」になれる特権。</div>
+        </div>
+        <div class="founder-benefit">
+          <div class="icon">🎁</div>
+          <div class="title">サンクスDM（おぎぃ。本人から）</div>
+          <div class="desc">入会者全員に手動でDMを送る。「創設メンバーになってくれてありがとう」の体験を作る。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ ローンチスケジュール -->
+  <div class="section">
+    <div class="section-title">⑤ ローンチスケジュール（4月〜5月）</div>
+    <div class="timeline">
+
+      <div class="timeline-item phase1">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-date">4月7日〜14日</div>
+        <div class="timeline-title">🔴 フェーズ1：コンテンツ準備期</div>
+        <div class="timeline-body">
+          <p>初月コンテンツを先に5本以上書き溜めてからオープン。「ローンチ後即コンテンツ切れ」を防ぐ。</p>
+          <ul>
+            <li>各サロン初回コンテンツ1本ずつ（計3本）を完成させる</li>
+            <li>「おぎぃ。の頭の中」共通コンテンツ1本を完成させる</li>
+            <li>noteメンバーシップ設定・ページデザインを整える</li>
+            <li>単品販売の設定（定価・説明文・サムネ）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item phase2">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-date">4月15日〜24日</div>
+        <div class="timeline-title">🔵 フェーズ2：TikTok告知・プレ期間</div>
+        <div class="timeline-body">
+          <p>TikTokで「サロン開設」告知動画を4本連続投稿。「早く入ると得」の情報を段階的に出す。</p>
+          <ul>
+            <li>告知動画①「noteサロンを作る正直な気持ち、話します」</li>
+            <li>告知動画②「3つのサロン、それぞれ何が見えるか」</li>
+            <li>告知動画③「創設メンバー30人限定の特典、発表」</li>
+            <li>告知動画④「カウントダウン｜5月1日に全て公開します」</li>
+            <li>4月24日に創設メンバー先行アクセス開放（サイレントオープン）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item phase3">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-date">5月1日〜</div>
+        <div class="timeline-title">🟢 フェーズ3：グランドオープン</div>
+        <div class="timeline-body">
+          <p>3サロン同時公開。当日のTikTok動画でドーンと告知する。</p>
+          <ul>
+            <li>5月1日 9:00｜3サロン同時オープン（noteメンバーシップ公開）</li>
+            <li>5月1日 12:00｜TikTok「ついに公開しました」告知動画</li>
+            <li>5月1〜7日｜入会者全員にDM返信（おぎぃ。本人）</li>
+            <li>5月2週目〜｜月次コンテンツ配信開始（週1本ペース）</li>
+            <li>5月末｜創設メンバー人数を公開（コミュニティ形成）</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑥ 初月コンテンツカレンダー -->
+  <div class="section">
+    <div class="section-title">⑥ 5月 初月コンテンツカレンダー（全5本）</div>
+    <div class="content-calendar">
+
+      <div class="content-week w1">
+        <div class="week-label">WEEK 1<br>5/1</div>
+        <div class="week-content">
+          <div>
+            <span class="week-salon-badge badge-all">全サロン共通</span>
+          </div>
+          <h4>「オリンピックで崩れなかった理由、全部話します」</h4>
+          <p>自己理解×他者理解×自己チャレンジの3層構造。SNSでは絶対言えない思考プロセスの完全開示。ローンチ記念の「ファーストコンテンツ」として最高のつかみになる。</p>
+        </div>
+      </div>
+
+      <div class="content-week w2">
+        <div class="week-label">WEEK 2<br>5/8</div>
+        <div class="week-content">
+          <div>
+            <span class="week-salon-badge badge-blue">👨‍👧 キッズラボ</span>
+          </div>
+          <h4>「子どもに『頑張れ』と言うより効く声かけ、ズバッと言います」</h4>
+          <p>発達心理学の視点から「親の声かけ」を科学する。実際のコーチング現場での実例・失敗談も含めて完全開示。保護者の心に一番刺さるテーマで序盤のロイヤリティを作る。</p>
+        </div>
+      </div>
+
+      <div class="content-week w2">
+        <div class="week-label">WEEK 2<br>5/8</div>
+        <div class="week-content">
+          <div>
+            <span class="week-salon-badge badge-green">💪 パフォーマンスラボ</span>
+          </div>
+          <h4>「スポーツ科学で見ると『速く走る』の定義が変わる話」</h4>
+          <p>バイオメカニクスの入門として最も驚きが大きい「走りの物理」を解説。アスリートが「こんな視点で考えたことなかった」と感じる内容を狙う。</p>
+        </div>
+      </div>
+
+      <div class="content-week w3">
+        <div class="week-label">WEEK 3<br>5/15</div>
+        <div class="week-content">
+          <div>
+            <span class="week-salon-badge badge-gold">🏃 ポールラボ</span>
+          </div>
+          <h4>「棒高跳びで一番大事なこと、動画では絶対言えません」</h4>
+          <p>技術的コアを完全開示。「なぜ五輪の舞台で同じ跳び方ができたか」の物理的・心理的根拠。棒高跳び競技者なら読まずにはいられないタイトル。</p>
+        </div>
+      </div>
+
+      <div class="content-week w4">
+        <div class="week-label">WEEK 4<br>5/22</div>
+        <div class="week-content">
+          <div>
+            <span class="week-salon-badge badge-all">おぎぃ。の頭の中</span>
+          </div>
+          <h4>「サロン開設1ヶ月目、正直どうだったか全部話します」</h4>
+          <p>会員数・収益・失敗・葛藤・次の展望を全開示。「一緒に作っている感」を会員に持ってもらうための透明性レポート。継続率を上げる最重要コンテンツ。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑦ TikTok告知スクリプト案 -->
+  <div class="section">
+    <div class="section-title">⑦ TikTok告知スクリプト案（4本）</div>
+    <div class="tiktok-scripts">
+
+      <div class="tiktok-script s1">
+        <div class="script-num">告知動画 ①</div>
+        <div class="script-hook">「noteでサロンを作ることにしました。正直な気持ち、話させてください。」</div>
+        <div class="script-desc">フォロワーに「一緒に作る感」を持たせる。「不安もある」「でもやる」の等身大トーンで信頼感を高める。</div>
+      </div>
+
+      <div class="tiktok-script s2">
+        <div class="script-num">告知動画 ②</div>
+        <div class="script-hook">「3つのサロンを作ります。あなたはどれで見てみたい？」</div>
+        <div class="script-desc">3サロンの違いをそれぞれ15秒で紹介。「どれが気になる？」と視聴者を参加者として巻き込む。</div>
+      </div>
+
+      <div class="tiktok-script s3">
+        <div class="script-num">告知動画 ③</div>
+        <div class="script-hook">「最初の30人だけ、特別な条件で入れます。今だけです。」</div>
+        <div class="script-desc">創設メンバー特典を発表。「永年固定980円」の価値を丁寧に説明。FOMO（乗り遅れ恐怖）を活用。</div>
+      </div>
+
+      <div class="tiktok-script s4">
+        <div class="script-num">告知動画 ④（5/1 当日）</div>
+        <div class="script-hook">「今日、ついに公開しました。見に来てください。」</div>
+        <div class="script-desc">当日のリアクション動画。「もう入ってくれた人がいる」「ありがとう」のトーンで温度感を作る。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑧ KPI目標 -->
+  <div class="section">
+    <div class="section-title">⑧ KPI目標（6ヶ月）</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">30人</div>
+        <div class="kpi-label">ローンチ月 目標会員数</div>
+        <div class="kpi-desc">創設メンバー枠を「30人×3サロン」で設定。埋まり次第通常価格へ移行。</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">150人</div>
+        <div class="kpi-label">6ヶ月後 目標会員数</div>
+        <div class="kpi-desc">月収約20万円ラインの目安。この段階でコンテンツを増やす投資が可能に。</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">80%</div>
+        <div class="kpi-label">3ヶ月継続率 目標</div>
+        <div class="kpi-desc">月次の「正直レポート」「会員限定コメント返信」で継続率を担保する。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 次のアクション -->
+  <div class="section">
+    <div class="section-title">🎯 次のアクション（優先順）</div>
+    <div style="background:#1a1a2e; border-radius:12px; padding:24px;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:#e94560;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">1</span>
+          <div>
+            <strong style="color:#e94560;">noteメンバーシップ設定（3サロン）</strong>
+            <p style="font-size:12px;color:#808090;margin-top:4px;">サロン名・説明文・月額・コンテンツ方針を設定。4月14日までに完了目標。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:#4a90d9;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">2</span>
+          <div>
+            <strong style="color:#4a90d9;">初月コンテンツ5本の先書き</strong>
+            <p style="font-size:12px;color:#808090;margin-top:4px;">ローンチ前に最低5本を完成させる。「ネタ切れでサロンが止まる」最大リスクを先に潰す。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:#27ae60;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">3</span>
+          <div>
+            <strong style="color:#27ae60;">TikTok告知動画①の撮影・投稿</strong>
+            <p style="font-size:12px;color:#808090;margin-top:4px;">「正直な気持ち」動画でフォロワーの期待値を上げる。4月15日投稿目標。</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <span style="background:#f39c12;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">4</span>
+          <div>
+            <strong style="color:#f39c12;">単品販売の設定</strong>
+            <p style="font-size:12px;color:#808090;margin-top:4px;">「個別フォーム診断」「オンライン相談」の受付体制を作る。高単価商品の早期設定が収益倍増の鍵。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>オギラボ｜note有料コンテンツ 販売戦略プラン｜作成: 2026-04-07｜AI組織 総括エージェント</p>
+  <p style="margin-top:6px;">📊 品質スコア: 88点 ｜ 戦略完成度:◎ 実行可能性:◎ 収益設計:○ ローンチ計画:◎ KPI設定:○</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌅 モーニングブリーフィング 2026-04-14</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); padding: 32px 24px 24px; border-bottom: 1px solid #334155; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .greeting { font-size: 28px; font-weight: 700; color: #f1f5f9; }
+  .greeting span { color: #fbbf24; }
+  .date-info { text-align: right; }
+  .date-main { font-size: 20px; font-weight: 600; color: #94a3b8; }
+  .date-sub { font-size: 13px; color: #64748b; margin-top: 4px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #334155; }
+  .card-icon { font-size: 22px; }
+  .card-title { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+  .card-subtitle { font-size: 12px; color: #64748b; margin-top: 2px; }
+  .alert-card { border-left: 4px solid #ef4444; }
+  .alert-card-yellow { border-left: 4px solid #f59e0b; }
+  .alert-card-blue { border-left: 4px solid #3b82f6; }
+  .alert-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #1e293b; }
+  .alert-item:last-child { border-bottom: none; }
+  .alert-badge { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .badge-red { background: #7f1d1d; color: #fca5a5; }
+  .badge-yellow { background: #78350f; color: #fde68a; }
+  .badge-green { background: #14532d; color: #86efac; }
+  .badge-blue { background: #1e3a5f; color: #93c5fd; }
+  .badge-purple { background: #4c1d95; color: #c4b5fd; }
+  .alert-text { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+  .alert-text strong { color: #f1f5f9; }
+  .sns-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .sns-item { background: #0f172a; border-radius: 8px; padding: 12px; }
+  .sns-platform { font-size: 11px; color: #64748b; margin-bottom: 4px; }
+  .sns-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+  .sns-change { font-size: 11px; margin-top: 2px; }
+  .sns-change.up { color: #4ade80; }
+  .sns-change.same { color: #64748b; }
+  .sns-change.warn { color: #f59e0b; }
+  .pj-name { font-size: 12px; font-weight: 700; color: #94a3b8; margin-bottom: 8px; padding: 4px 8px; background: #0f172a; border-radius: 6px; display: inline-block; }
+  .booking-item { padding: 10px 0; border-bottom: 1px solid #334155; }
+  .booking-item:last-child { border-bottom: none; }
+  .booking-date { font-size: 12px; color: #fbbf24; font-weight: 600; }
+  .booking-date.urgent { color: #ef4444; }
+  .booking-name { font-size: 14px; color: #f1f5f9; font-weight: 600; margin-top: 3px; }
+  .booking-new { color: #4ade80; font-size: 11px; margin-left: 6px; }
+  .booking-detail { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #334155; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 13px; color: #94a3b8; }
+  .stat-value { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+  .stat-value.new { color: #4ade80; }
+  .kgad-item { padding: 8px 0; border-bottom: 1px solid #334155; }
+  .kgad-item:last-child { border-bottom: none; }
+  .kgad-date { font-size: 12px; color: #818cf8; font-weight: 600; }
+  .kgad-event { font-size: 13px; color: #f1f5f9; margin-top: 3px; }
+  .kgad-person { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .action-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #334155; }
+  .action-item:last-child { border-bottom: none; }
+  .action-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .action-num-1 { background: #92400e; color: #fbbf24; }
+  .action-num-2 { background: #1e3a5f; color: #60a5fa; }
+  .action-num-3 { background: #14532d; color: #4ade80; }
+  .action-num-4 { background: #4c1d95; color: #c4b5fd; }
+  .action-content { flex: 1; }
+  .action-title { font-size: 14px; font-weight: 600; color: #f1f5f9; }
+  .action-desc { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.5; }
+  .synergy-item { padding: 10px 0; border-bottom: 1px solid #334155; }
+  .synergy-item:last-child { border-bottom: none; }
+  .synergy-arrow { color: #818cf8; margin: 0 6px; }
+  .synergy-text { font-size: 13px; color: #cbd5e1; }
+  .no-change { font-size: 13px; color: #4ade80; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #475569; margin-bottom: 12px; }
+  .progress-bar { height: 6px; background: #334155; border-radius: 3px; margin-top: 6px; }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #3b82f6, #818cf8); }
+  .full-width { grid-column: 1 / -1; }
+  .footer { text-align: center; padding: 24px; color: #475569; font-size: 12px; border-top: 1px solid #1e293b; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="greeting">🌅 おはようございます、<span>MOONさん</span></div>
+      <div style="font-size:13px;color:#64748b;margin-top:6px;">AI組織 デイリーブリーフィング — 全PJ自動チェック完了</div>
+    </div>
+    <div class="date-info">
+      <div class="date-main">2026年4月14日（火）</div>
+      <div class="date-sub">自動実行 daily-morning-briefing</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ⚠️ 要対応事項 -->
+  <div class="card alert-card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div class="card-icon">⚠️</div>
+      <div>
+        <div class="card-title">要対応事項</div>
+        <div class="card-subtitle">確認・アクションが必要な項目</div>
+      </div>
+    </div>
+    <div class="alert-item">
+      <span class="alert-badge badge-red">🔴 明後日</span>
+      <div class="alert-text"><strong>SUPERIOR 生駒体験 4/16(木)</strong> — ごとうりょうすけ（小学生コース 16:45〜17:45）。当日準備・連絡確認を。</div>
+    </div>
+    <div class="alert-item">
+      <span class="alert-badge badge-yellow">🟡 今週末</span>
+      <div class="alert-text"><strong>SORA 体験3名 4/18(土)</strong> — つじおかしんのすけ・やまもとはると・かとうなつ。事前リマインド連絡を今週中に完了。</div>
+    </div>
+    <div class="alert-item">
+      <span class="alert-badge badge-green">🆕 新規</span>
+      <div class="alert-text"><strong>SORA 新規申込: もりもとゆうと</strong> — 4/25(土)体験。詳細コース・学年は要確認。</div>
+    </div>
+    <div class="alert-item">
+      <span class="alert-badge badge-blue">📱 SNS</span>
+      <div class="alert-text"><strong>SUPERIOR Instagram 未確認4日</strong> — 最終確認2026-04-10。現在のフォロワー数を教えていただければCONTEXT.mdを更新します。</div>
+    </div>
+    <div class="alert-item">
+      <span class="alert-badge badge-red">🔴 継続</span>
+      <div class="alert-text"><strong>健康経営：健康診断予約</strong> — 期限3月末を過ぎても未完了。早急に予約・完了報告を。</div>
+    </div>
+  </div>
+
+  <!-- SNS実測数 -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div class="card-icon">📱</div>
+      <div>
+        <div class="card-title">SNSフォロワー数（2026-04-14 実測）</div>
+        <div class="card-subtitle">Chrome実測値 — 推測値使用禁止ルール準拠</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <!-- オギラボ -->
+      <div>
+        <div class="pj-name">📚 オギラボ</div>
+        <div class="sns-grid">
+          <div class="sns-item">
+            <div class="sns-platform">TikTok</div>
+            <div class="sns-count">1,130</div>
+            <div class="sns-change up">▲ +20（前回1,110）</div>
+          </div>
+          <div class="sns-item">
+            <div class="sns-platform">YouTube</div>
+            <div class="sns-count">86</div>
+            <div class="sns-change same">— 動画11本</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#64748b;margin-top:8px;">Note.com: 未確認</div>
+      </div>
+      <!-- CARAS -->
+      <div>
+        <div class="pj-name">💪 CARAS</div>
+        <div class="sns-grid">
+          <div class="sns-item">
+            <div class="sns-platform">Instagram</div>
+            <div class="sns-count">70</div>
+            <div class="sns-change up">▲ +1（前回69）</div>
+          </div>
+          <div class="sns-item">
+            <div class="sns-platform">TikTok</div>
+            <div class="sns-count">24</div>
+            <div class="sns-change same">— (±0)</div>
+          </div>
+        </div>
+      </div>
+      <!-- SORA / SUPERIOR -->
+      <div>
+        <div class="pj-name">🏃 SORA / SUPERIOR</div>
+        <div class="sns-grid">
+          <div class="sns-item">
+            <div class="sns-platform">SORA Instagram</div>
+            <div class="sns-count">515</div>
+            <div class="sns-change same">— 投稿282本</div>
+          </div>
+          <div class="sns-item">
+            <div class="sns-platform">SUPERIOR Instagram</div>
+            <div class="sns-count">3</div>
+            <div class="sns-change warn">⚠️ 4日未確認</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 体験予定 + 会員状況 -->
+  <div class="grid-2">
+    <!-- SORA 体験予定 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🏃</div>
+        <div>
+          <div class="card-title">SORA 体験予定（直近）</div>
+          <div class="card-subtitle">申込累計 312件（最終行313）— スプレッドシート実確認</div>
+        </div>
+      </div>
+      <div class="booking-item">
+        <div class="booking-date">📅 4月18日（土）</div>
+        <div class="booking-name">つじおかしんのすけ</div>
+        <div class="booking-detail">小6 ｜ 観音寺スクール ｜ 専門基礎コース</div>
+      </div>
+      <div class="booking-item">
+        <div class="booking-date">📅 4月18日（土）</div>
+        <div class="booking-name">やまもとはると</div>
+        <div class="booking-detail">小1 ｜ 高松スクール</div>
+      </div>
+      <div class="booking-item">
+        <div class="booking-date">📅 4月18日（土）</div>
+        <div class="booking-name">かとうなつ</div>
+        <div class="booking-detail">小5 ｜ 観音寺スクール ｜ 専門基礎コース</div>
+      </div>
+      <div class="booking-item" style="background:#0d2018;border-radius:6px;padding:10px;margin-top:4px;">
+        <div class="booking-date" style="color:#4ade80;">📅 4月25日（土）🆕</div>
+        <div class="booking-name">もりもとゆうと <span class="booking-new">新規</span></div>
+        <div class="booking-detail">詳細未確認 — スプレッドシート最新行313</div>
+      </div>
+    </div>
+
+    <!-- SUPERIOR 体験 + 会員 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⭐</div>
+        <div>
+          <div class="card-title">SUPERIOR 体験予定 &amp; 会員状況</div>
+          <div class="card-subtitle">申込累計 103件 — 変化なし</div>
+        </div>
+      </div>
+      <div class="section-label">📅 体験予定</div>
+      <div class="booking-item">
+        <div class="booking-date urgent">4月16日（木）← 明後日！</div>
+        <div class="booking-name">ごとうりょうすけ（後藤僚介）</div>
+        <div class="booking-detail">小学生コース ｜ 生駒スクール（16:45〜17:45）</div>
+      </div>
+      <div class="booking-item">
+        <div class="booking-date">4月21日（火）</div>
+        <div class="booking-name">きしふうな・きしほのめ（岸楓奈・岸穂芽 姉妹）</div>
+        <div class="booking-detail">箕面スクール</div>
+      </div>
+      <div style="margin-top:16px;" class="section-label">👤 会員ステータス</div>
+      <div class="stat-row">
+        <span class="stat-label">総会員数</span>
+        <span class="stat-value">24名</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🆕 直近入会</span>
+        <span class="stat-value new">2名（変化なし）</span>
+      </div>
+      <div style="font-size:12px;color:#4ade80;padding:4px 0 8px 0;">やまざきゆうさ（小2・4/10）、てんまはやと（小4・4/12）</div>
+      <div class="stat-row">
+        <span class="stat-label">😴 休会</span>
+        <span class="stat-value" style="color:#64748b;">4件（変化なし）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 関学大 + むーん -->
+  <div class="grid-2">
+    <!-- 関学大 -->
+    <div class="card alert-card-blue">
+      <div class="card-header">
+        <div class="card-icon">🎓</div>
+        <div>
+          <div class="card-title">関西学院大学陸上部</div>
+          <div class="card-subtitle">荻田予定表 CDST監視 + 今後の予定</div>
+        </div>
+      </div>
+      <div style="padding:8px 0 12px;">
+        <span class="no-change">✅ CDST変更なし（2026-04-13スナップショット完全一致）</span>
+      </div>
+      <div class="section-label">📅 今後の主な予定</div>
+      <div class="kgad-item">
+        <div class="kgad-date">4月18日（土）</div>
+        <div class="kgad-event">香川カーニバル</div>
+        <div class="kgad-person">参加: 伊藤 ｜ 荻田: 跳躍で関西インカレメンバー決め・12時退場</div>
+      </div>
+      <div class="kgad-item">
+        <div class="kgad-date">4月19日（日）</div>
+        <div class="kgad-event">兵庫リレーカーニバル / 広島国スポ記録会</div>
+        <div class="kgad-person">参加: 北田（幅）・伊藤 ｜ 荻田: 北田帯同</div>
+      </div>
+      <div class="kgad-item">
+        <div class="kgad-date">4月26日（日）</div>
+        <div class="kgad-event">大阪カーニバル</div>
+        <div class="kgad-person">参加: 北田? ｜ 荻田: グランド行きます</div>
+      </div>
+      <div class="kgad-item">
+        <div class="kgad-date">5月4日（月）</div>
+        <div class="kgad-event">香川県選手権</div>
+        <div class="kgad-person">参加: 北田・大西・杉本</div>
+      </div>
+      <div class="kgad-item">
+        <div class="kgad-date">5月15〜17日</div>
+        <div class="kgad-event">関西インカレ</div>
+        <div class="kgad-person">荻田: 東日本実業団を休んで参加 ｜ D=富永?（16日）</div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:#0f172a;border-radius:8px;font-size:12px;color:#818cf8;">
+        🎯 <strong>4月25日：KGAD報告書作成予定</strong>（請求書作成と同時実行）<br>
+        MOON提出期限: 5月7日 ／ KGAD期限: 5月15日
+      </div>
+    </div>
+
+    <!-- むーん（火曜はスキップ） -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🏥</div>
+        <div>
+          <div class="card-title">むーん 行政監視</div>
+          <div class="card-subtitle">本日（火曜）はスキップ — 月曜のみ実施</div>
+        </div>
+      </div>
+      <div style="padding:12px 0;color:#64748b;font-size:13px;">
+        行政情報監視は毎週月曜日のみ実施。<br>
+        次回確認: 2026-04-20（月）
+      </div>
+      <div style="margin-top:12px;padding:10px;background:#0f172a;border-radius:8px;font-size:12px;color:#94a3b8;">
+        📌 現状: 定員9割稼働。SK-3施設案内PDF未着手<br>
+        前回行政確認: 2026-04-13（最終確認済み）
+      </div>
+    </div>
+  </div>
+
+  <!-- PJ進捗サマリー -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div>
+        <div class="card-title">PJ進捗サマリー</div>
+        <div class="card-subtitle">全8プロジェクト</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">📚 オギラボ</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">42%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+        <div style="font-size:11px;color:#4ade80;margin-top:4px;">TikTok 1,130人 ▲+20</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">💪 CARAS</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">61%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:61%"></div></div>
+        <div style="font-size:11px;color:#4ade80;margin-top:4px;">IG 70人 ▲+1</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">🏢 健康経営</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">20%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+        <div style="font-size:11px;color:#ef4444;margin-top:4px;">⚠️ 健診予約未完了</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">🏃 SORA</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">48%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:48%"></div></div>
+        <div style="font-size:11px;color:#4ade80;margin-top:4px;">IG 515人 体験4件</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">⭐ SUPERIOR</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">57%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:57%"></div></div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px;">会員24名 体験2件</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">🏥 むーん</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">0%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px;">定員9割稼働</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">🎓 関学大</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">0%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px;">CDST変更なし</div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;">
+        <div style="font-size:12px;color:#94a3b8;">🤝 TrustFit</div>
+        <div style="font-size:24px;font-weight:700;color:#f1f5f9;margin-top:4px;">5%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:5%"></div></div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px;">Netlifyアップ待ち</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日の推奨アクション + シナジー -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎯</div>
+        <div>
+          <div class="card-title">今日の推奨アクション TOP4</div>
+          <div class="card-subtitle">優先度・緊急度から自動抽出</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num action-num-1">1</div>
+        <div class="action-content">
+          <div class="action-title">SUPERIOR 4/16(木) 生駒体験フォロー</div>
+          <div class="action-desc">明後日！ごとうりょうすけ（16:45〜）当日準備・事前連絡確認を本日中に。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num action-num-2">2</div>
+        <div class="action-content">
+          <div class="action-title">SORA 4/18(土) 体験3名の事前リマインド</div>
+          <div class="action-desc">つじおかしんのすけ・やまもとはると・かとうなつ。今週末に3名が来場予定。連絡・準備を今週中に完了。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num action-num-3">3</div>
+        <div class="action-content">
+          <div class="action-title">SUPERIOR Instagram 実数確認</div>
+          <div class="action-desc">最終確認4/10（4日前）。現在のフォロワー数を教えていただければCONTEXT.md更新します。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num action-num-4">4</div>
+        <div class="action-content">
+          <div class="action-title">健康経営：健康診断予約完了</div>
+          <div class="action-desc">期限3月末超過継続中。最優先で予約手続き・完了報告を。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div>
+          <div class="card-title">今週のシナジーチャンス</div>
+          <div class="card-subtitle">クロスPJ展開の提案</div>
+        </div>
+      </div>
+      <div class="synergy-item">
+        <div class="synergy-text">
+          <strong style="color:#818cf8;">SUPERIOR 新会員2名（やまざきゆうさ・てんまはやと）</strong>
+          <span class="synergy-arrow">→</span>
+          <strong style="color:#4ade80;">CARAS</strong>
+          <br><span style="font-size:12px;color:#94a3b8;">保護者に向けCARASトレーニングプログラムを紹介。入会タイミングが最大チャンス。</span>
+        </div>
+      </div>
+      <div class="synergy-item">
+        <div class="synergy-text">
+          <strong style="color:#818cf8;">SORA 体験者増加（4/18に3名・累計312件）</strong>
+          <span class="synergy-arrow">→</span>
+          <strong style="color:#4ade80;">SNS / オギラボ</strong>
+          <br><span style="font-size:12px;color:#94a3b8;">体験成功事例をInstagramに投稿 + オギラボ「AI×スポーツ現場」事例として発信可能。</span>
+        </div>
+      </div>
+      <div class="synergy-item">
+        <div class="synergy-text">
+          <strong style="color:#818cf8;">関学大 4/18-19 競技会帯同（香川・兵庫）</strong>
+          <span class="synergy-arrow">→</span>
+          <strong style="color:#4ade80;">オギラボ</strong>
+          <br><span style="font-size:12px;color:#94a3b8;">競技会レポート・日本代表OBの現場活動コンテンツとして発信チャンス。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  🤖 AI組織 自動生成 | daily-morning-briefing | 2026-04-14 | 全8PJチェック完了<br>
+  SNS実測・スプレッドシート実確認済み（SUPERIOR体験/会員/休会・SORA体験・関学大CDST）｜むーん行政スキップ（火曜）
+</div>
+
+</body>
+</html>

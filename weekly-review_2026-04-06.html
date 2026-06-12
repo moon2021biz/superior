@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー | 2026-04-06（月）</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #20243a;
+    --accent: #5b8dee;
+    --gold: #c4a45a;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --border: #2d3154;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 14px; line-height: 1.6; padding: 24px; }
+  h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  h2 { font-size: 18px; font-weight: 700; color: var(--accent); margin: 28px 0 12px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  h3 { font-size: 15px; font-weight: 700; color: var(--gold); margin: 16px 0 8px; }
+  .header { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .header .date { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .pj-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .pj-sub { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+  .progress-bar { background: #2d3154; border-radius: 100px; height: 8px; margin: 8px 0; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--green)); }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .gauge { font-family: monospace; font-size: 13px; color: var(--yellow); background: #1a1d2f; padding: 6px 10px; border-radius: 6px; margin: 8px 0; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin: 2px; }
+  .tag-green { background: rgba(52,211,153,0.15); color: var(--green); }
+  .tag-red { background: rgba(248,113,113,0.15); color: var(--red); }
+  .tag-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .tag-blue { background: rgba(91,141,238,0.15); color: var(--accent); }
+  .action-list { list-style: none; padding: 0; }
+  .action-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .action-list li:last-child { border-bottom: none; }
+  .action-list li::before { content: '▶ '; color: var(--accent); }
+  .debate-box { background: var(--card2); border: 2px solid var(--gold); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .debate-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .debate-col { background: var(--card); border-radius: 8px; padding: 14px; }
+  .debate-col h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .debate-col.pro h4 { color: var(--green); }
+  .debate-col.con h4 { color: var(--red); }
+  .debate-col ol { padding-left: 18px; font-size: 12px; line-height: 1.7; color: #cdd6f4; }
+  .score-row { display: flex; gap: 16px; margin: 12px 0; }
+  .score-badge { background: var(--card); border-radius: 8px; padding: 10px 16px; text-align: center; flex: 1; }
+  .score-num { font-size: 28px; font-weight: 700; }
+  .score-num.pro { color: var(--green); }
+  .score-num.con { color: var(--red); }
+  .best-answer { background: linear-gradient(135deg, rgba(91,141,238,0.1), rgba(196,164,90,0.1)); border: 1px solid var(--gold); border-radius: 8px; padding: 14px; margin-top: 12px; }
+  .best-answer h4 { color: var(--gold); font-size: 14px; margin-bottom: 8px; }
+  .synergy-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 24px; }
+  .synergy-item { background: var(--card); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+  .synergy-arrow { color: var(--accent); font-weight: 700; }
+  .sprint-box { background: linear-gradient(135deg, var(--card2), #1a2040); border: 2px solid var(--accent); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .sprint-rank { display: inline-block; font-size: 18px; margin-right: 6px; }
+  .sprint-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .sprint-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .alert-box { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 13px; }
+  .warning-box { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 13px; }
+  .info-box { background: rgba(91,141,238,0.08); border: 1px solid rgba(91,141,238,0.2); border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 13px; }
+  .celebrate { font-size: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--card2); color: var(--muted); text-align: left; padding: 8px 12px; font-weight: 600; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+  @media (max-width: 600px) { .debate-cols { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="date">2026年4月6日（月） — 自動生成: weekly-review スケジュールタスク</div>
+  <h1>📅 週次レビュー｜2026-W14</h1>
+  <p style="color:var(--muted);margin-top:6px">全プロジェクト進捗確認 / 集中PJ提案 / ディベート / シナジーチャンス</p>
+</div>
+
+<!-- ===== STEP1: 各PJ週次レビュー ===== -->
+<h2>📊 各PJ 週次レビュー</h2>
+
+<div class="grid">
+
+  <!-- オギラボ -->
+  <div class="card">
+    <div class="pj-name">🎤 オギラボ</div>
+    <div class="pj-sub">オンラインサロン｜noteメンバーシップ</div>
+    <div class="progress-label"><span>進捗</span><span>42%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+    <div class="gauge">収益化ゲージ: [■■□□□] 8pt/20pt（MG-2達成）</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-green">🎉 TikTok 1,013人達成！</span>
+      <span class="tag tag-yellow">NOTE未稼働</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>TikTokフォロワー確認（1,013人 / +8人）</li>
+      <li>NOTE記事サムネイル4案（A〜D）生成完了</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 noteメンバーシップ設定・開始（最優先）</strong></li>
+      <li>TikTokスライドLM生成→動画化</li>
+      <li>NOTE記事サムネ最終選定→NOTE投稿</li>
+    </ul>
+    <div class="alert-box">
+      ⚠️ MG-1未達：noteメンバーシップページ未公開。TikTok1,000人達成済のため今すぐ開始可能。
+    </div>
+  </div>
+
+  <!-- CARAS -->
+  <div class="card">
+    <div class="pj-name">💪 CARAS</div>
+    <div class="pj-sub">パーソナルジム｜西宮夙川</div>
+    <div class="progress-label"><span>進捗</span><span>61%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:61%"></div></div>
+    <div class="gauge">収益化ゲージ: [■□□□□] 4pt/20pt（MG-1完了）</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-blue">Instagram: 69人</span>
+      <span class="tag tag-blue">TikTok: 24人</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>4月HP記事4本 smooooth予約投稿完了（4/3・10・17・24）</li>
+      <li>GBP 健康経営・法人プログラム案内投稿（4/4）</li>
+      <li>MEO戦略策定完了・GBPコンテンツ一式作成</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 ターゲットペルソナ詳細設計</strong>（LP・SNS・料金ページ全ての前提）</li>
+      <li>水曜 Instagram: VOICE投稿（腰痛・姿勢 / マダム向け）</li>
+      <li>金曜 Instagram: RESULT投稿（継続率 / 全般）</li>
+    </ul>
+    <div class="info-box">
+      📋 ハンドオフ確認事項: 関西学院大学コーチ就任の公開可否・文字数ルール統一は未確認のままMOON確認待ち
+    </div>
+  </div>
+
+  <!-- 健康経営 -->
+  <div class="card">
+    <div class="pj-name">🏥 健康経営</div>
+    <div class="pj-sub">B2B法人向けウェルネス支援</div>
+    <div class="progress-label"><span>進捗</span><span>20%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+    <div class="gauge">収益化ゲージ: [□□□□□] 0pt/20pt</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-red">LP未完成</span>
+      <span class="tag tag-red">収益化ゼロ</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>AI組織システム改善（前回ハンドオフより）</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 サービスパッケージ設計完了</strong>（LP・提案資料・契約書の全前提）</li>
+    </ul>
+    <div class="alert-box">
+      ⚠️ 健康診断予約（3月末期限）が未完了の可能性あり。スプレッドシートで要確認。
+    </div>
+    <div class="info-box" style="font-size:12px">
+      🚧 ブロック中タスク: LP制作 → サービスパッケージ設計完了が前提
+    </div>
+  </div>
+
+  <!-- SORA -->
+  <div class="card">
+    <div class="pj-name">🌤 SORA</div>
+    <div class="pj-sub">陸上クラブ｜香川県（観音寺・高松）</div>
+    <div class="progress-label"><span>進捗</span><span>53%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:53%"></div></div>
+    <div class="gauge">収益化ゲージ: [■□□□□] 4pt/20pt（MG-1達成）</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-blue">Instagram: 515人</span>
+      <span class="tag tag-green">体験308件</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>SK-3 入会案内PDF完成（2026-04-03）</li>
+      <li>SK-4 LINE自動返信設定完了（2026-04-03）</li>
+      <li>体験者確認: 4/7(火)ふじわらはな・ばばゆうあ(高松) / 4/11(土)へいたくかんた(観音寺)</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 SK-2 Instagram初期投稿3本</strong>（自己紹介・コーチ紹介・体験会案内）</li>
+    </ul>
+    <div class="info-box">
+      🔓 ブロック解除: SK-3・SK-4完了でSK-2への前提条件クリア。即着手可能！
+    </div>
+  </div>
+
+  <!-- SUPERIOR -->
+  <div class="card">
+    <div class="pj-name">⭐ SUPERIOR</div>
+    <div class="pj-sub">陸上クラブ｜奈良生駒・大阪箕面</div>
+    <div class="progress-label"><span>進捗</span><span>57%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:57%"></div></div>
+    <div class="gauge">収益化ゲージ: [■□□□□] 4pt/20pt（MG-1達成）</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-red">Instagram: 2人 ⬇️-1</span>
+      <span class="tag tag-yellow">体験103件</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>SK-3 入会案内PDF（生駒・箕面）完成（2026-04-03）</li>
+      <li>SK-4 LINE自動返信設定完了（2026-04-03）</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 4/9体験5名来場をコンテンツ化</strong>（Instagram投稿でフォロワー回復）</li>
+      <li>Week2 COACHING投稿（指導へのこだわり・考えるチカラ）</li>
+    </ul>
+    <div class="alert-box">
+      ⚠️ Instagram 2人→1人という危機的状況。体験参加者コンテンツで緊急テコ入れが必要。
+    </div>
+  </div>
+
+  <!-- むーん -->
+  <div class="card">
+    <div class="pj-name">🌙 むーん</div>
+    <div class="pj-sub">運動療育｜大阪市都島区</div>
+    <div class="progress-label"><span>進捗（実態）</span><span>〜30%※</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:30%; background: linear-gradient(90deg, var(--yellow), var(--green));"></div></div>
+    <div class="gauge">収益化ゲージ: [□□□□□] 0pt/20pt</div>
+    <div style="margin:10px 0">
+      <span class="tag tag-green">LP完成</span>
+      <span class="tag tag-green">Instagram稼働中</span>
+      <span class="tag tag-green">処遇改善加算申請完了</span>
+    </div>
+    <h3>✅ 先週の完了</h3>
+    <ul class="action-list">
+      <li>令和8年度 処遇改善加算届出 申請完了（4/4）</li>
+      <li>行政情報モニタリング実施（4/6）→ 新着2件確認</li>
+    </ul>
+    <h3>🎯 今週の推奨アクション</h3>
+    <ul class="action-list">
+      <li><strong>🔴 SK-3 相談支援専門員向け施設案内PDF作成</strong>（前提クリア済み・即実行可）</li>
+    </ul>
+    <div class="alert-box">
+      🔴 要対応: 「令和8年度前年度実績に伴う基本報酬・加算の届出」（2026/04/03大阪市公開）→ 内容確認・対応要否を判断すること
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">※ 公式進捗0%は情報整備前の数字。SK-1・SK-2完了・稼働中を反映した実態推定値を表示。monthly-reviewで正式再計算予定。</div>
+  </div>
+
+</div>
+
+<!-- ===== STEP2: 集中PJ提案 ===== -->
+<h2>🎯 今週の集中PJ提案</h2>
+<div class="sprint-box">
+  <div class="sprint-item">
+    <span class="sprint-rank">🥇</span>
+    <strong style="color:#fff">オギラボ</strong>
+    <span class="tag tag-green" style="margin-left:8px">最優先</span>
+    <p style="margin-top:6px;font-size:13px;color:#cdd6f4">
+      理由: TikTokフォロワー1,013人達成（マイルストーン超え）。noteメンバーシップを今すぐ開設すれば0→初会員の最短ルート。全プロジェクト中「準備完了→スタート」の最高タイミング。MG-1達成で収益化ゲージが即座に動く。
+    </p>
+  </div>
+  <div class="sprint-item">
+    <span class="sprint-rank">🥈</span>
+    <strong style="color:#fff">SUPERIOR</strong>
+    <span class="tag tag-red" style="margin-left:8px">危機対応</span>
+    <p style="margin-top:6px;font-size:13px;color:#cdd6f4">
+      理由: Instagram 2人(-1人)という危機的状況。4/9体験5名来場予定という好機がある。コンテンツ化で即フォロワー増加を狙える。放置すると体験者→入会の導線が機能しない。
+    </p>
+  </div>
+  <div style="margin-top:14px;padding:10px 14px;background:var(--card);border-radius:8px;font-size:13px;color:var(--muted)">
+    MOONさんへ確認：「この2つで」「1番だけ」「変更: ○○」でお返事ください
+  </div>
+</div>
+
+<!-- ===== STEP3: ディベート ===== -->
+<h2>📋 今週のディベート</h2>
+<div class="debate-box">
+  <h3 style="color:#fff;font-size:17px;margin:0 0 4px">テーマ: オギラボ noteメンバーシップ 月会費設定</h3>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px">「〜2,000円以下の低価格ライト設定」vs「2,980〜5,000円の中価格設定」<br>（TikTok1,000人達成＝今すぐメンバーシップ開設できるタイミングのため選出）</p>
+
+  <div class="debate-cols">
+    <div class="debate-col pro">
+      <h4>✅ PRO（低価格 〜2,000円維持）</h4>
+      <ol>
+        <li>TikTok1,013人達成直後の今、参入ハードルを下げて最初の会員10人を素早く獲得することが最優先。0→1の達成が信頼形成の核心</li>
+        <li>noteメンバーシップのライト層（ビジネスパーソン・子育て世代）は月1,000〜2,000円なら「ラテ1杯分」感覚でトライアルできる。解約ハードルが低い分クチコミ拡散が早い</li>
+        <li>コンテンツ量・更新頻度がまだ確立されていない立ち上げ期に高単価は危険（期待値&gt;提供価値になりやすい）。低単価で実績を積んでから段階値上げが王道</li>
+        <li>競合AI系オンラインサロン（あべむつき等）も月880〜1,980円ラインで先行集客→後から高単価設計の実績あり</li>
+        <li>MG-4「初成約1件」を素早く達成し収益化ゲージを動かすことで、MOONさんのモチベーション維持と全PJ並走の持続性が高まる</li>
+      </ol>
+    </div>
+    <div class="debate-col con">
+      <h4>❌ CON（中価格 2,980〜5,000円）</h4>
+      <ol>
+        <li>オリンピアン＋科学ベース指導という希少性は、低価格で提供するとブランドが崩れる。MAXコンテンツバリューがあるなら初回から適正単価に設定すべき</li>
+        <li>月2,000円以下では30名会員でも月6万円。コンテンツ制作・AI運用コストを考えると収益性が低い。月3,000円×50名=15万円でようやく事業として成立する</li>
+        <li>TikTok1,000人のフォロワーは「質の高い層」の可能性が高い（陸上指導者・保護者・競技者）。この層は高単価サービスへの購買意欲があり、低単価設定では逆効果</li>
+        <li>高価格帯は「有料会員になった=コミットした人」が濃いコミュニティになり口コミの質が上がる。低価格はフリーライダーが増えやすい</li>
+        <li>3サロン構想（保護者向け・アスリート向け・棒高跳び特化）があり、最初から2,980円以上に設定して「早期割引」として見せる方が、後からの値上げより顧客の感情負担が小さい</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="score-row">
+    <div class="score-badge">
+      <div style="color:var(--muted);font-size:12px;margin-bottom:4px">PRO（低価格維持）</div>
+      <div class="score-num pro">76点</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">説得力◎ / 根拠○ / 実行性◎</div>
+    </div>
+    <div class="score-badge">
+      <div style="color:var(--muted);font-size:12px;margin-bottom:4px">CON（中価格設定）</div>
+      <div class="score-num con">73点</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">説得力○ / 根拠◎ / 実行性△</div>
+    </div>
+  </div>
+
+  <div class="best-answer">
+    <h4>✅ 最善案（統合案）: 「2段階プランでローンチ」戦略</h4>
+    <table style="margin-top:10px">
+      <tr>
+        <th>プラン</th><th>月額</th><th>内容</th>
+      </tr>
+      <tr>
+        <td><strong>ライトプラン</strong></td>
+        <td style="color:var(--green)">¥980</td>
+        <td>コンテンツ閲覧・コミュニティ参加（バイオメカニクス記事・SNS投稿の深掘り）</td>
+      </tr>
+      <tr>
+        <td><strong>スタンダードプラン</strong></td>
+        <td style="color:var(--gold)">¥2,980</td>
+        <td>ライト全て＋月1回Q&amp;A参加権・限定解説動画・先行情報</td>
+      </tr>
+    </table>
+    <p style="margin-top:10px;font-size:13px;color:#cdd6f4">
+      <strong>早期会員特典</strong>: 最初の50名は各プランから-500円（期間限定）<br>
+      → 低ハードル入口を維持しながら収益性の高いスタンダードプランを設計。棒高跳び特化サロンは実績が出てから追加。<br>
+      → PROの「0→1速度」とCONの「ブランド価値・収益性」の両方を取る統合案。
+    </p>
+  </div>
+
+  <div style="margin-top:14px;padding:10px 14px;background:var(--card);border-radius:8px;font-size:13px;color:var(--muted)">
+    採用しますか？ → <strong>YES</strong>の場合: オギラボCONTEXT.md更新 + outputs/debate/20260406_noteメンバーシップ会費設定.md にログ保存します
+  </div>
+</div>
+
+<!-- ===== STEP4: Decision Log ===== -->
+<h2>🔄 Decision Log 再評価チェック</h2>
+<div class="card" style="margin-bottom:24px">
+  <p style="color:var(--muted);font-size:13px">outputs/decisions/ ディレクトリを確認しましたが、現時点で正式なDecision Logファイルは保存されていません。</p>
+  <p style="margin-top:8px;font-size:13px">各CONTEXT.mdの「意思決定ログ参照リスト」に記載の意思決定（下記）について、今後outputs/decisions/にファイル化することを推奨します。</p>
+  <table style="margin-top:12px">
+    <tr><th>PJ</th><th>意思決定内容</th><th>時期</th><th>再評価目安</th></tr>
+    <tr><td>オギラボ</td><td>SNS戦略: Instagramメイン・TikTok実験</td><td>2026-03</td><td>2026-06（3ヶ月後）</td></tr>
+    <tr><td>CARAS</td><td>価格設定: 新規+15〜20%・既存6ヶ月後+10%</td><td>2026-03</td><td>2026-09</td></tr>
+    <tr><td>健康経営</td><td>ターゲット: 中小企業主軸・大手パイロット並走</td><td>2026-03</td><td>2026-09（6ヶ月後）</td></tr>
+  </table>
+  <div class="warning-box" style="margin-top:10px">
+    🔄 オギラボのSNS戦略は「3ヶ月後にデータで再評価」と設定されています。2026-06が再評価タイミングです。
+  </div>
+</div>
+
+<!-- ===== STEP5: シナジーチャンス ===== -->
+<h2>🔗 今週のシナジーチャンス</h2>
+<div class="synergy-box">
+
+  <div class="synergy-item">
+    <strong>SORA/SUPERIOR: SK-3 入会案内PDF完成</strong>
+    <span class="synergy-arrow"> → </span>
+    <strong>CARAS</strong>
+    <p style="margin-top:6px;font-size:13px;color:#cdd6f4">
+      展開方法: 保護者向け入会案内PDFに「保護者の体型管理」としてCARASのQRコード・紹介テキストを1箇所追加<br>
+      期待効果: SORA/SUPERIOR体験者の保護者（30〜45歳）をCARAS体験申込みへの導線として機能させる
+    </p>
+  </div>
+
+  <div class="synergy-item">
+    <strong>オギラボ: TikTok1,000人達成ストーリー</strong>
+    <span class="synergy-arrow"> → </span>
+    <strong>SORA/SUPERIOR</strong>
+    <p style="margin-top:6px;font-size:13px;color:#cdd6f4">
+      展開方法: 「AI組織でTikTok1,000人達成した話」をオギラボのSNSコンテンツにする。SORA/SUPERIOR保護者向けに「AI活用でどう変わったか」を語ることで、両クラブの問い合わせ増加を狙う<br>
+      期待効果: オギラボ→SORA/SUPERIORへのクロスプロモーション。「おぎぃ。の指導×AI活用」のブランド統一感が増す
+    </p>
+  </div>
+
+  <div class="synergy-item">
+    <strong>むーん: 相談支援専門員向け施設案内PDF（SK-3）</strong>
+    <span class="synergy-arrow"> → </span>
+    <strong>SORA/SUPERIOR</strong>
+    <p style="margin-top:6px;font-size:13px;color:#cdd6f4">
+      展開方法: 施設案内PDFにSORA/SUPERIORへのアップセル案内を1ページ追加。「療育→スポーツクラブへの移行サポート」というユニークな連携提案を作れる<br>
+      期待効果: 発達支援ニーズ×陸上クラブという唯一無二のポジション確立。むーん→SORA/SUPERIOR紹介フローが自然に生まれる
+    </p>
+  </div>
+
+</div>
+
+<!-- ===== 進捗サマリーテーブル ===== -->
+<h2>📈 全PJ進捗サマリー</h2>
+<div class="card" style="margin-bottom:24px;overflow-x:auto">
+  <table>
+    <tr>
+      <th>PJ</th><th>進捗</th><th>収益化ゲージ</th><th>今週最重要タスク</th><th>フォロワー主要</th>
+    </tr>
+    <tr>
+      <td>🎤 オギラボ</td>
+      <td>42%</td>
+      <td>[■■□□□] 8pt</td>
+      <td style="color:var(--yellow)">noteメンバーシップ設定開始</td>
+      <td>TikTok 1,013人🎉</td>
+    </tr>
+    <tr>
+      <td>💪 CARAS</td>
+      <td>61%</td>
+      <td>[■□□□□] 4pt</td>
+      <td style="color:var(--yellow)">ターゲットペルソナ詳細設計</td>
+      <td>Instagram 69人</td>
+    </tr>
+    <tr>
+      <td>🏥 健康経営</td>
+      <td>20%</td>
+      <td>[□□□□□] 0pt</td>
+      <td style="color:var(--red)">サービスパッケージ設計完了</td>
+      <td>SNS非運用（B2B）</td>
+    </tr>
+    <tr>
+      <td>🌤 SORA</td>
+      <td>53%</td>
+      <td>[■□□□□] 4pt</td>
+      <td style="color:var(--yellow)">SK-2 Instagram初期投稿3本</td>
+      <td>Instagram 515人</td>
+    </tr>
+    <tr>
+      <td>⭐ SUPERIOR</td>
+      <td>57%</td>
+      <td>[■□□□□] 4pt</td>
+      <td style="color:var(--red)">体験5名コンテンツ化・Instagram強化</td>
+      <td>Instagram 2人⚠️</td>
+    </tr>
+    <tr>
+      <td>🌙 むーん</td>
+      <td>〜30%※</td>
+      <td>[□□□□□] 0pt</td>
+      <td style="color:var(--red)">SK-3 施設案内PDF + 行政情報対応</td>
+      <td>Instagram稼働中</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ===== 今週の重要アラート ===== -->
+<h2>⚠️ 今週の重要アラート</h2>
+<div style="margin-bottom:24px">
+  <div class="alert-box">
+    🔴【むーん】令和8年度前年度実績に伴う基本報酬・加算の届出（2026/04/03大阪市公開）→ 期限・必要書類を確認して対応要否を判断すること
+  </div>
+  <div class="alert-box" style="margin-top:10px">
+    🔴【健康経営】健康診断予約（3月末期限）が未完了の可能性 → Googleスプレッドシートで確認が必要
+  </div>
+  <div class="warning-box" style="margin-top:10px">
+    🟡【CARAS】関西学院大学コーチ就任の公開可否・HP記事文字数ルール統一（指示書200-300字 vs ルール150-250字）の確認が未完了
+  </div>
+  <div class="warning-box" style="margin-top:10px">
+    🟡【SNSデータ鮮度】各PJのSNSデータは最近確認済み（2026-04-04〜05）。次回確認は2026-04-09以降。
+  </div>
+</div>
+
+<div class="footer">
+  📅 weekly-review | 自動生成: 2026-04-06 | AI組織 総括エージェント<br>
+  次回: 2026-04-13（月）9:00 自動実行
+</div>
+
+</body>
+</html>

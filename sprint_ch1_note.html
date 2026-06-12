@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「文脈」を外した指導が、現場に誤解を生んでいる。｜おぎぃ。</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #fff;
+    color: #1a1a1a;
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
+    font-size: 18px;
+    line-height: 2.0;
+  }
+  .wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  /* ---- noteが読める要素のみで構成 ---- */
+
+  .series-label {
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  }
+
+  .byline {
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  p {
+    margin-bottom: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.5;
+    margin: 56px 0 20px;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1a1a1a;
+  }
+
+  /* blockquote → noteの「引用」に対応 */
+  blockquote {
+    border-left: 4px solid #c9a84c;
+    margin: 32px 0;
+    padding: 16px 20px;
+    background: #fffbf0;
+    font-size: 17px;
+    line-height: 1.9;
+  }
+  blockquote.caution {
+    border-left-color: #e05c5c;
+    background: #fff5f5;
+  }
+  blockquote p {
+    margin-bottom: 12px;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+  blockquote .label {
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #aaa;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 15px;
+  }
+  th {
+    background: #f3f3f3;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+    border-bottom: 2px solid #ddd;
+  }
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  .neg { font-weight: 700; color: #b8860b; font-family: monospace; }
+  .pos { font-weight: 700; color: #c0392b; font-family: monospace; }
+  .neu { font-weight: 700; color: #2e7d52; font-family: monospace; }
+
+  /* formula — pre でそのままコピー */
+  pre {
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 2.0;
+    white-space: pre-wrap;
+  }
+
+  /* pull quote — hr で挟む */
+  .pullquote {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.7;
+    margin: 48px 0;
+    padding: 28px 0;
+    border-top: 2px solid #1a1a1a;
+    border-bottom: 2px solid #1a1a1a;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  }
+
+  /* chapter nav */
+  .chapter-nav {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 56px 0 0;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 14px;
+  }
+  .chapter-nav p {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .chapter-nav ul { list-style: none; }
+  .chapter-nav li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chapter-nav li:last-child { border-bottom: none; }
+  .ch-now {
+    background: #1a1a1a; color: #fff;
+    width: 26px; height: 26px;
+    border-radius: 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .ch-lock {
+    background: #e0e0e0; color: #aaa;
+    width: 26px; height: 26px;
+    border-radius: 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+
+  /* cta */
+  .cta {
+    border: 2px solid #1a1a1a;
+    border-radius: 10px;
+    padding: 32px 24px;
+    margin-top: 40px;
+    text-align: center;
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  }
+  .cta h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+  .cta p { font-size: 15px; color: #555; margin-bottom: 20px; line-height: 1.8; }
+  .cta a {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<p class="series-label">Chapter 1 / 4　全文無料</p>
+
+<h1>「文脈」を外した指導が、現場に誤解を生んでいる。</h1>
+
+<p class="byline">おぎぃ。｜元五輪選手・スプリントバイオメカニクス解説者<br>
+同じ動作でも局面が変われば意味は逆転する——スタート局面のバイオメカニクス解説</p>
+
+<blockquote>
+  <span class="label">🎯 この記事の問い</span>
+  <p>同じ動作でも、どの局面かによって意味が180度変わる——これがスプリントバイオメカニクスの最も重要な前提だ。</p>
+  <p>そしてこの<strong>「文脈の違い」を無視したまま語られるコーチングが、現場に大量の誤解を生んでいる。</strong></p>
+</blockquote>
+
+<p>「後ろで大きく押せ」「前に足を出してストライドを伸ばせ」「膝を伸ばして重心を高くしろ」——指導現場に溢れるこうした言葉は、<strong>どの局面の話をしているのか</strong>が抜けている。それ単体では正しいかもしれないし、間違いかもしれない。局面という文脈を外した瞬間、指導言語は根拠を失う。</p>
+
+<p>今回は、その典型例として「接地位置」を取り上げる。重心より前に着くのか、後ろに着くのか——この問いに対する「正しい答え」は、<strong>局面によって正反対になる</strong>。</p>
+
+<blockquote>
+  <span class="label">👀 読んでいるあなたへ</span>
+  <p>もし僕の過去の投稿を見てくれていたなら、こう思ったかもしれない。</p>
+  <p><strong>「おぎぃ。って"重心の真下に着くと転倒する"って言ってたよね？なんで今は後ろでいいの？」</strong></p>
+  <p>その疑問は正しい。そしてその疑問こそが、今日の核心だ。「真下に着くと転倒する」も正しい。「真下どころか、後ろに着くべき局面がある」も正しい。両方が同時に成立する——これが「文脈依存」の意味だ。</p>
+</blockquote>
+
+<h2>局面によって、物理が変わる</h2>
+
+<p>「重心より後方接地 = 転倒する」は<strong>最高速局面では正しい</strong>。その局面では後方接地が制動力を生み、スピードを殺す。しかしスタート局面では、まったく異なる力学が働いている。</p>
+
+<p>この違いを数字で示したのが、Bezodis et al.（2023）のデータだ。</p>
+
+<h2>データが示すもの——接地距離の実測値</h2>
+
+<p>Bezodis et al.（2023）は、世界水準のスプリンターのスタート局面における接地距離（Touchdown Distance）を実測した。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>歩数</th>
+      <th>接地距離（TDD）</th>
+      <th>解釈</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>第1歩目</td>
+      <td><span class="neg">−0.15m</span>　後方</td>
+      <td>推進トルクを最大化</td>
+    </tr>
+    <tr>
+      <td>第2歩目</td>
+      <td><span class="neg">−0.05m</span>　後方</td>
+      <td>後方接地が継続</td>
+    </tr>
+    <tr>
+      <td>第3歩目</td>
+      <td><span class="neu">+0.02m</span>　前方へ移行</td>
+      <td>重心直下付近に推移</td>
+    </tr>
+    <tr>
+      <td>第4歩目（加速後）</td>
+      <td><span class="pos">+0.07m</span>　前方</td>
+      <td>「後ろ = 転倒」の文脈はここ</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>見てほしいのは最下行だ。<strong>加速後半では接地点が重心より「前方」に移行する</strong>。この局面で後方接地が起きると制動力が過大になり、推進効率が著しく低下する。「真下に着くと転倒する」も正しい。「真下どころか、後ろに着くべき局面がある」も正しい。両方が同時に成立する——これが「文脈依存」の意味だ。</p>
+
+<p>では、スタート直後の −0.15m はなぜ許容されるのか。むしろ、なぜ<strong>意図的に後方接地すべき</strong>なのか。答えは「トルク」にある。</p>
+
+<h2>推進トルクという概念</h2>
+
+<p>スタート局面における接地の目的は、<strong>水平力の最大化</strong>だ。前進するためには、地面を後ろに押す力——水平分力（Fₓ）——を最大化しなければならない。</p>
+
+<pre>τ = Fₓ · h − Fz · d
+
+τ（タウ）＝ 重心まわりのトルク（回転力）
+Fₓ ＝ 地面反力の水平成分（前進力）
+h  ＝ 重心高さ（force armの長さ）
+Fz ＝ 地面反力の垂直成分（体重支持力）
+d  ＝ 接地点〜重心の水平距離（Touchdown Distance）</pre>
+
+<p>この式が示すのは、<strong>接地点が重心より後方（d がマイナス）になると、垂直成分の制動トルクが減少し、水平成分による推進トルクが支配的になる</strong>ということだ。</p>
+
+<p>つまり、スタート局面における後方接地は「転倒のリスク」ではなく、<strong>推進力を最大化するための力学的な選択</strong>なのだ。</p>
+
+<blockquote>
+  <span class="label">🔑 Key Insight</span>
+  <p><strong>後方接地の意味は、局面によって正反対になる。</strong></p>
+  <p>スタート局面：後方接地 → 推進トルク増大 → 加速を助ける</p>
+  <p>最高速局面：後方接地 → 強烈な前方向の回転モーメント → 文字通り転ける</p>
+  <p>同じ動作を「良い・悪い」で語ることが、そもそも間違いだった。</p>
+</blockquote>
+
+<h2>「分かってた」では済まない理由</h2>
+
+<p>「局面によって違う」と言えば、多くのコーチは「そんなこと分かってる」と言う。本当にそうだろうか。</p>
+
+<p>現場で蔓延している指導がある。まだ筋力レベルが追いついていない選手に対して、<strong>「前傾を強くして、足は真下か後ろに落とせ」</strong>というものだ。</p>
+
+<p>一見、データと一致しているように見える。エリートが後ろに着いているなら、後ろに落とせという指導は正しいはずだ——と。</p>
+
+<blockquote class="caution">
+  <span class="label">⚠️ ここが問題の核心</span>
+  <p>エリートスプリンターの「後方接地」は、<strong>フォームとして意図した結果ではない</strong>。</p>
+  <p>巨大な水平力を地面に叩き込む出力の結果として、重心が前方に押し出され、相対的に足が後方に接地してしまうのだ。</p>
+  <p><strong>原因と結果が逆転している。</strong></p>
+  <p>トルクの小さい若い選手に「前傾して接地を体の軸に対して真下（重心に対して後ろ）に落とせ」と教えても、推進力やそれを生み出すスキルがない若い選手が同様の動作を行うと、躓いて転んだり、次の一歩が大きく前方に接地してしまいブレーキをかけてしまう。</p>
+</blockquote>
+
+<p>これが「文脈を無視した指導」の最も危険なパターンだ。指導の方向性はデータと一致しているのに、<strong>前提となる出力能力の有無という文脈</strong>が抜けている。結果として、フォームだけを模倣した「それっぽい動き」が現場に量産される。</p>
+
+<div class="pullquote">
+  エリートの「形」を教えるより、<br>
+  その「形が生まれる条件」を教えよ。
+</div>
+
+<p>次章（Chapter 2）では、「だったら意識的に後ろに着けばいいのか？」という当然の疑問に答える。補償動作が生む落とし穴と、ストライド最適化の本当のメカニズムを解説する。</p>
+
+<div class="chapter-nav">
+  <p>📚 全4章シリーズ</p>
+  <ul>
+    <li><span class="ch-now">1</span> <strong>スタート局面のパラドックス ← 今ここ（全文無料）</strong></li>
+    <li><span class="ch-lock">2</span> 補償動作の罠とストライド最適化</li>
+    <li><span class="ch-lock">3</span> 0.1秒の壁——SSCと筋発揮の生理的限界</li>
+    <li><span class="ch-lock">4</span> フィールドプロファイリングと神経チューニング</li>
+  </ul>
+</div>
+
+<div class="cta">
+  <h3>このシリーズ、続きも読んでみませんか</h3>
+  <p>Chapter 2以降は順次公開予定。各章ごとに無料部分と有料（メンバーシップ）部分に分けてお届けします。<br>
+  単なるTips集ではなく、<strong>競技現場とデータをつなぐ思考法</strong>を。現場で考えてきたことを、全部書きます。</p>
+  <a href="#">メンバーシップを見る</a>
+</div>
+
+</div>
+</body>
+</html>

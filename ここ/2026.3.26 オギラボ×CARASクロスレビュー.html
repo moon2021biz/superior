@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ × CARAS — 組織構成・課題レビュー（2026-03-26）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f4f5f7; color: #1a1a2e; line-height: 1.7; }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white; padding: 48px 40px 36px; position: relative; overflow: hidden;
+  }
+  .header::after {
+    content: ''; position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 14px; font-size: 12px; margin-bottom: 16px; letter-spacing: 0.05em; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 14px; opacity: 0.7; }
+  .date-badge { position: absolute; right: 40px; top: 48px; background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 16px; font-size: 13px; color: rgba(255,255,255,0.8); }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* サマリーカード */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .proj-card {
+    background: white; border-radius: 16px; padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-top: 4px solid;
+  }
+  .proj-card.ogilab { border-top-color: #6c63ff; }
+  .proj-card.caras { border-top-color: #e94560; }
+  .proj-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .proj-card .subtitle { font-size: 12px; color: #888; margin-bottom: 16px; }
+
+  .progress-bar-wrap { background: #f0f0f0; border-radius: 8px; height: 8px; margin: 8px 0 4px; }
+  .progress-bar { height: 8px; border-radius: 8px; }
+  .ogilab .progress-bar { background: linear-gradient(90deg, #6c63ff, #a29bfe); width: 42%; }
+  .caras .progress-bar { background: linear-gradient(90deg, #e94560, #ff7675); width: 58%; }
+  .progress-label { font-size: 12px; color: #aaa; text-align: right; }
+
+  .stat-row { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .stat { background: #f8f9fa; border-radius: 10px; padding: 10px 14px; flex: 1; min-width: 80px; text-align: center; }
+  .stat .num { font-size: 20px; font-weight: 700; }
+  .stat .lbl { font-size: 10px; color: #888; }
+  .stat.highlight .num { color: #e94560; }
+  .stat.ok .num { color: #00b894; }
+
+  /* セクション */
+  .section { background: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0; }
+  .section-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .section-header h2 { font-size: 18px; font-weight: 700; }
+  .section-header .sub { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+  /* 課題カード */
+  .issue-grid { display: grid; gap: 14px; }
+  .issue-card { border-radius: 12px; padding: 18px 20px; border-left: 4px solid; display: flex; gap: 16px; }
+  .issue-card.critical { background: #fff5f5; border-left-color: #e74c3c; }
+  .issue-card.medium { background: #fffbf0; border-left-color: #f39c12; }
+  .issue-card.low { background: #f0fff4; border-left-color: #27ae60; }
+  .issue-badge { flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; height: fit-content; margin-top: 2px; }
+  .critical .issue-badge { background: #e74c3c; color: white; }
+  .medium .issue-badge { background: #f39c12; color: white; }
+  .low .issue-badge { background: #27ae60; color: white; }
+  .issue-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .issue-body { font-size: 13px; color: #555; line-height: 1.6; }
+  .issue-action { margin-top: 8px; font-size: 12px; font-weight: 600; color: #333; }
+  .issue-action::before { content: '→ '; }
+
+  /* テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f8f9fa; color: #555; font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 2px solid #eee; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .tag.red { background: #ffeaea; color: #e74c3c; }
+  .tag.orange { background: #fff3e0; color: #e67e22; }
+  .tag.green { background: #e8f8f0; color: #27ae60; }
+  .tag.purple { background: #f3f0ff; color: #6c63ff; }
+
+  /* シナジーマップ */
+  .synergy-map { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; }
+  .synergy-box { background: #f8f9fa; border-radius: 12px; padding: 16px; text-align: center; }
+  .synergy-box h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .synergy-box ul { font-size: 12px; color: #666; text-align: left; list-style: none; padding: 0; }
+  .synergy-box ul li { padding: 3px 0; }
+  .synergy-box ul li::before { content: '• '; color: #aaa; }
+  .arrow-col { text-align: center; font-size: 24px; color: #aaa; }
+
+  /* アクションプラン */
+  .action-list { display: grid; gap: 12px; }
+  .action-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; background: #f8f9fa; border-radius: 10px; }
+  .action-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+  .action-num.urgent { background: #e74c3c; }
+  .action-num.normal { background: #6c63ff; }
+  .action-num.later { background: #95a5a6; }
+  .action-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .action-desc { font-size: 12px; color: #666; }
+
+  /* フッター */
+  .footer { text-align: center; font-size: 12px; color: #aaa; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="date-badge">📅 2026-03-26</div>
+  <div class="header-badge">組織構成レビュー</div>
+  <h1>オギラボ × CARAS — 課題確認レポート</h1>
+  <p>2プロジェクト統合フェーズにおける現状分析と優先課題の整理</p>
+</div>
+
+<div class="container">
+
+  <!-- プロジェクトサマリー -->
+  <div class="summary-grid">
+    <div class="proj-card ogilab">
+      <h2>🎯 オギラボ</h2>
+      <p class="subtitle">オンラインサロン（noteメンバーシップ）</p>
+      <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+      <div class="progress-label">進捗 42%</div>
+      <div class="stat-row">
+        <div class="stat highlight"><div class="num">888</div><div class="lbl">TikTok</div></div>
+        <div class="stat"><div class="num">79</div><div class="lbl">YouTube</div></div>
+        <div class="stat highlight"><div class="num">0</div><div class="lbl">会員数</div></div>
+        <div class="stat"><div class="num">¥2,000</div><div class="lbl">予定月額</div></div>
+      </div>
+    </div>
+    <div class="proj-card caras">
+      <h2>💪 CARAS</h2>
+      <p class="subtitle">パーソナルジム（西宮夙川）</p>
+      <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+      <div class="progress-label">進捗 58%</div>
+      <div class="stat-row">
+        <div class="stat"><div class="num">68</div><div class="lbl">Instagram</div></div>
+        <div class="stat highlight"><div class="num">23</div><div class="lbl">TikTok</div></div>
+        <div class="stat ok"><div class="num">100%</div><div class="lbl">継続率</div></div>
+        <div class="stat"><div class="num">¥8,800</div><div class="lbl">〜/回</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 課題一覧 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#fff0f0;">⚠️</div>
+      <div>
+        <h2>発見した主要課題</h2>
+        <div class="sub">重要度別に整理</div>
+      </div>
+    </div>
+    <div class="issue-grid">
+
+      <div class="issue-card critical">
+        <span class="issue-badge">最優先</span>
+        <div>
+          <div class="issue-title">CARASのSNS基盤が極めて弱い</div>
+          <div class="issue-body">Instagram 68人・TikTok 23人と、事業規模に対してSNSフォロワーが圧倒的に不足。ジム自体の継続率100%という強い実績があるにも関わらず、それが対外的にまったく発信できていない状態。「証拠はある・見せ方がない」の典型的パターン。</div>
+          <div class="issue-action">継続率・ビフォーアフター事例をInstagramカルーセルで即戦力化</div>
+        </div>
+      </div>
+
+      <div class="issue-card critical">
+        <span class="issue-badge">最優先</span>
+        <div>
+          <div class="issue-title">オギラボのTikTok達成まであと112人——ラストスパート施策が未定</div>
+          <div class="issue-body">TikTok 888人で目標1,000人（サロン開始）まで残り112人。ここを突破すればnoteメンバーシップが本格稼働するが、ラストスパートの施策（投稿頻度・バズ企画・拡散導線）が具体化されていない。</div>
+          <div class="issue-action">週3〜4本のTikTok集中投稿計画を即策定・バズフック文言リストから5本を先に作る</div>
+        </div>
+      </div>
+
+      <div class="issue-card medium">
+        <span class="issue-badge">重要</span>
+        <div>
+          <div class="issue-title">オギラボとCARASでメッセージ・ブランドが分離している</div>
+          <div class="issue-body">オーナーは同一人物（荻田大樹）なのに、オギラボは「AI×ビジネス発信」、CARASは「ダイエット・ボディメイク」と発信軸が別れており、お互いの強みが相乗されていない。「オリンピアンによる科学的身体変革」という共通の核が埋もれている。</div>
+          <div class="issue-action">荻田大樹という「人」を軸に統一した発信コンセプトを定義する</div>
+        </div>
+      </div>
+
+      <div class="issue-card medium">
+        <span class="issue-badge">重要</span>
+        <div>
+          <div class="issue-title">CARASのコンテンツTODOが7項目未着手</div>
+          <div class="issue-body">LP・料金ページ・顧客事例ページ・SNSカレンダー・Instagramテンプレート・法人向け提案資料・体験申込LP改善——全て手つかず。このうち「LP」と「顧客事例」は集客に直結するため、他より優先度が高い。</div>
+          <div class="issue-action">まずLP（メインページ）と顧客事例ページから着手</div>
+        </div>
+      </div>
+
+      <div class="issue-card medium">
+        <span class="issue-badge">重要</span>
+        <div>
+          <div class="issue-title">大阪京橋店閉店による影響とフォローが未整備</div>
+          <div class="issue-body">2025年1月10日オープンの大阪京橋店が閉店決定。顧客への案内・西宮への誘導コンテンツ・「選択と集中」を前向きに発信するストーリーが必要。閉店をネガティブ情報として放置するとブランドに影響する可能性あり。</div>
+          <div class="issue-action">「西宮夙川に全力集中する理由」をブログ・SNSで前向きに発信</div>
+        </div>
+      </div>
+
+      <div class="issue-card low">
+        <span class="issue-badge">確認</span>
+        <div>
+          <div class="issue-title">価格改定計画（+15〜20%）の告知・移行タイムラインが未設定</div>
+          <div class="issue-body">ディベートで価格改定の結論は出ているが、既存顧客への通知時期・方法・「6ヶ月後に+10%」の具体日程が未定。価格上げは早めに周知して信頼を守ることが重要。</div>
+          <div class="issue-action">改定時期を確定 → 既存顧客へのLINE告知文を先に準備</div>
+        </div>
+      </div>
+
+      <div class="issue-card low">
+        <span class="issue-badge">確認</span>
+        <div>
+          <div class="issue-title">オギラボの3サロン構想（保護者・アスリート・棒高跳び）が優先順未定</div>
+          <div class="issue-body">どのサロンを最初に立ち上げるか決まっていない。会員獲得速度・マネタイズ・コンテンツ量の観点でどれを先行させるかを決めないと、コンテンツが散漫になるリスクがある。</div>
+          <div class="issue-action">「どのサロンを最初に立ち上げるか」をMOONさんと確認して決定する</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SNS現状比較 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0f4ff;">📊</div>
+      <div>
+        <h2>SNS現状比較</h2>
+        <div class="sub">両プロジェクト合算</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>プラットフォーム</th>
+        <th>オギラボ</th>
+        <th>CARAS</th>
+        <th>優先度</th>
+        <th>コメント</th>
+      </tr>
+      <tr>
+        <td><strong>TikTok</strong></td>
+        <td>888人 🟡</td>
+        <td>23人 🔴</td>
+        <td><span class="tag red">最優先</span></td>
+        <td>オギラボはラストスパート。CARASは開拓前。</td>
+      </tr>
+      <tr>
+        <td><strong>Instagram</strong></td>
+        <td>未確認</td>
+        <td>68人・81投稿 🟡</td>
+        <td><span class="tag orange">重要</span></td>
+        <td>投稿81件あるのにフォロワーが少なく、内容の見直しが必要な可能性</td>
+      </tr>
+      <tr>
+        <td><strong>YouTube</strong></td>
+        <td>79人・10動画 🟡</td>
+        <td>なし</td>
+        <td><span class="tag purple">中</span></td>
+        <td>オギラボのYouTubeは現在TikTokより優先度低</td>
+      </tr>
+      <tr>
+        <td><strong>Note</strong></td>
+        <td>未確認</td>
+        <td>—</td>
+        <td><span class="tag orange">重要</span></td>
+        <td>サロン本丸。1,000人達成後すぐ開始できる準備が必要</td>
+      </tr>
+      <tr>
+        <td><strong>LINE公式</strong></td>
+        <td>—</td>
+        <td>@305ynpnn</td>
+        <td><span class="tag green">活用中</span></td>
+        <td>CARASの既存顧客接点として機能している</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- シナジーマップ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fff4;">🔗</div>
+      <div>
+        <h2>統合フェーズのシナジーポイント</h2>
+        <div class="sub">オギラボ×CARASをまとめた際の相互活用チャンス</div>
+      </div>
+    </div>
+    <div class="synergy-map">
+      <div class="synergy-box">
+        <h3>🎯 オギラボ</h3>
+        <ul>
+          <li>TikTok 888人の認知</li>
+          <li>「元オリンピアン」ブランド</li>
+          <li>AI×身体ロジックの発信力</li>
+          <li>コンテンツ資産（動画・記事）</li>
+        </ul>
+      </div>
+      <div class="arrow-col">⇄</div>
+      <div class="synergy-box">
+        <h3>💪 CARAS</h3>
+        <ul>
+          <li>継続率100%の実績</li>
+          <li>4名のアスリートトレーナー</li>
+          <li>法人向け展開の基盤</li>
+          <li>体験・診断コンテンツ</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <table>
+        <tr>
+          <th>シナジーパターン</th>
+          <th>現状</th>
+          <th>アクション</th>
+        </tr>
+        <tr>
+          <td>オギラボのフォロワー → CARASへの送客</td>
+          <td><span class="tag red">未実施</span></td>
+          <td>TikTok・Instagramに「CARASで体験」CTA追加</td>
+        </tr>
+        <tr>
+          <td>CARASの実績 → オギラボのコンテンツ化</td>
+          <td><span class="tag red">未実施</span></td>
+          <td>「継続率100%の理由」をオギラボで記事・動画化</td>
+        </tr>
+        <tr>
+          <td>荻田大樹という人物でブランド統一</td>
+          <td><span class="tag orange">弱い</span></td>
+          <td>プロフィールページ・統一ブランドコンセプトの作成</td>
+        </tr>
+        <tr>
+          <td>オギラボ → CARASへの法人紹介</td>
+          <td><span class="tag orange">設計のみ</span></td>
+          <td>健康経営事業との3者連携コンテンツを設計</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- CARASコンテンツTODO整理 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#fff8f0;">📝</div>
+      <div>
+        <h2>CARASコンテンツTODO 優先順位整理</h2>
+        <div class="sub">7項目を集客インパクト順に並び替え</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>#</th>
+        <th>コンテンツ</th>
+        <th>集客インパクト</th>
+        <th>工数</th>
+        <th>推奨順</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>LP / サービスメインページ（HTML）</td>
+        <td><span class="tag red">大</span></td>
+        <td>中</td>
+        <td>🥇 最初に着手</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>顧客事例・ビフォーアフターページ</td>
+        <td><span class="tag red">大</span></td>
+        <td>中</td>
+        <td>🥈 LPと並行</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>体験申込みLPの改善案</td>
+        <td><span class="tag red">大</span></td>
+        <td>小</td>
+        <td>🥉 LPと連動して対応</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>料金ページ（わかりやすい比較表）</td>
+        <td><span class="tag orange">中</span></td>
+        <td>小</td>
+        <td>4番目</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Instagram投稿テンプレート</td>
+        <td><span class="tag orange">中</span></td>
+        <td>小</td>
+        <td>5番目</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>SNSコンテンツ戦略・投稿カレンダー</td>
+        <td><span class="tag orange">中</span></td>
+        <td>中</td>
+        <td>6番目</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>法人向け提案資料（PPT）</td>
+        <td><span class="tag purple">中〜大（法人）</span></td>
+        <td>大</td>
+        <td>健康経営PJと連携して着手</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 推奨アクションプラン -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f3f0ff;">🚀</div>
+      <div>
+        <h2>推奨アクションプラン（今週〜2週間）</h2>
+        <div class="sub">優先度順</div>
+      </div>
+    </div>
+    <div class="action-list">
+      <div class="action-item">
+        <div class="action-num urgent">1</div>
+        <div>
+          <div class="action-title">オギラボTikTok 1,000人達成プランの策定</div>
+          <div class="action-desc">あと112人。バズフック文言リスト（CONTEXT.mdに収録済み）から5本分の動画テーマを選定→投稿スケジュール化。週3〜4本ペースで2〜3週間で到達できる計算。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num urgent">2</div>
+        <div>
+          <div class="action-title">CARASメインLP（HTML）を作成</div>
+          <div class="action-desc">「継続率100%」「元オリンピアン」「大手の半額以下」の3つのUSPを前面に出したLPを作成。体験申込み導線も同時設計。html-publishスキルで公開まで。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num normal">3</div>
+        <div>
+          <div class="action-title">荻田大樹ブランドの統一コンセプト定義</div>
+          <div class="action-desc">オギラボ・CARASに共通する「人軸」の発信コンセプトを1枚で整理。全SNSプロフィール・リンクを統一した人物ページをHTMLで作成。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num normal">4</div>
+        <div>
+          <div class="action-title">CARASの顧客事例ページ制作</div>
+          <div class="action-desc">「3ヶ月10kg減量」「肩こり・腰痛改善」「毎日よく眠れるように」などの実績をビジュアルで整理したページ。SNSからの送客先として機能させる。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num later">5</div>
+        <div>
+          <div class="action-title">価格改定のタイムラインを確定 → LINEメッセージ準備</div>
+          <div class="action-desc">ディベートで+15〜20%改定決定済み。既存顧客への告知時期を決め、LINE公式での案内メッセージを事前準備。「品質向上」のストーリーで前向きに伝える。</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num later">6</div>
+        <div>
+          <div class="action-title">3サロン構想の優先順を決定</div>
+          <div class="action-desc">①保護者向け ②アスリート向け ③棒高跳び特化 のどれを最初に立ち上げるか確認。これが決まることでnoteのコンテンツ設計が一気に進む。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 強みの整理 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fff4;">✅</div>
+      <div>
+        <h2>現時点での強み（活かすべき資産）</h2>
+        <div class="sub">問題だけでなく強みも明確化</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>資産</th>
+        <th>現状</th>
+        <th>活かし方</th>
+      </tr>
+      <tr>
+        <td>CARAS継続率100%</td>
+        <td>事実として存在するが未発信</td>
+        <td>LP・SNSのトップに掲載、動画で語る</td>
+      </tr>
+      <tr>
+        <td>オリンピアン実績</td>
+        <td>両PJに存在するが扱いがバラバラ</td>
+        <td>全発信の共通冒頭フックとして統一使用</td>
+      </tr>
+      <tr>
+        <td>4名のアスリートトレーナー陣</td>
+        <td>CONTEXT.mdに記載のみ</td>
+        <td>各トレーナーのSNS登場・紹介コンテンツ化</td>
+      </tr>
+      <tr>
+        <td>TikTok 888人（オギラボ）</td>
+        <td>ラストスパート前</td>
+        <td>CARASへの送客ブリッジとして活用</td>
+      </tr>
+      <tr>
+        <td>ゴルファー・マダム診断HTML</td>
+        <td>完成済み</td>
+        <td>LP → 診断 → LINEの導線で集客に即活用</td>
+      </tr>
+      <tr>
+        <td>バズフック文言リスト</td>
+        <td>CONTEXT.mdに蓄積済み</td>
+        <td>即コンテンツ化できる状態。来週分を先に制作</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    オギラボ × CARAS 組織レビュー | 生成日: 2026-03-26 | AI組織 総括エージェント
+  </div>
+
+</div>
+</body>
+</html>

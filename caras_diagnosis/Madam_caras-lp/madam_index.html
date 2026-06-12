@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CARAS | 西宮夙川の女性向けパーソナルジム</title>
+  
+  <!-- 🚀 画像のプリロード (ヒーロー画像を最優先で読み込む設定) -->
+  <link rel="preload" as="image" href="hero-bg.jpg">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-cream': '#FCFAF5',
+            'brand-soft': '#F7F4EB',
+            'brand-dark': '#2A2B26',
+            'brand-gold': '#C2A878',
+            'brand-sakura': '#D4849A',
+            'brand-line': '#06C755'
+          },
+          fontFamily: {
+            'serif': ['"Noto Serif JP"', 'serif'],
+            'en': ['"Cormorant Garamond"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #2A2B26;
+      font-family: 'Noto Serif JP', serif;
+      letter-spacing: 0.05em;
+      cursor: none; 
+      overflow-x: hidden;
+    }
+
+    /* アプリのコンテナ */
+    #app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: #FCFAF5;
+      min-height: 100vh;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      overflow-x: clip; 
+    }
+
+    /* 🪄 カスタムカーソル */
+    #custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 16px; height: 16px;
+      background-color: rgba(212, 132, 154, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+      mix-blend-mode: difference;
+    }
+    #custom-cursor.hovered {
+      width: 50px; height: 50px;
+      background-color: rgba(194, 168, 120, 0.4);
+    }
+
+    /* 🪄 パーティクル (桜のエフェクト) */
+    #particle-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* 🪄 グラスモーフィズム */
+    .glassmorphism {
+      background: rgba(252, 250, 245, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(194, 168, 120, 0.2);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    /* 🪄 ニューモーフィズム */
+    .neumorphism {
+      background: #FCFAF5;
+      box-shadow: 6px 6px 12px #e3e1db, -6px -6px 12px #ffffff;
+      border-radius: 16px;
+    }
+
+    /* 🪄 クレイモーフィズム */
+    .claymorphism {
+      background: #FCFAF5;
+      border-radius: 20px;
+      box-shadow: 
+        inset 6px 6px 12px rgba(255, 255, 255, 1),
+        inset -6px -6px 12px rgba(212, 132, 154, 0.1),
+        8px 8px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    /* 🪄 スクロールスナップ */
+    .snap-x-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-left: 1.5rem;
+    }
+    .snap-x-container::-webkit-scrollbar { display: none; }
+    .snap-item {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      margin-right: 1rem;
+    }
+
+    /* 🪄 マイクロインタラクション (ボタン) */
+    .micro-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .micro-btn::after {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+    .micro-btn:hover::after, .micro-btn:active::after {
+      width: 200%; height: 200%;
+    }
+    .micro-btn:active { transform: scale(0.96); }
+
+    /* 🪄 SVGラインドローイング */
+    .svg-text-draw {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      fill: transparent;
+      transition: stroke-dashoffset 2s ease-in-out, fill 1s 1.5s;
+    }
+    .svg-text-draw.active {
+      stroke-dashoffset: 0;
+      fill: #fff;
+    }
+
+    /* スクロールフェードイン用 */
+    .fade-up { opacity: 0; transform: translateY(30px); }
+
+    /* 水平線のアクセント */
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #C2A878, transparent);
+      margin: 3rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- カーソルとパーティクル -->
+  <div id="custom-cursor" class="hidden md:block"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <div id="app-container">
+    
+    <!-- 🪄 Header -->
+    <header class="sticky top-0 z-50 glassmorphism w-full px-6 py-4 flex justify-between items-center" id="main-header">
+      <div class="font-en text-2xl tracking-widest text-brand-gold font-bold">CARAS</div>
+      <a href="https://caras.co.jp/entry#form" class="micro-btn bg-brand-sakura text-white text-sm font-bold py-2 px-4 rounded-full flex items-center gap-1 shadow-md interactive-target text-center">
+        初回体験を予約する
+      </a>
+    </header>
+
+    <!-- ==============================================
+         1. HERO
+         ============================================== -->
+    <section class="relative w-full h-[85vh] bg-brand-dark flex flex-col justify-center items-center overflow-hidden">
+      <!-- 🚀 ファーストビュー画像は最優先で読み込む (fetchpriority="high") -->
+      <img src="hero-bg.jpg" fetchpriority="high"
+           class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Hero Background">
+      
+      <!-- キャッチコピーを空のエリア（上部）へ独立して配置 -->
+      <div class="absolute top-[20%] left-0 w-full z-20 text-center px-4 fade-up">
+        <h1 class="text-2xl sm:text-3xl leading-relaxed font-serif text-brand-cream tracking-widest drop-shadow-md">歳を重ねるほど、<br>美しくなれる身体。</h1>
+      </div>
+
+      <!-- 🪄 ボタンとキネティック・タイポグラフィのコンテナ (下部へ配置) -->
+      <div class="absolute bottom-[25%] left-0 w-full z-20 fade-up" style="animation-delay: 0.2s;">
+        <div class="relative flex justify-center items-center mx-auto h-24 w-full">
+          
+          <!-- キネティック・タイポグラフィ (CTAボタンの背後) -->
+          <div class="absolute w-[340px] h-[340px] animate-[spin_16s_linear_infinite] z-0 pointer-events-none opacity-60">
+            <svg viewBox="0 0 150 150" width="100%" height="100%">
+              <path id="circlePath2" d="M 75, 75 m -60, 0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" fill="none" />
+              <text font-size="10" font-family="'Cormorant Garamond', serif" fill="#C2A878" letter-spacing="4">
+                <textPath href="#circlePath2" startOffset="50%" text-anchor="middle">PERSONAL GYM CARAS - PERSONAL GYM CARAS -</textPath>
+              </text>
+            </svg>
+          </div>
+
+          <!-- CTAボタン (前面) -->
+          <!-- 少しスリムにして女性らしいエレガントさを出す -->
+          <a href="https://lin.ee/y4JCpMb" class="micro-btn w-60 bg-brand-line text-white text-sm font-bold py-4 rounded-full shadow-lg flex justify-center items-center gap-2 relative z-10 interactive-target">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.844 2.572-5.992z"/></svg>
+            まずはLINEで無料相談
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         2. PROBLEM
+         ============================================== -->
+    <section class="py-20 px-6 bg-brand-cream relative">
+      <div class="fade-up relative z-20">
+        <h2 class="text-2xl text-center mb-10 font-serif tracking-widest">こんなお悩みはありませんか？</h2>
+        <ul class="space-y-4 mb-10 text-base text-gray-700 font-medium">
+          <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brand-sakura"></span>自己流のダイエットで痩せにくくなった</li>
+          <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brand-sakura"></span>姿勢が悪く、年齢より老けて見られる</li>
+          <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brand-sakura"></span>ハードな筋トレは体力的に自信がない</li>
+          <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brand-sakura"></span>年齢とともに、体型が変わってきた気がする</li>
+          <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brand-sakura"></span>周りの目が気になる大型ジムは避けたい</li>
+        </ul>
+
+        <!-- ニューモーフィズム -->
+        <div class="neumorphism p-8 border-l-4 border-brand-sakura relative">
+          <p class="text-base leading-loose">
+            CARASは、そんな大人の女性のための<br>
+            <span class="text-brand-sakura font-bold">「完全プライベート空間」</span>です。<br>
+            重いバーベルは使いません。<br>
+            本来のしなやかさを取り戻すメソッドを提供します。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         3. SOLUTION 
+         ============================================== -->
+    <section class="py-20 bg-brand-dark text-brand-cream relative overflow-hidden">
+      <div class="text-center mb-10 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">SOLUTION</h2>
+        <p class="text-sm text-gray-400 tracking-widest">CARASの3つのアプローチ</p>
+      </div>
+
+      <!-- スクロールスナップコンテナ -->
+      <div class="snap-x-container pr-6 pb-8 fade-up relative z-20">
+        
+        <!-- Item 1 -->
+        <div class="snap-item flex flex-col">
+          <div class="h-56 w-full rounded-lg mb-6 overflow-hidden relative">
+            <!-- 🚀 ファーストビュー外の画像は遅延読み込み (loading="lazy") -->
+            <img src="solution-method.jpg" loading="lazy" class="w-full h-full object-cover opacity-80" alt="Pilates">
+          </div>
+          <span class="font-en text-brand-sakura tracking-widest text-base mb-2 block">METHOD</span>
+          <h3 class="text-2xl mb-4 text-brand-cream">機能解剖学に基づく指導</h3>
+          <p class="text-base text-gray-300 leading-relaxed">ただ鍛えるのではなく、骨格から整える。インナーマッスルにアプローチし、美しい姿勢とくびれを作り、痛みや不調の本質的な原因を変えていきます。</p>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="snap-item flex flex-col">
+          <div class="h-56 w-full rounded-lg mb-6 overflow-hidden relative">
+            <img src="solution-nutrition.jpg" loading="lazy" class="w-full h-full object-cover opacity-80" alt="Food">
+          </div>
+          <span class="font-en text-brand-sakura tracking-widest text-base mb-2 block">NUTRITION</span>
+          <h3 class="text-2xl mb-4 text-brand-cream">細胞が喜ぶ食事指導</h3>
+          <p class="text-base text-gray-300 leading-relaxed">糖質制限などの無理なダイエットは行いません。アンチエイジングを意識した、美しくなるための栄養学をマンツーマンで。</p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="snap-item flex flex-col">
+          <div class="h-56 w-full rounded-lg mb-6 overflow-hidden relative">
+            <img src="solution-space.jpg" loading="lazy" class="w-full h-full object-cover opacity-80" alt="Space">
+          </div>
+          <span class="font-en text-brand-sakura tracking-widest text-base mb-2 block">SPACE</span>
+          <h3 class="text-2xl mb-4 text-brand-cream">極上のプライベート空間</h3>
+          <p class="text-base text-gray-300 leading-relaxed">誰にも邪魔されないプライベート空間で、あなただけに集中した60分間。年齢も体型も気にせず、自分のペースで通えます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         4. NUMBERS
+         ============================================== -->
+    <section class="py-20 px-6 bg-brand-cream relative">
+      <div class="text-center mb-12 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">FACTS</h2>
+        <p class="text-sm text-gray-500 tracking-widest">選ばれる理由、数字が証明する確かな結果。</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 fade-up relative z-20">
+        <!-- クレイモーフィズム -->
+        <div class="claymorphism p-6 flex flex-col items-center justify-center text-center">
+          <p class="font-en text-5xl text-brand-dark mb-1">100<span class="text-brand-sakura text-lg ml-1">%</span></p>
+          <p class="text-xs font-bold text-gray-500 tracking-wider">継続率</p>
+        </div>
+        <div class="claymorphism p-6 flex flex-col items-center justify-center text-center">
+          <p class="font-en text-5xl text-brand-dark mb-1">98<span class="text-brand-sakura text-lg ml-1">%</span></p>
+          <p class="text-xs font-bold text-gray-500 tracking-wider">会員満足度</p>
+        </div>
+        <div class="claymorphism p-6 flex flex-col items-center justify-center text-center">
+          <p class="font-en text-5xl text-brand-dark mb-1">60<span class="text-brand-sakura text-lg ml-1">min ~</span></p>
+          <p class="text-xs font-bold text-gray-500 tracking-wider">完全マンツーマン<br>セッション</p>
+        </div>
+        <div class="claymorphism p-6 flex flex-col items-center justify-center text-center">
+          <p class="font-en text-5xl text-brand-dark mb-1">5<span class="text-brand-sakura text-lg ml-1">min</span></p>
+          <p class="text-xs font-bold text-gray-500 tracking-wider">夙川駅から徒歩</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         5. VOICE
+         ============================================== -->
+    <section class="py-20 px-6 bg-brand-soft relative overflow-hidden">
+      <!-- 背景装飾 -->
+      <div class="absolute top-0 right-[-50px] w-48 h-48 bg-brand-sakura opacity-10 rounded-full blur-3xl z-0"></div>
+      <div class="absolute bottom-0 left-[-50px] w-48 h-48 bg-brand-gold opacity-10 rounded-full blur-3xl z-0"></div>
+
+      <div class="text-center mb-12 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">VOICE</h2>
+        <p class="text-sm text-gray-500 tracking-widest">お客様の声</p>
+      </div>
+
+      <div class="space-y-6 relative z-20 fade-up">
+        <!-- グラスモーフィズム -->
+        <div class="glass-card p-6 border-l-4 border-brand-sakura rounded-r-2xl relative">
+          <p class="text-base leading-loose text-gray-700 mb-4">「ダイエット目的で通い始めました。半年になりますが、ただ痩せるだけでなく筋肉がついて、くびれができました。トレーナーの方が優しく丁寧に指導してくれるので、運動が楽しくなりました。続けやすいプログラムなので一般の方にもいいと思います。」</p>
+          <p class="text-right text-sm text-brand-gold font-bold">— N.S 様<br>40代・西宮市在住</p>
+        </div>
+
+        <div class="glass-card p-6 border-l-4 border-brand-sakura rounded-r-2xl">
+          <p class="text-base leading-loose text-gray-700 mb-4">「会社の先輩に紹介してもらい行ってきました。初めてで緊張していましたが、トレーナーさんのトレーニングの教え方が丁寧でとても満足でした。トレーニング後のケアもしっかりしており、とても嬉しかったです。楽しくその日の次の予定も決めちゃいました！」</p>
+          <p class="text-right text-sm text-brand-gold font-bold">— A.Y 様<br>30代・ご紹介でご来店</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         6. TRAINERS
+         ============================================== -->
+    <section class="bg-brand-dark text-brand-cream relative" id="trainer-sec">
+      
+      <!-- 画像エリア (スティッキー固定) -->
+      <div class="sticky top-[68px] z-0 w-full">
+        <!-- 集合写真が見切れにくいよう、少し横長の aspect-[3/2] に調整。
+             ローカルの画像 (IMG_1554.jpg) を遅延読み込みに変更。 -->
+        <div class="w-full aspect-[3/2] bg-gray-900 relative overflow-hidden">
+          <img src="IMG_1554.jpg" loading="lazy"
+               class="absolute inset-0 w-full h-full object-cover object-top opacity-60" alt="Trainers">
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent"></div>
+        </div>
+      </div>
+
+      <!-- テキストエリア (スクロールテリング) -->
+      <div class="relative z-10 w-full px-6 pb-32 pt-[50vh] text-center">
+        <h2 class="font-en text-5xl text-brand-gold mb-16 fade-up">TRAINERS</h2>
+        
+        <div class="space-y-48 max-w-md mx-auto" id="trainer-texts">
+          
+          <div class="story-text opacity-0 bg-brand-dark/80 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-gray-700/50">
+            <p class="text-base leading-loose text-gray-200">
+              女性の身体は、年齢とともに変化します。若い頃と同じやり方で結果が出ないのは、当然のことなのです。
+            </p>
+          </div>
+
+          <div class="story-text opacity-0 bg-brand-dark/80 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-gray-700/50">
+            <p class="text-base leading-loose text-gray-200">
+              大切なのは、今の身体と向き合い、正しく使うこと。CARASのトレーナー陣は全員が有資格者であり、大人の女性の身体づくりのプロフェッショナルです。
+            </p>
+          </div>
+
+          <div class="story-text opacity-0 bg-brand-dark/80 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-gray-700/50">
+            <p class="text-base leading-loose text-gray-200">
+              一人ひとりの骨格やライフスタイルに合わせ、最適なアプローチであなたのなりたい姿を全力でサポートいたします。
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         7. PLANS
+         ============================================== -->
+    <section class="py-20 bg-brand-cream relative overflow-hidden">
+      <div class="text-center mb-10 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">PLANS</h2>
+        <p class="text-sm text-gray-500 tracking-widest">ライフスタイルに合わせたプラン</p>
+      </div>
+
+      <!-- スクロールスナップ (右に見切れる仕様) -->
+      <div class="snap-x-container pr-6 pt-6 pb-8 fade-up relative z-20">
+        
+        <!-- Card 0 (Campaign) 追加 -->
+        <div class="snap-item bg-brand-sakura text-white rounded-2xl p-6 shadow-xl relative flex flex-col">
+          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-brand-sakura text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap shadow-md tracking-wider">
+            CAMPAIGN
+          </div>
+          <h3 class="font-bold text-2xl text-white mb-1">特別キャンペーン</h3>
+          <p class="text-3xl font-bold mb-6 tracking-widest">いまだけ無料</p>
+          <ul class="text-sm text-white/90 space-y-4 mb-8 flex-grow">
+            <li class="flex justify-between items-end border-b border-white/30 pb-2">
+              <span class="font-bold">入会金</span>
+              <span>
+                <span class="line-through opacity-70 mr-1">¥33,000</span>
+                <span class="text-xl font-serif">¥0</span>
+                <span class="text-xs opacity-70 ml-1">/ 初回のみ</span>
+              </span>
+            </li>
+            <li class="flex justify-between items-end border-b border-white/30 pb-2">
+              <span class="font-bold">体験</span>
+              <span>
+                <span class="line-through opacity-70 mr-1">¥5,500</span>
+                <span class="text-xl font-serif">¥0</span>
+                <span class="text-xs opacity-70 ml-1">/ 回</span>
+              </span>
+            </li>
+          </ul>
+          <a href="https://caras.co.jp/entry#form" class="micro-btn w-full bg-white text-brand-sakura py-3 rounded-full text-sm font-bold interactive-target shadow-md text-center flex justify-center items-center">
+            無料体験を予約する
+          </a>
+        </div>
+
+        <!-- Card 1 -->
+        <div class="snap-item bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col">
+          <h3 class="font-en text-2xl text-brand-dark mb-1">Monthly 4</h3>
+          <p class="text-xs text-gray-400 mb-4">月4回コース（週1回ペース）</p>
+          <p class="text-3xl font-serif text-brand-gold mb-6">¥39,600<span class="text-sm text-gray-500 ml-1">/ 月</span></p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8 flex-grow">
+            <li>・パーソナルトレーニング (60分)</li>
+            <li>・ウェア・シューズ無料レンタル</li>
+            <li>・毎日の食事指導サポート(LINE)</li>
+          </ul>
+          <a href="https://caras.co.jp/entry#form" class="micro-btn w-full bg-brand-soft text-brand-dark border border-brand-gold py-3 rounded-full text-sm font-bold interactive-target text-center flex justify-center items-center">
+            このプランを予約する
+          </a>
+        </div>
+
+        <!-- Card 2 (Popular) -->
+        <div class="snap-item bg-brand-dark text-white rounded-2xl p-6 shadow-xl relative flex flex-col transform scale-[1.02]">
+          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-gold text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+            MOST POPULAR
+          </div>
+          <h3 class="font-en text-2xl text-brand-gold mb-1">Monthly 8</h3>
+          <p class="text-xs text-gray-400 mb-4">月8回コース（週2回ペース）</p>
+          <p class="text-3xl font-serif text-white mb-6">¥70,400<span class="text-sm text-gray-400 ml-1">/ 月</span></p>
+          <ul class="text-sm text-gray-300 space-y-2 mb-8 flex-grow">
+            <li>・パーソナルトレーニング (60分)</li>
+            <li>・毎日の食事指導サポート(LINE)</li>
+            <li>・ウェア・シューズ無料レンタル</li>
+          </ul>
+          <a href="https://caras.co.jp/entry#form" class="micro-btn w-full bg-brand-gold text-white py-3 rounded-full text-sm font-bold interactive-target shadow-[0_0_15px_rgba(194,168,120,0.5)] text-center flex justify-center items-center">
+            一番人気のプランを予約
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="snap-item bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col">
+          <h3 class="font-en text-2xl text-brand-dark mb-1">Monthly 12</h3>
+          <p class="text-xs text-gray-400 mb-4">月12回コース（週3回ペース）</p>
+          <p class="text-3xl font-serif text-brand-gold mb-6">¥99,000<span class="text-sm text-gray-500 ml-1">/ 12回</span></p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8 flex-grow">
+            <li>・パーソナルトレーニング (60分)</li>
+            <li>・ウェア・シューズ無料レンタル</li>
+            <li>・毎日の食事指導サポート(LINE)</li>
+          </ul>
+          <a href="https://caras.co.jp/entry#form" class="micro-btn w-full bg-brand-soft text-brand-dark border border-brand-gold py-3 rounded-full text-sm font-bold interactive-target text-center flex justify-center items-center">
+            このプランを予約する
+          </a>
+        </div>
+
+      </div>
+
+      <!-- プラン表下の注釈 -->
+      <div class="px-6 mt-4 text-xs text-gray-500 space-y-2 fade-up relative z-20 font-medium">
+        <p>※その他90分コースやご自宅への出張も可能です</p>
+        <p>※ご質問があれば気軽にLINEでお問い合わせください</p>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         8. REASONS
+         ============================================== -->
+    <section class="py-16 px-6 bg-brand-cream relative">
+      <div class="text-center mb-12 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">REASONS</h2>
+        <p class="text-sm text-gray-500 tracking-widest">CARASが選ばれる理由</p>
+      </div>
+
+      <div class="gold-divider fade-up relative z-20"></div>
+      <div class="space-y-12 fade-up relative z-20">
+        
+        <div class="relative">
+          <span class="absolute -top-6 left-0 font-en text-7xl text-brand-gold opacity-10 font-bold z-0">01</span>
+          <div class="relative z-10 pl-4">
+            <span class="font-en text-brand-sakura text-sm tracking-widest block mb-1">CUSTOMIZED</span>
+            <h3 class="text-xl font-bold mb-3">あなただけの専用プログラム</h3>
+            <p class="text-base text-gray-600 leading-loose">初回の詳細なカウンセリングと骨格チェックに基づき、完全オーダーメイドのメニューを作成します。</p>
+          </div>
+        </div>
+
+        <div class="relative">
+          <span class="absolute -top-6 left-0 font-en text-7xl text-brand-gold opacity-10 font-bold z-0">02</span>
+          <div class="relative z-10 pl-4">
+            <span class="font-en text-brand-sakura text-sm tracking-widest block mb-1">HANDS-FREE</span>
+            <h3 class="text-xl font-bold mb-3">手ぶらで通える利便性</h3>
+            <p class="text-base text-gray-600 leading-loose">ウェア、シューズ、タオル、高品質なアメニティまで全てご用意。お出かけ前や後にも気軽に通えます。</p>
+          </div>
+        </div>
+
+        <div class="relative">
+          <span class="absolute -top-6 left-0 font-en text-7xl text-brand-gold opacity-10 font-bold z-0">03</span>
+          <div class="relative z-10 pl-4">
+            <span class="font-en text-brand-sakura text-sm tracking-widest block mb-1">CONTINUITY</span>
+            <h3 class="text-xl font-bold mb-3">継続率100%という実績</h3>
+            <p class="text-base text-gray-600 leading-loose">結果を出すだけでなく、続けられる身体と習慣をつくります。「また来たい」と思っていただけるセッション設計が、この数字を生んでいます。</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         9. FLOW
+         ============================================== -->
+    <section class="py-20 px-6 bg-brand-soft relative">
+      <div class="text-center mb-12 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">FLOW</h2>
+        <p class="text-sm text-gray-500 tracking-widest">体験レッスンの流れ</p>
+      </div>
+
+      <div class="relative pl-6 border-l border-brand-sakura space-y-10 fade-up z-20">
+        <div class="relative">
+          <div class="absolute -left-[30px] top-1 w-4 h-4 bg-brand-sakura rounded-full border-4 border-brand-soft"></div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">カウンセリング (10分)</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">現在のお悩み、理想の姿、過去の運動歴などを丁寧にヒアリングします。</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[30px] top-1 w-4 h-4 bg-brand-sakura rounded-full border-4 border-brand-soft"></div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">姿勢・動きのチェック (10分)</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">独自のメソッドであなたの身体のクセを見極め、根本的な原因を探ります。</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[30px] top-1 w-4 h-4 bg-brand-sakura rounded-full border-4 border-brand-soft"></div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">体験トレーニング (30分)</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">実際にオーダーメイドのメニューを体験。無理なく「効いている」感覚を実感いただけます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         10. LINE CTA
+         ============================================== -->
+    <section class="py-16 px-6 bg-[#363832] text-center fade-up relative z-20">
+      <p class="text-white text-base leading-loose mb-6">料金や内容についてのご質問など、<br>まずはLINEでお気軽にご相談ください。</p>
+      <a href="https://lin.ee/y4JCpMb" class="micro-btn w-full max-w-[300px] bg-brand-line text-white text-base font-bold py-4 rounded-full shadow-lg flex justify-center items-center gap-2 mx-auto interactive-target">
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.844 2.572-5.992z"/></svg>
+        LINEで無料相談する
+      </a>
+    </section>
+
+    <!-- ==============================================
+         11. FAQ
+         ============================================== -->
+    <section class="py-20 px-6 bg-brand-cream relative">
+      <div class="text-center mb-10 fade-up relative z-20">
+        <h2 class="font-en text-4xl text-brand-gold mb-2">FAQ</h2>
+        <p class="text-sm text-gray-500 tracking-widest">よくあるご質問</p>
+      </div>
+
+      <div class="space-y-4 fade-up relative z-20">
+        <div class="border-b border-gray-200 pb-4 interactive-target faq-item cursor-pointer">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-brand-dark">運動経験が全くないのですが大丈夫ですか？</h3>
+            <span class="text-brand-sakura text-2xl faq-icon transition-transform duration-300">+</span>
+          </div>
+          <div class="faq-content hidden mt-3">
+            <p class="text-sm text-gray-600 leading-relaxed">全く問題ありません。お客様の体力やペースに合わせて、ゼロから丁寧に指導いたしますのでご安心ください。</p>
+          </div>
+        </div>
+        <div class="border-b border-gray-200 pb-4 interactive-target faq-item cursor-pointer">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-brand-dark">年齢制限はありますか？</h3>
+            <span class="text-brand-sakura text-2xl faq-icon transition-transform duration-300">+</span>
+          </div>
+          <div class="faq-content hidden mt-3">
+            <p class="text-sm text-gray-600 leading-relaxed">制限はございません。当ジムは40代〜60代の女性に多く通っていただいており、年齢に合わせたケアを得意としております。</p>
+          </div>
+        </div>
+        <div class="border-b border-gray-200 pb-4 interactive-target faq-item cursor-pointer">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-brand-dark">駐車場はありますか？</h3>
+            <span class="text-brand-sakura text-2xl faq-icon transition-transform duration-300">+</span>
+          </div>
+          <div class="faq-content hidden mt-3">
+            <p class="text-sm text-gray-600 leading-relaxed">近隣のコインパーキングをご利用ください。</p>
+          </div>
+        </div>
+        <div class="border-b border-gray-200 pb-4 interactive-target faq-item cursor-pointer">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-brand-dark">料金の支払い方法を教えてください。</h3>
+            <span class="text-brand-sakura text-2xl faq-icon transition-transform duration-300">+</span>
+          </div>
+          <div class="faq-content hidden mt-3">
+            <p class="text-sm text-gray-600 leading-relaxed">お支払いに関しては、現金、振り込み、クレジットカードにてご対応させていただいております。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         12. FINAL CTA (SVG Animation)
+         ============================================== -->
+    <section class="py-24 px-6 bg-brand-dark text-center relative overflow-hidden" id="final-cta">
+      
+      <!-- SVGアニメーション -->
+      <div class="mb-12 relative w-full h-20 flex justify-center z-20">
+        <svg viewBox="0 0 350 80" class="w-full max-w-[350px] h-full" id="svg-copy">
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="24" stroke="#D4849A" stroke-width="0.5" class="svg-text-draw font-serif tracking-widest">綺麗に、強く、自分らしく。</text>
+        </svg>
+      </div>
+
+      <div class="space-y-4 fade-up relative z-20">
+        <a href="https://caras.co.jp/entry#form" class="micro-btn w-full max-w-[300px] bg-brand-sakura text-white text-base font-bold py-4 rounded-full shadow-[0_0_15px_rgba(212,132,154,0.4)] flex justify-center items-center gap-2 mx-auto interactive-target text-center">
+          初回体験を予約する
+        </a>
+        <a href="https://lin.ee/y4JCpMb" class="micro-btn w-full max-w-[300px] bg-transparent border border-brand-line text-brand-line text-base font-bold py-3 rounded-full flex justify-center items-center gap-2 mx-auto interactive-target text-center">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.844 2.572-5.992z"/></svg>
+          まずはLINEで相談
+        </a>
+      </div>
+
+      <div class="mt-16 text-gray-500 text-xs space-y-1 fade-up relative z-20">
+        <p class="font-en text-base text-brand-gold mb-2">CARAS</p>
+        <p>〒662-0063 兵庫県西宮市相生町8-25</p>
+        <p>イーズハイツ夙川202号｜阪急夙川駅 徒歩5分</p>
+        <p class="mt-4">&copy; 2026 CARAS. All rights reserved.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==============================================
+       JavaScript
+       ============================================== -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* 1. カスタムカーソル */
+    const cursor = document.getElementById('custom-cursor');
+    const interactives = document.querySelectorAll('.interactive-target, button, a');
+
+    document.addEventListener('mousemove', (e) => {
+      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+    });
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    /* 2. パーティクルエフェクト (桜の花びら) */
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 5 + 4; 
+        this.speedY = Math.random() * 0.8 + 0.4; 
+        this.speedX = Math.random() * 0.5 - 0.25; 
+        this.angle = Math.random() * Math.PI * 2; 
+        this.spin = Math.random() * 0.04 - 0.02; 
+        this.opacity = Math.random() * 0.4 + 0.1; 
+        
+        this.flipAngleX = Math.random() * Math.PI * 2;
+        this.flipAngleY = Math.random() * Math.PI * 2;
+        this.flipSpeedX = Math.random() * 0.05 + 0.02;
+        this.flipSpeedY = Math.random() * 0.05 + 0.02;
+      }
+      update() {
+        this.y += this.speedY; 
+        this.x += Math.sin(this.angle) * 0.5 + this.speedX; 
+        this.angle += this.spin; 
+        
+        this.flipAngleX += this.flipSpeedX;
+        this.flipAngleY += this.flipSpeedY;
+
+        if (this.y > canvas.height + this.size) {
+          this.y = -this.size;
+          this.x = Math.random() * canvas.width;
+        }
+        if (this.x > canvas.width + this.size) this.x = -this.size;
+        if (this.x < -this.size) this.x = canvas.width + this.size;
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        
+        const scaleX = Math.cos(this.flipAngleX);
+        const scaleY = Math.cos(this.flipAngleY) * 0.6 + 0.4; 
+        
+        const sx = Math.abs(scaleX) < 0.01 ? 0.01 * Math.sign(scaleX || 1) : scaleX;
+        const sy = Math.abs(scaleY) < 0.01 ? 0.01 * Math.sign(scaleY || 1) : scaleY;
+
+        ctx.scale(sx, sy);
+        ctx.fillStyle = `rgba(212, 132, 154, ${this.opacity})`;
+        
+        ctx.beginPath();
+        ctx.moveTo(0, this.size); 
+        ctx.bezierCurveTo(this.size * 0.8, this.size * 0.5, this.size * 0.6, -this.size * 0.5, this.size * 0.3, -this.size * 0.7);
+        ctx.lineTo(0, -this.size * 0.4);
+        ctx.lineTo(-this.size * 0.3, -this.size * 0.7);
+        ctx.bezierCurveTo(-this.size * 0.6, -this.size * 0.5, -this.size * 0.8, this.size * 0.5, 0, this.size);
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+    
+    for (let i = 0; i < 12; i++) particles.push(new Particle());
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* 3. 各セクションのフェードイン */
+    gsap.utils.toArray('.fade-up').forEach(elem => {
+      gsap.to(elem, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+        }
+      });
+    });
+
+    /* 4. TRAINERS: Scrolltelling */
+    const storyTexts = gsap.utils.toArray('.story-text');
+    storyTexts.forEach(text => {
+      gsap.to(text, {
+        opacity: 1,
+        y: -10,
+        duration: 1,
+        scrollTrigger: {
+          trigger: text,
+          start: "top 70%",
+          end: "top 50%",
+          scrub: 1
+        }
+      });
+    });
+
+    /* 5. FAQ アコーディオン */
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const content = item.querySelector('.faq-content');
+        const icon = item.querySelector('.faq-icon');
+        content.classList.toggle('hidden');
+        if(content.classList.contains('hidden')){
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          icon.style.transform = 'rotate(45deg)';
+        }
+      });
+    });
+
+    /* 6. SVGアニメーション */
+    const svgText = document.querySelector('.svg-text-draw');
+    ScrollTrigger.create({
+      trigger: "#final-cta",
+      start: "top 60%",
+      onEnter: () => svgText.classList.add('active')
+    });
+
+  </script>
+</body>
+</html>

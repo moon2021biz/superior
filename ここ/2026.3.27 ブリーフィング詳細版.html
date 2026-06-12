@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌅 デイリーブリーフィング｜2026-03-27</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      padding: 24px 16px;
+      color: #f0f0f0;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.8rem; color: #FFD700; margin-bottom: 8px; }
+    .header .date { color: #aaa; font-size: 0.95rem; }
+
+    /* セクション共通 */
+    .section {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 進捗バー */
+    .pj-row { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .pj-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .pj-name { font-weight: bold; font-size: 1rem; margin-bottom: 4px; color: #FFD700; }
+    .pj-meta { font-size: 0.82rem; color: #bbb; margin-bottom: 6px; }
+    .progress-wrap { background: rgba(255,255,255,0.1); border-radius: 100px; height: 8px; }
+    .progress-bar {
+      height: 8px;
+      border-radius: 100px;
+      transition: width 0.5s ease;
+    }
+    .p42 { width: 42%; background: linear-gradient(90deg, #f7971e, #ffd200); }
+    .p58 { width: 58%; background: linear-gradient(90deg, #11998e, #38ef7d); }
+    .p25 { width: 25%; background: linear-gradient(90deg, #4776E6, #8E54E9); }
+    .p0  { width: 2%;  background: #555; }
+    .pj-action { font-size: 0.85rem; color: #e0e0e0; margin-top: 6px; }
+
+    /* 要対応 */
+    .alert-box {
+      background: rgba(255, 80, 80, 0.12);
+      border: 1px solid rgba(255, 80, 80, 0.35);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    .alert-box .label { color: #ff6b6b; font-weight: bold; margin-bottom: 4px; }
+
+    .warn-box {
+      background: rgba(255, 180, 0, 0.1);
+      border: 1px solid rgba(255, 180, 0, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    .warn-box .label { color: #FFD700; font-weight: bold; margin-bottom: 4px; }
+
+    /* TOP3 */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+    .action-num {
+      background: linear-gradient(135deg, #f7971e, #ffd200);
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .action-content { flex: 1; }
+    .action-pj { font-size: 0.78rem; color: #FFD700; margin-bottom: 2px; }
+    .action-text { font-size: 0.9rem; color: #eee; }
+    .action-reason { font-size: 0.8rem; color: #999; margin-top: 2px; }
+
+    /* シナジー */
+    .synergy-item {
+      background: rgba(56, 239, 125, 0.08);
+      border: 1px solid rgba(56, 239, 125, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+    }
+    .synergy-item:last-child { margin-bottom: 0; }
+    .synergy-tag { color: #38ef7d; font-weight: bold; margin-bottom: 4px; font-size: 0.82rem; }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      color: #666;
+      font-size: 0.78rem;
+      margin-top: 20px;
+    }
+
+    /* 変更点 */
+    .change-item { font-size: 0.88rem; color: #ccc; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .change-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <h1>🌅 おはようございます、MOONさん</h1>
+    <div class="date">今日は <strong>2026年3月27日（金）</strong> です。5プロジェクトの状況をお伝えします。</div>
+  </div>
+
+  <!-- 進捗サマリー -->
+  <div class="section">
+    <div class="section-title">📊 各PJ進捗サマリー</div>
+
+    <div class="pj-row">
+      <div class="pj-name">🔬 オギラボ</div>
+      <div class="pj-meta">進捗: <strong>42%</strong>｜TikTok <strong>916人</strong> <span style="color:#38ef7d;font-size:0.78rem;">+28↑</span>（2026-03-27実測）｜YouTube <strong>79人</strong>（2026-03-27実測）｜Instagram: なし</div>
+      <div class="progress-wrap"><div class="progress-bar p42"></div></div>
+      <div class="pj-action">📌 次のアクション: TikTokフォロワー 916 → 1,000人達成（<strong>あと84人</strong>）。noteメンバーシップ設定・初期コンテンツ準備も並走。</div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">💪 パーソナルジム CARAS</div>
+      <div class="pj-meta">進捗: <strong>58%</strong>｜Instagram <strong>68人</strong>・TikTok <strong>23人</strong>（2026-03-27実測）</div>
+      <div class="progress-wrap"><div class="progress-bar p58"></div></div>
+      <div class="pj-action">📌 次のアクション: ターゲットペルソナ詳細設計（LP作成の前提）→ LP制作へ。GBP投稿文準備済み（手動投稿待ち）。</div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">🏢 健康経営有料法人</div>
+      <div class="pj-meta">進捗: <strong>25%</strong>｜フェーズ: 市場調査・サービス設計期</div>
+      <div class="progress-wrap"><div class="progress-bar p25"></div></div>
+      <div class="pj-action">📌 次のアクション: 市場調査・競合分析レポート完成 → サービスパッケージ設計（進行中）を完成させる。</div>
+    </div>
+
+    <div class="pj-row">
+      <div class="pj-name">🏃 SORA / SUPERIOR（姉妹クラブ）</div>
+      <div class="pj-meta">進捗: <strong>0%</strong>（新規追加・未着手）</div>
+      <div class="progress-wrap"><div class="progress-bar p0"></div></div>
+      <div class="pj-action">📌 次のアクション: クラブ基本情報・ペルソナ整理（前提なし・すぐ着手可能）→ SNSアカウント開設・LP制作へ。</div>
+    </div>
+  </div>
+
+  <!-- 要対応事項 -->
+  <div class="section">
+    <div class="section-title">⚠️ 要対応事項</div>
+
+    <div class="alert-box">
+      <div class="label">🔴【手動投稿待ち】CARAS — Google ビジネスプロフィール</div>
+      2026-03-27付けのGBP投稿文（お客様の変化・実績テーマ）が準備済みです。<br>
+      ファイル: <code>outputs/gbp_posts/20260327_お客様の変化実績.md</code><br>
+      Computer Useが無効環境のため自動投稿不可 → <strong>MOONさんによる手動投稿が必要です。</strong>
+    </div>
+
+    <div class="warn-box">
+      <div class="label">⚠️【要確認】オギラボ — Note / X のフォロワー数</div>
+      Note（https://note.com/ogilab）・X（@hog1230）はブラウザで取得不可のため未確認。<br>
+      次回のsns-buzz-research（火・金 8:00）で自動取得を試みます。
+    </div>
+  </div>
+
+  <!-- SNSバズ調査レポート -->
+  <div class="section">
+    <div class="section-title">🔥 SNSバズ調査レポート <span style="font-size:0.75rem;color:#aaa;font-weight:normal;">2026-03-27 Web調査実施｜次回自動更新: 4/1（火）8:00</span></div>
+
+    <!-- TikTok -->
+    <div style="margin-bottom:16px;">
+      <div style="color:#ff6b9d;font-weight:bold;margin-bottom:6px;">📱 TikTok（2026年3月）</div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;width:38%;">バズジャンル TOP</td>
+          <td style="padding:5px 8px;">AI×副業・自動化「AIで〇〇してみた」実証系 / ひとりビジネス等身大×数字開示</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">アルゴリズム重要指標</td>
+          <td style="padding:5px 8px;">保存数・リピート視聴率・コメント ＞ いいね（いいねは弱シグナル化）</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">バズフォーマット</td>
+          <td style="padding:5px 8px;">0〜8秒で強フック / 15〜60秒が主流 / 保存・コメント促進型CTA</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#38ef7d;">オギラボ転用ヒント</td>
+          <td style="padding:5px 8px;color:#38ef7d;">「オリンピアンが実際にAIチームを作ったら〇〇万円節約できた」数字×実証型が最適</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Instagram -->
+    <div style="margin-bottom:16px;">
+      <div style="color:#f7971e;font-weight:bold;margin-bottom:6px;">📸 Instagram（2026年3月）</div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;width:38%;">バズ型コンテンツ</td>
+          <td style="padding:5px 8px;">ビフォーアフター / 数字で語る変化 / 「保存して後で見て」型の実用情報</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">重要KPI順</td>
+          <td style="padding:5px 8px;">シェア（DM転送）＞ 保存 ＞ 視聴完了率 ＞＞ いいね</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">最適リール尺</td>
+          <td style="padding:5px 8px;">新規流入: 15〜30秒 / フォロワー向け: 3分以内 / 投稿後24h以内のエンゲージが拡散を決定</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#38ef7d;">CARAS転用ヒント</td>
+          <td style="padding:5px 8px;color:#38ef7d;">継続率100%の実績をビフォーアフター形式で。「3秒で止まるサムネ」が必須</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- YouTube -->
+    <div style="margin-bottom:16px;">
+      <div style="color:#ff4444;font-weight:bold;margin-bottom:6px;">🎥 YouTube（2026年3月）</div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;width:38%;">急伸パターン</td>
+          <td style="padding:5px 8px;">AI解説系（初月70再生→2ヶ月目2万再生の事例）/「〇〇を自動化する！」具体業務テーマ</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">2026年変化</td>
+          <td style="padding:5px 8px;">量産AI動画は収益化対象外（2025年7月〜）→ 質重視・本人体験が差別化</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#38ef7d;">オギラボ転用ヒント</td>
+          <td style="padding:5px 8px;color:#38ef7d;">「AIチームで仕事したら何が変わったか」長尺YouTube→TikTokで切り抜き展開</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Note -->
+    <div style="margin-bottom:16px;">
+      <div style="color:#FFD700;font-weight:bold;margin-bottom:6px;">📝 Note（2026年3月）</div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;width:38%;">人気テーマ</td>
+          <td style="padding:5px 8px;">AI副業・実体験検証記録「〇〇してみた」/ 再現性のある3ステップ系ノウハウ</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">注目競合</td>
+          <td style="padding:5px 8px;">あべむつき（登録23万人超・あベラボ主宰）が「3段階プロンプト」でバズ中</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#38ef7d;">オギラボ差別化</td>
+          <td style="padding:5px 8px;color:#38ef7d;">「元五輪選手がAIで何を変えたか」= 希少性×実証性の組み合わせ。競合未開拓領域</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- SORA/SUPERIOR -->
+    <div>
+      <div style="color:#8E54E9;font-weight:bold;margin-bottom:6px;">🏃 SORA/SUPERIOR関連（子ども×スポーツ）</div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;width:38%;">競合状況</td>
+          <td style="padding:5px 8px;">TikTok/Instagramで「子ども陸上クラブ」特化バズはほぼ未開拓 → <strong style="color:#38ef7d;">競合空白地帯</strong></td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:5px 8px;color:#aaa;">関連バズ</td>
+          <td style="padding:5px 8px;">「かけっこ教室」「小学生 運動」コンテンツはSNSよりYouTube寄り / 保護者視点コンテンツはInstagramで伸びやすい</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:#38ef7d;">参入チャンス</td>
+          <td style="padding:5px 8px;color:#38ef7d;">早期参入で「子ども陸上×SNS」のポジション独占の可能性大。LP立ち上げと同時にSNS開始を推奨</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 推奨アクション TOP3 -->
+  <div class="section">
+    <div class="section-title">🎯 今日の推奨アクション TOP3</div>
+
+    <div class="action-row">
+      <div class="action-num">1</div>
+      <div class="action-content">
+        <div class="action-pj">💪 CARAS</div>
+        <div class="action-text">GBP投稿を手動投稿する（投稿文は準備済み）</div>
+        <div class="action-reason">理由: 今日（2026-03-27）が金・偶数週の投稿タイミング。遅延するとリズムが崩れる。</div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">2</div>
+      <div class="action-content">
+        <div class="action-pj">🔬 オギラボ</div>
+        <div class="action-text">TikTok向け投稿1本をsns-voirecoスキルで制作する</div>
+        <div class="action-reason">理由: あと112人でマイルストーン達成。定期投稿がフォロワー伸長の最短ルート。競合バズパターン（「等身大×数字×実証型」）を活用。</div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">3</div>
+      <div class="action-content">
+        <div class="action-pj">🏃 SORA / SUPERIOR</div>
+        <div class="action-text">クラブ基本情報・ペルソナ整理を実施する（前提タスクなし・今すぐ着手可能）</div>
+        <div class="action-reason">理由: 進捗0%で最も着手が遅れている。前提なしのタスクから手をつければ他のタスクのブロックが一気に解除される。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- シナジーチャンス -->
+  <div class="section">
+    <div class="section-title">🔗 今週のシナジーチャンス</div>
+
+    <div class="synergy-item">
+      <div class="synergy-tag">💪 CARAS → 🏃 SORA/SUPERIOR</div>
+      <strong>展開内容:</strong> CARASの「保護者向けトレーニング」コンテンツをSORA/SUPERIORの入会LP・SNSでクロス紹介する。<br>
+      <strong>期待効果:</strong> SORA/SUPERIOR保護者（30〜45歳）が最もCARASターゲットと一致。LP立ち上げ時に連携導線を同時設計することで、後付けより効果が高い。
+    </div>
+
+    <div class="synergy-item">
+      <div class="synergy-tag">🔬 オギラボ → 🏃 SORA/SUPERIOR</div>
+      <strong>展開内容:</strong> オギラボで「AIを使って陸上クラブ運営を自動化してみた」系のコンテンツを1本制作する。<br>
+      <strong>期待効果:</strong> SORA/SUPERIOR立ち上げを「ひとりビジネス×AI自動化の実証事例」としてオギラボで発信 → AI文脈のフォロワー獲得にもなる。
+    </div>
+  </div>
+
+  <!-- 前回からの変更点 -->
+  <div class="section">
+    <div class="section-title">📌 前回から変わったこと（CONTEXT.md更新履歴より）</div>
+    <div class="change-item">✅ CARAS: GBP投稿文（2026-03-27 お客様の変化実績）が新たに追加された</div>
+    <div class="change-item">✅ CARAS: 失敗パターンに「caras-gbp-autoposter（Computer Use無効でChrome経由GBP投稿不可）」が記録された</div>
+    <div class="change-item">✅ 全PJ: 進捗計算基準（⑧自動更新ルール）が新設・設定済み</div>
+    <div class="change-item">✅ 全PJ: セッション終了ハンドオフログ（⑥）の枠組みが追加（未記録状態）</div>
+    <div class="change-item">✅ オギラボ: 競合調査レポートv1・SNSアカウント全媒体特定が完了（2026-03-26）</div>
+  </div>
+
+  <div class="footer">
+    🤖 AI組織 デイリーブリーフィング｜自動生成: 2026-03-27 09:00 JST<br>
+    バックアップ: 全5PJのCONTEXT.mdをbackups/フォルダに保存済み ✅
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>報酬シミュレーター | TrustFit</title>
+<style>
+  :root { --primary:#1a1a2e; --accent:#e63946; --gold:#f4a261; --gray:#6c757d; --border:#dee2e6; --white:#fff; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;background:#f5f6fa;line-height:1.7;}
+  header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .logo{font-size:22px;font-weight:900;color:var(--primary);text-decoration:none;} .logo span{color:var(--accent);}
+  nav a{text-decoration:none;color:var(--gray);font-size:14px;margin-left:24px;} nav a:hover{color:var(--accent);}
+  .hero{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;padding:64px 24px;text-align:center;}
+  .hero h1{font-size:clamp(26px,4vw,42px);font-weight:900;margin-bottom:12px;}
+  .hero p{font-size:16px;color:rgba(255,255,255,.75);max-width:520px;margin:0 auto;}
+  .main{max-width:900px;margin:40px auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+  .card{background:white;border-radius:16px;padding:32px;box-shadow:0 2px 16px rgba(0,0,0,.06);}
+  .card h2{font-size:18px;font-weight:800;margin-bottom:24px;color:var(--primary);}
+  .form-group{margin-bottom:20px;}
+  label{display:block;font-size:13px;font-weight:700;margin-bottom:8px;color:var(--gray);}
+  select,input[type=range]{width:100%;outline:none;}
+  select{padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;color:var(--primary);transition:border-color .2s;cursor:pointer;}
+  select:focus{border-color:var(--accent);}
+  input[type=range]{-webkit-appearance:none;height:6px;background:var(--border);border-radius:3px;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(230,57,70,.3);}
+  .range-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--gray);margin-top:4px;}
+  .range-val{text-align:center;font-size:20px;font-weight:900;color:var(--accent);margin-top:6px;}
+
+  /* RANK SELECTOR */
+  .rank-btns{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .rank-btn{padding:12px 8px;border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:all .2s;background:white;}
+  .rank-btn.active{border-color:var(--accent);background:rgba(230,57,70,.05);}
+  .rank-btn.active.legend-rank{border-color:var(--gold);background:rgba(244,162,97,.06);}
+  .rank-btn-icon{font-size:20px;}
+  .rank-btn-name{font-size:13px;font-weight:700;margin-top:4px;}
+
+  /* RESULT */
+  .result-card{background:linear-gradient(135deg,var(--primary),#16213e);color:white;border-radius:16px;padding:32px;box-shadow:0 8px 32px rgba(0,0,0,.15);}
+  .result-card h2{font-size:18px;font-weight:800;margin-bottom:24px;color:white;}
+  .result-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;}
+  .result-row:last-of-type{border:none;}
+  .result-label{color:rgba(255,255,255,.7);}
+  .result-val{font-weight:700;color:white;}
+  .result-val.highlight{color:var(--gold);font-size:22px;}
+  .result-range{background:rgba(255,255,255,.06);border-radius:12px;padding:20px;margin:16px 0;}
+  .result-range-title{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:8px;}
+  .result-min-max{display:flex;justify-content:space-between;align-items:center;}
+  .result-min{font-size:18px;font-weight:700;color:rgba(255,255,255,.8);}
+  .result-mid-label{font-size:11px;color:rgba(255,255,255,.5);}
+  .result-max{font-size:26px;font-weight:900;color:var(--gold);}
+  .fee-note{font-size:12px;color:rgba(255,255,255,.5);text-align:right;margin-top:4px;}
+  .annual-box{background:rgba(244,162,97,.12);border:1px solid rgba(244,162,97,.3);border-radius:10px;padding:16px;margin-top:20px;text-align:center;}
+  .annual-label{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px;}
+  .annual-val{font-size:28px;font-weight:900;color:var(--gold);}
+
+  /* PATTERNS */
+  .patterns{margin-top:24px;}
+  .pattern-card{background:white;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid var(--border);cursor:pointer;transition:all .2s;}
+  .pattern-card:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(230,57,70,.1);}
+  .pattern-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .pattern-name{font-size:15px;font-weight:700;}
+  .pattern-earn{font-size:15px;font-weight:900;color:var(--accent);}
+  .pattern-desc{font-size:13px;color:var(--gray);}
+
+  .btn-cta{display:block;width:100%;background:var(--accent);color:white;border:none;padding:16px;border-radius:8px;font-size:16px;font-weight:800;cursor:pointer;margin-top:24px;text-decoration:none;text-align:center;box-shadow:0 4px 16px rgba(230,57,70,.3);}
+  footer{background:var(--primary);color:rgba(255,255,255,.6);padding:32px 24px;text-align:center;font-size:13px;}
+  @media(max-width:700px){.main{grid-template-columns:1fr;}.rank-btns{grid-template-columns:repeat(4,1fr);}}
+</style>
+</head>
+<body>
+<header>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span>Fit</span></a>
+  <nav>
+    <a href="trustfit_ranks.html">ランク制度</a>
+    <a href="trustfit_register_cast.html">キャスト登録</a>
+    <a href="trustfit_register_company.html">企業登録</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>💰 報酬シミュレーター</h1>
+  <p>ランク・セッション数・評価スコアを選ぶだけで、月間・年間収入の目安が一目でわかります。</p>
+</div>
+
+<div class="main">
+  <!-- INPUT -->
+  <div>
+    <div class="card">
+      <h2>⚙️ 条件を設定</h2>
+      <div class="form-group">
+        <label>キャストランク</label>
+        <div class="rank-btns">
+          <div class="rank-btn" onclick="setRank('challenger',this)"><div class="rank-btn-icon">🆕</div><div class="rank-btn-name">Challenger</div></div>
+          <div class="rank-btn active" onclick="setRank('elite',this)"><div class="rank-btn-icon">🥉</div><div class="rank-btn-name">Elite VIP</div></div>
+          <div class="rank-btn" onclick="setRank('master',this)"><div class="rank-btn-icon">🥈</div><div class="rank-btn-name">Master VIP</div></div>
+          <div class="rank-btn legend-rank" onclick="setRank('legend',this)"><div class="rank-btn-icon">🥇</div><div class="rank-btn-name">Legend VIP</div></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>月間セッション数：<span id="sessLabel">4回</span></label>
+        <input type="range" id="sessRange" min="1" max="20" value="4" oninput="calc()">
+        <div class="range-labels"><span>1回</span><span>10回</span><span>20回</span></div>
+      </div>
+      <div class="form-group">
+        <label>平均評価スコア（予想）：<span id="scoreLabel">40pt</span></label>
+        <input type="range" id="scoreRange" min="20" max="50" value="40" oninput="calc()">
+        <div class="range-labels"><span>20pt（低）</span><span>35pt</span><span>50pt（満点）</span></div>
+      </div>
+    </div>
+
+    <!-- TYPICAL PATTERNS -->
+    <div class="patterns">
+      <p style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:10px;">📌 よくある働き方パターン</p>
+      <div class="pattern-card" onclick="applyPattern('challenger',2,38)">
+        <div class="pattern-header"><span class="pattern-name">🆕 副業スタート（Challenger）</span><span class="pattern-earn" id="p1earn">計算中</span></div>
+        <div class="pattern-desc">月2回 / 平均スコア38pt — 本業と兼務しながらスタート</div>
+      </div>
+      <div class="pattern-card" onclick="applyPattern('elite',6,43)">
+        <div class="pattern-header"><span class="pattern-name">🥉 フリーランス主軸（Elite）</span><span class="pattern-earn" id="p2earn">計算中</span></div>
+        <div class="pattern-desc">月6回 / 平均スコア43pt — 法人営業を軸にした安定稼働</div>
+      </div>
+      <div class="pattern-card" onclick="applyPattern('master',10,46)">
+        <div class="pattern-header"><span class="pattern-name">🥈 トッププレーヤー（Master）</span><span class="pattern-earn" id="p3earn">計算中</span></div>
+        <div class="pattern-desc">月10回 / 平均スコア46pt — 評価で継続依頼が増加</div>
+      </div>
+      <div class="pattern-card" onclick="applyPattern('legend',4,48)">
+        <div class="pattern-header"><span class="pattern-name">🥇 Legend VIP（厳選稼働）</span><span class="pattern-earn" id="p4earn">計算中</span></div>
+        <div class="pattern-desc">月4回 / 平均スコア48pt — 高単価・少数精鋭で最大化</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card">
+    <h2>📊 シミュレーション結果</h2>
+    <div class="result-row"><span class="result-label">選択ランク</span><span class="result-val" id="resRank">Elite VIP 🥉</span></div>
+    <div class="result-row"><span class="result-label">月間セッション数</span><span class="result-val" id="resSess">4回</span></div>
+    <div class="result-row"><span class="result-label">平均評価スコア</span><span class="result-val" id="resScore">40pt / 50pt</span></div>
+    <div class="result-row"><span class="result-label">1セッション報酬（概算）</span><span class="result-val highlight" id="resSingle">¥80,000</span></div>
+
+    <div class="result-range">
+      <div class="result-range-title">月間収入レンジ（手数料控除後・概算）</div>
+      <div class="result-min-max">
+        <div><div style="font-size:11px;color:rgba(255,255,255,.5)">最低</div><div class="result-min" id="resMin">¥240,000</div></div>
+        <div style="text-align:center"><div style="font-size:11px;color:rgba(255,255,255,.4)">〜</div></div>
+        <div style="text-align:right"><div style="font-size:11px;color:rgba(255,255,255,.5)">最高（満点時）</div><div class="result-max" id="resMax">¥320,000</div></div>
+      </div>
+    </div>
+    <div class="fee-note" id="resFeeNote">手数料 20% 控除後の概算です</div>
+
+    <div class="annual-box">
+      <div class="annual-label">年間収入目安（同ペース継続）</div>
+      <div class="annual-val" id="resAnnual">¥3,072,000</div>
+    </div>
+
+    <div class="result-row" style="margin-top:16px;"><span class="result-label">評価スコアが上がると</span><span class="result-val" style="color:#7dd3b8;font-size:13px;" id="resUpNote">+¥48,000/月 up</span></div>
+
+    <a href="trustfit_register_cast.html" class="btn-cta">この条件で登録する →</a>
+  </div>
+</div>
+
+<script>
+const RANKS = {
+  challenger: { name:'Challenger 🆕', fixed:0, minPer:10000, maxPer:50000, fee:0.25 },
+  elite:      { name:'Elite VIP 🥉',  fixed:50000, minPer:10000, maxPer:50000, fee:0.20 },
+  master:     { name:'Master VIP 🥈', fixed:100000, minPer:20000, maxPer:100000, fee:0.18 },
+  legend:     { name:'Legend VIP 🥇', fixed:200000, minPer:20000, maxPer:100000, fee:0.15 },
+};
+let currentRank = 'elite';
+
+function setRank(rank, el) {
+  currentRank = rank;
+  document.querySelectorAll('.rank-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  calc();
+}
+
+function applyPattern(rank, sess, score) {
+  currentRank = rank;
+  document.getElementById('sessRange').value = sess;
+  document.getElementById('scoreRange').value = score;
+  document.querySelectorAll('.rank-btn').forEach((b,i)=>{
+    b.classList.remove('active');
+    if(['challenger','elite','master','legend'][i]===rank) b.classList.add('active');
+  });
+  calc();
+}
+
+function calcSingle(rank, score) {
+  const r = RANKS[rank];
+  const ratio = Math.max(0, (score - 20)) / 30; // 20pt=0%, 50pt=100%
+  const perf = r.minPer + (r.maxPer - r.minPer) * ratio;
+  return (r.fixed + perf) * (1 - r.fee);
+}
+
+function fmt(n) { return '¥' + Math.round(n).toLocaleString(); }
+
+function calc() {
+  const sess = parseInt(document.getElementById('sessRange').value);
+  const score = parseInt(document.getElementById('scoreRange').value);
+  document.getElementById('sessLabel').textContent = sess + '回';
+  document.getElementById('scoreLabel').textContent = score + 'pt';
+
+  const r = RANKS[currentRank];
+  const single = calcSingle(currentRank, score);
+  const minMonth = calcSingle(currentRank, 20) * sess;
+  const maxMonth = calcSingle(currentRank, 50) * sess;
+  const annual = single * sess * 12;
+  const upAt50 = (calcSingle(currentRank, 50) - single) * sess;
+
+  document.getElementById('resRank').textContent = r.name;
+  document.getElementById('resSess').textContent = sess + '回';
+  document.getElementById('resScore').textContent = score + 'pt / 50pt';
+  document.getElementById('resSingle').textContent = fmt(single);
+  document.getElementById('resMin').textContent = fmt(minMonth);
+  document.getElementById('resMax').textContent = fmt(maxMonth);
+  document.getElementById('resAnnual').textContent = fmt(annual);
+  document.getElementById('resFeeNote').textContent = `手数料 ${Math.round(r.fee*100)}% 控除後の概算です`;
+  document.getElementById('resUpNote').textContent = upAt50 > 0 ? `満点評価なら +${fmt(upAt50)}/月` : 'すでに最大報酬です！';
+
+  // update pattern earnings
+  const pp = [['challenger',2,38],['elite',6,43],['master',10,46],['legend',4,48]];
+  pp.forEach(([rk,s,sc],i)=>{
+    document.getElementById('p'+(i+1)+'earn').textContent = fmt(calcSingle(rk,sc)*s)+'/月';
+  });
+}
+
+calc();
+</script>
+
+<footer>
+  <a href="trustfit_lp_zehitomo_style.html" class="logo">Trust<span style="color:var(--accent)">Fit</span></a>
+  © 2026 株式会社MOON / TrustFit. All rights reserved.
+</footer>
+</body>
+</html>

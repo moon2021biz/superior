@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — プロジェクト全体まとめ</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --gold: #f5a623;
+    --silver: #b0b0b0;
+    --bronze: #cd7f32;
+    --bg: #0f0f1a;
+    --card: #1e1e30;
+    --card2: #252540;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --border: #333355;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --yellow: #f39c12;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  .hero {
+    background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50px; left: -50px; right: -50px; bottom: -50px;
+    background: radial-gradient(circle at 30% 50%, rgba(233,69,96,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 50%, rgba(15,52,96,0.3) 0%, transparent 60%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    position: relative;
+    background: linear-gradient(90deg, #fff 0%, #e94560 50%, #f5a623 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .tagline {
+    font-size: 20px;
+    color: #ccc;
+    margin-top: 14px;
+    position: relative;
+    font-weight: 300;
+  }
+  .hero .tagline strong {
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero-meta-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-size: 13px;
+  }
+  .hero-meta-item span { color: var(--muted); font-size: 11px; display: block; }
+
+  /* ナビ */
+  .nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav a {
+    display: inline-block;
+    padding: 14px 20px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav a:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* レイアウト */
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 30px; }
+  .section { margin-bottom: 60px; }
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  /* カード */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  /* グリッド */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 36px; }
+  }
+
+  /* テーブル */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    background: var(--card2);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* バッジ・タグ */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-red { background: rgba(233,69,96,0.2); color: var(--accent); border: 1px solid var(--accent); }
+  .badge-gold { background: rgba(245,166,35,0.15); color: var(--gold); border: 1px solid var(--gold); }
+  .badge-green { background: rgba(39,174,96,0.15); color: #2ecc71; border: 1px solid #2ecc71; }
+  .badge-blue { background: rgba(52,152,219,0.15); color: #3498db; border: 1px solid #3498db; }
+  .badge-muted { background: rgba(136,136,170,0.15); color: var(--muted); border: 1px solid var(--border); }
+
+  /* ランクカード */
+  .rank-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .rank-grid { grid-template-columns: 1fr 1fr; } }
+  .rank-card {
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid;
+    position: relative;
+    overflow: hidden;
+  }
+  .rank-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+  }
+  .rank-std { border-color: #555; background: rgba(85,85,85,0.1); }
+  .rank-std::before { background: #555; }
+  .rank-elite { border-color: var(--bronze); background: rgba(205,127,50,0.1); }
+  .rank-elite::before { background: var(--bronze); }
+  .rank-master { border-color: var(--silver); background: rgba(176,176,176,0.1); }
+  .rank-master::before { background: var(--silver); }
+  .rank-legend { border-color: var(--gold); background: rgba(245,166,35,0.1); }
+  .rank-legend::before { background: var(--gold); }
+  .rank-label { font-size: 22px; margin-bottom: 6px; }
+  .rank-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .rank-fee { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .rank-price { font-size: 13px; font-weight: 600; }
+  .rank-price .fixed { color: var(--gold); }
+  .rank-price .variable { color: #3498db; }
+
+  /* スクリプトカード */
+  .script-card {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .script-card.pattern2 { border-left-color: var(--gold); }
+  .script-card.pattern3 { border-left-color: #2ecc71; }
+  .script-title { font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+  .script-strategy {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    color: var(--muted);
+  }
+  .framing-tag {
+    display: inline-block;
+    background: rgba(233,69,96,0.15);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  /* USP */
+  .usp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .usp-grid { grid-template-columns: 1fr; } }
+  .usp-card {
+    background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  .usp-num {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .usp-title { font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--text); }
+  .usp-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* パートナーカード */
+  .partner-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+  }
+  .partner-name { font-weight: 800; font-size: 16px; margin-bottom: 4px; }
+  .partner-title { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .partner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .partner-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* PRISM */
+  .prism-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  @media (max-width: 900px) { .prism-grid { grid-template-columns: 1fr 1fr; } }
+  .prism-letter {
+    text-align: center;
+    padding: 20px 12px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .prism-big {
+    font-size: 40px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .prism-en { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .prism-jp { font-size: 13px; font-weight: 600; }
+  .prism-desc { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  /* TODO */
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+  }
+  .todo-done { border-color: var(--green); background: rgba(39,174,96,0.2); color: var(--green); }
+  .todo-high { border-color: var(--accent); }
+  .todo-mid { border-color: var(--yellow); }
+  .todo-low { border-color: var(--muted); }
+  .todo-label { flex: 1; }
+  .todo-label .prereq { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* 進捗バー */
+  .progress-bar {
+    background: var(--card2);
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    transition: width 0.5s ease;
+  }
+
+  /* セクション区切り */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 50px 0;
+  }
+
+  /* 数字ハイライト */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 700px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); }
+
+  /* コピーライト */
+  .copy-highlight {
+    background: linear-gradient(135deg, var(--accent2) 0%, #1a1a3e 100%);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 24px 30px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .copy-main { font-size: 28px; font-weight: 900; color: white; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .copy-sub { font-size: 15px; color: #aac; margin-bottom: 6px; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 30px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- ヒーロー -->
+<div class="hero">
+  <div class="hero-badge">PROJECT OVERVIEW</div>
+  <h1>TrustFit</h1>
+  <p class="tagline">企業向けトレーナー派遣 <strong>マッチングプラットフォーム</strong>（業務委託型）</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span>運営会社</span>株式会社MOON</div>
+    <div class="hero-meta-item"><span>フェーズ</span>企画・設計期（モニター準備中）</div>
+    <div class="hero-meta-item"><span>進捗</span>5%</div>
+    <div class="hero-meta-item"><span>最終更新</span>2026-04-13</div>
+    <div class="hero-meta-item" style="border-color:var(--accent);"><span>HTML同期日</span>2026-04-13 ✅</div>
+  </div>
+</div>
+
+<!-- ナビ -->
+<nav class="nav">
+  <a href="#overview">概要</a>
+  <a href="#business">ビジネスモデル</a>
+  <a href="#rank">ランク制度</a>
+  <a href="#point">ポイント</a>
+  <a href="#target">ターゲット</a>
+  <a href="#script">商談スクリプト</a>
+  <a href="#revenue">収益モデル</a>
+  <a href="#prism">プリズムカップ</a>
+  <a href="#partners">パートナー</a>
+  <a href="#todo">TODO</a>
+</nav>
+
+<div class="container">
+
+  <!-- コアコンセプト -->
+  <div class="section" id="overview">
+    <div class="section-title"><span class="icon">💡</span>コアコンセプト</div>
+
+    <div class="copy-highlight">
+      <div class="copy-main">「一流が来る。成果の分だけ払う。」</div>
+      <div class="copy-sub">企業向け → 「体験した価値だけ払えばいい。」</div>
+      <div class="copy-sub">トレーナー向け → 「実力が数字になる、唯一のステージ。」</div>
+    </div>
+
+    <div class="usp-grid">
+      <div class="usp-card">
+        <div class="usp-num">01</div>
+        <div class="usp-title">評価連動型成果報酬</div>
+        <div class="usp-desc">業界初・50点満点の双方評価スコアで支払い額が確定する仕組み</div>
+      </div>
+      <div class="usp-card">
+        <div class="usp-num">02</div>
+        <div class="usp-title">VIP × 若手二層構造</div>
+        <div class="usp-desc">トップアスリートの高品質体験と、若手トレーナーによる継続サポートを両立</div>
+      </div>
+      <div class="usp-card">
+        <div class="usp-num">03</div>
+        <div class="usp-title">健康経営 × 採用PR直結</div>
+        <div class="usp-desc">健康経営優良法人認定サポートと採用PR動画制作で投資対効果を可視化</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">ポジショニング</div>
+      <p style="font-size:14px; color: var(--muted);">「プレミアム × 成果報酬型」象限（業界内で競合ゼロのブルーオーシャン）。評価で支払額が変動するサービスは他に存在しないため、「価格への反発をゼロにする唯一の設計」。</p>
+    </div>
+  </div>
+
+  <!-- ビジネスモデル -->
+  <div class="section" id="business">
+    <div class="section-title"><span class="icon">⚙️</span>ビジネスモデル</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">基本フロー</div>
+        <div style="font-size: 13.5px; color: var(--muted); line-height: 2;">
+          <div>① 企業がポイントを事前購入（<strong style="color:var(--gold)">1pt = 1円</strong>）</div>
+          <div>↓</div>
+          <div>② 予約時に「最大報酬分」をウォレットからロック</div>
+          <div>↓</div>
+          <div>③ セッション完了後、<strong style="color:var(--text)">50点満点の評価スコア</strong>で確定pt引き落とし</div>
+          <div>↓</div>
+          <div>④ 余剰ptは即日返還。未使用ptは<strong style="color:var(--accent)">購入日から1年後の同日23:59に失効</strong>（燃焼モデル）</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">法的区分・設計思想</div>
+        <div style="font-size: 13.5px; color: var(--muted); line-height: 2;">
+          <div>✅ <strong style="color:var(--text)">「業務委託」</strong>として設計（労働者派遣業許可不要）</div>
+          <div>✅ トレーナーへの指揮命令は発生しない設計</div>
+          <div>✅ 全支払いはポイントで完結</div>
+          <div>✅ 現金・振込・カード決済はポイント購入時のみ</div>
+          <div>✅ 双方評価：両者提出後に同時公開（操作防止）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIP→通常ファネル -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">VIP単発 → 通常トレーナー年間継続ファネル</div>
+      <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-top:8px;">
+        <div style="flex:1; min-width:160px; background:rgba(233,69,96,0.1); border:1px solid var(--accent); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:6px;">🏆</div>
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">① VIP単発体験</div>
+          <div>限界突破講演・目標設定コーチング・経営陣チューニング</div>
+        </div>
+        <div style="font-size:20px; color:var(--muted)">→</div>
+        <div style="flex:1; min-width:160px; background:rgba(245,166,35,0.1); border:1px solid var(--gold); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:6px;">🤝</div>
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">② 72h以内引き継ぎ</div>
+          <div>企業カルテ記入・継続トレーナー3名マッチング提案</div>
+        </div>
+        <div style="font-size:20px; color:var(--muted)">→</div>
+        <div style="flex:1; min-width:160px; background:rgba(52,152,219,0.1); border:1px solid #3498db; border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:6px;">🔄</div>
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">③ 年間継続稼働</div>
+          <div>通常トレーナーが週次・月次でサポート。ウォレット燃焼サイクル</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- コンテンツカテゴリ -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">コンテンツカテゴリ（4分野）</div>
+      <div class="grid-4" style="margin-top:12px;">
+        <div style="background:var(--card2); border-radius:10px; padding:14px; font-size:12.5px;">
+          <div style="font-size:18px; margin-bottom:6px;">🏋️</div>
+          <div style="font-weight:700; margin-bottom:4px;">フィジカル・ヘルスケア</div>
+          <div style="color:var(--muted)">ストレッチ・トレーニング・身体機能改善・疲労撃退</div>
+        </div>
+        <div style="background:var(--card2); border-radius:10px; padding:14px; font-size:12.5px;">
+          <div style="font-size:18px; margin-bottom:6px;">🧠</div>
+          <div style="font-weight:700; margin-bottom:4px;">マインドセット・パフォーマンス</div>
+          <div style="color:var(--muted)">目標設定・メンタルコーチング・ストーリーテリング講演</div>
+        </div>
+        <div style="background:var(--card2); border-radius:10px; padding:14px; font-size:12.5px;">
+          <div style="font-size:18px; margin-bottom:6px;">👨‍👩‍👧</div>
+          <div style="font-weight:700; margin-bottom:4px;">ファミリー・ウェルビーイング</div>
+          <div style="color:var(--muted)">保護者向けトレーニング・企業内キッズスクール・ファミリー参加型</div>
+        </div>
+        <div style="background:var(--card2); border-radius:10px; padding:14px; font-size:12.5px;">
+          <div style="font-size:18px; margin-bottom:6px;">🏢</div>
+          <div style="font-weight:700; margin-bottom:4px;">健康経営・コンサルティング</div>
+          <div style="color:var(--muted)">健康経営優良法人認定サポート・法人向け研修設計</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ランク制度 -->
+  <div class="section" id="rank">
+    <div class="section-title"><span class="icon">🏅</span>VIPトレーナーランク制度（Elite / Master / Legend）</div>
+
+    <div class="rank-grid">
+      <div class="rank-card rank-std">
+        <div class="rank-label">🆕</div>
+        <div class="rank-name">Challenger</div>
+        <div class="rank-fee">手数料 25%</div>
+        <div class="rank-price">
+          <div class="variable">成果 10,000〜50,000pt</div>
+          <div style="margin-top:6px; font-size:11px; color:var(--muted)">固定ベースなし</div>
+        </div>
+      </div>
+      <div class="rank-card rank-elite">
+        <div class="rank-label">🥉</div>
+        <div class="rank-name">Elite（エリート）</div>
+        <div class="rank-fee">手数料 20%</div>
+        <div class="rank-price">
+          <div class="fixed">固定 50,000pt</div>
+          <div class="variable">成果 10,000〜50,000pt</div>
+          <div style="margin-top:6px; font-size:12px; font-weight:700; color:var(--bronze)">合計 60,000〜100,000pt</div>
+        </div>
+      </div>
+      <div class="rank-card rank-master">
+        <div class="rank-label">🥈</div>
+        <div class="rank-name">Master（マスター）</div>
+        <div class="rank-fee">手数料 18%</div>
+        <div class="rank-price">
+          <div class="fixed">固定 100,000pt</div>
+          <div class="variable">成果 20,000〜100,000pt</div>
+          <div style="margin-top:6px; font-size:12px; font-weight:700; color:var(--silver)">合計 120,000〜200,000pt</div>
+        </div>
+      </div>
+      <div class="rank-card rank-legend">
+        <div class="rank-label">🥇</div>
+        <div class="rank-name">Legend（レジェンド）</div>
+        <div class="rank-fee">手数料 15%</div>
+        <div class="rank-price">
+          <div class="fixed">固定 200,000pt</div>
+          <div class="variable">成果 20,000〜100,000pt</div>
+          <div style="margin-top:6px; font-size:12px; font-weight:700; color:var(--gold)">合計 220,000〜300,000pt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 昇格条件 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">昇格・降格条件</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>昇格ルート</th><th>累計セッション</th><th>平均スコア</th><th>特別条件</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Challenger → Elite VIP</td>
+              <td>10回以上</td>
+              <td>累計400pt以上</td>
+              <td>低品質セッション（≤20pt）ゼロ必須</td>
+            </tr>
+            <tr>
+              <td>Elite VIP → Master VIP</td>
+              <td>20回以上</td>
+              <td>平均40pt以上</td>
+              <td>45ptを3回以上取得</td>
+            </tr>
+            <tr>
+              <td>Master VIP → Legend VIP</td>
+              <td>30回以上</td>
+              <td>平均40pt以上</td>
+              <td>45ptを3回以上取得</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-gold">スカウト枠</span> → Elite VIP直接</td>
+              <td>不問</td>
+              <td>不問</td>
+              <td>Elite VIPからスタート（特別な実績者は個別対応）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px; font-size:12.5px; color:var(--accent); background:rgba(233,69,96,0.1); border-radius:8px; padding:10px 14px;">
+        ⬇️ 降格ルール <span style="color:var(--green); font-size:11px;">✅ 2026-04-13確定</span>：直近3セッション連続で平均25pt以下 → 1ランク降格
+      </div>
+    </div>
+
+    <!-- 評価10項目 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">評価10項目（50点満点 × 双方評価）</div>
+      <div class="grid-2" style="margin-top:12px;">
+        <div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>評価項目</th><th>カテゴリ</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>コンテンツの質・専門性</td><td><span class="badge badge-blue">技術</span></td></tr>
+                <tr><td>2</td><td>参加者の体感・満足度</td><td><span class="badge badge-green">体験</span></td></tr>
+                <tr><td>3</td><td>目標・課題へのフィット度</td><td><span class="badge badge-gold">成果</span></td></tr>
+                <tr><td>4</td><td>コミュニケーション・説明力</td><td><span class="badge badge-muted">対話</span></td></tr>
+                <tr><td>5</td><td>時間厳守・進行管理</td><td><span class="badge badge-muted">プロ意識</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>評価項目</th><th>カテゴリ</th></tr></thead>
+              <tbody>
+                <tr><td>6</td><td>安全配慮・リスク管理</td><td><span class="badge badge-red">安全</span></td></tr>
+                <tr><td>7</td><td>場の雰囲気・場マネジメント</td><td><span class="badge badge-blue">空間</span></td></tr>
+                <tr><td>8</td><td>準備・資料・道具の充実度</td><td><span class="badge badge-muted">準備</span></td></tr>
+                <tr><td>9</td><td>継続・発展への提案力</td><td><span class="badge badge-green">継続</span></td></tr>
+                <tr><td>10</td><td>総合的な価値（コスト対効果）</td><td><span class="badge badge-gold">価値</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px; font-size:12px; color:var(--muted);">
+        ⚠️ 低評価（1〜2）は文字入力必須。項目10がウォレット報酬確定に最も直結。
+      </div>
+    </div>
+  </div>
+
+  <!-- ポイントシステム -->
+  <div class="section" id="point">
+    <div class="section-title"><span class="icon">💰</span>ポイントシステム詳細</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">ポイント制を採用する3つの理由</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:2;">
+          <div>① <strong style="color:var(--text)">稟議対策</strong>：「20万円分購入」として1回の稟議で確定費処理が可能</div>
+          <div>② <strong style="color:var(--text)">キャッシュフロー優位</strong>：先にキャッシュが入る。プラットフォーム側は痛くない</div>
+          <div>③ <strong style="color:var(--text)">ウォレット燃焼益</strong>：未使用ポイントの失効分がそのまま売上に</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ポイント購入ティア（企業向け）</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>購入額</th><th>付与pt</th><th>ボーナス</th></tr></thead>
+            <tbody>
+              <tr><td>¥50,000</td><td>50,000pt</td><td>—</td></tr>
+              <tr><td>¥100,000</td><td>105,000pt</td><td>+5,000pt</td></tr>
+              <tr><td>¥300,000</td><td>320,000pt</td><td>+20,000pt</td></tr>
+              <tr><td>¥500,000+</td><td>540,000pt+</td><td>+40,000pt</td></tr>
+              <tr style="background:rgba(233,69,96,0.08)"><td><span class="badge badge-red">初回モニター特典</span></td><td>100,000pt</td><td><strong style="color:var(--accent)">¥10,000投資で10倍</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ポイント消費パターン -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">ポイント消費パターン（推奨企業タイプ別）</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>パターン</th><th>想定企業</th><th>主な使途</th><th>月間消費目安</th><th>主担当</th><th>推奨度</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>A：オフィス特化</strong></td>
+              <td>ITベンチャー</td>
+              <td>経営陣パフォーマンスチューニング・目標設定</td>
+              <td>5〜15万pt</td>
+              <td>Legend/Master VIP ＋ Elite(月次)</td>
+              <td><span class="badge badge-blue">◯</span></td>
+            </tr>
+            <tr>
+              <td><strong>B：ファミリー特化</strong></td>
+              <td>製造業・地場企業</td>
+              <td>企業内キッズスクール・保護者向けトレーニング</td>
+              <td>3〜10万pt</td>
+              <td>Elite メイン ＋ Master VIP(年2回)</td>
+              <td><span class="badge badge-muted">△</span></td>
+            </tr>
+            <tr style="background:rgba(245,166,35,0.05)">
+              <td><strong>C：経営陣特化</strong></td>
+              <td>中堅企業</td>
+              <td>健康経営優良法人認定研修・限界突破公演</td>
+              <td>10〜30万pt</td>
+              <td>Legend VIPメイン ＋ Elite(定期)</td>
+              <td><span class="badge badge-gold">★最推奨</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 新機能要件 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">商談から発見された新機能要件（2026-04-06）</div>
+      <div style="font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;">
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">① 端数ポイント自動消化提案</div>
+          <div>残高に合わせたミニプログラムを自動提案（購入日から1年後の同日23:59失効）</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">② プライバシー保護型10倍キャンペーン</div>
+          <div>動画NGの企業向け・匿名データ提供で適用可能</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">③ 自動停止（自動更新なし）の明示</div>
+          <div>ポイント使い切りで静かに停止。解約手続き不要</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">④ エグゼクティブ優先予約枠</div>
+          <div>15分・30分の短縮コマ。会議の隙間に予約</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">⑤ 組織コンディショニング・カルテ</div>
+          <div>VIP初回セッション後72時間以内に提出するレポート</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">⑥ 予約の完全匿名制</div>
+          <div>誰が取ったかは非表示。同僚への遠慮をゼロに</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:var(--card2); border-radius:8px; padding:12px;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">⑦ 個人枠 × 集団枠の併設設計</div>
+          <div>前半30分集団 ＋ 後半90分個人の2段構成</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIP紹介制度 & 端数ポイント活用案 -->
+    <div class="grid-2" style="margin-top:16px;">
+
+      <!-- VIP紹介制度 -->
+      <div class="card">
+        <div class="card-title">🤝 VIP紹介制度 <span class="badge" style="background:rgba(39,174,96,0.15);color:#27ae60;font-size:11px;">✅ 2026-04-13 確定</span></div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.9;">
+          <div style="margin-bottom:10px; padding:10px; background:var(--card2); border-radius:8px; font-size:13px; color:var(--text);">
+            💡 <strong>目的</strong>：Challenger（新人）が「選ばれない」リスクを解消。VIPが橋渡し役になる設計。
+          </div>
+          <div style="margin-bottom:6px;">
+            <strong style="color:var(--gold)">① 紹介フロー</strong><br>
+            VIPが企業に単発訪問 → 継続担当としてChallengerを紹介<br>
+            <span style="font-size:12px; color:var(--muted);">「毎回VIPだと10倍のptかかりますが、この人なら10分の1で毎月来てもらえますよ」</span>
+          </div>
+          <div style="margin-bottom:6px;">
+            <strong style="color:var(--gold)">② 紹介フィー（確定）</strong><br>
+            Challengerの紹介後<strong style="color:var(--text)">3ヶ月の売上ptの10%</strong>をVIPに還元<br>
+            <span style="font-size:12px; color:var(--muted);">支払いタイミング：3ヶ月継続達成時 / 支払い元：Platform手数料（25%）から</span>
+          </div>
+          <div style="margin-bottom:6px; padding:10px; background:rgba(245,166,35,0.07); border-radius:8px; font-size:12.5px;">
+            📊 <strong style="color:var(--gold)">試算例</strong>：Challenger月2回×@30,000pt<br>
+            3ヶ月売上 <strong style="color:var(--text)">180,000pt</strong> → VIPへ <strong style="color:var(--gold)">18,000pt</strong><br>
+            Platform純収益：45,000 − 18,000 = <strong style="color:var(--text)">27,000pt</strong>（実効15%・3ヶ月のみ）
+          </div>
+          <div>
+            <strong style="color:var(--gold)">③ 三方良し</strong><br>
+            <span style="font-size:12px;">VIP：紹介収益 ✅ &nbsp;Challenger：安定稼働・実績 ✅ &nbsp;企業：継続コスト最適化 ✅</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 端数ポイント活用案 -->
+      <div class="card">
+        <div class="card-title">💸 端数ポイント活用 <span class="badge" style="background:rgba(39,174,96,0.15);color:#27ae60;font-size:11px;">✅ 2026-04-13 確定</span></div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.9;">
+          <div style="margin-bottom:10px; padding:10px; background:var(--card2); border-radius:8px; font-size:13px; color:var(--text);">
+            💡 <strong>目的</strong>：失効直前の残高を「無駄にせず使い切ってもらう」体験設計<br>
+            <span style="font-size:12px; color:var(--muted);">失効ルール：購入日から1年後の同日23:59</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:var(--card2); border-radius:8px; padding:10px; border-left:3px solid var(--gold);">
+              <div style="font-weight:700; color:var(--gold); font-size:13px; margin-bottom:3px;">① チップ（基本）</div>
+              <div style="font-size:12.5px;">セッション後にトレーナーへ感謝の気持ちとして任意追加。シンプルに「良かった！」を渡す。</div>
+            </div>
+            <div style="background:var(--card2); border-radius:8px; padding:10px; border-left:3px solid #3498db;">
+              <div style="font-weight:700; color:#3498db; font-size:13px; margin-bottom:3px;">② トレーナー応援</div>
+              <div style="font-size:12.5px;">好きなトレーナーの活動を端数ptで継続スポンサー支援。「推しトレーナー」文化を醸成。</div>
+            </div>
+            <div style="background:var(--card2); border-radius:8px; padding:10px; border-left:3px solid #27ae60;">
+              <div style="font-weight:700; color:#27ae60; font-size:13px; margin-bottom:3px;">③ 弊社事業応援（社会貢献）</div>
+              <div style="font-size:12.5px;">端数ptをMOONの社会的プロジェクトへ寄付できる仕組み。</div>
+              <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+                🌱 むーん（児童発達支援・運動療育）<br>
+                🏃 SORA / SUPERIOR（子ども陸上スクール）<br>
+                → 企業のCSR活動・健康経営優良法人認定の加点にも活用可能
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ターゲット・ペルソナ -->
+  <div class="section" id="target">
+    <div class="section-title"><span class="icon">🎯</span>ターゲット企業 & ペルソナ</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">ターゲット企業 基本スペック</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:2;">
+          <div>📌 <strong style="color:var(--text)">規模</strong>：社員50〜200名</div>
+          <div>📌 <strong style="color:var(--text)">特徴</strong>：決裁が早い / 採用課題が切実 / 福利厚生投資余地あり</div>
+          <div>📌 <strong style="color:var(--text)">業種（優先）</strong>：ITベンチャー / 製造業 / 地場中堅企業</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">初期モニター戦略</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:2;">
+          <div>🎁 <strong style="color:var(--accent)">10倍ポイントキャンペーン</strong>：¥10,000 → 100,000pt付与</div>
+          <div>📸 条件：撮影・PR動画制作への協力</div>
+          <div>📸 代替：匿名スコアデータ＋匿名テキスト感想の提供でも適用可</div>
+          <div>🎯 アクション：MOONさんの既存経営者クライアントを法人にスライド依頼</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ペルソナ表 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">ペルソナ設計（4パターン）</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ペルソナ</th><th>属性</th><th>最大の悩み</th><th>購買・参加トリガー</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-red">企業A</span> 総務・人事部長</td>
+              <td>45歳男性 / ITベンチャー100名</td>
+              <td>使われない福利厚生にお金を払いたくない</td>
+              <td>効果が出た分だけ払えばいい安心感</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-gold">企業B</span> 創業社長</td>
+              <td>42歳男性 / 製造業80名・2代目</td>
+              <td>ジム通いの時間がない・役員も疲弊</td>
+              <td>VIPアスリートが会社に来てくれる体験価値</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-blue">トレーナーC</span> フリーランス</td>
+              <td>28歳男性 / 個人中心・月収30万円前後</td>
+              <td>法人案件を取りたいが営業できない</td>
+              <td>頑張れば評価が上がって報酬も上がる仕組み</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-muted">トレーナーD</span> 元アスリート</td>
+              <td>32歳男性 / 実業団引退後のキャリア移行期</td>
+              <td>競技後のキャリアが不安</td>
+              <td>競技実績が初期信頼になるスカウト枠</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 商談スクリプト -->
+  <div class="section" id="script">
+    <div class="section-title"><span class="icon">🗣️</span>商談スクリプト（3パターン）</div>
+
+    <div class="script-card">
+      <div class="script-title">パターン1：めんどくさがり＆ルール至上主義の人事</div>
+      <div class="script-strategy">突破戦略：「新しいことをやらせる」ではなく「未来の面倒を回避する保険を仕込む」として提案</div>
+      <div>
+        <span class="framing-tag">核心フレーミング</span>
+        <span style="font-size:13px;">「社員のため」ではなく「社長の無茶振りへの保険・アリバイ作り」として位置づける</span>
+      </div>
+      <div style="margin-top:10px; font-size:12.5px; color:var(--muted);">
+        ✅ 「稟議書類は私が全部作る。〇〇さんはこれをそのまま提出するだけ」<br>
+        ✅ 「1万円→10万円分。消化率50%でも5倍のROI。端数は自動消化する」<br>
+        ✅ 動画NGなら「匿名スコアデータ＋匿名テキスト提供のみで10倍適用」
+      </div>
+    </div>
+
+    <div class="script-card pattern2">
+      <div class="script-title">パターン2：忙しくて健康に1ミリも興味がない社長</div>
+      <div class="script-strategy">突破戦略：「健康」「福利厚生」を封印。「脳のスペック」「採用広告費の代替」で攻める</div>
+      <div>
+        <span class="framing-tag" style="background:rgba(245,166,35,0.15); color:var(--gold)">核心フレーミング</span>
+        <span style="font-size:13px;">「健康」→「意思決定エラーの防止」 / 「福利厚生費」→「採用広告費の代替」</span>
+      </div>
+      <div style="margin-top:10px; font-size:12.5px; color:var(--muted);">
+        ✅ 「マイナビ・リクナビに50〜100万円捨てるリスク vs 最大50,000ptの成果報酬（Challengerランク）」<br>
+        ✅ 「社長1つのミス＝数百万の損失。トップアスリートの手法で脳をリカバリー」<br>
+        ✅ 「価格への反発→あなた自身が後から決めてください（評価連動）」
+      </div>
+    </div>
+
+    <div class="script-card pattern3">
+      <div class="script-title">パターン3：ライスワーク社員（社内説明会）</div>
+      <div class="script-strategy">突破戦略：「会社のお金を使って自分の体を合法的に得する」ゲームとして提示</div>
+      <div>
+        <span class="framing-tag" style="background:rgba(39,174,96,0.15); color:#2ecc71">核心フレーミング</span>
+        <span style="font-size:13px;">「参加者」ではなく「審査員・スポンサー」として権力を委譲。「完全犯罪」</span>
+      </div>
+      <div style="margin-top:10px; font-size:12.5px; color:var(--muted);">
+        ✅ 「私の悪口をスマホで打つだけで報酬が減る。あなたが審査員」<br>
+        ✅ 「予約は完全匿名。誰が取ったかは画面に表示されない（完全犯罪）」<br>
+        ✅ 集団枠は「誰の枠も奪わない・上司の目が気にならない」入口として機能
+      </div>
+    </div>
+
+    <!-- NGルール -->
+    <div class="card" style="border-left:4px solid var(--accent); margin-top:16px;">
+      <div class="card-title">⚠️ 商談NGルール</div>
+      <div style="font-size:13px; color:var(--muted); line-height:2;">
+        <div>❌ 「健康になりましょう」→ 社長・社員ともに即シャットアウト。「リカバリー」「脳のチューニング」に統一</div>
+        <div>❌ 「健康経営優良法人を取りましょう」は人事に使わない → 「面倒な書類仕事が増える」と認識される</div>
+        <div>❌ VIPが毎回来ることを期待値にしてはいけない → 「初回=診断士、継続=実行部隊」の役割分担を最初から伝える</div>
+        <div>❌ 価格を「数百pt」と言わない → 最低10,000ptが正しい設計</div>
+        <div>❌ 個人枠と集団枠の設計を商談途中で出さない → 最初の説明でセットで伝えること</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 収益モデル -->
+  <div class="section" id="revenue">
+    <div class="section-title"><span class="icon">📊</span>収益モデル & スケール試算</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">4つの収益ストリーム</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>収益源</th><th>概要</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><strong>プラットフォーム手数料</strong></td><td>報酬確定額の25〜15%（ランク別）</td></tr>
+              <tr><td>2</td><td><strong>ポイント失効益</strong></td><td>年間未使用ポイント（推定10〜20%）</td></tr>
+              <tr><td>3</td><td><strong>企業サブスク</strong></td><td>VIPアクセス権 月額5,000pt〜年間45,000pt（現フェーズは保留）</td></tr>
+              <tr><td>4</td><td><strong>初期導入費</strong></td><td>オンボーディング 30,000〜50,000pt（初回のみ）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">スケール試算（1社あたり年間収益 ≒ ¥67万円）</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:2.2; margin-top:8px;">
+          <div>📌 年間ポイント購入: <strong style="color:var(--text)">¥200万円</strong></div>
+          <div>📌 手数料収入 (17%): <strong style="color:var(--gold)">¥28.9万円</strong></div>
+          <div>📌 失効益 (15%): <strong style="color:var(--gold)">¥30万円</strong></div>
+          <div>📌 サブスク: <strong style="color:var(--gold)">¥4.5万円</strong></div>
+        </div>
+        <div style="margin-top:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted)">モニター5社</span>
+            <span style="font-weight:700; color:var(--accent)">¥335万円/年</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted)">初期15社</span>
+            <span style="font-weight:700; color:var(--gold)">¥1,005万円/年</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted)">成長30社</span>
+            <span style="font-weight:700; color:#2ecc71">¥2,010万円/年</span>
+          </div>
+          <div style="margin-top:10px; font-size:12px; color:var(--muted); background:rgba(245,166,35,0.1); border-radius:6px; padding:8px 12px;">
+            損益分岐目安：<strong style="color:var(--gold)">10〜15社</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- プリズムカップ -->
+  <div class="section" id="prism">
+    <div style="background:rgba(245,166,35,0.08); border:1px solid var(--gold); border-radius:10px; padding:10px 16px; font-size:12px; color:var(--muted); margin-bottom:16px;">
+      📌 <strong style="color:var(--gold)">CONTEXT.md同期済み</strong>：2026-04-16 ／ 岩本広明さん非表示（関西PJで起用予定）／ 撮影方針確定：自前動画撮影（プロカメラマン起用なし）
+    </div>
+    <div class="section-title"><span class="icon">⚽</span>PRISM CUP（先行フラッグシップイベント）</div>
+
+    <div class="copy-highlight" style="background: linear-gradient(135deg, #0f3460 0%, #16213e 100%); border-color: var(--gold);">
+      <div class="copy-main" style="font-size:22px;">「仕事仲間と本気で遊ぶ」が、最高のチームビルディングになる。</div>
+      <div class="copy-sub">PRISM CUP — 企業チームがプロアスリートと一緒にフットサルで汗を流す招待制イベント</div>
+    </div>
+
+    <div class="prism-grid">
+      <div class="prism-letter">
+        <div class="prism-big">P</div>
+        <div class="prism-en">PLAY</div>
+        <div class="prism-jp">本気の遊び</div>
+        <div class="prism-desc">プロと本気で戦えるフットサル体験</div>
+      </div>
+      <div class="prism-letter">
+        <div class="prism-big">R</div>
+        <div class="prism-en">RELATION</div>
+        <div class="prism-jp">企業間の繋がり</div>
+        <div class="prism-desc">業種を超えた名刺交換・ビジネストーク</div>
+      </div>
+      <div class="prism-letter">
+        <div class="prism-big">I</div>
+        <div class="prism-en">INSPIRE</div>
+        <div class="prism-jp">プロの刺激</div>
+        <div class="prism-desc">オリンピアン・プロ選手からのインスピレーション</div>
+      </div>
+      <div class="prism-letter">
+        <div class="prism-big">S</div>
+        <div class="prism-en">STRENGTH</div>
+        <div class="prism-jp">チームの力</div>
+        <div class="prism-desc">社員のチームビルディング・絆の強化</div>
+      </div>
+      <div class="prism-letter">
+        <div class="prism-big">M</div>
+        <div class="prism-en">MEDIA</div>
+        <div class="prism-jp">採用PR素材</div>
+        <div class="prism-desc">撮影による採用・広報コンテンツ</div>
+      </div>
+    </div>
+
+    <!-- イベント概要 -->
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-title">イベント概要</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:2;">
+          <div>📅 <strong style="color:var(--text)">開催日</strong>：2026年7月4日（土）18:00〜22:00</div>
+          <div>📍 <strong style="color:var(--text)">会場</strong>：アソビル（予備日：7月25日）</div>
+          <div>👥 <strong style="color:var(--text)">規模</strong>：5〜8人 × 8チーム（最大64名）</div>
+          <div>💰 <strong style="color:var(--text)">参加費</strong>：1チーム 100,000pt（1人あたり20,000pt）</div>
+          <div>🏟️ <strong style="color:var(--text)">会場費</strong>：¥165,000（フットサル2面 ＋ 平面スペース × 4時間）</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">参加費10万円の価値設計（予算別フレーミング）</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+          <div>💼 <strong style="color:var(--text)">採用費・広告費</strong>：当日撮影素材による採用PR・記事コンテンツ制作</div>
+          <div>🤝 <strong style="color:var(--text)">交際費・営業費</strong>：B2B商談の場・名刺交換タイム</div>
+          <div>🏋️ <strong style="color:var(--text)">福利厚生費・研修費</strong>：元トップアスリートによる健康経営クリニック</div>
+          <div>🎁 <strong style="color:var(--text)">損失回避</strong>：参加賞・優勝賞品で実質ペイバック設計</div>
+          <div>⭐ <strong style="color:var(--text)">スノッブ効果</strong>：招待制・選ばれた10社限定</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- キャスティング -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">キャスティング確定メンバー</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>役割</th><th>氏名</th><th>主な実績</th><th>ステータス</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>HOST・オリンピアン</td>
+              <td><strong>荻田大樹</strong></td>
+              <td>陸上競技オリンピアン・TrustFit代表</td>
+              <td><span class="badge badge-green">✅ 確定</span></td>
+            </tr>
+            <tr>
+              <td>MC</td>
+              <td><strong>佐々木理方</strong></td>
+              <td>元Jリーグ強化指定選手・B3バスケMC経験</td>
+              <td><span class="badge badge-green">✅ 確定</span></td>
+            </tr>
+
+            <tr>
+              <td>現地トレーナー派遣</td>
+              <td><strong>脇坂大陽</strong></td>
+              <td>スポーツアライアンス代表理事・JCCAマスタートレーナー</td>
+              <td><span class="badge badge-blue">起用予定</span></td>
+            </tr>
+            <tr>
+              <td>出資者・事業パートナー</td>
+              <td><strong>福壽孝太朗</strong></td>
+              <td>株式会社ウィズアスリート代表・SAL SPORTS PARK</td>
+              <td><span class="badge badge-yellow">🔄 交渉中</span></td>
+            </tr>
+            <tr>
+              <td>元Jリーガー（選手参加）</td>
+              <td><strong>佐藤和樹</strong></td>
+              <td>元名古屋グランパス・13年間プロキャリア</td>
+              <td><span class="badge badge-green">✅ 確定</span></td>
+            </tr>
+            <tr>
+              <td>プロフットサル選手</td>
+              <td><strong>山崎椋太</strong></td>
+              <td>元デウソン神戸（Fリーグ）・SAL SPORTS PARK元店長</td>
+              <td><span class="badge badge-green">✅ 確定</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 集客方法 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">集客方法TOP5（コスパ優先）</div>
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:13px; color:var(--muted);">
+        <div style="display:flex; gap:12px; align-items:flex-start;"><span style="font-size:16px; flex-shrink:0;">🥇</span><div><strong style="color:var(--text)">経営者コミュニティ・商工会議所トップダウン営業</strong><br>決裁権者に直接リーチ→稟議なし即決。コスト：ほぼ無料</div></div>
+        <div style="display:flex; gap:12px; align-items:flex-start;"><span style="font-size:16px; flex-shrink:0;">🥈</span><div><strong style="color:var(--text)">Peatix等ビジネスイベントプラットフォーム</strong><br>事前決済・領収書自動化でドタキャンリスクゼロ</div></div>
+        <div style="display:flex; gap:12px; align-items:flex-start;"><span style="font-size:16px; flex-shrink:0;">🥉</span><div><strong style="color:var(--text)">PRプレスリリース配信（PR TIMES等）</strong><br>「公式イベントに自社名が載る」という大義名分作り。約3万円/回</div></div>
+        <div style="display:flex; gap:12px; align-items:flex-start;"><span style="font-size:16px; flex-shrink:0;">4位</span><div><strong style="color:var(--text)">フットサル施設（法人会員）との提携</strong><br>すでに法人予算でフットサルを使っているターゲットへの直接告知</div></div>
+        <div style="display:flex; gap:12px; align-items:flex-start;"><span style="font-size:16px; flex-shrink:0;">5位</span><div><strong style="color:var(--text)">Wantedly等採用ブログ経由DM</strong><br>「社内フットサル部あり」な企業をピンポイント特定</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- パートナー -->
+  <div class="section" id="partners">
+    <div class="section-title"><span class="icon">🤝</span>キーパートナー</div>
+
+    <div class="partner-card">
+      <div class="partner-name">佐々木 理方（ただすけ）</div>
+      <div class="partner-title">合同会社レガテアール（REGATEAR）代表 / 元Jリーグ強化指定選手</div>
+      <div class="partner-tags">
+        <span class="badge badge-red">TrustFit共同パートナー</span>
+        <span class="badge badge-blue">プリズムカップMC</span>
+        <span class="badge badge-green">収益50-50</span>
+      </div>
+      <div class="partner-body">
+        <strong style="color:var(--text)">シナジー：</strong>Jリーグ親会社（新宿）への直接アプローチ可 / J3降格チーム選手のTrustFit登録促進 / 金融・コンサル業界への代理店営業 / ソフトバンク創業エンジニア紹介予定 / ユニフォーム製作でプリズムカップTシャツ発注先候補<br>
+        <strong style="color:var(--text)">哲学：</strong>「ルフィとゾロみたいにゴールは一緒で、結果的に組織が強くなる」ワンピース型自律組織。「常に佐々木氏は裏方・MOONブランドを前面に」の役割分担に合意済み。
+      </div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-name">福壽 孝太朗</div>
+      <div class="partner-title">株式会社ウィズアスリート（with Athletes Inc.）代表取締役 / メイスンワーク株式会社代表</div>
+      <div class="partner-tags">
+        <span class="badge badge-gold">出資者（株式会社MOONへの資本参加済）</span>
+        <span class="badge badge-blue">TrustFit事業パートナー</span>
+      </div>
+      <div class="partner-body">
+        資本金7,500万円。SAL SPORTS PARK（アソビル）運営・スポーツ人材派遣事業を展開。<strong style="color:var(--text)">TrustFitのトレーナーマッチングと完全に親和性あり。最重要パートナー。</strong><br>
+        山崎椋太さん（SAL SPORTS PARK元店長）との接点もあり、プリズムカップのアソビル会場との三重のシナジー。
+      </div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-name">脇坂 大陽</div>
+      <div class="partner-title">一般財団法人スポーツアライアンス 代表理事</div>
+      <div class="partner-tags">
+        <span class="badge badge-muted">現地トレーナー派遣連携</span>
+        <span class="badge badge-blue">プリズムカップ</span>
+      </div>
+      <div class="partner-body">
+        JCCAマスタートレーナーA級講師 / 国士舘大学講師 / 東南アジアでのスポーツトレーナー普及活動実績。登録トレーナー（医療系国家資格・アスレティックトレーナー等）をTrustFitのChallenger供給源として活用可能性あり。
+      </div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-name">新田 寛之</div>
+      <div class="partner-title">千日商店株式会社 代表 / AKTRブランド創業者</div>
+      <div class="partner-tags">
+        <span class="badge badge-muted">スポンサー候補</span>
+        <span class="badge badge-muted">ウェア提供検討中</span>
+      </div>
+      <div class="partner-body">
+        日本発バスケットボールアパレルブランドAKTR創業者。プリズムカップ参加企業・選手へのウェア提供、スポンサーロゴのイベントTシャツ・会場バナー掲載を検討中。
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO -->
+  <div class="section" id="todo">
+    <div class="section-title"><span class="icon">✅</span>TODO一覧</div>
+
+    <div class="card">
+      <div style="font-size:12px; color:var(--muted); margin-bottom:16px; display:flex; gap:16px; flex-wrap:wrap;">
+        <span><span class="todo-check todo-done" style="display:inline-flex; width:16px; height:16px; font-size:9px;">✓</span> 完了</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:12px; height:12px; border-radius:50%; border:2px solid var(--accent);"></span> 🔴高優先度</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:12px; height:12px; border-radius:50%; border:2px solid var(--yellow);"></span> 🟡中優先度</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:12px; height:12px; border-radius:50%; border:2px solid var(--muted);"></span> 🟢低優先度</span>
+      </div>
+
+      <div class="todo-item">
+        <div class="todo-check todo-done">✓</div>
+        <div class="todo-label"><strong>評価10項目の詳細設計</strong> <span style="color:var(--green); font-size:11px;">✅ 2026-04-04完了</span></div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-done">✓</div>
+        <div class="todo-label"><strong>価格設計の修正</strong>（Challenger最大5万円・最低1万円） <span style="color:var(--green); font-size:11px;">✅ 2026-04-06完了</span></div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-high"></div>
+        <div class="todo-label">
+          <strong>1枚モノ提案書（企業向けモニター用）の作成</strong> <span class="badge badge-red" style="margin-left:6px;">🔴高</span>
+          <div class="prereq">前提：ポイント設計確定 ✅ ／ 「プライバシー配慮型キャンペーン（動画なし版）」選択肢を明記 ／ 「キャンペーン終了後の自動停止」を明記</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-high"></div>
+        <div class="todo-label">
+          <strong>ポイント管理・評価システムのプロトタイプ設計（LP/LP的なもの）</strong> <span class="badge badge-red" style="margin-left:6px;">🔴高</span>
+          <div class="prereq">前提：ブランド名確定</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-high"></div>
+        <div class="todo-label">
+          <strong>初回モニター企業へのアプローチ</strong> <span class="badge badge-red" style="margin-left:6px;">🔴高</span>
+          <div class="prereq">前提：1枚モノ提案書完成</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>正式プロジェクト名・ブランド名の決定</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>VIP昇格条件の数値設計</strong>（評価件数・平均点の閾値） <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+          <div class="prereq">前提：評価10項目確定 ✅</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>業務委託契約書テンプレートの整備</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>MOONさんの法人向けコンテンツメニュー表作成</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>【NEW】端数ポイント自動消化アシスト機能の設計</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+          <div class="prereq">前提：ポイントシステム設計</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>【NEW】VIPエグゼクティブ枠（15分・30分短縮コマ）の設計</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>【NEW】組織コンディショニング・カルテ テンプレート作成</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>【NEW】予約完全匿名制の仕様確定</strong>（誰が取ったか非表示） <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-mid"></div>
+        <div class="todo-label">
+          <strong>【NEW】個人枠×集団枠 併設コマのセッション設計</strong> <span class="badge badge-gold" style="margin-left:6px;">🟡中</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-check todo-low"></div>
+        <div class="todo-label">
+          <strong>商談スクリプト3パターンの正式版PDF化</strong>（提案書同梱用） <span class="badge badge-muted" style="margin-left:6px;">🟢低</span>
+          <div class="prereq">前提：1枚提案書完成</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 最新ハンドオフ -->
+    <div class="card" style="border-top:3px solid var(--accent); margin-top:16px;">
+      <div class="card-title">🏁 最新ハンドオフ（2026-04-11）</div>
+      <div style="font-size:13px; color:var(--muted); line-height:2;">
+        <div>✅ 候補企業リスト完成（18社・S/A/Bランク・連絡先・社長情報・キラーワード付き）→ <code style="color:var(--accent)">prismcup-prospect-list.html</code></div>
+        <div>✅ 企画書LP完成（コンセプト・プロ紹介・5つの価値・スケジュール・料金・FAQ・CTA）→ <code style="color:var(--accent)">prismcup-proposal.html</code></div>
+        <div>✅ DMテンプレート完成（メール2種・Instagram DM2種・電話フォロー2種・コピーボタン付き）→ <code style="color:var(--accent)">prismcup-dm-templates.html</code></div>
+        <div>✅ html.aiフォルダに全3ファイル配置済み</div>
+        <div style="margin-top:12px; background:rgba(233,69,96,0.1); border-radius:8px; padding:10px 14px; color:var(--text);">
+          🎯 次のアクション：① Netlifyにアップして企画書URLを取得 → ② DMテンプレートにURL差し替え → ③ Sランク企業からアプローチ開始
+        </div>
+      </div>
+    </div>
+
+    <!-- 進捗 -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">プロジェクト進捗</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:13px; color:var(--muted);">全体進捗</span>
+        <span style="font-weight:700; color:var(--accent);">5%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:5%"></div>
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:var(--muted); line-height:1.8;">
+        <div>📅 2026-04-03：0% → 5%（プロジェクト起案・CONTEXT.md初期作成）</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  TrustFit — 全体まとめ | 株式会社MOON | 最終更新：2026-04-13<br>
+  <span style="color:var(--border);">このドキュメントはAI組織管理システムにより自動生成されました</span>
+</footer>
+
+</body>
+</html>

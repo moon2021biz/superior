@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第2章 制作原稿｜代償動作の罠と出力ベクトルの最適化</title>
+  <style>
+    :root{--bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--border:#2e2e3e;--accent:#5b6af0;--accent2:#a78bfa;--gold:#f59e0b;--red:#f87171;--green:#34d399;--text:#e2e2ee;--muted:#8888aa;--dim:#555568;--r:12px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;line-height:1.9;font-size:15px;}
+    .page-header{background:linear-gradient(135deg,#0f0f13,#1a1040,#0f1a30);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
+    .page-header .badge{display:inline-block;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.15em;padding:3px 12px;border-radius:99px;margin-bottom:14px;}
+    .page-header h1{font-size:clamp(18px,3vw,28px);font-weight:900;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4;}
+    .page-header p{color:var(--muted);font-size:13px;margin-top:10px;}
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);max-width:800px;margin:32px auto 0;padding:0 24px;}
+    .tab{padding:10px 20px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;}
+    .tab.active{color:var(--accent2);border-bottom-color:var(--accent2);}
+    .section{max-width:800px;margin:0 auto;padding:32px 24px 80px;display:none;}
+    .section.active{display:block;}
+    .note-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px;margin-bottom:16px;}
+    .label-free{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .label-paid{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+    .note-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+    .note-block h2{font-size:20px;font-weight:900;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+    .note-block h3{font-size:15px;font-weight:800;color:var(--accent2);margin:24px 0 10px;padding-left:10px;border-left:3px solid var(--accent2);}
+    .note-block p{color:#ccc;font-size:14.5px;margin-bottom:14px;line-height:1.9;}
+    .note-block strong{color:#fff;font-weight:700;}
+    .callout{border-radius:8px;padding:16px 20px;margin:16px 0;font-size:14px;color:#ccc;}
+    .c-warn{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);}
+    .c-ok{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.3);}
+    .c-blue{background:rgba(91,106,240,.08);border:1px solid rgba(91,106,240,.3);}
+    .c-gold{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);}
+    .free-end{border:2px dashed rgba(52,211,153,.4);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--green);}
+    .paid-start{border:2px dashed rgba(245,158,11,.5);border-radius:8px;padding:14px 18px;margin:24px 0;text-align:center;font-size:13px;color:var(--gold);}
+    .numbered-list{display:flex;flex-direction:column;gap:18px;margin:18px 0;}
+    .num-item{display:flex;gap:14px;}
+    .num-item .num{flex-shrink:0;width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;margin-top:2px;}
+    .num-item .body strong{display:block;font-size:14px;font-weight:800;color:#fff;margin-bottom:6px;background:none;padding:0;}
+    .num-item .body p{margin:0;font-size:13.5px;color:#b0b0c8;}
+    .slides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+    .slide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+    .slide-num{background:var(--gold);color:#111;font-size:11px;font-weight:800;padding:6px 14px;letter-spacing:.05em;}
+    .slide-body{padding:18px 18px 20px;}
+    .slide-body .headline{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.5;}
+    .slide-body .body-text{font-size:13px;color:var(--muted);line-height:1.8;}
+    .slide-body .cta{margin-top:10px;font-size:12px;font-weight:700;color:var(--accent2);border-top:1px solid var(--border);padding-top:10px;}
+    .tiktok-meta{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-top:24px;}
+    .tiktok-meta h3{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;}
+    .tiktok-meta p{font-size:13px;color:#ccc;line-height:1.8;}
+    .tag{display:inline-block;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.3);color:var(--accent2);font-size:11px;padding:2px 8px;border-radius:4px;margin:2px;}
+    @media(max-width:600px){.note-block{padding:20px 18px;}.section{padding:24px 16px 60px;}}
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="badge">Chapter 02 ／ 有料メンバーシップ</div>
+  <h1>代償動作の罠と出力ベクトルの最適化<br>制作原稿｜note ＋ TikTok</h1>
+  <p>冒頭〜代償動作の概念まで無料 ／ ベクトル最適化・屈曲のパラドックスは有料</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('note')">📝 note原稿</div>
+  <div class="tab" onclick="switchTab('tiktok')">🎬 TikTokスライド</div>
+</div>
+
+<!-- ━━━ NOTE ━━━ -->
+<div class="section active" id="note">
+
+  <div class="note-label label-free">✅ 無料公開エリア（冒頭〜代償動作の概念まで）</div>
+
+  <div class="note-block">
+    <h2>【スプリント科学②】「ストライドを伸ばそうとすること」が才能を殺す——代償動作の力学的トレードオフ</h2>
+
+    <p>こんにちは、おぎぃ。です。</p>
+    <p>前回の第1章では、スタート局面における「重心後方接地」の力学的真実と、育成年代への正しいアプローチをお伝えしました。今回は加速からトップスピードへの移行局面で起きる「代償動作の罠」と、出力ベクトルを最適化するための考え方を解説します。</p>
+
+    <h3>股関節の硬さが生む「代償動作の連鎖」</h3>
+    <p>加速からトップスピードへと移行する際、多くの選手が「ストライドの確保」という壁にぶつかります。特に股関節の伸展可動域が狭い（硬い）選手が、無理に教科書通りの「フロントサイド・メカニクス（遊脚を高く引き上げ、前方に大きなスイングを作る走り）」を真似ようとすると、出力のベクトルを激しく阻害する代償動作の連鎖を引き起こします。</p>
+    <p>代表的なエラーが<strong>「腰椎の屈曲（猫背）」と「接地時の無自覚で過度な膝の沈み込み（Yielding）」</strong>です。</p>
+
+    <div class="callout c-blue">
+      「骨盤を後傾させ、脊柱を屈曲させることで相対的に膝（遊脚の質量）を高く引き上げ、高い位置エネルギーを獲得する。そこからの強烈なスイングダウンで大きな力を生み出したい」——この発想自体は、物理的アプローチとして非常に鋭く、理にかなっています。
+    </div>
+
+    <p>しかし、スプリントという複雑な運動連鎖において、このアライメント操作は以下の強烈な力学的トレードオフを引き起こします。</p>
+
+    <div class="numbered-list">
+      <div class="num-item">
+        <div class="num">1</div>
+        <div class="body">
+          <strong>支持脚の「伸展可動域」の物理的ロック</strong>
+          <p>骨盤が後傾した瞬間に股関節の伸展可動域は物理的にロックされ、地面を押し込む距離と時間が強制終了します。結果として推進のための水平ベクトルが激減します。</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <div class="num">2</div>
+        <div class="body">
+          <strong>システム全体の「重心低下」</strong>
+          <p>遊脚の膝が相対的に高く上がっても、腰椎が屈曲（猫背）している時点で、身体重心（CoM）の絶対位置は地面に近づき低くなっています。重心が低い状態からの振り下ろしは、地面までの加速距離（ストローク）が短くなり、十分な運動エネルギーに変換しきる前に接地を迎えてしまいます。</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <div class="num">3</div>
+        <div class="body">
+          <strong>体幹の剛性（Stiffness）低下による反発の漏出</strong>
+          <p>接地時に体重の数倍という反力を受けるには、脊柱〜骨盤帯が「剛体」として機能する必要があります。腰椎の屈曲は「最初からたわんでいる柱」であり、地面からの強烈な反発力は背中がさらに屈曲することによる衝撃吸収として逃げてしまい、推進力へと抜けません。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="free-end">✅ ここまで無料公開｜続きはメンバーシップ（有料）でご覧いただけます</div>
+    <p style="color:var(--muted);font-size:13px;">この先では「関節剛性と意図的な屈曲のパラドックス」「ストライドの本当の作られ方」「股関節が硬い選手が取るべき戦略」を解説します。</p>
+  </div>
+
+  <!-- 有料エリア -->
+  <div class="note-label label-paid" style="margin-top:32px;">🔒 有料メンバーシップエリア</div>
+  <div class="paid-start">🔒 ここから先はメンバーシップ限定コンテンツです</div>
+
+  <div class="note-block" style="border-color:rgba(245,158,11,.3);">
+    <h3>「関節剛性」と「意図的な屈曲（戦略的Yielding）」のパラドックス</h3>
+    <p>ここで、スプリントにおける「膝の屈曲」について、非常に高度で重要なバイオメカニクスの真実に触れておきます。</p>
+    <p>一般的に、トップスピードでは大腿四頭筋の強靭な予備緊張によって<strong>浅い屈曲角度（約150〜160°）を接地中にガッチリと維持する「関節剛性（Joint Stiffness）」</strong>が極めて重要だとされています。衝撃に負けて潰れる（無自覚なYielding）ことは、エネルギーの漏出に直結するからです。</p>
+    <p>しかし、トップスプリンターの動作分析や近年の科学的研究において、「接地後に意図的にわずかな屈曲（Yielding）運動を入れる」という高度なメカニクスを持つ選手が存在することが確認されています。これは、衝撃に負けているわけではありません。科学的にも、股関節の回転（可動）に対して、膝関節を戦略的にわずかに屈曲させることで、末端（足部）の相対的な移動距離（水平方向の並進距離）が増加することが示唆されています。</p>
+    <p>つまり、剛性をガチガチに高めて一本の棒のように弾むアプローチがある一方で、接地中に膝や足首の関節を巧妙に「たわませる（コントロールされた屈曲）」ことで、重心が足を越えて前方に移動するまでのストロークを人為的に長く確保し、より長く地面に力を加え続ける（力積を最大化する）技術が存在するのです。</p>
+
+    <div class="callout c-gold">
+      関節剛性でSSCの弾性エネルギーを極限まで引き出すタイプか、意図的な屈曲を用いて末端の移動距離とプッシュオフの長さを稼ぐタイプか。これは選手の筋力特性や骨格によって選択すべき最適解が分かれる、極めて高度なスプリントの分岐点と言えます。
+    </div>
+
+    <h3>ストライドの真実とベクトルの最適化</h3>
+    <p>最も重要なパラダイムシフトは、<strong>「ストライドは前へ脚をリーチさせて獲りにいくものではない」</strong>という事実です。</p>
+    <p>ストライド長（歩幅）は、離地時の身体重心の初速と飛び出しの角度によって物理的に決定される、重心の放物運動の結果です。推進力は「空中で足をどう前に伸ばすか」ではなく、「接地中にどれだけの力を、どれだけ短い時間で、正しい方向（ベクトル）へ加えられたか」に完全に依存しています。</p>
+    <p>股関節が硬い選手が行うべきは、無理にストライドという結果を形だけ追うことではありません。可動域の制限を受け入れ、「いかに早く遊脚を重心の下へ回帰させ、強力な鉛直・水平ベクトルを生み出すための『正しい接地位置とタイミング』に脚を間に合わせるか」に特化することです。低いストロークのまま、大臀筋やハムストリングスの強力な伸展トルクを使って重心の真下へ鋭く振り下ろす。正しいベクトル（巨大な力積）さえ生成できれば、結果としてのストライドは自ずと最大化されます。</p>
+
+    <div class="callout c-ok">
+      <strong>✅ まとめ：</strong>ストライドは「結果」であり「目的」ではない。接地中の正しいベクトル生成こそが唯一の正解。股関節の硬さは「制限」ではなく「個性」として、その中での最適解を探すことが指導者の役割です。
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ TikTok ━━━ -->
+<div class="section" id="tiktok">
+  <div class="tiktok-meta" style="margin-bottom:24px;">
+    <h3>📌 動画設計メモ</h3>
+    <p>テーマ：「ストライドを伸ばそうとすることが才能を殺す理由」<br>無料部分（代償動作3つ）をスライドに凝縮。有料への誘導CTA付き。<br>尺感：45〜60秒</p>
+  </div>
+
+  <div class="slides-grid">
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 01 ／ フック</div>
+      <div class="slide-body">
+        <div class="headline">「ストライドを伸ばそう」と思ってやってることが、出力を殺している。</div>
+        <div class="body-text">股関節が硬い選手が無理に前へ脚を伸ばそうとすると、3つの代償動作が連鎖する。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 02 ／ エラー①</div>
+      <div class="slide-body">
+        <div class="headline">代償①：骨盤が後傾した瞬間に股関節伸展がロックされる。</div>
+        <div class="body-text">地面を押し込む距離と時間が強制終了。推進の水平ベクトルが激減する。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 03 ／ エラー②</div>
+      <div class="slide-body">
+        <div class="headline">代償②：見た目の膝の高さと、重心の絶対高さは別物。</div>
+        <div class="body-text">腰が丸まった時点で重心は下がっている。振り下ろしの加速距離が短くなり、エネルギーが足りない。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 04 ／ エラー③</div>
+      <div class="slide-body">
+        <div class="headline">代償③：「たわんだ柱」に反発力は伝わらない。</div>
+        <div class="body-text">腰椎が屈曲したまま接地すると、地面反力が背中の屈曲に吸収されて推進力に変わらない。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 05 ／ 真実</div>
+      <div class="slide-body">
+        <div class="headline">ストライドは「結果」。前に投げ出した足の長さじゃない。</div>
+        <div class="body-text">接地中にどれだけの力を、正しいベクトルで加えられたか。それだけで歩幅は決まる。</div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-num">SLIDE 06 ／ CTA</div>
+      <div class="slide-body">
+        <div class="headline">股関節が硬い選手が取るべき戦略、続きはnoteで。</div>
+        <div class="body-text">「関節剛性vs意図的な屈曲」のパラドックスも解説。</div>
+        <div class="cta">→ メンバーシップ記事で続きを読む（プロフのリンクから）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiktok-meta">
+    <h3>📎 推奨ハッシュタグ</h3>
+    <p>
+      <span class="tag">#スプリント</span><span class="tag">#バイオメカニクス</span><span class="tag">#ストライド</span><span class="tag">#陸上競技</span><span class="tag">#走り方改善</span><span class="tag">#スポーツ科学</span><span class="tag">#コーチング</span><span class="tag">#おぎぃ</span>
+    </p>
+  </div>
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['note','tiktok'][i]===id);});
+  document.querySelectorAll('.section').forEach(s=>{s.classList.toggle('active',s.id===id);});
+}
+</script>
+</body>
+</html>

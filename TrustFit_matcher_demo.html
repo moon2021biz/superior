@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit — トレーナーマッチング</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --gold: #f5a623;
+    --silver: #b0bec5;
+    --bronze: #cd7f32;
+    --blue: #0f3460;
+    --light: #f8f9fa;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --green: #10b981;
+    --purple: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* Header */
+  .header {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e94560, #f5a623);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+  }
+  .logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 2px;
+  }
+  .logo-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .header-badge {
+    background: rgba(233,69,96,0.2);
+    border: 1px solid rgba(233,69,96,0.4);
+    color: #e94560;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* Main container */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .hero-eyebrow {
+    color: #e94560;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero-title span {
+    background: linear-gradient(90deg, #e94560, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Step indicator */
+  .steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.3s;
+  }
+  .step.active .step-num {
+    background: #e94560;
+    border-color: #e94560;
+    color: white;
+  }
+  .step.done .step-num {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+  }
+  .step-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  .step.active .step-label { color: white; }
+  .step.done .step-label { color: #10b981; }
+  .step-line {
+    width: 60px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    margin: 0 8px;
+  }
+  .step-line.done { background: #10b981; }
+
+  /* Panel */
+  .panel {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 24px;
+    display: none;
+  }
+  .panel.active { display: block; }
+  .panel-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .panel-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  /* Category grid */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .cat-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+  }
+  .cat-card:hover {
+    border-color: rgba(233,69,96,0.5);
+    background: rgba(233,69,96,0.08);
+    transform: translateY(-2px);
+  }
+  .cat-card.selected {
+    border-color: #e94560;
+    background: rgba(233,69,96,0.12);
+  }
+  .cat-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .cat-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .cat-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+  .cat-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .cat-tag {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+  }
+
+  /* Sub content select */
+  .sub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .sub-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .sub-item:hover, .sub-item.selected {
+    border-color: #f5a623;
+    background: rgba(245,166,35,0.08);
+  }
+  .sub-item.selected {
+    border-color: #f5a623;
+  }
+  .sub-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+  .sub-name { font-size: 13px; font-weight: 600; color: white; }
+
+  /* Form fields */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.5px;
+  }
+  select, input[type="number"], input[type="text"] {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:focus, input:focus {
+    border-color: #e94560;
+  }
+  select option { background: #1a1a2e; }
+
+  /* Button */
+  .btn-primary {
+    background: linear-gradient(135deg, #e94560, #c0392b);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(233,69,96,0.4);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+
+  /* Results */
+  .result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .result-count {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+  }
+  .result-count span { color: white; font-weight: 700; }
+
+  /* Trainer card */
+  .trainer-card {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .trainer-card:hover {
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .trainer-card.top-pick {
+    border-color: rgba(245,166,35,0.5);
+    background: rgba(245,166,35,0.05);
+  }
+  .trainer-card.top-pick::before {
+    content: '🏆 AIおすすめ';
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: linear-gradient(135deg, #f5a623, #e67e22);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+    border: 3px solid rgba(255,255,255,0.1);
+  }
+  .avatar.legend {
+    background: linear-gradient(135deg, #f5a623, #e67e22);
+    border-color: #f5a623;
+  }
+  .avatar.master {
+    background: linear-gradient(135deg, #b0bec5, #90a4ae);
+    border-color: #b0bec5;
+  }
+  .avatar.elite {
+    background: linear-gradient(135deg, #cd7f32, #a0522d);
+    border-color: #cd7f32;
+  }
+  .avatar.challenger {
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .card-info { flex: 1; }
+  .card-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .card-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+  }
+  .rank-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .rank-badge.legend {
+    background: rgba(245,166,35,0.2);
+    color: #f5a623;
+    border: 1px solid #f5a623;
+  }
+  .rank-badge.master {
+    background: rgba(176,190,197,0.2);
+    color: #b0bec5;
+    border: 1px solid #b0bec5;
+  }
+  .rank-badge.elite {
+    background: rgba(205,127,50,0.2);
+    color: #cd7f32;
+    border: 1px solid #cd7f32;
+  }
+  .rank-badge.challenger {
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .card-title {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 10px;
+  }
+  .card-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .spec-tag {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.65);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* Match score */
+  .match-section {
+    background: rgba(0,0,0,0.2);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+  }
+  .match-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .match-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .match-score {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+  }
+  .match-score.high { color: #10b981; }
+  .match-score.mid { color: #f5a623; }
+  .match-score.low { color: #e94560; }
+
+  .match-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .match-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .match-bar-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    display: flex;
+    justify-content: space-between;
+  }
+  .bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #e94560, #f5a623);
+    transition: width 0.8s ease;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  .stat-item strong { color: white; }
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+  }
+
+  /* Price row */
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .price-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 2px;
+  }
+  .price-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+  }
+  .price-range {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+  .btn-contact {
+    background: linear-gradient(135deg, #e94560, #c0392b);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-contact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(233,69,96,0.4);
+  }
+
+  /* Session type tags */
+  .session-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .session-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .session-tag.vip {
+    background: rgba(245,166,35,0.15);
+    color: #f5a623;
+    border: 1px solid rgba(245,166,35,0.3);
+  }
+  .session-tag.online {
+    background: rgba(99,179,237,0.15);
+    color: #63b3ed;
+    border: 1px solid rgba(99,179,237,0.3);
+  }
+  .session-tag.onsite {
+    background: rgba(16,185,129,0.15);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+
+  /* AI reason box */
+  .ai-reason {
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .ai-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .ai-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+  }
+
+  /* Summary box */
+  .summary-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .summary-key {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .summary-val {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* Loading animation */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top-color: #e94560;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .loading-text {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+
+  /* Notice */
+  .notice {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 600px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .sub-grid { grid-template-columns: repeat(2,1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    .match-bars { grid-template-columns: 1fr; }
+    .hero-title { font-size: 28px; }
+    .container { padding: 24px 16px; }
+    .header { padding: 12px 20px; }
+    .panel { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">T</div>
+    <div>
+      <div class="logo-text">TrustFit</div>
+      <div class="logo-sub">Trainer Matching Platform</div>
+    </div>
+  </div>
+  <div class="header-badge">DEMO</div>
+</header>
+
+<div class="container">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">AI POWERED MATCHING</div>
+    <h1 class="hero-title">
+      やりたいことを選ぶだけで<br>
+      <span>最適なトレーナーが見つかる</span>
+    </h1>
+    <p class="hero-sub">50点満点の評価データをもとに、貴社の課題・人数・予算にマッチしたトレーナーをAIが選定します</p>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps">
+    <div class="step active" id="step-1">
+      <div class="step-num">1</div>
+      <div class="step-label">カテゴリ</div>
+    </div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step" id="step-2">
+      <div class="step-num">2</div>
+      <div class="step-label">コンテンツ</div>
+    </div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step" id="step-3">
+      <div class="step-num">3</div>
+      <div class="step-label">詳細</div>
+    </div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step" id="step-4">
+      <div class="step-num">4</div>
+      <div class="step-label">マッチング</div>
+    </div>
+  </div>
+
+  <!-- STEP 1: Category -->
+  <div class="panel active" id="panel-1">
+    <div class="panel-title">どの分野のコンテンツを希望しますか？</div>
+    <div class="panel-sub">企業の課題に合ったカテゴリを選んでください（複数選択可）</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="toggleCat(this, 'physical')">
+        <span class="cat-icon">💪</span>
+        <div class="cat-name">フィジカル・ヘルスケア</div>
+        <div class="cat-desc">身体機能の改善・疲労回復・体力向上。社員のコンディションを整える</div>
+        <div class="cat-tags">
+          <span class="cat-tag">ストレッチ</span>
+          <span class="cat-tag">トレーニング</span>
+          <span class="cat-tag">疲労撃退</span>
+          <span class="cat-tag">姿勢改善</span>
+        </div>
+      </div>
+      <div class="cat-card" onclick="toggleCat(this, 'mind')">
+        <span class="cat-icon">🧠</span>
+        <div class="cat-name">マインドセット・パフォーマンス</div>
+        <div class="cat-desc">目標設定・メンタル強化・意思決定力向上。トップアスリートの思考法を伝授</div>
+        <div class="cat-tags">
+          <span class="cat-tag">目標設定</span>
+          <span class="cat-tag">メンタルコーチング</span>
+          <span class="cat-tag">講演</span>
+          <span class="cat-tag">管理職研修</span>
+        </div>
+      </div>
+      <div class="cat-card" onclick="toggleCat(this, 'family')">
+        <span class="cat-icon">👨‍👩‍👧</span>
+        <div class="cat-name">ファミリー・ウェルビーイング</div>
+        <div class="cat-desc">保護者向けトレーニング・企業内キッズスクール・家族参加型プログラム</div>
+        <div class="cat-tags">
+          <span class="cat-tag">キッズスクール</span>
+          <span class="cat-tag">保護者向け</span>
+          <span class="cat-tag">ファミリー参加</span>
+        </div>
+      </div>
+      <div class="cat-card" onclick="toggleCat(this, 'health-mgmt')">
+        <span class="cat-icon">🏢</span>
+        <div class="cat-name">健康経営・コンサルティング</div>
+        <div class="cat-desc">健康経営優良法人認定サポート・法人向け研修設計・採用PR活用</div>
+        <div class="cat-tags">
+          <span class="cat-tag">健康経営認定</span>
+          <span class="cat-tag">法人研修</span>
+          <span class="cat-tag">採用PR</span>
+          <span class="cat-tag">経営陣チューニング</span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="goToStep2()" id="btn-step1">
+        コンテンツを選ぶ <span>→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Content -->
+  <div class="panel" id="panel-2">
+    <div class="panel-title">具体的なコンテンツを選んでください</div>
+    <div class="panel-sub">希望するプログラムを選ぶと、マッチ率が高まります（複数選択可）</div>
+    <div class="sub-grid" id="sub-grid"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goToStep(1)">← 戻る</button>
+      <button class="btn-primary" onclick="goToStep3()">詳細を入力 →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Details -->
+  <div class="panel" id="panel-3">
+    <div class="panel-title">セッションの詳細を入力してください</div>
+    <div class="panel-sub">より精度の高いマッチングのために</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>参加人数</label>
+        <select id="participants">
+          <option value="5">〜5名（個別・経営陣向け）</option>
+          <option value="20" selected>〜20名（小グループ）</option>
+          <option value="50">〜50名（部署単位）</option>
+          <option value="100">〜100名（全社）</option>
+          <option value="200">100名以上</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>開催形式</label>
+        <select id="format">
+          <option value="onsite">オンサイト（来社）</option>
+          <option value="online">オンライン</option>
+          <option value="hybrid">ハイブリッド</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>ご予算感（1回あたり・pt）</label>
+        <select id="budget">
+          <option value="low">〜5万pt（Challenger中心）</option>
+          <option value="mid">5〜10万pt（Elite VIP）</option>
+          <option value="high" selected>10〜20万pt（Master VIP）</option>
+          <option value="premium">20万pt以上（Legend VIP）</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>実施頻度</label>
+        <select id="frequency">
+          <option value="once">単発（1回のみ）</option>
+          <option value="monthly" selected>月1回</option>
+          <option value="biweekly">月2回</option>
+          <option value="weekly">毎週</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 32px;">
+      <label>その他の要望・課題感（任意）</label>
+      <input type="text" id="notes" placeholder="例：社員の腰痛が多い、採用動画に使いたい、経営陣の疲弊感が高い…">
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goToStep(2)">← 戻る</button>
+      <button class="btn-primary" onclick="runMatching()">AIでマッチング → </button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Results -->
+  <div class="panel" id="panel-4">
+    <div id="loading-screen" class="loading">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">AIがトレーナーデータを分析中…</div>
+    </div>
+    <div id="results-screen" style="display:none;">
+      <div class="panel-title">マッチング結果</div>
+      <div class="panel-sub">貴社の条件に最適なトレーナーを選定しました</div>
+      <div class="summary-box" id="summary-box"></div>
+      <div class="notice">
+        <span>💡</span>
+        <span>マッチ率はコンテンツ適合度・評価スコア・ランク・人数対応力の4軸を加重スコアリングしたAI推定値です。実際の評価は全セッション完了後に50点満点で確定します。</span>
+      </div>
+      <div class="result-header">
+        <div class="result-count">候補トレーナー：<span id="result-count">0</span>名</div>
+        <button class="btn-secondary" onclick="goToStep(1)" style="font-size:12px; padding:8px 16px;">条件を変更</button>
+      </div>
+      <div id="trainer-results"></div>
+      <div style="text-align:center; margin-top:32px;">
+        <button class="btn-primary" onclick="alert('このデモでは予約機能は準備中です。\n\nリリース時にはここからトレーナーの空き枠を確認し予約できます。')">
+          🗓 予約する（リリース後に開放）
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Data
+const CATEGORIES = {
+  physical: {
+    name: 'フィジカル・ヘルスケア',
+    icon: '💪',
+    contents: [
+      { id: 'stretch', icon: '🧘', name: 'ストレッチ・柔軟性' },
+      { id: 'training', icon: '🏋️', name: 'トレーニング指導' },
+      { id: 'recovery', icon: '🛌', name: '疲労回復・リカバリー' },
+      { id: 'posture', icon: '🏃', name: '姿勢改善・機能改善' },
+      { id: 'walk', icon: '🚶', name: 'ウォーキング指導' },
+      { id: 'hiit', icon: '⚡', name: '体力強化プログラム' },
+    ]
+  },
+  mind: {
+    name: 'マインドセット・パフォーマンス',
+    icon: '🧠',
+    contents: [
+      { id: 'goal', icon: '🎯', name: '目標設定コーチング' },
+      { id: 'mental', icon: '🧘‍♂️', name: 'メンタルトレーニング' },
+      { id: 'lecture', icon: '🎤', name: 'ストーリー講演' },
+      { id: 'decision', icon: '💡', name: '意思決定力強化' },
+      { id: 'team', icon: '🤝', name: 'チームビルディング' },
+      { id: 'exec', icon: '👔', name: '経営陣チューニング' },
+    ]
+  },
+  family: {
+    name: 'ファミリー・ウェルビーイング',
+    icon: '👨‍👩‍👧',
+    contents: [
+      { id: 'kids', icon: '👶', name: '企業内キッズスクール' },
+      { id: 'parent', icon: '👩', name: '保護者向けトレーニング' },
+      { id: 'family', icon: '🏡', name: 'ファミリー参加型' },
+      { id: 'athletic', icon: '🏅', name: '子ども陸上・運動教室' },
+    ]
+  },
+  'health-mgmt': {
+    name: '健康経営・コンサルティング',
+    icon: '🏢',
+    contents: [
+      { id: 'certification', icon: '📜', name: '健康経営優良法人認定支援' },
+      { id: 'seminar', icon: '📊', name: '健康経営研修・セミナー' },
+      { id: 'pr', icon: '🎬', name: '採用PR動画制作連携' },
+      { id: 'consult', icon: '🗂', name: 'プログラム設計コンサル' },
+    ]
+  }
+};
+
+// Mock trainers
+const TRAINERS = [
+  {
+    id: 1,
+    name: '荻田 大樹',
+    avatar: '🏆',
+    avatarClass: 'legend',
+    rank: 'legend',
+    rankLabel: '👑 Legend VIP',
+    title: 'オリンピアン・メンタルコーチ・健康経営専門家',
+    specialties: ['目標設定', 'ストーリー講演', '健康経営', 'メンタルコーチング', '全社研修'],
+    sessions: 48,
+    avgScore: 47.2,
+    sessionTypes: ['vip', 'onsite'],
+    categories: ['physical', 'mind', 'health-mgmt'],
+    contents: ['goal', 'mental', 'lecture', 'decision', 'exec', 'certification', 'seminar', 'stretch', 'training', 'pr', 'consult'],
+    priceRange: '220,000〜300,000 pt / 回',
+    priceNote: '固定200,000pt + 成果報酬20,000〜100,000pt',
+    maxParticipants: null,
+    onsite: true,
+    online: true,
+    baseScore: {
+      content: 98, score: 97, participants: 90, budget: { low: 40, mid: 65, high: 85, premium: 98 }
+    },
+    aiReason: 'オリンピアン実績×健康経営専門のダブルスキルが貴社の課題に直結。全社研修〜経営陣特化まで対応。採用PR動画にも最大の説得力を発揮します。'
+  },
+  {
+    id: 2,
+    name: '田中 隆一',
+    avatar: '🥈',
+    avatarClass: 'master',
+    rank: 'master',
+    rankLabel: '🥈 Master VIP',
+    title: '元Jリーガー・パーソナルトレーナー・法人研修講師',
+    specialties: ['フィジカルコンディション', 'トレーニング指導', '管理職向け研修', 'チームビルディング'],
+    sessions: 31,
+    avgScore: 43.8,
+    sessionTypes: ['vip', 'onsite', 'online'],
+    categories: ['physical', 'mind'],
+    contents: ['stretch', 'training', 'recovery', 'posture', 'hiit', 'goal', 'team', 'decision'],
+    priceRange: '120,000〜200,000 pt / 回',
+    priceNote: '固定100,000pt + 成果報酬20,000〜100,000pt',
+    maxParticipants: 30,
+    onsite: true,
+    online: true,
+    baseScore: {
+      content: 90, score: 88, participants: 85, budget: { low: 35, mid: 70, high: 95, premium: 75 }
+    },
+    aiReason: 'プロスポーツ現場で培ったコンディショニング知識と、法人研修の実績を兼備。30名以下の集中プログラムで特に高評価を獲得しています。'
+  },
+  {
+    id: 3,
+    name: '山下 かおり',
+    avatar: '🥉',
+    avatarClass: 'elite',
+    rank: 'elite',
+    rankLabel: '🥉 Elite VIP',
+    title: '元体操選手・ヨガインストラクター・産業保健士',
+    specialties: ['ヨガ・ストレッチ', '疲労回復', '産業保健', '女性向けプログラム', 'マインドフルネス'],
+    sessions: 22,
+    avgScore: 44.1,
+    sessionTypes: ['vip', 'onsite', 'online'],
+    categories: ['physical', 'family'],
+    contents: ['stretch', 'recovery', 'posture', 'walk', 'mental', 'parent', 'family'],
+    priceRange: '60,000〜100,000 pt / 回',
+    priceNote: '固定50,000pt + 成果報酬10,000〜50,000pt',
+    maxParticipants: null,
+    onsite: true,
+    online: true,
+    baseScore: {
+      content: 85, score: 88, participants: 95, budget: { low: 60, mid: 90, high: 80, premium: 50 }
+    },
+    aiReason: '全社規模のストレッチ・ヨガ系では圧倒的な参加者満足度。人数制限なし設計で大規模全社イベントにも最適。産業保健資格で健康経営の文書対応もサポート。'
+  },
+  {
+    id: 4,
+    name: '西村 哲也',
+    avatar: '⚡',
+    avatarClass: 'elite',
+    rank: 'elite',
+    rankLabel: '🥉 Elite VIP',
+    title: '元実業団トレーナー・陸上コーチ・キッズスクール運営者',
+    specialties: ['陸上・走り方指導', 'キッズスクール', '保護者コミュニティ', 'ファミリー型イベント'],
+    sessions: 18,
+    avgScore: 42.5,
+    sessionTypes: ['vip', 'onsite'],
+    categories: ['family', 'physical'],
+    contents: ['kids', 'parent', 'family', 'athletic', 'stretch', 'walk'],
+    priceRange: '60,000〜100,000 pt / 回',
+    priceNote: '固定50,000pt + 成果報酬10,000〜50,000pt',
+    maxParticipants: null,
+    onsite: true,
+    online: false,
+    baseScore: {
+      content: 82, score: 85, participants: 90, budget: { low: 55, mid: 88, high: 75, premium: 45 }
+    },
+    aiReason: 'キッズスクールと保護者参加型プログラムのダブル提供が強み。家族向け福利厚生として採用PRへの活用実績もあり、ファミリー系コンテンツのNo.1候補。'
+  },
+  {
+    id: 5,
+    name: '佐藤 健介',
+    avatar: '🌟',
+    avatarClass: 'challenger',
+    rank: 'challenger',
+    rankLabel: 'Challenger',
+    title: 'フリーランストレーナー・NSCA-CPT保持',
+    specialties: ['個別パーソナルトレーニング', '体重管理', 'オンライン継続サポート'],
+    sessions: 8,
+    avgScore: 38.2,
+    sessionTypes: ['onsite', 'online'],
+    categories: ['physical'],
+    contents: ['stretch', 'training', 'recovery', 'posture', 'hiit', 'walk'],
+    priceRange: '10,000〜50,000 pt / 回',
+    priceNote: '成果報酬のみ（固定なし）',
+    maxParticipants: 5,
+    onsite: true,
+    online: true,
+    baseScore: {
+      content: 70, score: 76, participants: 55, budget: { low: 92, mid: 70, high: 45, premium: 20 }
+    },
+    aiReason: '少人数・個別指導での継続サポートが得意。予算を抑えながら週次でフォローアップするオンライン伴走プランにおすすめ。VIPの引き継ぎ先として相性良好。'
+  }
+];
+
+// State
+let selectedCats = [];
+let selectedContents = [];
+let matchResults = [];
+
+function toggleCat(el, catId) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    if (!selectedCats.includes(catId)) selectedCats.push(catId);
+  } else {
+    selectedCats = selectedCats.filter(c => c !== catId);
+  }
+}
+
+function goToStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('panel-' + i).classList.remove('active');
+    const step = document.getElementById('step-' + i);
+    step.classList.remove('active', 'done');
+  }
+  document.getElementById('panel-' + n).classList.add('active');
+  document.getElementById('step-' + n).classList.add('active');
+  for (let i = 1; i < n; i++) {
+    document.getElementById('step-' + i).classList.add('done');
+    if (document.getElementById('line-' + i)) {
+      document.getElementById('line-' + i).classList.add('done');
+    }
+  }
+  for (let i = n; i <= 3; i++) {
+    if (document.getElementById('line-' + i)) {
+      document.getElementById('line-' + i).classList.remove('done');
+    }
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToStep2() {
+  if (selectedCats.length === 0) {
+    alert('カテゴリを少なくとも1つ選んでください');
+    return;
+  }
+  // Build sub-content grid
+  const grid = document.getElementById('sub-grid');
+  grid.innerHTML = '';
+  selectedContents = [];
+  selectedCats.forEach(catId => {
+    const cat = CATEGORIES[catId];
+    cat.contents.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'sub-item';
+      div.setAttribute('data-id', item.id);
+      div.innerHTML = `<span class="sub-icon">${item.icon}</span><div class="sub-name">${item.name}</div>`;
+      div.onclick = function() {
+        this.classList.toggle('selected');
+        if (this.classList.contains('selected')) {
+          if (!selectedContents.includes(item.id)) selectedContents.push(item.id);
+        } else {
+          selectedContents = selectedContents.filter(c => c !== item.id);
+        }
+      };
+      grid.appendChild(div);
+    });
+  });
+  goToStep(2);
+}
+
+function goToStep3() {
+  if (selectedContents.length === 0) {
+    alert('コンテンツを少なくとも1つ選んでください');
+    return;
+  }
+  goToStep(3);
+}
+
+function calcMatchScore(trainer, participants, format, budget, frequency) {
+  // Content match
+  const contentMatch = selectedContents.filter(c => trainer.contents.includes(c)).length;
+  const contentScore = selectedContents.length > 0
+    ? Math.min(100, Math.round((contentMatch / selectedContents.length) * 100))
+    : trainer.baseScore.content;
+
+  // Evaluation score (normalized)
+  const evalScore = Math.round((trainer.avgScore / 50) * 100);
+
+  // Participants compatibility
+  let participantScore = 100;
+  const pNum = parseInt(participants);
+  if (trainer.maxParticipants && pNum > trainer.maxParticipants) {
+    participantScore = Math.max(10, Math.round((trainer.maxParticipants / pNum) * 100));
+  }
+
+  // Budget match
+  const budgetScore = trainer.baseScore.budget[budget] || 60;
+
+  // Format match
+  let formatScore = 80;
+  if (format === 'onsite' && trainer.onsite) formatScore = 100;
+  if (format === 'online' && trainer.online) formatScore = 100;
+  if (format === 'hybrid' && trainer.onsite && trainer.online) formatScore = 100;
+  if (format === 'hybrid' && (!trainer.onsite || !trainer.online)) formatScore = 70;
+
+  // Weighted total
+  const total = Math.round(
+    contentScore * 0.35 +
+    evalScore * 0.25 +
+    participantScore * 0.15 +
+    budgetScore * 0.15 +
+    formatScore * 0.10
+  );
+
+  return {
+    total: Math.min(99, total),
+    contentScore,
+    evalScore,
+    participantScore,
+    budgetScore,
+    formatScore
+  };
+}
+
+function runMatching() {
+  goToStep(4);
+  document.getElementById('loading-screen').style.display = 'block';
+  document.getElementById('results-screen').style.display = 'none';
+
+  const participants = document.getElementById('participants').value;
+  const format = document.getElementById('format').value;
+  const budget = document.getElementById('budget').value;
+  const frequency = document.getElementById('frequency').value;
+  const notes = document.getElementById('notes').value;
+
+  setTimeout(() => {
+    matchResults = TRAINERS.map(trainer => ({
+      ...trainer,
+      matchData: calcMatchScore(trainer, participants, format, budget, frequency)
+    })).sort((a, b) => b.matchData.total - a.matchData.total);
+
+    renderResults(participants, format, budget, frequency);
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('results-screen').style.display = 'block';
+  }, 1800);
+}
+
+const BUDGET_LABELS = {
+  low: '〜5万pt（Challenger中心）',
+  mid: '5〜10万pt（Elite VIP）',
+  high: '10〜20万pt（Master VIP）',
+  premium: '20万pt以上（Legend VIP）'
+};
+const FORMAT_LABELS = { onsite: 'オンサイト', online: 'オンライン', hybrid: 'ハイブリッド' };
+const FREQ_LABELS = { once: '単発', monthly: '月1回', biweekly: '月2回', weekly: '毎週' };
+const PART_LABELS = { '5': '〜5名', '20': '〜20名', '50': '〜50名', '100': '〜100名', '200': '100名以上' };
+
+function renderResults(participants, format, budget, frequency) {
+  const catNames = selectedCats.map(c => CATEGORIES[c].name).join(' / ');
+  document.getElementById('summary-box').innerHTML = `
+    <div class="summary-item"><div class="summary-key">カテゴリ</div><div class="summary-val">${catNames}</div></div>
+    <div class="summary-item"><div class="summary-key">参加人数</div><div class="summary-val">${PART_LABELS[participants]}</div></div>
+    <div class="summary-item"><div class="summary-key">形式</div><div class="summary-val">${FORMAT_LABELS[format]}</div></div>
+    <div class="summary-item"><div class="summary-key">予算</div><div class="summary-val">${BUDGET_LABELS[budget]}</div></div>
+    <div class="summary-item"><div class="summary-key">頻度</div><div class="summary-val">${FREQ_LABELS[frequency]}</div></div>
+  `;
+
+  document.getElementById('result-count').textContent = matchResults.length;
+
+  const container = document.getElementById('trainer-results');
+  container.innerHTML = '';
+
+  matchResults.forEach((trainer, idx) => {
+    const m = trainer.matchData;
+    const scoreClass = m.total >= 80 ? 'high' : m.total >= 60 ? 'mid' : 'low';
+
+    const sessionTagsHtml = trainer.sessionTypes.map(t => {
+      const labels = { vip: 'VIP対応', online: 'オンライン可', onsite: 'オンサイト対応' };
+      return `<span class="session-tag ${t}">${labels[t]}</span>`;
+    }).join('');
+
+    const card = document.createElement('div');
+    card.className = 'trainer-card' + (idx === 0 ? ' top-pick' : '');
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="avatar ${trainer.avatarClass}">${trainer.avatar}</div>
+        <div class="card-info">
+          <div class="card-name-row">
+            <span class="card-name">${trainer.name}</span>
+            <span class="rank-badge ${trainer.rank}">${trainer.rankLabel}</span>
+          </div>
+          <div class="card-title">${trainer.title}</div>
+          <div class="session-tags">${sessionTagsHtml}</div>
+          <div class="card-specialties">
+            ${trainer.specialties.map(s => `<span class="spec-tag">${s}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-reason">
+        <span class="ai-icon">🤖</span>
+        <span class="ai-text">${trainer.aiReason}</span>
+      </div>
+
+      <div class="match-section">
+        <div class="match-header">
+          <span class="match-label">マッチ率</span>
+          <span class="match-score ${scoreClass}">${m.total}%</span>
+        </div>
+        <div class="match-bars">
+          <div class="match-bar-row">
+            <div class="match-bar-label"><span>コンテンツ適合</span><span>${m.contentScore}%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${m.contentScore}%"></div></div>
+          </div>
+          <div class="match-bar-row">
+            <div class="match-bar-label"><span>評価スコア換算</span><span>${m.evalScore}%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${m.evalScore}%"></div></div>
+          </div>
+          <div class="match-bar-row">
+            <div class="match-bar-label"><span>人数対応力</span><span>${m.participantScore}%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${m.participantScore}%"></div></div>
+          </div>
+          <div class="match-bar-row">
+            <div class="match-bar-label"><span>予算フィット</span><span>${m.budgetScore}%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${m.budgetScore}%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-dot"></span>累計<strong>${trainer.sessions}</strong>セッション</div>
+        <div class="stat-item"><span class="stat-dot"></span>平均評価<strong>${trainer.avgScore} / 50pt</strong></div>
+        ${trainer.maxParticipants ? `<div class="stat-item"><span class="stat-dot" style="background:#f5a623"></span>推奨上限<strong>${trainer.maxParticipants}名</strong></div>` : '<div class="stat-item"><span class="stat-dot"></span><strong>人数上限なし</strong></div>'}
+      </div>
+
+      <div class="price-row">
+        <div>
+          <div class="price-label">報酬レンジ</div>
+          <div class="price-value">${trainer.priceRange}</div>
+          <div class="price-range">${trainer.priceNote}</div>
+        </div>
+        <button class="btn-contact" onclick="showContactModal('${trainer.name}')">この人に相談する →</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function showContactModal(name) {
+  alert(`【${name} への相談リクエスト】\n\nこのデモでは相談機能は準備中です。\n\nリリース時には：\n✓ トレーナーのカレンダーを確認\n✓ 希望日時を送信\n✓ ポイントをロックして予約確定\n\n…という流れで予約できます。`);
+}
+</script>
+</body>
+</html>

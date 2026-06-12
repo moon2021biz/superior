@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健康経営優良法人2026 取得要項チェックリスト｜MOON社</title>
+<style>
+  :root {
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --orange: #f97316;
+    --orange-bg: #fff7ed;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --gray: #6b7280;
+    --gray-bg: #f9fafb;
+    --dark: #111827;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: #f3f4f6;
+    color: var(--dark);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ヘッダー */
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: white;
+    padding: 32px 40px;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header p { font-size: 13px; opacity: 0.8; }
+  .header-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 10px 20px;
+    text-align: center;
+  }
+  .header-badge .num { font-size: 28px; font-weight: 700; }
+  .header-badge .label { font-size: 11px; opacity: 0.8; }
+
+  /* 進捗バー */
+  .progress-section {
+    background: white;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .progress-item { flex: 1; min-width: 200px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s;
+  }
+  .progress-fill.done { background: var(--green); }
+  .progress-fill.partial { background: var(--orange); }
+  .progress-fill.req { background: var(--blue); }
+
+  /* アラートバナー */
+  .alert-bar {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .alert-bar .icon { font-size: 18px; }
+
+  /* メインコンテナ */
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+  /* セクション */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .tag {
+    font-size: 11px;
+    background: var(--blue);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .section-title .tag.green { background: var(--green); }
+  .section-title .tag.orange { background: var(--orange); }
+
+  /* 認定要件サマリー */
+  .req-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .req-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .req-card .req-title { font-size: 12px; color: var(--gray); margin-bottom: 4px; }
+  .req-card .req-val { font-size: 18px; font-weight: 700; }
+  .req-card .req-desc { font-size: 11px; color: var(--gray); margin-top: 4px; }
+  .req-card.highlight { border-color: var(--blue); background: var(--blue-bg); }
+
+  /* タスクカード */
+  .task-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .task-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .task-card.done { border-left: 4px solid var(--green); }
+  .task-card.pending { border-left: 4px solid var(--orange); }
+  .task-card.future { border-left: 4px solid #d1d5db; opacity: 0.8; }
+  .task-icon { font-size: 18px; margin-top: 2px; }
+  .task-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .task-desc { font-size: 12px; color: #4b5563; }
+  .task-note { font-size: 11px; color: var(--orange); margin-top: 3px; font-style: italic; }
+  .task-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .badge.done { background: var(--green-bg); color: #16a34a; }
+  .badge.pending { background: var(--orange-bg); color: #c2410c; }
+  .badge.future { background: var(--gray-bg); color: var(--gray); }
+  .badge.must { background: #fef2f2; color: #dc2626; }
+  .badge.time { background: #f0f9ff; color: #0284c7; }
+  .deadline {
+    font-size: 11px;
+    color: var(--gray);
+    white-space: nowrap;
+    padding-top: 2px;
+    text-align: right;
+  }
+  .deadline.urgent { color: var(--red); font-weight: 600; }
+
+  /* 公式要件マッピング */
+  .mapping-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .mapping-table th {
+    background: #1e3a5f;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .mapping-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: top;
+  }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table tr:hover td { background: #f9fafb; }
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  .dot-done { background: var(--green); }
+  .dot-partial { background: var(--orange); }
+  .dot-pending { background: #d1d5db; }
+  .dot-must { background: var(--red); }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray);
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    background: white;
+    margin-top: 32px;
+  }
+
+  /* 申請スケジュール */
+  .timeline {
+    display: flex;
+    gap: 0;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .tl-item {
+    flex: 1;
+    padding: 14px 12px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .tl-item:last-child { border-right: none; }
+  .tl-item .tl-period { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  .tl-item .tl-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .tl-item .tl-desc { font-size: 11px; color: var(--gray); }
+  .tl-item.active { background: #eff6ff; }
+  .tl-item.done-bg { background: var(--green-bg); }
+  .tl-item.urgent-bg { background: var(--red-bg); }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>🏥 健康経営優良法人2026 取得要項チェックリスト</h1>
+      <p>MOON社 ｜ 中小規模法人部門 ｜ 2026年3月29日 更新</p>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <div class="header-badge">
+        <div class="num">5/22</div>
+        <div class="label">タスク完了</div>
+      </div>
+      <div class="header-badge">
+        <div class="num" style="color:#fbbf24;">4/7</div>
+        <div class="label">必須クリア</div>
+      </div>
+      <div class="header-badge">
+        <div class="num" style="color:#86efac;">10/17</div>
+        <div class="label">申請期限</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 進捗バー -->
+<div class="progress-section">
+  <div class="progress-item">
+    <div class="progress-label"><span>全体進捗</span><span>23%</span></div>
+    <div class="progress-bar"><div class="progress-fill done" style="width:23%"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-label"><span>【準備期】基盤整備</span><span>75%（3/4完了）</span></div>
+    <div class="progress-bar"><div class="progress-fill done" style="width:75%"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-label"><span>【実践期】実績作り</span><span>17%（2/12完了）</span></div>
+    <div class="progress-bar"><div class="progress-fill partial" style="width:17%"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-label"><span>【申請期】申請業務</span><span>0%（0/4完了）</span></div>
+    <div class="progress-bar"><div class="progress-fill req" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- アラートバナー -->
+<div class="alert-bar">
+  <span class="icon">⚠️</span>
+  <span><strong>申請期限：2025年10月17日（金）17:00まで（予定）</strong>　｜　認定申請料：税込16,500円　｜　gBizIDプライム取得完了済み ✅</span>
+</div>
+
+<div class="container">
+
+  <!-- 認定要件サマリー -->
+  <div class="section">
+    <div class="section-title">📋 公式認定要件サマリー（中小規模法人部門）<span class="tag">必須確認</span></div>
+    <div class="req-summary">
+      <div class="req-card highlight">
+        <div class="req-title">必須項目（全クリア必要）</div>
+        <div class="req-val" style="color:#2563eb;">4項目</div>
+        <div class="req-desc">経営理念・組織体制・推進計画・健診データ</div>
+      </div>
+      <div class="req-card">
+        <div class="req-title">選択①〜③のうち</div>
+        <div class="req-val" style="color:#16a34a;">2項目以上</div>
+        <div class="req-desc">定期健診・受診勧奨・ストレスチェック</div>
+      </div>
+      <div class="req-card">
+        <div class="req-title">選択④〜⑩のうち</div>
+        <div class="req-val" style="color:#16a34a;">2項目以上</div>
+        <div class="req-desc">ヘルスリテラシー・WLB・職場活性化など</div>
+      </div>
+      <div class="req-card">
+        <div class="req-title">選択⑪〜⑰のうち</div>
+        <div class="req-val" style="color:#16a34a;">4項目以上</div>
+        <div class="req-desc">保健指導・食事・運動・禁煙・メンタルなど</div>
+      </div>
+      <div class="req-card" style="background:#fefce8;border-color:#eab308;">
+        <div class="req-title">ブライト500・ネクスト1000</div>
+        <div class="req-val" style="color:#ca8a04;">①〜⑰のうち16項目以上</div>
+        <div class="req-desc">最上位認定を目指す場合</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 申請スケジュール -->
+  <div class="section">
+    <div class="section-title">📅 申請スケジュール<span class="tag orange">時系列</span></div>
+    <div class="timeline">
+      <div class="tl-item done-bg">
+        <div class="tl-period">〜3月末</div>
+        <div class="tl-title">【準備期】</div>
+        <div class="tl-desc">基盤整備<br>gBizID・担当者・推進計画</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-period">4〜7月</div>
+        <div class="tl-title">【実践期】</div>
+        <div class="tl-desc">実績を積む<br>健診・施策・記録</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">8/18〜</div>
+        <div class="tl-title">申請書DL</div>
+        <div class="tl-desc">ACTION!健康経営より<br>Excelファイル取得</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">8〜10月</div>
+        <div class="tl-title">申請書記入</div>
+        <div class="tl-desc">実施内容を入力<br>適合状況を確認</div>
+      </div>
+      <div class="tl-item urgent-bg">
+        <div class="tl-period" style="color:#dc2626;">10/17 17:00</div>
+        <div class="tl-title" style="color:#dc2626;">締切！</div>
+        <div class="tl-desc">gBizIDでアップロード<br>絶対厳守</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">12月末まで</div>
+        <div class="tl-title">申請料振込</div>
+        <div class="tl-desc">16,500円（税込）<br>請求書到着後</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">〜翌年3月</div>
+        <div class="tl-title">認定発表</div>
+        <div class="tl-desc">メールで結果通知<br>ロゴ掲載可能に</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フェーズ別タスク一覧 -->
+
+  <!-- 準備期 -->
+  <div class="section">
+    <div class="section-title">🏗️ フェーズ1：基盤整備（〜3月末）<span class="tag green">3/4完了</span></div>
+    <div class="task-grid">
+
+      <div class="task-card done">
+        <div class="task-icon">✅</div>
+        <div>
+          <div class="task-name">健康宣言の実施</div>
+          <div class="task-desc">加入している保険者（協会けんぽ等）へ「健康事業所宣言」をFAXまたは郵送で提出。</div>
+          <div class="task-note">📝 Fax済みだが回答なし → 要フォロー確認</div>
+          <div class="task-meta">
+            <span class="badge done">✅ 完了</span>
+            <span class="badge must">🔴 必須項目</span>
+            <span class="badge time">即時</span>
+          </div>
+        </div>
+        <div class="deadline">即時</div>
+      </div>
+
+      <div class="task-card done">
+        <div class="task-icon">✅</div>
+        <div>
+          <div class="task-name">gBizIDプライムの取得</div>
+          <div class="task-desc">【最重要】国の申請システム用IDを取得。オンライン申請＋「印鑑証明書（原本）」の郵送が必要。発行まで約2週間。</div>
+          <div class="task-note">📝 取得申請「認定証」の郵送待ち</div>
+          <div class="task-meta">
+            <span class="badge done">✅ 完了</span>
+            <span class="badge must">🔴 申請インフラ</span>
+            <span class="badge time">3月末</span>
+          </div>
+        </div>
+        <div class="deadline">3月末</div>
+      </div>
+
+      <div class="task-card done">
+        <div class="task-icon">✅</div>
+        <div>
+          <div class="task-name">健康づくり担当者の決定</div>
+          <div class="task-desc">「健康づくり担当者」を決め、社内に周知する。MOON社の場合は乾マネージャー等を想定。</div>
+          <div class="task-note">📝 荻田さんが担当</div>
+          <div class="task-meta">
+            <span class="badge done">✅ 完了</span>
+            <span class="badge must">🔴 必須項目</span>
+            <span class="badge time">3月末</span>
+          </div>
+        </div>
+        <div class="deadline">3月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">⏳</div>
+        <div>
+          <div class="task-name">定期健康診断の予約</div>
+          <div class="task-desc">全従業員（役員含む）の定期健康診断の予約を取る。4月〜6月の受診を推奨。</div>
+          <div class="task-note">📝 3月末にみんなで検討</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge must">🔴 必須への前提</span>
+            <span class="badge time">3月末</span>
+          </div>
+        </div>
+        <div class="deadline urgent">3月末 ⚡</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 実践期 -->
+  <div class="section">
+    <div class="section-title">💪 フェーズ2：実績作り（4〜7月）<span class="tag orange">2/12完了</span></div>
+    <div class="task-grid">
+
+      <div class="task-card pending">
+        <div class="task-icon">🏥</div>
+        <div>
+          <div class="task-name">定期健康診断の実施</div>
+          <div class="task-desc">【必須】全従業員（受診率100%）が受診を完了させる。未受診者へはメールや書面で受診勧奨を行い、記録を残す。</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge must">🔴 必須①</span>
+            <span class="badge time">6月末</span>
+          </div>
+        </div>
+        <div class="deadline urgent">6月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">🔍</div>
+        <div>
+          <div class="task-name">再検査・精密検査の追跡</div>
+          <div class="task-desc">健診結果で「要再検査」等の所見があった社員に対し、医療機関の受診を勧奨し、報告を求める。</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge must">🔴 必須②</span>
+            <span class="badge time">7月末</span>
+          </div>
+        </div>
+        <div class="deadline">7月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">📊</div>
+        <div>
+          <div class="task-name">40歳以上の健診データ提供</div>
+          <div class="task-desc">協会けんぽ等からの案内に従い、40歳以上の従業員の健診データを提供する（または同意書を提出）。</div>
+          <div class="task-note">📝 早雲さん対応</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge must">🔴 必須項目</span>
+            <span class="badge time">7月末</span>
+          </div>
+        </div>
+        <div class="deadline">7月末</div>
+      </div>
+
+      <div class="task-card done">
+        <div class="task-icon">✅</div>
+        <div>
+          <div class="task-name">具体的な推進計画の策定</div>
+          <div class="task-desc">「健康課題」を洗い出し、目標数値を設定する。例：「運動不足の解消」→「イベント参加率○%」など。</div>
+          <div class="task-note">📝 貼り出しOK</div>
+          <div class="task-meta">
+            <span class="badge done">✅ 完了</span>
+            <span class="badge must">🔴 必須項目</span>
+            <span class="badge time">5月末</span>
+          </div>
+        </div>
+        <div class="deadline">5月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">🧠</div>
+        <div>
+          <div class="task-name">ストレスチェックの実施</div>
+          <div class="task-desc">【加点・商材化】50名未満でも実施を推奨。外部委託または簡易キットで実施し、集団分析を行う。</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge time">選択③</span>
+            <span class="badge time">7月末</span>
+          </div>
+        </div>
+        <div class="deadline">7月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">📚</div>
+        <div>
+          <div class="task-name">ヘルスリテラシー教育</div>
+          <div class="task-desc">従業員向けに「健康」に関する教育機会を作る。例：動画視聴、セミナー参加、社内メルマガ配信など。実施した証拠（写真・資料）を残す。</div>
+          <div class="task-note">📝 厚生労働省YouTubeの視聴＋社内チャットに記録で対応可（動画URLをメールするだけはNG）</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge time">選択④</span>
+            <span class="badge time">5月・7月の2回</span>
+          </div>
+        </div>
+        <div class="deadline">5月・7月</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">🏃</div>
+        <div>
+          <div class="task-name">運動機会の増進施策</div>
+          <div class="task-desc">ラジオ体操、ウォーキングイベント、階段利用キャンペーンなどを実施。実施日時、参加人数の記録と写真を残す。</div>
+          <div class="task-note">📝 室内ダーツ＆野球大会で対応予定</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge time">選択⑬</span>
+            <span class="badge time">7月末</span>
+          </div>
+        </div>
+        <div class="deadline">7月末</div>
+      </div>
+
+      <div class="task-card pending">
+        <div class="task-icon">🥗</div>
+        <div>
+          <div class="task-name">食生活の改善施策</div>
+          <div class="task-desc">社員食堂や自販機へのヘルシーメニュー導入、または食事セミナーの実施。MOON社の場合は「特茶」導入やセミナー動画視聴などで対応。</div>
+          <div class="task-note">📝 プロテインの導入も候補</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge time">選択⑫</span>
+            <span class="badge time">7月末</span>
+          </div>
+        </div>
+        <div class="deadline">7月末</div>
+      </div>
+
+      <div class="task-card done">
+        <div class="task-icon">✅</div>
+        <div>
+          <div class="task-name">受動喫煙対策</div>
+          <div class="task-desc">「屋内禁煙」の徹底。喫煙所がある場合は法令基準を満たす区画整理を行う。ポスター掲示などの周知記録を残す。</div>
+          <div class="task-note">📝 作成・貼り出しOK</div>
+          <div class="task-meta">
+            <span class="badge done">✅ 完了</span>
+            <span class="badge time">選択⑰</span>
+          </div>
+        </div>
+        <div class="deadline">完了</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 申請期 -->
+  <div class="section">
+    <div class="section-title">📝 フェーズ3：申請業務（8月〜）<span class="tag">0/4完了</span></div>
+    <div class="task-grid">
+
+      <div class="task-card future">
+        <div class="task-icon">⬇️</div>
+        <div>
+          <div class="task-name">申請書のダウンロード</div>
+          <div class="task-desc">「ACTION！健康経営」ポータルサイトより、2026年度版の申請書ファイル（Excel）をダウンロードする。</div>
+          <div class="task-meta"><span class="badge future">🕐 8/18〜</span></div>
+        </div>
+        <div class="deadline">8/18〜</div>
+      </div>
+
+      <div class="task-card future">
+        <div class="task-icon">✏️</div>
+        <div>
+          <div class="task-name">申請書への記入</div>
+          <div class="task-desc">実施した内容に基づき、Excelの設問に回答を入力する。「適合状況」が認定基準を満たしているか確認する。</div>
+          <div class="task-meta"><span class="badge future">🕐 8〜10月</span></div>
+        </div>
+        <div class="deadline">8〜10月</div>
+      </div>
+
+      <div class="task-card future">
+        <div class="task-icon">📤</div>
+        <div>
+          <div class="task-name">申請書のアップロード</div>
+          <div class="task-desc">申請サイトへgBizIDでログインし、作成した申請書をアップロードする。</div>
+          <div class="task-note">⚠️ 【期限厳守】2025年10月17日 17:00まで（予定）</div>
+          <div class="task-meta">
+            <span class="badge pending">⏳ 未完了</span>
+            <span class="badge must">🔴 厳守</span>
+          </div>
+        </div>
+        <div class="deadline urgent">10/17 17:00</div>
+      </div>
+
+      <div class="task-card future">
+        <div class="task-icon">💴</div>
+        <div>
+          <div class="task-name">申請料の支払い</div>
+          <div class="task-desc">請求書が届き次第、認定申請料（税込16,500円）を振り込む。支払期限：2025年12月31日まで。</div>
+          <div class="task-meta"><span class="badge future">🕐 10月以降</span></div>
+        </div>
+        <div class="deadline">12月31日まで</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 公式要件マッピング表 -->
+  <div class="section">
+    <div class="section-title">🗺️ 公式認定要件 × MOON社対応状況マッピング</div>
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>区分</th>
+          <th>評価項目（公式）</th>
+          <th>MOON社の対応施策</th>
+          <th>状況</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>必須</strong></td>
+          <td>健康宣言の社内外への発信＋経営者自身の健診受診</td>
+          <td>協会けんぽへFAX送付済み</td>
+          <td><span class="status-dot dot-done"></span>完了</td>
+        </tr>
+        <tr>
+          <td><strong>必須</strong></td>
+          <td>健康づくり担当者の設置</td>
+          <td>荻田さん（乾マネージャー）が担当</td>
+          <td><span class="status-dot dot-done"></span>完了</td>
+        </tr>
+        <tr>
+          <td><strong>必須</strong></td>
+          <td>健康経営の具体的な推進計画</td>
+          <td>計画書作成・貼り出し済み</td>
+          <td><span class="status-dot dot-done"></span>完了</td>
+        </tr>
+        <tr>
+          <td><strong>必須</strong></td>
+          <td>（求めに応じて）40歳以上の従業員の健診データ提供</td>
+          <td>早雲さん対応中</td>
+          <td><span class="status-dot dot-partial"></span>対応中</td>
+        </tr>
+        <tr>
+          <td>選択①</td>
+          <td>定期健診受診率（実質100%）</td>
+          <td>健診予約中・6月末受診予定</td>
+          <td><span class="status-dot dot-pending"></span>未完了</td>
+        </tr>
+        <tr>
+          <td>選択②</td>
+          <td>受診勧奨の取り組み</td>
+          <td>再検査・精密検査の追跡</td>
+          <td><span class="status-dot dot-pending"></span>未完了</td>
+        </tr>
+        <tr>
+          <td>選択③</td>
+          <td>50人未満の事業場におけるストレスチェックの実施</td>
+          <td>外部委託または簡易キット検討中</td>
+          <td><span class="status-dot dot-pending"></span>未完了</td>
+        </tr>
+        <tr>
+          <td>選択④</td>
+          <td>管理職または従業員に対する教育機会の設定</td>
+          <td>ヘルスリテラシー教育（動画視聴＋記録）</td>
+          <td><span class="status-dot dot-pending"></span>未完了</td>
+        </tr>
+        <tr>
+          <td>選択⑦</td>
+          <td>コミュニケーションの促進に向けた取り組み</td>
+          <td>室内ダーツ・野球大会</td>
+          <td><span class="status-dot dot-pending"></span>予定</td>
+        </tr>
+        <tr>
+          <td>選択⑫</td>
+          <td>食生活の改善に向けた取り組み</td>
+          <td>特茶導入・プロテイン・セミナー動画</td>
+          <td><span class="status-dot dot-pending"></span>未完了</td>
+        </tr>
+        <tr>
+          <td>選択⑬</td>
+          <td>運動機会の増進に向けた取り組み</td>
+          <td>ダーツ・野球大会（参加記録必須）</td>
+          <td><span class="status-dot dot-pending"></span>予定</td>
+        </tr>
+        <tr>
+          <td>選択⑰</td>
+          <td>喫煙率低下に向けた取り組み（受動喫煙対策）</td>
+          <td>屋内禁煙ポスター掲示済み</td>
+          <td><span class="status-dot dot-done"></span>完了</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 今すぐやること -->
+  <div class="section">
+    <div class="section-title">🔥 今すぐやるべきこと TOP3</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+      <div style="background:white;border:2px solid var(--red);border-radius:10px;padding:16px;">
+        <div style="color:var(--red);font-weight:700;font-size:13px;margin-bottom:6px;">🔴 最優先</div>
+        <div style="font-weight:700;margin-bottom:6px;">健康診断の予約を入れる</div>
+        <div style="font-size:12px;color:#4b5563;">全従業員（役員含む）の受診予約。4〜6月が推奨期間。3月末に検討会を開催予定。受診率100%が必須要件。</div>
+      </div>
+      <div style="background:white;border:2px solid var(--orange);border-radius:10px;padding:16px;">
+        <div style="color:var(--orange);font-weight:700;font-size:13px;margin-bottom:6px;">🟠 重要</div>
+        <div style="font-weight:700;margin-bottom:6px;">40歳以上データ提供（早雲さん）</div>
+        <div style="font-size:12px;color:#4b5563;">協会けんぽからの案内に従い、40歳以上の健診データを提供または同意書を提出。必須要件につき対応急ぎ。</div>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:16px;">
+        <div style="color:var(--blue);font-weight:700;font-size:13px;margin-bottom:6px;">🔵 計画</div>
+        <div style="font-weight:700;margin-bottom:6px;">実践施策の日程を確定する</div>
+        <div style="font-size:12px;color:#4b5563;">ヘルスリテラシー教育（5月・7月）、運動イベント・食生活改善の実施日を決めて記録準備を始める。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  参照：健康経営優良法人2026（中小規模法人部門）認定要件 公式PDF ／ MOON社 健康経営取得要項スプレッドシート　｜　作成：AI組織 2026-03-29
+</div>
+
+</body>
+</html>

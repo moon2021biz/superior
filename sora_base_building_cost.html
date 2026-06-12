@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORA BASE 屋島エリア ビル取得コスト試算</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 100%);color:#fff;padding:44px 24px;text-align:center;border-bottom:5px solid var(--gold)}
+  .hero .badge{display:inline-block;background:var(--gold);color:var(--navy);padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:10px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px}
+  .hero .sub{font-size:13px;color:#bdc4d0;max-width:680px;margin:8px auto 0}
+  .hero .specs{margin-top:14px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+  .hero .specs span{background:rgba(255,255,255,0.12);padding:3px 10px;border-radius:12px;font-size:11px;border:1px solid rgba(255,255,255,0.25)}
+  .container{max-width:1000px;margin:0 auto;padding:30px 22px}
+
+  section{margin-bottom:36px;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+  h2{font-size:22px;border-left:5px solid var(--gold);padding-left:14px;margin-bottom:18px;color:var(--navy);font-weight:700}
+  h3{font-size:17px;color:var(--navy);margin:20px 0 10px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:5px}
+  h4{font-size:14px;color:var(--gold-dark);margin:12px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+
+  .lead{font-size:15px;background:#fdf9ee;border-left:4px solid var(--gold);padding:14px 18px;border-radius:6px;margin-bottom:18px}
+
+  /* ケースカード */
+  .case{border-radius:12px;padding:22px;margin-bottom:18px;border:2px solid;position:relative;overflow:hidden}
+  .case-A{border-color:#88aabb;background:linear-gradient(135deg,#fff,#f3f6f8)}
+  .case-B{border-color:var(--accent);background:linear-gradient(135deg,#fff,#fdf4ef)}
+  .case-C{border-color:var(--gold);background:linear-gradient(135deg,#fff,#fdfae8)}
+  .case-D{border-color:var(--green);background:linear-gradient(135deg,#fff,#f0f8f4)}
+  .case-E{border-color:var(--sky);background:linear-gradient(135deg,#fff,#f0f5fa)}
+  .case-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+  .case-no{display:inline-block;font-size:11px;padding:3px 12px;border-radius:12px;color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:6px}
+  .case-A .case-no{background:#88aabb}
+  .case-B .case-no{background:var(--accent)}
+  .case-C .case-no{background:var(--gold);color:var(--navy)}
+  .case-D .case-no{background:var(--green)}
+  .case-E .case-no{background:var(--sky)}
+  .case-title{font-size:18px;font-weight:700;color:var(--navy)}
+  .case-price{text-align:right;flex-shrink:0}
+  .case-price .total{font-size:24px;font-weight:bold;color:var(--navy);font-family:"Courier New",monospace}
+  .case-price .label{font-size:11px;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+  td.money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);text-align:right}
+  td.note{font-size:12px;color:var(--muted)}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media(max-width:640px){.pros-cons{grid-template-columns:1fr}}
+  .pros, .cons{padding:12px 16px;border-radius:8px;font-size:13px}
+  .pros{background:#e9f4ee;border-left:3px solid var(--green)}
+  .cons{background:#fbeae5;border-left:3px solid var(--red)}
+  .pros strong, .cons strong{display:block;margin-bottom:6px;font-size:12px}
+  .pros ul, .cons ul{padding-left:18px;margin:0}
+
+  .compare-table{margin-top:16px;border-radius:8px;overflow:hidden}
+  .compare-table table{margin:0}
+
+  .quote{font-style:italic;color:var(--gold-dark);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0}
+
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .data-box{background:#f8f8f3;border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:13px}
+  .data-box strong{color:var(--navy)}
+
+  .recommend{background:linear-gradient(135deg,#fff 0%,#fdfbf5 100%);border:2px solid var(--gold);border-radius:10px;padding:18px 22px;margin-top:14px}
+  .recommend h4{color:var(--gold-dark);margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">SORA BASE / 屋島エリア ビル取得コスト試算</div>
+  <h1>屋島レクザムフィールド付近<br>1フロア100㎡ × 4〜5階建てビルの見立て</h1>
+  <div class="sub">SORA BASE 多目的拠点としての利用想定。<br>「中古購入」「土地買って新築」「借地で新築」「テナント賃借」「中古リノベ」の5パターン。</div>
+  <div class="specs">
+    <span>延床 400〜500㎡（121〜151坪）</span>
+    <span>RC造 or 鉄骨造</span>
+    <span>商業／事務所用途</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 前提 -->
+<section>
+  <h2>0. 試算の前提（重要）</h2>
+  <p class="lead">
+    あくまで<strong>2026年5月時点の公示地価・建築費相場からの机上計算</strong>。実勢価格・実際の見積もりは物件・業者・時期で大きくブレるので<strong>± 30%</strong>程度の振り幅で見てください。
+  </p>
+
+  <div class="data-box">
+    <strong>地価の根拠（公示地価 2025〜2026年）</strong>
+    <table>
+      <tr><th>エリア</th><th>公示地価</th><th>坪単価換算</th></tr>
+      <tr><td>屋島西町</td><td class="money">56,400円/㎡</td><td class="money">約186,000円/坪</td></tr>
+      <tr><td>屋島東町</td><td class="money">31,250円/㎡</td><td class="money">約103,000円/坪</td></tr>
+      <tr><td>屋島中町（フィールド所在地）</td><td class="money">推定 約40,000〜50,000円/㎡</td><td class="money">約130,000〜170,000円/坪</td></tr>
+      <tr><td>参考：高松市商業地平均</td><td class="money">149,000円/㎡</td><td class="money">約492,000円/坪</td></tr>
+    </table>
+  </div>
+
+  <div class="data-box">
+    <strong>建築費の根拠（2025〜2026年・全国相場）</strong>
+    <table>
+      <tr><th>構造</th><th>坪単価</th><th>備考</th></tr>
+      <tr><td>RC造（鉄筋コンクリート）</td><td class="money">120〜135万円/坪</td><td>耐久性・防音性高い／施工期間長</td></tr>
+      <tr><td>S造（鉄骨造）</td><td class="money">95〜122万円/坪</td><td>RC比10〜20%安／施工期間短</td></tr>
+      <tr><td>木造（4階以上は要構造計算）</td><td class="money">70〜95万円/坪</td><td>軽量／公的施設等は実例少ない</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">※高松市は東京・大阪比で建築費が10〜15%安い傾向。地元工務店なら更に下がる可能性も。</p>
+  </div>
+
+  <div class="data-box">
+    <strong>建蔽率・容積率（用途地域による）</strong>
+    <table>
+      <tr><th>想定地域</th><th>建蔽率</th><th>容積率</th><th>4-5階建てに必要な土地</th></tr>
+      <tr><td>近隣商業地域</td><td>80%</td><td>200〜300%</td><td>約170㎡〜（51坪〜）</td></tr>
+      <tr><td>第二種住居地域</td><td>60%</td><td>200%</td><td>約250㎡（76坪）</td></tr>
+      <tr><td>準住居・第一種住居</td><td>60%</td><td>200%</td><td>約250㎡（76坪）</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">※屋島レクザムフィールド周辺は<strong>準工業地域・第二種住居地域</strong>が多い。商業ビル建築には事前に都市計画図の確認が必要。</p>
+  </div>
+</section>
+
+<!-- ケースA: 中古ビル購入 -->
+<section>
+  <h2>1. ケース別 コスト試算</h2>
+
+  <div class="case case-A">
+    <div class="case-head">
+      <div>
+        <span class="case-no">CASE A</span>
+        <div class="case-title">中古ビルを買って軽リノベ</div>
+      </div>
+      <div class="case-price">
+        <div class="total">¥2,000〜6,500万</div>
+        <div class="label">初期投資（リノベ込）</div>
+      </div>
+    </div>
+    <p>築年数の古い既存ビル（4-5階建て・延床400-500㎡相当）を購入。軽く改修してSORA BASE として使う。</p>
+
+    <table>
+      <tr><th>項目</th><th>金額レンジ</th><th>備考</th></tr>
+      <tr><td>築20〜30年ビル取得</td><td class="money">1,500〜3,000万</td><td>屋島・古高松エリア相場</td></tr>
+      <tr><td>築10〜20年ビル取得</td><td class="money">3,000〜5,000万</td><td>状態良好</td></tr>
+      <tr><td>軽リノベ（内装・水回り・配線）</td><td class="money">500〜1,500万</td><td>用途変更が伴うと増額</td></tr>
+      <tr><td>仲介手数料・登記・税金</td><td class="money">200〜400万</td><td>取得価格の6-8%</td></tr>
+      <tr><td><strong>初期合計</strong></td><td class="money"><strong>2,200〜6,900万</strong></td><td>―</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>新築の1/3〜1/2のコスト</li>
+          <li>工期が短い（即入居可能）</li>
+          <li>固定資産税が安い</li>
+          <li>キャッシュフロー余裕が出る</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット・リスク</strong>
+        <ul>
+          <li>耐震性の確認必須（旧耐震だと致命）</li>
+          <li>大規模修繕の費用が見えにくい</li>
+          <li>用途変更（事務所→集会施設等）の法的制約</li>
+          <li>屋島中町〜西町に出物が常にあるとは限らない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ケースB: 土地買って新築 -->
+  <div class="case case-B">
+    <div class="case-head">
+      <div>
+        <span class="case-no">CASE B</span>
+        <div class="case-title">土地を買って新築（RC造）</div>
+      </div>
+      <div class="case-price">
+        <div class="total">¥1.5〜2.5億</div>
+        <div class="label">初期投資</div>
+      </div>
+    </div>
+    <p>土地（170-250㎡）を購入し、新築で4-5階建てビル（延床400-500㎡）を建てる。長期保有・将来資産化を狙う。</p>
+
+    <table>
+      <tr><th>項目</th><th>金額レンジ</th><th>備考</th></tr>
+      <tr><td>土地取得（250㎡ × 5万円/㎡）</td><td class="money">1,250万</td><td>屋島中町相場</td></tr>
+      <tr><td>土地取得（170㎡ × 5万円/㎡）</td><td class="money">850万</td><td>商業地域なら可</td></tr>
+      <tr><td>建築費（RC造・延床150坪 × 130万）</td><td class="money">1.95億</td><td>RC造・高品質</td></tr>
+      <tr><td>建築費（S造・延床150坪 × 110万）</td><td class="money">1.65億</td><td>鉄骨造・コスト重視</td></tr>
+      <tr><td>設計・監理費</td><td class="money">建築費の8-10%</td><td>1,300〜2,000万</td></tr>
+      <tr><td>各種許認可・解体・地盤改良</td><td class="money">200〜500万</td><td>必要に応じて</td></tr>
+      <tr><td>登記・税金・諸経費</td><td class="money">300〜500万</td><td>―</td></tr>
+      <tr><td><strong>初期合計（S造ベース）</strong></td><td class="money"><strong>約 1.5〜2.0億</strong></td><td>鉄骨造で見積もり</td></tr>
+      <tr><td><strong>初期合計（RC造ベース）</strong></td><td class="money"><strong>約 2.0〜2.5億</strong></td><td>RC造で見積もり</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>用途・設計が自由（合宿対応・宿泊棟も組込可）</li>
+          <li>新築なので耐震性・耐久性が高い</li>
+          <li>融資が組みやすい（担保価値高い）</li>
+          <li>長期保有で資産化／相続にも有利</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット・リスク</strong>
+        <ul>
+          <li>初期投資が1.5-2.5億円と大きい</li>
+          <li>計画から完成まで1.5-2年</li>
+          <li>金利上昇局面で融資負担が増える</li>
+          <li>地方の収益不動産は出口（売却）が難しい</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ケースC: 借地で新築 -->
+  <div class="case case-C">
+    <div class="case-head">
+      <div>
+        <span class="case-no">CASE C</span>
+        <div class="case-title">土地は借りて、建物だけ新築</div>
+      </div>
+      <div class="case-price">
+        <div class="total">¥1.4〜2.0億 + 月10〜15万</div>
+        <div class="label">初期投資＋月次借地料</div>
+      </div>
+    </div>
+    <p>土地は地主から借地として借りる（事業用定期借地権など）。建物は自社で新築。土地取得分の初期費用を圧縮できる。</p>
+
+    <table>
+      <tr><th>項目</th><th>金額レンジ</th><th>備考</th></tr>
+      <tr><td>借地権利金</td><td class="money">200〜400万</td><td>土地価格の20-30%が相場</td></tr>
+      <tr><td>建築費（S造・延床150坪）</td><td class="money">1.65億</td><td>―</td></tr>
+      <tr><td>設計・監理費</td><td class="money">1,300〜1,700万</td><td>―</td></tr>
+      <tr><td>諸経費</td><td class="money">300〜500万</td><td>―</td></tr>
+      <tr><td><strong>初期合計</strong></td><td class="money"><strong>約 1.4〜2.0億</strong></td><td>―</td></tr>
+      <tr><td colspan="3" style="background:#fdfbf5"><strong>※ ランニング</strong></td></tr>
+      <tr><td>月次借地料（250㎡ × 500円/月）</td><td class="money">12.5万/月</td><td>年 150万</td></tr>
+      <tr><td>20年間の借地料総額</td><td class="money">約3,000万</td><td>―</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>土地取得費（約1,000万）が不要</li>
+          <li>固定資産税（土地分）負担なし</li>
+          <li>事業用定期借地権なら20-50年で安定</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット・リスク</strong>
+        <ul>
+          <li>契約満了時に建物撤去義務（更地返却）</li>
+          <li>借地料は経費だが長期では土地代を超える</li>
+          <li>土地担保にならず融資条件不利</li>
+          <li>地主の都合で契約打切リスクあり</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ケースD: テナント賃借 -->
+  <div class="case case-D">
+    <div class="case-head">
+      <div>
+        <span class="case-no">CASE D</span>
+        <div class="case-title">既存テナントを借りる（最もリスク低）</div>
+      </div>
+      <div class="case-price">
+        <div class="total">¥500〜1,400万 + 月30〜40万</div>
+        <div class="label">初期費用＋月次家賃</div>
+      </div>
+    </div>
+    <p>既存の4-5階建てビル（または1棟貸し物件）をテナントとして借りる。初期投資を最小化、機動的に拠点を設ける。</p>
+
+    <table>
+      <tr><th>項目</th><th>金額レンジ</th><th>備考</th></tr>
+      <tr><td>月額家賃（400㎡ × 2,500円/坪）</td><td class="money">30万/月</td><td>屋島・古高松エリア相場</td></tr>
+      <tr><td>月額家賃（500㎡ × 2,500円/坪）</td><td class="money">38万/月</td><td>―</td></tr>
+      <tr><td>敷礼・保証金（家賃6-10ヶ月）</td><td class="money">180〜380万</td><td>事業用は重め</td></tr>
+      <tr><td>内装工事（用途変更込）</td><td class="money">300〜1,000万</td><td>SORA仕様への改装</td></tr>
+      <tr><td>什器・備品</td><td class="money">100〜300万</td><td>デスク・機材・トレ機器</td></tr>
+      <tr><td><strong>初期合計</strong></td><td class="money"><strong>約 600〜1,700万</strong></td><td>―</td></tr>
+      <tr><td colspan="3" style="background:#f0f8f4"><strong>※ ランニング</strong></td></tr>
+      <tr><td>家賃 年間</td><td class="money">360〜460万/年</td><td>―</td></tr>
+      <tr><td>5年累計（家賃のみ）</td><td class="money">1,800〜2,300万</td><td>初期費用と合わせて2,500〜4,000万</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>初期投資が最小（600-1,700万）</li>
+          <li>立地ミスでも引っ越し可能</li>
+          <li>家賃は全額経費</li>
+          <li>立ち上げ最速（2-3ヶ月で稼働可）</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット・リスク</strong>
+        <ul>
+          <li>長期で見ると総コストは大きい</li>
+          <li>用途変更（集会施設）が認められない物件が多い</li>
+          <li>1棟貸し物件が屋島エリアに少ない</li>
+          <li>家賃は経年で値上げの可能性</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ケースE: 中古リノベ -->
+  <div class="case case-E">
+    <div class="case-head">
+      <div>
+        <span class="case-no">CASE E</span>
+        <div class="case-title">古い建物を買って大規模リノベ（雰囲気重視）</div>
+      </div>
+      <div class="case-price">
+        <div class="total">¥3,000〜6,000万</div>
+        <div class="label">初期投資</div>
+      </div>
+    </div>
+    <p>古ビル・廃倉庫・空き店舗を買って、大規模リノベでSORA BASE 独自の空間を作る。<strong>「絵になる拠点」</strong>を作りたい場合に検討。</p>
+
+    <table>
+      <tr><th>項目</th><th>金額レンジ</th><th>備考</th></tr>
+      <tr><td>築40年以上・古ビル取得</td><td class="money">800〜2,000万</td><td>底値が見つかる可能性</td></tr>
+      <tr><td>耐震補強</td><td class="money">500〜1,500万</td><td>築年数によって大幅変動</td></tr>
+      <tr><td>大規模リノベ（用途変更含む）</td><td class="money">1,500〜3,000万</td><td>SORA仕様＋デザイン重視</td></tr>
+      <tr><td>設計・監理費</td><td class="money">300〜500万</td><td>―</td></tr>
+      <tr><td>諸経費</td><td class="money">200〜400万</td><td>―</td></tr>
+      <tr><td><strong>初期合計</strong></td><td class="money"><strong>約 3,300〜7,400万</strong></td><td>―</td></tr>
+    </table>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <strong>メリット</strong>
+        <ul>
+          <li>新築の半額〜2/3でできる</li>
+          <li>独自性の高い空間（メディア取材される）</li>
+          <li>建物の補助金（リノベ助成）の対象になりやすい</li>
+          <li>地域貢献ストーリーが立つ（空き家活用）</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>デメリット・リスク</strong>
+        <ul>
+          <li>リノベ費用が見積もりオーバーしやすい</li>
+          <li>耐震・防火基準を満たせない場合あり</li>
+          <li>適切な物件を見つけるのに半年〜1年</li>
+          <li>大規模リノベは新築並みの工期</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 比較表 -->
+<section>
+  <h2>2. 5パターン横比較</h2>
+  <div class="compare-table">
+    <table>
+      <tr>
+        <th></th>
+        <th>A. 中古軽リノベ</th>
+        <th>B. 土地+新築</th>
+        <th>C. 借地+新築</th>
+        <th>D. テナント賃借</th>
+        <th>E. 中古大規模リノベ</th>
+      </tr>
+      <tr>
+        <td><strong>初期投資</strong></td>
+        <td class="money">2,200〜6,900万</td>
+        <td class="money">1.5〜2.5億</td>
+        <td class="money">1.4〜2.0億</td>
+        <td class="money">600〜1,700万</td>
+        <td class="money">3,300〜7,400万</td>
+      </tr>
+      <tr>
+        <td><strong>月次固定費</strong></td>
+        <td>低（ローンのみ）</td>
+        <td>中（ローン）</td>
+        <td>中（ローン+借地料）</td>
+        <td class="money">30〜40万</td>
+        <td>低</td>
+      </tr>
+      <tr>
+        <td><strong>立ち上げ期間</strong></td>
+        <td>2-3ヶ月</td>
+        <td>1.5-2年</td>
+        <td>1.5-2年</td>
+        <td>2-3ヶ月</td>
+        <td>1年</td>
+      </tr>
+      <tr>
+        <td><strong>柔軟性</strong></td>
+        <td>中</td>
+        <td>低（売却困難）</td>
+        <td>中</td>
+        <td>高</td>
+        <td>低</td>
+      </tr>
+      <tr>
+        <td><strong>長期コスト</strong></td>
+        <td>低</td>
+        <td>中</td>
+        <td>中（借地料累積）</td>
+        <td>高（家賃累積）</td>
+        <td>低</td>
+      </tr>
+      <tr>
+        <td><strong>用途自由度</strong></td>
+        <td>中</td>
+        <td>高（最大）</td>
+        <td>高</td>
+        <td>低</td>
+        <td>中</td>
+      </tr>
+      <tr>
+        <td><strong>リスク</strong></td>
+        <td>中（耐震）</td>
+        <td>大（投資額）</td>
+        <td>中</td>
+        <td>低</td>
+        <td>大（見積オーバー）</td>
+      </tr>
+      <tr>
+        <td><strong>適したフェーズ</strong></td>
+        <td>Phase 2〜3</td>
+        <td>Phase 3（フラッグシップ）</td>
+        <td>Phase 2〜3</td>
+        <td>Phase 1〜2</td>
+        <td>Phase 2〜3</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- 推奨 -->
+<section>
+  <h2>3. 推奨ステップ</h2>
+
+  <div class="recommend">
+    <h4>Phase 1（2027年4月〜）：CASE D テナント賃借から始める</h4>
+    <p>初期費用 <strong>600〜1,700万円</strong>。これなら<strong>標準パターンの500万円調達枠内</strong>で（家賃前払い分まで含めて）スタートできる。失敗しても撤退コストが低い。</p>
+    <ul>
+      <li>立地：屋島レクザムFから徒歩・自転車圏（半径2km以内）</li>
+      <li>規模：100〜200㎡の事務所兼ミーティングスペース（4-5階建て全てはまだ要らない）</li>
+      <li>用途：会員受付・コーチ会議・面談・親御さん待機・座学・トレ機材保管</li>
+    </ul>
+  </div>
+
+  <div class="recommend">
+    <h4>Phase 2（2028〜2029年）：CASE A or E に切替（実績を見て）</h4>
+    <p>テナントで2-3年実績を作って、本気の拠点化を検討。<strong>中古ビル購入＋リノベ（A or E）</strong>でも<strong>3,000〜6,000万</strong>。融資・補助金で組める範囲。</p>
+    <ul>
+      <li>会員数の手応えがあれば物件購入の融資を組みやすい</li>
+      <li>クラウドファンディング（READYFOR等）併用で資金圧縮</li>
+      <li>地域貢献ストーリー（空き家活用・地方創生）を活かして<strong>補助金獲得</strong></li>
+    </ul>
+  </div>
+
+  <div class="recommend">
+    <h4>Phase 3（2030年〜）：CASE B 新築でフラッグシップ化（任意）</h4>
+    <p>BASE構想の本格化＝<strong>宿泊棟・食堂・トレーニングスペースを完備した拠点</strong>。投資1.5〜2.5億円は<strong>融資＋補助金＋クラウドファンディング＋スポンサー</strong>の多層調達で。</p>
+    <ul>
+      <li>事業実績10年・年商1億円超なら融資1.5億円は射程</li>
+      <li>「アスリート育成のフラッグシップ」ストーリーで企業版ふるさと納税を狙う</li>
+      <li>地元自治体（高松市）との包括連携協定を併用</li>
+    </ul>
+  </div>
+
+  <div class="alert">
+    <strong>注意：</strong>Phase 1からいきなりCASE B（1.5-2.5億）を狙うのは<strong>致命的なキャッシュフローリスク</strong>。前回のリアリティチェックで指摘した「補助金不採択」「学校等枠不適用」「YPV市場狭小」が同時発生すると、新築ビルの返済が事業を圧迫する。<br>
+    <strong>「小さく始めて、実績ができてから物件化」</strong>が現実的な順序。
+  </div>
+</section>
+
+<!-- 立地・物件探し -->
+<section>
+  <h2>4. 物件・土地を探す具体ステップ</h2>
+
+  <h3>不動産情報源</h3>
+  <table>
+    <tr><th>媒体</th><th>用途</th><th>備考</th></tr>
+    <tr><td>SUUMO / アットホーム</td><td>テナント・売ビル検索</td><td>「高松市屋島中町」「屋島東町」「屋島西町」で検索</td></tr>
+    <tr><td>MapFan 不動産</td><td>売ビル・1棟マンション</td><td>地図ベースで探せる</td></tr>
+    <tr><td>投資アットホーム</td><td>収益物件</td><td>投資用ビル一覧</td></tr>
+    <tr><td>地元仲介業者</td><td>未公開物件・地縁案件</td><td>香川県の地元仲介3社訪問推奨</td></tr>
+    <tr><td>高松市商工会議所</td><td>事業承継案件・空き店舗</td><td>地元事業者の引退物件</td></tr>
+    <tr><td>香川県空き家バンク</td><td>古ビル・廃倉庫</td><td>市町と連携・補助金対象</td></tr>
+  </table>
+
+  <h3>下見でチェックする5点</h3>
+  <ol>
+    <li><strong>耐震基準：</strong>新耐震（1981年6月以降）かどうか必ず確認</li>
+    <li><strong>用途地域・建築可否：</strong>「集会施設」「スポーツ施設」として使用可能か（市役所都市計画課で確認）</li>
+    <li><strong>建蔽率・容積率の余裕：</strong>増改築の余地</li>
+    <li><strong>駐車場：</strong>SORA BASE なら<strong>最低5-10台</strong>欲しい（保護者送迎含む）</li>
+    <li><strong>レクザムFまでの距離・動線：</strong>徒歩 or 自転車 or 車で何分か</li>
+  </ol>
+
+  <div class="quote">
+    「BASEは"作る"より"見つかる"こともある。地縁・縁故・地元金融機関のネットワークが何より効く。」
+  </div>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜SORA BASE 屋島エリア ビル取得コスト試算 v1.0｜<br>
+  ※公示地価・建築費相場からの机上試算。実勢価格は± 30%程度の振り幅あり。物件取得・契約前には必ず地元不動産業者・建築士・税理士に相談。
+</div>
+
+</div>
+</body>
+</html>

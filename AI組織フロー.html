@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI組織 — 構図と役割マップ</title>
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --bg2: #111827;
+    --bg3: #1e2a3a;
+    --border: rgba(255,255,255,0.08);
+    --purple: #8b5cf6;
+    --cyan: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --pink: #ec4899;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: rgba(255,255,255,0.04);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #1a0533 0%, #0c1a3a 50%, #001a2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 32px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(139,92,246,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(6,182,212,0.12) 0%, transparent 60%);
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #a78bfa, #67e8f9, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+  .header .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+    position: relative;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(139,92,246,0.2);
+    border: 1px solid rgba(139,92,246,0.4);
+    color: #a78bfa;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ===== AGENT CARDS ===== */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .agents-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .agent-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .agent-card:hover { transform: translateY(-2px); }
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .agent-card.sokatsu::before { background: linear-gradient(90deg, var(--purple), #6366f1); }
+  .agent-card.research::before { background: linear-gradient(90deg, var(--cyan), #3b82f6); }
+  .agent-card.content::before { background: linear-gradient(90deg, var(--green), #84cc16); }
+  .agent-card.file::before { background: linear-gradient(90deg, var(--gold), #f97316); }
+  .agent-card.review::before { background: linear-gradient(90deg, var(--pink), #f43f5e); }
+
+  .agent-icon { font-size: 24px; margin-bottom: 8px; }
+  .agent-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .agent-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .agent-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tool-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8;
+  }
+
+  /* ===== FLOW ARROW ===== */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    background: rgba(139,92,246,0.1);
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #c4b5fd;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+
+  /* ===== PROJECT CARDS ===== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .pj-ogilab::before  { background: linear-gradient(90deg, #C0392B, #e74c3c); }
+  .pj-caras::before   { background: linear-gradient(90deg, #C4A45A, #f0c060); }
+  .pj-kenko::before   { background: linear-gradient(90deg, #10b981, #34d399); }
+  .pj-sora::before    { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .pj-superior::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+  .pj-moon::before    { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+  .pj-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+  .pj-name { font-size: 15px; font-weight: 700; }
+  .pj-type { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .pj-percent {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .pct-ogilab { color: #ef4444; }
+  .pct-caras  { color: #C4A45A; }
+  .pct-kenko  { color: #10b981; }
+  .pct-sora   { color: #3b82f6; }
+  .pct-superior { color: #8b5cf6; }
+  .pct-moon   { color: #f59e0b; }
+
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+  .fill-ogilab  { background: linear-gradient(90deg, #C0392B, #e74c3c); width: 42%; }
+  .fill-caras   { background: linear-gradient(90deg, #C4A45A, #f0c060); width: 58%; }
+  .fill-kenko   { background: linear-gradient(90deg, #10b981, #34d399); width: 25%; }
+  .fill-sora    { background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 2%; }
+  .fill-superior{ background: linear-gradient(90deg, #8b5cf6, #a78bfa); width: 2%; }
+  .fill-moon    { background: linear-gradient(90deg, #f59e0b, #fbbf24); width: 2%; }
+
+  .pj-milestone {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .pj-milestone .icon { font-size: 12px; }
+
+  .pj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .pj-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .pj-sns {
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+  .pj-sns span { color: var(--text); font-weight: 600; }
+
+  /* MG Gauge */
+  .mg-row { display: flex; gap: 3px; margin-top: 8px; }
+  .mg-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    font-size: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .mg-done { background: rgba(16,185,129,0.3); border-color: #10b981; color: #10b981; }
+  .mg-pend { background: rgba(255,255,255,0.05); color: var(--muted); }
+  .mg-label { font-size: 10px; color: var(--muted); margin-left: 6px; align-self: center; }
+
+  /* ===== SCHEDULED TASKS ===== */
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .tasks-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .task-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .task-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .task-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .task-id { font-size: 11px; font-weight: 700; color: #c4b5fd; }
+  .task-desc { font-size: 10px; color: var(--muted); line-height: 1.4; }
+  .task-schedule {
+    font-size: 10px;
+    color: #4ade80;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ===== SKILLS SECTION ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .skills-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .skill-card.deprecated {
+    opacity: 0.4;
+    border-style: dashed;
+  }
+  .skill-icon { font-size: 20px; margin-bottom: 6px; }
+  .skill-name { font-size: 11px; font-weight: 700; color: #e2e8f0; }
+  .skill-use { font-size: 10px; color: var(--muted); margin-top: 3px; }
+  .deprecated-badge {
+    display: inline-block;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: #f87171;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  /* ===== SYNERGY MAP ===== */
+  .synergy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .synergy-grid { grid-template-columns: 1fr; } }
+
+  .synergy-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .synergy-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .synergy-arrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+  .syn-from, .syn-to {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .syn-from { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+  .syn-to   { background: rgba(6,182,212,0.12); color: #67e8f9; border: 1px solid rgba(6,182,212,0.25); }
+  .syn-desc { font-size: 10px; color: var(--muted); margin-left: 26px; }
+
+  /* ===== NG/GOOD RULES ===== */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 700px) { .rules-grid { grid-template-columns: 1fr; } }
+
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .rule-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rule-item {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .rule-item:last-child { border-bottom: none; }
+  .rule-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+  }
+  .footer .date { color: #64748b; }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>🤖 AI組織 — 構図と役割マップ</h1>
+  <p class="sub">MOON AI組織 | 6プロジェクト並走 | 自動化フロー稼働中</p>
+  <span class="badge">最終更新: 2026-03-29</span>
+</div>
+
+<div class="main">
+
+  <!-- ===== SECTION 1: エージェント役割 ===== -->
+  <div class="section-title">🧠 AIエージェント — 役割と担当ツール</div>
+  <div class="agents-grid">
+
+    <div class="agent-card sokatsu">
+      <div class="agent-icon">👑</div>
+      <div class="agent-name">総括エージェント</div>
+      <div class="agent-desc">タスク分解・文脈引き渡し・成果統合・ユーザー確認・提案</div>
+      <div class="agent-tools">
+        <span class="tool-tag">Agent tool</span>
+        <span class="tool-tag">TodoWrite</span>
+        <span class="tool-tag">AskUser</span>
+      </div>
+    </div>
+
+    <div class="agent-card research">
+      <div class="agent-icon">🔍</div>
+      <div class="agent-name">リサーチエージェント</div>
+      <div class="agent-desc">Web収集・YouTube/Note分析・Gemini連携 → サマリーを共有</div>
+      <div class="agent-tools">
+        <span class="tool-tag">WebSearch</span>
+        <span class="tool-tag">WebFetch</span>
+        <span class="tool-tag">Gmail</span>
+        <span class="tool-tag">Gemini API</span>
+      </div>
+    </div>
+
+    <div class="agent-card content">
+      <div class="agent-icon">✍️</div>
+      <div class="agent-name">コンテンツエージェント</div>
+      <div class="agent-desc">SNS投稿・スライド・記事・HTML生成</div>
+      <div class="agent-tools">
+        <span class="tool-tag">sns-voireco</span>
+        <span class="tool-tag">pptx</span>
+        <span class="tool-tag">docx</span>
+        <span class="tool-tag">html-publish</span>
+      </div>
+    </div>
+
+    <div class="agent-card file">
+      <div class="agent-icon">📁</div>
+      <div class="agent-name">ファイル処理エージェント</div>
+      <div class="agent-desc">PDF/Excel/PPT変換・加工・データ抽出</div>
+      <div class="agent-tools">
+        <span class="tool-tag">pdf</span>
+        <span class="tool-tag">xlsx</span>
+        <span class="tool-tag">Bash</span>
+        <span class="tool-tag">Python</span>
+      </div>
+    </div>
+
+    <div class="agent-card review">
+      <div class="agent-icon">⚖️</div>
+      <div class="agent-name">レビューエージェント</div>
+      <div class="agent-desc">品質採点・差し戻し・NGパターン蓄積・ディベート審判</div>
+      <div class="agent-tools">
+        <span class="tool-tag">サブAgent</span>
+        <span class="tool-tag">ファクトチェック</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 確認フロー ===== -->
+  <div class="section-title">🔄 タスク実行フロー（全タスク共通）</div>
+  <div class="flow-row" style="margin-bottom:40px;">
+    <div class="flow-step">📋 STEP1<br><small>PJ内容サマリー提示</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">📝 STEP2<br><small>実行計画を提示</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">✅ STEP3<br><small>承認を得て実行開始</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">🚀 実行<br><small>各エージェントへ分配</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">📊 採点<br><small>70点以上でOK</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">📋 報告<br><small>ハンドオフ記録</small></div>
+  </div>
+
+  <!-- タスク重要度 -->
+  <div style="display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap;">
+    <div style="flex:1;min-width:180px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:14px;">
+      <div style="font-size:13px;font-weight:700;color:#34d399;margin-bottom:6px;">🟢 ルーティン</div>
+      <div style="font-size:11px;color:var(--muted);">SNS投稿下書き・CONTEXT.md更新・レポート生成<br>→ 実行後に1行報告のみ</div>
+    </div>
+    <div style="flex:1;min-width:180px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:14px;">
+      <div style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:6px;">🟡 重要</div>
+      <div style="font-size:11px;color:var(--muted);">LP制作・外部向けコンテンツ完成版など<br>→ 計画提示 → 承認後に実行</div>
+    </div>
+    <div style="flex:1;min-width:180px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:14px;">
+      <div style="font-size:13px;font-weight:700;color:#f87171;margin-bottom:6px;">🔴 重大</div>
+      <div style="font-size:11px;color:var(--muted);">ファイル移動・外部送信・ディベート結論採用など<br>→ STEP1〜3 フル実施（承認必須）</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: プロジェクト一覧 ===== -->
+  <div class="section-title">🗂️ プロジェクト一覧 — 進捗と状況</div>
+  <div class="projects-grid">
+
+    <!-- オギラボ -->
+    <div class="project-card pj-ogilab">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">🎯 オギラボ</div>
+          <div class="pj-type">オンラインサロン（noteメンバーシップ）</div>
+        </div>
+        <div class="pj-percent pct-ogilab">42%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-ogilab"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>TikTok 1,000人達成でサロン本格稼働</div>
+      <div class="pj-tags">
+        <span class="pj-tag">認知拡大期</span>
+        <span class="pj-tag">SNS注力</span>
+        <span class="pj-tag">コンテンツ蓄積</span>
+      </div>
+      <div class="pj-sns">
+        TikTok <span>916人</span> / YouTube <span>79人</span>
+        <div class="mg-row">
+          <div class="mg-dot mg-pend">1</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">収益化ゲージ 0/20pt</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARAS -->
+    <div class="project-card pj-caras">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">💪 CARAS</div>
+          <div class="pj-type">パーソナルジム（個人 + 法人）</div>
+        </div>
+        <div class="pj-percent pct-caras">58%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-caras"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>SNS経由の新規個人会員 + 法人問合せ1件</div>
+      <div class="pj-tags">
+        <span class="pj-tag">実績蓄積期</span>
+        <span class="pj-tag">MEO強化</span>
+        <span class="pj-tag">法人展開準備</span>
+      </div>
+      <div class="pj-sns">
+        Instagram <span>68人</span> / TikTok <span>23人</span>
+        <div class="mg-row">
+          <div class="mg-dot mg-done">✓</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">収益化ゲージ 4/20pt (MG-1完了)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 健康経営 -->
+    <div class="project-card pj-kenko">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">🏥 健康経営</div>
+          <div class="pj-type">B2B法人向けウェルネス支援</div>
+        </div>
+        <div class="pj-percent pct-kenko">25%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-kenko"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>パイロット案件（中小1社）初契約</div>
+      <div class="pj-tags">
+        <span class="pj-tag">市場調査期</span>
+        <span class="pj-tag">サービス設計中</span>
+        <span class="pj-tag">法人向け</span>
+      </div>
+      <div class="pj-sns" style="color:#ef4444;">
+        ⚠️ 健康診断の予約 — 期限3月末
+        <div class="mg-row">
+          <div class="mg-dot mg-pend">1</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">収益化ゲージ 0/20pt</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SORA -->
+    <div class="project-card pj-sora">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">🌤 SORA</div>
+          <div class="pj-type">キッズ陸上クラブ（香川県）</div>
+        </div>
+        <div class="pj-percent pct-sora">0%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-sora"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>スターターキット完了（LP + SNS + PDF）</div>
+      <div class="pj-tags">
+        <span class="pj-tag">観音寺</span>
+        <span class="pj-tag">高松</span>
+        <span class="pj-tag">情報整備中</span>
+      </div>
+      <div class="pj-sns">
+        Instagram <span>@basic_sports_club_sora</span>
+        <div class="mg-row">
+          <div class="mg-dot mg-pend">1</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">SK-1 LP制作が最優先</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERIOR -->
+    <div class="project-card pj-superior">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">⚡ SUPERIOR</div>
+          <div class="pj-type">キッズ陸上クラブ（奈良・大阪）</div>
+        </div>
+        <div class="pj-percent pct-superior">0%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-superior"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>SK-2 体験会LP完成 → 収益化フェーズへ</div>
+      <div class="pj-tags">
+        <span class="pj-tag">生駒（奈良）</span>
+        <span class="pj-tag">箕面（大阪）</span>
+        <span class="pj-tag">SNS稼働済み</span>
+      </div>
+      <div class="pj-sns">
+        Instagram <span>@superior_tf_2025</span> 稼働中
+        <div class="mg-row">
+          <div class="mg-dot mg-pend">1</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">LP完成でMG-1達成へ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- むーん -->
+    <div class="project-card pj-moon">
+      <div class="pj-header">
+        <div>
+          <div class="pj-name">🌙 むーん</div>
+          <div class="pj-type">運動療育（児童発達支援・放デイ）</div>
+        </div>
+        <div class="pj-percent pct-moon">0%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill fill-moon"></div></div>
+      <div class="pj-milestone"><span class="icon">🏁</span>LP + Instagram + 施設案内PDF 完成</div>
+      <div class="pj-tags">
+        <span class="pj-tag">大阪市都島区</span>
+        <span class="pj-tag">稼働中施設</span>
+        <span class="pj-tag">療育特化</span>
+      </div>
+      <div class="pj-sns">
+        リタリコ発達ナビ掲載済み
+        <div class="mg-row">
+          <div class="mg-dot mg-pend">1</div>
+          <div class="mg-dot mg-pend">2</div>
+          <div class="mg-dot mg-pend">3</div>
+          <div class="mg-dot mg-pend">4</div>
+          <div class="mg-dot mg-pend">5</div>
+          <span class="mg-label">LP + SNS戦略が先決</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== SECTION 3: スケジュールタスク ===== -->
+  <div class="section-title">⚙️ 自動化スケジュールタスク — 17件稼働中</div>
+  <div class="tasks-grid">
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">daily-morning-briefing</div></div>
+      <div class="task-desc">全PJ進捗確認 + SNS鮮度チェック + むーん行政モニタリング → HTML報告</div>
+      <div class="task-schedule">⏰ 毎朝 9:07</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">weekly-review</div></div>
+      <div class="task-desc">週次振り返り + 今週の優先アクション提案 + スプリント宣言</div>
+      <div class="task-schedule">⏰ 毎週月曜 11:10</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">monthly-review</div></div>
+      <div class="task-desc">月次進捗レビュー + 進捗%再計算 + Decision Log再評価</div>
+      <div class="task-schedule">⏰ 毎月1日 9:00</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">ogilab-buzz-research</div></div>
+      <div class="task-desc">オギラボ 競合バズ調査 + 自社SNSモニタリング</div>
+      <div class="task-schedule">⏰ 毎週月曜 10:07</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-blog-generator</div></div>
+      <div class="task-desc">CARASブログ記事自動生成（ゴルフ/マダム交互）</div>
+      <div class="task-schedule">⏰ 毎週月曜 12:07</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-meo-posts</div></div>
+      <div class="task-desc">CARAS GBP投稿文 週2本自動生成（MEO対策）</div>
+      <div class="task-schedule">⏰ 毎週木曜 9:10</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-content-generator</div></div>
+      <div class="task-desc">CARAS MEO最適化コンテンツ一括生成</div>
+      <div class="task-schedule">⏰ 月・木 13:03</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-gbp-autoposter</div></div>
+      <div class="task-desc">CARASのGBPに週2回MEO最適化投稿を自動作成</div>
+      <div class="task-schedule">⏰ 火・金 10:01</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">sns-buzz-research</div></div>
+      <div class="task-desc">全PJ SNSバズ調査・競合モニタリング</div>
+      <div class="task-schedule">⏰ 火・金 8:05</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-hp-monthly-content</div></div>
+      <div class="task-desc">CARAS HPブログ4記事（金曜分）を月初に一括生成</div>
+      <div class="task-schedule">⏰ 毎月1日 8:00</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-instagram-weekly</div></div>
+      <div class="task-desc">CARAS Instagram 週次投稿コンテンツ自動生成</div>
+      <div class="task-schedule">⏰ 毎週水曜 9:03</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">caras-instagram-wednesday/friday</div></div>
+      <div class="task-desc">CARAS Instagram 水・金投稿 画像＋投稿文生成</div>
+      <div class="task-schedule">⏰ 水曜 9:08 / 金曜 9:00</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">superior-instagram-weekly</div></div>
+      <div class="task-desc">SUPERIOR Instagram 週次投稿コンテンツ自動生成</div>
+      <div class="task-schedule">⏰ 毎週水曜 9:02</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">superior-trial-check</div></div>
+      <div class="task-desc">SUPERIOR 体験申込確認 + 3日後フォロー + アンケート集計</div>
+      <div class="task-schedule">⏰ 毎日 10:05</div>
+    </div>
+
+    <div class="task-card">
+      <div class="task-header"><div class="task-dot"></div><div class="task-id">monthly-invoice-reminder</div></div>
+      <div class="task-desc">請求書作成リマインド通知</div>
+      <div class="task-schedule">⏰ 毎月25日 9:00</div>
+    </div>
+
+  </div>
+
+  <!-- ===== SECTION 4: スキル一覧 ===== -->
+  <div class="section-title">🛠 利用スキル一覧</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🎙</div>
+      <div class="skill-name">sns-voireco</div>
+      <div class="skill-use">ボイレコ→NOTE→SNS→スライド<br>（唯一の正式SNSスキル）</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">html-publish</div>
+      <div class="skill-use">HTML作成後に必ず実行<br>html.aiフォルダに整理</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">pptx</div>
+      <div class="skill-use">プレゼンテーション<br>作成・編集・変換</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📄</div>
+      <div class="skill-name">pdf</div>
+      <div class="skill-use">PDF処理全般<br>作成・結合・分割</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📈</div>
+      <div class="skill-name">xlsx</div>
+      <div class="skill-use">Excel処理全般<br>データ分析・集計</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📝</div>
+      <div class="skill-name">docx</div>
+      <div class="skill-use">Wordドキュメント<br>作成・編集</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🎬</div>
+      <div class="skill-name">youtube-shorts</div>
+      <div class="skill-use">スライド画像→<br>YouTube Shorts動画化</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💰</div>
+      <div class="skill-name">salary-split</div>
+      <div class="skill-use">給与明細PDF<br>個人別に分割</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">skill-creator</div>
+      <div class="skill-use">新スキル作成・<br>既存スキル改善</div>
+    </div>
+    <div class="skill-card deprecated">
+      <div class="skill-icon">🚫</div>
+      <div class="skill-name">ogilab-sns</div>
+      <div class="skill-use">sns-voirecoに統合</div>
+      <div class="deprecated-badge">廃止済み 2026-03-29</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: シナジーマップ ===== -->
+  <div class="section-title">🔗 プロジェクト連携マップ</div>
+  <div class="synergy-grid">
+
+    <div class="synergy-card">
+      <div class="synergy-title">🔵 集客・認知シナジー</div>
+      <div class="synergy-arrow">
+        <span class="syn-from">オギラボ</span>
+        <span style="color:var(--muted)">→</span>
+        <span class="syn-to">健康経営</span>
+      </div>
+      <div class="syn-desc">AI活用事例を発信してB2Bリードを獲得</div>
+      <div class="synergy-arrow" style="margin-top:8px;">
+        <span class="syn-from">CARAS</span>
+        <span style="color:var(--muted)">→</span>
+        <span class="syn-to">健康経営</span>
+      </div>
+      <div class="syn-desc">法人パッケージにCARASプログラムを組み込む</div>
+    </div>
+
+    <div class="synergy-card">
+      <div class="synergy-title">🟣 陸上クラブ連携</div>
+      <div class="synergy-arrow">
+        <span class="syn-from">SORA</span>
+        <span style="color:var(--muted)">⟷</span>
+        <span class="syn-to">SUPERIOR</span>
+      </div>
+      <div class="syn-desc">姉妹クラブ — コンテンツ共有・合同イベント・指導ノウハウ共有</div>
+      <div class="synergy-arrow" style="margin-top:8px;">
+        <span class="syn-from">SORA/SUPERIOR</span>
+        <span style="color:var(--muted)">→</span>
+        <span class="syn-to">オギラボ</span>
+      </div>
+      <div class="syn-desc">スポーツ×AI活用の事例コンテンツとして発信</div>
+    </div>
+
+    <div class="synergy-card">
+      <div class="synergy-title">🟡 保護者向け連携</div>
+      <div class="synergy-arrow">
+        <span class="syn-from">SORA/SUPERIOR</span>
+        <span style="color:var(--muted)">→</span>
+        <span class="syn-to">CARAS</span>
+      </div>
+      <div class="syn-desc">保護者へCARASのトレーニングを紹介</div>
+      <div class="synergy-arrow" style="margin-top:8px;">
+        <span class="syn-from">むーん</span>
+        <span style="color:var(--muted)">→</span>
+        <span class="syn-to">CARAS</span>
+      </div>
+      <div class="syn-desc">保護者のストレスケア・健康管理として紹介</div>
+    </div>
+
+  </div>
+
+  <!-- ===== SECTION 6: 重要ルール ===== -->
+  <div class="section-title">📋 グローバルルール — 最新版</div>
+  <div class="rules-grid">
+
+    <div class="rule-card">
+      <div class="rule-title" style="color:#f87171;">🚫 グローバルNGルール</div>
+      <div class="rule-item"><span class="rule-icon">⛔</span>SNSフォロワー数の推測・前回値使用禁止（実数値を必ず確認）</div>
+      <div class="rule-item"><span class="rule-icon">⛔</span>SNSデータが3日以上未確認 → ブリーフィングで⚠️アラート表示</div>
+      <div class="rule-item"><span class="rule-icon">⛔</span>ogilab-snsスキルの使用禁止（sns-voirecoを使うこと）</div>
+      <div class="rule-item"><span class="rule-icon">⛔</span>ハンドオフの先送り禁止（🟡タスク完了直後に即記録）</div>
+      <div class="rule-item"><span class="rule-icon">⛔</span>NotebookLMパスのハードコード禁止（毎回動的取得）</div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title" style="color:#34d399;">✅ 運用ルール</div>
+      <div class="rule-item"><span class="rule-icon">✅</span>成果物はすべてHTMLで出力 → html-publishスキルで整理</div>
+      <div class="rule-item"><span class="rule-icon">✅</span>品質採点70点以上でレビューOK（最大3回再生成）</div>
+      <div class="rule-item"><span class="rule-icon">✅</span>GOODパターン承認後は特徴を自動抽出してCONTEXT.mdに蓄積</div>
+      <div class="rule-item"><span class="rule-icon">✅</span>🔴重大タスク承認後はDecision Logを自動生成</div>
+      <div class="rule-item"><span class="rule-icon">✅</span>エラー発生時はLEVEL1→2→3フォールバックで必ず報告</div>
+    </div>
+
+  </div>
+
+</div><!-- /main -->
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <div>AI組織 構図と役割マップ — MOON AI System</div>
+  <div class="date">生成日: 2026-03-29 | 6プロジェクト並走中 | スケジュールタスク 17件稼働</div>
+</div>
+
+</body>
+</html>

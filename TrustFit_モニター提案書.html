@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit｜企業向けモニター提案書</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D988;
+    --navy: #0D1B2A;
+    --navy-mid: #182C42;
+    --white: #FFFFFF;
+    --off-white: #F5F7FA;
+    --gray: #6B7F96;
+    --light-gray: #E8EDF3;
+    --red: #E05A4B;
+    --green: #2E9E6E;
+    --teal: #1B8A8A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--off-white);
+    color: var(--navy);
+    line-height: 1.7;
+  }
+
+  /* ── TOP BAND ── */
+  .top-band {
+    background: var(--navy);
+    padding: 12px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand { color: var(--gold); font-size: 14px; font-weight: 800; letter-spacing: 3px; }
+  .top-band-right { color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 1px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(140deg, var(--navy) 0%, #1A3050 55%, #0D2840 100%);
+    padding: 70px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -100px; top: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    font-weight: 700;
+  }
+  .hero-eyebrow::before { content: '★'; font-size: 10px; }
+
+  .hero-headline {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .hero-headline em { color: var(--gold); font-style: normal; display: block; }
+
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 600px;
+    margin-bottom: 36px;
+    line-height: 1.9;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-tag {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8);
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── WRAPPER ── */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SHARED ── */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(20px, 3vw, 30px);
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  /* ── PROBLEM ── */
+  .problem-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    margin: -32px auto 0;
+    box-shadow: 0 4px 40px rgba(13,27,42,0.10);
+    position: relative;
+    z-index: 2;
+  }
+  @media(max-width:700px){ .problem-section { padding: 28px 20px; } }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media(max-width:700px){ .pain-grid { grid-template-columns: 1fr; } }
+
+  .pain-card {
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid var(--red);
+  }
+  .pain-icon { font-size: 22px; margin-bottom: 8px; }
+  .pain-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 6px; line-height: 1.4; }
+  .pain-body { font-size: 12px; color: var(--gray); line-height: 1.7; }
+
+  /* ── SOLUTION ── */
+  .solution-band {
+    background: var(--navy);
+    padding: 60px 24px;
+    margin-top: 48px;
+    text-align: center;
+    border-radius: 20px;
+  }
+  .sol-label { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 800; margin-bottom: 10px; }
+  .sol-title { font-size: clamp(24px, 4vw, 40px); font-weight: 900; color: var(--white); line-height: 1.25; margin-bottom: 12px; }
+  .sol-title span { color: var(--gold); }
+  .sol-sub { font-size: 14px; color: rgba(255,255,255,0.55); max-width: 620px; margin: 0 auto 36px; }
+
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  @media(max-width:700px){ .usp-grid { grid-template-columns: 1fr; } }
+
+  .usp-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: left;
+  }
+  .usp-num { font-size: 11px; color: var(--gold); font-weight: 800; letter-spacing: 2px; margin-bottom: 10px; }
+  .usp-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 8px; line-height: 1.4; }
+  .usp-body { font-size: 12px; color: rgba(255,255,255,0.60); line-height: 1.75; }
+
+  /* ── TRAINER LINEUP ── */
+  .lineup-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    box-shadow: 0 2px 20px rgba(13,27,42,0.06);
+  }
+  @media(max-width:700px){ .lineup-section { padding: 28px 20px; } }
+
+  .lineup-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  @media(max-width:800px){ .lineup-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:500px){ .lineup-grid { grid-template-columns: 1fr; } }
+
+  .lineup-card {
+    border-radius: 14px;
+    padding: 24px 18px;
+    text-align: center;
+    border: 1px solid var(--light-gray);
+    position: relative;
+    overflow: hidden;
+  }
+  .lineup-card.featured {
+    background: linear-gradient(135deg, #0D1B2A, #1A3050);
+    border-color: rgba(201,168,76,0.4);
+  }
+  .lineup-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .lineup-card.type-a::before { background: var(--gold); }
+  .lineup-card.type-b::before { background: #6BB5FF; }
+  .lineup-card.type-c::before { background: var(--teal); }
+  .lineup-card.type-d::before { background: #B080FF; }
+
+  .lineup-icon { font-size: 30px; margin-bottom: 10px; }
+  .lineup-rank {
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .lineup-card.type-a .lineup-rank { color: var(--gold); }
+  .lineup-card.type-b .lineup-rank { color: #6BB5FF; }
+  .lineup-card.type-c .lineup-rank { color: var(--teal); }
+  .lineup-card.type-d .lineup-rank { color: #B080FF; }
+
+  .lineup-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .lineup-card.featured .lineup-title { color: var(--white); }
+  .lineup-example {
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  .lineup-card.featured .lineup-example { color: rgba(255,255,255,0.5); }
+  .lineup-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    box-shadow: 0 2px 20px rgba(13,27,42,0.06);
+  }
+  @media(max-width:700px){ .how-section { padding: 28px 20px; } }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 32px;
+    position: relative;
+  }
+  @media(max-width:700px){ .flow-steps { grid-template-columns: 1fr; gap: 16px; } }
+
+  .flow-step {
+    text-align: center;
+    padding: 0 12px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -8px; top: 26px;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 900;
+  }
+  @media(max-width:700px){ .flow-step::after { display: none !important; } }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #A07830);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .step-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 6px; line-height: 1.4; }
+  .step-body { font-size: 11px; color: var(--gray); line-height: 1.7; }
+
+  /* ── 2H FREE DESIGN ── */
+  .free-design {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(27,138,138,0.06));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  @media(max-width:600px){ .free-design { grid-template-columns: 1fr; } }
+
+  .free-design-icon {
+    font-size: 48px;
+    text-align: center;
+    width: 80px;
+  }
+  .free-design-label { font-size: 10px; letter-spacing: 2px; color: var(--gold); font-weight: 800; margin-bottom: 6px; }
+  .free-design-title { font-size: 18px; font-weight: 900; color: var(--navy); margin-bottom: 8px; }
+  .free-design-body { font-size: 13px; color: var(--gray); line-height: 1.8; }
+
+  .example-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .ex-tag {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    color: var(--navy);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .ex-tag.opt {
+    background: rgba(255,255,255,0.6);
+    color: var(--gray);
+    border-style: dashed;
+    font-size: 10px;
+  }
+
+  /* ── CONTENT MENU ── */
+  .menu-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    box-shadow: 0 2px 20px rgba(13,27,42,0.06);
+  }
+  @media(max-width:700px){ .menu-section { padding: 28px 20px; } }
+
+  .menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 28px;
+    font-size: 13px;
+  }
+  .menu-table th {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .menu-table th:first-child { border-radius: 8px 0 0 0; }
+  .menu-table th:last-child { border-radius: 0 8px 0 0; }
+  .menu-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: middle;
+    line-height: 1.6;
+  }
+  .menu-table tr:last-child td { border-bottom: none; }
+  .menu-table tr:hover td { background: rgba(201,168,76,0.04); }
+  .menu-table tr.highlight td { background: rgba(201,168,76,0.05); }
+  .menu-table tr.highlight td:first-child { border-left: 3px solid var(--gold); }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .tag-vip { background: rgba(201,168,76,0.15); color: #8A6010; }
+  .tag-star { background: rgba(201,168,76,0.25); color: #7A5500; border: 1px solid rgba(201,168,76,0.4); }
+  .tag-opt { background: rgba(107,127,150,0.12); color: var(--gray); font-size: 9px; }
+
+  /* ── MONITOR CAMPAIGN ── */
+  .monitor-section {
+    background: linear-gradient(135deg, #0D1B2A 0%, #1A3050 100%);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .monitor-section::before {
+    content: '10×';
+    position: absolute;
+    right: 30px; top: 20px;
+    font-size: 100px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .monitor-inner { position: relative; z-index: 1; }
+  .monitor-label { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 800; margin-bottom: 8px; }
+  .monitor-title { font-size: clamp(22px, 3.5vw, 36px); font-weight: 900; color: var(--white); margin-bottom: 16px; line-height: 1.3; }
+  .monitor-title span { color: var(--gold); }
+
+  .monitor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  @media(max-width:700px){ .monitor-grid { grid-template-columns: 1fr; } }
+
+  .monitor-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .monitor-box-title { font-size: 12px; color: var(--gold); font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; }
+  .monitor-box ul { list-style: none; }
+  .monitor-box ul li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.80);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .monitor-box ul li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-size: 11px; top: 7px; }
+  .monitor-box ul li:last-child { border-bottom: none; }
+
+  .monitor-cta {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #A07830);
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 15px;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+  .cta-note { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  /* ── ROI ── */
+  .roi-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    box-shadow: 0 2px 20px rgba(13,27,42,0.06);
+  }
+  @media(max-width:700px){ .roi-section { padding: 28px 20px; } }
+
+  .roi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 28px;
+  }
+  @media(max-width:700px){ .roi-grid { grid-template-columns: 1fr; } }
+
+  .roi-card {
+    text-align: center;
+    padding: 28px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--light-gray);
+  }
+  .roi-card.featured { background: var(--navy); border-color: var(--navy); }
+  .roi-label { font-size: 10px; letter-spacing: 2px; color: var(--gray); font-weight: 700; margin-bottom: 8px; }
+  .roi-card.featured .roi-label { color: rgba(255,255,255,0.4); }
+  .roi-amount { font-size: 36px; font-weight: 900; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+  .roi-card.featured .roi-amount { color: var(--gold); }
+  .roi-unit { font-size: 13px; color: var(--gray); margin-bottom: 12px; }
+  .roi-card.featured .roi-unit { color: rgba(255,255,255,0.5); }
+  .roi-detail { font-size: 11px; color: var(--gray); line-height: 1.7; }
+  .roi-card.featured .roi-detail { color: rgba(255,255,255,0.5); }
+
+  /* ── PERSONA ── */
+  .voice-section {
+    background: var(--off-white);
+    border-radius: 20px;
+    padding: 48px;
+    margin-top: 24px;
+    border: 1px dashed var(--light-gray);
+  }
+  @media(max-width:700px){ .voice-section { padding: 28px 20px; } }
+
+  .persona-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  @media(max-width:700px){ .persona-grid { grid-template-columns: 1fr; } }
+
+  .persona-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--light-gray);
+  }
+  .persona-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .persona-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .persona-name { font-size: 13px; font-weight: 800; color: var(--navy); }
+  .persona-role { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .persona-quote {
+    font-size: 12px;
+    color: var(--navy);
+    line-height: 1.8;
+    border-left: 3px solid var(--gold);
+    padding-left: 14px;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  .footer-section {
+    background: var(--navy);
+    border-radius: 20px 20px 0 0;
+    padding: 40px 48px;
+    margin-top: 24px;
+  }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  @media(max-width:600px){ .footer-inner { grid-template-columns: 1fr; } }
+  .footer-brand { color: var(--gold); font-size: 20px; font-weight: 900; letter-spacing: 3px; margin-bottom: 6px; }
+  .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.45); }
+  .footer-contact { text-align: right; }
+  .footer-contact-label { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .footer-contact-val { font-size: 13px; color: rgba(255,255,255,0.70); }
+  .footer-note { text-align: center; font-size: 11px; color: rgba(255,255,255,0.20); padding: 16px 0 8px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAND -->
+<div class="top-band">
+  <div class="brand">TRUSTFIT</div>
+  <div class="top-band-right">CONFIDENTIAL — 初回モニター企業様向け資料｜2026</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">企業向けウェルネスプログラム 初回モニター募集</div>
+    <h1 class="hero-headline">
+      一流が来る。<br>
+      <em>成果の分だけ、払う。</em>
+    </h1>
+    <p class="hero-sub">
+      オリンピアン・日本代表帯同コンディショニングコーチ・著名アスリートが御社に直接訪問。<br>
+      社内研修からコンディショニングケア、チームビルディングまで、<strong style="color:rgba(255,255,255,0.9);">2時間を自由に設計</strong>できます。<br>
+      従来の「定額・効果不明」型を、完全成果報酬型に刷新するプラットフォームです。
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag">✓ 評価した分だけ支払い</span>
+      <span class="hero-tag">✓ 健康経営優良法人サポート</span>
+      <span class="hero-tag">✓ 採用PR動画として活用可</span>
+      <span class="hero-tag">✓ 2時間を自由設計</span>
+      <span class="hero-tag">✓ 初回モニター 10倍ポイント特典</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- PROBLEM -->
+<div class="problem-section">
+  <div class="section-label">01 — PROBLEM</div>
+  <div class="section-title">こんな課題、抱えていませんか？</div>
+  <p class="section-sub">法人向け健康・研修投資の「3大ストレス」</p>
+
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">📊</div>
+      <div class="pain-title">投資対効果が<br>見えない</div>
+      <div class="pain-body">外部研修・健康施策にお金を払っても「本当に効果があったのか」の根拠が作れない。社内稟議が毎年通りにくい。</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🔍</div>
+      <div class="pain-title">トレーナーの<br>質が読めない</div>
+      <div class="pain-body">「著名な先生を呼んだが社員の反応がイマイチだった」という経験がある。当たり外れが大きく継続しにくい。</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🏆</div>
+      <div class="pain-title">健康経営認定と<br>採用PRを両立したい</div>
+      <div class="pain-body">健康経営優良法人の認定を取りたいが何をすれば良いか不明確。採用にも使えるコンテンツを同時に作りたい。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SOLUTION -->
+<div class="solution-band">
+  <div class="sol-label">02 — SOLUTION</div>
+  <div class="sol-title">「体験した価値だけ払えばいい」<br><span>完全成果報酬 × 一流トレーナー × 2時間自由設計</span></div>
+  <p class="sol-sub">TrustFitは業界初の評価連動型プラットフォーム。良かった分だけ払う仕組みで、企業の「無駄払い」をゼロにします。コンテンツは2時間の中で自由に設計できます。</p>
+
+  <div class="usp-grid">
+    <div class="usp-card">
+      <div class="usp-num">USP 01</div>
+      <div class="usp-title">評価連動型<br>成果報酬</div>
+      <div class="usp-body">50点満点の双方評価スコアで支払い額が確定。セッション後に「この内容なら◯万円の価値があった」と評価した分だけ請求されます。</div>
+    </div>
+    <div class="usp-card">
+      <div class="usp-num">USP 02</div>
+      <div class="usp-title">日本代表帯同コーチ〜<br>著名アスリートが在籍</div>
+      <div class="usp-body">オリンピアン、日本代表チーム帯同コンディショニングコーチ、著名アスリートが在籍。会社の規模・目的に合わせたトレーナーをアサインします。</div>
+    </div>
+    <div class="usp-card">
+      <div class="usp-num">USP 03</div>
+      <div class="usp-title">健康経営認定 ×<br>採用PR直結設計</div>
+      <div class="usp-body">健康経営優良法人の認定取得サポートに対応。セッションの様子を採用PR動画として活用することで投資の「二重回収」が可能です。</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRAINER LINEUP -->
+<div class="lineup-section">
+  <div class="section-label">03 — TRAINER LINEUP</div>
+  <div class="section-title">在籍トレーナー — 4つの専門性</div>
+  <p class="section-sub">目的・対象・予算に合わせて最適なトレーナーをアサイン。複数カテゴリを組み合わせた2時間も設計できます。</p>
+
+  <div class="lineup-grid">
+    <div class="lineup-card type-a featured">
+      <div class="lineup-icon">🏆</div>
+      <div class="lineup-rank">VIP Legendクラス</div>
+      <div class="lineup-title">オリンピアン・<br>著名アスリート</div>
+      <div class="lineup-example">競技実績を持つトップアスリート。講演・マインドセット・目標設定・健康経営研修に特化。</div>
+      <span class="lineup-badge">★ 採用PRに最適</span>
+    </div>
+    <div class="lineup-card type-b">
+      <div class="lineup-icon">🩺</div>
+      <div class="lineup-rank">VIP Masterクラス</div>
+      <div class="lineup-title">日本代表帯同<br>コンディショニングコーチ</div>
+      <div class="lineup-example">日本代表チームに帯同した実績を持つ専門家。コンディショニング・リカバリーケア・体のメンテナンスを担当。</div>
+    </div>
+    <div class="lineup-card type-c">
+      <div class="lineup-icon">💪</div>
+      <div class="lineup-rank">VIP Eliteクラス</div>
+      <div class="lineup-title">スポーツ・<br>パーソナルトレーナー</div>
+      <div class="lineup-example">法人向け実績のある専門トレーナー。全社員向けストレッチ・トレーニング・定期巡回サポートを担当。</div>
+    </div>
+    <div class="lineup-card type-d">
+      <div class="lineup-icon">🔄</div>
+      <div class="lineup-rank">継続サポート</div>
+      <div class="lineup-title">若手トレーナー<br>（バックエンド）</div>
+      <div class="lineup-example">VIPセッション後の継続的なウェルネスサポートを担当。週次・月次で安定した健康経営を下支えする。</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="section-label">04 — HOW IT WORKS</div>
+  <div class="section-title">4ステップで始まるシンプルな仕組み</div>
+  <p class="section-sub">複雑な契約なし。ポイント購入→予約→体験→評価で完結します。</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-title">ポイント購入<br>（確定費として計上）</div>
+      <div class="step-body">1pt = 1円のポイントを事前購入。変動費ではなく確定費として経理処理できます。</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-title">トレーナーを選び<br>2時間を設計する</div>
+      <div class="step-body">目的に合わせてトレーナーを選択。2時間の中身は企業側が自由に設計できます。</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-title">体験後に<br>双方で評価</div>
+      <div class="step-body">10項目・50点満点で評価。スコアに応じてポイントが確定。余剰分は即日返還されます。</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-title">継続は若手が<br>引き継いでサポート</div>
+      <div class="step-body">VIP体験後の継続ケアは若手トレーナーへ引き継ぎ。年間で安定した健康経営を実現します。</div>
+    </div>
+  </div>
+
+  <!-- 2H FREE DESIGN -->
+  <div class="free-design">
+    <div class="free-design-icon">⏱️</div>
+    <div>
+      <div class="free-design-label">2H FREE DESIGN</div>
+      <div class="free-design-title">2時間の中身は、御社が決める</div>
+      <div class="free-design-body">TrustFitのセッションは1コマ2時間。前半を講演・後半をコンディショニング体験にするも良し、チームビルディングとストレッチを組み合わせるも良し。コンテンツの設計は完全に御社に委ねられています。</div>
+      <div class="example-tags">
+        <span class="ex-tag">📢 講演 + ストレッチ</span>
+        <span class="ex-tag">🎯 目標設定 + コンディショニング</span>
+        <span class="ex-tag">🏃 全社トレーニング</span>
+        <span class="ex-tag">💼 経営陣コーチング</span>
+        <span class="ex-tag opt">🍽️ 食事会（オプション）</span>
+        <span class="ex-tag opt">🏫 学校・地域イベント（オプション）</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT MENU -->
+<div class="menu-section">
+  <div class="section-label">05 — CONTENT MENU</div>
+  <div class="section-title">提供コンテンツ × 解決できる課題</div>
+  <p class="section-sub">2時間の中にこれらのコンテンツを自由に組み合わせて設計できます</p>
+
+  <table class="menu-table">
+    <tr>
+      <th>コンテンツ</th>
+      <th>こんな課題に</th>
+      <th>対象・人数</th>
+      <th>参考報酬レンジ</th>
+    </tr>
+    <tr class="highlight">
+      <td>
+        <span class="tag tag-star">★ 最推奨</span><br>
+        <strong>健康経営優良法人<br>認定支援研修</strong>
+      </td>
+      <td>認定取得・稟議・投資対効果の可視化</td>
+      <td>経営陣・人事担当者<br>上限なし</td>
+      <td>100,000〜300,000pt / 回</td>
+    </tr>
+    <tr class="highlight">
+      <td>
+        <span class="tag tag-star">★ 最推奨</span><br>
+        <strong>ストーリーテリング型講演<br>（限界突破・アスリート体験談）</strong>
+      </td>
+      <td>採用PR・全社エンゲージメント・VIP体験</td>
+      <td>全社員・役員<br>上限なし</td>
+      <td>100,000〜300,000pt / 回</td>
+    </tr>
+    <tr>
+      <td>
+        <span class="tag tag-vip">VIP</span><br>
+        <strong>コンディショニング・<br>リカバリーケア</strong>
+      </td>
+      <td>疲労蓄積した役員・社員の体のメンテナンス</td>
+      <td>経営陣・管理職<br>5名まで</td>
+      <td>50,000〜150,000pt / 回</td>
+    </tr>
+    <tr>
+      <td>
+        <span class="tag tag-vip">VIP</span><br>
+        <strong>メンタルコーチング・<br>目標設定セッション</strong>
+      </td>
+      <td>役員・経営陣のパフォーマンス向上</td>
+      <td>経営陣・管理職<br>5名まで</td>
+      <td>50,000〜150,000pt / 回</td>
+    </tr>
+    <tr>
+      <td>
+        <span class="tag tag-vip">VIP</span><br>
+        <strong>全社ストレッチ・<br>トレーニング指導</strong>
+      </td>
+      <td>社員の健康意識向上・体の変化を実感</td>
+      <td>全社員対応<br>30名まで（複数コマ可）</td>
+      <td>30,000〜100,000pt / 回</td>
+    </tr>
+    <tr>
+      <td>
+        <span class="tag tag-vip">VIP</span><br>
+        <strong>ファミリー向けプログラム<br>（企業内キッズスクール連携）</strong>
+      </td>
+      <td>福利厚生の差別化・採用ブランディング</td>
+      <td>社員ファミリー<br>上限なし</td>
+      <td>30,000〜50,000pt / 回</td>
+    </tr>
+  </table>
+  <p style="font-size:11px; color:var(--gray); margin-top:12px;">※ 報酬レンジは評価スコアにより確定。参考値として掲載。交通費・宿泊費は別途ご相談。<br>※ 食事会・学校イベント・地域活動等もオプションとしてご相談可能です。</p>
+</div>
+
+<!-- MONITOR CAMPAIGN -->
+<div class="monitor-section">
+  <div class="monitor-inner">
+    <div class="monitor-label">06 — MONITOR CAMPAIGN</div>
+    <div class="monitor-title">初回モニター企業限定<br><span>¥10,000 → 100,000pt（10倍）特典</span></div>
+    <p style="font-size:14px; color:rgba(255,255,255,0.6); margin-top:8px;">通常 1pt = 1円。モニター企業様には10倍のポイントを付与します。<br>1万円の投資で10万円分のVIPコンテンツをお試しいただけます。</p>
+
+    <div class="monitor-grid">
+      <div class="monitor-box">
+        <div class="monitor-box-title">モニター企業への特典</div>
+        <ul>
+          <li>¥10,000 → <strong>100,000pt</strong>（通常の10倍）</li>
+          <li>VIPトレーナー優先アサイン（オリンピアン・日本代表帯同コーチ）</li>
+          <li>健康経営優良法人 認定取得サポート（コンサル込み）</li>
+          <li>セッション記録の採用PR動画制作協力</li>
+          <li>正式ローンチ時の「創設企業パートナー」認定</li>
+        </ul>
+      </div>
+      <div class="monitor-box">
+        <div class="monitor-box-title">モニター企業へのお願い</div>
+        <ul>
+          <li>セッション後のアンケート回答（10項目・5分程度）</li>
+          <li>成果・感想のヒアリングへのご協力</li>
+          <li>PR動画・事例紹介への出演同意</li>
+          <li>社内担当者1名の窓口設定</li>
+          <li>モニター期間：初回セッションから3ヶ月間</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="monitor-cta">
+      <span class="cta-btn">📩 モニター申し込みを検討する</span>
+      <span class="cta-note">まずはお気軽にご相談ください。<br>申し込み後のキャンセルも無料です。</span>
+    </div>
+  </div>
+</div>
+
+<!-- ROI -->
+<div class="roi-section">
+  <div class="section-label">07 — ROI SIMULATION</div>
+  <div class="section-title">モニター参加企業の想定ROI</div>
+  <p class="section-sub">初回10倍特典 × 評価連動型の組み合わせで、投資リスクを最小化します。</p>
+
+  <div class="roi-grid">
+    <div class="roi-card">
+      <div class="roi-label">初期投資</div>
+      <div class="roi-amount">¥1万</div>
+      <div class="roi-unit">モニター参加費</div>
+      <div class="roi-detail">10倍特典により100,000ptが付与。VIPセッション1回分以上に相当。</div>
+    </div>
+    <div class="roi-card featured">
+      <div class="roi-label">最大活用価値</div>
+      <div class="roi-amount">¥30万+</div>
+      <div class="roi-unit">認定 × 採用PR × 全社体験</div>
+      <div class="roi-detail">健康経営認定取得による採用コスト削減＋採用PR動画制作費の代替＋社員満足度向上。数値化しにくい価値も含めると30万円超の効果。</div>
+    </div>
+    <div class="roi-card">
+      <div class="roi-label">継続利用時（年間）</div>
+      <div class="roi-amount">67万</div>
+      <div class="roi-unit">円 / 社 → 健康経営の年間コスト目安</div>
+      <div class="roi-detail">VIP単発＋若手継続サポートの組み合わせで、企業の年間ウェルネス予算を効率的に活用。</div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA -->
+<div class="voice-section">
+  <div class="section-label">08 — PERSONA</div>
+  <div class="section-title">こんな方に刺さる提案です</div>
+  <p class="section-sub">TrustFitが特に解決できる「経営者・人事部長の本音」</p>
+
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar">👔</div>
+        <div>
+          <div class="persona-name">総務・人事部長（45歳男性）</div>
+          <div class="persona-role">ITベンチャー 社員100名 / 福利厚生担当</div>
+        </div>
+      </div>
+      <div class="persona-quote">
+        「使われない福利厚生にお金を払いたくない。良かった時だけ払える仕組みなら稟議が通せる。健康経営の認定も取れるなら一石二鳥だ。」
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar">🏭</div>
+        <div>
+          <div class="persona-name">創業社長・オーナー経営者（42歳男性）</div>
+          <div class="persona-role">製造業 社員80名 / 2代目経営者</div>
+        </div>
+      </div>
+      <div class="persona-quote">
+        「役員も疲弊している。日本代表のコンディショニングコーチが会社に来てくれるなら、役員のコンディションが一変すると思う。採用にも使える。」
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px; color:var(--gray); text-align:center; margin-top:16px; font-style:italic;">※ ペルソナに基づく想定コメントです。</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-section">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">TRUSTFIT</div>
+      <div class="footer-tagline">一流が来る。成果の分だけ払う。</div>
+      <div style="margin-top:14px; font-size:11px; color:rgba(255,255,255,0.30);">運営：株式会社MOON｜代表：MOON（元オリンピアン）</div>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">CONTACT</div>
+      <div class="footer-contact-val">trustfit.biz@moontf.com</div>
+      <div style="margin-top:6px; font-size:11px; color:rgba(255,255,255,0.30);">まずはお気軽にご連絡ください</div>
+    </div>
+  </div>
+  <div class="footer-note">TrustFit Confidential｜初回モニター企業向け資料｜2026 株式会社MOON</div>
+</div>
+
+</div><!-- /wrap -->
+</body>
+</html>

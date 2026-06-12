@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朝のブリーフィング｜2026年5月26日（火）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 14px; margin-bottom: 18px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+.section-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #718096; margin: 24px 0 12px; }
+
+.alert-banner { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-banner h3 { color: #c53030; font-size: 1rem; margin-bottom: 8px; }
+.alert-item { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid #fed7d7; font-size: 0.9rem; }
+.alert-item:last-child { border-bottom: none; }
+.alert-item .badge { background: #c53030; color: white; padding: 1px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+.alert-yellow { background: #fffbeb; border-color: #fbd38d; }
+.alert-yellow h3 { color: #b7791f; }
+
+.milestone-banner { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #f59e0b; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; text-align: center; }
+.milestone-banner h3 { color: #92400e; font-size: 1.1rem; }
+.milestone-banner .milestone-content { color: #78350f; font-size: 0.95rem; margin-top: 6px; }
+
+.proj-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f7fafc; gap: 10px; }
+.proj-row:last-child { border-bottom: none; }
+.proj-name { font-weight: 600; font-size: 0.9rem; flex: 1; color: #2d3748; }
+.proj-status { font-size: 0.82rem; color: #4a5568; flex: 2; }
+.proj-tag { font-size: 0.72rem; font-weight: 700; color: white; background: #4299e1; border-radius: 20px; padding: 2px 10px; flex-shrink: 0; }
+.tag-green { background: #38a169; }
+.tag-yellow { background: #d69e2e; }
+.tag-red { background: #e53e3e; }
+.tag-blue { background: #2b6cb0; }
+
+.sns-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.sns-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.sns-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; color: #2d3748; }
+.sns-table tr:last-child td { border-bottom: none; }
+.sns-up { color: #38a169; font-weight: 700; }
+.sns-down { color: #e53e3e; font-weight: 700; }
+.sns-same { color: #718096; }
+.badge-tiktok { background: #000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-yt { background: #ff0000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-note { background: #41c9b4; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+
+.meo-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f7fafc; gap: 14px; font-size: 0.9rem; }
+.meo-row:last-child { border-bottom: none; }
+.meo-key { font-weight: 600; flex: 2; color: #2d3748; }
+.meo-rank { font-weight: 700; flex: 1; text-align: right; padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; }
+.meo-green { background: #c6f6d5; color: #22543d; }
+.meo-yellow { background: #faf089; color: #744210; }
+.meo-red { background: #fed7d7; color: #742a2a; }
+
+.schedule-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+.schedule-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.schedule-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; }
+.today-row { background: #ebf8ff !important; }
+.today-row td { font-weight: 600; }
+.event-tag { background: #e53e3e; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; font-weight: 600; }
+.note-tag { background: #ed8936; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; }
+
+.trial-item { background: #f0fff4; border: 1px solid #9ae6b4; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+.trial-item .trial-date { font-weight: 700; color: #276749; font-size: 0.9rem; }
+.trial-item .trial-detail { color: #2f855a; font-size: 0.85rem; margin-top: 3px; }
+.trial-empty { background: #f7fafc; border: 1px solid #e2e8f0; color: #a0aec0; text-align: center; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
+
+.action-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f7fafc; }
+.action-item:last-child { border-bottom: none; }
+.action-num { width: 26px; height: 26px; border-radius: 50%; background: #2b6cb0; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+.action-content { flex: 1; }
+.action-title { font-weight: 600; font-size: 0.9rem; color: #2d3748; }
+.action-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+.priority-high { border-left: 3px solid #e53e3e; padding-left: 10px; }
+.priority-mid { border-left: 3px solid #ed8936; padding-left: 10px; }
+
+.synergy-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f7fafc; }
+.synergy-item:last-child { border-bottom: none; }
+.synergy-icon { font-size: 1.2rem; flex-shrink: 0; }
+.synergy-content .synergy-from { font-weight: 600; font-size: 0.88rem; color: #2d3748; }
+.synergy-content .synergy-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+
+.kgu-notice { background: #fffaf0; border: 1px solid #fbd38d; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.85rem; color: #744210; }
+.member-status { background: #ebf8ff; border: 1px solid #90cdf4; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; color: #2c5282; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+.chip { display: inline-block; background: #edf2f7; border-radius: 20px; padding: 2px 10px; font-size: 0.78rem; color: #4a5568; margin: 2px; }
+.chip-green { background: #f0fff4; color: #276749; }
+.chip-red { background: #fff5f5; color: #c53030; }
+.chip-yellow { background: #fffbeb; color: #92400e; }
+.footer { text-align: center; color: #a0aec0; font-size: 0.78rem; padding: 20px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <h1>🌅 朝のブリーフィング</h1>
+    <div class="date">2026年5月26日（火）</div>
+    <div class="subtitle">全PJ進捗・SNS実測・MEO順位・体験申込・関学CDST・むーん統合レポート</div>
+  </div>
+
+  <!-- 要対応事項 -->
+  <div class="alert-banner">
+    <h3>⚠️ 要対応事項（緊急度別）</h3>
+    <div class="alert-item">
+      <span class="badge">🔴最優先</span>
+      <div>【SUPERIOR】Instagramフォロワー <strong>4人で停滞継続</strong>（5/22→5/26 ±0）／本日からリール化＋ハッシュタグ戦略の見直しが必須。緊急テコ入れ案件。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge">🔴最優先</span>
+      <div>【SORA】5/29(金) <strong>まえかわしずか</strong>（一般・女性）大人スプリントコース初回体験／本日中に事前フォローLINE準備（残り3日）。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge">🔴最優先</span>
+      <div>【SORA】5/30(土) <strong>ふじかわしおり</strong>（小1）観音寺・小学生コース／持ち物・集合場所のLINE案内必須（残り4日）。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge" style="background:#ed8936;">🟡注意</span>
+      <div>【オギラボ】TikTok 1,536→<strong>1,535人（-1）</strong>純減フェーズ継続。flawsemic「素のキャラ出し」実験投稿の検証を本日着手。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge" style="background:#ed8936;">🟡注意</span>
+      <div>【CARAS MEO】「西宮 パーソナルジム」<strong>圏外（10位以下）</strong>。MEOキーワード見直し＋GBP投稿の継続が必要。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge" style="background:#ed8936;">🟡注意</span>
+      <div>【関学】6/22 富永U20世界陸上有効記録期限5m37cm — 残り<strong>27日</strong>。試合プラン最終整理を本日中に。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge" style="background:#3182ce;">🔵継続</span>
+      <div>【オギラボ】noteフォロワー2人で停滞 — 5/7公開メンバーシップ初月コンテンツ告知を強化。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge">🔴期限</span>
+      <div>【むーん新着】<strong>令和8年度 処遇改善加算等の届出</strong>（5/19公開）／例外期限 <strong>6/15</strong>。既提出済みの場合は不要だが要確認。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge">🔴要確認</span>
+      <div>【むーん新着】<strong>サビ管・児発管実践研修OJT短縮特例の届出</strong>（5/8公開）／むーんの児発管更新研修予定の有無を確認。</div>
+    </div>
+    <div class="alert-item">
+      <span class="badge" style="background:#3182ce;">🔵継続</span>
+      <div>【むーん】GビズID取得対応要否確認 ＋ SK-3施設案内PDF作成（継続課題）。</div>
+    </div>
+  </div>
+
+  <!-- マイルストーン -->
+  <div class="milestone-banner">
+    <h3>🎉 本日のグッドニュース</h3>
+    <div class="milestone-content">
+      ✨ <strong>SORA体験申込累計 328件</strong>（前回323→<strong>+5件🚀</strong>）／ 5/29・5/30・6/6・6/20×2 の5件先行確保<br>
+      ✨ <strong>YouTube オギラボ 95人 / 12本</strong>（5/22→5/26 ±0）— 100人ライン目前
+    </div>
+  </div>
+
+  <!-- 各PJ進捗 -->
+  <div class="card">
+    <h2>📊 各PJ進捗サマリー</h2>
+    <div class="proj-row">
+      <div class="proj-name">オギラボ</div>
+      <span class="proj-tag tag-blue">認知拡大期</span>
+      <div class="proj-status">noteメンバーシップ開設後の告知強化フェーズ／TikTok純減（-1）対応 → 次のアクション: flawsemic実験投稿1本作成</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">CARAS</div>
+      <span class="proj-tag tag-yellow">MEO強化期</span>
+      <div class="proj-status">夙川店6位／西宮圏外 → 次のアクション: 西宮エリアGBP投稿の継続＋週次のレビュー獲得施策</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">SORA</div>
+      <span class="proj-tag tag-green">体験予定５件確保🚀</span>
+      <div class="proj-status">5/29・5/30・6/6・6/20×2 → 次のアクション: 5/29まえかわしずか様 事前フォローLINE送付</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">SUPERIOR</div>
+      <span class="proj-tag tag-red">SNS停滞・要テコ入れ</span>
+      <div class="proj-status">IG4人継続停滞・体験予定なし → 次のアクション: リール化＋ハッシュタグ戦略見直し、フロム・シェフMTG準備</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">健康経営</div>
+      <span class="proj-tag tag-blue">準備期</span>
+      <div class="proj-status">引き続き提案資料・パイロット先候補リスト整理 → 次のアクション: 法人向けプログラム案を1社向けにカスタマイズ</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">TrustFit</div>
+      <span class="proj-tag tag-blue">統合提案フェーズ</span>
+      <div class="proj-status">5/22 デロイト米原氏MTG済み・SORA/SUPERIOR統合提案資料 → 次のアクション: 提案後の追加質問対応＋次回MTG設定</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">むーん</div>
+      <span class="proj-tag tag-green">稼働安定（85%）</span>
+      <div class="proj-status">定員9割稼働継続／未開封問い合わせなし → 次のアクション: GビズID対応要否確認・SK-3施設案内PDF作成</div>
+    </div>
+    <div class="proj-row">
+      <div class="proj-name">関学陸上部</div>
+      <span class="proj-tag tag-blue">大会連戦期</span>
+      <div class="proj-status">関西実業団(5/23-24)終了→KGAD報告書5月分提出済み（5/25完遂） → 次のアクション: 6/13日本選手権・6/19西日本インカレ準備</div>
+    </div>
+  </div>
+
+  <!-- SNS実測 -->
+  <div class="card">
+    <h2>📱 SNSフォロワー実測（Chrome取得）</h2>
+    <table class="sns-table">
+      <thead>
+        <tr><th>PJ</th><th>SNS</th><th>フォロワー</th><th>前回比</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>オギラボ</td><td><span class="badge-tiktok">TikTok</span> @ogilab1230</td><td><strong>1,535人</strong></td><td><span class="sns-down">-1</span></td><td>いいね 23.6K（±0）・純減フェーズ継続</td></tr>
+        <tr><td>オギラボ</td><td><span class="badge-yt">YouTube</span> @OgiLab</td><td><strong>95人 / 12本</strong></td><td><span class="sns-same">±0</span></td><td>100人ライン目前・動画追加なし</td></tr>
+        <tr><td>オギラボ</td><td><span class="badge-note">note</span> /ogilab</td><td><strong>2フォロワー</strong></td><td><span class="sns-same">±0</span></td><td>5/7開設メンバーシップ告知強化必要</td></tr>
+        <tr><td>CARAS</td><td><span class="badge-ig">Instagram</span> @caras_gym</td><td><strong>69人 / 92件</strong></td><td><span class="sns-same">±0/±0</span></td><td>前回69人から変動なし</td></tr>
+        <tr><td>CARAS</td><td><span class="badge-tiktok">TikTok</span> @carasgym</td><td><strong>23人 / いいね185</strong></td><td><span class="sns-same">±0</span></td><td>サブSNS継続安定</td></tr>
+        <tr><td>SORA</td><td><span class="badge-ig">Instagram</span> @basic_sports_club_sora</td><td><strong>518人 / 286件</strong></td><td><span class="sns-same">±0/±0</span></td><td>5/22比横ばい</td></tr>
+        <tr><td>SUPERIOR</td><td><span class="badge-ig">Instagram</span> @superior_tf_2025</td><td><strong>4人 / 20件</strong></td><td><span class="sns-same">±0/±0</span></td><td>⚠️停滞継続・緊急テコ入れ必要</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CARAS MEO順位 -->
+  <div class="card">
+    <h2>📍 CARAS MEO順位チェック（本日）</h2>
+    <div class="meo-row">
+      <div class="meo-key">「西宮 パーソナルジム」</div>
+      <div class="meo-rank meo-red">🔴 圏外（10位以下）</div>
+    </div>
+    <div class="meo-row">
+      <div class="meo-key">「夙川 パーソナルジム」</div>
+      <div class="meo-rank meo-yellow">🟡 6位</div>
+    </div>
+    <div class="kgu-notice">
+      ※ 「西宮」は競合8店舗（Dr.トレーニング・UNDEUX等）にCARAS含まれず。「夙川」はCARAS夙川店が中位ランクイン。<br>
+      <strong>改善策</strong>: 西宮エリアでのGBP写真追加投稿＋クチコミ獲得施策（既存会員への依頼）を強化推奨。
+    </div>
+  </div>
+
+  <!-- 2カラム: 関学CDST / SUPERIOR体験 -->
+  <div class="grid-2">
+
+    <!-- 関学CDSTスケジュール -->
+    <div class="card">
+      <h2>🏃 関学CDSTスケジュール（今後2週間）</h2>
+      <table class="schedule-table">
+        <thead><tr><th>日付</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr class="today-row"><td>5/26(火)</td><td>アップサーキットA</td></tr>
+          <tr><td>5/27(水)</td><td>weight（50%×10）×3</td></tr>
+          <tr><td>5/28(木)</td><td>OFF</td></tr>
+          <tr><td>5/29(金)</td><td>ハードルドリルB</td></tr>
+          <tr><td>5/30(土)</td><td>KドリルA 9:30 <span class="event-tag">東大阪記録会</span> 杉本・大西・伊藤</td></tr>
+          <tr><td>5/31(日)</td><td>OFF（跳躍）</td></tr>
+          <tr><td>6/1(月)</td><td>アップサーキットA</td></tr>
+          <tr><td>6/2(火)</td><td>メディシン前後10回</td></tr>
+          <tr><td>6/3(水)</td><td>WeightA</td></tr>
+          <tr><td>6/4(木)</td><td>OFF</td></tr>
+          <tr><td>6/5(金)</td><td>ハードルドリルB</td></tr>
+          <tr><td>6/6(土)</td><td>KドリルA</td></tr>
+          <tr><td>6/7(日)</td><td>全体応援17:00〜 <span class="event-tag">広島県東部記録会</span> 100m+棒高</td></tr>
+        </tbody>
+      </table>
+      <div class="kgu-notice" style="margin-top: 12px;">
+        📅 <strong>主要試合カレンダー</strong>: 6/13(土) 日本選手権 北田出場確定 / 6/19-21 西日本インカレ / 6/22 富永U20世界陸上有効記録期限5m37cm（残り27日）
+      </div>
+    </div>
+
+    <!-- SUPERIOR体験申込 -->
+    <div class="card">
+      <h2>🏃‍♂️ SUPERIOR体験申込</h2>
+      <div class="trial-empty">📍 生駒スクール｜今後の体験予定なし</div>
+      <div class="trial-empty">📍 箕面スクール｜今後の体験予定なし</div>
+      <div class="member-status" style="margin-top: 12px;">
+        👥 <strong>会員ステータス</strong><br>
+        新規入会（直近7日）: なし（最新 5/7 まつもとゆうせい）<br>
+        新規休会申請（直近7日）: なし<br>
+        体験フォーム累計: <strong>106件</strong> / 会員管理: <strong>25名</strong> / 休会: 4件累計
+      </div>
+      <div class="kgu-notice" style="margin-top: 10px;">
+        🔥 <strong>次のアクション</strong>: フロム・シェフ5月末MTG準備（契約更新・体験状況報告）。Instagramリール化＋ハッシュタグ戦略の見直しが必須。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SORA体験申込 -->
+  <div class="card">
+    <h2>🌟 SORA体験申込スケジュール（実測 5件🚀）</h2>
+    <div class="trial-item">
+      <div class="trial-date">📍 5/29(金) 18:30〜20:00【高松】大人スプリントコース</div>
+      <div class="trial-detail">まえかわしずか（一般・女性） — 5/25申込 / 残り3日 ⚠️本日中フォロー必須</div>
+    </div>
+    <div class="trial-item">
+      <div class="trial-date">📍 5/30(土) 9:30〜10:30【観音寺】小学生コース</div>
+      <div class="trial-detail">ふじかわしおり（小1） — 5/16申込 / 残り4日</div>
+    </div>
+    <div class="trial-item">
+      <div class="trial-date">📍 6/6(土) 11:00〜12:30【観音寺】専門基礎コース</div>
+      <div class="trial-detail">まえかわいつき（小4） — 5/16申込</div>
+    </div>
+    <div class="trial-item">
+      <div class="trial-date">📍 6/20(土) 18:30〜20:00【高松】アスリート短距離コース</div>
+      <div class="trial-detail">ますだいおり（小5） — 5/20申込</div>
+    </div>
+    <div class="trial-item">
+      <div class="trial-date">📍 6/20(土) 18:30〜20:00【高松】アスリート短距離コース</div>
+      <div class="trial-detail">はまだこのみ（小5） — 5/22申込</div>
+    </div>
+    <div class="member-status" style="margin-top: 12px;">
+      📊 <strong>申込累計: 328件</strong>（前回 5/20: 323件 → <strong>+5件🚀</strong>）／ 同日2名（6/20）の運営調整必要
+    </div>
+  </div>
+
+  <!-- 推奨アクション TOP3 -->
+  <div class="card">
+    <h2>🎯 本日の推奨アクション TOP3</h2>
+    <div class="action-item priority-high">
+      <div class="action-num">1</div>
+      <div class="action-content">
+        <div class="action-title">SORA 5/29 まえかわしずか様 事前フォローLINE送付</div>
+        <div class="action-desc">大人スプリントコース初回／集合場所・持ち物・コース内容を本日中に送付（残り3日）</div>
+      </div>
+    </div>
+    <div class="action-item priority-high">
+      <div class="action-num">2</div>
+      <div class="action-content">
+        <div class="action-title">SUPERIOR Instagramリール化＋ハッシュタグ戦略見直し</div>
+        <div class="action-desc">フォロワー4人継続停滞・フロム・シェフMTG前にコンテンツ施策を1案決定</div>
+      </div>
+    </div>
+    <div class="action-item priority-mid">
+      <div class="action-num">3</div>
+      <div class="action-content">
+        <div class="action-title">関学 6/22 富永U20世界陸上 有効記録 5m37cm 残り27日プラン整理</div>
+        <div class="action-desc">残り試合の出場可否＋ピーキング戦略の最終確認</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- シナジー -->
+  <div class="card">
+    <h2>🔗 今週のシナジーチャンス</h2>
+    <div class="synergy-item">
+      <div class="synergy-icon">🎬</div>
+      <div class="synergy-content">
+        <div class="synergy-from">関学 → オギラボ／TrustFit</div>
+        <div class="synergy-desc">5/30東大阪記録会・6/7広島県東部記録会の選手紹介・結果速報をTikTok/note横展開（関西インカレ素材編集と連動）</div>
+      </div>
+    </div>
+    <div class="synergy-item">
+      <div class="synergy-icon">📸</div>
+      <div class="synergy-content">
+        <div class="synergy-from">SORA → SUPERIOR</div>
+        <div class="synergy-desc">SORA体験5件確保の集客プロセス（DM返信・LINE案内）をSUPERIORに横展開して箕面・生駒の体験予約復活を狙う</div>
+      </div>
+    </div>
+    <div class="synergy-item">
+      <div class="synergy-icon">🏋️</div>
+      <div class="synergy-content">
+        <div class="synergy-from">CARAS → オギラボ</div>
+        <div class="synergy-desc">CARASのMEO「夙川6位」コンテンツ（ビジネス戦闘力UP筋トレ）をオギラボTikTokに横展開して純減フェーズの起爆剤に</div>
+      </div>
+    </div>
+    <div class="synergy-item">
+      <div class="synergy-icon">📩</div>
+      <div class="synergy-content">
+        <div class="synergy-from">むーん → 関学</div>
+        <div class="synergy-desc">大阪市障害福祉ネットワークを活用し、エビスバスケットボール塚本氏との連携でSUPERIOR集客 → 関学選手のスポット指導コラボへ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- むーん行政・リタリコ -->
+  <div class="card">
+    <h2>🏛️ むーん行政情報モニタリング（本日実施・3件新着発見🔴）</h2>
+    <div class="alert-banner" style="margin-bottom: 12px;">
+      <h3>🔴 むーんに直結する重要新着 2件発見</h3>
+      <div class="alert-item">
+        <span class="badge">🔴期限</span>
+        <div><strong>5/19公開：令和8年度 福祉・介護職員等処遇改善加算等の届出について</strong><br>
+        ・対象: 加算を算定するすべての事業者（むーん対象）<br>
+        ・期限: <strong>令和8年6月15日</strong>（提出漏れ・区分変更時の例外期限）／既提出済みの場合は不要<br>
+        ・大阪市行政オンラインシステム（インターネット申請のみ）<br>
+        ・URL: https://www.city.osaka.lg.jp/fukushi/page/0000673787.html</div>
+      </div>
+      <div class="alert-item">
+        <span class="badge">🔴要確認</span>
+        <div><strong>5/8公開：サービス管理責任者（児童発達支援管理責任者）実践研修OJT短縮特例の届出</strong><br>
+        ・対象: 児発管を配置する事業所（むーん対象）<br>
+        ・実践研修の受講に係る実務経験を短縮する特例の届出<br>
+        ・対応要否: 児発管の更新研修受講予定がある場合は要確認</div>
+      </div>
+      <div class="alert-item">
+        <span class="badge" style="background:#3182ce;">🔵参考</span>
+        <div><strong>5/22公開：令和8年度 就労継続支援B型の基本報酬区分の見直し</strong><br>
+        ・むーんは児童発達支援のため<strong>対象外</strong>。情報のみ。</div>
+      </div>
+    </div>
+    <div class="kgu-notice">
+      ✅ 監視URL: https://www.city.osaka.lg.jp/sangyo/category/3981-1-2-0-0-0-0-0-0-0.html<br>
+      最終確認日: <strong>2026-05-26（本日実施）</strong> ／ 前回確認 2026-05-07 から3件の新着を発見
+    </div>
+    <div style="margin-top: 12px;">
+      <h2 style="border:none; padding:0; margin-bottom:8px;">📩 リタリコ問い合わせ（発達ナビ）</h2>
+      <div class="member-status">
+        未開封: <strong>0件</strong> / 直近7日（5/19-5/26）の新着: <strong>0件</strong><br>
+        最新: ID 203474（2026-05-14 支援内容・開封済）／ <span class="chip chip-green">対応完了</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECC -->
+  <div class="card">
+    <h2>🏃 ECC進捗</h2>
+    <div class="kgu-notice">
+      📚 5/8 名古屋研修 完了（PDF: ECC ５月８日　名古屋研修.pdf）<br>
+      🎯 <strong>次のアクション</strong>: 実践研修資料の入手状況確認＋次回研修日程の調整。
+    </div>
+  </div>
+
+  <div class="footer">
+    自動生成: daily-morning-briefing skill / 2026年5月26日（火）<br>
+    Data sources: Chrome実測（SNS・スプレッドシート） / リタリコ発達ナビ / Google Maps MEO
+  </div>
+
+</div>
+</body>
+</html>

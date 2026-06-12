@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四国電力グループ攻略 v2 — 解像度を上げた現実戦略</title>
+<style>
+  :root{
+    --gold:#c8a85a;
+    --gold-dark:#9c7f3d;
+    --navy:#1a2540;
+    --navy-light:#2c3a5e;
+    --sky:#1f6fa6;
+    --bg:#f6f3ec;
+    --card:#ffffff;
+    --text:#1f2128;
+    --muted:#6a6a6a;
+    --line:#e5dfd1;
+    --accent:#d4502a;
+    --green:#3d8b6b;
+    --red:#c1422e;
+    --yonden:#0d5da6;
+    --yondenko:#c8362d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+  .hero{background:linear-gradient(135deg,#0d1428 0%,var(--navy) 100%);color:#fff;padding:44px 24px;text-align:center;border-bottom:5px solid var(--yondenko)}
+  .hero .badge{display:inline-block;background:var(--yondenko);color:#fff;padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:10px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px}
+  .hero .sub{font-size:13px;color:#bdc4d0;max-width:740px;margin:8px auto 0}
+  .container{max-width:1020px;margin:0 auto;padding:30px 22px}
+
+  section{margin-bottom:36px;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+  h2{font-size:22px;border-left:5px solid var(--gold);padding-left:14px;margin-bottom:18px;color:var(--navy);font-weight:700}
+  h2.yondenko{border-color:var(--yondenko)}
+  h2.yonden{border-color:var(--yonden)}
+  h2.alert{border-color:var(--red)}
+  h2.good{border-color:var(--green)}
+  h3{font-size:17px;color:var(--navy);margin:20px 0 10px;font-weight:700;border-bottom:2px dotted var(--line);padding-bottom:5px}
+  h4{font-size:14px;color:var(--gold-dark);margin:12px 0 6px;font-weight:700}
+  p{margin-bottom:10px}
+  ul,ol{padding-left:22px;margin-bottom:12px}
+  li{margin-bottom:5px}
+
+  .lead{font-size:15px;background:#fdf9ee;border-left:4px solid var(--gold);padding:14px 18px;border-radius:6px;margin-bottom:18px}
+  .lead.red{background:#fbeae5;border-color:var(--red);color:#3a1a14}
+  .lead.green{background:#e9f4ee;border-color:var(--green);color:#1f3a2a}
+  .lead.yondenko{background:#fbe9e7;border-color:var(--yondenko);color:#6b1f1a}
+
+  .discovery{background:linear-gradient(135deg,#fbe9e7 0%,#fff 100%);border:3px solid var(--yondenko);border-radius:12px;padding:24px;margin-bottom:24px}
+  .discovery-title{display:inline-block;background:var(--yondenko);color:#fff;padding:5px 14px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:0.1em;margin-bottom:12px}
+  .discovery h3{border:none;color:var(--yondenko);font-size:20px;margin:0 0 12px;padding:0}
+  .discovery .fact{background:#fff;border-left:4px solid var(--yondenko);padding:12px 16px;border-radius:0 6px 6px 0;margin-bottom:10px;font-size:14px}
+  .discovery .fact strong{color:var(--yondenko)}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:600;font-size:12px}
+  tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+  td.money{font-family:"Courier New",monospace;font-weight:bold;color:var(--navy);text-align:right}
+  td.center{text-align:center}
+
+  /* 階段ダイアグラム */
+  .stair{margin:18px 0}
+  .stair-step{display:grid;grid-template-columns:60px 1fr;gap:14px;margin-bottom:12px;background:#fff;border-radius:8px;border:1px solid var(--line);padding:14px;border-left:5px solid}
+  .stair-step.s1{border-left-color:var(--green)}
+  .stair-step.s2{border-left-color:var(--yondenko)}
+  .stair-step.s3{border-left-color:var(--yonden)}
+  .stair-step.s4{border-left-color:var(--gold)}
+  .stair-num{font-size:24px;font-weight:bold;text-align:center;color:var(--navy)}
+  .stair-body h4{margin:0 0 4px;font-size:15px;color:var(--navy)}
+  .stair-body .meta{font-size:11px;color:var(--muted);margin-bottom:6px}
+  .stair-body .desc{font-size:13px}
+
+  /* 企画カード */
+  .plan-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:14px;border-top:4px solid var(--accent)}
+  .plan-card.green{border-top-color:var(--green)}
+  .plan-card.yonden{border-top-color:var(--yonden)}
+  .plan-card.yondenko{border-top-color:var(--yondenko)}
+  .plan-card.gold{border-top-color:var(--gold)}
+  .plan-card .plan-no{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;background:var(--navy);color:#fff;font-weight:bold;letter-spacing:0.1em;margin-bottom:6px}
+  .plan-card .plan-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .plan-card .row{display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:13px;padding:4px 0;border-bottom:1px dotted var(--line)}
+  .plan-card .row:last-child{border:none}
+  .plan-card .row .tag{font-weight:bold;color:var(--gold-dark);font-size:12px}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media(max-width:640px){.pros-cons{grid-template-columns:1fr}}
+  .pros, .cons{padding:12px 16px;border-radius:8px;font-size:13px}
+  .pros{background:#e9f4ee;border-left:3px solid var(--green)}
+  .cons{background:#fbeae5;border-left:3px solid var(--red)}
+  .pros strong, .cons strong{display:block;margin-bottom:6px;font-size:12px}
+
+  .key-fact{background:#1a2540;color:#fff;border-radius:10px;padding:18px 24px;margin:14px 0}
+  .key-fact .label{font-size:11px;color:var(--gold);letter-spacing:0.15em;font-weight:bold;margin-bottom:6px}
+  .key-fact .big{font-size:20px;font-weight:bold;line-height:1.4}
+  .key-fact .sub{font-size:13px;color:#bdc4d0;margin-top:6px}
+
+  .alert{background:#fff8e8;border:1px solid #e6c97a;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:13px}
+  .alert.red{background:#fbeae5;border-color:#e3a999}
+  .alert.green{background:#e9f4ee;border-color:#a5cdb3;color:#1f3a2a}
+  .alert.blue{background:#eef5fc;border-color:#7ba8d0;color:#0a3c6e}
+
+  .quote{font-style:italic;color:var(--gold-dark);font-size:15px;text-align:center;padding:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0}
+
+  .group-box{background:#eef5fc;border:1px solid var(--yonden);border-radius:10px;padding:18px;margin:14px 0}
+  .group-box h4{margin-top:0;color:var(--yonden)}
+  .group-box .org-line{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px dashed #7ba8d0}
+  .group-box .org-line:last-child{border:none}
+  .group-box .org-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:bold;flex-shrink:0}
+  .group-box .org-info{flex:1;font-size:13px}
+  .group-box .org-info strong{color:var(--navy);font-size:14px}
+
+  .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px}
+
+  .toc{background:#fdfbf5;border:1px dashed var(--gold);padding:16px 22px;border-radius:8px;margin-bottom:24px}
+  .toc h3{margin:0 0 8px;color:var(--gold-dark);border:none;padding:0}
+  .toc ol{padding-left:22px;margin:0}
+  .toc a{color:var(--navy);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+
+  .icon-fix{display:inline-flex;align-items:center;gap:6px;background:#fbeae5;border:1px solid var(--red);padding:3px 10px;border-radius:14px;font-size:12px;color:var(--red);font-weight:bold;margin-right:6px}
+
+  .step-list{counter-reset:step}
+  .step-list .step{counter-increment:step;padding:12px 14px 12px 54px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;position:relative}
+  .step-list .step::before{content:counter(step);position:absolute;left:14px;top:14px;width:30px;height:30px;background:var(--yondenko);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px}
+  .step-list .step h4{margin:0 0 4px;font-size:14px;color:var(--navy)}
+  .step-list .step .meta{font-size:11px;color:var(--muted);margin-bottom:4px}
+  .step-list .step p{margin:0;font-size:13px;color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">REVISED STRATEGY v2 / 解像度を上げ直し</div>
+  <h1>四国電力グループ攻略 — 「指定管理予定業者」の正体が分かった</h1>
+  <div class="sub">前回の戦略は前提が甘かった。<br>
+  リサーチを深めて分かった「決定的事実」を踏まえて、現実的に動かせる戦略に作り直す。</div>
+</div>
+
+<div class="container">
+
+<!-- 重要発見 -->
+<div class="discovery">
+  <div class="discovery-title">KEY DISCOVERY</div>
+  <h3>「指定管理予定業者」の正体は四電工。<br>つまり既に四国電力グループの一員。</h3>
+
+  <div class="fact">
+    <strong>事実①：</strong>屋島レクザムフィールドの指定管理者は<strong>株式会社四電工</strong>（長谷川体育施設・太平ビルサービスとの共同事業体）。出典：Wikipedia「高松市屋島競技場」、各種ニュース報道。
+  </div>
+  <div class="fact">
+    <strong>事実②：</strong>四電工は<strong>四国電力グループの連結子会社</strong>（東証プライム上場・銘柄コード1939）。1963年設立、年商941億円、社員2,264名、連結グループ35社。
+  </div>
+  <div class="fact">
+    <strong>事実③：</strong>つまり、屋島レクザムF（屋島中町）と四国電力 総合研修所（屋島西町）は<strong>両方とも同じ「よんでんグループ」が運営している</strong>。
+  </div>
+
+  <div class="key-fact" style="background:#fff;color:var(--navy);border:2px solid var(--yondenko);margin-top:14px">
+    <div class="label" style="color:var(--yondenko)">戦略上の含意</div>
+    <div class="big">「四電工と関係を作る = 四国電力グループに入り口ができる」</div>
+    <div class="sub" style="color:var(--muted)">前回の戦略「四国電力本体に直接アプローチ」は遠回り。指定管理者という「入り口」が既に開いている。</div>
+  </div>
+</div>
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#s1">前回戦略のどこが甘かったか（自省）</a></li>
+    <li><a href="#s2">四国電力グループの組織構造（解像度の高い理解）</a></li>
+    <li><a href="#s3">四電工にとって「屋島の指定管理」が何を意味するか</a></li>
+    <li><a href="#s4">4段階の階段戦略（前回の6ルートを統合）</a></li>
+    <li><a href="#s5">第1段：四電工との具体的な共同企画パッケージ</a></li>
+    <li><a href="#s6">第2段：四電本体への橋渡しシナリオ</a></li>
+    <li><a href="#s7">第3段：総合研修所の利用獲得シナリオ</a></li>
+    <li><a href="#s8">押さえるべき四電グループ各社の役割と窓口</a></li>
+    <li><a href="#s9">面談での「質問の質」を上げる10の論点</a></li>
+  </ol>
+</div>
+
+<!-- 1. 自省 -->
+<section id="s1">
+  <h2 class="alert">1. 前回戦略のどこが甘かったか（自省）</h2>
+
+  <div class="lead red">
+    前回の戦略には<strong>3つの致命的な誤認</strong>がありました。リサーチが浅かったので率直にお伝えします。
+  </div>
+
+  <table>
+    <tr><th>誤認</th><th>正しい認識</th></tr>
+    <tr>
+      <td><span class="icon-fix">誤①</span>「指定管理予定業者」と「四国電力」は別事業者</td>
+      <td>実際は<strong>同じグループ会社（四電工＝四電子会社）</strong>。指定管理者と研修所オーナーは資本関係でつながっている。</td>
+    </tr>
+    <tr>
+      <td><span class="icon-fix">誤②</span>四国電力本体に直接アプローチが正攻法</td>
+      <td>大企業（売上8,500億円）に外から飛び込んでも届かない。<strong>四電工という「現場の入り口」</strong>から階段で上がるのが現実的。</td>
+    </tr>
+    <tr>
+      <td><span class="icon-fix">誤③</span>「CSR共同事業で施設利用料ゼロに」は希望的観測</td>
+      <td>四電本体のCSR予算は<strong>競合する案件が多数</strong>。SORAレベルで取りにいくのは難しい。先に<strong>四電工レベルでの「現場成功事例」</strong>を作るのが本筋。</td>
+    </tr>
+  </table>
+
+  <div class="alert">
+    <strong>修正後の基本思想：</strong>「四国電力グループ」を一枚岩で考えない。<strong>四電工＝現場・運営</strong>、<strong>四国電力本体＝経営・ブランド</strong>、<strong>総合研修所＝資産</strong>。3者で動き方も窓口も別。
+  </div>
+</section>
+
+<!-- 2. 組織構造 -->
+<section id="s2">
+  <h2 class="yonden">2. 四国電力グループの組織構造（解像度の高い理解）</h2>
+
+  <div class="group-box">
+    <h4>SORAが関係する「よんでんグループ」の主要プレイヤー</h4>
+
+    <div class="org-line">
+      <div class="org-circle" style="background:var(--yonden)">親</div>
+      <div class="org-info">
+        <strong>四国電力株式会社</strong>（東証プライム9507）<br>
+        売上8,500億円 / 連結社員数 約9,000名 / 健康経営優良法人5年連続<br>
+        <span style="color:var(--muted);font-size:12px">社長：宮本喜弘（徳島県出身・2024.6就任）／会長：長井啓介（香川県・高松高校卒）</span>
+      </div>
+    </div>
+
+    <div class="org-line">
+      <div class="org-circle" style="background:var(--yondenko)">子</div>
+      <div class="org-info">
+        <strong>株式会社四電工</strong>（東証プライム1939）<br>
+        売上941億円 / 社員2,264名 / 連結35社<br>
+        本業：電気設備工事 / 副業として<strong>PFI・PPP・指定管理</strong><br>
+        <span style="color:var(--yondenko);font-size:12px;font-weight:bold">→ 屋島レクザムF 指定管理者（共同体）</span>
+      </div>
+    </div>
+
+    <div class="org-line">
+      <div class="org-circle" style="background:#9c7f3d">子</div>
+      <div class="org-info">
+        <strong>四電ビジネス株式会社</strong><br>
+        本業：建設資材・機械・ビル賃貸・<strong>不動産・指定管理</strong><br>
+        <span style="color:var(--muted);font-size:12px">グループ内の不動産・施設運営の中核</span>
+      </div>
+    </div>
+
+    <div class="org-line">
+      <div class="org-circle" style="background:#2c3a5e">資産</div>
+      <div class="org-info">
+        <strong>四国電力 総合研修所</strong>（屋島西町1850-1）<br>
+        宿泊棟・大浴場・食堂・体育館・グラウンド・研修棟<br>
+        <span style="color:var(--muted);font-size:12px">所管：四国電力 総務部・人事部（推定）</span>
+      </div>
+    </div>
+
+    <div class="org-line">
+      <div class="org-circle" style="background:var(--gold);color:var(--navy)">広報</div>
+      <div class="org-info">
+        <strong>四国電力 広報部 エネルギー広報グループ</strong>（087-821-5061）<br>
+        「出前エネルギー授業」を所管 / <strong>小中高生向け教育プログラムの実績あり</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert blue">
+    <strong>戦略的解釈：</strong>四電工は本業の電気設備工事で年間941億円稼ぐ会社。屋島レクザムFの指定管理は<strong>「副業の地域貢献領域」</strong>。彼らは指定管理事業の専門家ではなく、<strong>「市の評価指標を満たせばよい」</strong>立場。<br>
+    つまり <strong>SORAが「市の評価指標を上げる協力者」になれば、四電工にとって最高のパートナー</strong> になる。
+  </div>
+</section>
+
+<!-- 3. 四電工にとっての屋島 -->
+<section id="s3">
+  <h2 class="yondenko">3. 四電工にとって「屋島の指定管理」が何を意味するか</h2>
+
+  <p class="lead">これを理解しないと提案がズレる。<strong>四電工の本当の関心事は何か</strong>を整理する。</p>
+
+  <h3>四電工の指定管理事業のポジショニング</h3>
+  <table>
+    <tr><th>項目</th><th>四電工にとっての位置付け</th></tr>
+    <tr><td>収益貢献度</td><td>941億円の本業に対し、屋島レクザムFの指定管理収入は<strong>1〜2億円規模</strong>と推定。利益率も低い。</td></tr>
+    <tr><td>戦略的意義</td><td>地域貢献・PFI/PPP実績作り・公共セクター営業の足がかり</td></tr>
+    <tr><td>主要KPI</td><td><strong>① 市民満足度／② 稼働率／③ スポーツ振興貢献／④ 安全管理</strong>（指定管理の評価指標）</td></tr>
+    <tr><td>本業との関連</td><td>施設の電気設備保守・ビル管理ノウハウを活かす</td></tr>
+    <tr><td>次回更新</td><td>2022年4月〜2027年3月（5年間）→ <strong>2027年に再競争入札の可能性</strong></td></tr>
+  </table>
+
+  <div class="key-fact">
+    <div class="label">CRITICAL INSIGHT</div>
+    <div class="big">四電工の最大の関心：「2027年の指定管理再選を確実にすること」</div>
+    <div class="sub">＝ そのためには市民満足度・稼働率・スポーツ振興の実績が必要 ＝ そこにSORAが入る余地がある</div>
+  </div>
+
+  <h3>四電工が「困っている可能性が高いこと」（仮説）</h3>
+  <ul>
+    <li><strong>子ども向けスポーツコンテンツの不足</strong>：陸上競技場の本来用途を活かしたコンテンツ運営力は社内にない</li>
+    <li><strong>メディア露出の弱さ</strong>：話題性を作る素材がない（プロアスリート不在）</li>
+    <li><strong>アスリート・選手層との接点</strong>：四電バスケ部があるが陸上は弱い</li>
+    <li><strong>稼働率の低い時間帯</strong>：平日午前・冬期は空きが多い可能性</li>
+    <li><strong>イベント企画力</strong>：ビル管理が本業の会社にイベント企画は荷が重い</li>
+  </ul>
+
+  <div class="alert green">
+    <strong>SORAが提供できるもの＝四電工が欲しいもの：</strong>
+    オリンピアン代表というブランド／メディア吸引力／専門指導コンテンツ／既存会員70名／SUPERIORネットワーク／ECC全国実績／<strong>これら全部</strong>が四電工の指定管理事業の評価項目を直接押し上げる。
+  </div>
+</section>
+
+<!-- 4. 4段階戦略 -->
+<section id="s4">
+  <h2>4. 4段階の階段戦略（前回の6ルートを統合）</h2>
+
+  <p class="lead">「いきなり四電本体」ではなく、<strong>四電工を1段目にして、階段で上がる</strong>。</p>
+
+  <div class="stair">
+    <div class="stair-step s1">
+      <div class="stair-num">1</div>
+      <div class="stair-body">
+        <h4>四電工との関係構築（屋島の指定管理パートナーとして）</h4>
+        <div class="meta">期間：3-6ヶ月／コスト：低（提案準備50-100万円）</div>
+        <div class="desc">指定管理運営者にとって最も価値のある「市の評価指標を上げる協力者」になる。共同イベント・運営委託・メディア露出パッケージを提案。<strong>2027年4月の指定管理更新を見据えた、四電工側に時間的緊急性のあるテーマ</strong>を持っていく。</div>
+      </div>
+    </div>
+
+    <div class="stair-step s2">
+      <div class="stair-num">2</div>
+      <div class="stair-body">
+        <h4>四電工内で実績を作る（半年〜1年）</h4>
+        <div class="meta">期間：半年〜1年／コスト：実費</div>
+        <div class="desc">共同イベント1〜2回を成功させ、<strong>「四電工×SORAの成功事例」</strong>を四電グループ内で報告される実績にする。これが四電本体への橋渡しの根拠になる。四電工の役員に成果を見せる・四電工社内報や四電グループ広報誌に取り上げてもらう。</div>
+      </div>
+    </div>
+
+    <div class="stair-step s3">
+      <div class="stair-num">3</div>
+      <div class="stair-body">
+        <h4>四電工経由で四国電力本体（広報部・健康経営担当）に紹介</h4>
+        <div class="meta">期間：1〜1.5年目／コスト：中（提案準備100-200万円）</div>
+        <div class="desc">四電工の役員から四電本体への紹介を受ける。具体的には<strong>「広報部エネルギー広報グループ」</strong>（出前エネルギー授業の所管）と<strong>「総合健康開発センター」</strong>（健康経営担当）の2つ。子ども教育・社員健康の文脈で関係構築。</div>
+      </div>
+    </div>
+
+    <div class="stair-step s4">
+      <div class="stair-num">4</div>
+      <div class="stair-body">
+        <h4>総合研修所の利用獲得＋包括連携</h4>
+        <div class="meta">期間：2〜3年目／コスト：中〜大</div>
+        <div class="desc">四電本体との関係ができた段階で、総合研修所の所管部署（総務部・人事部）と話せる土台ができる。「研修所の付加価値を上げる外部活用」として施設利用の枠組みを協議。最終的には高松市を含めた3-4者の包括連携協定を目指す。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote">
+    急がば回れ。四電工で1勝してから、四電本体に入る。<br>
+    四電本体への直接アプローチは、現場の実績がない段階では「絵に描いた餅」と見なされる。
+  </div>
+</section>
+
+<!-- 5. 第1段の具体パッケージ -->
+<section id="s5">
+  <h2 class="yondenko">5. 第1段：四電工との共同企画パッケージ（具体提案）</h2>
+
+  <p class="lead">初回面談で「全方位提案」を投げると言ったが、より<strong>四電工の評価指標に直結する</strong>4つに絞る。</p>
+
+  <div class="plan-card yondenko">
+    <div class="plan-no">PROPOSAL 1</div>
+    <div class="plan-title">「屋島キッズ陸上塾」共同主催</div>
+    <div class="row"><div class="tag">概要</div><div>四電工主催・SORA運営の月1回の子ども向け無料体験教室（先着30名）。屋島レクザムFの稼働率向上と地域貢献。</div></div>
+    <div class="row"><div class="tag">SORA負担</div><div>指導陣の派遣（4-5名）／プログラム設計／参加者管理</div></div>
+    <div class="row"><div class="tag">四電工負担</div><div>会場提供（無料）／広報（HP・チラシ）／記録写真</div></div>
+    <div class="row"><div class="tag">参加費</div><div>無料（四電工のCSR枠で運営）or 500円程度</div></div>
+    <div class="row"><div class="tag">期待効果</div><div>指定管理評価項目「市民満足度」「子ども振興」に直接寄与／メディア露出見込／<strong>SORAの会員獲得導線</strong></div></div>
+    <div class="row"><div class="tag">先方旨み</div><div>四電工は<strong>「子ども向け事業に取り組んでいる」</strong>実績を作れる／指定管理再選時のアピール材料</div></div>
+  </div>
+
+  <div class="plan-card yondenko">
+    <div class="plan-no">PROPOSAL 2</div>
+    <div class="plan-title">「屋島スポーツフェスタ」年1回共同開催</div>
+    <div class="row"><div class="tag">概要</div><div>陸上＋他スポーツの体験型イベント。1日500-1,000人規模。地元企業のスポンサー集めも可能。</div></div>
+    <div class="row"><div class="tag">SORA負担</div><div>陸上競技ブース・指導／プログラム設計／SUPERIOR招聘</div></div>
+    <div class="row"><div class="tag">四電工負担</div><div>会場・運営・許認可・地元企業との調整</div></div>
+    <div class="row"><div class="tag">運営費</div><div>協賛金100-300万円 + 入場料</div></div>
+    <div class="row"><div class="tag">期待効果</div><div>四電工の<strong>「年次イベント実績」</strong>として継続化／メディア取材／市・県の評価向上</div></div>
+    <div class="row"><div class="tag">先方旨み</div><div>四電工単独では絶対できないイベント／<strong>毎年の話題作り</strong>になる</div></div>
+  </div>
+
+  <div class="plan-card yondenko">
+    <div class="plan-no">PROPOSAL 3</div>
+    <div class="plan-title">「室内棒高跳び施設」の活用拡大コンサル</div>
+    <div class="row"><div class="tag">概要</div><div>全国唯一の競技場併設室内棒高跳び施設の活用が現状ほぼゼロ。SORAが活用プログラムを設計・運営。</div></div>
+    <div class="row"><div class="tag">SORA負担</div><div>プログラム設計（YPV事業）／指導者派遣／参加者集客</div></div>
+    <div class="row"><div class="tag">四電工負担</div><div>施設提供（学校等枠 or 同等の優遇料金）</div></div>
+    <div class="row"><div class="tag">期待効果</div><div>遊休資産の収益化／メディア露出（「全国唯一」の物語）／施設の代表的活用例</div></div>
+    <div class="row"><div class="tag">先方旨み</div><div>これまで指定管理者として<strong>「あの施設を有効活用していない」</strong>と指摘されていた可能性／一気に解決</div></div>
+  </div>
+
+  <div class="plan-card yondenko">
+    <div class="plan-no">PROPOSAL 4</div>
+    <div class="plan-title">「ユニバーサルスポーツ教室」共同運営</div>
+    <div class="row"><div class="tag">概要</div><div>屋島レクザムFはバリアフリー対応。<strong>パラスポーツ・障がい児向けスポーツ教室</strong>を月1回。市・県の補助金が組みやすい領域。</div></div>
+    <div class="row"><div class="tag">SORA負担</div><div>指導者派遣・プログラム設計</div></div>
+    <div class="row"><div class="tag">四電工負担</div><div>会場・スタッフサポート・送迎協力</div></div>
+    <div class="row"><div class="tag">期待効果</div><div>市・県の評価・補助金獲得・<strong>「強い差別化ストーリー」</strong></div></div>
+    <div class="row"><div class="tag">先方旨み</div><div>指定管理評価項目「ユニバーサル対応」「地域共生」に直結。四電工のESG/DE&I（ダイバーシティ）の実績にも。</div></div>
+  </div>
+
+  <div class="alert green">
+    <strong>4提案の共通項：</strong>すべて<strong>「四電工の指定管理評価指標を直接押し上げる」</strong>もの。<br>
+    「SORAの夢」ではなく「四電工の評価アップ」を中心に据えると、提案の確度が一段違う。
+  </div>
+</section>
+
+<!-- 6. 第2段 橋渡し -->
+<section id="s6">
+  <h2 class="yonden">6. 第2段：四電本体への橋渡しシナリオ</h2>
+
+  <p class="lead">四電工で実績を作った後の、四電本体への「正規ルート」での入り方。</p>
+
+  <h3>橋渡し先①：四国電力 広報部 エネルギー広報グループ</h3>
+  <table>
+    <tr><th>項目</th><th>内容</th></tr>
+    <tr><td>連絡先</td><td>087-821-5061（平日8:40〜17:20）</td></tr>
+    <tr><td>所管事業</td><td>「出前エネルギー授業」（小中学生向け）</td></tr>
+    <tr><td>SORA提案</td><td><strong>「出前スポーツ × エネルギー授業」</strong>の共同開発。エネルギー教育とスポーツ・身体活動を融合した新しい教材プログラム。</td></tr>
+    <tr><td>切り口</td><td>「子ヨン」キャラ × アスリートのコラボ／全国展開可能なコンテンツ</td></tr>
+  </table>
+
+  <h3>橋渡し先②：四国電力 総合健康開発センター</h3>
+  <table>
+    <tr><th>項目</th><th>内容</th></tr>
+    <tr><td>位置付け</td><td>四電本店内・健康経営の事務局</td></tr>
+    <tr><td>背景</td><td>四電は<strong>健康経営優良法人5年連続</strong>認定。今後も継続・上位ランク維持が重要KPI</td></tr>
+    <tr><td>SORA提案</td><td>「アスリート流 社員健康増進プログラム」（運動・メンタル・栄養）／四電バスケ部とのコラボ</td></tr>
+    <tr><td>切り口</td><td>健康経営優良法人「ホワイト500」入りを目指す施策の一環</td></tr>
+  </table>
+
+  <h3>橋渡し先③：四国電力 サステナビリティ推進部</h3>
+  <table>
+    <tr><th>項目</th><th>内容</th></tr>
+    <tr><td>所管</td><td>サステナビリティ報告書／DE&I／地域共生</td></tr>
+    <tr><td>SORA提案</td><td>「香川出身オリンピアン × 地域子ども育成」の事例として報告書に掲載できる連携。ユニバーサルスポーツ事業も。</td></tr>
+    <tr><td>切り口</td><td>サステナビリティの「社会(S)」のマテリアリティ達成</td></tr>
+  </table>
+
+  <div class="alert blue">
+    <strong>橋渡しの作法：</strong>四電工の役員クラスから「うちのグループの子会社が、こんな取り組みを始めて成功事例になっている」と本体役員に紹介してもらう。<strong>外から「お願いします」と入るより、グループ内紹介の方が100倍速い</strong>。
+  </div>
+</section>
+
+<!-- 7. 第3段 -->
+<section id="s7">
+  <h2 class="yonden">7. 第3段：総合研修所の利用獲得シナリオ</h2>
+
+  <div class="lead">本命の総合研修所利用は、<strong>四電本体との関係が深まってから</strong>。それまでは話題に出さない。</div>
+
+  <h3>シナリオA：合宿の付加価値向上として</h3>
+  <ul>
+    <li>「総合研修所は社員研修のオフシーズン（土日・夏冬）に稼働率が落ちている可能性」</li>
+    <li>「四電工が指定管理する屋島レクザムFとセットで合宿パッケージを売れる」</li>
+    <li>「四電工＋四電本体＋SORAの3者で<strong>『屋島合宿ブランド』</strong>を立ち上げる」</li>
+  </ul>
+
+  <h3>シナリオB：四電社員研修との同居運用</h3>
+  <ul>
+    <li>SORA合宿期間中に、四電社員向け「スポーツ＆健康」研修を同時開催</li>
+    <li>食堂・宿泊・体育館を共用。施設利用効率を最大化</li>
+    <li>SORAコーチが社員研修の講師も兼ねる</li>
+  </ul>
+
+  <h3>シナリオC：研修所の改革プロジェクトのパートナー</h3>
+  <ul>
+    <li>電力業界はオンライン研修への移行が進む → 研修所の<strong>付加価値モデル転換</strong>が課題</li>
+    <li>「アスリート育成＋社員研修＋地域開放」の<strong>マルチパーパス施設</strong>への転換</li>
+    <li>SORAが運営パートナーとして関与</li>
+  </ul>
+
+  <div class="alert">
+    <strong>注意：</strong>研修所は四電本体の総務部・人事部所管。<strong>稟議の壁が極めて高い</strong>。第3段は実質的には2-3年計画で取り組む課題。それまでは第1-2段で関係構築に集中する。
+  </div>
+</section>
+
+<!-- 8. 各社の窓口 -->
+<section id="s8">
+  <h2>8. 押さえるべき四電グループ各社の役割と窓口</h2>
+
+  <table>
+    <tr><th>組織</th><th>役割</th><th>SORAとの関係</th><th>連絡先（公開情報）</th></tr>
+    <tr>
+      <td>四電工 高松本社</td>
+      <td>屋島レクザムF 指定管理者・現場運営</td>
+      <td><strong>第1段アプローチ先</strong></td>
+      <td>087-821-3791（推定）</td>
+    </tr>
+    <tr>
+      <td>屋島レクザムF 事務所</td>
+      <td>現場の責任者</td>
+      <td>面談・施設見学・運営協議</td>
+      <td>087-802-7350</td>
+    </tr>
+    <tr>
+      <td>四電ビジネス</td>
+      <td>不動産・施設管理事業</td>
+      <td>場合により施設関連の交渉</td>
+      <td>087-821-7800（推定）</td>
+    </tr>
+    <tr>
+      <td>四国電力 広報部エネルギー広報G</td>
+      <td>出前エネルギー授業</td>
+      <td>第2段：子ども教育連携</td>
+      <td>087-821-5061</td>
+    </tr>
+    <tr>
+      <td>四国電力 総合健康開発センター</td>
+      <td>健康経営</td>
+      <td>第2段：社員プログラム</td>
+      <td>本店経由</td>
+    </tr>
+    <tr>
+      <td>四国電力 サステナビリティ推進部</td>
+      <td>CSR・地域共生</td>
+      <td>第2段：包括的な事例化</td>
+      <td>本店経由</td>
+    </tr>
+    <tr>
+      <td>四国電力 総合研修所</td>
+      <td>研修所運営</td>
+      <td>第3段：施設利用</td>
+      <td>087-841-1561</td>
+    </tr>
+    <tr>
+      <td>四国電力 総務部・人事部</td>
+      <td>研修所所管</td>
+      <td>第3段の決裁者</td>
+      <td>本店経由</td>
+    </tr>
+  </table>
+
+  <div class="alert blue">
+    <strong>順番が大事：</strong>1社目に四電工高松本社、ここで成功体験を作ってから他へ。<strong>同時並行で複数に当たると「あちこちに営業をかけている」と見なされて警戒される</strong>。
+  </div>
+</section>
+
+<!-- 9. 質問の質 -->
+<section id="s9">
+  <h2 class="good">9. 面談での「質問の質」を上げる10の論点</h2>
+
+  <p class="lead">前回のスクリプトの「KPIを聞く」を、より具体的にする。<strong>四電工との初回面談で聞くべき10の質問</strong>。</p>
+
+  <div class="step-list">
+    <div class="step">
+      <h4>指定管理の更新は次いつですか？</h4>
+      <div class="meta">→ 2027年4月の競争入札を見据えた緊急性を確認</div>
+    </div>
+    <div class="step">
+      <h4>市から評価される指標は具体的にどんなものですか？</h4>
+      <div class="meta">→ 稼働率・満足度・スポーツ振興のどれが重視されているか</div>
+    </div>
+    <div class="step">
+      <h4>2024年度の指定管理事業の評価結果はどうでしたか？</h4>
+      <div class="meta">→ 高得点項目・低得点項目を把握。SORAが補える領域を発見</div>
+    </div>
+    <div class="step">
+      <h4>四電工本社からは指定管理事業にどんな期待がありますか？</h4>
+      <div class="meta">→ 本社の意向・グループ内ポジショニングを理解</div>
+    </div>
+    <div class="step">
+      <h4>共同体パートナー（長谷川体育施設・太平ビルサービス）との役割分担は？</h4>
+      <div class="meta">→ 意思決定の構造を把握</div>
+    </div>
+    <div class="step">
+      <h4>稼働率が低い時間帯・利用層はどこですか？</h4>
+      <div class="meta">→ SORAが埋められる空白を発見</div>
+    </div>
+    <div class="step">
+      <h4>子ども向けプログラムは現状どんなものがありますか？</h4>
+      <div class="meta">→ 既存のYKSS等との関係性も同時に確認</div>
+    </div>
+    <div class="step">
+      <h4>室内棒高跳び施設の活用状況はどうですか？</h4>
+      <div class="meta">→ ここに大きな空白がある可能性</div>
+    </div>
+    <div class="step">
+      <h4>イベント・地域貢献の予算枠はありますか？</h4>
+      <div class="meta">→ 共同イベントの資金源を確認</div>
+    </div>
+    <div class="step">
+      <h4>四電グループ全体での「地域貢献・スポーツ振興」の方針はありますか？</h4>
+      <div class="meta">→ 親会社（四電本体）への橋渡しの可能性を探る</div>
+    </div>
+  </div>
+
+  <div class="alert green">
+    <strong>これらの質問の意図：</strong>すべて「SORAが手伝える領域を発見するため」の質問。<strong>売り込みでなく、相手の課題を理解する姿勢</strong>を見せられる。<br>
+    なお、すべて初回で聞き切る必要はない。3つでも4つでも、自然な流れで聞けるものだけ。
+  </div>
+</section>
+
+<!-- まとめ -->
+<section>
+  <h2 class="good">10. まとめ — 解像度を上げ直した戦略</h2>
+
+  <div class="key-fact">
+    <div class="label">CORE STRATEGY</div>
+    <div class="big">「四電工で1勝してから、四国電力本体に上る」</div>
+    <div class="sub">前回のように本体へ直接アプローチするのではなく、現場の入り口（四電工＝指定管理者）で実績を作り、グループ内紹介で本体に上る。これが大企業相手の正攻法。</div>
+  </div>
+
+  <h3>修正後の現実的なタイムライン</h3>
+  <table>
+    <tr><th>時期</th><th>マイルストーン</th></tr>
+    <tr><td>2026年6-8月</td><td>四電工との初回面談・現場理解。第1段提案書作成</td></tr>
+    <tr><td>2026年9-11月</td><td>共同イベント1回目（屋島キッズ陸上塾 体験版 or スポーツフェスタ）</td></tr>
+    <tr><td>2026年12月〜2027年3月</td><td>四電工社内での実績報告 → グループ内認知</td></tr>
+    <tr><td>2027年4-9月</td><td>四電本体への紹介依頼・広報部／健康経営担当との接点</td></tr>
+    <tr><td>2027年10月〜2028年</td><td>四電本体との実証事業・総合研修所利用の協議</td></tr>
+    <tr><td>2028年以降</td><td>3-4者連携協定・本格化</td></tr>
+  </table>
+
+  <div class="quote">
+    本体を相手に正面から戦う必要はない。現場の入り口（指定管理者）で関係を作り、<br>
+    実績という名のパスポートを手にしてから、グループの中を歩いていく。
+  </div>
+</section>
+
+<div class="footer">
+  作成日：2026年5月24日｜四国電力グループ攻略 戦略レポート v2.0（解像度向上版）｜<br>
+  ※公開情報からのリサーチ。各社の役割・連絡先は実在確認済み。具体提案前には四電工担当者と要協議。
+</div>
+
+</div>
+</body>
+</html>

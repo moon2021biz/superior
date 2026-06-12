@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朝のブリーフィング 2026-05-23（土）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+.section-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #718096; margin: 24px 0 12px; }
+.alert-banner { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-banner h3 { color: #c53030; font-size: 1rem; margin-bottom: 8px; }
+.alert-item { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid #fed7d7; font-size: 0.9rem; }
+.alert-item:last-child { border-bottom: none; }
+.alert-priority { font-weight: 700; flex-shrink: 0; }
+.priority-critical { color: #c53030; }
+.priority-warn { color: #d69e2e; }
+.priority-info { color: #3182ce; }
+.milestone-banner { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #f59e0b; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; text-align: center; }
+.milestone-banner h3 { color: #92400e; font-size: 1.1rem; }
+.milestone-banner .milestone-content { color: #78350f; font-size: 0.95rem; margin-top: 6px; }
+.proj-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f7fafc; gap: 10px; }
+.proj-row:last-child { border-bottom: none; }
+.proj-name { font-weight: 600; font-size: 0.9rem; flex: 1; color: #2d3748; }
+.proj-pct { font-size: 0.8rem; font-weight: 700; color: white; background: #4299e1; border-radius: 20px; padding: 2px 10px; }
+.proj-status { font-size: 0.82rem; color: #718096; flex: 2; }
+.progress-bar-wrap { width: 80px; height: 6px; background: #e2e8f0; border-radius: 3px; flex-shrink: 0; }
+.progress-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #4299e1, #63b3ed); }
+.sns-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.sns-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.sns-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; color: #2d3748; }
+.sns-table tr:last-child td { border-bottom: none; }
+.sns-up { color: #38a169; font-weight: 700; }
+.sns-down { color: #c53030; font-weight: 700; }
+.sns-same { color: #718096; }
+.sns-na { color: #a0aec0; font-style: italic; }
+.badge-tiktok { background: #000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-yt { background: #ff0000; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.badge-note { background: #41c9b4; color: white; border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; }
+.meo-row { display: flex; align-items: center; padding: 8px 0; gap: 10px; border-bottom: 1px solid #f7fafc; font-size: 0.9rem; }
+.meo-row:last-child { border-bottom: none; }
+.meo-keyword { font-weight: 600; flex: 1; }
+.meo-rank { font-weight: 700; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; }
+.meo-green { background: #c6f6d5; color: #22543d; }
+.meo-yellow { background: #faf089; color: #744210; }
+.meo-red { background: #fed7d7; color: #c53030; }
+.schedule-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+.schedule-table th { background: #edf2f7; padding: 6px 10px; text-align: left; font-weight: 600; color: #4a5568; font-size: 0.78rem; }
+.schedule-table td { padding: 7px 10px; border-bottom: 1px solid #f7fafc; }
+.schedule-table tr:last-child td { border-bottom: none; }
+.today-row { background: #ebf8ff !important; }
+.today-row td { font-weight: 600; }
+.event-tag { background: #e53e3e; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; font-weight: 600; }
+.note-tag { background: #ed8936; color: white; border-radius: 4px; padding: 2px 7px; font-size: 0.72rem; }
+.action-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f7fafc; }
+.action-item:last-child { border-bottom: none; }
+.action-num { width: 26px; height: 26px; border-radius: 50%; background: #2b6cb0; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+.action-content { flex: 1; }
+.action-title { font-weight: 600; font-size: 0.9rem; color: #2d3748; }
+.action-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+.priority-high { border-left: 3px solid #e53e3e; padding-left: 10px; }
+.priority-mid { border-left: 3px solid #ed8936; padding-left: 10px; }
+.trial-item { background: #f0fff4; border: 1px solid #9ae6b4; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+.trial-item .trial-date { font-weight: 700; color: #276749; font-size: 0.9rem; }
+.trial-item .trial-detail { color: #2f855a; font-size: 0.85rem; margin-top: 3px; }
+.trial-today { background: #fff5f5; border: 2px solid #fc8181; }
+.trial-today .trial-date { color: #c53030; }
+.trial-today .trial-detail { color: #c53030; }
+.trial-new { background: #fffaf0; border: 2px solid #f6ad55; }
+.trial-new .trial-date { color: #c05621; }
+.no-schedule { color: #a0aec0; font-style: italic; font-size: 0.85rem; padding: 6px 0; }
+.synergy-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f7fafc; }
+.synergy-item:last-child { border-bottom: none; }
+.synergy-icon { font-size: 1.2rem; flex-shrink: 0; }
+.synergy-content .synergy-from { font-weight: 600; font-size: 0.88rem; color: #2d3748; }
+.synergy-content .synergy-desc { font-size: 0.83rem; color: #718096; margin-top: 2px; }
+.kgu-notice { background: #fffaf0; border: 1px solid #fbd38d; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.85rem; color: #744210; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+.chip { display: inline-block; background: #edf2f7; border-radius: 20px; padding: 2px 10px; font-size: 0.78rem; color: #4a5568; margin: 2px; }
+.chip-green { background: #f0fff4; color: #276749; }
+.chip-red { background: #fff5f5; color: #c53030; }
+.chip-yellow { background: #fffbeb; color: #92400e; }
+.footer { text-align: center; color: #a0aec0; font-size: 0.78rem; padding: 20px; margin-top: 10px; }
+.member-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.88rem; border-bottom: 1px dashed #e2e8f0; }
+.member-row:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🌅 朝のブリーフィング</h1>
+    <div class="date">2026年5月23日（土）</div>
+    <div class="subtitle">daily-morning-briefing 自動実行 / 全PJ横断レポート</div>
+  </div>
+
+  <!-- ⚠️ 要対応事項 -->
+  <div class="alert-banner">
+    <h3>⚠️ 要対応事項（緊急度順）</h3>
+    <div class="alert-item"><span class="alert-priority priority-critical">🔴</span><div><strong>関西実業団 本日5/23初日</strong>（明日5/24まで） — 荻田参加検討中。Open参加なら本日朝までに最終判断＋帯同/SNS発信準備</div></div>
+    <div class="alert-item"><span class="alert-priority priority-critical">🔴</span><div><strong>SORA：5/16新規申込 ふじかわ・まえかわへの申込お礼+日程確定LINE</strong> — 7日経過。これ以上の遅れは参加率に直結する致命的失策</div></div>
+    <div class="alert-item"><span class="alert-priority priority-critical">🔴</span><div><strong>KGAD 5月分指導日整理：月末25日提出・残り2日</strong> — 関西インカレ3日間+関西実業団参加可否含めて週末で完成必須</div></div>
+    <div class="alert-item"><span class="alert-priority priority-warn">🟡</span><div><strong>SORA：5/26つじおか体験</strong>（火・残り3日） — 事前フォロー連絡を本日中送付</div></div>
+    <div class="alert-item"><span class="alert-priority priority-warn">🟡</span><div><strong>SUPERIOR：まつもとゆうせい入会金¥5,500・月謝¥6,600入金確認継続</strong></div></div>
+    <div class="alert-item"><span class="alert-priority priority-warn">🟡</span><div><strong>むーん：5/8付け OJT短縮特例 / 5/15付け B型基本報酬区分</strong> — 5日連続継続課題。月曜5/25の次回モニタリング前に判断結論化</div></div>
+    <div class="alert-item"><span class="alert-priority priority-info">🔵</span><div><strong>TrustFit PRISM CUP CF公開13日目（中盤戦継続）</strong> — 達成率発信＋未送付DM残処理を週末で出し切る</div></div>
+    <div class="alert-item"><span class="alert-priority priority-info">🔵</span><div><strong>ECC：実践研修・SPB資料 未入手継続（2週間経過）</strong> — 松本氏経由で再確認</div></div>
+  </div>
+
+  <!-- マイルストーンバナー -->
+  <div class="milestone-banner">
+    <h3>🎉 マイルストーン</h3>
+    <div class="milestone-content">SORA体験申込 <strong>+2件 累計328件</strong>（6/20ますだ・はまだ姉妹的同時申込🎉）／ オギラボNote <strong>2フォロワー継続</strong>（サロン公開3週目・着実増加）</div>
+  </div>
+
+  <!-- PJ進捗 -->
+  <div class="card">
+    <h2>📊 各PJ進捗</h2>
+    <div class="proj-row"><div class="proj-name">①オギラボ</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:65%"></div></div><div class="proj-pct">65%</div><div class="proj-status">関西インカレ3日間素材→TikTok縦動画3本＋YouTube長尺＋Note記事の本格化フェーズ</div></div>
+    <div class="proj-row"><div class="proj-name">②CARAS</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:64%"></div></div><div class="proj-pct">64%</div><div class="proj-status">夙川MEO継続安定（4位広告除く）／西宮圏外脱却に向けた口コミ依頼継続</div></div>
+    <div class="proj-row"><div class="proj-name">③健康経営</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:20%"></div></div><div class="proj-pct">20%</div><div class="proj-status">PRISM CUP連動「健康経営×アスリート×企業フットサル」訴求テンプレ今週末DM送付</div></div>
+    <div class="proj-row"><div class="proj-name">④SORA</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:57%"></div></div><div class="proj-pct">57%</div><div class="proj-status">体験+2件🎉累計328件／IG 517人（±0）／5/16申込フォロー超緊急</div></div>
+    <div class="proj-row"><div class="proj-name">⑤SUPERIOR</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:62%"></div></div><div class="proj-pct">62%</div><div class="proj-status">体験111件（±0）／会員25名／箕面6月契約更新MTG準備中</div></div>
+    <div class="proj-row"><div class="proj-name">⑥むーん</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:85%"></div></div><div class="proj-pct">85%</div><div class="proj-status">リタリコ問い合わせ未開封0件✅／土曜のため行政情報は5/25(月)実施</div></div>
+    <div class="proj-row"><div class="proj-name">⑦関学陸上部</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:22%"></div></div><div class="proj-pct">22%</div><div class="proj-status">関西実業団本日初日／KGAD 5月分指導日整理（月末25日提出・残2日）</div></div>
+    <div class="proj-row"><div class="proj-name">⑧TrustFit</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:37%"></div></div><div class="proj-pct">37%</div><div class="proj-status">PRISM CUP CF公開13日目／法人DM未送付分残り3日で出し切り</div></div>
+  </div>
+
+  <!-- SNSフォロワー -->
+  <div class="card">
+    <h2>📱 SNSフォロワー数（本日実測）</h2>
+    <table class="sns-table">
+      <thead><tr><th>PJ</th><th>プラットフォーム</th><th>フォロワー</th><th>投稿/動画</th><th>前回比</th></tr></thead>
+      <tbody>
+        <tr><td>オギラボ</td><td><span class="badge-tiktok">TikTok</span></td><td>1,539人</td><td>—</td><td class="sns-na">取得不可（bot検知）／5/22値継続</td></tr>
+        <tr><td>オギラボ</td><td><span class="badge-yt">YouTube</span></td><td>94人</td><td>12本</td><td class="sns-same">±0</td></tr>
+        <tr><td>オギラボ</td><td><span class="badge-note">Note</span></td><td>2人</td><td>記事継続</td><td class="sns-same">±0</td></tr>
+        <tr><td>CARAS</td><td><span class="badge-ig">Instagram</span></td><td>67人</td><td>92件</td><td class="sns-same">フォロワー±0 / 投稿+2</td></tr>
+        <tr><td>CARAS</td><td><span class="badge-tiktok">TikTok</span></td><td>23人</td><td>いいね185</td><td class="sns-na">取得不可／5/22値継続</td></tr>
+        <tr><td>SORA</td><td><span class="badge-ig">Instagram</span></td><td>517人</td><td>286件</td><td class="sns-same">±0</td></tr>
+        <tr><td>SUPERIOR</td><td><span class="badge-ig">Instagram</span></td><td>4人</td><td>20件</td><td class="sns-same">±0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CARAS MEO -->
+  <div class="card">
+    <h2>📍 CARAS MEO順位（Googleマップ）</h2>
+    <div class="meo-row"><div class="meo-keyword">「西宮 パーソナルジム」</div><div class="meo-rank meo-red">圏外</div><div style="color:#718096;font-size:0.85rem;">前回±0／継続課題：口コミ依頼で圏内入りを狙う</div></div>
+    <div class="meo-row"><div class="meo-keyword">「夙川 パーソナルジム」</div><div class="meo-rank meo-yellow">6位(広告込) / 4位(広告除く)</div><div style="color:#718096;font-size:0.85rem;">前回±0／安定継続</div></div>
+  </div>
+
+  <!-- 2カラム: 関学CDST / SUPERIOR体験 -->
+  <div class="grid-2">
+    <div class="card">
+      <h2>🏃 関学CDST スケジュール</h2>
+      <table class="schedule-table">
+        <thead><tr><th>日付</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr class="today-row"><td><strong>5/23(土)</strong></td><td>関西実業団 初日 <span class="event-tag">本日</span> open参加検討中</td></tr>
+          <tr><td>5/24(日)</td><td>関西実業団 最終日 <span class="event-tag">明日</span></td></tr>
+          <tr><td>5/30(土)</td><td>東大阪記録会（荻田欠席）</td></tr>
+          <tr><td>6/13(金)</td><td>日本選手権 北田出場確定 <span class="note-tag">重要</span></td></tr>
+          <tr><td>6/19〜</td><td>西日本インカレ</td></tr>
+          <tr><td>6/22</td><td>富永U20世界陸上有効記録期限（5m37cm）</td></tr>
+        </tbody>
+      </table>
+      <div class="kgu-notice">📝 CDST 5/22値継続（自動取得不可）／KGAD 5月分指導日整理 月末25日提出・残2日</div>
+    </div>
+
+    <div class="card">
+      <h2>👟 SUPERIOR 体験予定</h2>
+      <div><strong>📍 生駒スクール</strong></div>
+      <div class="no-schedule">今後の体験予定なし</div>
+      <div style="margin-top:10px;"><strong>📍 箕面スクール</strong></div>
+      <div class="no-schedule">今後の体験予定なし（フロム・シェフ6月契約更新MTG準備中）</div>
+      <div class="kgu-notice">📊 累計：体験111件 / 会員25名 / 休会4件 ／ 5/21やましきりょうへい体験完了→翌日フォローLINE要確認</div>
+    </div>
+  </div>
+
+  <!-- SORA体験 -->
+  <div class="card">
+    <h2>🌟 SORA 体験予定（累計328件 +2🎉）</h2>
+    <div class="trial-item"><div class="trial-date">5/26(火) 18:30〜20:00</div><div class="trial-detail">つじおかしんのすけ（小6・男）／小山コーチのスタート講習（高松）</div></div>
+    <div class="trial-item"><div class="trial-date">5/30(土) 9:30〜10:30</div><div class="trial-detail">ふじかわしおり（小1・女）／【観音寺】小学生コース</div></div>
+    <div class="trial-item"><div class="trial-date">6/6(土) 11:00〜12:30</div><div class="trial-detail">まえかわいつき（小4・男）／【観音寺】専門基礎コース</div></div>
+    <div class="trial-item trial-new"><div class="trial-date">🆕 6/20(土) 18:30〜20:00 — 2名同時申込</div><div class="trial-detail">① ますだいおり（小5・女）<br>② はまだこのみ（小5・女）<br>【高松】アスリート短距離コース</div></div>
+    <div class="kgu-notice">⚠️ 5/16新規申込（ふじかわ・まえかわ）のお礼+日程確定LINE未送付7日経過 — 本日中絶対送付。新規6/20申込2名にも申込お礼の即時送付推奨</div>
+  </div>
+
+  <!-- SUPERIOR 会員ステータス -->
+  <div class="card">
+    <h2>👥 SUPERIOR 会員ステータス（直近7日）</h2>
+    <div class="member-row">新規入会：<strong>0件</strong>（最終入会5/7まつもとゆうせい・入金確認継続中）</div>
+    <div class="member-row">新規休会申請：<strong>0件</strong></div>
+  </div>
+
+  <!-- 推奨アクション -->
+  <div class="card">
+    <h2>🎯 今日の推奨アクション TOP3</h2>
+    <div class="action-item priority-high">
+      <div class="action-num">1</div>
+      <div class="action-content">
+        <div class="action-title">SORA：5/16申込フォロー＋6/20新規申込お礼を本日中に出し切る</div>
+        <div class="action-desc">ふじかわ・まえかわ（5/16）→7日経過の最重要懸念。新規ますだ・はまだ（6/20）にも即日お礼送付で姉妹同時参加率を確保</div>
+      </div>
+    </div>
+    <div class="action-item priority-high">
+      <div class="action-num">2</div>
+      <div class="action-content">
+        <div class="action-title">関学：関西実業団本日帯同/Open参加判断＋ライブSNS発信準備</div>
+        <div class="action-desc">本日5/23・明日5/24の2日間が今週最大の現場機会。出席なら撮影機材・告知投稿テンプレを朝のうちに確定</div>
+      </div>
+    </div>
+    <div class="action-item priority-mid">
+      <div class="action-num">3</div>
+      <div class="action-content">
+        <div class="action-title">KGAD 5月分指導日整理：今週末で確実に完成（月末25日提出・残2日）</div>
+        <div class="action-desc">関西インカレ3日間（5/15-17）＋関西実業団（5/23-24）含めスプレッドシートE〜R列オレンジ日抽出</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- シナジー -->
+  <div class="card">
+    <h2>🔗 今週のシナジーチャンス</h2>
+    <div class="synergy-item">
+      <div class="synergy-icon">🔥</div>
+      <div class="synergy-content">
+        <div class="synergy-from">関西実業団（本日）→ オギラボ／TrustFit／健康経営 横断発信</div>
+        <div class="synergy-desc">「現役オリンピアン現場帯同×企業フットサル支援」訴求でPRISM CUP CF告知＆健康経営DM転用素材を同時収穫</div>
+      </div>
+    </div>
+    <div class="synergy-item">
+      <div class="synergy-icon">🤝</div>
+      <div class="synergy-content">
+        <div class="synergy-from">SORA姉妹同時申込（ますだ・はまだ）→ SUPERIOR×CARAS 親子訴求</div>
+        <div class="synergy-desc">「兄弟姉妹で参加する陸上クラブ」体験記としてCARAS保護者向けに転用、子どもの成長×親のフィジカル管理を結ぶコンテンツへ</div>
+      </div>
+    </div>
+    <div class="synergy-item">
+      <div class="synergy-icon">📩</div>
+      <div class="synergy-content">
+        <div class="synergy-from">むーん リタリコ未開封0件 → 既存対応リソースを SK-3 PDF制作に振り向け</div>
+        <div class="synergy-desc">5/14支援内容問い合わせ（ID203474）の対応進捗と並行してSK-3施設案内PDFを今週中完成</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- むーん行政 -->
+  <div class="card">
+    <h2>🏛️ むーん 行政情報モニタリング</h2>
+    <div class="kgu-notice">本日土曜のため行政情報モニタリングはスキップ（次回 5/25 月曜実施）。継続課題：5/8付け「サビ管・児発管 実践研修OJT短縮特例」／5/15付け「就労継続支援B型 基本報酬区分の見直し」対応要否判断（5日連続）</div>
+    <div style="margin-top:10px;font-size:0.88rem;">📩 <strong>リタリコ問い合わせ（発達ナビ）</strong>：未開封 <strong>0件</strong> ／ 直近7日新着 <strong>0件</strong> ✅</div>
+  </div>
+
+  <!-- ECC -->
+  <div class="card">
+    <h2>🎓 ECC 進捗</h2>
+    <div style="font-size:0.9rem;line-height:1.7;">
+      <div>⏸ 実践研修資料・SPB資料 <strong>未入手継続</strong>（5/12週確認予定→2週間経過）</div>
+      <div>🎯 本日中：松本氏経由でECC事務局へ最新ステータス再確認</div>
+      <div>🎯 名古屋施設の契約状況も松本氏に確認継続</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    daily-morning-briefing 自動実行レポート ／ 2026-05-23 (Sat) ／ <span class="chip chip-green">Chrome実測値ベース</span> <span class="chip chip-yellow">TikTok・CARAS TikTok一部前回値継続</span>
+  </div>
+</div>
+</body>
+</html>

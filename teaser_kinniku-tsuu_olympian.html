@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【完全版】筋肉痛＝筋肥大の誤解｜オリンピアンの思考 ／ OGI LAB</title>
+<meta name="description" content="リオ五輪オリンピアンが現役時代の運用法と現場ノウハウを完全公開。筋肉痛マップ・スピード化プロトコル・試合翌日ウエイト全公開。">
+<style>
+:root{
+  --navy:#1A2A3A;
+  --navy-dark:#0F1B27;
+  --red:#C0392B;
+  --red-dark:#96281B;
+  --red-light:#E74C3C;
+  --gold:#C9A84C;
+  --gold-light:#E0C275;
+  --green:#3D6B4F;
+  --white:#FFFFFF;
+  --gray-light:#E0E0E0;
+  --gray:#9CA8B5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  line-height:1.85;
+  font-size:16px;
+  min-height:100vh;
+}
+
+/* ========== HERO ========== */
+header.hero{
+  background:
+    radial-gradient(circle at 30% 20%, rgba(192,57,43,.4) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(201,168,76,.3) 0%, transparent 50%),
+    linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);
+  padding:60px 24px 70px;
+  border-bottom:4px solid var(--gold);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+header.hero::before{
+  content:"OGI LAB / PAID CONTENT";
+  position:absolute;top:20px;left:20px;
+  font-size:10px;letter-spacing:3px;color:var(--gold);
+  opacity:.5;font-weight:bold;
+}
+header.hero .brand{
+  font-size:14px;letter-spacing:3px;color:var(--gold);
+  font-weight:bold;margin-bottom:20px;
+}
+header.hero h1{
+  font-size:32px;font-weight:900;line-height:1.45;
+  color:var(--white);margin-bottom:22px;
+  text-shadow:2px 2px 8px rgba(0,0,0,.5);
+}
+header.hero h1 .accent{color:var(--gold)}
+header.hero h1 .red-accent{color:var(--red-light)}
+header.hero .subtitle{
+  font-size:16px;color:var(--gray-light);
+  max-width:680px;margin:0 auto 20px;line-height:1.7;
+}
+header.hero .author-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(0,0,0,.4);
+  padding:10px 20px;border-radius:30px;
+  border:1px solid var(--gold);
+  font-size:14px;color:var(--white);
+}
+header.hero .author-badge .badge{
+  background:var(--red);color:var(--white);
+  padding:3px 10px;border-radius:12px;font-weight:bold;font-size:11px;letter-spacing:1px;
+}
+
+/* ========== CONTAINER ========== */
+.container{
+  max-width:780px;
+  margin:0 auto;
+  padding:40px 24px 80px;
+}
+
+/* ========== LEAD ========== */
+.lead-block{
+  background:linear-gradient(135deg, rgba(192,57,43,.15) 0%, rgba(0,0,0,.2) 100%);
+  border:1px solid rgba(192,57,43,.5);
+  border-radius:12px;
+  padding:28px 30px;
+  margin-bottom:36px;
+}
+.lead-block .tag{
+  display:inline-block;background:var(--red);color:var(--white);
+  padding:4px 12px;border-radius:14px;font-size:11px;font-weight:bold;letter-spacing:1.5px;
+  margin-bottom:14px;
+}
+.lead-block p{
+  color:var(--gray-light);font-size:15px;line-height:1.85;margin-bottom:12px;
+}
+.lead-block p strong{color:var(--white)}
+.lead-block .accent{color:var(--gold);font-weight:bold}
+
+/* ========== HIGHLIGHT ========== */
+.highlights{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;
+  margin:32px 0;
+}
+.highlight-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:10px;
+  padding:18px 20px;
+  text-align:center;
+  transition:.2s;
+}
+.highlight-card:hover{
+  background:rgba(201,168,76,.1);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.highlight-card .icon{font-size:28px;margin-bottom:8px}
+.highlight-card .title{
+  font-weight:bold;color:var(--gold);font-size:14px;margin-bottom:6px;
+}
+.highlight-card .desc{font-size:12px;color:var(--gray-light);line-height:1.6}
+
+/* ========== TOC ========== */
+section.toc-section{margin:48px 0 32px}
+section.toc-section .section-title{
+  font-size:22px;font-weight:900;color:var(--white);
+  border-left:6px solid var(--gold);padding-left:14px;margin-bottom:24px;
+}
+section.toc-section .section-title .small{font-size:13px;color:var(--gold);font-weight:normal;margin-left:8px}
+
+.toc-block{
+  background:rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:24px 28px;
+  margin-bottom:20px;
+}
+.toc-block .toc-header{
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(201,168,76,.3);
+  padding-bottom:10px;margin-bottom:14px;
+}
+.toc-block .toc-header .icon{font-size:24px}
+.toc-block .toc-header .title{
+  font-size:17px;font-weight:bold;color:var(--gold);
+}
+.toc-block .toc-header .count{
+  font-size:11px;background:var(--red);color:var(--white);
+  padding:2px 10px;border-radius:10px;font-weight:bold;margin-left:auto;
+}
+.toc-block ol{
+  list-style:none;counter-reset:item;
+}
+.toc-block ol li{
+  counter-increment:item;
+  position:relative;
+  padding:8px 0 8px 36px;
+  font-size:14px;color:var(--gray-light);
+  border-bottom:1px dashed rgba(255,255,255,.05);
+}
+.toc-block ol li:last-child{border-bottom:none}
+.toc-block ol li::before{
+  content:counter(item,decimal-leading-zero);
+  position:absolute;left:0;top:8px;
+  background:var(--navy-dark);color:var(--gold);
+  padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;
+  font-family:'Bebas Neue',monospace;
+}
+.toc-block ol li.paid-marker{color:var(--gold);font-weight:bold}
+.toc-block ol li.paid-marker::after{
+  content:"🔒";margin-left:8px;
+}
+.toc-block ol li strong{color:var(--white)}
+
+/* ========== CTA ========== */
+.cta-block{
+  background:
+    linear-gradient(135deg, rgba(192,57,43,.2) 0%, rgba(201,168,76,.15) 100%);
+  border:2px solid var(--gold);
+  border-radius:14px;
+  padding:36px 32px;
+  margin:40px 0;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-block::before{
+  content:"🔒";position:absolute;
+  top:-20px;right:-20px;
+  font-size:120px;opacity:.08;
+  transform:rotate(-15deg);
+}
+.cta-block .cta-tag{
+  display:inline-block;background:var(--red);color:var(--white);
+  padding:5px 16px;border-radius:16px;font-size:12px;font-weight:bold;letter-spacing:1.5px;
+  margin-bottom:14px;
+}
+.cta-block h3{
+  font-size:22px;color:var(--white);margin-bottom:10px;line-height:1.5;
+}
+.cta-block .price-hint{
+  color:var(--gray-light);font-size:13px;margin-bottom:24px;
+}
+.cta-btn{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%);
+  color:var(--white);
+  padding:18px 38px;border-radius:50px;
+  font-weight:900;font-size:16px;
+  text-decoration:none;margin:8px 6px;
+  border:2px solid var(--gold);
+  transition:.25s;
+  box-shadow:0 4px 16px rgba(192,57,43,.5);
+}
+.cta-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(192,57,43,.7);
+  background:linear-gradient(135deg,var(--gold) 0%,var(--red) 100%);
+}
+.cta-btn.secondary{
+  background:transparent;
+  color:var(--gold);
+  border:2px solid var(--gold);
+  box-shadow:none;
+}
+.cta-btn.secondary:hover{
+  background:var(--gold);
+  color:var(--navy);
+}
+.cta-btn .icon{margin-right:6px}
+
+.cta-row{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+  margin-top:10px;
+}
+
+/* ========== NOTE MEMBERSHIP ========== */
+.membership-block{
+  background:linear-gradient(135deg, #2a4a3a 0%, #1a3a2a 100%);
+  border:2px solid #4caf50;
+  border-radius:12px;
+  padding:28px 30px;
+  margin:32px 0;
+  text-align:center;
+}
+.membership-block h3{
+  color:#a5d6a7;font-size:18px;margin-bottom:10px;
+}
+.membership-block p{color:var(--gray-light);font-size:14px;margin-bottom:18px}
+.membership-btn{
+  display:inline-block;
+  background:#4caf50;color:var(--white);
+  padding:12px 28px;border-radius:30px;
+  font-weight:bold;text-decoration:none;
+  transition:.2s;
+}
+.membership-btn:hover{background:#388e3c;transform:translateY(-2px)}
+
+/* ========== TARGET ========== */
+.target-block{
+  background:rgba(0,0,0,.3);
+  border-left:4px solid var(--red);
+  padding:20px 24px;
+  margin:32px 0;
+  border-radius:0 8px 8px 0;
+}
+.target-block h4{
+  color:var(--red-light);font-size:15px;margin-bottom:10px;
+}
+.target-block ul{margin-left:22px}
+.target-block li{color:var(--gray-light);font-size:14px;margin-bottom:6px}
+
+/* ========== PROFILE ========== */
+.profile{
+  background:rgba(0,0,0,.4);
+  border-top:3px solid var(--gold);
+  padding:32px 28px;margin-top:48px;
+  text-align:center;border-radius:8px;
+}
+.profile h3{color:var(--gold);font-size:18px;margin-bottom:12px}
+.profile p{color:var(--gray-light);font-size:14px;line-height:1.8;margin:0}
+.sns-links{margin-top:16px;font-size:13px}
+.sns-links span{margin:0 8px;color:var(--white);display:inline-block;padding:2px 0}
+
+/* ========== NOTICE ========== */
+.notice{
+  background:rgba(255,255,0,.05);
+  border:1px dashed rgba(201,168,76,.5);
+  padding:14px 20px;border-radius:8px;
+  font-size:12px;color:var(--gray);
+  margin-top:32px;
+}
+
+@media(max-width:600px){
+  header.hero h1{font-size:24px}
+  header.hero{padding:40px 18px 50px}
+  .container{padding:30px 18px 60px}
+  .cta-block{padding:28px 22px}
+  .cta-block h3{font-size:18px}
+  .cta-btn{padding:14px 22px;font-size:14px;display:block;margin:8px 0}
+  .toc-block{padding:18px 20px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand">PAID CONTENT ／ オリンピアンの思考</div>
+  <h1>【完全版】<br><span class="red-accent">筋肉痛＝筋肥大</span><br>その常識、<span class="accent">半分ウソです。</span></h1>
+  <div class="subtitle">
+    停滞・怪我・シーズン移行で結果が出ない方へ。<br>
+    リオ五輪オリンピアンが現役時代に運用していた<br>
+    "現場の本物"のトレーニング思考を完全公開。
+  </div>
+  <div class="author-badge">
+    <span class="badge">著者</span>
+    棒高跳びオリンピアン・荻田大樹
+  </div>
+</header>
+
+<div class="container">
+
+<!-- LEAD -->
+<div class="lead-block">
+  <span class="tag">⚡ 読むべき理由</span>
+  <p>
+    <strong>「筋肉痛が来ないと筋肉は大きくならない」</strong>──そう信じてトレーニングしている方は要注意。
+    身体生理学の最新知見と、<span class="accent">リオ五輪オリンピアンの現場経験</span>から
+    "本当のトレーニング指標"を解説します。
+  </p>
+</div>
+
+<!-- HIGHLIGHTS -->
+<div class="highlights">
+  <div class="highlight-card">
+    <div class="icon">🧠</div>
+    <div class="title">脳疲労コントロール</div>
+    <div class="desc">試合翌日ウエイト＋48時間休養の論理</div>
+  </div>
+  <div class="highlight-card">
+    <div class="icon">🗺️</div>
+    <div class="title">筋肉痛マップ</div>
+    <div class="desc">部位別＝何が足りないか早見表</div>
+  </div>
+  <div class="highlight-card">
+    <div class="icon">📊</div>
+    <div class="title">具体数値</div>
+    <div class="desc">60/80/95%・2週間×2〜4サイクル</div>
+  </div>
+  <div class="highlight-card">
+    <div class="icon">🎨</div>
+    <div class="title">画像生成プロンプト</div>
+    <div class="desc">サムネ＋スライド全9枚分</div>
+  </div>
+</div>
+
+<!-- TARGET -->
+<div class="target-block">
+  <h4>📌 こんな方へ</h4>
+  <ul>
+    <li>痛みが出るほど追い込んでいるのに、記録が伸び悩んでいる方</li>
+    <li>シーズン移行（冬→春）で毎年怪我をしてしまう方</li>
+    <li>試合期に筋量を落としたくないが、何をすればいいか分からない方</li>
+    <li>SNSでオリンピアンの知見を発信したい指導者・コーチ</li>
+  </ul>
+</div>
+
+<!-- TOC: NOTE記事 -->
+<section class="toc-section">
+  <div class="section-title">📖 コンテンツ目次 <span class="small">／ 全文の構成だけ先に見せます</span></div>
+
+  <!-- NOTE記事 目次 -->
+  <div class="toc-block">
+    <div class="toc-header">
+      <span class="icon">📝</span>
+      <span class="title">PART 1 ／ NOTE記事 全文</span>
+      <span class="count">全8章＋有料パート</span>
+    </div>
+    <ol>
+      <li>はじめに</li>
+      <li>筋肉痛＝筋肥大の必須条件ではない</li>
+      <li>経験①：ひと冬越すと、毎日鉄棒をしても筋肉痛にならない（反復効果）</li>
+      <li>経験②：時々跳躍すると襲ってくる強烈な筋肉痛の正体（未経験のエキセン）</li>
+      <li>経験③：筋量を落とさないための「試合翌日のウエイト」と過ごし方</li>
+      <li>だから筋肉痛は「センサー」に過ぎない ─ 暴走したら警報＝怪我</li>
+      <li>筋肉痛の「正しい」活用法 ─ 3つの自己分析センサー</li>
+      <li>危険信号：7日を超える痛みは「筋肉痛」ではない</li>
+      <li>では「順調」と判断する基準は何か（3RM基準）</li>
+      <li>まとめ</li>
+      <li class="paid-marker"><strong>【有料パート】大原則：筋肉痛は「未経験負荷の評価基準」</strong></li>
+      <li class="paid-marker"><strong>部位別 筋肉痛マップ（春先スピード化期）</strong></li>
+      <li class="paid-marker"><strong>オリンピアン式 スピード化プロトコル（5ステージ）</strong></li>
+      <li class="paid-marker"><strong>試合翌日ウエイト：実メニュー（％・レップ・種目）</strong></li>
+      <li class="paid-marker"><strong>ウエイトとSSCの統合（季節後半〜試合期）</strong></li>
+      <li class="paid-marker"><strong>シーズン全体の流れ</strong></li>
+    </ol>
+  </div>
+
+  <!-- ChatGPT指示書 目次 -->
+  <div class="toc-block">
+    <div class="toc-header">
+      <span class="icon">🎨</span>
+      <span class="title">PART 2 ／ ChatGPT 画像生成指示書</span>
+      <span class="count">全9枚分</span>
+    </div>
+    <ol>
+      <li>🎨 ブランド共通仕様（カラー・キャラ・フォント・解像度）</li>
+      <li class="paid-marker"><strong>NOTEサムネイル（1792×1024）｜数字訴求＋警告ハイブリッド型</strong></li>
+      <li class="paid-marker"><strong>スライド01｜表紙（フック）</strong></li>
+      <li class="paid-marker"><strong>スライド02｜結論：筋肥大3要因</strong></li>
+      <li class="paid-marker"><strong>スライド03｜経験①：反復効果</strong></li>
+      <li class="paid-marker"><strong>スライド04｜経験②：未経験のエキセン</strong></li>
+      <li class="paid-marker"><strong>スライド05｜経験③：試合翌日ウエイト＋48h休養</strong></li>
+      <li class="paid-marker"><strong>スライド06｜センサー＋7日超は警報</strong></li>
+      <li class="paid-marker"><strong>スライド07｜順調指標は3RM</strong></li>
+      <li class="paid-marker"><strong>スライド08｜NOTE誘導</strong></li>
+      <li>💡 制作Tips ／ 統一文言（YouTube・TikTok・Instagram用）</li>
+    </ol>
+  </div>
+</section>
+
+<!-- CTA: NOTE記事 -->
+<div class="cta-block">
+  <span class="cta-tag">🔒 有料コンテンツ</span>
+  <h3>NOTE記事 完全版を読む</h3>
+  <p class="price-hint">無料パート＋有料パート（筋肉痛マップ＋スピード化プロトコル＋試合翌日ウエイト実メニュー）まで全部入り</p>
+  <div class="cta-row">
+    <a class="cta-btn" href="https://html-ai.pages.dev/note_kinniku-tsuu_olympian.html" target="_blank">
+      <span class="icon">📖</span>NOTE記事 完全版へ →
+    </a>
+  </div>
+</div>
+
+<!-- CTA: ChatGPT指示書 -->
+<div class="cta-block">
+  <span class="cta-tag">🔒 有料コンテンツ</span>
+  <h3>ChatGPT 画像生成プロンプト集</h3>
+  <p class="price-hint">サムネ＋スライド全9枚分 ／ コピーボタン付き ／ オギラボキャラ使用</p>
+  <div class="cta-row">
+    <a class="cta-btn secondary" href="https://html-ai.pages.dev/chatgpt_image_prompts_kinniku-tsuu.html" target="_blank">
+      <span class="icon">🎨</span>画像生成プロンプト集へ →
+    </a>
+  </div>
+</div>
+
+<!-- NOTE MEMBERSHIP -->
+<div class="membership-block">
+  <h3>💎 noteメンバーシップに登録</h3>
+  <p>今後のコンテンツも含めて月額で全て読める。<br>
+  次回予告：「中枢性疲労（脳疲労）」を深掘り。48時間リカバリーの実践プロトコル。</p>
+  <a class="membership-btn" href="https://note.com/ogilab" target="_blank">📝 noteメンバーシップへ →</a>
+</div>
+
+<!-- PROFILE -->
+<div class="profile">
+  <h3>🎯 おぎぃ。プロフィール</h3>
+  <p>
+    元陸上オリンピック代表 ｜ リオデジャネイロ2016 ｜ 棒高跳び<br>
+    陸上スクール3拠点運営（SORA／SUPERIOR）<br>
+    ECCかけっこスクール監修 ｜ パーソナルジムCARAS
+  </p>
+  <div class="sns-links">
+    <span>📱 TikTok: @ogilab1230</span>
+    <span>📺 YouTube: @OgiLab</span>
+    <span>📝 note: @ogilab</span>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="notice">
+  ⚠ <strong>URLについて：</strong>「NOTE記事 完全版へ」「画像生成プロンプト集へ」のリンク先は仮ドメイン（<code>https://html-ai.pages.dev/...</code>）になっています。<br>
+  実際のCloudflare Pages公開ドメインに合わせて、このページ内2箇所の <code>href="..."</code> を書き換えてください。<br>
+  公開後のURLは購入者にのみ案内する運用を想定しています。
+</div>
+
+</div>
+
+</body>
+</html>

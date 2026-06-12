@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スライドプレビュー｜運動嫌いな子への声かけ</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    background: #111827;
+    color: #fff;
+    padding: 40px 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #93c5fd;
+    font-size: 16px;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    margin-bottom: 40px;
+  }
+  .slides-container {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .slide-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .slide {
+    width: 100%;
+    aspect-ratio: 4/5;
+    border-radius: 20px 20px 0 0;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .caption-box {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    padding: 14px 18px;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.8;
+  }
+  .caption-box strong { color: rgba(255,255,255,0.85); }
+  .slide-number {
+    font-size: 11px;
+    opacity: 0.45;
+    letter-spacing: 2px;
+  }
+  .slide-label {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .slide-title {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.45;
+  }
+  .accent { color: #fde68a; }
+  .ng { color: #fca5a5; }
+  .ok { color: #6ee7b7; }
+  .point-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 11px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .point-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .badge-pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* ── 各スライドの背景 ── */
+  .slide-1 { background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 45%, #7c3aed 100%); }
+  .slide-2 { background: linear-gradient(145deg, #0c1a2e 0%, #1e3a5f 60%, #1d4ed8 100%); }
+  .slide-3 { background: linear-gradient(145deg, #2d0a0a 0%, #7f1d1d 60%, #dc2626 100%); }
+  .slide-4 { background: linear-gradient(145deg, #052e16 0%, #14532d 60%, #16a34a 100%); }
+  .slide-5 { background: linear-gradient(145deg, #0c1a2e 0%, #1e3a5f 60%, #0369a1 100%); }
+  .slide-6 { background: linear-gradient(145deg, #1c1917 0%, #292524 60%, #78350f 100%); }
+  .slide-7 { background: linear-gradient(145deg, #1a0533 0%, #3d0066 55%, #7c3aed 100%); }
+
+  /* ── OGILAB ロゴ (slide 1) ── */
+  .ogilab-logo {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #ef4444, #f97316 70%, #fb923c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 1px;
+    border: 3px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 20px rgba(239,68,68,0.5);
+    overflow: hidden;
+    position: relative;
+  }
+  .ogilab-logo .logo-text {
+    font-style: italic;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+  }
+
+  /* ── CTA キャラクター (slide 7) ── */
+  .cta-char {
+    background: rgba(255,255,255,0.07);
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* ── スライド固有パーツ ── */
+  .hook-text {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.4;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+  .author-info {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .ng-box {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.35);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .ok-box {
+    background: rgba(110,231,183,0.1);
+    border: 1px solid rgba(110,231,183,0.3);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .info-box {
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  .progress-wrap { margin-top: 6px; }
+  .progress-bar {
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    height: 7px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    background: linear-gradient(90deg, #6ee7b7, #10b981);
+    height: 100%;
+    width: 77%;
+    border-radius: 10px;
+  }
+  .cta-button {
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+    color: #fff;
+    font-weight: 900;
+    font-size: 15px;
+    text-align: center;
+    padding: 13px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* ── 画像バッジ ── */
+  .img-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(251,191,36,0.15);
+    border: 1px solid rgba(251,191,36,0.4);
+    border-radius: 8px;
+    padding: 3px 9px;
+    font-size: 10px;
+    color: #fde68a;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<h1>📱 スライドプレビュー（全7枚）</h1>
+<p class="subtitle">※ 🖼 マークは実画像（OGILAB素材）を配置する箇所</p>
+
+<div class="slides-container">
+
+  <!-- ======= Slide 1: Cover ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-1">
+      <div>
+        <div class="slide-number">SLIDE 01 / 07 — 表紙</div>
+        <div class="img-note" style="margin-top:8px;">🖼 OGILABロゴ画像（丸型）配置</div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div class="ogilab-logo">
+            <div class="logo-text">OGILAB<br>オギラボ</div>
+          </div>
+          <div style="font-size:11px; opacity:0.7; line-height:1.7;">
+            元陸上オリンピック代表<br>
+            <strong>おぎぃ。</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:48px; line-height:1; margin-bottom:10px;">🏃‍♂️😤</div>
+        <div class="hook-text">
+          うちの子、<br>
+          運動嫌いかも…<br>
+          <span class="accent">と思ったら<br>絶対に見て！</span>
+        </div>
+        <div style="font-size:13px; opacity:0.75; margin-top:12px; line-height:1.7;">
+          元オリンピック代表が教える<br>
+          「やりたくない」→「やってみたい」に変わる声かけ
+        </div>
+      </div>
+      <div class="author-info">
+        🏅 <strong>おぎぃ。</strong>｜元陸上オリンピック代表<br>
+        陸上スクール3拠点運営 / ECCかけっこスクール監修
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>「うちの子、運動嫌いなのかな…」そう悩むパパ・ママへ。実は声かけ一つで劇的に変わります。元オリンピック代表の私が、科学的根拠をもとに解説します👇 最後まで読んでね！
+    </div>
+  </div>
+
+  <!-- ======= Slide 2: Cause ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-2">
+      <div>
+        <div class="slide-number">SLIDE 02 / 07 — 共感と原因</div>
+      </div>
+      <div>
+        <div class="slide-title">「やりたくない」<br>の<span class="accent">本当の理由</span></div>
+        <div style="margin-top:18px;">
+          <div class="point-item">
+            <span class="point-icon">🧠</span>
+            <span><strong>前頭前野がまだ未発達</strong><br><span style="opacity:0.75; font-size:12px;">未就学〜低学年は感情のブレーキが弱い</span></span>
+          </div>
+          <div class="point-item">
+            <span class="point-icon">😨</span>
+            <span><strong>失敗への恐怖</strong><br><span style="opacity:0.75; font-size:12px;">「また怒られる」「ダメな自分を見せたくない」</span></span>
+          </div>
+          <div class="point-item">
+            <span class="point-icon">💬</span>
+            <span><strong>日常の声かけの積み重ね</strong><br><span style="opacity:0.75; font-size:12px;">何気ない一言が脳の回避行動を作っている</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="info-box">
+        指摘・否定 → 自尊心が傷つく<br>
+        → 脳が回避を選択 → <span class="ng">「やりたくない」</span>
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>子どもが運動を嫌いになるのは、子どもの問題じゃない。脳の発達段階上、仕方のないこと。でもその恐怖心を大きくするか小さくするかは大人の声かけ次第です。
+    </div>
+  </div>
+
+  <!-- ======= Slide 3: NG ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-3">
+      <div>
+        <div class="slide-number">SLIDE 03 / 07 — NGな声かけ</div>
+      </div>
+      <div>
+        <div class="slide-title"><span class="ng">❌ その褒め方、</span><br>逆効果かも！</div>
+        <div class="ng-box" style="margin-top:16px;">
+          <div style="font-size:19px; font-weight:900; color:#fca5a5;">「90点だったね、すごい！」</div>
+          <div style="font-size:12px; margin-top:6px; opacity:0.75;">一見完璧な褒め言葉…でも⬇️</div>
+          <div style="margin-top:10px; font-size:13px; line-height:1.85;">
+            💭「90点の自分 = すごい」<br>
+            ＝「取れない自分 = すごくない」<br><br>
+            結果褒め → 失敗が怖くなる<br>
+            → チャレンジしなくなる<br>
+            → <span class="ng">「やりたくない！」</span>😤
+          </div>
+        </div>
+      </div>
+      <div class="info-box" style="font-size:12px;">
+        🔍 これを<strong>「硬直的マインドセット」</strong>と言います。<br>挑戦を避け、失敗をひどく恐れる状態。
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>「結果褒め」が硬直的マインドセットを育てます。子どもが失敗を恐れ、挑戦しなくなる原因の一つ。無意識にやっちゃってる人、多いんです💦 次で正解を紹介！
+    </div>
+  </div>
+
+  <!-- ======= Slide 4: OK ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-4">
+      <div>
+        <div class="slide-number">SLIDE 04 / 07 — OKな声かけ</div>
+      </div>
+      <div>
+        <div class="slide-title"><span class="ok">✅ 明日から使える</span><br>「過程褒め」フレーズ</div>
+        <div style="margin-top:16px;">
+          <div class="point-item">
+            <span class="point-icon">✅</span>
+            <span style="font-size:13px;">「あの時一緒に練習頑張ったのが<br>よかったんだね！」</span>
+          </div>
+          <div class="point-item">
+            <span class="point-icon">✅</span>
+            <span style="font-size:13px;">「あそこで諦めなかったのが<br>すごかったよ！」</span>
+          </div>
+          <div class="point-item">
+            <span class="point-icon">✅</span>
+            <span style="font-size:13px;">「この部分、先週よりずっと<br>上手くなってるじゃん！」</span>
+          </div>
+        </div>
+      </div>
+      <div class="ok-box" style="font-size:12px; line-height:1.8;">
+        📌 <strong>2つのポイント</strong><br>
+        👉 できなかった部分には<strong>触れない</strong><br>
+        👉 できた部分の「<strong>理由</strong>」を言葉にする<br>
+        👉 <strong>足し算式</strong>でポジティブを積み重ねる
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>「過程を褒める」＝足し算式でポジティブを積み重ねること。これだけで子どもの自尊心が育ち「またやってみたい！」が自然と生まれます🌱
+    </div>
+  </div>
+
+  <!-- ======= Slide 5: Advanced ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-5">
+      <div>
+        <div class="slide-number">SLIDE 05 / 07 — 応用編</div>
+      </div>
+      <div>
+        <div class="slide-title">困った行動への<br><span class="accent">正しい対処法</span></div>
+        <div style="margin-top:14px;">
+          <div class="ng-box" style="margin-bottom:10px; font-size:13px;">
+            <span class="ng">❌ NG：</span> 構いすぎ・叱りすぎ<br>
+            <span style="font-size:12px; opacity:0.75;">→ 注意を引く行動がさらに強化される</span>
+          </div>
+          <div class="ok-box" style="font-size:13px;">
+            <span class="ok">✅ 正解：</span> 「意図的な無関心」<br>
+            <span style="font-size:12px; opacity:0.75;">困った行動 → 一言だけ言って淡々とスルー<br>
+            良い行動 → すかさず<strong>たっぷり</strong>褒める！</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-box" style="font-size:12px; line-height:1.8;">
+        🚨 <strong>本当に叱る場面はここだけ</strong><br>
+        他人への危害 / 自分の大怪我リスク<br>
+        → 短時間（30秒）・端的に・一度だけ
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>「完全無視」はNG。「見ているけど関わらない」が基本スタンス。子どもは本能的に関わってもらうことを求めています。良い行動の時こそ全力で反応してあげましょう😊
+    </div>
+  </div>
+
+  <!-- ======= Slide 6: Summary ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-6">
+      <div>
+        <div class="slide-number">SLIDE 06 / 07 — まとめ</div>
+      </div>
+      <div>
+        <div class="slide-title" style="color:#fde68a;">子どもは言葉より<br>「関心と雰囲気」<br>を見ている</div>
+        <div style="margin-top:16px; font-size:13px; line-height:2.0;">
+          🎯 結果ではなく<strong>行動・過程</strong>を褒める<br>
+          🔍 できた部分の<strong>理由を具体的</strong>に言葉にする<br>
+          🎉 良い行動の時こそ<strong>全力で関わる</strong>
+        </div>
+      </div>
+      <div style="background:rgba(253,230,138,0.12); border:1px solid rgba(253,230,138,0.35); border-radius:12px; padding:14px; text-align:center; font-size:14px; font-weight:700; color:#fde68a; line-height:1.7;">
+        「チャレンジすること自体が<br>すごいことなんだ！」<br>
+        <span style="font-size:11px; font-weight:400; opacity:0.8;">この価値観を毎日の声かけで育てていく🌱</span>
+      </div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>テクニックより大切なのは、子どもへの「まなざし」。失敗しても大丈夫、挑戦したことが素晴らしい——その価値観が伝わる声かけを積み重ねていきましょう。
+    </div>
+  </div>
+
+  <!-- ======= Slide 7: CTA ======= -->
+  <div class="slide-wrapper">
+    <div class="slide slide-7">
+      <div>
+        <div class="slide-number">SLIDE 07 / 07 — CTA</div>
+        <div class="img-note" style="margin-top:6px;">🖼 OGILABキャラクター画像（chibi）配置</div>
+      </div>
+
+      <!-- キャラクター画像プレースホルダー -->
+      <div style="background:rgba(255,255,255,0.06); border:1px dashed rgba(255,255,255,0.2); border-radius:12px; padding:16px; text-align:center; color:rgba(255,255,255,0.35); font-size:12px;">
+        🖼 ここに「チャンネル登録よろしくおねがいします！」<br>キャラクター画像を配置
+      </div>
+
+      <div>
+        <div class="author-info" style="margin-bottom:12px; font-size:12px; line-height:1.8;">
+          🏅 <strong>おぎぃ。</strong>｜元陸上オリンピック代表<br>
+          陸上スクール3拠点運営｜ECCかけっこスクール監修
+        </div>
+
+        <div style="font-size:13px; font-weight:700; margin-bottom:5px;">🔥 TikTokフォロワー1000人チャレンジ中！</div>
+        <div style="font-size:12px; opacity:0.8; margin-bottom:5px;">現在 <span class="accent"><strong>770人</strong></span>！あと230人で達成！</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div style="font-size:10px; opacity:0.5; text-align:right; margin-top:3px;">770 / 1000</div>
+
+        <div style="margin-top:12px; font-size:12px; line-height:1.85; opacity:0.9;">
+          🎉 <strong>1000人達成でオンラインサロン開設予定！</strong><br>
+          📲 <strong>公式LINE 準備中！</strong><br>
+          <span style="font-size:11px; opacity:0.7;">オープン後は子育て・運動の個別相談も受付予定</span>
+        </div>
+      </div>
+
+      <div class="cta-button">📲 フォローして待っててね！</div>
+    </div>
+    <div class="caption-box">
+      <strong>📌 キャプション：</strong>最後まで読んでくれてありがとう！もし参考になったら保存＆シェアしてもらえると嬉しいです🙏 フォローして、続きの情報をお見逃しなく！<br>
+      <br>
+      #子育て #運動嫌い #声かけ #育児 #モチベーション #陸上 #子供のやる気 #オリンピック #スポーツ育児
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center; color:rgba(255,255,255,0.2); font-size:11px; margin-top:40px; padding-bottom:40px;">
+  ※ 🖼 マーク箇所はOGILAB実画像を差し替えてください
+</p>
+
+</body>
+</html>

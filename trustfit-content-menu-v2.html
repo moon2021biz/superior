@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFit | コンテンツメニュー</title>
+<style>
+:root {
+  --primary:#0a1628; --accent:#c9a84c; --accent2:#e8c96a;
+  --white:#fff; --light:#f8f6f1; --gray:#6b7280; --border:#e5e7eb;
+  --c1:#059669; --c2:#7c3aed; --c3:#db2777; --c4:#0284c7;
+  --c5:#ea580c; --c6:#0f766e; --c7:#9333ea; --c8:#be185d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans JP','Hiragino Sans',sans-serif;color:var(--primary);background:var(--light);min-height:100vh}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#0a1628,#1a2d50);color:var(--white);padding:48px 40px 40px;text-align:center}
+.badge{display:inline-block;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);color:var(--accent2);font-size:11px;font-weight:700;letter-spacing:3px;padding:5px 18px;border-radius:20px;margin-bottom:18px}
+.header h1{font-size:clamp(22px,4vw,36px);font-weight:900;margin-bottom:8px}
+.header h1 span{color:var(--accent2)}
+.header p{color:rgba(255,255,255,.65);font-size:14px}
+
+/* ── BREADCRUMB ── */
+.bc-bar{background:var(--white);border-bottom:1px solid var(--border);padding:14px 40px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.bc{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap}
+.bc-item{color:var(--gray);cursor:pointer;transition:color .15s}
+.bc-item:hover{color:var(--primary)}
+.bc-item.active{color:var(--primary);font-weight:700}
+.bc-sep{color:var(--border)}
+
+/* ── MAIN CONTENT ── */
+.content{max-width:1100px;margin:0 auto;padding:40px}
+
+/* LAYER HEADER */
+.layer-header{margin-bottom:32px}
+.layer-label{font-size:11px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.layer-title{font-size:clamp(20px,3vw,30px);font-weight:900;line-height:1.3;margin-bottom:8px}
+.layer-desc{font-size:14px;color:var(--gray);line-height:1.7}
+
+/* GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+
+/* ── LAYER 1 CARD (課題) ── */
+.l1-card{background:var(--white);border-radius:18px;padding:28px 24px;border:2px solid var(--border);cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.l1-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--cat-color,var(--accent))}
+.l1-card:hover{border-color:var(--cat-color,var(--accent));transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.l1-icon{font-size:36px}
+.l1-title{font-size:17px;font-weight:900;line-height:1.3}
+.l1-desc{font-size:13px;color:var(--gray);line-height:1.7;flex:1}
+.l1-count{font-size:11px;font-weight:700;color:var(--cat-color,var(--accent));display:flex;align-items:center;gap:4px}
+.l1-arrow{font-size:18px;margin-left:auto;color:var(--cat-color,var(--accent));transition:transform .2s}
+.l1-card:hover .l1-arrow{transform:translateX(4px)}
+
+/* ── LAYER 2 CARD (アプローチ) ── */
+.l2-card{background:var(--white);border-radius:16px;padding:28px 24px;border:2px solid var(--border);cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:12px}
+.l2-card:hover{border-color:var(--cat-color,var(--accent));transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.1)}
+.l2-tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;background:rgba(var(--cat-rgb,201,168,76),.12);color:var(--cat-color,#92701a)}
+.l2-icon{font-size:32px}
+.l2-title{font-size:16px;font-weight:800;line-height:1.3}
+.l2-desc{font-size:13px;color:var(--gray);line-height:1.7;flex:1}
+.l2-programs{font-size:12px;color:var(--gray);padding-top:10px;border-top:1px solid var(--border)}
+.l2-arrow{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--cat-color,var(--accent));color:var(--primary);border-radius:50%;font-size:14px;margin-top:4px;flex-shrink:0;align-self:flex-end;transition:transform .2s}
+.l2-card:hover .l2-arrow{transform:translateX(4px)}
+
+/* ── LAYER 3 CARD (具体プログラム) ── */
+.l3-card{background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--border);display:flex;flex-direction:column;gap:12px;transition:all .2s}
+.l3-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.l3-title{font-size:15px;font-weight:800;line-height:1.3}
+.l3-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}
+.tag-special{background:#fef3c7;color:#92701a;border:1px solid #f59e0b}
+.tag-new{background:#d1fae5;color:#065f46}
+.tag-ad{background:#fce7f3;color:#9d174d;border:1px solid #ec4899}
+.l3-desc{font-size:13px;color:var(--gray);line-height:1.7;flex:1}
+.l3-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--gray)}
+.meta .ico{font-size:13px}
+.l3-ranks{display:flex;gap:5px;flex-wrap:wrap}
+.rp{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px}
+.rp-l{background:#fef3c7;color:#92701a}
+.rp-m{background:#ede9fe;color:#5b21b6}
+.rp-e{background:#dbeafe;color:#1e40af}
+.rp-c{background:#f3f4f6;color:#374151}
+.l3-price{display:flex;align-items:center;justify-content:space-between;background:var(--light);border-radius:8px;padding:10px 14px;margin-top:4px}
+.price-v{font-size:14px;font-weight:800;color:var(--primary)}
+.price-n{font-size:10px;color:var(--gray)}
+
+/* BACK BTN */
+.back-btn{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);color:var(--gray);font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;margin-bottom:24px}
+.back-btn:hover{border-color:var(--primary);color:var(--primary)}
+
+/* L2 CONTEXT BOX */
+.context-box{background:var(--white);border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px}
+.context-icon{font-size:28px;flex-shrink:0}
+.context-box h3{font-size:16px;font-weight:800;margin-bottom:4px}
+.context-box p{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* HIDDEN */
+.hidden{display:none}
+
+/* FOOTER */
+footer{background:var(--primary);color:rgba(255,255,255,.5);text-align:center;padding:32px;font-size:13px;margin-top:40px}
+
+@media(max-width:640px){
+  .content{padding:24px 16px}
+  .bc-bar{padding:12px 16px}
+  .header{padding:40px 20px 32px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">CONTENT MENU v2</div>
+  <h1>TrustFit <span>コンテンツメニュー</span></h1>
+  <p>あなたの会社の課題から始めて、ぴったりのプログラムを見つけてください</p>
+</div>
+
+<!-- パンくずリスト -->
+<div class="bc-bar">
+  <div class="bc">
+    <span class="bc-item active" id="bc-l1" onclick="goL1()">🏢 課題を選ぶ</span>
+    <span class="bc-sep hidden" id="bc-sep1"> › </span>
+    <span class="bc-item hidden" id="bc-l2"></span>
+    <span class="bc-sep hidden" id="bc-sep2"> › </span>
+    <span class="bc-item hidden" id="bc-l3"></span>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ===== LAYER 1: 課題 ===== -->
+  <div id="layer1">
+    <div class="layer-header">
+      <div class="layer-label">STEP 1 — 課題を選ぶ</div>
+      <div class="layer-title">今、会社が抱えている<br>課題はどれですか？</div>
+      <div class="layer-desc">課題を選ぶと、それに合ったアプローチと具体的なプログラムへ絞り込めます。</div>
+    </div>
+    <div class="cards">
+
+      <div class="l1-card" style="--cat-color:#059669" onclick="goL2('fatigue')">
+        <div class="l1-icon">😓</div>
+        <div class="l1-title">社員の疲れ・不調を<br>解消したい</div>
+        <div class="l1-desc">デスクワーク疲れ・肩こり・腰痛・睡眠不足・メンタル疲弊。疲れた社員が休んでも治らない状態を変えたい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count">3つのアプローチ / 11プログラム</div>
+          <div class="l1-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#7c3aed" onclick="goL2('performance')">
+        <div class="l1-icon">🚀</div>
+        <div class="l1-title">生産性・チームの<br>パフォーマンスを上げたい</div>
+        <div class="l1-desc">会議のクオリティが低い・アイデアが出ない・集中力が続かない。アスリートの思考法でチームの限界を突破したい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#7c3aed">3つのアプローチ / 10プログラム</div>
+          <div class="l1-arrow" style="color:#7c3aed">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#db2777" onclick="goL2('hiring')">
+        <div class="l1-icon">📣</div>
+        <div class="l1-title">採用ブランドを<br>強化したい</div>
+        <div class="l1-desc">採用媒体費用が膨らんでいる・求人に反応がない・「面白い会社」として記事・SNSで拡散されたい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#db2777">3つのアプローチ / 9プログラム</div>
+          <div class="l1-arrow" style="color:#db2777">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#0284c7" onclick="goL2('teamup')">
+        <div class="l1-icon">🤝</div>
+        <div class="l1-title">チームをひとつにしたい</div>
+        <div class="l1-desc">部署間の壁がある・新入社員が馴染めない・リモートで関係性が薄れた。スポーツ×食でチームを再結束させたい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#0284c7">3つのアプローチ / 10プログラム</div>
+          <div class="l1-arrow" style="color:#0284c7">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#ea580c" onclick="goL2('executive')">
+        <div class="l1-icon">👔</div>
+        <div class="l1-title">役員・経営陣の<br>コンディションを整えたい</div>
+        <div class="l1-desc">社長・役員が疲弊している・重要会議前に頭が働かない・意思決定エラーが増えている。トップの脳と身体を整える。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#ea580c">2つのアプローチ / 7プログラム</div>
+          <div class="l1-arrow" style="color:#ea580c">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#0f766e" onclick="goL2('innovation')">
+        <div class="l1-icon">💡</div>
+        <div class="l1-title">新しいアイデア・視点が<br>欲しい</div>
+        <div class="l1-desc">新規事業が行き詰まっている・いつも同じ顔ぶれで同じ意見しか出ない。アスリートの異質な視点でブレイクスルーしたい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#0f766e">2つのアプローチ / 7プログラム</div>
+          <div class="l1-arrow" style="color:#0f766e">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#9333ea" onclick="goL2('kenkou')">
+        <div class="l1-icon">🏆</div>
+        <div class="l1-title">健康経営優良法人を<br>取得したい</div>
+        <div class="l1-desc">経産省の認定を取って採用・融資・取引先評価を上げたい。何をすればいいか分からない。書類も準備してほしい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#9333ea">2つのアプローチ / 6プログラム</div>
+          <div class="l1-arrow" style="color:#9333ea">→</div>
+        </div>
+      </div>
+
+      <div class="l1-card" style="--cat-color:#be185d" onclick="goL2('family')">
+        <div class="l1-icon">👨‍👩‍👧</div>
+        <div class="l1-title">社員とその家族を<br>大切にしたい</div>
+        <div class="l1-desc">子育て中の社員が多い・「家族も喜ぶ福利厚生」で選ばれる会社にしたい・ファミリーイベントで帰属意識を高めたい。</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="l1-count" style="color:#be185d">3つのアプローチ / 8プログラム</div>
+          <div class="l1-arrow" style="color:#be185d">→</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== LAYER 2: アプローチ ===== -->
+  <div id="layer2" class="hidden">
+    <button class="back-btn" onclick="goL1()">← 課題一覧に戻る</button>
+    <div id="l2-context" class="context-box"></div>
+    <div class="layer-header">
+      <div class="layer-label">STEP 2 — アプローチを選ぶ</div>
+      <div class="layer-title" id="l2-title"></div>
+      <div class="layer-desc" id="l2-desc"></div>
+    </div>
+    <div class="cards" id="l2-cards"></div>
+  </div>
+
+  <!-- ===== LAYER 3: プログラム ===== -->
+  <div id="layer3" class="hidden">
+    <button class="back-btn" id="l3-back">← アプローチに戻る</button>
+    <div id="l3-context" class="context-box"></div>
+    <div class="layer-header">
+      <div class="layer-label">STEP 3 — プログラムを選ぶ</div>
+      <div class="layer-title" id="l3-title"></div>
+      <div class="layer-desc" id="l3-desc"></div>
+    </div>
+    <div class="cards" id="l3-cards"></div>
+    <div style="background:linear-gradient(135deg,#0a1628,#1a2d50);border-radius:16px;padding:32px;margin-top:40px;text-align:center;color:var(--white)">
+      <div style="font-size:18px;font-weight:900;margin-bottom:8px">このプログラムを試してみたい</div>
+      <div style="color:rgba(255,255,255,.7);font-size:14px;margin-bottom:20px">まずは¥10,000で100,000pt（10倍）の初回モニターからどうぞ</div>
+      <a href="mailto:trustfit.biz@moontf.com?subject=TrustFit モニター申込み希望" style="display:inline-block;background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a1628;font-weight:800;font-size:15px;padding:14px 40px;border-radius:40px;text-decoration:none">モニター申込みを相談する →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong style="color:var(--accent2)">TrustFit</strong> コンテンツメニュー v2<br>
+  <span style="font-size:11px">© 2026 株式会社MOON — お問い合わせ: trustfit.biz@moontf.com</span>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════
+const data = {
+
+  fatigue: {
+    color:'#059669', icon:'😓',
+    l1title:'社員の疲れ・不調を解消したい',
+    l2title:'どんな方法で解消しますか？',
+    l2desc:'疲れへのアプローチには「身体から」「食から」「心から」の3つがあります。組み合わせると効果が高まります。',
+    approaches:[
+      {
+        id:'fatigue-body', icon:'💪', title:'身体から整える', tag:'フィジカルケア',
+        desc:'筋肉・関節・姿勢にアプローチ。プロの手技・指導でデスクワーク疲れを根本からリセット。オフィスに来てもらうだけでOK。',
+        programs_hint:'全身ストレッチ / リカバリーマッサージ / ヨガ / 椅子ストレッチ巡回 など',
+        programs:[
+          {title:'全身ストレッチ&リカバリー', tags:[], desc:'肩・腰・股関節のこわばりを60〜120分で徹底解消。デスクワーカー特有のパターンを熟知したトレーナーが参加者全員に指導。人数制限なし。', time:'60〜120分', cap:'制限なし', loc:'オフィス出張', ranks:['l','m','e','c'], price:'10,000〜300,000 pt', note:'評価連動'},
+          {title:'椅子ストレッチ巡回（デスク横ケア）', tags:[], desc:'デスクを離れずに実施できる5〜10分の巡回型ケア。全席を訪問してその場でほぐす。集中力のリセットに。', time:'5〜10分/人', cap:'制限なし', loc:'オフィス出張', ranks:['e','c'], price:'10,000〜100,000 pt', note:'継続向き'},
+          {title:'ヨガ&マインドフルネス アクティブリカバリー', tags:[], desc:'ヨガポーズ×呼吸法で心身を同時にリセット。朝活・昼休み・終業後の導入に最適。怪我リスクが低く全員参加できる。', time:'45〜90分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'オフィス巡回 身体測定&フィットネス診断', tags:[], desc:'全社員の姿勢・可動域・疲労度を個別チェック。「チーム全体の弱点マップ」レポートを提出。継続プログラムの設計根拠になる。', time:'120分〜（人数による）', cap:'〜50名', loc:'オフィス出張', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'レポート込み'},
+        ]
+      },
+      {
+        id:'fatigue-food', icon:'🍽️', title:'食から整える', tag:'栄養・食事',
+        desc:'アスリート栄養学を応用。食事の質を上げることでエネルギー・集中力・睡眠の質を底上げ。楽しい食事会と組み合わせると定着率が高い。',
+        programs_hint:'アスリート栄養学講座 / 食事交流会 / 管理栄養士コラボ など',
+        programs:[
+          {title:'アスリート栄養学講座×懇親食事会', tags:[{t:'食事交流会',cls:'tag-new'}], desc:'「なぜトップアスリートが毎食にこだわるのか」を楽しく解説。その後の懇親食事会で実際にアスリートめしを体験。チームの会話量も増える。', time:'90分（講座60分+食事30分）', cap:'制限なし', loc:'会議室+ケータリング', ranks:['l','m','e','c'], price:'10,000〜300,000 pt', note:'+ケータリング費別途'},
+          {title:'部署別 ランチ栄養コーチング', tags:[], desc:'管理栄養士×トレーナーがランチに参加。実際に食べながら「これは何が良い・何が足りない」をリアルタイムで指導。日常の食習慣を変える。', time:'60分', cap:'〜20名', loc:'社内ランチスペース', ranks:['e','c'], price:'10,000〜100,000 pt', note:'継続推奨'},
+          {title:'疲労回復レシピ 食育セミナー', tags:[], desc:'睡眠の質・翌朝の目覚め・午後の集中力を食で変えるレシピセミナー。帰宅後すぐ実践できるレシピを配布。', time:'60分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['e','c'], price:'10,000〜100,000 pt', note:'資料付き'},
+        ]
+      },
+      {
+        id:'fatigue-mind', icon:'🧘', title:'心から整える', tag:'メンタルケア',
+        desc:'身体的疲労の裏にはメンタル疲弊が隠れていることが多い。ストレスマネジメント・呼吸法・瞑想で根本からケアする。',
+        programs_hint:'マインドフルネス講座 / 呼吸法セッション / ストレスチェック後フォロー など',
+        programs:[
+          {title:'マインドフルネス瞑想 入門セッション', tags:[], desc:'「瞑想って怪しい」という人でも大丈夫。15〜30分の短縮版から始め、脳疲労・集中力回復の効果を体感させる。継続実践のためのアプリ活用法も伝授。', time:'60分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'呼吸法&自律神経リセット', tags:[], desc:'アスリートが本番前に使う呼吸法を応用。5〜10分で副交感神経を優位にするテクニックをマスターする。会議の合間・帰宅前にも使える。', time:'45〜60分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'ストレスチェック後 フォローアップ研修', tags:[], desc:'法定ストレスチェックで「高ストレス群」と判定された社員向けのグループ・セッション。個人特定なしで実施でき、産業医面談の補完として機能する。', time:'90〜120分', cap:'〜30名', loc:'会議室（対面）', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'睡眠改善ワークショップ', tags:[], desc:'睡眠の質が生産性・感情コントロール・免疫力に直結する理由を解説し、今夜から実践できる改善メソッドを習得する。睡眠計測ガジェット連携オプションあり。', time:'90分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+        ]
+      },
+    ]
+  },
+
+  performance: {
+    color:'#7c3aed', icon:'🚀',
+    l1title:'生産性・チームのパフォーマンスを上げたい',
+    l2title:'どこからパフォーマンスを上げますか？',
+    l2desc:'「脳・思考・コミュニケーション」の3軸でアプローチします。',
+    approaches:[
+      {
+        id:'perf-brain', icon:'🧠', title:'脳・集中力から変える', tag:'コグニティブ',
+        desc:'脳科学×スポーツ科学のアプローチ。運動が脳の前頭前野を活性化し、記憶力・判断力・創造性を高める仕組みを活用。',
+        programs_hint:'脳チューニング / 運動×集中力ワーク など',
+        programs:[
+          {title:'20分 脳チューニング ブレインブースト', tags:[{t:'エグゼクティブ向け',cls:'tag-special'}], desc:'会議・プレゼン・交渉の30分前に実施する「脳の準備運動」。特定の動作パターンでワーキングメモリを活性化。VIPトレーナーが直接指導。', time:'20〜30分', cap:'〜5名', loc:'オフィス出張', ranks:['l','m'], price:'120,000〜300,000 pt', note:'VIP限定'},
+          {title:'運動×集中力 科学的仕事術 セミナー', tags:[], desc:'「なぜ運動すると仕事が捗るのか」を脳科学の観点で解説。職場に戻ってすぐ実践できる5分間ルーティンを全員で設計。', time:'90分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'習慣デザイン×身体コンディション 1ヶ月伴走', tags:[], desc:'睡眠・運動・食事の改善習慣を1ヶ月間、週次チェックインで伴走。パフォーマンス指標の変化を数値化してレポート提出。', time:'週1回 30分/月4回', cap:'〜10名', loc:'オンライン', ranks:['e','c'], price:'40,000〜400,000 pt/月', note:'継続型'},
+        ]
+      },
+      {
+        id:'perf-athlete', icon:'🏅', title:'アスリート思考を導入する', tag:'マインドセット',
+        desc:'トップアスリートが使う「逆境での決断力」「失敗からの切り替え」「チーム内役割の明確化」を組織に移植する。',
+        programs_hint:'目標設定ワーク / 限界突破講演 / アスリート思考ワークショップ など',
+        programs:[
+          {title:'限界突破 ストーリーテリング講演', tags:[{t:'Legend限定',cls:'tag-special'}], desc:'オリンピアンの実体験を軸に「限界の超え方」「失敗からの復活」を語る講演。参加者の目標設定・行動変容を促すプロセスも組み込み。人数制限なし。採用PR動画撮影との組み合わせも可。', time:'60〜120分', cap:'制限なし', loc:'貴社会場/外部ホール', ranks:['l'], price:'220,000〜300,000 pt', note:'Legend VIPのみ'},
+          {title:'目標設定&パフォーマンスコーチング', tags:[], desc:'個人またはチームの目標を構造化し、行動計画に落とし込む。アスリートが実践するOKR×ゴール設定フレームワークを応用。四半期ごとの実施が効果的。', time:'90〜120分', cap:'〜5名', loc:'対面/オンライン', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'アスリート思考ワークショップ<br>（新入社員・若手向け）', tags:[], desc:'失敗の受け止め方・成長マインドセット・自律的な目標設定を1日で習得。アスリートが実際に使う「メンタルトレーニングノート」付き。', time:'半日〜1日', cap:'5〜50名', loc:'対面', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'月次 パフォーマンス振り返り コーチング', tags:[], desc:'月1回のオンラインで先月の行動・成果を振り返り、翌月の目標を設定。個人またはチームの成長を継続的にサポートする伴走型。', time:'60分/月', cap:'〜10名', loc:'オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt/月', note:'継続推奨'},
+        ]
+      },
+      {
+        id:'perf-comm', icon:'💬', title:'コミュニケーションを変える', tag:'チームダイナミクス',
+        desc:'チームの「言えない空気」「伝わらないフィードバック」を変える。スポーツの現場で磨かれたコミュニケーション技法を職場に応用。',
+        programs_hint:'チームビルディングWS / 心理的安全性ワーク など',
+        programs:[
+          {title:'チームビルディング&<br>組織診断ワークショップ', tags:[], desc:'チームの強み・弱みを可視化し、コミュニケーション改善・心理的安全性の構築を進めるワークショップ。合宿・研修と組み合わせも可。', time:'120分〜半日', cap:'5〜30名', loc:'対面（会議室推奨）', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'フィードバック文化 醸成ワーク', tags:[], desc:'「フィードバックをもらうのも与えるのも怖い」文化を変える。アスリートが日常的に行う客観的フィードバックの仕組みを職場に導入する半日ワーク。', time:'半日', cap:'5〜20名', loc:'対面', ranks:['m','e'], price:'60,000〜200,000 pt', note:'評価連動'},
+          {title:'1on1 コーチングスキル研修<br>（マネージャー向け）', tags:[], desc:'部下の能力を引き出す1on1の構造を学ぶ。スポーツコーチが使う傾聴・質問・フィードバックのフレームワークを管理職向けに最適化。', time:'半日', cap:'5〜20名', loc:'対面/オンライン', ranks:['m','e'], price:'60,000〜200,000 pt', note:'評価連動'},
+        ]
+      },
+    ]
+  },
+
+  hiring: {
+    color:'#db2777', icon:'📣',
+    l1title:'採用ブランドを強化したい',
+    l2title:'どんな切り口で採用を強化しますか？',
+    l2desc:'「コンテンツ」「撮影・広告起用」「イベント化」の3軸でブランドを構築します。',
+    approaches:[
+      {
+        id:'hiring-content', icon:'📱', title:'採用コンテンツを作る', tag:'コンテンツ制作',
+        desc:'「オリンピアンが来る会社」のリアルな風景をコンテンツ化。WantedlyやInstagramで差別化できる採用素材を取得。',
+        programs_hint:'PR撮影セット / セッション動画 / 採用記事素材 など',
+        programs:[
+          {title:'採用PR撮影セット込み セッション', tags:[{t:'初回モニター対象',cls:'tag-new'}], desc:'通常のセッション実施中に採用PR用の写真・動画を同時撮影。「オリンピアンと一緒に働く社員たちの姿」として採用ページ・SNSに活用できる素材を取得。', time:'120分（セッション+撮影）', cap:'制限なし', loc:'オフィス出張', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'初回モニター推奨'},
+          {title:'採用ブログ・記事 ネタ提供セッション', tags:[], desc:'「こんな研修をしている会社」としてWantedly・採用ブログに掲載できるコンテンツを意図的に設計したセッション。参加者の感想コメントも取得可能。', time:'90分', cap:'制限なし', loc:'オフィス出張', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+        ]
+      },
+      {
+        id:'hiring-ad', icon:'🎬', title:'広告・タレント起用する', tag:'広告起用（別途料金）',
+        desc:'TrustFit登録のVIPトレーナー（オリンピアン・元プロ選手等）を広告・CM・SNS広告に起用。競合他社では実現できない訴求力を持つ。',
+        programs_hint:'CM出演 / SNS広告 / アンバサダー契約 など',
+        programs:[
+          {title:'採用動画 トレーナー出演オプション', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'採用動画にVIPトレーナー（オリンピアン等）が出演・コメント提供。「プロアスリートが認める職場環境」として訴求。肖像権使用許諾が必要（別途契約）。', time:'要相談', cap:'—', loc:'スタジオ/オフィス', ranks:['l','m'], price:'別途見積もり（要申請）', note:'広告起用オプション'},
+          {title:'SNS広告 アスリートアンバサダー', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'Instagram・TikTok等でVIPトレーナーが自社の採用・ブランドメッセージを発信するアンバサダー投稿。フォロワーへのリーチで認知拡大。', time:'投稿1〜複数本', cap:'—', loc:'—', ranks:['l','m'], price:'別途見積もり（要申請）', note:'広告起用オプション'},
+          {title:'社外向け スペシャルイベント出演', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'企業主催のオープンイベント・採用説明会にVIPトレーナーが登壇。「プロアスリートと話せる会社説明会」として差別化。', time:'60〜120分', cap:'制限なし', loc:'イベント会場', ranks:['l','m','e'], price:'別途見積もり（要申請）', note:'広告起用オプション'},
+        ]
+      },
+      {
+        id:'hiring-event', icon:'🎪', title:'採用イベントとして設計する', tag:'イベント採用',
+        desc:'体験・楽しさ・特別感を前面に出したイベント型採用。参加者が自然と「この会社で働きたい」と思う設計にする。',
+        programs_hint:'オープンスポーツイベント / 企業内体験会 など',
+        programs:[
+          {title:'候補者招待型 体験スポーツイベント', tags:[], desc:'採用候補者を社員と一緒にスポーツ体験に招待。「入社前から一緒に汗を流す」体験で採用成功率を高める。採用PR動画撮影との組み合わせも可。', time:'半日〜1日', cap:'制限なし', loc:'外部施設', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'学生インターン向け アスリートトーク', tags:[], desc:'インターン生にオリンピアンが「勝負の世界で学んだこと」を語る特別セッション。「忘れられないインターン体験」として口コミ・SNS拡散を狙う設計。', time:'90分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'採用×健康経営 合同セミナー', tags:[], desc:'「健康経営優良法人認定×オリンピアン在籍」を採用ブランドとして訴求するセミナー型コンテンツ。媒体掲載・プレスリリースとのセット設計も可。', time:'90分', cap:'制限なし', loc:'外部会場/オンライン', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'採用PRショートムービー制作コラボ', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'TrustFitのセッション風景を基にした採用用ショートムービーを制作。TikTok・YouTube Shorts・会社説明会スライドで活用できる30秒〜1分の動画。', time:'撮影半日+編集', cap:'—', loc:'オフィス/スタジオ', ranks:['l','m','e'], price:'別途見積もり（要申請）', note:'広告起用オプション'},
+        ]
+      },
+    ]
+  },
+
+  teamup: {
+    color:'#0284c7', icon:'🤝',
+    l1title:'チームをひとつにしたい',
+    l2title:'どんな方法でチームを結束させますか？',
+    l2desc:'「スポーツ」「食事・交流」「ワークショップ」の3つのアプローチがあります。',
+    approaches:[
+      {
+        id:'team-sports', icon:'⚽', title:'スポーツ・運動でつなぐ', tag:'スポーツイベント',
+        desc:'一緒に汗をかくことが最速のチームビルディング。フットサル・運動会・ランニングなど、種目を問わずプロが企画・進行する。',
+        programs_hint:'社内運動会 / 企業フットサル / チームスポーツWS など',
+        programs:[
+          {title:'社内運動会 フルプロデュース', tags:[{t:'社内運動会',cls:'tag-new'}], desc:'企画・種目設計・当日MC・審判・表彰まで全てプロが担当。会議室でできるミニゲームから外部グラウンド使用の本格運動会まで規模を選べる。採用PR撮影との組み合わせが最強。', time:'半日〜1日', cap:'制限なし', loc:'オフィス内〜外部施設', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'規模により変動'},
+          {title:'企業フットサル大会 開催サポート', tags:[], desc:'フットサルコートの手配から当日MC・ルール説明・試合進行までをサポート。部署対抗・チーム対抗戦でライバル心と一体感を同時に醸成。PRISM CUPとの連携オプションあり。', time:'3〜4時間', cap:'制限なし', loc:'フットサルコート', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'会場費別途'},
+          {title:'朝ラン&チームウォーク ルーティン化', tags:[], desc:'週次・月次で実施できる社内朝ランニング・ウォーキングイベントの設計・運営サポート。継続することでチームの会話量・活力が変わる。', time:'30〜60分/回', cap:'制限なし', loc:'オフィス周辺', ranks:['e','c'], price:'10,000〜100,000 pt/回', note:'継続推奨'},
+        ]
+      },
+      {
+        id:'team-food', icon:'🍜', title:'食事・交流でつなぐ', tag:'食事交流会',
+        desc:'食べることは最古のチームビルディング。アスリート栄養学の知見を活かした食事会で、知識も関係性も深まる。',
+        programs_hint:'懇親食事会 / アスリートめし体験 / 栄養クイズ大会 など',
+        programs:[
+          {title:'アスリートめし 体験交流会', tags:[{t:'食事交流会',cls:'tag-new'}], desc:'「なぜアスリートは毎食にこだわるのか」を講義した後、実際にアスリートが食べるようなメニューで懇親会。食を通じて健康×コミュニケーションを同時に実現。', time:'90〜120分', cap:'制限なし', loc:'会議室+ケータリング', ranks:['l','m','e','c'], price:'10,000〜300,000 pt', note:'+食費実費'},
+          {title:'部署対抗 料理&プレゼン交流会', tags:[{t:'食事交流会',cls:'tag-new'}], desc:'各チームがテーマに沿った料理を持ち寄り・ケータリングし、プレゼンし合う交流会。トレーナーが栄養審査員として採点・コメント。笑いと知識が生まれる。', time:'120分', cap:'10〜50名', loc:'会議室/イベントスペース', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'+食費実費'},
+          {title:'ランチ懇談会×コンディショニング解説', tags:[{t:'食事交流会',cls:'tag-new'}], desc:'ランチを食べながらトレーナーが「この食材の効果」「なぜ午後眠くなるのか」などを解説するカジュアルセッション。固い研修より続きやすい。', time:'60分', cap:'〜20名', loc:'社内ランチスペース', ranks:['e','c'], price:'10,000〜100,000 pt', note:'継続向き'},
+        ]
+      },
+      {
+        id:'team-ws', icon:'🧩', title:'ワークショップでつなぐ', tag:'チームWS',
+        desc:'スポーツの「役割分担」「チーム戦略」「勝利への共通目標」を職場に移植するワークショップ型アプローチ。',
+        programs_hint:'組織戦略WS / チームロール明確化 / ビジョン共有セッション など',
+        programs:[
+          {title:'チームロール&強み可視化 WS', tags:[], desc:'チームの各メンバーが「どのポジションで最も力を発揮するか」を可視化。スポーツのフォーメーション設計をビジネスチームに応用する半日ワーク。', time:'半日', cap:'5〜20名', loc:'対面（会議室）', ranks:['m','e'], price:'60,000〜200,000 pt', note:'評価連動'},
+          {title:'新体制キックオフ セッション', tags:[], desc:'組織変更・新年度・新プロジェクト立ち上げ時に最適。「なぜこのチームが集まったのか」「何を成し遂げるのか」をアスリートの視点で言語化・共有するセッション。', time:'90〜120分', cap:'5〜30名', loc:'対面', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'リモートチーム 結束オンラインWS', tags:[], desc:'フルリモートチーム向けのオンラインチームビルディング。ゲーミフィケーション×身体を動かすミニワークを組み合わせ、画面越しでも一体感を作る。', time:'90分', cap:'制限なし', loc:'オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'内定者懇親 運動会×交流会', tags:[], desc:'内定者と社員が一緒に運動・食事をする懇親イベント。「入社前に会社の空気を体感できる」として内定辞退防止・エンゲージメント向上に直結。', time:'半日', cap:'制限なし', loc:'外部施設', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'評価連動'},
+        ]
+      },
+    ]
+  },
+
+  executive: {
+    color:'#ea580c', icon:'👔',
+    l1title:'役員・経営陣のコンディションを整えたい',
+    l2title:'どのアプローチで整えますか？',
+    l2desc:'「身体・脳のチューニング」と「戦略的思考のサポート」の2つを組み合わせます。',
+    approaches:[
+      {
+        id:'exec-body', icon:'⚡', title:'身体・脳を整える', tag:'エグゼクティブケア',
+        desc:'社長・役員が最高のパフォーマンスを発揮するための専用プログラム。会議室・15分の隙間でも実施できる短縮設計が特徴。',
+        programs_hint:'脳チューニング / VIPコンディショニング / 個人専属プログラム など',
+        programs:[
+          {title:'エグゼクティブ専用 脳チューニング<br>（15〜30分スポット）', tags:[{t:'VIP限定',cls:'tag-special'}], desc:'会議の合間の15〜30分で脳の集中力を最大化するスポットセッション。特定の動作×呼吸法×マインドセットを組み合わせ、会議後30分以内に効果を実感できる設計。', time:'15〜30分', cap:'〜3名', loc:'オフィス出張', ranks:['l','m'], price:'120,000〜300,000 pt', note:'VIP限定/スポット可'},
+          {title:'役員専用 月次 身体コンディショニング', tags:[], desc:'月2〜4回の定期訪問で役員の疲労・姿勢・体調を継続管理。レポート付きで「どの指標が改善しているか」を可視化。担当トレーナーが固定で深く関わる。', time:'60分/回×月2〜4回', cap:'〜5名', loc:'オフィス出張', ranks:['l','m'], price:'240,000〜1,200,000 pt/月', note:'継続型'},
+          {title:'取締役合宿 身体×マインド集中プログラム', tags:[], desc:'役員合宿に組み込む1〜2日間の集中プログラム。翌年の経営判断の質を上げるための身体・思考・チーム関係性の再構築を同時に行う。', time:'1〜2日', cap:'〜10名', loc:'合宿施設（外部）', ranks:['l','m'], price:'要相談（220,000pt〜）', note:'カスタム設計'},
+          {title:'社長1on1 パーソナル コンディショニング', tags:[{t:'Legend限定',cls:'tag-special'}], desc:'MOONさん（荻田大樹）が社長に対してパーソナルコーチング×コンディショニングを実施。オリンピアン同士の共感・信頼関係の中で「言えない悩み」も引き出す。', time:'60〜90分', cap:'1名', loc:'オフィス/指定場所', ranks:['l'], price:'220,000〜300,000 pt', note:'Legend VIPのみ'},
+        ]
+      },
+      {
+        id:'exec-strategy', icon:'🎯', title:'戦略・意思決定をサポートする', tag:'エグゼクティブ思考',
+        desc:'アスリートが日々行う「逆境での決断」「リスクテイク」「長期目標と短期行動の整合」を経営者の課題に応用。',
+        programs_hint:'経営者コーチング / 戦略的目標設定 など',
+        programs:[
+          {title:'経営者向け アスリートコーチング<br>（目標設定×意思決定）', tags:[], desc:'「次の3年で何を成し遂げるか」を構造化するコーチングセッション。アスリートが用いる目標逆算法・リスクシミュレーション・チーム動員法を経営に応用。', time:'120分', cap:'〜3名', loc:'対面/オンライン', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'経営チーム ビジョン策定 合同WS', tags:[], desc:'バラバラな経営チームの方向性を統一する合同ワークショップ。スポーツチームが行う「戦術共有会議」を応用し、経営陣全員が同じビジョンを指せる状態を作る。', time:'半日〜1日', cap:'5〜10名', loc:'対面（合宿形式も可）', ranks:['l','m'], price:'200,000〜300,000 pt', note:'カスタム設計'},
+          {title:'月次 経営者 伴走コーチング<br>（オンライン）', tags:[], desc:'月1回60〜90分のオンラインセッション。先月の意思決定の振り返り・翌月の優先課題を整理。「経営判断の独りぼっち」を解消するパートナー役として機能。', time:'60〜90分/月', cap:'1〜3名', loc:'オンライン', ranks:['l','m'], price:'120,000〜300,000 pt/月', note:'継続型'},
+        ]
+      },
+    ]
+  },
+
+  innovation: {
+    color:'#0f766e', icon:'💡',
+    l1title:'新しいアイデア・視点が欲しい',
+    l2title:'どんな形でアイデアを生み出しますか？',
+    l2desc:'「アスリートとの共創」と「新規プロジェクト開発サポート」の2つのアプローチがあります。',
+    approaches:[
+      {
+        id:'innov-collab', icon:'🤜', title:'アスリートと共に考える', tag:'アスリート共創',
+        desc:'競技で磨かれた「シンプルな問題解決力」「チーム内の率直なフィードバック」「ゼロから勝つための戦略立案」を新規事業開発に活かす。',
+        programs_hint:'アスリート×事業ブレスト / フィジカルとアイデアを組み合わせる など',
+        programs:[
+          {title:'新規プロジェクト開発<br>アスリート意見出しセッション', tags:[{t:'新機能',cls:'tag-new'}], desc:'新サービス・新規事業の壁打ち相手としてVIPトレーナーを起用。「競技で培った課題発見力・戦略立案力」で既存メンバーが気づかない盲点・アイデアを引き出す。議事録・アイデアマップ提出付き。', time:'90〜120分', cap:'〜5名', loc:'対面/オンライン', ranks:['l','m'], price:'120,000〜300,000 pt', note:'カスタム対応可'},
+          {title:'フィジカル×アイデア発想<br>ブレインストーミング', tags:[{t:'新機能',cls:'tag-new'}], desc:'「動きながら考える」を実践するセッション。軽い運動→ブレスト→整理のサイクルを繰り返すことで通常会議の3倍のアイデアを創出。脳科学的根拠のある手法。', time:'120分', cap:'5〜20名', loc:'スタジオ/広いスペース', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'アスリートの失敗哲学<br>プロダクト設計に活かすWS', tags:[], desc:'「なぜアスリートは失敗から学べるのか」のメソッドをプロダクト開発チームに応用。仮説→実行→検証のサイクルを高速化する思考フレームを共同構築。', time:'半日', cap:'5〜15名', loc:'対面', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'スタートアップ×アスリート<br>エクスポージャーイベント', tags:[], desc:'スタートアップ企業と元プロアスリートが「スポーツ×ビジネス課題」をハッカソン形式で解く1日イベント。採用PR・メディア露出・人脈形成も同時に実現。', time:'1日', cap:'制限なし', loc:'外部スペース', ranks:['l','m','e'], price:'要相談（120,000pt〜）', note:'カスタム設計'},
+        ]
+      },
+      {
+        id:'innov-consult', icon:'🔬', title:'専門家視点でプロジェクトをサポートする', tag:'プロジェクト支援',
+        desc:'アスリートのノウハウ・人脈・影響力を事業開発の「武器」として活用する。製品テスト・エンドースメント・コンサルティングが含まれる。',
+        programs_hint:'製品モニタリング / アスリートアドバイザー など',
+        programs:[
+          {title:'新製品・サービス アスリートモニタリング', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'新商品のプロトタイプをVIPトレーナーに試用してもらい、アスリート目線のフィードバックを取得。その感想をマーケティング素材・SNSに活用可（広告起用オプション）。', time:'要相談', cap:'—', loc:'—', ranks:['l','m'], price:'別途見積もり（要申請）', note:'広告起用オプション'},
+          {title:'アスリートアドバイザー 顧問契約', tags:[{t:'広告起用（別途料金）',cls:'tag-ad'}], desc:'VIPトレーナーが自社の「アスリートアドバイザー」として月次会議に参加・名刺掲載・PR素材への出演を行う顧問型契約。ブランド信頼性向上に直結。', time:'月次ミーティング+α', cap:'—', loc:'—', ranks:['l','m'], price:'別途見積もり（月額契約）', note:'広告起用オプション'},
+          {title:'競技×ビジネス ネットワーキングイベント', tags:[], desc:'アスリートと経営者・スタートアップが一堂に会するネットワーキングイベントを共同主催。新しいビジネスパートナー・投資家との出会いの場として設計。', time:'3〜4時間', cap:'制限なし', loc:'外部会場', ranks:['l','m'], price:'要相談（120,000pt〜）', note:'共催形式'},
+        ]
+      },
+    ]
+  },
+
+  kenkou: {
+    color:'#9333ea', icon:'🏆',
+    l1title:'健康経営優良法人を取得したい',
+    l2title:'どのフェーズから始めますか？',
+    l2desc:'「まず理解・社内啓蒙」から「実際の認定取得サポート」まで段階的に進められます。',
+    approaches:[
+      {
+        id:'kenkou-intro', icon:'📚', title:'まず理解・社内啓蒙から', tag:'啓蒙・導入',
+        desc:'「健康経営が採用・融資・取引評価に直結する理由」を経営陣・人事に正しく伝えることが最初のステップ。',
+        programs_hint:'健康経営セミナー / 社内ロードマップ設計 など',
+        programs:[
+          {title:'健康経営 導入セミナー<br>（経営陣・人事向け）', tags:[], desc:'「なぜ今、健康経営が重要なのか」を採用・融資・ESG評価の観点から解説するセミナー。認定申請に必要な取り組みのロードマップも提示。社内稟議の「根拠資料」として使える。', time:'60〜90分', cap:'制限なし', loc:'対面/オンライン', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'評価連動'},
+          {title:'全社員向け 健康経営キックオフ<br>啓蒙セッション', tags:[], desc:'「会社が健康経営に取り組む理由」を社員全員に腹落ちさせるセッション。トップアスリートが語ることで「また会社が何か言っている」ではなく「本気だ」と伝わる。', time:'60〜90分', cap:'制限なし', loc:'全体会議に組み込み', ranks:['l','m'], price:'120,000〜300,000 pt', note:'評価連動'},
+          {title:'健康経営年間プログラム 設計コンサルティング', tags:[], desc:'企業の課題・規模・業種に合わせて年間健康経営プログラムを設計。TrustFitのトレーナーリソースを組み合わせた実行計画と予算設計を提案。', time:'複数回（ヒアリング含む）', cap:'人事・経営陣', loc:'対面/オンライン', ranks:['l','m'], price:'要相談（120,000pt〜）', note:'期間・工数による'},
+        ]
+      },
+      {
+        id:'kenkou-cert', icon:'📝', title:'認定取得を実際に進める', tag:'認定サポート',
+        desc:'書類作成・取り組み実施・データ収集を一貫してサポート。「何をすればいいか分からない」から「申請書類を提出する」まで伴走する。',
+        programs_hint:'認定申請サポート / ストレスチェック対応 / データ可視化 など',
+        programs:[
+          {title:'健康経営優良法人<br>認定申請 フルサポート', tags:[], desc:'経済産業省の健康経営優良法人認定に必要な取り組みの設計・実施・書類作成を一貫してサポート。実際のセッション実施記録がそのまま申請証拠になる設計。', time:'数ヶ月〜1年（継続）', cap:'担当者〜役員層', loc:'対面/オンライン', ranks:['l','m'], price:'要相談（120,000pt〜）', note:'カスタム対応'},
+          {title:'ストレスチェック後<br>フォローアップ実施サポート', tags:[], desc:'法定ストレスチェックの実施支援+結果に基づく集団分析の読み解き+高ストレス群へのフォロー研修まで一貫して対応。認定申請の「取り組み事例」として記録可。', time:'複数回', cap:'全社員', loc:'対面/オンライン', ranks:['l','m','e'], price:'60,000〜300,000 pt', note:'セット対応'},
+          {title:'健康経営スコア 可視化レポート', tags:[], desc:'TrustFitでのセッション実施記録・評価スコア・参加率データを集約し、健康経営の取り組みを数値化したレポートを年次で作成。申請書類の「エビデンス」として活用可。', time:'年次レポート', cap:'—', loc:'—', ranks:['l','m'], price:'別途見積もり', note:'データ分析付き'},
+        ]
+      },
+    ]
+  },
+
+  family: {
+    color:'#be185d', icon:'👨‍👩‍👧',
+    l1title:'社員とその家族を大切にしたい',
+    l2title:'どんな形で家族を巻き込みますか？',
+    l2desc:'「子ども向け」「保護者向け」「ファミリー全員向け」の3つのアプローチがあります。',
+    approaches:[
+      {
+        id:'fam-kids', icon:'🏃', title:'子どもに体験を届ける', tag:'キッズ向け',
+        desc:'社員の子どもが喜ぶ体験を福利厚生として提供。「子どもが自慢する職場」が最強の採用ブランドになる。',
+        programs_hint:'キッズスクール / かけっこ教室 / 子どもスポーツイベント など',
+        programs:[
+          {title:'企業内キッズスクール<br>（夏休み・土日開催）', tags:[], desc:'社員の子どもを対象にした運動スクール。アスリートが直接指導する特別体験。夏休み・土日に社内スペースを使って実施。「子どもと一緒に喜べる会社」として口コミが広がる。', time:'90〜120分', cap:'制限なし', loc:'オフィス/外部施設', ranks:['l','m','e','c'], price:'10,000〜300,000 pt', note:'評価連動'},
+          {title:'オリンピアン直伝 かけっこ教室', tags:[{t:'Legend限定',cls:'tag-special'}], desc:'オリンピアン（荻田大樹）が子どもに直接指導するかけっこ教室。「なぜ速く走れるのか」を子どもにも分かる言葉で伝える特別体験。保護者も一緒に参加可。採用PR撮影との組み合わせが最強。', time:'90分', cap:'制限なし', loc:'グラウンド/体育館', ranks:['l'], price:'220,000〜300,000 pt', note:'Legend VIPのみ'},
+          {title:'子どもスポーツ体験イベント<br>（複数種目）', tags:[], desc:'陸上・フットサル・バスケ等の複数種目を体験できるスポーツフェスタ型イベント。各種目にプロが指導者として参加。会社の「非日常体験」として子どもの記憶に残る。', time:'半日〜1日', cap:'制限なし', loc:'外部施設', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'種目数により変動'},
+        ]
+      },
+      {
+        id:'fam-parents', icon:'🧑', title:'保護者・育児中社員をケアする', tag:'保護者向け',
+        desc:'育児・介護・ライフイベントを抱える社員は心身ともに負担が大きい。この層を大切にすることが離職防止・生産性向上に直結する。',
+        programs_hint:'産後ケア / 育児疲れリカバリー / 在宅ケア など',
+        programs:[
+          {title:'保護者向け育児疲れ リカバリーセッション', tags:[], desc:'子育て中の社員に特化したコンディショニングセッション。育児疲れの解消・産後の身体回復・家でできるセルフケアを伝授。ランチタイム・時短でも参加しやすい設計。', time:'60〜90分', cap:'制限なし', loc:'オフィス/オンライン', ranks:['m','e','c'], price:'10,000〜200,000 pt', note:'評価連動'},
+          {title:'ワーキングパレント向け<br>月次 伴走オンラインコーチング', tags:[], desc:'育児×仕事の両立で疲弊している社員向けの月次オンラインサポート。身体ケア×時間管理×メンタルをセットで扱うパーソナルコーチング。女性活躍推進の取り組み事例にもなる。', time:'60分/月', cap:'〜10名', loc:'オンライン', ranks:['e','c'], price:'10,000〜100,000 pt/月', note:'継続推奨'},
+        ]
+      },
+      {
+        id:'fam-all', icon:'🎉', title:'家族全員で参加できるイベントを作る', tag:'ファミリーイベント',
+        desc:'「会社に家族を連れて行きたい」「子どもに仕事場を見せたい」という体験を特別なイベントとして設計する。帰属意識・離職防止・採用PRを同時に実現。',
+        programs_hint:'ファミリーデー / 運動会 / 食事会 など',
+        programs:[
+          {title:'ファミリーデー スポーツ&食事会', tags:[], desc:'社員と家族が一緒に参加できる1日イベント。午前：スポーツ体験、午後：アスリートめし交流会。プロが全プログラムを企画・進行する。採用PR・帰属意識・子どもの記憶に残る体験を同時に実現。', time:'半日〜1日', cap:'制限なし', loc:'外部施設/グラウンド', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'規模により変動'},
+          {title:'親子で参加 ウェルネスフェスタ', tags:[], desc:'親子参加型の健康体験イベント。かけっこ・ストレッチ・栄養クイズなど、大人も子どもも楽しめるコンテンツをローテーション。「健康的な家族文化」を会社が支援するメッセージを発信。', time:'半日', cap:'制限なし', loc:'外部施設', ranks:['l','m','e','c'], price:'60,000〜300,000 pt', note:'種目数による'},
+          {title:'ウェルビーイング月次<br>ファミリーサポートプログラム', tags:[], desc:'育児・介護・ライフイベントを抱える社員向けの月次継続プログラム。身体×メンタルの両面から継続的に支援する。健康経営認定の「取り組み事例」として記録可。', time:'60分/月', cap:'〜20名', loc:'オンライン', ranks:['e','c'], price:'10,000〜100,000 pt/月', note:'継続推奨'},
+        ]
+      },
+    ]
+  },
+};
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let currentL1 = null;
+let currentL2 = null;
+
+// ══════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════
+function goL1(){
+  currentL1=null; currentL2=null;
+  show('layer1'); hide('layer2'); hide('layer3');
+  document.getElementById('bc-l1').className='bc-item active';
+  hide('bc-sep1'); hide('bc-sep2');
+  hide('bc-l2'); hide('bc-l3');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goL2(id){
+  currentL1=id;
+  const d=data[id];
+  if(!d) return;
+
+  // breadcrumb
+  document.getElementById('bc-l1').className='bc-item';
+  show('bc-sep1');
+  el('bc-l2').textContent=d.l1title;
+  el('bc-l2').className='bc-item active';
+  el('bc-l2').onclick=()=>goL2(id);
+  hide('bc-sep2'); hide('bc-l3');
+
+  // context box
+  el('l2-context').innerHTML=`<div class="context-icon">${d.icon}</div><div><h3>${d.l1title}</h3><p>${d.l1title}に関するアプローチ一覧です。最もフィットするアプローチを選んでください。</p></div>`;
+
+  el('l2-title').textContent=d.l2title;
+  el('l2-desc').textContent=d.l2desc;
+
+  const grid=el('l2-cards');
+  grid.innerHTML='';
+  d.approaches.forEach(ap=>{
+    const c=document.createElement('div');
+    c.className='l2-card';
+    c.style.setProperty('--cat-color',d.color);
+    c.innerHTML=`
+      <span class="l2-tag" style="background:${d.color}18;color:${d.color}">${ap.tag}</span>
+      <div class="l2-icon">${ap.icon}</div>
+      <div class="l2-title">${ap.title}</div>
+      <div class="l2-desc">${ap.desc}</div>
+      <div class="l2-programs">💡 例：${ap.programs_hint}</div>
+      <div class="l2-arrow" style="background:${d.color}">→</div>
+    `;
+    c.onclick=()=>goL3(id, ap.id);
+    grid.appendChild(c);
+  });
+
+  hide('layer1'); show('layer2'); hide('layer3');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goL3(l1id, l2id){
+  currentL2=l2id;
+  const d1=data[l1id];
+  const ap=d1.approaches.find(a=>a.id===l2id);
+  if(!ap) return;
+
+  // breadcrumb
+  el('bc-l2').className='bc-item';
+  show('bc-sep2');
+  el('bc-l3').textContent=ap.title.replace(/<br>/g,' ');
+  el('bc-l3').className='bc-item active';
+
+  // back button
+  el('l3-back').onclick=()=>goL2(l1id);
+
+  // context
+  el('l3-context').innerHTML=`<div class="context-icon">${ap.icon}</div><div><h3>${ap.title.replace(/<br>/g,' ')}</h3><p>${ap.desc}</p></div>`;
+
+  el('l3-title').textContent='具体的なプログラムを選んでください';
+  el('l3-desc').textContent='各カードをクリックすると詳細を確認できます。モニター申込みはページ下部から。';
+
+  const grid=el('l3-cards');
+  grid.innerHTML='';
+  ap.programs.forEach(p=>{
+    const rankBadges=p.ranks.map(r=>{
+      const map={l:['rp-l','🥇 Legend'],m:['rp-m','🥈 Master'],e:['rp-e','🥉 Elite'],c:['rp-c','🆕 Challenger']};
+      return `<span class="rp ${map[r][0]}">${map[r][1]}</span>`;
+    }).join('');
+    const tags=(p.tags||[]).map(t=>`<span class="tag ${t.cls}">${t.t}</span>`).join('');
+    const c=document.createElement('div');
+    c.className='l3-card';
+    c.innerHTML=`
+      <div class="l3-title">${p.title}</div>
+      ${tags?`<div class="l3-tags">${tags}</div>`:''}
+      <div class="l3-desc">${p.desc}</div>
+      <div class="l3-meta">
+        <div class="meta"><span class="ico">⏱</span>${p.time}</div>
+        <div class="meta"><span class="ico">👥</span>${p.cap}</div>
+        <div class="meta"><span class="ico">📍</span>${p.loc}</div>
+      </div>
+      <div class="l3-ranks">${rankBadges}</div>
+      <div class="l3-price">
+        <div style="font-size:11px;color:var(--gray)">報酬レンジ</div>
+        <div style="text-align:right"><div class="price-v">${p.price}</div><div class="price-n">${p.note}</div></div>
+      </div>
+    `;
+    grid.appendChild(c);
+  });
+
+  hide('layer1'); hide('layer2'); show('layer3');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// utils
+function el(id){return document.getElementById(id)}
+function show(id){document.getElementById(id).classList.remove('hidden')}
+function hide(id){document.getElementById(id).classList.add('hidden')}
+</script>
+</body>
+</html>

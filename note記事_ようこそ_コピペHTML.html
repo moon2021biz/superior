@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オギラボ｜ようこそ記事（コピペ用）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #f9f9f7; color: #333; }
+
+  /* コピーバー */
+  .copy-bar {
+    background: #fff; border-bottom: 1px solid #e8e8e8;
+    padding: 10px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .copy-bar .label { font-size: 0.8rem; color: #999; }
+  .copy-btn {
+    background: #41c9b4; color: #fff; border: none;
+    padding: 7px 18px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  }
+  .copy-btn.copied { background: #aaa; }
+
+  /* note風レイアウト */
+  .note-wrap {
+    max-width: 660px; margin: 40px auto 100px;
+    background: #fff; border-radius: 4px;
+    padding: 48px 44px 56px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  /* タイトル */
+  .note-title {
+    font-size: 1.6rem; font-weight: 800; line-height: 1.5;
+    color: #111; margin-bottom: 36px;
+    letter-spacing: -0.01em;
+  }
+
+  /* 見出しH2（noteの大見出しイメージ） */
+  h2 {
+    font-size: 1.15rem; font-weight: 700; color: #111;
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #111;
+  }
+
+  /* 見出しH3（noteの小見出しイメージ） */
+  h3 {
+    font-size: 1rem; font-weight: 700; color: #333;
+    margin: 24px 0 8px;
+  }
+
+  p {
+    font-size: 0.96rem; line-height: 2.0; color: #444;
+    margin-bottom: 16px;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  /* 引用風の強調テキスト */
+  .pullquote {
+    font-size: 1.1rem; font-weight: 700; color: #111;
+    border-left: 3px solid #41c9b4;
+    padding: 4px 0 4px 16px;
+    margin: 18px 0;
+  }
+
+  /* ラボブロック */
+  .lab {
+    border: 1px solid #e8e8e8; border-radius: 8px;
+    padding: 18px 20px; margin: 16px 0;
+  }
+  .lab-title { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .lab-desc { font-size: 0.93rem; line-height: 1.85; color: #555; }
+
+  /* 会員限定ティーザー */
+  .locked {
+    background: #fffbf5; border: 1px dashed #f0a040;
+    border-radius: 6px; padding: 12px 16px; margin-top: 10px;
+    font-size: 0.88rem; color: #7c4a00; line-height: 1.8;
+  }
+  .locked .locked-label {
+    font-size: 0.8rem; font-weight: 700; color: #e07000;
+    margin-bottom: 4px;
+  }
+
+  /* ナンバード項目 */
+  .numbered { margin: 10px 0 18px; }
+  .numbered-item { margin-bottom: 18px; }
+  .numbered-item .num-head {
+    font-size: 0.96rem; font-weight: 700; color: #111; margin-bottom: 4px;
+  }
+  .numbered-item .num-body {
+    font-size: 0.93rem; line-height: 1.9; color: #555;
+    padding-left: 2px;
+  }
+
+  /* 区切り線 */
+  hr { border: none; border-top: 1px solid #ebebeb; margin: 32px 0; }
+
+  /* CTA */
+  .cta {
+    background: #f7f7f5; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 24px 28px; margin-top: 36px;
+    text-align: center;
+  }
+  .cta-label { font-size: 0.78rem; color: #999; margin-bottom: 8px; }
+  .cta-title { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 10px; }
+  .cta-price { font-size: 1.5rem; font-weight: 900; color: #111; margin-bottom: 4px; }
+  .cta-sub { font-size: 0.83rem; color: #888; line-height: 1.9; }
+  .cta-labs { font-size: 0.88rem; color: #555; margin: 10px 0 6px; }
+  .cta-arrow {
+    display: inline-block; margin-top: 14px;
+    background: #41c9b4; color: #fff;
+    font-size: 0.88rem; font-weight: 700;
+    padding: 8px 24px; border-radius: 20px;
+  }
+
+  /* テキストエリア（非表示・コピー用） */
+  #copyTarget {
+    position: absolute; left: -9999px; top: 0;
+    width: 1px; height: 1px; overflow: hidden; white-space: pre;
+  }
+</style>
+</head>
+<body>
+
+<div class="copy-bar">
+  <span class="label">📋 noteにそのままコピペできます</span>
+  <button class="copy-btn" id="copyBtn" onclick="copyText()">全文コピー</button>
+</div>
+
+<textarea id="copyTarget">【オギラボへようこそ】
+TikTokで話せないことを、ここで全部話します。
+
+
+TikTokで発信を続けながら、ずっともどかしく感じていることがあります。
+
+「ここで話せることって、薄い。」
+
+60秒の動画に収まる情報は、どうしても「結論だけ」になる。なぜその動きが必要なのか、どういう思考でその指導に行き着いたのか——そこが一番大事なのに、毎回削られていく。
+
+その「なぜ」を全部話せる場所を作りたかった。それが、この「オギラボ」です。
+
+
+# なぜ作ったか
+
+私はこれまで、棒高跳び元日本代表として競技を続けながら、保育園児からトップアスリートまで幅広く指導してきました。現場で積み上げてきた経験と、バイオメカニクス・運動生理学・発達心理学の理論が、ようやく自分の中で「言語化」できるようになってきました。
+
+それを一度棚卸しして、本当に必要な人に届けたい。そう思って立ち上げたのがこのサロンです。
+
+SNSでは「万人向けの結論」しか出せません。でも実際の指導は、その人の年齢・競技・体の使い方・思考パターンによって全部違う。「なぜそのアプローチなのか」という背景ごと届けられる場所が、このサロンです。
+
+
+# 3つのラボについて
+
+皆さんの目的に合わせて、3つのラボ（カテゴリー）を用意しました。
+
+
+## 👨‍👧 キッズラボ
+
+子どもの発達段階を踏まえた指導論。「良かれと思ってやっていたことが、実は逆効果だった」というケースを現場から語ります。保護者の方にこそ読んでほしいラボです。
+
+
+## 💪 パフォーマンスラボ
+
+「体とは何か」「正しく動かすとはどういうことか」にフォーカス。競技・スポーツを問わず、ハイパフォーマンスの土台を作るためのバイオメカニクス・身体操作の知識を届けます。
+
+
+## 🏃 ポールラボ
+
+棒高跳びに特化した専門ラボ。競技への向き合い方、技術の本質、試合での設計——ここでしか話さないことを全部出します。
+
+🔒 会員限定で公開予定
+私が指導してきた大学生は、この5年間で全員が自己ベストを更新して卒業しています。その指導の背景にある思考と手法を、ポールラボで順番に公開していきます。
+
+
+# このサロンで得られること
+
+このサロンで届けることを3つに絞ると、こうなります。
+
+
+## ① 「なぜ？」がわかる背景知識
+
+SNSの結論の裏にある思考回路を全部出します。これを知ることで、あなた自身が「自分に合う最適解」を選べるようになります。
+
+
+## ② 一人ひとりの状況に合わせた情報
+
+年齢・競技・体の状態によって、正解は全員違います。メンバーの声を拾いながら、「あなたの場合はどうか」まで踏み込んで書いていきます。
+
+
+## ③ 私の頭の中をリアルタイムで届けるコンテンツ
+
+月4本、毎週更新。現場での気づき・失敗・思考の変化も含めて、リアルな情報をお届けします。
+
+
+# 最後に
+
+「オギラボ」は、一方的に教える場所ではなく、同じ目線で課題に向き合う場所です。日々の他愛ない会話から、深い競技の悩みまで——皆さんと近い距離で関わりながら、一緒に良いコミュニティを作っていけたら嬉しいです。
+
+まず無料の記事を読んでみてください。「こういう話が聞けるなら入りたい」と思ったら、そのままメンバーになれます。
+
+
+---
+
+📌 オギラボ noteメンバーシップ
+
+全ラボセット（3テーマ読み放題）　¥1,200 / 月
+個別ラボ（1テーマ）　¥980 / 月
+
+👨‍👧 キッズラボ　💪 パフォーマンスラボ　🏃 ポールラボ
+
+3テーマすべて読み放題のセットプランがお得。
+いつでも解約OK。まずは無料記事からどうぞ。</textarea>
+
+<!-- note風プレビュー -->
+<div class="note-wrap">
+
+  <div class="note-title">【オギラボへようこそ】<br>TikTokで話せないことを、ここで全部話します。</div>
+
+  <p>TikTokで発信を続けながら、ずっともどかしく感じていることがあります。</p>
+  <div class="pullquote">「ここで話せることって、薄い。」</div>
+  <p>60秒の動画に収まる情報は、どうしても「結論だけ」になる。なぜその動きが必要なのか、どういう思考でその指導に行き着いたのか——そこが一番大事なのに、毎回削られていく。</p>
+  <p>その「なぜ」を全部話せる場所を作りたかった。それが、この「オギラボ」です。</p>
+
+  <hr>
+
+  <h2>なぜ作ったか</h2>
+  <p>私はこれまで、棒高跳び元日本代表として競技を続けながら、保育園児からトップアスリートまで幅広く指導してきました。現場で積み上げてきた経験と、バイオメカニクス・運動生理学・発達心理学の理論が、ようやく自分の中で「言語化」できるようになってきました。</p>
+  <p>それを一度棚卸しして、本当に必要な人に届けたい。そう思って立ち上げたのがこのサロンです。</p>
+  <p>SNSでは「万人向けの結論」しか出せません。でも実際の指導は、その人の年齢・競技・体の使い方・思考パターンによって全部違う。<strong>「なぜそのアプローチなのか」という背景ごと届けられる場所</strong>が、このサロンです。</p>
+
+  <hr>
+
+  <h2>3つのラボについて</h2>
+  <p>皆さんの目的に合わせて、3つのラボ（カテゴリー）を用意しました。</p>
+
+  <div class="lab">
+    <div class="lab-title">👨‍👧 キッズラボ</div>
+    <div class="lab-desc">子どもの発達段階を踏まえた指導論。「良かれと思ってやっていたことが、実は逆効果だった」というケースを現場から語ります。保護者の方にこそ読んでほしいラボです。</div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-title">💪 パフォーマンスラボ</div>
+    <div class="lab-desc">「体とは何か」「正しく動かすとはどういうことか」にフォーカス。競技・スポーツを問わず、ハイパフォーマンスの土台を作るためのバイオメカニクス・身体操作の知識を届けます。</div>
+  </div>
+
+  <div class="lab">
+    <div class="lab-title">🏃 ポールラボ</div>
+    <div class="lab-desc">棒高跳びに特化した専門ラボ。競技への向き合い方、技術の本質、試合での設計——ここでしか話さないことを全部出します。</div>
+    <div class="locked">
+      <div class="locked-label">🔒 会員限定で公開予定</div>
+      私が指導してきた大学生は、この5年間で全員が自己ベストを更新して卒業しています。その指導の背景にある思考と手法を、ポールラボで順番に公開していきます。
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>このサロンで得られること</h2>
+  <p>このサロンで届けることを3つに絞ると、こうなります。</p>
+
+  <div class="numbered">
+    <div class="numbered-item">
+      <div class="num-head">① 「なぜ？」がわかる背景知識</div>
+      <div class="num-body">SNSの結論の裏にある思考回路を全部出します。これを知ることで、あなた自身が「自分に合う最適解」を選べるようになります。</div>
+    </div>
+    <div class="numbered-item">
+      <div class="num-head">② 一人ひとりの状況に合わせた情報</div>
+      <div class="num-body">年齢・競技・体の状態によって、正解は全員違います。メンバーの声を拾いながら、「あなたの場合はどうか」まで踏み込んで書いていきます。</div>
+    </div>
+    <div class="numbered-item">
+      <div class="num-head">③ 私の頭の中をリアルタイムで届けるコンテンツ</div>
+      <div class="num-body">月4本、毎週更新。現場での気づき・失敗・思考の変化も含めて、リアルな情報をお届けします。</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>最後に</h2>
+  <p>「オギラボ」は、一方的に教える場所ではなく、同じ目線で課題に向き合う場所です。日々の他愛ない会話から、深い競技の悩みまで——皆さんと近い距離で関わりながら、一緒に良いコミュニティを作っていけたら嬉しいです。</p>
+  <p>まず無料の記事を読んでみてください。「こういう話が聞けるなら入りたい」と思ったら、そのままメンバーになれます。</p>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-label">📌 オギラボ noteメンバーシップ</div>
+    <div class="cta-price">全ラボセット ¥1,200 / 月</div>
+    <div class="cta-labs">👨‍👧 キッズラボ　💪 パフォーマンスラボ　🏃 ポールラボ</div>
+    <div class="cta-sub">
+      個別ラボ（1テーマ）¥980 / 月<br>
+      3テーマすべて読み放題のセットプランがお得<br>
+      いつでも解約OK・まずは無料記事からどうぞ
+    </div>
+    <div class="cta-arrow">メンバーになる →</div>
+  </div>
+
+</div>
+
+<script>
+function copyText() {
+  const ta = document.getElementById('copyTarget');
+  ta.style.position = 'fixed';
+  ta.style.left = '0';
+  ta.style.width = '100%';
+  ta.style.height = '1px';
+  ta.select();
+  document.execCommand('copy');
+  ta.style.position = 'absolute';
+  ta.style.left = '-9999px';
+  const btn = document.getElementById('copyBtn');
+  btn.textContent = '✅ コピーしました';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = '全文コピー'; btn.classList.remove('copied'); }, 2500);
+}
+</script>
+</body>
+</html>

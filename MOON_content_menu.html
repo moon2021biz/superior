@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOONコンテンツメニュー｜TrustFit VIP松クラス</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D98A;
+    --dark: #1A1A2E;
+    --dark2: #16213E;
+    --accent: #0F3460;
+    --white: #FFFFFF;
+    --gray: #F5F5F5;
+    --text: #333333;
+    --border: #E0D5C5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: #FAFAF7;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%);
+    color: white;
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.15) 0%, transparent 60%);
+  }
+  .vip-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .hero .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.5px;
+  }
+  .hero .profile-line {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .profile-chip {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold-light);
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  /* メインコンテナ */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* セクションヘッダー */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .section-sub {
+    font-size: 12px;
+    color: #888;
+    margin-left: auto;
+  }
+
+  /* カテゴリカラー */
+  .cat-physical .section-icon { background: #E3F2FD; }
+  .cat-mind .section-icon { background: #F3E5F5; }
+  .cat-family .section-icon { background: #E8F5E9; }
+  .cat-corporate .section-icon { background: #FFF8E1; }
+
+  /* カードグリッド */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+  }
+
+  /* コンテンツカード */
+  .card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 20px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 12.5px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .tag-target { background: #F0F4FF; color: #3A5BD0; }
+  .tag-time { background: #F0FAF0; color: #2E7D32; }
+  .tag-freq { background: #FFF4F0; color: #BF4900; }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #F0EDE8;
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+  .point-range {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .point-label {
+    font-size: 10px;
+    color: #999;
+    font-weight: 400;
+    display: block;
+  }
+  .vip-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(240,217,138,0.15));
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+
+  /* 注意事項 */
+  .notes {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 48px;
+  }
+  .notes h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+  .notes ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .notes li {
+    font-size: 12.5px;
+    color: #555;
+    padding-left: 16px;
+    position: relative;
+  }
+  .notes li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  /* フッター */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: #bbb;
+    border-top: 1px solid #eee;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="vip-badge">★ VIP TRAINER ／ 松クラス</div>
+  <h1>MOONコンテンツメニュー</h1>
+  <p class="subtitle">TrustFit｜企業向けトレーナー派遣プラットフォーム</p>
+  <div class="profile-line">
+    <span class="profile-chip">🏅 オリンピック出場</span>
+    <span class="profile-chip">💪 パーソナルトレーナー</span>
+    <span class="profile-chip">🏢 法人研修 実績あり</span>
+    <span class="profile-chip">🎤 ストーリーテリング講演</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ① フィジカル・ヘルスケア -->
+  <div class="section-header cat-physical">
+    <div class="section-icon">🏃</div>
+    <div class="section-title">フィジカル・ヘルスケア</div>
+    <div class="section-sub">身体パフォーマンスの最大化</div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-name">経営陣向け パフォーマンスチューニング</div>
+      <div class="card-desc">デスクワーク・出張・会食でフル稼働する経営者・幹部向けに、姿勢改善・疲労回復・集中力向上のパーソナルプログラムを提供。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">経営陣・管理職</span>
+        <span class="tag tag-time">60〜90分/回</span>
+        <span class="tag tag-freq">週1〜隔週</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">全社員向け 疲労撃退プログラム</div>
+      <div class="card-desc">バイオメカニクスに基づいたストレッチ・コンディショニング。座りっぱなし・スマホ首・腰痛など現代型の疲労を即時改善。全員参加型ワークショップ形式。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">全社員</span>
+        <span class="tag tag-time">45〜60分/回</span>
+        <span class="tag tag-freq">月1〜隔月</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜250,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">出張パーソナルトレーニング</div>
+      <div class="card-desc">オフィス・会議室・社内スペースで実施できるトレーニングセッション。器具不要。完全個別設計で身体の課題を直接解決。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">個人〜少人数</span>
+        <span class="tag tag-time">60分/回</span>
+        <span class="tag tag-freq">週1〜月2</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ② マインドセット・パフォーマンス -->
+  <div class="section-header cat-mind">
+    <div class="section-icon">🧠</div>
+    <div class="section-title">マインドセット・パフォーマンス</div>
+    <div class="section-sub">オリンピアンのメンタルを法人に</div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-name">目標設定 × パフォーマンスコーチング</div>
+      <div class="card-desc">オリンピックで培った目標設定メソッドを法人チームに適用。KPI達成率向上・チームビジョン共有・個人のパーパス発見まで対応。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">チーム・管理職</span>
+        <span class="tag tag-time">90〜120分/回</span>
+        <span class="tag tag-freq">クォーターごと</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">限界突破マインド 特別講演</div>
+      <div class="card-desc">「オリンピアンが語る限界の超え方」。本番のプレッシャー管理・スランプ脱出・不確実性への対処。全社集会・キックオフ・研修イベントに最適。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">全社員</span>
+        <span class="tag tag-time">60〜90分</span>
+        <span class="tag tag-freq">年1〜2回</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">ストーリーテリング ワークショップ</div>
+      <div class="card-desc">自分の経験を「伝わる言葉」に変換するトレーニング。プレゼン力・営業力・採用ブランディングの強化に直結。MOONが実践してきた自己開示術を伝授。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">営業・管理職・採用担当</span>
+        <span class="tag tag-time">90〜120分</span>
+        <span class="tag tag-freq">半年に1回〜</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ③ ファミリー・ウェルビーイング -->
+  <div class="section-header cat-family">
+    <div class="section-icon">👨‍👩‍👧</div>
+    <div class="section-title">ファミリー・ウェルビーイング</div>
+    <div class="section-sub">社員とその家族まるごと元気に</div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-name">社員家族向け 親子スポーツイベント</div>
+      <div class="card-desc">社員のお子さんと一緒に楽しむ運動体験イベント。「うちの会社いい会社だな」と思わせる福利厚生コンテンツ。陸上の基礎動作・かけっこを親子で体験。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">社員＋家族（小学生以下）</span>
+        <span class="tag tag-time">90〜120分</span>
+        <span class="tag tag-freq">年1〜2回</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜250,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">保護者向け ボディメイクセミナー</div>
+      <div class="card-desc">「子育て中で運動できない」という保護者層に向けた短時間フィットネス講座。隙間時間でできるトレーニング・食事改善の基本をわかりやすく解説。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">社員（子育て中）</span>
+        <span class="tag tag-time">60分</span>
+        <span class="tag tag-freq">隔月〜季節ごと</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜250,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ④ 健康経営・コンサルティング -->
+  <div class="section-header cat-corporate">
+    <div class="section-icon">🏢</div>
+    <div class="section-title">健康経営・コンサルティング</div>
+    <div class="section-sub">認定支援から研修設計まで</div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-name">健康経営優良法人 認定サポート研修</div>
+      <div class="card-desc">健康経営優良法人（中小規模法人部門）の認定取得に向けた社内研修プログラムを設計・実施。制度理解から実践まで一気通貫でサポート。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">経営者・人事担当</span>
+        <span class="tag tag-time">90分×複数回</span>
+        <span class="tag tag-freq">認定取得まで</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜300,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">社員向け 健康経営 実践ワークショップ</div>
+      <div class="card-desc">「健康経営って何？」から「自分の健康は自分で守る」意識変容まで。認定取得後の社内定着支援にも活用できるワークショップ形式。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">全社員</span>
+        <span class="tag tag-time">60〜90分</span>
+        <span class="tag tag-freq">年1〜2回</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          200,000〜250,000 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">法人向け 健康プログラム 年間設計支援</div>
+      <div class="card-desc">フィジカル・メンタル・制度整備の3軸で年間の健康プログラムをオーダーメイド設計。複数コンテンツの組み合わせで継続的な健康経営を実現。</div>
+      <div class="card-meta">
+        <span class="tag tag-target">経営者・人事担当</span>
+        <span class="tag tag-time">初回2時間〜</span>
+        <span class="tag tag-freq">年間契約型</span>
+      </div>
+      <div class="card-footer">
+        <div class="point-range">
+          <span class="point-label">ポイント目安（松クラス）</span>
+          年間 200〜300万 pt
+        </div>
+        <span class="vip-mark">★ 松</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 比較表 -->
+  <div class="section-header" style="margin-top:56px; border-bottom: 2px solid var(--border);">
+    <div class="section-icon" style="background:#FFF3E0;">📊</div>
+    <div class="section-title">トレーナーランク比較表</div>
+    <div class="section-sub">通常 vs VIP（梅・竹・松）</div>
+  </div>
+
+  <!-- サブスクプラン価格カード（比較表の外に独立表示） -->
+  <div style="background:#F8F6F2; border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:20px;">
+    <div style="font-size:12px; font-weight:700; color:#888; letter-spacing:1px; margin-bottom:14px;">VIP閲覧サブスク（梅・竹・松 全ランク共通）</div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:stretch;">
+
+      <div style="flex:1; min-width:140px; background:white; border:1px solid var(--border); border-radius:10px; padding:14px 16px; text-align:center;">
+        <div style="font-size:11px; color:#999; margin-bottom:6px;">月額</div>
+        <div style="font-size:20px; font-weight:700; color:var(--dark);">5,000<span style="font-size:12px; font-weight:400;">pt</span></div>
+        <div style="font-size:11px; color:#bbb; margin-top:4px;">1pt = 1円</div>
+      </div>
+
+      <div style="flex:1; min-width:140px; background:white; border:2px solid #D4A840; border-radius:10px; padding:14px 16px; text-align:center; position:relative;">
+        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#D4A840; color:white; font-size:10px; font-weight:700; padding:2px 10px; border-radius:8px; white-space:nowrap;">17% OFF</div>
+        <div style="font-size:11px; color:#999; margin-bottom:6px;">半年払い</div>
+        <div style="font-size:20px; font-weight:700; color:var(--dark);">25,000<span style="font-size:12px; font-weight:400;">pt</span></div>
+        <div style="font-size:11px; color:#888; margin-top:4px;">月あたり <strong>4,167pt</strong></div>
+      </div>
+
+      <div style="flex:1; min-width:140px; background:var(--dark); border:2px solid var(--gold); border-radius:10px; padding:14px 16px; text-align:center; position:relative;">
+        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--dark); font-size:10px; font-weight:700; padding:2px 10px; border-radius:8px; white-space:nowrap;">25% OFF</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:6px;">年間払い</div>
+        <div style="font-size:20px; font-weight:700; color:var(--gold-light);">45,000<span style="font-size:12px; font-weight:400; color:rgba(240,217,138,0.7);">pt</span></div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-bottom:2px;">月あたり <strong style="color:var(--gold-light);">3,750pt</strong></div>
+        <div style="font-size:10px; color:rgba(255,255,255,0.35);">月払い比 年間▲15,000pt</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 報酬レンジ説明カード -->
+  <div style="background:#F0F4FF; border:1px solid #C5D3F0; border-radius:12px; padding:20px 24px; margin-bottom:20px;">
+    <div style="font-size:12px; font-weight:700; color:#3A5BD0; letter-spacing:1px; margin-bottom:14px;">💰 報酬レンジの仕組み（評価連動ベース ＋ VIPランクボーナス）</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:12px;">
+
+      <div style="background:white; border:1px solid #E0E8FF; border-radius:10px; padding:14px;">
+        <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:10px;">通常トレーナー</div>
+        <div style="font-size:11px; color:#888; margin-bottom:4px;">評価連動ベース</div>
+        <div style="background:#F5F5F5; border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:#333; margin-bottom:8px;">1,000 〜 100,000pt</div>
+        <div style="font-size:11px; color:#aaa;">VIPボーナス: なし</div>
+        <div style="border-top:1px solid #eee; margin-top:10px; padding-top:8px; font-size:12px; color:#555;">最大 <strong>100,000pt</strong></div>
+      </div>
+
+      <div style="background:white; border:1px solid #E8C87A; border-radius:10px; padding:14px;">
+        <div style="font-size:12px; font-weight:700; color:#8B6914; margin-bottom:10px;">★ VIP 梅</div>
+        <div style="font-size:11px; color:#888; margin-bottom:4px;">評価連動ベース</div>
+        <div style="background:#FFF8E8; border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:#333; margin-bottom:6px;">1,000 〜 100,000pt</div>
+        <div style="font-size:11px; color:#888; margin-bottom:4px;">＋ VIPボーナス（評価連動）</div>
+        <div style="background:#FFF0C8; border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:#8B6914; margin-bottom:8px;">最大 ＋50,000pt</div>
+        <div style="border-top:1px solid #F0E0A0; margin-top:10px; padding-top:8px; font-size:12px; color:#8B6914;">最大 <strong>150,000pt</strong></div>
+      </div>
+
+      <div style="background:white; border:1px solid #8FA8D0; border-radius:10px; padding:14px;">
+        <div style="font-size:12px; font-weight:700; color:#2C4A7A; margin-bottom:10px;">★★ VIP 竹</div>
+        <div style="font-size:11px; color:#888; margin-bottom:4px;">評価連動ベース</div>
+        <div style="background:#EEF3FF; border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:#333; margin-bottom:6px;">1,000 〜 100,000pt</div>
+        <div style="font-size:11px; color:#888; margin-bottom:4px;">＋ VIPボーナス（評価連動）</div>
+        <div style="background:#D8E6FF; border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:#2C4A7A; margin-bottom:8px;">最大 ＋100,000pt</div>
+        <div style="border-top:1px solid #C5D3F0; margin-top:10px; padding-top:8px; font-size:12px; color:#2C4A7A;">最大 <strong>200,000pt</strong></div>
+      </div>
+
+      <div style="background:var(--dark); border:1px solid var(--gold); border-radius:10px; padding:14px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gold-light); margin-bottom:10px;">★★★ VIP 松</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:4px;">評価連動ベース</div>
+        <div style="background:rgba(255,255,255,0.08); border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:rgba(255,255,255,0.85); margin-bottom:6px;">1,000 〜 100,000pt</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:4px;">＋ VIPボーナス（評価連動）</div>
+        <div style="background:rgba(201,168,76,0.2); border:1px solid rgba(201,168,76,0.4); border-radius:6px; padding:6px 10px; font-size:13px; font-weight:700; color:var(--gold-light); margin-bottom:8px;">最大 ＋200,000pt</div>
+        <div style="border-top:1px solid rgba(201,168,76,0.3); margin-top:10px; padding-top:8px; font-size:12px; color:var(--gold-light);">最大 <strong>300,000pt</strong></div>
+      </div>
+
+    </div>
+    <div style="margin-top:12px; font-size:11px; color:#888; line-height:1.8;">
+      ※ ベース報酬は評価スコア（50点満点）で決定。VIPボーナスも同スコアに連動して加算。<br>
+      ※ 交通費・宿泊費はエリア別固定ptとして予約時に別途確定。
+    </div>
+  </div>
+
+  <!-- ランク比較テーブル（サブスク・報酬以外の項目） -->
+  <div style="overflow-x:auto; border-radius:14px; border:1px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+    <table style="width:100%; border-collapse:collapse; background:white; min-width:640px;">
+      <colgroup>
+        <col style="width:18%">
+        <col style="width:20%">
+        <col style="width:20%">
+        <col style="width:20%">
+        <col style="width:22%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th style="padding:14px 16px; text-align:left; font-size:12px; color:#888; font-weight:600; background:#FAFAF7; border-bottom:2px solid var(--border);">比較項目</th>
+          <th style="padding:14px 16px; text-align:center; font-size:13px; font-weight:700; background:#FAFAF7; border-bottom:2px solid var(--border); color:#555;">通常</th>
+          <th style="padding:14px 16px; text-align:center; font-size:13px; font-weight:700; background:#FFF8F0; border-bottom:2px solid #E8C87A; color:#8B6914;">★ VIP 梅</th>
+          <th style="padding:14px 16px; text-align:center; font-size:13px; font-weight:700; background:#F5F8FF; border-bottom:2px solid #8FA8D0; color:#2C4A7A;">★★ VIP 竹</th>
+          <th style="padding:14px 16px; text-align:center; font-size:13px; font-weight:700; background:#1A1A2E; border-bottom:2px solid var(--gold); color:var(--gold-light);">★★★ VIP 松</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- VIPへのなり方 -->
+        <tr style="border-bottom:1px solid #F2EFE9;">
+          <td style="padding:14px 16px; font-size:12px; font-weight:600; color:#555; background:#FAFAF7;">なれる条件</td>
+          <td style="padding:14px 16px; text-align:center; font-size:12px; color:#666;">登録後すぐ</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#333; background:#FFFDF5; line-height:1.8;">・高評価の蓄積<br>・50点満点×1回以上<br><span style="color:#D4A840; font-weight:600;">・スカウト枠もここから</span></td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#333; background:#F8FAFF; line-height:1.8;">・梅での高評価継続<br>・竹昇格基準クリア</td>
+          <td style="padding:14px 16px; font-size:11.5px; background:#1E2340; color:rgba(255,255,255,0.85); line-height:1.8;">・竹での高評価継続<br>・松昇格基準クリア</td>
+        </tr>
+        <!-- スカウト枠 -->
+        <tr style="border-bottom:1px solid #F2EFE9;">
+          <td style="padding:14px 16px; font-size:12px; font-weight:600; color:#555; background:#FAFAF7;">スカウト枠</td>
+          <td style="padding:14px 16px; text-align:center; color:#ddd; font-size:18px;">—</td>
+          <td style="padding:14px 16px; text-align:center; font-size:11.5px; background:#FFFDF5; color:#8B6914; line-height:1.8;"><span style="font-size:14px;">✅</span><br>オリンピアン・<br>日本代表・著名コーチ<br><strong>梅からスタート</strong><br><span style="color:#aaa;font-size:10px;">（実績で昇格）</span></td>
+          <td style="padding:14px 16px; text-align:center; color:#ddd; background:#F8FAFF; font-size:18px;">—</td>
+          <td style="padding:14px 16px; text-align:center; color:rgba(255,255,255,0.2); background:#1E2340; font-size:18px;">—</td>
+        </tr>
+        <!-- 主なコンテンツ -->
+        <tr style="border-bottom:1px solid #F2EFE9;">
+          <td style="padding:14px 16px; font-size:12px; font-weight:600; color:#555; background:#FAFAF7;">主なコンテンツ</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#333; line-height:1.8;">フィットネス指導<br>ストレッチ・筋トレ</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#333; background:#FFFDF5; line-height:1.8;">専門性の高い<br>フィジカル指導<br>継続サポート</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#333; background:#F8FAFF; line-height:1.8;">フィジカル＋<br>マインドセット<br>ハイブリッド対応</td>
+          <td style="padding:14px 16px; font-size:11.5px; background:#1E2340; line-height:1.8; color:rgba(255,255,255,0.85);"><span style="color:var(--gold-light); font-weight:700;">4カテゴリ全対応</span><br>フィジカル／メンタル<br>講演／健康経営</td>
+        </tr>
+        <!-- こんな企業に -->
+        <tr style="border-bottom:1px solid #F2EFE9;">
+          <td style="padding:14px 16px; font-size:12px; font-weight:600; color:#555; background:#FAFAF7;">こんな企業に</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#555; line-height:1.8;">まずお試し<br>コスト重視</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#555; background:#FFFDF5; line-height:1.8;">継続的な健康支援<br>を始めたい</td>
+          <td style="padding:14px 16px; font-size:11.5px; color:#555; background:#F8FAFF; line-height:1.8;">生産性向上・<br>研修活用をしたい</td>
+          <td style="padding:14px 16px; font-size:11.5px; background:#1E2340; line-height:1.8; color:rgba(255,255,255,0.85);"><span style="color:var(--gold-light);">経営陣への本気投資<br>健康経営認定取得<br>採用PRに活用</span></td>
+        </tr>
+        <!-- 評価 -->
+        <tr>
+          <td style="padding:14px 16px; font-size:12px; font-weight:600; color:#555; background:#FAFAF7; border-radius:0 0 0 12px;">評価システム</td>
+          <td style="padding:14px 16px; text-align:center; font-size:11.5px; color:#333;">双方評価<br>（50点満点）</td>
+          <td style="padding:14px 16px; text-align:center; font-size:11.5px; color:#333; background:#FFFDF5;">双方評価<br>＋VIPバッジ</td>
+          <td style="padding:14px 16px; text-align:center; font-size:11.5px; color:#333; background:#F8FAFF;">双方評価<br>＋VIPバッジ</td>
+          <td style="padding:14px 16px; text-align:center; font-size:11.5px; background:#1E2340; color:var(--gold-light); border-radius:0 0 12px 0;">双方評価<br>＋プレミアムバッジ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 注意事項 -->
+  <div class="notes">
+    <h3>📌 ご利用にあたって</h3>
+    <ul>
+      <li><strong>1pt = 1円</strong>。企業はポイントを事前チャージし、サブスク費・トレーナー報酬・交通費すべてポイントで一元管理できます</li>
+      <li>上記報酬レンジは「松クラス」VIPトレーナーの最低 200,000pt 〜 最大 300,000pt です。評価スコア（50点満点）によって確定します</li>
+      <li>交通費・宿泊費はエリア別固定ptとして予約時に事前確定。サプライズ請求はありません</li>
+      <li>複数コンテンツの組み合わせ・年間パッケージのご相談も承ります</li>
+      <li>初回モニター企業限定：1万pt購入で10万pt付与の<strong>10倍キャンペーン</strong>（撮影・PR協力が条件）</li>
+      <li>本メニューはTrustFitプラットフォームを通じてご依頼ください（業務委託契約）</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  TrustFit — Trainer × Corporation Matching Platform ／ Operated by 株式会社MOON<br>
+  最終更新: 2026-04-03
+</footer>
+
+</body>
+</html>
