@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026-06-15 月曜日</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 0 0 16px 16px; margin-bottom: 24px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+/* ALERTS */
+.alert-section { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-section h3 { color: #c53030; font-size: 1rem; margin-bottom: 12px; }
+.alert-section p { font-size: 0.92rem; padding: 7px 0; border-bottom: 1px solid #fed7d7; }
+.alert-section p:last-child { border-bottom: none; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-yellow { color: #b7791f; font-weight: 700; }
+/* PJ PROGRESS */
+.card p { font-size: 0.9rem; color: #4a5568; margin-bottom: 10px; line-height: 1.7; }
+.card p strong { color: #2d3748; }
+/* SNS TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table th { background: #edf2f7; color: #4a5568; font-weight: 700; padding: 8px 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+table td { padding: 8px 12px; border-bottom: 1px solid #edf2f7; color: #2d3748; }
+table tr:last-child td { border-bottom: none; }
+/* TRIAL SCHEDULE */
+.school-card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.school-header { font-weight: 700; color: #2b6cb0; margin-bottom: 10px; font-size: 0.95rem; }
+.trial-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
+.trial-row:last-child { border-bottom: none; }
+.trial-date { font-weight: 600; min-width: 160px; color: #4a5568; }
+.trial-name { font-weight: 700; color: #2d3748; min-width: 120px; }
+.trial-course { color: #718096; font-size: 0.85rem; }
+.no-schedule { color: #718096; font-size: 0.88rem; text-align: center; padding: 8px; }
+/* CDST */
+.card ul { list-style: none; }
+.card ul li { padding: 7px 0; border-bottom: 1px solid #edf2f7; font-size: 0.88rem; color: #4a5568; }
+.card ul li:last-child { border-bottom: none; }
+/* TASK ITEMS */
+.task-item { padding: 10px 14px; margin-bottom: 10px; border-radius: 8px; font-size: 0.9rem; background: #f7fafc; border-left: 4px solid #4299e1; }
+.task-item strong { display: block; margin-bottom: 4px; color: #2d3748; }
+/* SYNERGY */
+footer { text-align: center; color: #a0aec0; font-size: 0.8rem; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 Daily Morning Briefing</h1>
+  <div class="date">2026-06-15 月曜日</div>
+  <div class="subtitle">全8PJ自動チェック完了 ｜ SNS実測 / 体験スケジュール / CDST変更検知 / むーん行政確認</div>
+</div>
+<div class="container">
+
+<!-- ALERTS -->
+<div class="alert-section">
+  <h3>⚠️ 要対応事項（今日のアクション）</h3>
+  <p class="alert-red">🔴 【今日中！】SORA 明日6/16(火) つじおかしんのすけ（小6）体験 → 費用込み事前連絡が本日必須。小山コーチへも確認</p><p class="alert-red">🔴 関学 北田 日本選手権（6/13-14）結果確認 → CDST記録更新・本人フォロー連絡</p><p class="alert-yellow">⚠️ CARAS GBP 6/16(火) 偶数週投稿 → ゴルフパフォーマンス向上テーマ（今日準備）</p><p class="alert-yellow">⚠️ CARAS MEO 西宮「パーソナルジム」圏外🔴 → 夙川2位キープ中。西宮順位回復の対策要検討</p><p class="alert-yellow">⚠️ むーん LP Cloudflare未反映 → ターミナルで <code>bash push.sh "Wix合わせ修正・素材画像追加"</code> を実行</p><p class="alert-yellow">⚠️ SUPERIOR Week3 ATHLETE Instagram 未投稿 → 画像生成 → 手動投稿待ち</p><p class="alert-yellow">⚠️ www.superior2025.com DNS伝播確認（Cloudflare確認メール待ち）</p><p class="alert-yellow">⚠️ むーん 出退勤管理GAS 初回承認 → Apps Script手動貼付＋Run now</p><p class="alert-yellow">⚠️ むーん「こども性暴力防止法」対象事業者情報登録（6/9公開・継続確認中）</p>
+</div>
+
+<!-- PJ PROGRESS -->
+<div class="card">
+  <h2>📊 PJ進捗サマリー</h2>
+  <p><strong>🏃 オギラボ</strong>（65%）TikTok <span style="color:#276749;font-weight:700">1,538人（6/15実測）</span> ／ YouTube <span style="color:#276749;font-weight:700">107人 🆙（+2 6/15実測）</span> ／ Note フォロワー4人・メンバーシップ5人達成🎉 ／ メンバーシップ継続運用中</p><p><strong>💪 CARAS</strong>（64%）Instagram 69人/98投稿（6/15実測 ±0）／ MEO: <strong style="color:#c53030">西宮「パーソナルジム」→ 圏外🔴</strong> ／ <strong style="color:#276749">夙川「パーソナルジム」→ 2位🟢</strong>（1位: コバトレ）／ <strong style="color:#dd6b20">今日: GBP偶数週投稿（ゴルフ）準備・明6/17: IG投稿（GOLF）</strong></p><p><strong>🏅 SORA</strong>（57%）Instagram <span style="color:#276749;font-weight:700">531人 🆙（+3 6/15実測）</span>/288投稿 ／ 申込累計345件 ／ <strong style="color:#c53030">明日6/16体験（つじおか）→ 今日中に連絡必須！</strong></p><p><strong>🏅 SUPERIOR</strong>（62%）Instagram 5人/22投稿（6/15実測 ±0）／ 最新入会: たかはしりょうた（小6・6/12）／ 体験申込: スプレッドシート取得不可（canvas）/ ongoing確認=申込なし ／ Week3 ATHLETE投稿準備中 ／ DNS伝播待ち</p><p><strong>🌟 むーん</strong>（85%）定員9割稼働継続 ／ <strong>LP HTML修正完了</strong>（Wix合わせ・画像2枚追加）→ Cloudflare反映待ち ／ リタリコ問い合わせ: 取得不可（ログイン必要）／ 行政情報: 変更なし（6/15確認）</p><p><strong>🏢 健康経営</strong>（20%）法人DM再設計中（契約ゼロ継続）／ ハンドオフ13日未更新 ⚠️</p><p><strong>🎓 関学KGAD</strong>（22%）6/19-21 西日本インカレ（伊藤・渡邉・杉本）／ 6/28 広島選手権（伊藤）・びわスポ（富永・大西）</p><p><strong>⚽ TrustFit</strong>（37%）PRISM CUP中止 → 関係者食事会（日程調整中）／ ハンドオフ13日未更新 ⚠️</p><p><strong>⏳ 時粒アプリ</strong>（45%）Expo SDK54 / Clerk+Convex確定 ／ W2認証+CRUD開発中 ／ 次: 習い事カウントアップ化</p>
+</div>
+
+<!-- SNS STATUS -->
+<div class="card">
+  <h2>📱 SNSステータス（実測値）</h2>
+  <table><tr><th>PJ</th><th>プラットフォーム</th><th>アカウント</th><th>フォロワー</th><th>投稿数</th><th>前回比</th><th>確認日</th></tr>
+<tr><td>オギラボ</td><td>TikTok</td><td>@ogilab1230</td><td><strong style="color:#276749">1,538人</strong></td><td>—</td><td>—</td><td>2026-06-15 実測</td></tr>
+<tr><td>オギラボ</td><td>YouTube</td><td>@OgiLab</td><td><strong style="color:#276749">107人 🆙</strong></td><td>14動画</td><td style="color:#276749">+2</td><td>2026-06-15 実測</td></tr>
+<tr><td>オギラボ</td><td>Note</td><td>@ogilab</td><td>4人（フォロワー）</td><td>—</td><td>—</td><td>2026-06-15 実測</td></tr>
+<tr><td>オギラボ</td><td>Note メンバー</td><td>@ogilab</td><td><strong style="color:#276749">5人 🎉</strong></td><td>—</td><td style="color:#276749">達成</td><td>2026-06-15 実測</td></tr>
+<tr><td>CARAS</td><td>Instagram</td><td>@caras_gym</td><td>69人</td><td>98投稿</td><td>±0</td><td>2026-06-15 実測</td></tr>
+<tr><td>CARAS</td><td>MEO「西宮 パーソナルジム」</td><td>—</td><td style="color:#c53030;font-weight:700">圏外 🔴</td><td>—</td><td>—</td><td>2026-06-15 実測</td></tr>
+<tr><td>CARAS</td><td>MEO「夙川 パーソナルジム」</td><td>—</td><td style="color:#276749;font-weight:700">2位 🟢</td><td>—</td><td>—</td><td>2026-06-15 実測</td></tr>
+<tr><td>CARAS</td><td>TikTok</td><td>@carasgym</td><td>23人</td><td>—</td><td>—</td><td>2026-05-26 前回値</td></tr>
+<tr><td>SORA</td><td>Instagram</td><td>@basic_sports_club_sora</td><td><strong style="color:#276749">531人 🆙</strong></td><td>288投稿</td><td style="color:#276749">+3人</td><td>2026-06-15 実測</td></tr>
+<tr><td>SUPERIOR</td><td>Instagram</td><td>@superior_tf_2025</td><td>5人</td><td>22投稿</td><td>±0</td><td>2026-06-15 実測</td></tr>
+<tr><td>むーん</td><td>リタリコ問合せ</td><td>—</td><td colspan="3" style="color:#718096">取得不可（ログイン必要）</td><td>2026-06-15 試行</td></tr></table>
+</div>
+
+<!-- TRIAL SCHEDULE -->
+<div class="card">
+  <h2>🏃 体験スケジュール（SORA / SUPERIOR）</h2>
+  <div class="school-card"><div class="school-header">🏅 SORA（今後の体験予定 — 計10名）</div><div class="trial-row" style="background:#fff5f5;border-left:3px solid #e53e3e"><span class="trial-date" style="color:#c53030;font-weight:700">6/16(火)🔴明日!</span><span class="trial-name">つじおかしんのすけ</span><span class="trial-course">小6 ／ 小山コーチ スタート講習（18:30〜20:00）※初回より費用発生 → <strong>今日中に事前連絡必須</strong></span></div><div class="trial-row"><span class="trial-date">6/20(土)</span><span class="trial-name">6名</span><span class="trial-course">【高松】ますだいおり(小5)・はまだこのみ(小5)・つついけんと(小4) ／ 【観音寺】かさいそうすけ(小3)・いしかわしど(小4)・おおかわそうた(小4)</span></div><div class="trial-row"><span class="trial-date">6/27(土)</span><span class="trial-name">2名</span><span class="trial-course">観音寺専門基礎コース予定</span></div><div class="trial-row"><span class="trial-date">7/4(土)</span><span class="trial-name">ぼそうゆずは</span><span class="trial-course">小4 ／ 高松小学生コース</span></div></div><div class="school-card"><div class="school-header">🏅 SUPERIOR（体験・会員状況）</div><div class="trial-row"><span class="trial-date" style="color:#276749">最新入会</span><span class="trial-name">たかはしりょうた（小6）</span><span class="trial-course">2026/06/12 入会確認済（小学生コース）</span></div><div class="trial-row"><span class="trial-date" style="color:#718096">体験申込</span><span class="trial-name" style="color:#718096">なし</span><span class="trial-course" style="color:#718096">スプレッドシート取得不可（canvasレンダリング）/ ongoing確認=申込なし。次の申込を待機中</span></div><div class="trial-row"><span class="trial-date" style="color:#718096">会員/休会</span><span class="trial-name" style="color:#718096">取得不可</span><span class="trial-course" style="color:#718096">シート直接確認要（canvas）/ 最終確認: 6/14 たかはしりょうた入会のみ</span></div></div>
+</div>
+
+<!-- CDST -->
+<div class="card">
+  <h2>🎓 関西学院大学陸上部 CDSTアップデート</h2>
+  <ul><li style="color:#c53030;font-weight:700">📋 要確認: 北田（幅）日本選手権（6/13-14）結果 → CDST記録更新＋本人フォロー連絡</li><li>🆕 6/19(金)〜6/21(日): 西日本インカレ ／ 参加: 伊藤・渡邉・杉本</li><li>🆕 6/28(日): 広島選手権（伊藤）／ びわスポ記録会（富永・大西）</li><li style="color:#b7791f">📝 T列メモ: U20世界陸上 有効記録「5m37cm以上」条件（6/22確認期限）</li><li>むーん行政: <span style="color:#276749">変更なし（2026-06-15確認）</span> ／ 最新: こども性暴力防止法 6/9公開（既知・対応確認中）</li><li style="color:#718096">むーんリタリコ問い合わせ: <span>取得不可（ログイン必要）</span></li><li>📋 次回KGAD月次報告書: 6月分を6/25頃（請求書と同時）</li></ul>
+</div>
+
+<!-- RECOMMENDED ACTIONS -->
+<div class="card">
+  <h2>🎯 推奨アクション</h2>
+  <div class="task-item" style="border-left-color:#e53e3e;background:#fff5f5"><strong>🔴 ①【今日中！】SORA 明日体験 つじおかしんのすけ 事前連絡</strong>6/16(火) 18:30〜20:00 小山コーチ スタート講習。費用発生の旨・場所・持ち物を本日中に保護者へ連絡。</div><div class="task-item" style="border-left-color:#e53e3e;background:#fff5f5"><strong>🔴 ② 関学 北田 日本選手権 結果確認・フォロー</strong>6/13-14出場。結果をCDSTスプレッドシートに記録 ＋ 北田選手本人へのフォロー連絡。</div><div class="task-item" style="border-left-color:#dd6b20;background:#fffaf0"><strong>⚠️ ③ CARAS GBP 6/16(火) 偶数週投稿（今日準備）</strong>ゴルフパフォーマンス向上テーマ。今日中に準備して明日投稿。</div><div class="task-item" style="border-left-color:#dd6b20;background:#fffaf0"><strong>⚠️ ④ CARAS MEO 西宮「パーソナルジム」圏外🔴 → 対策検討</strong>夙川2位はキープ中。西宮の順位改善にGBP強化・投稿頻度アップを検討。</div><div class="task-item" style="border-left-color:#dd6b20;background:#fffaf0"><strong>⚠️ ⑤ むーん LP Cloudflare反映</strong>ターミナルで <code>cd むーん && bash push.sh "Wix合わせ修正・素材画像追加"</code> を実行。</div><div class="task-item" style="border-left-color:#dd6b20;background:#fffaf0"><strong>⚠️ ⑥ SUPERIOR Week3 ATHLETE Instagram 投稿</strong><code>python3 SUPERIOR/tools/generate_superior_instagram.py 3</code> で画像生成 → 手動で投稿。</div><div class="task-item" style="border-left-color:#dd6b20;background:#fffaf0"><strong>⚠️ ⑦ むーん 出退勤管理GAS 初回承認</strong>GASスクリプト作成済み → Apps Script手動貼付 → 「Run now」で初回承認。7/1自動実行開始予定。</div><div class="task-item" style="border-left-color:#4299e1"><strong>📋 ⑧ www.superior2025.com DNS確認</strong>Cloudflare確認メール受信状況を確認 → 完了次第Wixプレミアム解約。</div><div class="task-item" style="border-left-color:#4299e1"><strong>📋 ⑨ むーん「こども性暴力防止法」対象事業者確認</strong>放課後等デイサービスが対象事業者か確認 → 情報登録報告義務があれば今月中対応。</div>
+</div>
+
+<!-- SYNERGY -->
+<div class="card">
+  <h2>🔗 シナジーチャンス</h2>
+  <div class="task-item" style="border-left-color:#805ad5"><strong>🔗 北田 日本選手権結果 → オギラボ/陸上YouTubeコンテンツ</strong>「オリンピアンが指導した選手が日本選手権出場・結果」を軸にTikTok/YouTube企画ネタ。結果確認後に即コンテンツ化を検討。</div><div class="task-item" style="border-left-color:#805ad5"><strong>🔗 6/19-21 西日本インカレ → 陸上YouTube素材</strong>伊藤・渡邉・杉本の試合映像 → 陸上YouTubeチャンネルの指導実績可視化コンテンツに活用。撮影・収集を計画。</div><div class="task-item" style="border-left-color:#805ad5"><strong>🔗 SORA 6/20体験6名 → 時粒アプリ先行紹介</strong>体験当日の保護者に「応援できる残り試合数・練習数」機能プロトを紹介。SORA保護者が最有力ユーザー候補。</div><div class="task-item" style="border-left-color:#805ad5"><strong>🔗 CARAS GOLF投稿 → オギラボ健康経営コンテンツ転用</strong>ゴルフ×トレーニングコンテンツ → オギラボ「ビジネスパーソン×運動パフォーマンス」軸でも展開可能。</div><div class="task-item" style="border-left-color:#805ad5"><strong>🔗 CARAS MEO夙川2位維持 → SUPERIOR地域MEO戦略横展開</strong>夙川での2位確保ノウハウ → SUPERIOR出店予定エリアのGBP戦略に活用可能。</div>
+</div>
+
+<footer>generated by daily-morning-briefing skill ｜ 2026-06-15 月曜日 ｜ 全PJ自動チェック完了</footer>
+</div>
+</body>
+</html>

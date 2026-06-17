@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コラム・読みもの｜SORA / SUPERIOR 陸上クラブ</title>
+<meta name="description" content="オリンピアン・荻田大樹が綴る、子どもの走り・スポーツ指導・声かけのコラムまとめ。SORA / SUPERIOR 陸上クラブ">
+<meta property="og:title" content="コラム・読みもの｜SORA / SUPERIOR 陸上クラブ">
+<meta property="og:description" content="子どもの走り・指導・声かけのヒントが詰まったコラムまとめ">
+<style>
+  :root{
+    --bg:#f7f9fc;
+    --card:#ffffff;
+    --ink:#1f2a3a;
+    --sub:#5b6b80;
+    --line:#e7edf5;
+    --accent:#f07b2e;     /* オレンジ（あたたかさ） */
+    --accent2:#1e9bd7;    /* スカイブルー（空＝SORA/SUPERIOR） */
+    --shadow:0 6px 22px rgba(30,50,80,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  /* ===== ヘッダー ===== */
+  header.hero{
+    background:linear-gradient(135deg,#1e9bd7 0%,#3fb4e6 55%,#7fd0f0 100%);
+    color:#fff;
+    padding:54px 20px 60px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:34px;
+    background:var(--bg);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .badge{
+    display:inline-block;background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.45);
+    padding:5px 16px;border-radius:999px;font-size:13px;font-weight:700;
+    letter-spacing:.08em;margin-bottom:16px;
+  }
+  header.hero h1{font-size:30px;font-weight:800;letter-spacing:.02em;line-height:1.4;}
+  header.hero p{margin-top:12px;font-size:15px;opacity:.95;}
+
+  /* ===== 本文 ===== */
+  main{padding:38px 0 70px;position:relative;}
+  .lead{
+    text-align:center;color:var(--sub);font-size:15px;
+    max-width:660px;margin:0 auto 30px;
+  }
+
+  /* ===== グリッド ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;
+    text-decoration:none;color:inherit;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-5px);box-shadow:0 14px 34px rgba(30,50,80,.16);}
+  .thumb{
+    position:relative;width:100%;aspect-ratio:16/9;background:#dfe8f2;overflow:hidden;
+  }
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;}
+  .card-title{
+    font-size:16px;font-weight:800;line-height:1.5;letter-spacing:.01em;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-desc{
+    margin-top:9px;font-size:13px;color:var(--sub);line-height:1.65;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-foot{
+    margin-top:14px;display:flex;align-items:center;justify-content:space-between;
+    padding-top:12px;border-top:1px solid var(--line);
+  }
+  .note-tag{font-size:12px;font-weight:700;color:var(--sub);display:flex;align-items:center;gap:6px;}
+  .note-dot{width:8px;height:8px;border-radius:50%;background:#41c9b4;}
+  .read{font-size:13px;font-weight:800;color:var(--accent);}
+
+  /* ===== フッター ===== */
+  footer{
+    text-align:center;padding:30px 20px 50px;color:var(--sub);font-size:13px;
+    border-top:1px solid var(--line);background:#fff;
+  }
+  footer .clubs{font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:.04em;}
+
+  @media(max-width:560px){
+    header.hero h1{font-size:23px;}
+    .grid{gap:12px;}
+    .card-title{font-size:14px;}
+    .card-desc{-webkit-line-clamp:2;font-size:12px;}
+    .card-body{padding:12px 12px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">SORA / SUPERIOR 陸上クラブ</span>
+    <h1>コラム・読みもの</h1>
+    <p>オリンピアン荻田大樹が綴る、子どもの「走り」と「成長」のヒント</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="lead">
+      運動会で速く走るコツから、やる気を引き出す声かけ、指導の考え方まで。<br>
+      おうちでも役立つ「読みもの」を集めました。気になるテーマからどうぞ。
+    </p>
+
+    <div class="grid">
+
+      <!-- 1 -->
+      <a class="card" href="https://note.com/ogilab/n/n5693debe4407?sub_rt=share_sb" target="_blank" rel="noopener">
+        <div class="thumb"><img loading="lazy" src="note-thumbs/01_start.png" alt=""></div>
+        <div class="card-body">
+          <div class="card-title">1週間で５cmの差。スタートで差がつく「1歩目の正解」とは！？</div>
+          <div class="card-desc">運動会の季節に。「もっと足を速く動かして！」が実は逆効果。今日から家でできる3ステップドリルを紹介します。</div>
+          <div class="card-foot">
+            <span class="note-tag"><span class="note-dot"></span>note記事</span>
+            <span class="read">読む →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2 -->
+      <a class="card" href="https://note.com/ogilab/n/n758b15b35e98?sub_rt=share_sb" target="_blank" rel="noopener">
+        <div class="thumb"><img loading="lazy" src="note-thumbs/02_koekake.jpeg" alt=""></div>
+        <div class="card-body">
+          <div class="card-title">【保存版】「運動したくない！」が「もっとやりたい！」に変わる魔法の声かけ</div>
+          <div class="card-desc">発達心理学にもとづく、子どものやる気を引き出す声かけとメンタル育成法。すぐ諦めてしまう子への向き合い方を解説します。</div>
+          <div class="card-foot">
+            <span class="note-tag"><span class="note-dot"></span>note記事</span>
+            <span class="read">読む →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3 -->
+      <a class="card" href="https://note.com/ogilab/n/n8cc66e9fcf54?sub_rt=share_sb" target="_blank" rel="noopener">
+        <div class="thumb"><img loading="lazy" src="note-thumbs/03_osoi.jpeg" alt=""></div>
+        <div class="card-body">
+          <div class="card-title">指導すればするほど、なぜかタイムが落ちる。「綺麗だけど遅い子」が生まれる発達の仕組み</div>
+          <div class="card-desc">フォームはきれいなのにタイムが伸びない。その原因は才能でも努力不足でもなく「発達段階を無視した関わり方」にありました。</div>
+          <div class="card-foot">
+            <span class="note-tag"><span class="note-dot"></span>note記事</span>
+            <span class="read">読む →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 4 -->
+      <a class="card" href="https://note.com/ogilab/n/n2b10d10f6812?sub_rt=share_sb" target="_blank" rel="noopener">
+        <div class="thumb"><img loading="lazy" src="note-thumbs/04_coaching.png" alt=""></div>
+        <div class="card-body">
+          <div class="card-title">あなたの指導は「共同作業」になっていますか？｜コーチングで持つ3つのスタンス</div>
+          <div class="card-desc">「コーチの言うことは素直に聞く」だけでは伸びない。子ども自身の感覚を活かす指導のスタンスを、現場の視点で語ります。</div>
+          <div class="card-foot">
+            <span class="note-tag"><span class="note-dot"></span>note記事</span>
+            <span class="read">読む →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 5 -->
+      <a class="card" href="https://note.com/ogilab/n/nafff6553cb13?sub_rt=share_pb" target="_blank" rel="noopener">
+        <div class="thumb"><img loading="lazy" src="note-thumbs/05_shoubu.png" alt=""></div>
+        <div class="card-body">
+          <div class="card-title">勝負は「毒」にも「薬」にもなる。── 私が考える健全な勝負観</div>
+          <div class="card-desc">勝ち負けへのこだわりは、子どもの競技人生を「消耗させる」か「豊かにする」か。オリンピアンが考える健全な勝負観について。</div>
+          <div class="card-foot">
+            <span class="note-tag"><span class="note-dot"></span>note記事</span>
+            <span class="read">読む →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="clubs">SORA ／ SUPERIOR 陸上クラブ</div>
+  <div>記事は順次追加していきます。｜ powered by note（オギラボ）</div>
+</footer>
+
+</body>
+</html>

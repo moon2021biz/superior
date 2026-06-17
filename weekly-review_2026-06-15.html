@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー｜2026-06-15（月）</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #20233a;
+    --border: #2a2d3e;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --accent: #6c63ff;
+    --accent2: #00c9a7;
+    --warn: #f9a825;
+    --danger: #ef5350;
+    --success: #4caf50;
+    --info: #42a5f5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #2d1b69 50%, #1a1d27 100%);
+    border: 1px solid #6c63ff44;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; color: #a78bfa; margin-bottom: 8px; }
+  .header p { color: var(--muted); font-size: 13px; }
+  .header .subtitle { color: var(--text); font-size: 16px; margin-top: 8px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 28px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+
+  /* PJ Cards */
+  .pj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+  .pj-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .pj-card.c1::before { background: linear-gradient(90deg, #6c63ff, #a78bfa); }
+  .pj-card.c2::before { background: linear-gradient(90deg, #00c9a7, #4caf50); }
+  .pj-card.c3::before { background: linear-gradient(90deg, #f9a825, #ff7043); }
+  .pj-card.c4::before { background: linear-gradient(90deg, #42a5f5, #00bcd4); }
+  .pj-card.c5::before { background: linear-gradient(90deg, #ec407a, #f48fb1); }
+  .pj-card.c6::before { background: linear-gradient(90deg, #66bb6a, #a5d6a7); }
+  .pj-card.c7::before { background: linear-gradient(90deg, #ffa726, #ffcc02); }
+  .pj-card.c8::before { background: linear-gradient(90deg, #ef5350, #e57373); }
+  .pj-card.c9::before { background: linear-gradient(90deg, #ab47bc, #ce93d8); }
+  .pj-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .pj-progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .pj-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+  .pj-pct { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .pj-delta { font-size: 11px; color: var(--muted); margin-left: 4px; }
+  .pj-stats { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+  .pj-milestone { font-size: 11px; color: var(--warn); margin-top: 6px; }
+
+  /* Gauge */
+  .gauge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: var(--card2);
+    border-radius: 8px;
+  }
+  .gauge-name { font-size: 13px; font-weight: 600; min-width: 110px; }
+  .gauge-blocks { font-family: monospace; font-size: 14px; color: var(--accent2); min-width: 90px; }
+  .gauge-pt { font-size: 12px; color: var(--muted); min-width: 90px; }
+  .gauge-label { font-size: 11px; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .badge-done { background: #4caf5022; color: #4caf50; border: 1px solid #4caf5044; }
+  .badge-wip { background: #f9a82522; color: #f9a825; border: 1px solid #f9a82544; }
+  .badge-mg4 { background: #6c63ff22; color: #a78bfa; border: 1px solid #6c63ff44; }
+
+  /* Action items */
+  .action-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .action-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  .action-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; margin-bottom: 6px; }
+  .action-body { font-size: 12px; color: var(--muted); padding-left: 36px; }
+  .action-pj { font-size: 11px; color: var(--accent2); font-weight: 600; padding-left: 36px; margin-top: 2px; }
+
+  /* Block tasks */
+  .block-item {
+    background: #ef535018;
+    border: 1px solid #ef535033;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  .block-item .bi-label { font-weight: 700; color: #ef5350; margin-bottom: 4px; }
+
+  /* Sprint */
+  .sprint-box {
+    background: linear-gradient(135deg, #1a1d27, #2d1b69);
+    border: 1px solid #6c63ff55;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .sprint-item { padding: 14px; background: #ffffff0a; border-radius: 8px; margin-bottom: 8px; }
+  .sprint-rank { font-size: 20px; margin-right: 8px; }
+  .sprint-pj { font-size: 16px; font-weight: 700; color: #a78bfa; }
+  .sprint-reason { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Review items */
+  .review-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: var(--card2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  .review-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .review-pj { font-weight: 700; color: var(--accent2); margin-bottom: 2px; }
+
+  /* Footer */
+  .footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 900px) {
+    .pj-grid { grid-template-columns: 1fr 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+    .grid3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 週次レビュー</h1>
+  <div class="subtitle">2026年6月15日（月） | 全9プロジェクト</div>
+  <p style="margin-top:8px;">先週（6/8〜6/14）の振り返り ＋ 今週の優先アクション提案</p>
+</div>
+
+<!-- ======= 先週の振り返り ======= -->
+<div class="section-title">📅 先週の振り返り（6/8〜6/14）</div>
+<div class="card" style="margin-bottom:24px;">
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">CARAS</div>
+      GBP奇数週投稿「ストレッチしても姿勢が戻る理由。」87点完了（6/12）。Instagram失敗共感型投稿をMOONさん手動投稿済み（93点・GOODパターン登録）。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">SUPERIOR</div>
+      Cloudflare Pages デプロイ確立（push.sh動作確認済み）。たかはしりょうた（小6）6/12入会確定。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">オギラボ</div>
+      YouTube 105人到達（+2人 / 100人目標クリア🎉）。note記事「GBP×AI 1位を取った話」完成・X/Threads拡散投稿案作成。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">むーん</div>
+      LP HTML修正完了（Wixスタイル合わせ・素材画像2枚追加）。Cloudflare反映は <code>bash push.sh</code> 実行待ち。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">関西学院大学陸上部</div>
+      5月分請求書・KGAD月次活動報告書（書式4）提出完了（6/7）。北田 日本選手権（幅跳び）6/13-14出場。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">✅</div>
+    <div>
+      <div class="review-pj">SORA</div>
+      体験申込累計345件。6/6(土)体験5件実施。6/14実測: Instagram 528人/288件（+3人）。
+    </div>
+  </div>
+  <div class="review-item">
+    <div class="review-icon">⚠️</div>
+    <div>
+      <div class="review-pj">健康経営 / TrustFit / 関学</div>
+      ハンドオフ13日以上未更新（CRITICAL継続）。TrustFit PRISM CUP中止確定→関係者食事会に変更。法人DM戦略再設計が急務。
+    </div>
+  </div>
+</div>
+
+<!-- ======= 各PJ進捗 ======= -->
+<div class="section-title">📊 各PJ進捗（2026-06-15時点）</div>
+<div class="pj-grid">
+
+  <!-- オギラボ -->
+  <div class="pj-card c1">
+    <div class="pj-name">🎓 オギラボ</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">65%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:65%;background:linear-gradient(90deg,#6c63ff,#a78bfa);"></div></div>
+    <div class="pj-stats">
+      TikTok 1,538人 / YouTube 🎉105人（100人突破！）<br>
+      Note 4フォロワー / メンバー¥980/月<br>
+      note記事「GBP×AI 1位」完成・拡散待ち
+    </div>
+    <div class="pj-milestone">🎯 Note 5人到達・YouTube動画定期投稿加速</div>
+  </div>
+
+  <!-- CARAS -->
+  <div class="pj-card c2">
+    <div class="pj-name">💪 CARAS</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">64%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:64%;background:linear-gradient(90deg,#00c9a7,#4caf50);"></div></div>
+    <div class="pj-stats">
+      Instagram 69人/98件（6/14実測）<br>
+      MEO 夙川1位🟢 / 西宮圏外🔴継続<br>
+      6/16(火) GBP偶数週投稿予定
+    </div>
+    <div class="pj-milestone">🎯 西宮圏外脱却・GBP偶数週ゴルフテーマ</div>
+  </div>
+
+  <!-- 健康経営 -->
+  <div class="pj-card c3">
+    <div class="pj-name">🏢 健康経営</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">20%</span>
+      <span class="pj-delta">（停滞継続）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:20%;background:linear-gradient(90deg,#f9a825,#ff7043);"></div></div>
+    <div class="pj-stats">
+      DM再設計中・契約ゼロ継続<br>
+      ハンドオフ13日以上未更新 🔴<br>
+      TrustFit経由の法人アプローチ検討中
+    </div>
+    <div class="pj-milestone">🚧 DM戦略再設計が最優先</div>
+  </div>
+
+  <!-- SORA -->
+  <div class="pj-card c4">
+    <div class="pj-name">🏃 SORA</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">57%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:57%;background:linear-gradient(90deg,#42a5f5,#00bcd4);"></div></div>
+    <div class="pj-stats">
+      申込累計 345件 / 入会77名 / 入会率52%<br>
+      Instagram 528人/288件（6/14実測）<br>
+      6/16(火)つじおか体験 / 6/20(土)6名ヤマ場
+    </div>
+    <div class="pj-milestone">🎯 6/20(土) 体験×6名 入会転換が今週の山</div>
+  </div>
+
+  <!-- SUPERIOR -->
+  <div class="pj-card c5">
+    <div class="pj-name">⚡ SUPERIOR</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">62%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:62%;background:linear-gradient(90deg,#ec407a,#f48fb1);"></div></div>
+    <div class="pj-stats">
+      Instagram 5人/22件（6/14実測）<br>
+      DNS伝播待ち（www.superior2025.com）<br>
+      6/26(金) 箕面→むーん移管MTG 9:30
+    </div>
+    <div class="pj-milestone">🎯 IG Week3 ATHLETE投稿・移管MTG準備</div>
+  </div>
+
+  <!-- むーん -->
+  <div class="pj-card c6">
+    <div class="pj-name">🌙 むーん</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">85%</span>
+      <span class="pj-delta">（最高進捗）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:85%;background:linear-gradient(90deg,#66bb6a,#a5d6a7);"></div></div>
+    <div class="pj-stats">
+      定員9割稼働（安定稼働期）<br>
+      LP修正完了・Cloudflare反映待ち<br>
+      こども性暴力防止法 対象確認要
+    </div>
+    <div class="pj-milestone">🎯 push.sh実行でLP反映 / 出退勤GAS承認</div>
+  </div>
+
+  <!-- 関学 -->
+  <div class="pj-card c7">
+    <div class="pj-name">🎓 関西学院大学陸上部</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">22%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:22%;background:linear-gradient(90deg,#ffa726,#ffcc02);"></div></div>
+    <div class="pj-stats">
+      ハンドオフ9日以上未更新 🔴<br>
+      北田 日本選手権（幅跳び）出場<br>
+      6/19-21 西日本インカレ（伊藤・渡邉・杉本）
+    </div>
+    <div class="pj-milestone">🎯 北田 結果フォロー・CDST記録更新</div>
+  </div>
+
+  <!-- TrustFit -->
+  <div class="pj-card c8">
+    <div class="pj-name">🤝 TrustFit</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">37%</span>
+      <span class="pj-delta">（前回比 維持）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:37%;background:linear-gradient(90deg,#ef5350,#e57373);"></div></div>
+    <div class="pj-stats">
+      PRISM CUP 中止→関係者食事会に変更<br>
+      ハンドオフ13日以上未更新 🔴<br>
+      法人DM戦略再設計が急務
+    </div>
+    <div class="pj-milestone">🎯 食事会日程調整・DM再設計着手</div>
+  </div>
+
+  <!-- 時粒 -->
+  <div class="pj-card c9">
+    <div class="pj-name">⏳ 時粒（Tokitsubu）</div>
+    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px;">
+      <span class="pj-pct">45%</span>
+      <span class="pj-delta">（+3% 6/7比）</span>
+    </div>
+    <div class="pj-progress-bar"><div class="pj-progress-fill" style="width:45%;background:linear-gradient(90deg,#ab47bc,#ce93d8);"></div></div>
+    <div class="pj-stats">
+      Expo SDK54 / Clerk + Convex 確定<br>
+      6画面実装済み / W2認証継続中<br>
+      方針確定: 「子どもとの時間を宝物に」
+    </div>
+    <div class="pj-milestone">🎯 習い事カウントアップ実装・LP設計</div>
+  </div>
+
+</div>
+
+<!-- ======= 収益化ゲージ ======= -->
+<div class="section-title">💰 収益化ゲージ（MG-1〜MG-5）</div>
+<div class="card" style="margin-bottom:24px;">
+  <div class="gauge-row">
+    <div class="gauge-name">🎓 オギラボ</div>
+    <div class="gauge-blocks">■□□□□</div>
+    <div class="gauge-pt">4pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-wip">MG-1完了</span> メンバーシップLP稼働・¥980設定済み。5人到達でMG-2。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">💪 CARAS</div>
+    <div class="gauge-blocks">■□□□□</div>
+    <div class="gauge-pt">4pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-wip">MG-1完了</span> LP・MEO稼働。既存顧客実績あり。新規問い合わせ継続中。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">🏢 健康経営</div>
+    <div class="gauge-blocks">□□□□□</div>
+    <div class="gauge-pt">0pt / 20pt</div>
+    <div class="gauge-label" style="color:#ef5350;">MG-0 契約ゼロ継続。DM再設計が起点。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">🏃 SORA</div>
+    <div class="gauge-blocks">■■■■■</div>
+    <div class="gauge-pt">20pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-done">MG-5完了</span> 入会77名・入会率52%・継続多数。完全稼働フェーズ。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">⚡ SUPERIOR</div>
+    <div class="gauge-blocks">■■□□□</div>
+    <div class="gauge-pt">8pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-wip">MG-2完了</span> たかはしりょうた入会・一定会員確保。IG5人で拡散弱い。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">🌙 むーん</div>
+    <div class="gauge-blocks">■■■■■</div>
+    <div class="gauge-pt">20pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-done">MG-5完了</span> 定員9割稼働・安定収益フェーズ。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">🤝 TrustFit</div>
+    <div class="gauge-blocks">■□□□□</div>
+    <div class="gauge-pt">4pt / 20pt</div>
+    <div class="gauge-label"><span class="badge badge-wip">MG-1完了</span> LP・CF公開済み。PRISM CUP中止でピボット中。</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-name">⏳ 時粒</div>
+    <div class="gauge-blocks">□□□□□</div>
+    <div class="gauge-pt">0pt / 20pt</div>
+    <div class="gauge-label" style="color:var(--muted);">開発フェーズ。LP＋リリース後にMG-1着手。</div>
+  </div>
+</div>
+
+<!-- ======= 週次スプリント ======= -->
+<div class="section-title">🎯 今週の集中PJ提案（スプリント宣言）</div>
+<div class="sprint-box">
+  <p style="color:var(--muted);font-size:12px;margin-bottom:16px;">最大2PJを選択して集中投下。ルーティン以外は選択PJに注力。</p>
+  <div class="sprint-item">
+    <span class="sprint-rank">🥇</span><span class="sprint-pj">SORA</span>
+    <div class="sprint-reason">今週最大ヤマ場: 6/20(土)体験×6名（高松3名・観音寺3名）。入会率52%×6名=3名入会期待。入会金+月謝の即時収益インパクト大。6/16(火)つじおかしんのすけ体験もあり。今週逃すと機会損失が最大。</div>
+  </div>
+  <div class="sprint-item">
+    <span class="sprint-rank">🥈</span><span class="sprint-pj">オギラボ</span>
+    <div class="sprint-reason">YouTube 100人突破の勢いを維持。note記事「GBP×AI 1位」の拡散（X/Threads投稿実施）でNote 5人→MG-2達成が目前。6/17(水) CARAS Instagram偶数週GOLF投稿との相乗りでコンテンツ軸を強化。</div>
+  </div>
+  <p style="font-size:12px;color:var(--warn);margin-top:14px;">⚠️ 健康経営・TrustFitのハンドオフ更新（CRITICAL）も今週中に着手推奨</p>
+</div>
+
+<!-- ======= 推奨アクションTOP5 ======= -->
+<div class="section-title">🚀 今週の推奨アクション TOP5</div>
+
+<div class="action-card">
+  <div class="action-title"><span class="action-num">1</span>SORA 6/20体験×6名 入会転換フォロー</div>
+  <div class="action-body">6/20(土)の高松3名・観音寺3名の体験者へ事前リマインドLINE送付。当日体験後の即日フォロー体制を準備。入会77→80名到達が視野。</div>
+  <div class="action-pj">📍 SORA | 🔴 高優先 | 期限: 6/20(土)</div>
+</div>
+
+<div class="action-card">
+  <div class="action-title"><span class="action-num">2</span>むーん LP Cloudflare反映</div>
+  <div class="action-body">ターミナルで <code>cd /Users/ogita/Desktop/ai実験用/むーん &amp;&amp; bash push.sh "Wix合わせ修正・素材画像追加"</code> を実行。完了後にサイト表示確認。</div>
+  <div class="action-pj">📍 むーん | 🟡 重要 | 期限: 今日</div>
+</div>
+
+<div class="action-card">
+  <div class="action-title"><span class="action-num">3</span>オギラボ note記事「GBP×AI 1位」X/Threads拡散</div>
+  <div class="action-body">生成済みの投稿案（X案B 罠×逆張り / Threads案A ストーリー型）を手動投稿。noteフォロワー4→5人への最短ルート。</div>
+  <div class="action-pj">📍 オギラボ | 🟡 重要 | 期限: 今週中</div>
+</div>
+
+<div class="action-card">
+  <div class="action-title"><span class="action-num">4</span>CARAS 6/16(火) GBP偶数週投稿</div>
+  <div class="action-body">ゴルフパフォーマンス向上テーマ。「飛距離を伸ばしたい方へ」訴求・マダム表現NGルール厳守。自動実行予定だが内容確認のこと。</div>
+  <div class="action-pj">📍 CARAS | 🟢 ルーティン | 期限: 6/16(火)</div>
+</div>
+
+<div class="action-card">
+  <div class="action-title"><span class="action-num">5</span>健康経営・TrustFit ハンドオフ更新（CRITICAL解消）</div>
+  <div class="action-body">両PJとも13日以上ハンドオフ未更新。最低限「現状把握 → 次アクション1行」をCONTEXT.mdに書き込む。TrustFitは食事会日程調整状況を記録。</div>
+  <div class="action-pj">📍 健康経営 / TrustFit | 🔴 高優先 | 期限: 今週中</div>
+</div>
+
+<!-- ======= ブロック中タスク ======= -->
+<div class="section-title">🚧 ブロック中タスク</div>
+<div style="margin-bottom:24px;">
+  <div class="block-item">
+    <div class="bi-label">🚧 むーん LP Cloudflare反映</div>
+    前提未完了: MOONさんによる <code>bash push.sh</code> 実行待ち。Claudeは自動実行不可。
+  </div>
+  <div class="block-item">
+    <div class="bi-label">🚧 SUPERIOR www.superior2025.com カスタムドメイン</div>
+    Wix CNAME設定済み・DNS伝播待ち。Cloudflare確認メール受信後にWixプレミアム解約。
+  </div>
+  <div class="block-item">
+    <div class="bi-label">🚧 むーん 出退勤管理GAS 初回実行</div>
+    Apps Scriptへの手動貼付＋初回承認がまだ。7/1(水)自動実行予定に向けて今月中に承認が必須。
+  </div>
+  <div class="block-item">
+    <div class="bi-label">🚧 SUPERIOR IG Week3 ATHLETE 画像生成・投稿</div>
+    キャプション生成済み（234字・85点）。<code>python3 SUPERIOR/tools/generate_superior_instagram.py 3</code> 実行 → MOONさん手動投稿。
+  </div>
+  <div class="block-item">
+    <div class="bi-label">🚧 関学 北田 日本選手権 結果フォロー</div>
+    6/13-14出場済み。結果確認・CDST記録更新が未完了。
+  </div>
+  <div class="block-item">
+    <div class="bi-label">🚧 TrustFit PRISM CUP → 食事会 日程調整</div>
+    山崎椋太・佐藤和樹ほかとの日程調整中。状況記録がない。
+  </div>
+</div>
+
+<!-- ======= Decision Log ======= -->
+<div class="section-title">🔄 Decision Log 再評価アラート</div>
+<div class="card" style="margin-bottom:24px;">
+  <p style="color:var(--muted);font-size:13px;">全PJの <code>outputs/decisions/</code> フォルダを確認しました。</p>
+  <div style="margin-top:12px;padding:14px;background:#4caf5011;border-radius:8px;border:1px solid #4caf5033;font-size:13px;">
+    ✅ 再評価期限切れの Decision Log: <strong>0件</strong>（全フォルダ空）<br>
+    <span style="color:var(--muted);font-size:12px;">記録すべき重要意思決定（PRISM CUP中止・箕面→むーん移管）の Decision Log 作成を推奨。</span>
+  </div>
+  <div style="margin-top:12px;padding:14px;background:#f9a82511;border-radius:8px;border:1px solid #f9a82533;font-size:12px;">
+    📝 <strong>推奨: 以下の意思決定をDecision Logに記録してください</strong><br>
+    ① PRISM CUP 中止 → 関係者食事会ピボット（TrustFit）<br>
+    ② SUPERIOR箕面スクール → むーん移管（7月〜）<br>
+    ③ オギラボ noteメンバーシップ ¥980/月 確定（2026-04-09）
+  </div>
+</div>
+
+<!-- ======= 直近スケジュール ======= -->
+<div class="section-title">📅 今週の直近スケジュール</div>
+<div class="card" style="margin-bottom:24px;">
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <thead>
+      <tr style="border-bottom:1px solid var(--border);">
+        <th style="text-align:left;padding:8px 12px;color:var(--muted);">日付</th>
+        <th style="text-align:left;padding:8px 12px;color:var(--muted);">内容</th>
+        <th style="text-align:left;padding:8px 12px;color:var(--muted);">PJ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--warn);">6/16 (火)</td>
+        <td style="padding:8px 12px;">CARAS GBP偶数週投稿（ゴルフパフォーマンス向上）</td>
+        <td style="padding:8px 12px;color:var(--accent2);">CARAS</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--warn);">6/16 (火)</td>
+        <td style="padding:8px 12px;">SORA体験 つじおかしんのすけ（小6・小山コーチ・初回から費用あり）18:30〜</td>
+        <td style="padding:8px 12px;color:var(--accent2);">SORA</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--muted);">6/17 (水)</td>
+        <td style="padding:8px 12px;">CARAS Instagram偶数週GOLF投稿</td>
+        <td style="padding:8px 12px;color:var(--accent2);">CARAS</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--danger);">6/19-21</td>
+        <td style="padding:8px 12px;">西日本インカレ（伊藤・渡邉・杉本 出場）</td>
+        <td style="padding:8px 12px;color:var(--accent2);">関学</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--danger);">6/20 (土)</td>
+        <td style="padding:8px 12px;">SORA体験×6名（高松3名・観音寺3名）🔥今週最大ヤマ場</td>
+        <td style="padding:8px 12px;color:var(--accent2);">SORA</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)11;">
+        <td style="padding:8px 12px;color:var(--muted);">6/22 (日)</td>
+        <td style="padding:8px 12px;">U20世界陸上 有効記録メモ確認</td>
+        <td style="padding:8px 12px;color:var(--accent2);">関学</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;color:var(--warn);">6/25 (木)</td>
+        <td style="padding:8px 12px;">夏季ボーナス支給 5名・総額¥1,144,000</td>
+        <td style="padding:8px 12px;color:var(--accent2);">MOON全体</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ======= シナジーチャンス ======= -->
+<div class="section-title">🔗 今週のシナジーチャンス</div>
+<div class="card" style="margin-bottom:24px;">
+  <div style="padding:12px;background:var(--card2);border-radius:8px;margin-bottom:10px;font-size:13px;">
+    <strong style="color:var(--accent2);">SORA体験→CARAS保護者アプローチ</strong><br>
+    <span style="color:var(--muted);">6/20(土)体験保護者6名の待機時間にCARASパーソナルジム情報を自然な形で案内。「子どもの走りを育てる保護者自身の体力管理」訴求。</span>
+  </div>
+  <div style="padding:12px;background:var(--card2);border-radius:8px;margin-bottom:10px;font-size:13px;">
+    <strong style="color:var(--accent2);">オギラボ note記事 → CARAS MEO事例として発信</strong><br>
+    <span style="color:var(--muted);">「GBP×AI 1位」記事をCARASの成功事例として健康経営法人向け提案資料に転用検討。BtoBセールス→健康経営テーマ。</span>
+  </div>
+  <div style="padding:12px;background:var(--card2);border-radius:8px;font-size:13px;">
+    <strong style="color:var(--accent2);">時粒アプリ → SORA/SUPERIOR保護者への LP設計</strong><br>
+    <span style="color:var(--muted);">「子どもとの時間を宝物に」コンセプトはSORA/SUPERIOR保護者層（30〜45歳）に直刺さり。アプリリリース前のアーリーアクセス登録をSORA体験保護者に案内する動線設計を来月準備。</span>
+  </div>
+</div>
+
+<div class="footer">
+  📋 weekly-review_2026-06-15.html | 自動生成: 2026年6月15日（月）| AI組織 weekly-review スキル
+</div>
+
+</body>
+</html>

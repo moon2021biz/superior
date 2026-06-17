@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>時粒｜共有アップデートまとめ（2026-06-14）</title>
+<style>
+  :root{
+    --bg:#15110b; --panel:#1f1810; --line:#3a2f1f; --gold:#c9a45a; --goldsoft:#2a2113;
+    --text:#efe7d6; --dim:#a99a7e; --good:#7fae6e; --rose:#cf8a86;
+    /* アプリの実配色（モック用） */
+    --a-bg:#f4ead4; --a-card:#f8efda; --a-cardlite:#fcf6e8; --a-line:#e2d3ac;
+    --a-text:#382e1d; --a-dim:#8a7a5b; --a-gold:#b98e2c; --a-goldbright:#c89a30; --a-goldtext:#9a7a2c; --a-soft:#b98e2c20; --a-good:#4f8a5b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.75;padding:34px 18px 90px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:25px;font-weight:800;text-align:center;letter-spacing:.02em}
+  .date{text-align:center;color:var(--dim);font-size:13px;margin:6px 0 30px}
+  h2{font-size:19px;color:var(--gold);margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:15px;margin:18px 0 8px}
+  p{font-size:14px;color:var(--text)}
+  .lead{color:var(--dim);font-size:14px;margin-bottom:8px}
+  .cards{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .card{flex:1;min-width:260px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .card h3{margin-top:0;color:var(--text)}
+  .card p{font-size:13px;color:var(--dim)}
+  .tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+  .t-new{background:var(--goldsoft);color:var(--gold);border:1px solid var(--gold)}
+  .t-fix{background:#231a24;color:var(--rose);border:1px solid var(--rose)}
+  ul{margin:6px 0 0 2px;list-style:none}
+  li{font-size:13px;color:var(--text);padding:5px 0 5px 20px;position:relative}
+  li::before{content:"●";color:var(--gold);position:absolute;left:0;font-size:9px;top:8px}
+  .two{display:flex;gap:16px;flex-wrap:wrap}
+  .col{flex:1;min-width:300px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .tier{display:inline-block;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-bottom:8px}
+  .t1{background:var(--goldsoft);color:var(--gold);border:1px solid var(--gold)}
+  .t2{background:#231a24;color:var(--rose);border:1px solid var(--rose)}
+  table.scope{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  table.scope td{padding:7px 10px;border:1px solid var(--line)}
+  table.scope td:first-child{color:var(--good)}
+  table.scope td:last-child{color:var(--dim)}
+
+  /* 画面ギャラリー */
+  .gallery{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .shot{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .shot .cap{font-size:13px;color:var(--gold);font-weight:700}
+  .phone{width:300px;height:640px;background:var(--a-bg);border-radius:34px;border:9px solid #2b2317;overflow:hidden;position:relative;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif}
+  .scr{height:100%;overflow:hidden;padding:16px 14px;box-sizing:border-box}
+  .mincho{font-family:'Hiragino Mincho ProN','Yu Mincho',serif}
+  .tabbar{position:absolute;bottom:0;left:0;right:0;height:48px;background:#efe3c6;border-top:1px solid var(--a-line);display:flex;align-items:center;justify-content:space-around;font-size:10px;color:var(--a-dim)}
+  /* アプリ内パーツ */
+  .a-banner{display:flex;align-items:center;gap:10px;background:var(--a-soft);border:1px solid var(--a-gold);border-radius:14px;padding:11px 12px;margin-bottom:12px}
+  .a-chiprow{display:flex;gap:7px;margin-bottom:11px}
+  .a-chip{border-radius:999px;padding:5px 13px;font-size:12px;border:1px solid var(--a-line);background:var(--a-card);color:var(--a-dim)}
+  .a-chip.on{background:var(--a-soft);border-color:var(--a-gold);color:var(--a-goldtext);font-weight:700}
+  .a-hero{background:var(--a-cardlite);border:1px solid var(--a-line);border-radius:16px;padding:16px;text-align:center;margin-bottom:11px}
+  .a-card{background:var(--a-card);border:1px solid var(--a-line);border-radius:13px;padding:11px;margin-bottom:9px}
+  .sec{color:var(--a-text);font-size:15px;font-weight:700;margin:14px 0 8px}
+  .ph{background:#3a3127;display:flex;align-items:center;justify-content:center;color:#a99}
+  small{color:var(--a-dim)}
+  .note{margin-top:34px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .note h3{color:var(--gold)}
+  .foot{text-align:center;color:var(--dim);font-size:12px;margin-top:30px}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{font-size:12px;background:var(--goldsoft);color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:3px 11px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>時粒｜共有アップデートまとめ</h1>
+  <div class="date">2026-06-14 ／ 「誰に・何を・どう見せるか」を整理し、祖父母ビューを実装</div>
+
+  <!-- 1. 全体像 -->
+  <h2>1. 全体像：共有を2層に整理</h2>
+  <p class="lead">「全部共有」をやめ、<b style="color:var(--text)">子どものことだけ</b>を共有。さらに「親が使う画面」と「祖父母が見る画面」を分けました。</p>
+  <div class="two">
+    <div class="col">
+      <span class="tier t1">層1</span>
+      <h3 style="margin-top:4px">親（自分・配偶者）＝ 編集できる人</h3>
+      <p style="color:var(--dim);font-size:13px">今のアプリのまま。自分の投稿以外は配偶者と画面が一致（ライブ同期）。</p>
+    </div>
+    <div class="col">
+      <span class="tier t2">層2</span>
+      <h3 style="margin-top:4px">親以外（祖父母・親族）＝ 見るだけの人</h3>
+      <p style="color:var(--dim);font-size:13px">専用の「見るだけ」ビュー。孫の写真・宝物・成長を見て、♥やコメントで応援。</p>
+    </div>
+  </div>
+
+  <h3>共有する範囲（子どものことだけ）</h3>
+  <table class="scope">
+    <tr><td>✓ 子どものプロフィール</td><td>✗ あなたの記録（運動・日常・旅行・おでかけ・祖父母visit）</td></tr>
+    <tr><td>✓ 子どもの宝物（日常・練習・大会・声）</td><td>✗ あなたの体の記録</td></tr>
+    <tr><td>✓ 子どもの成長（その子の身長体重）</td><td>✗ グループ／スクール管理・家族構成メモ</td></tr>
+    <tr><td>✓ 家族のトップ写真（家族みんなの写真）</td><td>—</td></tr>
+  </table>
+
+  <!-- 2. 画面サンプル -->
+  <h2>2. 画面サンプル</h2>
+  <p class="lead">実際のコードに沿った再現です（写真・絵文字はダミー。実機はアップした写真とアイコンが入ります）。</p>
+  <div class="gallery">
+
+    <!-- ホーム -->
+    <div class="shot">
+      <div class="cap">① ホーム（孫バナー付き）</div>
+      <div class="phone"><div class="scr">
+        <div class="a-banner"><span style="font-size:21px">👵</span><div style="flex:1"><div style="color:var(--a-goldtext);font-size:13px;font-weight:700">孫の投稿が届いています（2人）</div><div style="color:var(--a-dim);font-size:11px">タップして「見るだけ」で見る</div></div><span style="color:var(--a-gold)">›</span></div>
+        <div class="a-chiprow"><div class="a-chip">家族</div><div class="a-chip on">● そら</div><div class="a-chip">あおい</div></div>
+        <div style="display:flex;align-items:center;margin-bottom:11px"><div style="flex:1;color:var(--a-dim);font-size:12px">7歳 ・ サッカー ・ 巣立ち18歳まで</div><div style="color:var(--a-gold);font-size:12px">⚙ 設定</div></div>
+        <div class="a-hero">
+          <div style="color:var(--a-dim);font-size:12px">そらと一緒に暮らせる時間</div>
+          <div style="display:flex;align-items:baseline;justify-content:center;gap:5px;margin-top:4px"><span style="color:var(--a-goldtext);font-size:14px">あと</span><span class="mincho" style="color:var(--a-goldbright);font-size:50px;font-weight:600;line-height:1">11</span><span style="color:var(--a-goldtext);font-size:14px">年</span></div>
+          <small>（おおよそ）</small>
+          <div style="margin:12px auto;width:88px;height:88px;border-radius:22px;background:var(--a-bg);border:1px solid var(--a-line);display:flex;align-items:center;justify-content:center;font-size:38px">⏳</div>
+          <div class="mincho" style="color:var(--a-goldtext);font-size:13px">今日という一粒を、宝物に。</div>
+          <div style="display:flex;align-items:center;gap:9px;background:var(--a-gold);border-radius:13px;padding:10px 14px;margin-top:12px;justify-content:center"><span style="font-size:18px">📷</span><div style="text-align:left"><div style="color:#3a2e16;font-size:14px;font-weight:700">記録する</div><div style="color:#3a2e16cc;font-size:11px">写真・音声・練習・大会</div></div></div>
+        </div>
+        <div style="display:flex;gap:7px">
+          <div style="flex:1;background:var(--a-cardlite);border:1px solid var(--a-line);border-radius:11px;padding:9px;text-align:center"><small style="font-size:9px">夏は、あと</small><div class="mincho" style="color:var(--a-goldbright);font-size:24px;font-weight:600">11</div><small style="font-size:9px">回</small></div>
+          <div style="flex:1;background:var(--a-cardlite);border:1px solid var(--a-line);border-radius:11px;padding:9px;text-align:center"><small style="font-size:9px">旅行、あと</small><div class="mincho" style="color:var(--a-goldbright);font-size:24px;font-weight:600">22</div><small style="font-size:9px">回</small></div>
+          <div style="flex:1;background:var(--a-cardlite);border:1px solid var(--a-line);border-radius:11px;padding:9px;text-align:center"><small style="font-size:9px">一緒は、あと</small><div class="mincho" style="color:var(--a-goldbright);font-size:24px;font-weight:600">11</div><small style="font-size:9px">年</small></div>
+        </div>
+      </div>
+      <div class="tabbar"><span style="color:var(--a-gold)">🏠 ホーム</span><span>📖 アーカイブ</span><span>☰ メニュー</span></div>
+      </div>
+    </div>
+
+    <!-- 祖父母ビュー -->
+    <div class="shot">
+      <div class="cap">② 祖父母ビュー（孫一覧）</div>
+      <div class="phone"><div class="scr">
+        <div style="color:var(--a-gold);font-size:18px;margin-bottom:8px">‹</div>
+        <div class="mincho" style="color:var(--a-text);font-size:22px;font-weight:600">祖父母ビュー</div>
+        <small style="display:block;margin:2px 0 14px">共有された孫の成長を、見るだけで楽しめます</small>
+        <div style="width:100%;height:140px;border-radius:16px;background:#e7d9b4;display:flex;align-items:center;justify-content:center;font-size:38px">👨‍👩‍👧‍👦</div>
+        <small style="display:block;text-align:center;margin:6px 0 12px">家族写真</small>
+        <div style="color:var(--a-gold);font-size:14px;font-weight:700;margin-bottom:10px">共有された孫 2人</div>
+        <div class="a-card" style="display:flex;align-items:center;gap:13px">
+          <div style="width:54px;height:54px;border-radius:27px;background:#dcc06a;display:flex;align-items:center;justify-content:center;font-size:24px">🧒</div>
+          <div style="flex:1"><div class="mincho" style="color:var(--a-text);font-size:17px;font-weight:600">そら</div><small>7歳 ・ 🎂 2019-04-10</small><div style="display:flex;gap:8px;margin-top:5px"><span style="background:var(--a-bg);border-radius:9px;padding:3px 7px;font-size:11px;color:var(--a-dim)">💎 宝物 24</span><span style="background:var(--a-bg);border-radius:9px;padding:3px 7px;font-size:11px;color:var(--a-dim)">📈 成長 6</span></div></div>
+          <span style="color:var(--a-gold);font-size:20px">›</span>
+        </div>
+        <div class="a-card" style="display:flex;align-items:center;gap:13px">
+          <div style="width:54px;height:54px;border-radius:27px;background:#cdb6e0;display:flex;align-items:center;justify-content:center;font-size:24px">👧</div>
+          <div style="flex:1"><div class="mincho" style="color:var(--a-text);font-size:17px;font-weight:600">めい</div><small>4歳 ・ 🎂 2021-08-22</small><div style="display:flex;gap:8px;margin-top:5px"><span style="background:var(--a-bg);border-radius:9px;padding:3px 7px;font-size:11px;color:var(--a-dim)">💎 宝物 11</span><span style="background:var(--a-bg);border-radius:9px;padding:3px 7px;font-size:11px;color:var(--a-dim)">📈 成長 2</span></div></div>
+          <span style="color:var(--a-gold);font-size:20px">›</span>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 各孫ページ -->
+    <div class="shot">
+      <div class="cap">③ 各孫ページ（見るだけ）</div>
+      <div class="phone"><div class="scr">
+        <div style="color:var(--a-gold);font-size:18px">‹</div>
+        <div style="width:100%;height:130px;border-radius:16px;background:#cbb98e;display:flex;align-items:center;justify-content:center;font-size:40px;margin-top:6px">🧒</div>
+        <div class="mincho" style="text-align:center;color:var(--a-text);font-size:22px;font-weight:600;margin-top:8px">そら</div>
+        <small style="display:block;text-align:center">7歳 ・ 🎂 2019-04-10</small>
+        <div style="background:var(--a-soft);border:1px solid var(--a-gold);border-radius:14px;padding:11px;margin-top:10px"><div style="color:var(--a-gold);font-size:11px;font-weight:800">ふりかえり</div><div class="mincho" style="color:var(--a-text);font-size:14px;font-weight:700;margin-top:3px">今月の宝物 8個 ・ 今年 24個</div></div>
+        <div class="sec mincho">アルバム</div>
+        <div style="width:100%;height:120px;border-radius:14px;" class="ph">⚽</div>
+        <div style="display:flex;gap:6px;margin-top:8px"><div class="ph" style="width:52px;height:52px;border-radius:10px;border:2px solid var(--a-gold)">⚽</div><div class="ph" style="width:52px;height:52px;border-radius:10px;opacity:.6">🌳</div><div class="ph" style="width:52px;height:52px;border-radius:10px;opacity:.6">🎂</div><div class="ph" style="width:52px;height:52px;border-radius:10px;opacity:.6">🏊</div></div>
+        <div class="sec mincho">宝物一覧</div>
+        <div class="a-card" style="padding:0;overflow:hidden">
+          <div class="ph" style="height:96px">⚽</div>
+          <div style="padding:10px">
+            <small>2026-06-08　😊</small>
+            <div style="color:var(--a-text);font-size:14px;font-weight:700">初めての公式戦でゴール！</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--a-line)"><span style="color:var(--rose);font-size:20px">♥</span><span style="color:var(--a-dim);font-size:13px">2</span></div>
+            <div style="display:flex;gap:7px;margin-top:6px"><span style="color:var(--a-gold);font-size:12px;font-weight:800">おばあちゃん</span><span style="color:var(--a-text);font-size:12px">すごいね！次も応援してるよ</span></div>
+            <div style="display:flex;gap:7px;margin-top:9px"><div style="flex:1;background:var(--a-bg);border:1px solid var(--a-line);border-radius:10px;padding:7px 10px;color:var(--a-dim);font-size:12px">コメントを書く…</div><div style="background:var(--a-gold);border-radius:10px;padding:7px 12px;color:#3a2e16;font-size:12px;font-weight:800">送信</div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- アーカイブ プレビュー -->
+    <div class="shot">
+      <div class="cap">④ アーカイブ（相手目線プレビュー）</div>
+      <div class="phone"><div class="scr">
+        <div class="mincho" style="color:var(--a-text);font-size:22px;font-weight:600;margin-bottom:10px">アーカイブ</div>
+        <div style="text-align:center;margin-bottom:10px"><span style="display:inline-block;background:var(--a-gold);border-radius:999px;padding:7px 15px;color:#fff;font-size:13px;font-weight:700">← 自分の画面に戻る</span></div>
+        <div style="background:var(--a-soft);border:1px solid var(--a-gold);border-radius:12px;padding:9px;margin-bottom:12px;text-align:center"><div style="color:var(--a-goldtext);font-size:12px;font-weight:700;line-height:1.5">共有相手にはこう見えます<br>（見るだけ・♥やコメントができます）</div></div>
+        <div style="text-align:center;margin-bottom:12px"><div class="mincho" style="color:var(--a-goldbright);font-size:42px;font-weight:600;line-height:1">24</div><small>そら の宝物が積み上がっています</small></div>
+        <div class="a-card" style="padding:0;overflow:hidden">
+          <div class="ph" style="height:110px">⚽</div>
+          <div style="padding:11px"><div style="display:flex;justify-content:space-between"><span style="color:var(--a-good);font-size:11px;font-weight:700">🏅 大会</span><small>2026-06-08</small></div><div style="color:var(--a-text);font-size:14px;font-weight:700">初めての公式戦でゴール！</div><small style="display:block">サッカー / 1得点</small><div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--a-line);color:var(--a-dim);font-size:13px;font-weight:700">♡　コメント</div></div>
+        </div>
+        <div class="a-card" style="padding:0;overflow:hidden">
+          <div class="ph" style="height:110px">🌳</div>
+          <div style="padding:11px"><div style="display:flex;justify-content:space-between"><span style="color:var(--a-good);font-size:11px;font-weight:700">🌿 おでかけ</span><small>2026-06-01</small></div><div style="color:var(--a-text);font-size:14px;font-weight:700">公園でどんぐり拾い</div><small style="display:block">いっぱい集めて嬉しそうだった🎶</small><div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--a-line);color:var(--a-dim);font-size:13px;font-weight:700">♡　コメント</div></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <!-- 3. 変更点 -->
+  <h2>3. 主な変更点</h2>
+  <div class="cards">
+    <div class="card"><span class="tag t-new">新機能</span><h3>祖父母ビュー（見るだけ）</h3><p>共有された孫を家族横断で集約。トップ＝家族写真＋孫一覧。各孫ページ＝メイン画像／ふりかえり／アルバム／習い事／成長の軌跡／宝物一覧。</p></div>
+    <div class="card"><span class="tag t-new">新機能</span><h3>♥・コメント</h3><p>祖父母が孫の各投稿に「いいね」とコメント。家族グループに依存しない独立実装。</p></div>
+    <div class="card"><span class="tag t-new">新機能</span><h3>同意制の共有（2種別）</h3><p>配偶者＝双方向で同期。祖父母＝片方向で「見るだけ」。IDの打ち間違い対策（名前確認・合言葉PIN）も継続。</p></div>
+  </div>
+  <div class="cards">
+    <div class="card"><span class="tag t-new">新機能</span><h3>相手目線プレビュー</h3><p>アーカイブで「共有相手にはこう見えるか」をワンタップ確認。自分用と共有用を切り替えて見られる。</p></div>
+    <div class="card"><span class="tag t-fix">調整</span><h3>共有範囲を厳格化</h3><p>「子どものことだけ」に限定。あなたの記録・体の記録・グループ管理・家族構成メモは共有しない（家族写真のみ例外で共有）。</p></div>
+    <div class="card"><span class="tag t-fix">調整</span><h3>カウントダウン削除</h3><p>祖父母ビューでは「あと何回会える」「一緒に暮らせる時間」を出さない（同居でないため）。年齢は表示。</p></div>
+  </div>
+
+  <!-- 4. 祖父母の使い方 -->
+  <h2>4. 祖父母はどう使う？</h2>
+  <p class="lead">専用アプリにはしません。全員が普通にログインし、孫が共有された人にだけ「見るだけ」入口が出ます。</p>
+  <div class="pillrow">
+    <span class="pill">① 同じアプリにログイン</span>
+    <span class="pill">② 親が「見るだけで招待」</span>
+    <span class="pill">③ 祖父母が同意</span>
+    <span class="pill">④ ホームに孫バナー出現</span>
+    <span class="pill">⑤ タップで孫の成長を見る</span>
+  </div>
+
+  <div class="note">
+    <h3>次の予定（Phase C）</h3>
+    <p style="color:var(--dim);font-size:13px">招待UXの仕上げ ／ アーカイブのプレビューを祖父母ビュー構成に揃える ／ 旧「家族フィード」を整理・統合。<br>※ まずは実機2アカウントで「孫・写真・♥コメントが出るか」を確認 → OKならPhase Cへ。</p>
+  </div>
+
+  <div class="foot">時粒（ときつぶ）開発メモ ／ 2026-06-14 ／ React Native・Expo / Clerk＋Convex</div>
+</div>
+</body>
+</html>
