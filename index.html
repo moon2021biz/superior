@@ -635,7 +635,9 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      header { padding: 0 20px; }
+      header { padding: 0 14px; }
+      .header-logo { font-size: 16px; letter-spacing: 3px; }
+      .btn-trial { padding: 9px 14px; font-size: 11px; letter-spacing: 1px; }
       .hero { padding: 72px 20px 64px; }
       .section { padding: 64px 20px; }
       .line-section { padding: 56px 20px; }
@@ -660,9 +662,15 @@
   <!-- HEADER -->
   <header>
     <a href="#" class="header-logo" aria-label="SUPERIOR トップへ">SUPERIOR</a>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfkNyUv1ICpxOA7Q_md0k81Mf4623JP2ReJFZSJ35FmL2YNYQ/viewform"
-       class="btn-trial"
-       target="_blank" rel="noopener">体験申し込み</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="https://lin.ee/yjGq40U"
+         class="btn-trial"
+         style="background:#06C755;"
+         target="_blank" rel="noopener">LINEで問い合わせ</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfkNyUv1ICpxOA7Q_md0k81Mf4623JP2ReJFZSJ35FmL2YNYQ/viewform"
+         class="btn-trial"
+         target="_blank" rel="noopener">体験申し込み</a>
+    </div>
   </header>
 
   <!-- HERO -->
@@ -704,7 +712,7 @@
                 border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(184,154,90,.35);
                 transition:opacity .2s;"
          onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-        📖 コラム・読みもの一覧を見る →
+        コラム・読みもの一覧を見る →
       </a>
     </div>
   </section>
