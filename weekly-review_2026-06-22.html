@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー 2026-06-22（月）</title>
+<style>
+  :root{
+    --navy:#1a2740; --blue:#2b5fae; --accent:#3a7bd5; --gold:#c8a24a;
+    --green:#2f9e6e; --red:#d9534f; --amber:#e0a526; --gray:#718096;
+    --bg:#f4f6fa; --card:#ffffff; --line:#e2e8f0;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    margin:0;background:var(--bg);color:#23304a;line-height:1.7;font-size:15px;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px;}
+  header.hero{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;
+    border-radius:16px;padding:30px 32px;box-shadow:0 8px 24px rgba(26,39,64,.18);}
+  header.hero h1{margin:0 0 6px;font-size:1.7rem;letter-spacing:.02em;}
+  header.hero .sub{opacity:.85;font-size:.95rem;}
+  header.hero .period{margin-top:14px;display:inline-block;background:rgba(255,255,255,.15);
+    padding:6px 14px;border-radius:999px;font-size:.85rem;}
+  section{background:var(--card);border-radius:14px;padding:24px 26px;margin-top:22px;
+    box-shadow:0 2px 10px rgba(26,39,64,.06);border:1px solid var(--line);}
+  h2{font-size:1.18rem;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid var(--line);
+    display:flex;align-items:center;gap:10px;color:var(--navy);}
+  h2 .ic{font-size:1.3rem;}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:#eef2f8;color:var(--navy);font-weight:700;}
+  tr:last-child td{border-bottom:none;}
+  .pj{font-weight:700;color:var(--navy);white-space:nowrap;}
+  .pct{font-weight:700;color:var(--blue);}
+  .gauge{font-family:monospace;letter-spacing:1px;color:var(--gold);font-size:.95rem;}
+  .gnum{color:var(--gray);font-size:.78rem;}
+  .chg-up{color:var(--green);font-weight:700;}
+  .chg-flat{color:var(--gray);}
+  ul.clean{margin:6px 0 0;padding-left:20px;}
+  ul.clean li{margin-bottom:8px;}
+  .focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .focus-card{border-radius:12px;padding:18px 20px;border:2px solid;}
+  .focus-1{border-color:var(--gold);background:linear-gradient(135deg,#fffdf6,#fdf6e3);}
+  .focus-2{border-color:var(--accent);background:linear-gradient(135deg,#f6faff,#eef5ff);}
+  .focus-card .rank{font-size:1.05rem;font-weight:800;margin-bottom:6px;}
+  .focus-1 .rank{color:#b5882f;}
+  .focus-2 .rank{color:var(--blue);}
+  .focus-card .why{font-size:.88rem;color:#3a4a63;}
+  .act{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .act:last-child{border-bottom:none;}
+  .act .no{flex:0 0 30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;}
+  .act .body strong{display:block;color:var(--navy);margin-bottom:2px;}
+  .act .body span{font-size:.88rem;color:#4a5a72;}
+  .pri-red{border-left:4px solid var(--red);}
+  .pri-amber{border-left:4px solid var(--amber);}
+  .pri-blue{border-left:4px solid var(--accent);}
+  .badge{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:6px;font-weight:700;margin-left:6px;}
+  .b-crit{background:#fdecec;color:var(--red);}
+  .b-block{background:#fff5e6;color:#b5790f;}
+  .b-ok{background:#e8f6ef;color:var(--green);}
+  .note{background:#f8fafc;border-left:3px solid var(--gray);padding:10px 14px;
+    font-size:.85rem;color:var(--gray);border-radius:0 8px 8px 0;margin-top:14px;}
+  .syn li strong{color:var(--blue);}
+  footer{text-align:center;color:var(--gray);font-size:.8rem;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>📅 週次レビュー</h1>
+    <div class="sub">AI組織 週次振り返り＋今週の優先アクション提案</div>
+    <div class="period">対象期間：2026/06/16（月）〜 06/22（月）｜ 全9プロジェクト</div>
+  </header>
+
+  <!-- STEP1 先週の振り返り -->
+  <section>
+    <h2><span class="ic">✅</span> 先週の主な動き（PJ別）</h2>
+    <table>
+      <tr><th style="width:130px;">PJ</th><th>先週の完了・進展</th></tr>
+      <tr><td class="pj">オギラボ</td><td>note新着「健全な勝負観」記事公開。YouTube 117人で100人突破後も維持。noteメンバーシップ（¥980/月）運用継続。<span class="chg-flat">⚠️ TikTok 1,530人で純減継続</span></td></tr>
+      <tr><td class="pj">CARAS</td><td>6月HPブログ4記事生成（平均91.5点）。Instagram週2＋GBP週2が安定稼働。MEO夙川1位維持・西宮圏外は継続課題。</td></tr>
+      <tr><td class="pj">健康経営</td><td>進捗動きなし（20%停滞）。TrustFit経由の法人アプローチが実質代替路。ハンドオフ20日未更新。</td></tr>
+      <tr><td class="pj">SORA</td><td>体験申込 <strong>累計343件</strong>到達。入会77名・入会率52%継続。今後6名の体験予定が確定（6/23〜7/4）。</td></tr>
+      <tr><td class="pj">SUPERIOR</td><td>体験累計107件・アンケート21件。<span class="chg-flat">⚠️ Instagram週2投稿体制が5回連続未確立（フォロワー5人停滞）</span></td></tr>
+      <tr><td class="pj">TrustFit</td><td>PRISM CUP CF進行中。ただしハンドオフ記録が<strong>37日間欠落</strong>（最終5/15）。CF実況・DM継続状況が未記録。</td></tr>
+      <tr><td class="pj">むーん</td><td>物価高騰対応支援金20万円確定（給付：令和8年4月）。定員9割稼働継続。行政情報モニタリング継続。</td></tr>
+      <tr><td class="pj">関学陸上部</td><td>日本選手権（6/12-14）＋西日本インカレ（6/19-21）帯同完了。<strong>北田 走幅跳 6m13・3位 記録更新</strong>。</td></tr>
+      <tr><td class="pj">時粒</td><td>大型UX改修（双方向リアクション・子供一覧タブ・Home＋宝物統合）。録音最適化・下書き自動保存・課金設計確定。残タスク一覧HTML作成。</td></tr>
+    </table>
+  </section>
+
+  <!-- STEP2+3 進捗+収益化ゲージ -->
+  <section>
+    <h2><span class="ic">📊</span> 各PJ進捗 ＋ 収益化ゲージ</h2>
+    <table>
+      <tr><th style="width:120px;">PJ</th><th style="width:70px;">進捗</th><th style="width:90px;">前週比</th><th>収益化ゲージ（MG-1〜5 / 20pt）</th></tr>
+      <tr><td class="pj">オギラボ</td><td class="pct">65%</td><td class="chg-flat">±0</td><td><span class="gauge">■■□□□</span> <span class="gnum">8pt（MG-1集客導線・MG-2見込み客✅／有料会員獲得が次）</span></td></tr>
+      <tr><td class="pj">CARAS</td><td class="pct">64%</td><td class="chg-flat">±0</td><td><span class="gauge">■■■■□</span> <span class="gnum">16pt（稼働事業・継続率100%／新規IG導線が課題）</span></td></tr>
+      <tr><td class="pj">健康経営</td><td class="pct">20%</td><td class="chg-flat">±0</td><td><span class="gauge">□□□□□</span> <span class="gnum">0pt（MG-1未達・LP制作中）</span></td></tr>
+      <tr><td class="pj">SORA</td><td class="pct">53%</td><td class="chg-flat">±0</td><td><span class="gauge">■■■■■</span> <span class="gnum">20pt（入会77名・継続稼働中／収益フェーズ）</span></td></tr>
+      <tr><td class="pj">SUPERIOR</td><td class="pct">66%</td><td class="chg-flat">±0</td><td><span class="gauge">■■■■□</span> <span class="gnum">16pt（MG-4初成約✅／2件目・継続が次）</span></td></tr>
+      <tr><td class="pj">TrustFit</td><td class="pct">37%</td><td class="chg-flat">±0</td><td><span class="gauge">■■□□□</span> <span class="gnum">8pt（サイト公開・DM18社／初成約が次）</span></td></tr>
+      <tr><td class="pj">むーん</td><td class="pct">85%</td><td class="chg-flat">±0</td><td><span class="gauge">■■■■■</span> <span class="gnum">20pt（稼働安定・定員9割／収益継続中）</span></td></tr>
+      <tr><td class="pj">関学陸上部</td><td class="pct">45%</td><td class="chg-flat">±0</td><td><span class="gauge">■■■■□</span> <span class="gnum">14pt（法人契約業務・報告書納品稼働中）</span></td></tr>
+      <tr><td class="pj">時粒</td><td class="pct">45%</td><td class="chg-flat">±0</td><td><span class="gauge">□□□□□</span> <span class="gnum">0pt（Phase2で収益化・課金¥300/月設計済）</span></td></tr>
+    </table>
+    <div class="note">※ 週次のため進捗%は据え置き。大きなマイルストーン変化は月次レビュー（monthly-review）で再計算。進捗値は各CONTEXT.md「進捗履歴」の最新記録を採用。<br>
+    ⚠️ オギラボ・SORA・関学はCONTEXT.mdヘッダーの進捗%が古い値のまま（履歴と不一致）。次回更新時にヘッダー側の同期を推奨。</div>
+  </section>
+
+  <!-- STEP4 集中PJ -->
+  <section>
+    <h2><span class="ic">🎯</span> 今週の集中PJ（最大2つ）</h2>
+    <div class="focus-grid">
+      <div class="focus-card focus-1">
+        <div class="rank">🥇 推奨1：SORA</div>
+        <div class="why">体験申込 累計343件・入会率52%のモメンタムが最高潮。今週は6/23高松2名・6/27観音寺3名・7/4高松1名の<strong>計6名体験</strong>が控える。確実な入会転換でMG-5（継続）を厚くでき、収益直結。前日リマインドLINEの運用徹底が鍵。</div>
+      </div>
+      <div class="focus-card focus-2">
+        <div class="rank">🥈 推奨2：TrustFit</div>
+        <div class="why">PRISM CUP CF進行中＋ハンドオフ37日欠落の<strong>CRITICAL</strong>。7/4イベント（アソビル）接近で機会損失リスク最大。記録復旧＋CF最終プッシュ＋関係者調整の実況記録が急務。</div>
+      </div>
+    </div>
+    <div class="note">🔧 集中PJ外でも <strong>SUPERIOR Instagram週2投稿体制</strong> は5回連続未解決の慢性課題。CARASの週2ローテ設計を横展開して今週中に必ず起動を。</div>
+  </section>
+
+  <!-- STEP その他 推奨アクション -->
+  <section>
+    <h2><span class="ic">🚀</span> 今週の推奨アクション TOP5</h2>
+    <div class="act pri-red"><div class="no">1</div><div class="body"><strong>SUPERIOR：Instagram週2投稿体制を即開始 <span class="badge b-crit">最重要</span></strong><span>フォロワー5人停滞・5回連続未解決。承認待ちWeek4 TRIAL投稿（90点）から着手し、フォーム分析週1＋体験会告知週1で起動。</span></div></div>
+    <div class="act pri-red"><div class="no">2</div><div class="body"><strong>TrustFit・健康経営・むーん：CONTEXT.mdハンドオフ更新 <span class="badge b-crit">CRITICAL×3</span></strong><span>週次監視で3PJがハンドオフ7日基準超過（TrustFit37日／健康経営20日／むーん11日）。TrustFit=CF現状＋食事会日程、健康経営=提案テンプレ＋健診予約、むーん=性暴力防止法登録状況を各1行で記録。</span></div></div>
+    <div class="act pri-blue"><div class="no">3</div><div class="body"><strong>SORA：今週の体験6名 受入準備＋前日リマインド</strong><span>6/23(火)高松2名（まつおか・もりた）、6/27(土)観音寺3名（いしかわ・おおかわ・ささき）、7/4(土)高松1名。講習割当確認＋前日夕方のリマインドLINE徹底で入会転換を最大化。</span></div></div>
+    <div class="act pri-amber"><div class="no">4</div><div class="body"><strong>健康経営：健康診断予約の至急対応＋法人提案DM</strong><span>3月末期限超過のまま未対応。至急予約。あわせてCF支援企業向け「健康経営優良法人認定サポート」提案テンプレ＋DMを再設計。</span></div></div>
+    <div class="act pri-amber"><div class="no">5</div><div class="body"><strong>オギラボ：TikTok純減対策（0〜2秒フック刷新）</strong><span>1,530人で純減継続。「元オリンピアンがAIチームを育てて勝たせるコーチング思想」ポジションで全面展開＋『DMで送って』型CTA必須化を継続。</span></div></div>
+  </section>
+
+  <!-- STEP5 ブロック中 -->
+  <section>
+    <h2><span class="ic">🚧</span> ブロック中タスク（前提未完了）</h2>
+    <ul class="clean">
+      <li><strong>健康経営</strong>：法人DM送付 <span class="badge b-block">前提：提案テンプレ／企画書完成</span> → 提案テンプレ作成が前提ブロック。今週TOP4で解除に着手。</li>
+      <li><strong>時粒</strong>：Phase2収益化（IAP実装） <span class="badge b-block">前提：Convexデプロイ＋実機検証</span> → MOONさんが <code>cd lifedesign/app &amp;&amp; npx convex dev</code> 実行待ち。デプロイ後に実機2アカウント検証→Phase2着手。</li>
+      <li><strong>TrustFit</strong>：CF達成・運営判断 <span class="badge b-block">前提：CF現状記録の復旧</span> → 37日間記録欠落のため現状不明。ハンドオフ更新が解除条件。</li>
+      <li><strong>SUPERIOR</strong>：箕面事業むーん移管の実務 <span class="badge b-ok">6/26(金) 9:30 MTG</span> → 会員4名の支払先変更・7月新体制の確定がMTG待ち。</li>
+    </ul>
+  </section>
+
+  <!-- STEP6 Decision Log -->
+  <section>
+    <h2><span class="ic">🔄</span> Decision Log 再評価アラート</h2>
+    <p style="margin:0;color:var(--gray);">全PJの <code>outputs/decisions/*.md</code> をスキャン → 今月（6月）以内に再評価期限を迎える意思決定ログは<strong>該当なし</strong>（記録済みDecision Logファイルは現時点で未検出）。</p>
+  </section>
+
+  <!-- シナジー -->
+  <section>
+    <h2><span class="ic">🔗</span> 今週のシナジーチャンス</h2>
+    <ul class="clean syn">
+      <li><strong>SORA体験好調 → オギラボ発信</strong>：累計343件・週次で複数体験が続く実績を「子ども陸上×SNS集客の事例」としてオギラボで発信（競合空白地帯）。</li>
+      <li><strong>関学 西日本インカレ素材 → 健康経営／CARAS</strong>：トップアスリート帯同の現場素材を「健康経営×アスリート」法人訴求・CARASの権威性訴求に転用。</li>
+      <li><strong>CARAS Instagram運用ノウハウ → SUPERIOR</strong>：CARASの週2ローテ設計・GOODパターン蓄積を横展開し、停滞中のSUPERIOR投稿体制を確立。</li>
+    </ul>
+  </section>
+
+  <footer>
+    生成：weekly-review（毎週月曜 自動実行）｜ 2026-06-22 ｜ 株式会社MOON AI組織<br>
+    次回：weekly-review 2026-06-29（月）／ monthly-review 2026-07-01
+  </footer>
+
+</div>
+</body>
+</html>
