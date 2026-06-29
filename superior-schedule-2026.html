@@ -164,6 +164,7 @@
     /* セル */
     .c-rest { color: #e53935; font-size: 0.72rem; font-weight: bold; }
     .c-none { color: #ddd; font-size: 0.72rem; }
+    .c-tbd { color: #999; font-size: 0.72rem; font-weight: bold; }
     .c-active { font-weight: bold; }
     .loc-gym     { color: #1565c0; }   /* 体育館 */
     .loc-ground  { color: #2e7d32; }   /* グランド */
@@ -335,6 +336,7 @@ function cell(v, school, isBorderLeft) {
   const cls = [bg, border].filter(Boolean).join(' ');
   if (v === null) return `<td class="c-none ${cls}">―</td>`;
   if (v === 'rest') return `<td class="c-rest ${cls}">おやすみ</td>`;
+  if (v === 'tbd') return `<td class="c-tbd ${cls}">調整中</td>`;
   return `<td class="c-active ${cls}">${locHtml(v.loc)}</td>`;
 }
 
@@ -432,7 +434,7 @@ const d8=[
   {d:'8/8', day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
   {d:'8/9', day:'日', ik:null, isp:null, mn:null, ev:null},
   {d:'8/10',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/11',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
+  {d:'8/11',day:'火', ik:null, isp:null, mn:'rest', ev:null},
   {d:'8/12',day:'水', ik:null, isp:null, mn:null, ev:null},
   {d:'8/13',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
   {d:'8/14',day:'金', ik:null, isp:null, mn:null, ev:null},
@@ -448,7 +450,7 @@ const d8=[
   {d:'8/24',day:'月', ik:null, isp:null, mn:null, ev:null},
   {d:'8/25',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
   {d:'8/26',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/27',day:'木', ik:null, isp:null, mn:null, ev:null},
+  {d:'8/27',day:'木', ik:'tbd', isp:'tbd', mn:null, ev:null},
   {d:'8/28',day:'金', ik:null, isp:null, mn:null, ev:null},
   {d:'8/29',day:'土', ik:null, isp:null, mn:null, ev:null},
   {d:'8/30',day:'日', ik:null, isp:null, mn:null, ev:null},
