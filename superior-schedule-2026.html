@@ -282,8 +282,8 @@ function buildBody(ym){
     const ds=ym+'-'+String(dd).padStart(2,'0');
     const w=new Date(y,m-1,dd).getDay();
     const ike=ik[ds], mne=mn[ds], eve=ev[ds];
-    const realV=e=>e&&!e.cancelled&&e.venue&&e.venue!=='未定';
-    const emph=realV(ike)||realV(mne)||!!eve; // 場所の記載がある（実施）＝濃く
+    const act=e=>e&&!e.cancelled; // 実施日（会場確定・調整中とも）＝濃く／休講・空＝薄く
+    const emph=act(ike)||act(mne)||!!eve;
     const wk=w===6?'sat':w===0?'sun':'';
     const cls=(emph?'act':'dim')+(wk?' '+wk:'');
     rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>`+
