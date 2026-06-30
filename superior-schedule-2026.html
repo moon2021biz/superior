@@ -154,12 +154,13 @@
       box-shadow: 2px 0 4px rgba(0,0,0,0.08);
     }
 
-    tr.sat { background: rgba(92,45,145,0.03); }
-    tr.sat .date-cell { color: #5c2d91; background: #f8f5ff; }
-    tr.sun { background: rgba(211,47,47,0.03); }
-    tr.sun .date-cell { color: #c62828; background: #fff8f8; }
-    tr.empty-day td { opacity: 0.5; }
-    tr.empty-day .date-cell { font-weight: normal; }
+    tr.sat .date-cell { color: #5c2d91; }
+    tr.sun .date-cell { color: #c62828; }
+    /* 活動（場所の記載）がある日は濃く、それ以外（休講・未定・予定なし・土日問わず）は薄く */
+    tr.act .date-cell { font-weight: 800; }
+    tr.act td.c-active { font-weight: 700; }
+    tr.dim td { opacity: 0.38; }
+    tr.dim .date-cell { font-weight: normal; }
 
     /* セル */
     .c-rest { color: #e53935; font-size: 0.72rem; font-weight: bold; }
@@ -281,8 +282,10 @@ function buildBody(ym){
     const ds=ym+'-'+String(dd).padStart(2,'0');
     const w=new Date(y,m-1,dd).getDay();
     const ike=ik[ds], mne=mn[ds], eve=ev[ds];
-    const hasAny=ike||mne||eve;
-    const cls=w===6?'sat':w===0?'sun':(!hasAny?'empty-day':'');
+    const realV=e=>e&&!e.cancelled&&e.venue&&e.venue!=='未定';
+    const emph=realV(ike)||realV(mne)||!!eve; // 場所の記載がある（実施）＝濃く
+    const wk=w===6?'sat':w===0?'sun':'';
+    const cls=(emph?'act':'dim')+(wk?' '+wk:'');
     rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>`+
       cellFor(ike,'ikoma',true)+cellFor(ike,'ikoma',false)+
       cellFor(mne,'minoh',true)+
