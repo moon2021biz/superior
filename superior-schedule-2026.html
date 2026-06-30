@@ -224,7 +224,7 @@
 
 <header>
   <h1>🏃 SUPERIOR 予定表</h1>
-  <p>陸上クラブ スペリオール（Superior）2026年 6月〜8月</p>
+  <p id="subtitle">陸上クラブ スペリオール（Superior）</p>
 </header>
 
 <div class="legend">
@@ -236,78 +236,8 @@
   </div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="showMonth(6)">6月</div>
-  <div class="tab" onclick="showMonth(7)">7月</div>
-  <div class="tab" onclick="showMonth(8)">8月</div>
-</div>
-
-<!-- ======== 6月 ======== -->
-<div id="m6" class="month-content active">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr class="row-school">
-          <th rowspan="2" class="th-date">日付</th>
-          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
-          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
-          <th rowspan="2" class="th-event">大会</th>
-        </tr>
-        <tr class="row-course">
-          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
-          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
-          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
-        </tr>
-      </thead>
-      <tbody id="tb6"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ======== 7月 ======== -->
-<div id="m7" class="month-content">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr class="row-school">
-          <th rowspan="2" class="th-date">日付</th>
-          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
-          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
-          <th rowspan="2" class="th-event">大会</th>
-        </tr>
-        <tr class="row-course">
-          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
-          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
-          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
-        </tr>
-      </thead>
-      <tbody id="tb7"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ======== 8月 ======== -->
-<div id="m8" class="month-content">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr class="row-school">
-          <th rowspan="2" class="th-date">日付</th>
-          <th colspan="2" class="th-ikoma">🟣 生駒スクール（木曜）</th>
-          <th class="th-minoh">🟠 箕面スクール（火曜）</th>
-          <th rowspan="2" class="th-event">大会</th>
-        </tr>
-        <tr class="row-course">
-          <th class="tc-ikoma">小学生コース<span>16:50〜17:50</span></th>
-          <th class="tc-ikoma">専門コース<span>18:00〜18:25</span></th>
-          <th class="tc-minoh">小学生コース<span>18:30〜19:30</span></th>
-        </tr>
-      </thead>
-      <tbody id="tb8"></tbody>
-    </table>
-  </div>
-  <div class="note-box">📝 8月の生駒スクール：夏休み期間のため活動日未定の週があります。確定次第更新します。</div>
-</div>
+<div class="tabs" id="tabs"></div>
+<div id="months"><p style="text-align:center;color:#888;padding:40px 10px">予定を読み込み中…</p></div>
 
 <footer>
   陸上クラブ SUPERIOR ｜ 株式会社MOON<br>
@@ -315,163 +245,95 @@
 </footer>
 
 <script>
-// === ユーティリティ ===
-function locHtml(loc) {
-  const map = {
-    '体育館': 'loc-gym',
-    '体育館A面': 'loc-gym',
-    '体育館B面': 'loc-gym',
-    'グランド': 'loc-ground',
-    'RANDC': 'loc-randc',
-    '未定': 'loc-undecided'
-  };
+// === SUPERIOR 予定表：アプリ(superior-admin)のデータを取得して表示 ===
+const API = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? '' : 'https://superior-admin.pages.dev';
+const WD='日月火水木金土';
+function locHtml(loc){
+  const map={'体育館':'loc-gym','体育館A面':'loc-gym','体育館B面':'loc-gym','グランド':'loc-ground','RANDC':'loc-randc','未定':'loc-undecided'};
   return `<span class="${map[loc]||''}">${loc}</span>`;
 }
-
-function cell(v, school, isBorderLeft) {
-  const bg = school === 'ikoma' ? 'ikoma' : school === 'minoh' ? 'minoh' : '';
-  const border = isBorderLeft
-    ? (school === 'ikoma' ? 'border-left-ikoma' : school === 'minoh' ? 'border-left-minoh' : 'border-left-event')
-    : '';
-  const cls = [bg, border].filter(Boolean).join(' ');
-  if (v === null) return `<td class="c-none ${cls}">―</td>`;
-  if (v === 'rest') return `<td class="c-rest ${cls}">おやすみ</td>`;
-  if (v === 'tbd') return `<td class="c-tbd ${cls}">調整中</td>`;
-  return `<td class="c-active ${cls}">${locHtml(v.loc)}</td>`;
+function cellFor(entry, school, borderLeft){
+  const bg = school==='ikoma'?'ikoma':school==='minoh'?'minoh':'';
+  const border = borderLeft ? (school==='ikoma'?'border-left-ikoma':school==='minoh'?'border-left-minoh':'border-left-event') : '';
+  const cls=[bg,border].filter(Boolean).join(' ');
+  if(!entry) return `<td class="c-none ${cls}">―</td>`;
+  if(entry.cancelled) return `<td class="c-rest ${cls}">おやすみ</td>`;
+  const v=entry.venue||'';
+  if(v===''||v==='未定') return `<td class="c-tbd ${cls}">調整中</td>`;
+  return `<td class="c-active ${cls}">${locHtml(v)}</td>`;
 }
-
-function row(d) {
-  const hasAny = d.ik || d.isp || d.mn || d.ev;
-  const cls = d.day === '土' ? 'sat' : d.day === '日' ? 'sun' : (!hasAny ? 'empty-day' : '');
-  return `<tr class="${cls}">
-    <td class="date-cell">${d.d}（${d.day}）</td>
-    ${cell(d.ik, 'ikoma', true)}${cell(d.isp, 'ikoma', false)}
-    ${cell(d.mn, 'minoh', true)}
-    <td class="border-left-event c-none">―</td>
-  </tr>`;
+let SCHED={data:{},events:{},locs:[]};
+function locInfo(name){ return (SCHED.locs||[]).find(x=>x.loc===name)||{}; }
+function monthsInData(){
+  const set=new Set();
+  ['生駒','箕面'].forEach(l=>Object.keys(SCHED.data[l]||{}).forEach(d=>set.add(d.slice(0,7))));
+  Object.keys(SCHED.events||{}).forEach(d=>set.add(d.slice(0,7)));
+  let arr=[...set].sort();
+  if(!arr.length){const n=new Date();arr=[n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')];}
+  return arr;
 }
-
-// === 6月データ ===
-// ik=生駒小学生 isp=生駒専門 mn=箕面小学生 ev=大会
-const d6=[
-  {d:'6/1', day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/2', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'6/3', day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/4', day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
-  {d:'6/5', day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/6', day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/7', day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/8', day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/9', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'6/10',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/11',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
-  {d:'6/12',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/13',day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/14',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/15',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/16',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'6/17',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/18',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
-  {d:'6/19',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/20',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
-  {d:'6/21',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/22',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/23',day:'火', ik:null, isp:null, mn:'rest', ev:null},
-  {d:'6/24',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/25',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
-  {d:'6/26',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/27',day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/28',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/29',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'6/30',day:'火', ik:null, isp:null, mn:'rest', ev:null},
-];
-
-// === 7月データ ===
-const d7=[
-  {d:'7/1', day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/2', day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
-  {d:'7/3', day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/4', day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/5', day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/6', day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/7', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'7/8', day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/9', day:'木', ik:{loc:'グランド'}, isp:{loc:'グランド'}, mn:null, ev:null},
-  {d:'7/10',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/11',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
-  {d:'7/12',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/13',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/14',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'7/15',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/16',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
-  {d:'7/17',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/18',day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/19',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/20',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/21',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'7/22',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/23',day:'木', ik:{loc:'体育館'}, isp:{loc:'体育館'}, mn:null, ev:null},
-  {d:'7/24',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/25',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
-  {d:'7/26',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/27',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/28',day:'火', ik:null, isp:null, mn:'rest', ev:null},
-  {d:'7/29',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'7/30',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
-  {d:'7/31',day:'金', ik:null, isp:null, mn:null, ev:null},
-];
-
-// === 8月データ ===
-// 生駒：8/13のみおやすみ確定。他木曜は夏休み対応で未定。
-const d8=[
-  {d:'8/1', day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/2', day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/3', day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/4', day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'8/5', day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/6', day:'木', ik:{loc:'体育館B面'}, isp:{loc:'体育館B面'}, mn:null, ev:null},
-  {d:'8/7', day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/8', day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
-  {d:'8/9', day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/10',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/11',day:'火', ik:null, isp:null, mn:'rest', ev:null},
-  {d:'8/12',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/13',day:'木', ik:'rest', isp:'rest', mn:null, ev:null},
-  {d:'8/14',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/15',day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/16',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/17',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/18',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'8/19',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/20',day:'木', ik:{loc:'体育館A面'}, isp:{loc:'体育館A面'}, mn:null, ev:null},
-  {d:'8/21',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/22',day:'土', ik:null, isp:null, mn:null, ev:'東大阪記録会'},
-  {d:'8/23',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/24',day:'月', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/25',day:'火', ik:null, isp:null, mn:{loc:'RANDC'}, ev:null},
-  {d:'8/26',day:'水', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/27',day:'木', ik:'tbd', isp:'tbd', mn:null, ev:null},
-  {d:'8/28',day:'金', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/29',day:'土', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/30',day:'日', ik:null, isp:null, mn:null, ev:null},
-  {d:'8/31',day:'月', ik:null, isp:null, mn:null, ev:null},
-];
-
-// === レンダリング ===
-function render(data, id) {
-  document.getElementById(id).innerHTML = data.map(row).join('');
+function buildBody(ym){
+  const [y,m]=ym.split('-').map(Number);
+  const ik=SCHED.data['生駒']||{}, mn=SCHED.data['箕面']||{}, ev=SCHED.events||{};
+  const days=new Date(y,m,0).getDate();
+  let rows='';
+  for(let dd=1;dd<=days;dd++){
+    const ds=ym+'-'+String(dd).padStart(2,'0');
+    const w=new Date(y,m-1,dd).getDay();
+    const ike=ik[ds], mne=mn[ds], eve=ev[ds];
+    const hasAny=ike||mne||eve;
+    const cls=w===6?'sat':w===0?'sun':(!hasAny?'empty-day':'');
+    rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>`+
+      cellFor(ike,'ikoma',true)+cellFor(ike,'ikoma',false)+
+      cellFor(mne,'minoh',true)+
+      `<td class="border-left-event ${eve?'c-active':'c-none'}">${eve?eve:'―'}</td></tr>`;
+  }
+  return rows;
 }
-render(d6,'tb6'); render(d7,'tb7'); render(d8,'tb8');
-
-// === タブ切替 ===
-function showMonth(m) {
-  document.querySelectorAll('.month-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-  document.getElementById('m'+m).classList.add('active');
-  const tabs = document.querySelectorAll('.tab');
-  const idx = [6,7,8].indexOf(m);
-  if (idx >= 0) tabs[idx].classList.add('active');
+function render(){
+  const months=monthsInData();
+  const ikI=locInfo('生駒'), mnI=locInfo('箕面');
+  const ikDay=ikI.day?`（${ikI.day}曜）`:'', mnDay=mnI.day?`（${mnI.day}曜）`:'';
+  const ikC=ikI.courses||[], mnC=mnI.courses||[];
+  const c0=ikC[0]||{name:'小学生コース',time:'16:50〜17:50'};
+  const c1=ikC[1]||{name:'専門コース',time:'18:00〜18:25'};
+  const m0=mnC[0]||{name:'小学生コース',time:'18:30〜19:30'};
+  const now=new Date(), curYM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  let active=months.indexOf(curYM); if(active<0)active=0;
+  let tabs='', conts='';
+  months.forEach((ym,i)=>{
+    const m=Number(ym.split('-')[1]);
+    tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${m}月</div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="table-wrap"><table>
+      <thead><tr class="row-school"><th rowspan="2" class="th-date">日付</th>
+      <th colspan="2" class="th-ikoma">🟣 生駒スクール${ikDay}</th>
+      <th class="th-minoh">🟠 箕面スクール${mnDay}</th>
+      <th rowspan="2" class="th-event">大会</th></tr>
+      <tr class="row-course"><th class="tc-ikoma">${c0.name}<span>${c0.time||''}</span></th>
+      <th class="tc-ikoma">${c1.name}<span>${c1.time||''}</span></th>
+      <th class="tc-minoh">${m0.name}<span>${m0.time||''}</span></th></tr></thead>
+      <tbody>${buildBody(ym)}</tbody></table></div></div>`;
+  });
+  document.getElementById('tabs').innerHTML=tabs;
+  document.getElementById('months').innerHTML=conts;
+  const first=Number(months[0].split('-')[1]), last=Number(months[months.length-1].split('-')[1]);
+  document.getElementById('subtitle').textContent='陸上クラブ スペリオール（Superior）'+(months.length?(' '+months[0].split('-')[0]+'年 '+first+'月〜'+last+'月'):'');
 }
+function showMonth(ym){
+  document.querySelectorAll('.month-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  const c=document.getElementById('mo_'+ym); if(c)c.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>{ if((t.getAttribute('onclick')||'').includes("'"+ym+"'"))t.classList.add('active'); });
+}
+async function load(){
+  try{
+    const r=await fetch(API+'/api/schedule?org=SUPERIOR&cb='+Date.now());
+    if(!r.ok)throw new Error('http');
+    SCHED=await r.json();
+    render();
+  }catch(e){ document.getElementById('months').innerHTML='<p style="text-align:center;color:#c62828;padding:40px 10px">予定の読み込みに失敗しました。通信環境をご確認のうえ、再度お試しください。</p>'; }
+}
+load();
 </script>
 </body>
 </html>
