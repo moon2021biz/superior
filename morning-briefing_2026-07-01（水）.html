@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026-07-01（水）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 0 0 16px 16px; margin-bottom: 24px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+/* ALERTS */
+.alert-section { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-section h3 { color: #c53030; font-size: 1rem; margin-bottom: 12px; }
+.alert-section p { font-size: 0.92rem; padding: 7px 0; border-bottom: 1px solid #fed7d7; }
+.alert-section p:last-child { border-bottom: none; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-yellow { color: #b7791f; font-weight: 700; }
+/* PJ PROGRESS */
+.card p { font-size: 0.9rem; color: #4a5568; margin-bottom: 10px; line-height: 1.7; }
+.card p strong { color: #2d3748; }
+/* SNS TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table th { background: #edf2f7; color: #4a5568; font-weight: 700; padding: 8px 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+table td { padding: 8px 12px; border-bottom: 1px solid #edf2f7; color: #2d3748; }
+table tr:last-child td { border-bottom: none; }
+/* TRIAL SCHEDULE */
+.school-card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.school-header { font-weight: 700; color: #2b6cb0; margin-bottom: 10px; font-size: 0.95rem; }
+.trial-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
+.trial-row:last-child { border-bottom: none; }
+.trial-date { font-weight: 600; min-width: 160px; color: #4a5568; }
+.trial-name { font-weight: 700; color: #2d3748; min-width: 120px; }
+.trial-course { color: #718096; font-size: 0.85rem; }
+.no-schedule { color: #718096; font-size: 0.88rem; text-align: center; padding: 8px; }
+/* CDST */
+.card ul { list-style: none; }
+.card ul li { padding: 7px 0; border-bottom: 1px solid #edf2f7; font-size: 0.88rem; color: #4a5568; }
+.card ul li:last-child { border-bottom: none; }
+/* TASK ITEMS */
+.task-item { padding: 10px 14px; margin-bottom: 10px; border-radius: 8px; font-size: 0.9rem; background: #f7fafc; border-left: 4px solid #4299e1; }
+.task-item strong { display: block; margin-bottom: 4px; color: #2d3748; }
+/* SYNERGY */
+footer { text-align: center; color: #a0aec0; font-size: 0.8rem; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 Daily Morning Briefing</h1>
+  <div class="date">2026-07-01（水）</div>
+  <div class="subtitle">全8PJ自動チェック完了 ｜ SNS実測 / 体験スケジュール / CDST変更検知 / むーん行政確認</div>
+</div>
+<div class="container">
+
+<!-- ALERTS -->
+<div class="alert-section">
+  <h3>⚠️ 要対応事項（今日のアクション）</h3>
+  <p><span class="alert-yellow">【データ鮮度】</span> 本ブリーフィングは<strong>自動実行（深夜1時台）</strong>のため、SNS実数・体験シートの<strong>ライブ再取得は未実施</strong>。数値は <strong>6/30 最終確認値の繰り越し</strong>です（Googleシートはcanvas描画で無人抽出不可・TikTokはbot認証で再取得不可）。日中にライブ更新を推奨。</p><p><span class="alert-red">【健康経営】</span> 2026年度ヘルスリテラシー<strong>視聴記録ゼロ</strong>（認定最低基準＝年2回）。<strong>視聴期限 7/13(月)推奨</strong>＋健康診断予約 期限超過が継続。</p><p><span class="alert-red">【SUPERIOR】</span> Instagram週2投稿体制が<strong>未解決のまま継続</strong>（フォロワー5人・投稿24件で停滞の主因）。最優先積み残し。</p><p><span class="alert-yellow">【SUPERIOR・push待ち】</span> 予定表の動的版反映が <code>cd html.ai &amp;&amp; bash push.sh</code>＋<code>cd superior-admin-deploy &amp;&amp; bash push.sh</code> の<strong>2手push待ち</strong>（公開ゲート：各月「公開」押下も必要）。</p><p><span class="alert-yellow">【SUPERIOR・移管】</span> <strong>箕面は7月よりむーんへ移管開始</strong>。SUPERIOR＝生駒のみへ。移管手続き・保護者周知の進捗確認を。</p><p><span class="alert-yellow">【時粒】</span> 新機能3つ＋おでかけ刷新が<strong>未push</strong>（<code>cd lifedesign &amp;&amp; bash push.sh</code>）＋Convex未デプロイ。</p><p><span class="alert-yellow">【むーん】</span> こども性暴力防止法（2026/12/25施行）対象事業者情報登録（GビズID取得＋報告）が継続課題。</p>
+</div>
+
+<!-- PJ PROGRESS -->
+<div class="card">
+  <h2>📊 PJ進捗サマリー</h2>
+  <p><strong>【オギラボ】</strong> 差別化軸＝「元オリンピアンがAIチームを育てて勝たせるヘッドコーチ思想」確定。YouTube 122人・15本で横ばい。<br>🎯 次のアクション: 「AIチームのヘッドコーチ」軸でReel/カルーセル1本＋全投稿末尾にDMシェア誘導文を必須化。</p><p><strong>【CARAS】</strong> IG 69人/101件。MEO夙川1位継続／西宮圏外継続（いずれも6/30値）。<br>🎯 次のアクション: 7月のGBP/IG投稿カレンダー（火＝GBP偶数週／水＝IG奇数週）を確定＋MEO順位のライブ再取得＋夙川1位の社会的証明を口コミ依頼に活用。</p><p><strong>【健康経営】</strong> ヘルスリテラシー＝2026年度4月以降の<strong>視聴記録ゼロ</strong>（認定要件＝年2回・厚労省YouTube視聴＋社内チャット記録）。<br>🎯 次のアクション: テーマ/担当/期限の確定→案内投稿文・記録xlsx雛形・<code>2026-07_メンタルヘルス/</code>フォルダ作成を即実行（視聴期限7/13推奨）＋健康診断予約の至急対応。</p><p><strong>【SORA】</strong> 申込累計<strong>352件</strong>（6/30最終確認値）。今後9名の体験予定。7/10 大西コーチ ジャベ講習が直近。<br>🎯 次のアクション: 7/10(木)しのはら（ジャベ講習・初回より費用）＋7/11(土)体験2名（そがわ・ぼそう）の前日リマインド準備＋7/14 スタート講習2名へ初回費用案内。</p><p><strong>【SUPERIOR】</strong> 生駒30件／箕面88件・アンケート22件（6/30最終確認値）。生駒7/9にふくろたに兄弟2名の体験（返信HTML作成済）。IG停滞（5人/24件）継続。<strong>箕面は7月よりむーんへ移管</strong>。<br>🎯 次のアクション: <strong>IG週2投稿体制を即開始（最優先積み残し）</strong>＋生駒7/9体験の前日リマインド＋箕面のむーん移管手続き＋予定表の2手push（公開ゲート押下）。</p><p><strong>【むーん】</strong> 進捗85%（定員9割稼働）。処遇改善 収支試算は結論確定（返還リスク無し）。7月より箕面スクールを受け入れ。<br>🎯 次のアクション: こども性暴力防止法 対象事業者登録（GビズID取得＋報告）＋社労士確認2点（①国保連加算の実額 ②資格手当の加算後扱い）＋箕面移管の受入体制整備。</p><p><strong>【TrustFit】</strong> PRISM CUP CF進行中（ハンドオフ更新停滞）。<br>🎯 次のアクション: CF進捗確認＋参加企業/個人へのDM継続＋健康経営バックエンド連動。</p><p><strong>【関西学院大学陸上部】</strong> 北田 日本選手権 6m13・3位 記録済。本日7/1は帯同予定なし。<br>🎯 次のアクション: 7/4(土)・7/5(日) 大阪/兵庫選手権の準備（7/4は荻田不在・杉本高校ポール借用予定）＋西日本インカレ(6/19-21)含む未記録分のCDST反映（継続課題）。</p><p><strong>【時粒】</strong> 新機能3つ（○年前の今日／予定→記録リマインド／自己ベスト自動お祝い）＋おでかけ刷新 実装完了。<br>🎯 次のアクション: <strong>push.sh で一括push</strong>＋Convexデプロイ＋実機Expo検証。</p>
+</div>
+
+<!-- SNS STATUS -->
+<div class="card">
+  <h2>📱 SNSステータス（実測値）</h2>
+  <p style="font-size:12px;color:#c62828;">⚠️ 6/30最終確認値の繰り越し（本自動実行ではライブ再取得未実施）。日中にChrome接続で再取得を推奨。</p><table><tr><th>媒体</th><th>指標</th><th>6/30確認値</th><th>増減（前回比）</th></tr><tr><td>オギラボ YouTube</td><td>登録者/動画</td><td>122 / 15本</td><td>±0 / ±0</td></tr><tr><td>オギラボ TikTok</td><td>フォロワー/いいね</td><td>1,529 / 24.3K</td><td>—（bot認証で再取得不可）</td></tr><tr><td>オギラボ note</td><td>フォロワー</td><td>5</td><td>±0</td></tr><tr><td>CARAS Instagram</td><td>フォロワー/投稿</td><td>69 / 101件</td><td>±0 / ±0</td></tr><tr><td>SORA Instagram</td><td>フォロワー/投稿</td><td>536 / 289件</td><td>±0 / ±0</td></tr><tr><td>SUPERIOR Instagram</td><td>フォロワー/投稿</td><td>5 / 24件</td><td>±0（停滞継続）</td></tr></table>
+</div>
+
+<!-- TRIAL SCHEDULE -->
+<div class="card">
+  <h2>🏃 体験スケジュール（SORA / SUPERIOR）</h2>
+  <p style="font-size:12px;color:#c62828;">⚠️ 6/30最終確認値の繰り越し（本自動実行ではシート再取得未実施）。7/1時点で全て未来日のため有効。</p><div class="school-card"><div class="school-header">📍 SORA | 今後の体験予定（累計352件）</div><div class="trial-row"><span class="trial-date">7/10 (木)</span><span class="trial-name">しのはら あつき</span><span class="trial-course">小6・大西コーチ ジャベ講習 ⚠️初回より費用</span></div><div class="trial-row"><span class="trial-date">7/11 (土)</span><span class="trial-name">そがわ こうすけ</span><span class="trial-course">小2・観音寺 小学生コース</span></div><div class="trial-row"><span class="trial-date">7/11 (土)</span><span class="trial-name">ぼそう ゆずは</span><span class="trial-course">小4・高松 小学生コース</span></div><div class="trial-row"><span class="trial-date">7/14 (火)</span><span class="trial-name">やまもと はると</span><span class="trial-course">小4・小山コーチ スタート講習 ⚠️初回より費用</span></div><div class="trial-row"><span class="trial-date">7/14 (火)</span><span class="trial-name">ツジオカ シンノスケ</span><span class="trial-course">小6・小山コーチ スタート講習 ⚠️初回より費用</span></div><div class="trial-row"><span class="trial-date">7/25 (土)</span><span class="trial-name">たかぎ りか</span><span class="trial-course">中1・小山コーチ 幅跳び講習 ⚠️初回より費用</span></div><div class="trial-row"><span class="trial-date">7/25 (土)</span><span class="trial-name">おかだ はるき</span><span class="trial-course">中1・小山コーチ 幅跳び講習 ⚠️初回より費用</span></div><div class="trial-row"><span class="trial-date">8/8 (土)</span><span class="trial-name">ふじた たいき</span><span class="trial-course">小5・観音寺 専門基礎コース</span></div><div class="trial-row"><span class="trial-date">8/8 (土)</span><span class="trial-name">こばやかわ たいよう</span><span class="trial-course">小5・観音寺 専門基礎コース</span></div></div><div class="school-card"><div class="school-header">📍 SUPERIOR 生駒 | 今後の体験予定（生駒30件／アンケート22件）</div><div class="trial-row"><span class="trial-date">7/9 (木)</span><span class="trial-name">ふくろたに りょうた</span><span class="trial-course">小4・男（返信HTML作成済）</span></div><div class="trial-row"><span class="trial-date">7/9 (木)</span><span class="trial-name">ふくろたに たいき</span><span class="trial-course">小2・男（返信HTML作成済）</span></div></div><div class="school-card"><div class="school-header">🏢 SUPERIOR 箕面 | 今後の体験予定（箕面88件）</div><div class="no-schedule">予定なし（7月よりむーんへ移管）</div></div>
+</div>
+
+<!-- CDST -->
+<div class="card">
+  <h2>🎓 関西学院大学陸上部 CDSTアップデート</h2>
+  <p style="font-size:12px;color:#c62828;">⚠️ 6/30確認の荻田予定表からの繰り越し（7/1は帯同予定なし）。</p><ul><li>7/4(土) 大阪選手権・兵庫選手権（<strong>荻田いけません</strong>・杉本高校のポール借用予定）</li><li>7/5(日) 大阪選手権・兵庫選手権（杉本・北田・渡邉）</li><li>7/11(土) 京都選手権（川添）</li><li>7/12(日) 富永ポール集荷予定日（荻田いけません）</li><li>7/16(木)〜7/21(火) 富永帰省</li><li>7/18(土) 香川陸協記録会（伊藤・大西？）／7/19(日) 北海道選手権（富永）</li><li>⚠️ 西日本インカレ(6/19-21)結果のCDST記録が継続課題</li></ul>
+</div>
+
+<!-- RECOMMENDED ACTIONS -->
+<div class="card">
+  <h2>🎯 推奨アクション</h2>
+  <div class="task-item"><strong>① 健康経営: ヘルスリテラシー視聴体制の即構築（視聴期限7/13推奨）</strong><br>テーマ/担当/期限を確定→案内投稿文・記録xlsx雛形・<code>2026-07_メンタルヘルス/</code>フォルダ作成。2026年度視聴記録ゼロの解消＋健康診断予約の至急対応。</div><div class="task-item"><strong>② SUPERIOR: IG週2投稿体制を即開始＋箕面むーん移管手続き</strong><br>最優先積み残し。Week案の承認＋週2運用ルール確定。並行して箕面→むーん移管の実務・保護者周知を進める。</div><div class="task-item"><strong>③ データのライブ更新（日中・Chrome接続時）</strong><br>SNS実数（TikTok/YouTube/IG/note）＋SORA/SUPERIOR体験シートを再取得しCONTEXT.md反映（本自動実行は6/30値の繰り越し）。</div><div class="task-item"><strong>④ SUPERIOR 予定表の2手push＋公開ゲート押下</strong><br><code>cd html.ai &amp;&amp; bash push.sh</code>＋<code>cd superior-admin-deploy &amp;&amp; bash push.sh</code>＋各月「公開」押下（未押下だと公開ページが空）。</div><div class="task-item"><strong>＋ 時粒: push.shで一括push＋Convexデプロイ</strong><br>新機能3つ＋おでかけ刷新が未push。<code>cd lifedesign &amp;&amp; bash push.sh "..."</code>＋実機Expo検証。</div>
+</div>
+
+<!-- SYNERGY -->
+<div class="card">
+  <h2>🔗 シナジーチャンス</h2>
+  <ul><li><strong>SORA → オギラボ</strong>: 7/10 大西コーチ「ジャベ講習」・7/14 小山コーチ「スタート講習」を、AIで指導メニューを設計・最適化する事例としてオギラボSNSへ転用。</li><li><strong>関学（北田 日本選手権3位） → TrustFit/健康経営</strong>: 入賞実績を「現役オリンピアン直下のサポート力」としてCF・法人提案の社会的証明に転用。</li><li><strong>SUPERIOR箕面 → むーん</strong>: 7月の箕面移管を「運動特化型 児童発達支援×陸上クラブ連携」の実例として、むーんの実績発信・オギラボ事例化に転用。</li></ul>
+</div>
+
+<footer>generated by daily-morning-briefing skill ｜ 2026-07-01（水） ｜ 全PJ自動チェック完了</footer>
+</div>
+</body>
+</html>
