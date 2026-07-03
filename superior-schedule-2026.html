@@ -215,9 +215,35 @@
     }
     footer a { color: var(--ikoma); }
 
+    /* ===== カレンダー表示 ===== */
+    .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:4px 14px 16px}
+    .cal-head{text-align:center;font-weight:700;font-size:.82rem;color:#666;padding:4px 0}
+    .cal-head.sun{color:#d33}.cal-head.sat{color:#1565c0}
+    .cal-cell{min-height:82px;border:1px solid #eceef1;border-radius:9px;padding:6px 6px 7px;background:#fff;display:flex;flex-direction:column;gap:4px}
+    .cal-cell.empty{border:none;background:transparent;min-height:0}
+    .cal-cell.dim{background:#fafafa}
+    .cal-day{font-size:.85rem;font-weight:800;color:#333;line-height:1}
+    .cal-cell.sun .cal-day{color:#d33}.cal-cell.sat .cal-day{color:#1565c0}
+    .cal-ev{border-radius:7px;padding:4px 7px;font-size:.8rem;font-weight:800;line-height:1.3}
+    .cal-ev .t{display:block;font-weight:700;font-size:.72rem;opacity:.9;margin-top:1px}
+    .cal-ev .sch{font-size:.66rem;font-weight:800;opacity:.75;margin-right:2px}
+    .cal-ev.gym{background:#e3f0ff;color:#0d47a1}
+    .cal-ev.ground{background:#e6f5ea;color:#1b5e20}
+    .cal-ev.randc{background:#fff0dc;color:#b45309}
+    .cal-ev.rest{background:#fdecea;color:#c62828}
+    .cal-ev.tbd{background:#f0f0f2;color:#666}
+    .cal-ev.event{background:#fff3e0;color:#e65100}
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.3rem; }
       .tab { font-size: 0.88rem; padding: 11px 4px; }
+      .cal{gap:3px;padding:2px 6px 12px}
+      .cal-head{font-size:.66rem;padding:2px 0}
+      .cal-cell{min-height:62px;padding:3px 3px 5px;border-radius:6px;gap:2px}
+      .cal-day{font-size:.72rem}
+      .cal-ev{font-size:.66rem;padding:2px 4px;border-radius:5px}
+      .cal-ev .t{font-size:.58rem}
+      .cal-ev .sch{font-size:.56rem}
     }
   </style>
 </head>
@@ -230,11 +256,7 @@
 
 <div class="legend">
   <div class="legend-title">▼ 場所の略称</div>
-  <div class="legend-grid">
-    <div class="legend-item"><div class="ldot" style="background:#bbdefb"></div>体育館＝生駒市立総合公園体育館（奈良県生駒市小明町1807-1）</div>
-    <div class="legend-item"><div class="ldot" style="background:#c8e6c9"></div>グランド＝生駒市立総合公園（屋外グラウンド）</div>
-    <div class="legend-item"><div class="ldot" style="background:#ffe0b2"></div>RANDC＝RANDC（大阪府箕面市西宿2丁目20-6）</div>
-  </div>
+  <div class="legend-grid" id="legendGrid"></div>
 </div>
 
 <div class="tabs" id="tabs"></div>
@@ -253,22 +275,20 @@ function locHtml(loc){
   const map={'体育館':'loc-gym','体育館A面':'loc-gym','体育館B面':'loc-gym','グランド':'loc-ground','RANDC':'loc-randc','未定':'loc-undecided'};
   return `<span class="${map[loc]||''}">${loc}</span>`;
 }
-function cellFor(entry, school, borderLeft){
-  const bg = school==='ikoma'?'ikoma':school==='minoh'?'minoh':'';
-  const border = borderLeft ? (school==='ikoma'?'border-left-ikoma':school==='minoh'?'border-left-minoh':'border-left-event') : '';
-  const cls=[bg,border].filter(Boolean).join(' ');
-  if(!entry) return `<td class="c-none ${cls}">―</td>`;
-  if(entry.cancelled) return `<td class="c-rest ${cls}">おやすみ</td>`;
-  const v=entry.venue||'';
-  if(v===''||v==='未定') return `<td class="c-tbd ${cls}">調整中</td>`;
-  return `<td class="c-active ${cls}">${locHtml(v)}</td>`;
-}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function venueClass(v){v=v||'';if(v.indexOf('RANDC')>=0)return 'randc';if(v.indexOf('グランド')>=0||v.indexOf('グラウンド')>=0)return 'ground';if(v.indexOf('体育館')>=0)return 'gym';return 'gym';}
 let SCHED={data:{},events:{},locs:[]};
 // ?club=生駒/箕面 で1スクールだけ表示（無指定は両方）
 const CLUB=(new URLSearchParams(location.search).get('club')||'').trim();
 const ALL_SCHOOLS=['生駒','箕面'];
 const SCHOOLS=(CLUB&&ALL_SCHOOLS.includes(CLUB))?[CLUB]:ALL_SCHOOLS;
 const SMETA={'生駒':{cls:'ikoma',dot:'🟣',cols:1,thc:'th-ikoma',tcc:'tc-ikoma',def:[{name:'小学生コース',time:'16:50〜17:50'}]},'箕面':{cls:'minoh',dot:'🟠',cols:1,thc:'th-minoh',tcc:'tc-minoh',def:[{name:'小学生コース',time:'18:30〜19:30'}]}};
+// 場所の略称（凡例）＝表示スクールの会場だけ出す
+const LEGEND=[
+  {s:'生駒',dot:'#bbdefb',t:'体育館＝生駒市立総合公園体育館（奈良県生駒市小明町1807-1）'},
+  {s:'生駒',dot:'#c8e6c9',t:'グランド＝生駒市立総合公園（屋外グラウンド）'},
+  {s:'箕面',dot:'#ffe0b2',t:'RANDC＝RANDC（大阪府箕面市西宿2丁目20-6）'}
+];
 function locInfo(name){ return (SCHED.locs||[]).find(x=>x.loc===name)||{}; }
 function monthsInData(){
   const set=new Set();
@@ -278,45 +298,45 @@ function monthsInData(){
   if(!arr.length){const n=new Date();arr=[n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')];}
   return arr;
 }
-function buildBody(ym){
+function eventBadge(s,e){
+  const multi=SCHOOLS.length>1;
+  const schLabel=multi?`<span class="sch">${s[0]}</span>`:'';
+  const time=e.time||((locInfo(s).courses||[])[0]||SMETA[s].def[0]||{}).time||'';
+  if(e.cancelled)return `<div class="cal-ev rest">${schLabel}休講</div>`;
+  if(!e.venue||e.venue==='未定')return `<div class="cal-ev tbd">${schLabel}調整中${time?`<span class="t">${esc(time)}</span>`:''}</div>`;
+  return `<div class="cal-ev ${venueClass(e.venue)}">${schLabel}${esc(e.venue)}${time?`<span class="t">${esc(time)}</span>`:''}</div>`;
+}
+function buildCalendar(ym){
   const [y,m]=ym.split('-').map(Number);
-  const ev=SCHED.events||{};
   const days=new Date(y,m,0).getDate();
-  const act=e=>e&&!e.cancelled; // 実施日（会場確定・調整中とも）＝濃く／休講・空＝薄く
-  let rows='';
+  const firstW=new Date(y,m-1,1).getDay(); // 0=日
+  const ev=SCHED.events||{};
+  let cells='';
+  ['日','月','火','水','木','金','土'].forEach((w,i)=>cells+=`<div class="cal-head ${i===0?'sun':i===6?'sat':''}">${w}</div>`);
+  for(let i=0;i<firstW;i++)cells+='<div class="cal-cell empty"></div>';
   for(let dd=1;dd<=days;dd++){
     const ds=ym+'-'+String(dd).padStart(2,'0');
     const w=new Date(y,m-1,dd).getDay();
-    const eve=ev[ds];
-    const emph=SCHOOLS.some(s=>act((SCHED.data[s]||{})[ds]))||!!eve;
-    const wk=w===6?'sat':w===0?'sun':'';
-    const cls=(emph?'act':'dim')+(wk?' '+wk:'');
-    let tds='';
-    SCHOOLS.forEach(s=>{const e=(SCHED.data[s]||{})[ds];for(let ci=0;ci<SMETA[s].cols;ci++)tds+=cellFor(e,SMETA[s].cls,ci===0);});
-    rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>${tds}<td class="border-left-event ${eve?'c-active':'c-none'}">${eve?eve:'―'}</td></tr>`;
+    let evHtml='';
+    SCHOOLS.forEach(s=>{const e=(SCHED.data[s]||{})[ds];if(e)evHtml+=eventBadge(s,e);});
+    if(ev[ds])evHtml+=`<div class="cal-ev event">${esc(ev[ds])}</div>`;
+    const wk=w===0?'sun':w===6?'sat':'';
+    cells+=`<div class="cal-cell ${evHtml?'':'dim'} ${wk}"><div class="cal-day">${dd}</div>${evHtml}</div>`;
   }
-  return rows;
+  return `<div class="cal">${cells}</div>`;
 }
 function render(){
   const months=monthsInData();
   const now=new Date(), curYM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   let active=months.indexOf(curYM); if(active<0)active=0;
-  // ヘッダー（表示するスクールのみ動的生成）
-  let schoolTh='', courseTh='';
-  SCHOOLS.forEach(s=>{
-    const info=locInfo(s), day=info.day?`（${info.day}曜）`:'', cs=info.courses||[], cols=SMETA[s].cols;
-    schoolTh+=`<th colspan="${cols}" class="${SMETA[s].thc}">${SMETA[s].dot} ${s}スクール${day}</th>`;
-    for(let ci=0;ci<cols;ci++){const c=cs[ci]||SMETA[s].def[ci]||{name:'',time:''};courseTh+=`<th class="${SMETA[s].tcc}">${c.name}<span>${c.time||''}</span></th>`;}
-  });
   let tabs='', conts='';
   months.forEach((ym,i)=>{
     const m=Number(ym.split('-')[1]);
     tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${m}月</div>`;
-    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="table-wrap"><table>
-      <thead><tr class="row-school"><th rowspan="2" class="th-date">日付</th>${schoolTh}<th rowspan="2" class="th-event">大会</th></tr>
-      <tr class="row-course">${courseTh}</tr></thead>
-      <tbody>${buildBody(ym)}</tbody></table></div></div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}">${buildCalendar(ym)}</div>`;
   });
+  const lg=document.getElementById('legendGrid');
+  if(lg)lg.innerHTML=LEGEND.filter(x=>SCHOOLS.includes(x.s)).map(x=>`<div class="legend-item"><div class="ldot" style="background:${x.dot}"></div>${x.t}</div>`).join('');
   document.getElementById('tabs').innerHTML=tabs;
   document.getElementById('months').innerHTML=conts;
   const first=Number(months[0].split('-')[1]), last=Number(months[months.length-1].split('-')[1]);
