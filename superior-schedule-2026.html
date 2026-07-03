@@ -264,10 +264,15 @@ function cellFor(entry, school, borderLeft){
   return `<td class="c-active ${cls}">${locHtml(v)}</td>`;
 }
 let SCHED={data:{},events:{},locs:[]};
+// ?club=生駒/箕面 で1スクールだけ表示（無指定は両方）
+const CLUB=(new URLSearchParams(location.search).get('club')||'').trim();
+const ALL_SCHOOLS=['生駒','箕面'];
+const SCHOOLS=(CLUB&&ALL_SCHOOLS.includes(CLUB))?[CLUB]:ALL_SCHOOLS;
+const SMETA={'生駒':{cls:'ikoma',dot:'🟣',cols:1,thc:'th-ikoma',tcc:'tc-ikoma',def:[{name:'小学生コース',time:'16:50〜17:50'}]},'箕面':{cls:'minoh',dot:'🟠',cols:1,thc:'th-minoh',tcc:'tc-minoh',def:[{name:'小学生コース',time:'18:30〜19:30'}]}};
 function locInfo(name){ return (SCHED.locs||[]).find(x=>x.loc===name)||{}; }
 function monthsInData(){
   const set=new Set();
-  ['生駒','箕面'].forEach(l=>Object.keys(SCHED.data[l]||{}).forEach(d=>set.add(d.slice(0,7))));
+  SCHOOLS.forEach(l=>Object.keys((SCHED.data&&SCHED.data[l])||{}).forEach(d=>set.add(d.slice(0,7))));
   Object.keys(SCHED.events||{}).forEach(d=>set.add(d.slice(0,7)));
   let arr=[...set].sort();
   if(!arr.length){const n=new Date();arr=[n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')];}
@@ -275,52 +280,48 @@ function monthsInData(){
 }
 function buildBody(ym){
   const [y,m]=ym.split('-').map(Number);
-  const ik=SCHED.data['生駒']||{}, mn=SCHED.data['箕面']||{}, ev=SCHED.events||{};
+  const ev=SCHED.events||{};
   const days=new Date(y,m,0).getDate();
+  const act=e=>e&&!e.cancelled; // 実施日（会場確定・調整中とも）＝濃く／休講・空＝薄く
   let rows='';
   for(let dd=1;dd<=days;dd++){
     const ds=ym+'-'+String(dd).padStart(2,'0');
     const w=new Date(y,m-1,dd).getDay();
-    const ike=ik[ds], mne=mn[ds], eve=ev[ds];
-    const act=e=>e&&!e.cancelled; // 実施日（会場確定・調整中とも）＝濃く／休講・空＝薄く
-    const emph=act(ike)||act(mne)||!!eve;
+    const eve=ev[ds];
+    const emph=SCHOOLS.some(s=>act((SCHED.data[s]||{})[ds]))||!!eve;
     const wk=w===6?'sat':w===0?'sun':'';
     const cls=(emph?'act':'dim')+(wk?' '+wk:'');
-    rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>`+
-      cellFor(ike,'ikoma',true)+cellFor(ike,'ikoma',false)+
-      cellFor(mne,'minoh',true)+
-      `<td class="border-left-event ${eve?'c-active':'c-none'}">${eve?eve:'―'}</td></tr>`;
+    let tds='';
+    SCHOOLS.forEach(s=>{const e=(SCHED.data[s]||{})[ds];for(let ci=0;ci<SMETA[s].cols;ci++)tds+=cellFor(e,SMETA[s].cls,ci===0);});
+    rows+=`<tr class="${cls}"><td class="date-cell">${m}/${dd}（${WD[w]}）</td>${tds}<td class="border-left-event ${eve?'c-active':'c-none'}">${eve?eve:'―'}</td></tr>`;
   }
   return rows;
 }
 function render(){
   const months=monthsInData();
-  const ikI=locInfo('生駒'), mnI=locInfo('箕面');
-  const ikDay=ikI.day?`（${ikI.day}曜）`:'', mnDay=mnI.day?`（${mnI.day}曜）`:'';
-  const ikC=ikI.courses||[], mnC=mnI.courses||[];
-  const c0=ikC[0]||{name:'小学生コース',time:'16:50〜17:50'};
-  const c1=ikC[1]||{name:'専門コース',time:'18:00〜18:25'};
-  const m0=mnC[0]||{name:'小学生コース',time:'18:30〜19:30'};
   const now=new Date(), curYM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   let active=months.indexOf(curYM); if(active<0)active=0;
+  // ヘッダー（表示するスクールのみ動的生成）
+  let schoolTh='', courseTh='';
+  SCHOOLS.forEach(s=>{
+    const info=locInfo(s), day=info.day?`（${info.day}曜）`:'', cs=info.courses||[], cols=SMETA[s].cols;
+    schoolTh+=`<th colspan="${cols}" class="${SMETA[s].thc}">${SMETA[s].dot} ${s}スクール${day}</th>`;
+    for(let ci=0;ci<cols;ci++){const c=cs[ci]||SMETA[s].def[ci]||{name:'',time:''};courseTh+=`<th class="${SMETA[s].tcc}">${c.name}<span>${c.time||''}</span></th>`;}
+  });
   let tabs='', conts='';
   months.forEach((ym,i)=>{
     const m=Number(ym.split('-')[1]);
     tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${m}月</div>`;
     conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="table-wrap"><table>
-      <thead><tr class="row-school"><th rowspan="2" class="th-date">日付</th>
-      <th colspan="2" class="th-ikoma">🟣 生駒スクール${ikDay}</th>
-      <th class="th-minoh">🟠 箕面スクール${mnDay}</th>
-      <th rowspan="2" class="th-event">大会</th></tr>
-      <tr class="row-course"><th class="tc-ikoma">${c0.name}<span>${c0.time||''}</span></th>
-      <th class="tc-ikoma">${c1.name}<span>${c1.time||''}</span></th>
-      <th class="tc-minoh">${m0.name}<span>${m0.time||''}</span></th></tr></thead>
+      <thead><tr class="row-school"><th rowspan="2" class="th-date">日付</th>${schoolTh}<th rowspan="2" class="th-event">大会</th></tr>
+      <tr class="row-course">${courseTh}</tr></thead>
       <tbody>${buildBody(ym)}</tbody></table></div></div>`;
   });
   document.getElementById('tabs').innerHTML=tabs;
   document.getElementById('months').innerHTML=conts;
   const first=Number(months[0].split('-')[1]), last=Number(months[months.length-1].split('-')[1]);
-  document.getElementById('subtitle').textContent='陸上クラブ スペリオール（Superior）'+(months.length?(' '+months[0].split('-')[0]+'年 '+first+'月〜'+last+'月'):'');
+  const label=(CLUB&&ALL_SCHOOLS.includes(CLUB))?(CLUB+'スクール'):'スペリオール（Superior）';
+  document.getElementById('subtitle').textContent='陸上クラブ '+label+(months.length?(' '+months[0].split('-')[0]+'年 '+first+'月〜'+last+'月'):'');
 }
 function showMonth(ym){
   document.querySelectorAll('.month-content').forEach(el=>el.classList.remove('active'));
