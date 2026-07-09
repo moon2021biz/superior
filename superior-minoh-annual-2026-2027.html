@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUPERIOR 箕面スクール 年間予定表（仮案）2026年8月〜2027年7月</title>
+<style>
+  :root{
+    --minoh:#c86400; --minoh-dark:#8b4500; --minoh-mid:#e07820;
+    --trial:#2e7d32; --trial-bg:#e6f5ea;
+    --ink:#333;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;background:#fff7ef;color:var(--ink);}
+  header{background:linear-gradient(135deg,#5a2d00 0%,var(--minoh) 55%,var(--minoh-mid) 100%);color:#fff;padding:26px 20px 20px;text-align:center;}
+  header h1{font-size:1.5rem;letter-spacing:.08em;line-height:1.4;}
+  header p{margin-top:8px;font-size:.82rem;opacity:.9;}
+  .badge-draft{display:inline-block;margin-top:10px;background:#fff;color:var(--minoh-dark);font-weight:800;font-size:.72rem;padding:3px 12px;border-radius:20px;letter-spacing:.05em;}
+
+  /* 凡例 */
+  .legend{background:#fff;padding:12px 16px 14px;border-bottom:1px solid #f0e0cc;}
+  .legend-title{font-size:.74rem;color:#999;margin-bottom:8px;}
+  .legend-grid{display:flex;flex-wrap:wrap;gap:8px 16px;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:.76rem;}
+  .ldot{width:14px;height:14px;border-radius:4px;flex-shrink:0;border:1px solid rgba(0,0,0,.12);}
+
+  /* タブ */
+  .tabs{display:flex;flex-wrap:wrap;background:#fff;border-bottom:2px solid var(--minoh);position:sticky;top:0;z-index:20;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  .tab{flex:1 0 16.6%;padding:11px 4px;text-align:center;font-size:.92rem;font-weight:bold;cursor:pointer;color:#a98a6a;transition:all .15s;border-bottom:3px solid transparent;white-space:nowrap;}
+  .tab.active{color:var(--minoh-dark);border-bottom:3px solid var(--minoh);background:#fff4e8;}
+
+  .month-content{display:none;}
+  .month-content.active{display:block;}
+  .m-title{text-align:center;font-weight:800;color:var(--minoh-dark);padding:14px 10px 2px;font-size:1.05rem;}
+
+  /* カレンダー */
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:8px 14px 6px;}
+  .cal-head{text-align:center;font-weight:700;font-size:.8rem;color:#777;padding:4px 0;}
+  .cal-head.sun{color:#d33;}.cal-head.sat{color:#1565c0;}
+  .cal-cell{min-height:78px;border:1px solid #efe6d8;border-radius:9px;padding:5px 5px 6px;background:#fff;display:flex;flex-direction:column;gap:4px;}
+  .cal-cell.empty{border:none;background:transparent;min-height:0;}
+  .cal-cell.dim{background:#faf7f2;}
+  .cal-day{font-size:.85rem;font-weight:800;color:#444;line-height:1;}
+  .cal-cell.sun .cal-day{color:#d33;}.cal-cell.sat .cal-day{color:#1565c0;}
+  .hol{font-size:.6rem;color:#d33;font-weight:700;line-height:1.2;}
+  .chip{border-radius:7px;padding:4px 6px;font-size:.74rem;font-weight:800;line-height:1.25;}
+  .chip .t{display:block;font-weight:700;font-size:.64rem;opacity:.85;margin-top:1px;}
+  .chip.randc{background:#fff0dc;color:#b45309;}
+  .chip.rest{background:#fdecea;color:#c62828;}
+  .chip.trial{background:var(--trial-bg);color:var(--trial);border:1.5px dashed var(--trial);}
+
+  /* 体験サマリー */
+  .trial-box{margin:6px 16px 16px;background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;}
+  .trial-box h3{background:var(--trial);color:#fff;padding:11px 16px;font-size:.92rem;}
+  .trial-item{padding:13px 16px;border-bottom:1px solid #f1f1f1;}
+  .trial-item:last-child{border-bottom:none;}
+  .trial-date{font-weight:800;color:var(--trial);font-size:.92rem;margin-bottom:3px;}
+  .trial-tag{display:inline-block;background:var(--trial-bg);color:var(--trial);border-radius:6px;font-size:.68rem;font-weight:800;padding:2px 8px;margin-left:8px;vertical-align:middle;}
+  .trial-detail{font-size:.79rem;color:#555;line-height:1.7;}
+
+  .note-box{margin:0 16px 20px;padding:11px 14px;background:#fff3e5;border-left:3px solid var(--minoh);border-radius:0 6px 6px 0;font-size:.79rem;color:#7a4a10;line-height:1.7;}
+  footer{text-align:center;padding:20px;font-size:.74rem;color:#aa9;border-top:1px solid #eee;margin-top:8px;}
+
+  @media(max-width:600px){
+    header h1{font-size:1.15rem;}
+    .tab{font-size:.8rem;padding:9px 3px;flex-basis:16.6%;}
+    .cal{gap:3px;padding:4px 6px;}
+    .cal-head{font-size:.64rem;}
+    .cal-cell{min-height:60px;padding:3px 3px 4px;border-radius:6px;gap:2px;}
+    .cal-day{font-size:.72rem;}
+    .chip{font-size:.62rem;padding:2px 4px;border-radius:5px;}
+    .chip .t{font-size:.54rem;}
+    .hol{font-size:.52rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏃 SUPERIOR 箕面スクール<br>年間予定表</h1>
+  <p>2026年8月 〜 2027年7月 ／ 火曜 月3回 RANDC（大阪府箕面市）</p>
+  <span class="badge-draft">仮案 — ご確認用</span>
+  <div style="margin-top:12px;font-size:.9rem;font-weight:800;line-height:1.6;">📊 年間 実施合計：<span style="font-size:1.25rem;">39回</span><br>
+  <span style="font-size:.8rem;opacity:.92;">火曜スクール 36回（月3回×12ヶ月）＋ 月曜 体験会 3回</span></div>
+</header>
+
+<div class="legend">
+  <div class="legend-title">▼ 凡例</div>
+  <div class="legend-grid">
+    <div class="legend-item"><div class="ldot" style="background:#ffe0b2"></div>火曜 スクール実施（月3回・RANDC 18:30〜19:30）</div>
+    <div class="legend-item"><div class="ldot" style="background:#fdd0cc"></div>おやすみ（祝日・お盆・年末年始・月3回調整）</div>
+    <div class="legend-item"><div class="ldot" style="background:#c8e6c9;border-style:dashed"></div>月曜 体験会（開校準備・仮案）</div>
+  </div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="months"></div>
+
+<div class="trial-box">
+  <h3>🌱 月曜 体験会 3日程（開校準備・仮案）｜会場：RANDC ｜ 年間3回</h3>
+  <div class="trial-item">
+    <div class="trial-date">① 2026年 8月24日（月）<span class="trial-tag">夏休み後半</span></div>
+    <div class="trial-detail">
+      子どもの夏休み中で家族が動きやすい時期。今（7月）から約6週間の集客リードタイムを確保でき、SNS・チラシ・LINE告知をじっくり回せる。開校に向けた第1弾の体験会に最適。
+    </div>
+  </div>
+  <div class="trial-item">
+    <div class="trial-date">② 2026年10月12日（月・祝 スポーツの日）<span class="trial-tag">3連休・運動会シーズン</span></div>
+    <div class="trial-detail">
+      祝日（3連休最終日）で家族がそろって参加しやすい。運動会シーズン直後で「もっと速くなりたい」の関心が最高潮。約7週間の準備期間があり、テーマ性のある集客（スポーツの日かけっこ体験）が組める。
+    </div>
+  </div>
+  <div class="trial-item">
+    <div class="trial-date">③ 2027年 3月29日（月）<span class="trial-tag">春休み・新年度直前</span></div>
+    <div class="trial-detail">
+      春休み中かつ新年度・進級直前で、習い事の入会検討がピークになる時期。開校（4月〜の月曜クラス本格スタート）に向けた最終集客の山として設定。準備期間もたっぷり取れる。
+    </div>
+  </div>
+</div>
+
+<div class="note-box">
+  ● 火曜＝箕面スクール（小学生コース／RANDC 18:30〜19:30）。<strong>月3回・年間36回</strong>（祝日でない火曜の先頭3回を実施、月末側をおやすみ）。<br>
+  ● おやすみ＝祝日・お盆（8/11）・年末年始（12/29・1/5）＋月3回調整分。<br>
+  ● 月曜の体験会3日程は<strong>開校準備のための仮案</strong>です。日程・会場が決まりましたら本予定に反映します。<br>
+  ● <strong>年間実施合計：39回</strong>（火曜スクール36回＋月曜体験会3回）。<br>
+  ● 祝日は正確な暦（2026〜2027年）で自動判定しています。
+</div>
+
+<footer>
+  陸上クラブ SUPERIOR ｜ 株式会社MOON<br>
+  箕面スクール（火曜）大阪府箕面市 RANDC ／ 仮案：<span id="genat"></span> 時点
+</footer>
+
+<script>
+const WD=['日','月','火','水','木','金','土'];
+// 火曜 実施日（月3回・先頭3回実施／月末側おやすみ）
+const PRACTICE=new Set(["2026-08-04","2026-08-18","2026-08-25","2026-09-01","2026-09-08","2026-09-15","2026-10-06","2026-10-13","2026-10-20","2026-11-10","2026-11-17","2026-11-24","2026-12-01","2026-12-08","2026-12-15","2027-01-12","2027-01-19","2027-01-26","2027-02-02","2027-02-09","2027-02-16","2027-03-02","2027-03-09","2027-03-16","2027-04-06","2027-04-13","2027-04-20","2027-05-11","2027-05-18","2027-05-25","2027-06-01","2027-06-08","2027-06-15","2027-07-06","2027-07-13","2027-07-20"]);
+// おやすみの火曜（理由ラベル）
+const REST={"2026-08-11":"山の日・お盆","2026-09-22":"国民の休日","2026-09-29":"月3回","2026-10-27":"月3回","2026-11-03":"文化の日","2026-12-22":"月3回","2026-12-29":"年末年始","2027-01-05":"年末年始","2027-02-23":"天皇誕生日","2027-03-23":"月3回","2027-03-30":"月3回","2027-04-27":"月3回","2027-05-04":"みどりの日","2027-06-22":"月3回","2027-06-29":"月3回","2027-07-27":"月3回"};
+// 参考表示用の祝日ラベル（火曜以外も薄く表示）
+const HOLIDAYS={
+  '2026-08-11':'山の日','2026-09-21':'敬老の日','2026-09-22':'国民の休日','2026-09-23':'秋分の日',
+  '2026-10-12':'スポーツの日','2026-11-03':'文化の日','2026-11-23':'勤労感謝の日',
+  '2027-01-01':'元日','2027-01-11':'成人の日','2027-02-11':'建国記念の日','2027-02-23':'天皇誕生日',
+  '2027-03-21':'春分の日','2027-03-22':'振替休日','2027-04-29':'昭和の日','2027-05-03':'憲法記念日',
+  '2027-05-04':'みどりの日','2027-05-05':'こどもの日','2027-07-19':'海の日'
+};
+// 月曜 体験会（仮案）
+const TRIALS={
+  '2026-08-24':'体験会①',
+  '2026-10-12':'体験会②',
+  '2027-03-29':'体験会③'
+};
+const MONTHS=['2026-08','2026-09','2026-10','2026-11','2026-12','2027-01','2027-02','2027-03','2027-04','2027-05','2027-06','2027-07'];
+
+function pad(n){return String(n).padStart(2,'0');}
+function buildCalendar(ym){
+  const [y,m]=ym.split('-').map(Number);
+  const days=new Date(y,m,0).getDate();
+  const firstW=new Date(y,m-1,1).getDay();
+  let cells='';
+  WD.forEach((w,i)=>cells+=`<div class="cal-head ${i===0?'sun':i===6?'sat':''}">${w}</div>`);
+  for(let i=0;i<firstW;i++)cells+='<div class="cal-cell empty"></div>';
+  for(let dd=1;dd<=days;dd++){
+    const ds=ym+'-'+pad(dd);
+    const w=new Date(y,m-1,dd).getDay();
+    let chip='';
+    if(TRIALS[ds]){
+      chip=`<div class="chip trial">🌱 ${TRIALS[ds]}<span class="t">RANDC / 開校準備</span></div>`;
+    } else if(w===2){ // 火曜
+      if(PRACTICE.has(ds)) chip=`<div class="chip randc">RANDC<span class="t">18:30〜19:30</span></div>`;
+      else if(REST[ds]) chip=`<div class="chip rest">おやすみ<span class="t">${REST[ds]}</span></div>`;
+    }
+    const hol=HOLIDAYS[ds]&&!TRIALS[ds]?`<div class="hol">${HOLIDAYS[ds]}</div>`:'';
+    const wk=w===0?'sun':w===6?'sat':'';
+    const dim=(chip||hol)?'':'dim';
+    cells+=`<div class="cal-cell ${dim} ${wk}"><div class="cal-day">${dd}</div>${hol}${chip}</div>`;
+  }
+  return `<div class="cal">${cells}</div>`;
+}
+function render(){
+  let tabs='',conts='';
+  const now=new Date(), curYM=now.getFullYear()+'-'+pad(now.getMonth()+1);
+  let active=MONTHS.indexOf(curYM); if(active<0)active=0;
+  MONTHS.forEach((ym,i)=>{
+    const [y,m]=ym.split('-');
+    const pcnt=[...PRACTICE].filter(d=>d.startsWith(ym)).length;
+    tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${Number(m)}月</div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="m-title">${y}年 ${Number(m)}月 <span style="font-size:.8rem;color:#b45309;">火曜 実施${pcnt}回</span></div>${buildCalendar(ym)}</div>`;
+  });
+  document.getElementById('tabs').innerHTML=tabs;
+  document.getElementById('months').innerHTML=conts;
+  const g=new Date();
+  document.getElementById('genat').textContent=g.getFullYear()+'/'+(g.getMonth()+1)+'/'+g.getDate();
+}
+function showMonth(ym){
+  document.querySelectorAll('.month-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  const c=document.getElementById('mo_'+ym); if(c)c.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>{ if((t.getAttribute('onclick')||'').includes("'"+ym+"'"))t.classList.add('active'); });
+}
+render();
+</script>
+</body>
+</html>
