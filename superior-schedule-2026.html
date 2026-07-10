@@ -319,11 +319,35 @@ function buildCalendar(ym){
     const w=new Date(y,m-1,dd).getDay();
     let evHtml='';
     SCHOOLS.forEach(s=>{const e=(SCHED.data[s]||{})[ds];if(e)evHtml+=eventBadge(s,e);});
-    if(ev[ds])evHtml+=`<div class="cal-ev event">${esc(ev[ds])}</div>`;
+    if(ev[ds]){
+      const det=(SCHED.eventsDetail&&SCHED.eventsDetail[ds])||[];
+      if(det.length){det.forEach(e=>{const sub=[e.venue,e.time].filter(Boolean).map(esc).join(' ');evHtml+=`<div class="cal-ev event">${esc(e.name||ev[ds])}${sub?`<span class="t">${sub}</span>`:''}</div>`;});}
+      else evHtml+=`<div class="cal-ev event">${esc(ev[ds])}</div>`;
+    }
     const wk=w===0?'sun':w===6?'sat':'';
     cells+=`<div class="cal-cell ${evHtml?'':'dim'} ${wk}"><div class="cal-day">${dd}</div>${evHtml}</div>`;
   }
   return `<div class="cal">${cells}</div>`;
+}
+function eventBoxHtml(ym){
+  const det=SCHED.eventsDetail||{};
+  const WD=['日','月','火','水','木','金','土'];
+  const items=[];
+  Object.keys(det).sort().forEach(dt=>{
+    if(dt.slice(0,7)!==ym)return;
+    const [yy,mm,dd]=dt.split('-').map(Number);
+    const wd=WD[new Date(yy,mm-1,dd).getDay()];
+    (det[dt]||[]).forEach(e=>{
+      const head=`${esc(e.name||'')}（${mm}/${dd} ${wd}）${e.time?' '+esc(e.time):''}${e.venue?' ＠'+esc(e.venue):''}`;
+      const l1=[e.target?'対象：'+esc(e.target):'', e.coach?'担当：'+esc(e.coach):''].filter(Boolean).join('｜');
+      const l2=[e.fee?'料金：'+esc(e.fee):'', e.min?esc(e.min):''].filter(Boolean).join('｜');
+      const detail=[l1,l2].filter(Boolean).join('<br>');
+      items.push(`<div class="ev-item"><div class="ev-name">${head}</div>${detail?`<div class="ev-detail">${detail}</div>`:''}</div>`);
+    });
+  });
+  if(!items.length)return '';
+  const m=Number(ym.split('-')[1]);
+  return `<div class="events-box"><h3>🎯 ${m}月のイベント・特別講習</h3>${items.join('')}</div>`;
 }
 function render(){
   const months=monthsInData();
@@ -333,7 +357,7 @@ function render(){
   months.forEach((ym,i)=>{
     const m=Number(ym.split('-')[1]);
     tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${m}月</div>`;
-    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}">${buildCalendar(ym)}</div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}">${buildCalendar(ym)}${eventBoxHtml(ym)}</div>`;
   });
   const lg=document.getElementById('legendGrid');
   if(lg)lg.innerHTML=LEGEND.filter(x=>SCHOOLS.includes(x.s)).map(x=>`<div class="legend-item"><div class="ldot" style="background:${x.dot}"></div>${x.t}</div>`).join('');
