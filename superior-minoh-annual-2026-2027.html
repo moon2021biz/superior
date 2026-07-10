@@ -48,6 +48,7 @@
   .chip.randc{background:#fff0dc;color:#b45309;}
   .chip.rest{background:#fdecea;color:#c62828;}
   .chip.trial{background:var(--trial-bg);color:var(--trial);border:1.5px dashed var(--trial);}
+  .chip.spare{background:#fff8e1;color:#8a6d00;border:1.5px dashed #c8a415;}
 
   /* 体験サマリー */
   .trial-box{margin:6px 16px 16px;background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;}
@@ -80,15 +81,17 @@
   <h1>🏃 SUPERIOR 箕面スクール<br>年間予定表</h1>
   <p>2026年8月 〜 2027年7月 ／ 火曜 月3回 RANDC（大阪府箕面市）</p>
   <span class="badge-draft">仮案 — ご確認用</span>
-  <div style="margin-top:12px;font-size:.9rem;font-weight:800;line-height:1.6;">📊 年間 実施合計：<span style="font-size:1.25rem;">39回</span><br>
-  <span style="font-size:.8rem;opacity:.92;">火曜スクール 36回（月3回×12ヶ月）＋ 月曜 体験会 3回</span></div>
+  <div style="margin-top:12px;font-size:.9rem;font-weight:800;line-height:1.7;">📊 火曜スクール 年間 <span style="font-size:1.25rem;">48回</span> 枠<br>
+  <span style="font-size:.8rem;opacity:.95;">実施 36回 ＋ 予備日 7回 ＋ 祝日・お盆休 5回</span><br>
+  <span style="font-size:.8rem;opacity:.95;">＋ 月曜 体験会 3回</span></div>
 </header>
 
 <div class="legend">
   <div class="legend-title">▼ 凡例</div>
   <div class="legend-grid">
     <div class="legend-item"><div class="ldot" style="background:#ffe0b2"></div>火曜 スクール実施（月3回・RANDC 18:30〜19:30）</div>
-    <div class="legend-item"><div class="ldot" style="background:#fdd0cc"></div>おやすみ（祝日・お盆・年末年始・月3回調整）</div>
+    <div class="legend-item"><div class="ldot" style="background:#fff1c2;border-style:dashed"></div>予備日（体験のない4週目・年7回）</div>
+    <div class="legend-item"><div class="ldot" style="background:#fdd0cc"></div>おやすみ（祝日・お盆・年末年始）</div>
     <div class="legend-item"><div class="ldot" style="background:#c8e6c9;border-style:dashed"></div>月曜 体験会（開校準備・仮案）</div>
   </div>
 </div>
@@ -119,10 +122,11 @@
 </div>
 
 <div class="note-box">
-  ● 火曜＝箕面スクール（小学生コース／RANDC 18:30〜19:30）。<strong>月3回・年間36回</strong>（祝日でない火曜の先頭3回を実施、月末側をおやすみ）。<br>
-  ● おやすみ＝祝日・お盆（8/11）・年末年始（12/29・1/5）＋月3回調整分。<br>
-  ● 月曜の体験会3日程は<strong>開校準備のための仮案</strong>です。日程・会場が決まりましたら本予定に反映します。<br>
-  ● <strong>年間実施合計：39回</strong>（火曜スクール36回＋月曜体験会3回）。<br>
+  ● 火曜＝箕面スクール（小学生コース／RANDC 18:30〜19:30）。通常実施は<strong>月3回</strong>（祝日でない火曜の先頭3回）。<br>
+  ● <strong>予備日（年7回）</strong>＝体験のない4週目の火曜。悪天候・行事による振替や追加練習の調整枠として確保（9月は4週目が祝日のため第5火曜に設定）。<br>
+  ● おやすみ＝祝日・お盆（8/11）・年末年始（12/29・1/5）。<br>
+  ● <strong>火曜 年間48回枠＝実施36回＋予備日7回＋祝日・お盆休5回</strong>。加えて月曜 体験会3回。<br>
+  ● 月曜の体験会3日程（8/24・10/12・3/29）は<strong>開校準備のための仮案</strong>です。<br>
   ● 祝日は正確な暦（2026〜2027年）で自動判定しています。
 </div>
 
@@ -135,8 +139,10 @@
 const WD=['日','月','火','水','木','金','土'];
 // 火曜 実施日（月3回・先頭3回実施／月末側おやすみ）
 const PRACTICE=new Set(["2026-08-04","2026-08-18","2026-08-25","2026-09-01","2026-09-08","2026-09-15","2026-10-06","2026-10-13","2026-10-20","2026-11-10","2026-11-17","2026-11-24","2026-12-01","2026-12-08","2026-12-15","2027-01-12","2027-01-19","2027-01-26","2027-02-02","2027-02-09","2027-02-16","2027-03-02","2027-03-09","2027-03-16","2027-04-06","2027-04-13","2027-04-20","2027-05-11","2027-05-18","2027-05-25","2027-06-01","2027-06-08","2027-06-15","2027-07-06","2027-07-13","2027-07-20"]);
+// 予備日（体験のない4週目・年7回）※9月は4週が祝日のため第5火曜
+const SPARE=new Set(["2026-09-29","2026-10-27","2026-12-22","2027-03-23","2027-04-27","2027-06-22","2027-07-27"]);
 // おやすみの火曜（理由ラベル）
-const REST={"2026-08-11":"山の日・お盆","2026-09-22":"国民の休日","2026-09-29":"月3回","2026-10-27":"月3回","2026-11-03":"文化の日","2026-12-22":"月3回","2026-12-29":"年末年始","2027-01-05":"年末年始","2027-02-23":"天皇誕生日","2027-03-23":"月3回","2027-03-30":"月3回","2027-04-27":"月3回","2027-05-04":"みどりの日","2027-06-22":"月3回","2027-06-29":"月3回","2027-07-27":"月3回"};
+const REST={"2026-08-11":"山の日・お盆","2026-09-22":"国民の休日","2026-11-03":"文化の日","2026-12-29":"年末年始","2027-01-05":"年末年始","2027-02-23":"天皇誕生日","2027-03-30":"第5週","2027-05-04":"みどりの日","2027-06-29":"第5週"};
 // 参考表示用の祝日ラベル（火曜以外も薄く表示）
 const HOLIDAYS={
   '2026-08-11':'山の日','2026-09-21':'敬老の日','2026-09-22':'国民の休日','2026-09-23':'秋分の日',
@@ -169,6 +175,7 @@ function buildCalendar(ym){
       chip=`<div class="chip trial">🌱 ${TRIALS[ds]}<span class="t">RANDC / 開校準備</span></div>`;
     } else if(w===2){ // 火曜
       if(PRACTICE.has(ds)) chip=`<div class="chip randc">RANDC<span class="t">18:30〜19:30</span></div>`;
+      else if(SPARE.has(ds)) chip=`<div class="chip spare">予備日<span class="t">RANDC / 調整用</span></div>`;
       else if(REST[ds]) chip=`<div class="chip rest">おやすみ<span class="t">${REST[ds]}</span></div>`;
     }
     const hol=HOLIDAYS[ds]&&!TRIALS[ds]?`<div class="hol">${HOLIDAYS[ds]}</div>`:'';
@@ -185,8 +192,10 @@ function render(){
   MONTHS.forEach((ym,i)=>{
     const [y,m]=ym.split('-');
     const pcnt=[...PRACTICE].filter(d=>d.startsWith(ym)).length;
+    const scnt=[...SPARE].filter(d=>d.startsWith(ym)).length;
+    const sub=`火曜 実施${pcnt}回`+(scnt?` ＋ 予備日${scnt}回`:'');
     tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${Number(m)}月</div>`;
-    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="m-title">${y}年 ${Number(m)}月 <span style="font-size:.8rem;color:#b45309;">火曜 実施${pcnt}回</span></div>${buildCalendar(ym)}</div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}"><div class="m-title">${y}年 ${Number(m)}月 <span style="font-size:.78rem;color:#b45309;">${sub}</span></div>${buildCalendar(ym)}</div>`;
   });
   document.getElementById('tabs').innerHTML=tabs;
   document.getElementById('months').innerHTML=conts;
