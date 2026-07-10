@@ -655,6 +655,16 @@
 
       footer { padding: 48px 20px 32px; }
     }
+    /* 開催イベントバナー（アプリの予定APIと連動・今後のイベントを自動表示） */
+    .ev-ban{background:linear-gradient(135deg,#FBF6EA,#fff);border:2px solid var(--gold);border-radius:14px;padding:22px 24px;box-shadow:0 4px 18px rgba(0,0,0,.07);text-align:left;margin-bottom:34px}
+    .ev-ban-title{font-size:1.1rem;font-weight:800;color:var(--black);margin-bottom:16px;letter-spacing:.5px}
+    .ev-ban-item{border-top:1px dashed var(--gold-l);padding-top:16px;margin-top:16px}
+    .ev-ban-item:first-of-type{border-top:none;padding-top:0;margin-top:0}
+    .ev-ban-head{font-size:1.05rem;font-weight:800;color:var(--gold);display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+    .ev-ban-date{background:var(--gold);color:#fff;font-size:.8rem;font-weight:800;padding:3px 14px;border-radius:20px;letter-spacing:.5px}
+    .ev-ban-info{font-size:.88rem;color:var(--gray2);line-height:1.9;margin-bottom:14px}
+    .ev-ban-btn{display:inline-block;background:var(--gold);color:#fff;font-weight:800;font-size:.92rem;padding:11px 30px;border-radius:8px;text-decoration:none;transition:opacity .2s}
+    .ev-ban-btn:hover{opacity:.85}
   </style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
@@ -771,6 +781,7 @@
     <div class="inner section-center">
       <p class="section-label">SCHEDULE</p>
       <h2 class="section-title">お知らせコーナー</h2>
+      <div id="eventBanner"></div>
       <div class="news-grid">
 
         <!-- 生駒スクール -->
@@ -999,5 +1010,32 @@
     <p class="footer-copy">© 2025 SUPERIOR（スペリオール）All Rights Reserved.</p>
   </footer>
 
+<!-- 開催イベント：管理アプリの予定APIから今後のイベントを自動表示（過ぎたら自動で消える） -->
+<script>
+(function(){
+  function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var WD=['日','月','火','水','木','金','土'];
+  fetch('https://superior-admin.pages.dev/api/schedule?org=SUPERIOR&cb='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j||!j.eventsDetail)return;
+    var det=j.eventsDetail, today=new Date(); today.setHours(0,0,0,0);
+    var rows=[];
+    Object.keys(det).sort().forEach(function(dt){
+      var p=dt.split('-'), y=+p[0], m=+p[1], d=+p[2];
+      var dObj=new Date(y,m-1,d);
+      if(dObj<today)return; // 過去のイベントは出さない
+      var wd=WD[dObj.getDay()];
+      (det[dt]||[]).forEach(function(e){
+        var club=e.loc||'';
+        var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
+        var info=[e.time?'🕐 '+e.time:'', e.venue?'📍 '+e.venue:'', e.target?'対象：'+e.target:'', e.fee?'料金：'+e.fee:'', e.min||''].filter(Boolean);
+        rows.push('<div class="ev-ban-item"><div class="ev-ban-head">🎉 '+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div><div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
+      });
+    });
+    if(!rows.length)return;
+    var el=document.getElementById('eventBanner');
+    if(el)el.innerHTML='<div class="ev-ban"><div class="ev-ban-title">🎯 開催イベント・体験会のお知らせ</div>'+rows.join('')+'</div>';
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
