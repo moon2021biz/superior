@@ -785,14 +785,13 @@
       <div class="news-grid">
 
         <!-- 生駒スクール -->
-        <article class="news-card">
+        <article class="news-card" data-club="生駒">
           <div class="news-card-header">
             <h3>奈良 生駒スクール</h3>
             <p>プロストリート関西 主催</p>
           </div>
           <div class="news-card-body">
             <span class="news-highlight">無料体験 参加者募集中！</span>
-            <span class="news-badge-urgent">定員あと僅か</span>
             <div class="news-schedule">
               毎週木曜<br>
               小学生コース　16:45〜17:45<br>
@@ -819,7 +818,7 @@
         </article>
 
         <!-- 箕面スクール -->
-        <article class="news-card">
+        <article class="news-card" data-club="箕面">
           <div class="news-card-header">
             <h3>大阪 箕面スクール</h3>
             <p>株式会社MOON 主催／フロム・シェフ株式会社 協賛</p>
@@ -1035,6 +1034,37 @@
     var el=document.getElementById('eventBanner');
     if(el)el.innerHTML='<div class="ev-ban"><div class="ev-ban-title">開催イベント・体験会のお知らせ</div>'+rows.join('')+'</div>';
   }).catch(function(){});
+})();
+</script>
+
+<!-- ===== 各スクールの空き状況（管理アプリの在籍数から自動反映） ===== -->
+<style>
+  .cap-badge{display:inline-block;margin:0 6px 8px 0;padding:4px 12px;border-radius:2px;
+             font-size:10px;font-weight:700;letter-spacing:1px;color:#fff}
+  .cap-ok{background:#1B7A3E}    /* 空きあり */
+  .cap-few{background:#C0392B}   /* 残りわずか */
+  .cap-full{background:#555}     /* 満員 */
+</style>
+<script>
+(function(){
+  var API='https://superior-admin.pages.dev/api/schedule?org=SUPERIOR';
+  function cls(s){return s==='満員'?'cap-full':(s==='残りわずか'?'cap-few':'cap-ok');}
+  fetch(API,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j||!j.ok||!j.capacity)return;
+    document.querySelectorAll('.news-card[data-club]').forEach(function(card){
+      var cap=j.capacity[card.getAttribute('data-club')]; if(!cap)return;
+      var keys=Object.keys(cap); if(!keys.length)return;
+      var html=keys.map(function(k){
+        var c=cap[k];
+        return '<span class="cap-badge '+cls(c.status)+'">'+c.day+'曜 '+c.course+'：'+c.status+'</span>';
+      }).join('');
+      var body=card.querySelector('.news-card-body'); if(!body)return;
+      var hl=body.querySelector('.news-highlight');
+      var box=document.createElement('div');
+      box.innerHTML=html;
+      if(hl&&hl.nextSibling)body.insertBefore(box,hl.nextSibling); else body.insertBefore(box,body.firstChild);
+    });
+  }).catch(function(){/* 取得できないときは何も出さない（従来の見た目のまま） */});
 })();
 </script>
 </body>
