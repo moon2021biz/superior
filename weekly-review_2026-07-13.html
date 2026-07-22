@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー 2026-07-13（月）</title>
+<style>
+  :root{--bg:#0f1419;--card:#1a2029;--accent:#4fc3f7;--good:#66bb6a;--warn:#ffa726;--bad:#ef5350;--txt:#e8eef2;--sub:#9fb0bd;--line:#2a3441;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;padding:24px;max-width:960px;margin:0 auto;}
+  h1{font-size:1.6rem;margin-bottom:4px;}
+  .date{color:var(--sub);font-size:.9rem;margin-bottom:24px;}
+  h2{font-size:1.2rem;margin:28px 0 12px;padding-left:10px;border-left:4px solid var(--accent);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+  th{color:var(--sub);font-weight:600;}
+  .gauge{font-family:monospace;letter-spacing:1px;}
+  .pct{font-weight:700;color:var(--accent);}
+  .tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:20px;margin-left:6px;}
+  .t-good{background:rgba(102,187,106,.18);color:var(--good);}
+  .t-warn{background:rgba(255,167,38,.18);color:var(--warn);}
+  .t-bad{background:rgba(239,83,80,.18);color:var(--bad);}
+  ul{padding-left:20px;margin:6px 0;}
+  li{margin:5px 0;}
+  .focus{background:linear-gradient(135deg,rgba(79,195,247,.12),rgba(102,187,106,.08));border:1px solid var(--accent);}
+  .rank{font-size:1.05rem;font-weight:700;}
+  .num{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;background:var(--accent);color:#0f1419;border-radius:50%;font-weight:700;margin-right:8px;font-size:.85rem;}
+  .muted{color:var(--sub);font-size:.85rem;}
+  .foot{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);color:var(--sub);font-size:.8rem;}
+</style>
+</head>
+<body>
+<h1>🗓 週次レビュー</h1>
+<div class="date">2026年7月13日（月）｜自動実行（weekly-review）｜対象期間: 7/6〜7/13</div>
+
+<h2>① 先週の振り返り（7/6〜7/13の主な動き）</h2>
+<div class="card">
+<ul>
+  <li><strong>SORA｜会費照合バグ修正（7/13・大きな成果）</strong>：高松スクール在籍48名中42名が0円で月謝から脱落していた不具合を解消。原因はコース名の曜日表記ゆれ（「小学生(土)」×料金マスタ「小学生」）。<code>courseFeesOf/feeOf</code> にベース名再照合を追加し本番デプロイ・検証済み（月謝対象 6名→46名）。観音寺も同時解消。筒井健登の月会費 0円→<strong>5,500円</strong>修正済み。</li>
+  <li><strong>SORA｜体験申込フォーム停止を発見（7/10・要対応）</strong>：旧フォーム（gid=817671207）が2024/06/08で停止。過去ブリーフィングの申込累計331件・体験予定と矛盾 → 現行フォームのURL/gid特定が急務。</li>
+  <li><strong>CARAS｜MEO順位低下（7/10）</strong>：「夙川 パーソナルジム」が<strong>1位→2位</strong>にコバトレ西宮夙川店へ逆転。「西宮 パーソナルジム」は圏外継続。Instagram 70人(+2)/TikTok 24人。</li>
+  <li><strong>オギラボ（7/10）</strong>：TikTok 1,525人（±0・いいね24.4K微増）・YouTube 127人(+1)・note 6記事。純増停滞が継続。</li>
+  <li><strong>SUPERIOR（7/10）</strong>：Instagram 5人/25投稿（±0）。週2投稿体制の積み残しが慢性化。箕面→むーん移管実務継続。</li>
+  <li><strong>関学陸上部（7/10）</strong>：7月競技3試合が新規反映（7/11京都選手権・7/18香川陸協・7/19北海道選手権）。</li>
+  <li><strong>むーん</strong>：こども性暴力防止法 対象事業者登録・サビ管/児発管OJT特例届出が継続課題。</li>
+</ul>
+</div>
+
+<h2>② 各PJ進捗＋収益化ゲージ</h2>
+<div class="card">
+<table>
+<tr><th>PJ</th><th>進捗</th><th>収益化ゲージ</th><th>状況メモ</th></tr>
+<tr><td>むーん</td><td class="pct">80%</td><td class="gauge">■■■■■ 20/20</td><td>定員9割・稼働安定。行政届出が残課題<span class="tag t-good">安定</span></td></tr>
+<tr><td>SUPERIOR</td><td class="pct">70%</td><td class="gauge">■■■□□ 12/20</td><td>MG-5達成済（2件目成約）※ゲージ表記8pt→<strong>12pt要更新</strong><span class="tag t-warn">ゲージ古</span></td></tr>
+<tr><td>CARAS</td><td class="pct">61%</td><td class="gauge">■□□□□ 4/20</td><td>MEO夙川2位に後退。奪還が急務<span class="tag t-bad">要対応</span></td></tr>
+<tr><td>SORA</td><td class="pct">53%</td><td class="gauge">■□□□□ 4/20</td><td>会費バグ解消。申込フォーム停止の特定が急務<span class="tag t-warn">データ確認</span></td></tr>
+<tr><td>lifedesign（時粒）</td><td class="pct">45%</td><td class="gauge">□□□□□ 0/20</td><td>Code側中心。Convexデプロイ・実機検証待ち</td></tr>
+<tr><td>オギラボ</td><td class="pct">42%</td><td class="gauge">■■□□□ 8/20</td><td>TikTok純増停滞。note初会員（収益化）未達<span class="tag t-warn">停滞</span></td></tr>
+<tr><td>TrustFit</td><td class="pct">37%</td><td class="gauge">□□□□□ 0/20</td><td>PRISM CUP後。ハンドオフ92日stale・更新頻度低</td></tr>
+<tr><td>関学陸上部</td><td class="pct">22%</td><td class="gauge">— 法人業務</td><td>7月競技3試合の帯同・エントリー確認</td></tr>
+<tr><td>健康経営</td><td class="pct">20%</td><td class="gauge">□□□□□ 0/20</td><td>サービス設計未着手。ハンドオフ41日stale<span class="tag t-bad">停滞</span></td></tr>
+</table>
+<p class="muted" style="margin-top:10px;">※ 進捗%は7/1 monthly-review再計算値を維持。今週はカテゴリ達成度に変化なしのため据え置き。SUPERIORの収益化ゲージのみ、MG-5達成済（進捗履歴7/1）に対しゲージ表記が8ptのまま → 12ptへ手動更新を推奨。</p>
+</div>
+
+<h2>③ 今週の集中PJ提案（最大2つ）</h2>
+<div class="card focus">
+<p class="rank"><span class="num">1</span>CARAS <span class="tag t-bad">機会損失</span></p>
+<p>MEO「夙川 パーソナルジム」が1位→2位に転落（コバトレに逆転）。地域検索1位は問合せ導線の生命線で、放置すると集客ロスが拡大。GBPテコ入れ（クチコミ喚起＋実績訴求投稿）と西宮圏外脱却に今週リソースを集中。6月HPブログ4記事の承認確認も滞留中。</p>
+<p class="rank" style="margin-top:14px;"><span class="num">2</span>SORA <span class="tag t-warn">データ基盤</span></p>
+<p>会費照合バグは解消したが、体験申込フォームの停止（申込累計データの根拠が不明）は経営判断の土台を揺るがす。現行フォームのURL/gid特定と正しいシートでの再取得を最優先で。あわせて残1名・松岡駿の会員化要否をMOONさんに確認。</p>
+<p class="muted" style="margin-top:10px;">前回（7/6）の集中PJは「TrustFit・オギラボ」。今週はSNS純増停滞よりも、収益直結のMEO順位回復（CARAS）とデータ整合性リスク（SORA）を優先すべきと判断。※本提案は自動実行のため暫定。MOONさんの最終選択で上書き可。</p>
+</div>
+
+<h2>④ 要対応・ブロック中タスク</h2>
+<div class="card">
+<ul>
+  <li><span class="tag t-bad">🔴 SORA</span> 体験申込フォーム停止（gid=817671207）→ 現行フォーム特定・再取得【前提: フォームURL確認】</li>
+  <li><span class="tag t-warn">🟡 SORA</span> 松岡駿（アス短・7月入会申込）の正式会員化・課金要否をMOONさんに確認</li>
+  <li><span class="tag t-bad">🔴 CARAS</span> 夙川MEO 1位奪還のGBPテコ入れ＋西宮圏外脱却</li>
+  <li><span class="tag t-warn">🟡 CARAS</span> 6月HPブログ4記事（平均91.5点）承認待ち継続</li>
+  <li><span class="tag t-bad">🔴 むーん</span> こども性暴力防止法 対象事業者登録・サビ管/児発管OJT特例届出</li>
+  <li><span class="tag t-warn">🟡 SUPERIOR</span> 週2投稿体制の積み残し慢性化（2本目の自動スケジュール化を検討）＋箕面むーん移管実務</li>
+  <li><span class="tag t-warn">🟡 lifedesign</span> Convexデプロイ（MOON実行）＋実機2アカウント検証待ち</li>
+  <li><span class="tag t-warn">🟡 健康経営</span> サービスパッケージ設計が長期未着手（ハンドオフ41日stale）</li>
+</ul>
+</div>
+
+<h2>⑤ Decision Log 再評価アラート</h2>
+<div class="card">
+<p>全PJの <code>outputs/decisions/</code> をスキャン。<strong>今月（7月）以内に再評価期限を迎えるDecision Logは0件</strong>（decisionsフォルダは各PJとも空）。健康経営のターゲット方針（ディベート最善案・再評価「6ヶ月後」）は継続監視対象。</p>
+</div>
+
+<h2>⑥ スケジュールタスク健全性</h2>
+<div class="card">
+<p>oversight-monitor（7/12 20時）レポート参照：<strong>CRITICAL 0件</strong>。2日以上の停止・3連続失敗なし。7/12に一部タスク（cowork-daily-memory・nara-u12-daily-check・seika-matome-update・accounting-audit-daily）が1日遅延したが、7/13朝のキャッチアップ対象で無害。</p>
+<p class="muted">⚙️ 自動化提案（oversight）: SUPERIOR週2投稿の2本目を別スケジュール化し、人手依存の積み残しを解消。</p>
+</div>
+
+<div class="foot">
+生成: weekly-review 自動実行｜2026-07-13（月）｜次回: 2026-07-20（月）9時<br>
+このレポートは各PJ CONTEXT.md・oversight_2026-07-12.json を基に自動生成。進捗%変更・ゲージ更新はMOONさんの承認後に反映します。
+</div>
+</body>
+</html>

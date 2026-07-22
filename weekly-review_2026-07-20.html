@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー 2026-07-20</title>
+<style>
+  :root{--bg:#0f1420;--card:#1a2130;--line:#2b3446;--txt:#e8edf5;--sub:#9fb0c8;--acc:#4da3ff;--good:#3ddc97;--warn:#ffb454;--bad:#ff6b6b;--gold:#ffd34d;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7;padding:24px;max-width:1080px;margin:0 auto}
+  h1{font-size:26px;margin-bottom:4px}
+  .date{color:var(--sub);font-size:14px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+  h2{font-size:18px;margin-bottom:14px;padding-left:10px;border-left:4px solid var(--acc)}
+  h3{font-size:15px;color:var(--acc);margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;font-size:12.5px}
+  .gauge{font-family:monospace;letter-spacing:1px;color:var(--gold)}
+  .pct{font-weight:700}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px}
+  .p-good{background:rgba(61,220,151,.15);color:var(--good)}
+  .p-warn{background:rgba(255,180,84,.15);color:var(--warn)}
+  .p-bad{background:rgba(255,107,107,.15);color:var(--bad)}
+  ul{list-style:none}
+  li{padding:6px 0 6px 22px;position:relative;border-bottom:1px dashed var(--line);font-size:13.5px}
+  li:last-child{border-bottom:none}
+  li:before{content:"▸";position:absolute;left:2px;color:var(--acc)}
+  .done:before{content:"✅";left:0}
+  .wait:before{content:"⏳";left:0}
+  .block:before{content:"🚧";left:0}
+  .focus{background:linear-gradient(135deg,rgba(77,163,255,.12),rgba(61,220,151,.08));border:1px solid var(--acc)}
+  .rank{font-size:16px;font-weight:700}
+  .g1{color:var(--gold)} .g2{color:var(--sub)}
+  .muted{color:var(--sub);font-size:12.5px}
+  .note{font-size:12px;color:var(--sub);border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+  b{color:#fff}
+</style>
+</head>
+<body>
+  <h1>🗓️ 週次レビュー</h1>
+  <div class="date">2026-07-20（月）｜対象期間: 2026-07-13 〜 07-20｜自動実行（weekly-review）</div>
+
+  <div class="card">
+    <h2>① 先週の振り返り（7/13〜7/20）</h2>
+    <p class="muted" style="margin-bottom:10px">この1週間はMOONさんとの実対話は数日に集中し、大半は自動スケジュールタスク（morning-briefing / 経理監査 / file-organizer / SNS週次 / buzz-research 等）が稼働。主なMOON起点の成果は以下。</p>
+    <ul>
+      <li class="done"><b>moonathlete.com コーポレートサイト改良案を作成</b>（7/20）— 現行Wixサイト全11ページをsitemapから精査し、トップ＋Projectの改良HTMLを生成。役員3名（荻田大樹・成定駿介・大西雄一朗）確定、企業理念4スライド原文を反映。<span class="muted">→ MOONがWix管理画面へ流し込み予定</span></li>
+      <li class="done"><b>ECC かけっこスクール 運動能力チェック項目を確定・生成</b>（7/17）— 未就学児・年4回・5項目（スタート/まっすぐ走る/けんけん/両足ジャンプ/指示への反応）。監修＝荻田大樹。提案書HTML＋チェック表PDF。</li>
+      <li class="done"><b>立替金（未払金）残高の整理＋勤怠アプリに立替金セクション実装・デプロイ</b>（7/17）— 荻田＝未払¥471,424／成定＝前渡金¥826,725（向きが真逆・混同厳禁）。</li>
+      <li class="done"><b>恒久ルール2件を確定</b>（7/17–18）— LibreOffice全面禁止（変換はMS Office / HTML→PDFはヘッドレスChrome）／人名など未確認の固有名詞は推測で埋めない（教訓#005・オーナー本名＝荻田大樹）。</li>
+      <li class="done"><b>経理監査を2026-07-01以降のデータに限定</b>（7/17）— 移行期の1〜6月ノイズを停止（🔴0 🟡0）。</li>
+      <li class="wait"><b>健康経営「階段うぉーくWeek」（7/7〜7/18）が終了</b> — 記入済みチェック表の写真が未提出（7名分）。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>② 各PJ 進捗＋収益化ゲージ</h2>
+    <p class="muted" style="margin-bottom:10px">今週は新規マイルストーン到達がなく、進捗%は先週から<b>全PJ据え置き</b>（前回再計算＝2026-07-01 monthly-review）。</p>
+    <table>
+      <tr><th>PJ</th><th>進捗</th><th>収益化ゲージ</th><th>状況</th></tr>
+      <tr><td>オギラボ</td><td class="pct">42%</td><td class="gauge">■■□□□ 8pt/20pt</td><td>MG-2達成。noteメンバーシップ初会員が未発生＝収益化停滞<span class="pill p-warn">停滞</span></td></tr>
+      <tr><td>CARAS</td><td class="pct">61%</td><td class="gauge">■□□□□ 4pt/20pt</td><td>GBP自動投稿・Instagram週次が安定稼働（既存顧客実績あり）<span class="pill p-good">安定</span></td></tr>
+      <tr><td>健康経営</td><td class="pct">20%</td><td class="gauge">□□□□□ 0pt/20pt</td><td>階段うぉーくWeek実施＝証拠写真待ち。収益化未着手<span class="pill p-warn">要仕上げ</span></td></tr>
+      <tr><td>SORA</td><td class="pct">53%</td><td class="gauge">■□□□□ 4pt/20pt</td><td>体験申込は活発、確定入会は少。MG-1達成</td></tr>
+      <tr><td>SUPERIOR</td><td class="pct">70%</td><td class="gauge">■■■□□ MG-5達成</td><td>2件目成約（たかはしりょうた）で「継続2件以上」クリア＝5PJ中最上位<span class="pill p-good">好調</span></td></tr>
+      <tr><td>TrustFit</td><td class="pct">37%</td><td class="gauge">□□□□□ 収益化未達</td><td>サイト公開・CF公開済。成約（初契約）が未達</td></tr>
+      <tr><td>むーん</td><td class="pct">80%</td><td class="gauge">■■■■■ 20pt/20pt</td><td>開業済・定員9割稼働。処遇改善報告の2点が要対応<span class="pill p-good">稼働中</span></td></tr>
+      <tr><td>関学陸上部</td><td class="pct">22%</td><td class="muted">— 法人業務・収益化対象外</td><td>KGAD月次報告ワークフロー稼働・CDST監視中</td></tr>
+      <tr><td>時粒(lifedesign)</td><td class="pct">45%</td><td class="muted">— 開発中</td><td>build5 TestFlight配信中＝保護者初ユーザー獲得が次の壁</td></tr>
+    </table>
+  </div>
+
+  <div class="card focus">
+    <h2>③ 今週の集中PJ提案（最大2つ）</h2>
+    <p class="muted" style="margin-bottom:10px">※CLAUDE.mdの集中PJは 2026-05-05（オギラボ・TrustFit）で更新停止＝要リフレッシュ。今週は下記を推奨（MOON確認待ち）。</p>
+    <ul>
+      <li><span class="rank g1">🥇 オギラボ</span> — moonathlete.com改良案が完成直後で勢いがある局面。<b>MOONがWix流し込み＋Activity Report 10件の実施年月を確定</b>すればコーポレート刷新が着地。並行してnoteメンバーシップ初会員（収益化MG-3）獲得へ導線強化。</li>
+      <li><span class="rank g2">🥈 健康経営</span> — <b>階段うぉーくWeekの記入済みチェック表（7名分）を撮影・回収</b>すれば「告知のみ＝計画段階」から実施証拠へ昇格。健康経営優良法人申請の証拠として時間的価値が高く、放置は機会損失。</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">→ 「この2つで」「1番だけ」「変更: ○○」でご指定ください。</p>
+  </div>
+
+  <div class="card">
+    <h2>④ 要対応・継続中タスク（ブロック／承認待ち）</h2>
+    <ul>
+      <li class="wait"><b>健康経営・階段うぉーくWeek</b>：記入済みチェック表の写真待ち（おぎた／はやくも／いぬい／きたおか／ひめの／さきやま／はぎお）。届き次第 証拠フォルダ追加・記録md・CONTEXT更新。</li>
+      <li class="wait"><b>moonathlete.com</b>：MOONがWixで①電話リンクを<code>tel:0661676091</code>に修正 ②Copyright更新 ③改良文言の流し込み。＋Activity Report 10件の実施年月を確認（推測不可＝プレースホルダのまま）。</li>
+      <li class="block"><b>荻田 立替金 不一致</b>：CONTEXT上¥471,424 vs 勤怠アプリ¥189,381＝差¥282,043。<span class="muted">前提: 3/20以降〜4月末の立替明細PDFの提供待ち</span></li>
+      <li class="wait"><b>むーん 処遇改善 実績報告</b>：提出済だが「夏賞与570,000の賞与名称未確認」「賃金規程に資格手当・職位条文なし」の2点＝社労士へ規程改定依頼。</li>
+      <li class="wait"><b>ECC 運動能力チェック</b>：MOONの文言最終調整待ち＋コミュニケーション編はECC側作成待ち。</li>
+      <li class="block"><b>福祉売上 5-6月分</b>：国保連 支払決定額通知書がフォルダ未着。<span class="muted">前提: 通知書の到着</span></li>
+      <li class="wait"><b>時粒 build5</b>：TestFlight配信中＝保護者の初ユーザー獲得・実機確認・LP公開push。</li>
+      <li class="wait"><b>daily-morning-briefing.skill</b>：「スキルを保存」で上書き→9時ブリーフィングの経理監査統合（STEP6.9）を有効化（8:50監査は稼働中）。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>⑤ Decision Log 再評価アラート</h2>
+    <p class="muted">全PJの <code>outputs/decisions/</code> をスキャン。<b>再評価期限が今月（2026-07）以内の意思決定ログは検出されませんでした。</b>アラートなし。</p>
+  </div>
+
+  <div class="note">
+    自動生成: weekly-review（毎週月曜9時）｜CONTEXT読み込み: 全10件（オギラボ/CARAS/健康経営/SORA/SUPERIOR/TrustFit/むーん/関学/lifedesign/ECC）｜
+    進捗%は今週変化なしのためCONTEXT進捗履歴への追記は行っていません。集中PJ提案はMOONさんの承認後にCLAUDE.md「今週の集中PJ」欄を更新します。
+  </div>
+</body>
+</html>
