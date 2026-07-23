@@ -301,7 +301,8 @@ function monthsInData(){
 function eventBadge(s,e){
   const multi=SCHOOLS.length>1;
   const schLabel=multi?`<span class="sch">${s[0]}</span>`:'';
-  const time=e.time||((locInfo(s).courses||[])[0]||SMETA[s].def[0]||{}).time||'';
+  const ctimes=e.courseTimes&&typeof e.courseTimes==='object'?Object.values(e.courseTimes).filter(Boolean):[]; // 場所管理で入れたコース別時間を最優先
+  const time=e.time||ctimes[0]||((locInfo(s).courses||[])[0]||SMETA[s].def[0]||{}).time||'';
   if(e.cancelled)return `<div class="cal-ev rest">${schLabel}休講</div>`;
   if(!e.venue||e.venue==='未定')return `<div class="cal-ev tbd">${schLabel}調整中${time?`<span class="t">${esc(time)}</span>`:''}</div>`;
   return `<div class="cal-ev ${venueClass(e.venue)}">${schLabel}${esc(e.venue)}${time?`<span class="t">${esc(time)}</span>`:''}</div>`;
