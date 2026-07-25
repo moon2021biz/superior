@@ -332,11 +332,20 @@
       border-radius: 4px;
       overflow: hidden;
       transition: box-shadow 0.25s, transform 0.25s;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
     }
     .news-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
 
+    /* カード全体の背景に会場写真を薄く敷く */
+    .news-card.card-ikoma { background-image: url('images/venue-ikoma-new.jpg'); }
+    .news-card.card-minoh { background-image: url('images/venue-minoh-new.jpg'); }
+
     .news-card-header {
-      background: var(--black);
+      background: rgba(0,0,0,0.60);
       color: var(--white);
       padding: 18px 22px;
     }
@@ -354,7 +363,7 @@
       letter-spacing: 2px;
     }
 
-    .news-card-body { padding: 22px 22px 24px; }
+    .news-card-body { padding: 22px 22px 24px; background: rgba(255,255,255,0.88); backdrop-filter: blur(2px); flex: 1 1 auto; }
 
     .news-highlight {
       display: inline-block;
@@ -785,7 +794,7 @@
       <div class="news-grid">
 
         <!-- 生駒スクール -->
-        <article class="news-card" data-club="生駒">
+        <article class="news-card card-ikoma" data-club="生駒">
           <div class="news-card-header">
             <h3>奈良 生駒スクール</h3>
             <p>プロストリート関西 主催</p>
@@ -818,7 +827,7 @@
         </article>
 
         <!-- 箕面スクール -->
-        <article class="news-card" data-club="箕面">
+        <article class="news-card card-minoh" data-club="箕面">
           <div class="news-card-header">
             <h3>大阪 箕面スクール</h3>
             <p>株式会社MOON 主催／フロム・シェフ株式会社 協賛</p>
