@@ -1035,6 +1035,9 @@
 (function(){
   function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   var WD=['日','月','火','水','木','金','土'];
+  // 体験会の残席カウントダウン設定
+  var TK_LIMIT=10;                 // 限定人数
+  var TK_EXTRA={'2026-08-24':1};   // 口頭参加(アプリ未登録)の加算：頓宮さん 8/24=1名
   fetch('https://superior-admin.pages.dev/api/schedule?org=SUPERIOR&cb='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(j){
     if(!j||!j.eventsDetail)return;
     var det=j.eventsDetail, today=new Date(); today.setHours(0,0,0,0);
@@ -1047,7 +1050,9 @@
       (det[dt]||[]).forEach(function(e){
         var club=e.loc||'';
         var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
-        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+String(e.fee).replace(/[（(][^）)]*2回目[^）)]*[）)]/,'').trim():'', e.min||''].filter(Boolean);
+        var applied=(+e.applied||0)+(TK_EXTRA[dt]||0);
+        var minLine=/体験/.test(e.name||'')?('限定'+TK_LIMIT+'名（残り'+Math.max(0,TK_LIMIT-applied)+'名）'):(e.min||'');
+        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+String(e.fee).replace(/[（(][^）)]*2回目[^）)]*[）)]/,'').trim():'', minLine].filter(Boolean);
         rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div><div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
       });
     });
