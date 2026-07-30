@@ -667,7 +667,7 @@
       footer { padding: 48px 20px 32px; }
     }
     /* 開催イベントバナー（アプリの予定APIと連動・今後のイベントを自動表示） */
-    .ev-ban{background:linear-gradient(135deg,#FBF6EA,#fff);border:2px solid var(--gold);border-radius:14px;padding:22px 24px;box-shadow:0 4px 18px rgba(0,0,0,.07);text-align:left;margin-bottom:34px}
+    .ev-ban{background:linear-gradient(rgba(255,255,255,0.84),rgba(255,255,255,0.90)),url('images/event-bg.jpg');background-size:cover;background-position:center;border:2px solid var(--gold);border-radius:14px;padding:22px 24px;box-shadow:0 4px 18px rgba(0,0,0,.07);text-align:left;margin-bottom:34px}
     .ev-ban-title{font-size:1.1rem;font-weight:800;color:var(--black);margin-bottom:16px;letter-spacing:.5px}
     .ev-ban-item{border-top:1px dashed var(--gold-l);padding-top:16px;margin-top:16px}
     .ev-ban-item:first-of-type{border-top:none;padding-top:0;margin-top:0}
@@ -848,7 +848,7 @@
             </div>
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(184,154,90,0.12);border:1px dashed var(--gold);border-radius:6px;padding:9px 10px;margin-bottom:12px;">
               <span style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:#fff;background:var(--gold);padding:3px 7px;border-radius:3px;white-space:nowrap;">COMING SOON</span>
-              <span style="font-size:13px;font-weight:800;color:var(--black);">月曜コース 17:00〜 開講準備中！</span>
+              <span style="font-size:13px;font-weight:800;color:#C0392B;">月曜コース 17:00〜 開講準備中！</span>
             </div>
             <p class="news-note">
               開催地：RANDC<br>
@@ -1047,7 +1047,7 @@
       (det[dt]||[]).forEach(function(e){
         var club=e.loc||'';
         var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
-        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue:'', e.target?'対象：'+e.target:'', e.fee?'料金：'+e.fee:'', e.min||''].filter(Boolean);
+        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+e.fee:'', e.min||''].filter(Boolean);
         rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div><div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
       });
     });
