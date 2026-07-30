@@ -1047,7 +1047,7 @@
       (det[dt]||[]).forEach(function(e){
         var club=e.loc||'';
         var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
-        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+e.fee:'', e.min||''].filter(Boolean);
+        var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+String(e.fee).replace(/[（(][^）)]*2回目[^）)]*[）)]/,'').trim():'', e.min||''].filter(Boolean);
         rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div><div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
       });
     });
