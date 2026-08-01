@@ -269,15 +269,27 @@
     }
 
     /* ===== DIRECTOR ===== */
-    .director-section { background: var(--gray5); }
+    .director-section {
+      background-image:
+        linear-gradient(rgba(242,240,237,0.82), rgba(242,240,237,0.90)),
+        url('images/ogita.png');
+      background-size: cover;
+      background-position: center 18%;
+      background-repeat: no-repeat;
+    }
 
     .director-grid {
       display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 40px;
+      grid-template-columns: 1fr;
+      gap: 0;
       align-items: start;
-      max-width: 720px;
+      max-width: 640px;
       margin: 0 auto 0;
+      background: rgba(255,255,255,0.62);
+      backdrop-filter: blur(2px);
+      padding: 30px 32px;
+      border-radius: 8px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.10);
     }
 
     .director-photo {
@@ -786,12 +798,6 @@
       <h2 class="section-title">代表紹介</h2>
     </div>
     <div class="director-grid">
-      <div>
-        <img
-          class="director-photo"
-          src="images/ogita.png"
-          alt="荻田大樹 SUPERIOR代表">
-      </div>
       <div>
         <h3 class="director-name-jp">荻田 大樹</h3>
         <p class="director-name-en">Ogita Hiroki</p>
