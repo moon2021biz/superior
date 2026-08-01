@@ -146,6 +146,46 @@
       color: var(--gray3);
     }
 
+    .hero-benefit {
+      margin-top: 30px;
+      font-size: clamp(14px, 2.4vw, 17px);
+      line-height: 2;
+      color: var(--black);
+      font-weight: 600;
+    }
+    .hero-benefit strong { color: var(--gold); }
+    .btn-hero {
+      display: inline-block;
+      margin-top: 26px;
+      background: #E8401C;
+      color: var(--white);
+      padding: 16px 44px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      border-radius: 3px;
+      box-shadow: 0 8px 22px rgba(232,64,28,.32);
+      transition: background .25s, transform .15s;
+    }
+    .btn-hero:hover { background: #c93518; transform: translateY(-2px); }
+    .hero-note {
+      margin-top: 14px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--gray3);
+    }
+
+    .news-fee {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: rgba(184,154,90,0.10);
+      border-radius: 4px;
+    }
+    .news-fee strong { color: var(--gold); font-size: 15px; }
+
     /* ===== SECTION BASE ===== */
     .section { padding: 88px 40px; }
     .section-center { text-align: center; }
@@ -702,6 +742,9 @@
         alt="SUPERIOR スペリオール ロゴ">
     </div>
     <p class="hero-sub">ー スペリオール ー</p>
+    <p class="hero-benefit">オリンピアンの指導で、お子さまが<strong>本気で速くなる</strong>。<br>走りの基礎から「考えるチカラ」まで育てます。</p>
+    <a href="#schedule" class="btn-hero">無料体験を申し込む ▶</a>
+    <p class="hero-note">生駒（奈良）／ 箕面（大阪）で参加者募集中</p>
   </section>
 
   <!-- SNS / 記事 -->
@@ -805,6 +848,7 @@
               小学生コース　16:45〜17:45<br>
               追加専門コース　18:00〜18:25
             </div>
+            <p class="news-fee">月会費 <strong>6,600円</strong>（税込／小学生コース）</p>
             <div style="background:rgba(255,255,255,0.35);border-left:2px solid var(--gold);padding:10px 14px;margin-bottom:12px;border-radius:0 4px 4px 0;">
               <p style="font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:4px;color:var(--black);">追加専門コースについて</p>
               <p style="font-size:11px;color:var(--gray2);line-height:1.8;">
@@ -829,7 +873,7 @@
         <article class="news-card card-minoh">
           <div class="news-card-header">
             <h3>大阪 箕面スクール</h3>
-            <p>フロム・シェフ株式会社 主催</p>
+            <p>クラブスポンサー：フロム・シェフ株式会社</p>
           </div>
           <div class="news-card-body">
             <span class="news-highlight">無料体験 参加者募集中！</span>
@@ -837,6 +881,7 @@
               毎週火曜<br>
               小学生コース　18:30〜19:30
             </div>
+            <p class="news-fee">月会費 <strong>7,700円</strong>（税込／小学生コース）</p>
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(184,154,90,0.12);border:1px dashed var(--gold);border-radius:6px;padding:9px 10px;margin-bottom:12px;">
               <span style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:#fff;background:var(--gold);padding:3px 7px;border-radius:3px;white-space:nowrap;">COMING SOON</span>
               <span style="font-size:13px;font-weight:800;color:#C0392B;">月曜コース 17:00〜 開講準備中！</span>
