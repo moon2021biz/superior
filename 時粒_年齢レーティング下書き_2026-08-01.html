@@ -1,0 +1,135 @@
+<title>時粒 — 年齢レーティング下書き</title>
+<style>
+  :root{
+    --bg:#f4ead4; --card:#f8efda; --card2:#efe4c9;
+    --ink:#382e1d; --ink-dim:#8a7a5b; --ink-gold:#9a7a2c;
+    --gold:#b98e2c; --gold-bright:#c89a30; --gold-soft:rgba(185,142,44,0.14);
+    --line:#e2d3ac; --line-strong:#d3c092;
+    --olive:#6b7d4f; --olive-soft:rgba(107,125,79,0.14);
+    --rose:#bd6a72; --rose-soft:rgba(189,106,114,0.13);
+    --shadow:0 10px 30px rgba(56,46,29,0.10);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:
+      radial-gradient(1100px 460px at 12% -8%, rgba(185,142,44,0.10), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+    font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+  }
+  .serif{ font-family:"Hiragino Mincho ProN","Yu Mincho","Klee One",serif; }
+  .wrap{ max-width:860px; margin:0 auto; padding:44px 24px 90px; }
+
+  .eyebrow{ font-size:11.5px; font-weight:800; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; margin:0 0 10px; }
+  h1{ font-size:clamp(24px,4vw,30px); margin:0 0 8px; text-wrap:balance; font-weight:700; }
+  .lede{ color:var(--ink-dim); font-size:14px; line-height:1.75; max-width:64ch; margin:0; }
+
+  .result{
+    margin-top:26px; display:flex; align-items:center; gap:18px;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:20px 24px; box-shadow:var(--shadow);
+  }
+  .result-badge{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif; font-size:32px; font-weight:800;
+    color:var(--gold); background:var(--gold-soft); border:1px solid var(--line-strong);
+    border-radius:14px; padding:10px 18px; flex:none;
+  }
+  .result-text{ font-size:13.5px; color:var(--ink-dim); line-height:1.7; }
+  .result-text b{ color:var(--ink); }
+
+  .warn{
+    margin-top:20px; background:var(--rose-soft); border:1px solid rgba(189,106,114,0.35);
+    border-radius:14px; padding:16px 20px; font-size:13.5px; line-height:1.8;
+  }
+  .warn b{ color:#7d3b42; }
+
+  .group{ margin-top:36px; }
+  .group-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+  .group-num{ font-family:"Hiragino Mincho ProN","Yu Mincho",serif; color:var(--gold); font-size:14px; font-weight:800; }
+  .group-title{ font-size:17px; font-weight:700; margin:0; }
+  .group-note{ font-size:12.5px; color:var(--ink-dim); margin:2px 0 12px; line-height:1.7; }
+
+  .tbl-wrap{ overflow-x:auto; border-radius:14px; border:1px solid var(--line); }
+  table{ width:100%; border-collapse:collapse; background:var(--card); font-size:13.5px; min-width:560px; }
+  th, td{ text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ background:var(--card2); color:var(--ink-gold); font-weight:800; font-size:11.5px; letter-spacing:.03em; text-transform:uppercase; }
+  tr:last-child td{ border-bottom:none; }
+  td.item{ font-weight:800; white-space:nowrap; }
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:800; padding:3px 10px; border-radius:999px; white-space:nowrap; background:var(--olive-soft); color:#4a5738; }
+  .pill .dot{ width:6px; height:6px; border-radius:50%; background:var(--olive); }
+
+  .callout{ background:var(--gold-soft); border:1px solid var(--line-strong); border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.75; margin-top:12px; }
+  .callout b{ color:var(--ink-gold); }
+
+  footer{ margin-top:52px; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-dim); }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">時粒 ｜ App Store Connect</p>
+  <h1 class="serif">年齢レーティング下書き</h1>
+  <p class="lede">App Store Connectの「年齢レーティング」アンケートの回答案です。時粒には該当する要素が無いため、すべて「含まれない」で回答できます。</p>
+
+  <div class="result">
+    <div class="result-badge">4+</div>
+    <div class="result-text">全項目「含まれない」で回答した場合の想定レーティング。<b>暴力・性的表現・下品な表現・ギャンブル・アルコール等、いずれも本アプリには一切含まれません。</b>最終判定はApple側のアンケート結果で自動算出されます。</div>
+  </div>
+
+  <div class="warn">
+    <b>「Made for Kids（子ども向け）」区分は選ばないでください。</b>時粒はメール登録・パスワードでのアカウント作成が必須で、保護者が操作する前提のアプリです。Appleの「Kids」区分はアカウント作成やデータ収集そのものが原則禁止される、まったく別の厳しい審査ルートになるため、時粒の仕組みと両立しません。通常の年齢レーティングのみで申請してください。
+  </div>
+
+  <div class="group">
+    <div class="group-head"><span class="group-num">01</span><h2 class="group-title">コンテンツに関する質問（すべて「含まれない」）</h2></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>質問項目</th><th>回答</th></tr>
+        <tr><td class="item">暴力表現（漫画的・空想的）</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">暴力表現（リアル）</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">残酷・グロテスクな表現</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">下品な表現・下ネタ</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">成人向け・示唆的なテーマ</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">ホラー・恐怖表現</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">アルコール・タバコ・薬物の描写</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">ギャンブル（実写・シミュレーション共に）</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">性的表現・ヌード</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+        <tr><td class="item">医療/治療に関する情報</td><td><span class="pill"><span class="dot"></span>含まれない</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-head"><span class="group-num">02</span><h2 class="group-title">機能に関する質問</h2></div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>質問項目</th><th>回答</th><th>補足</th></tr>
+        <tr>
+          <td class="item">制限のないWebアクセス</td>
+          <td><span class="pill"><span class="dot"></span>含まれない</span></td>
+          <td>アプリ内ブラウザなし</td>
+        </tr>
+        <tr>
+          <td class="item">ユーザー同士のコミュニケーション</td>
+          <td><span class="pill"><span class="dot"></span>含まれない</span></td>
+          <td>見知らぬ相手とのチャット等は無い</td>
+        </tr>
+        <tr>
+          <td class="item">ユーザー生成コンテンツの公開共有</td>
+          <td><span class="pill"><span class="dot"></span>含まれない</span></td>
+          <td>写真・音声・記録はご本人と、招待して相互承認した家族のみに限定共有。不特定多数への公開機能なし</td>
+        </tr>
+        <tr>
+          <td class="item">第三者広告</td>
+          <td><span class="pill"><span class="dot"></span>含まれない</span></td>
+          <td>広告SDK未導入</td>
+        </tr>
+      </table>
+    </div>
+    <div class="callout">
+      <b>補足：</b>写真・声・日記等はユーザーが作成するコンテンツですが、公開範囲は「本人が個人コードを渡し、相手が承認した家族」に限定されており、見知らぬユーザー同士が閲覧し合う仕組みではありません。Appleのアンケートで「ユーザー生成コンテンツを含むか」を聞かれた場合、上記の閉じた共有モデルである旨を選択肢や備考欄で示せると安心です（選べる場合は「限定的な共有のみ」等の穏当な選択肢を選んでください）。
+    </div>
+  </div>
+
+  <footer>時粒（Tokitsubu）／ 2026-08-01 作成 ／ 実際の質問文言・選択肢はApple側のアンケート改訂により変わることがあります。回答方針の参考としてご利用ください。</footer>
+</div>

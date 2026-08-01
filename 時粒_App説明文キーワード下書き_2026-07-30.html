@@ -1,0 +1,151 @@
+<title>時粒 — 説明文・キーワード下書き</title>
+<style>
+  :root{
+    --bg:#f4ead4; --card:#f8efda; --card2:#efe4c9;
+    --ink:#382e1d; --ink-dim:#8a7a5b; --ink-gold:#9a7a2c;
+    --gold:#b98e2c; --gold-bright:#c89a30; --gold-soft:rgba(185,142,44,0.14);
+    --line:#e2d3ac; --line-strong:#d3c092;
+    --olive:#6b7d4f; --olive-soft:rgba(107,125,79,0.14);
+    --shadow:0 10px 30px rgba(56,46,29,0.10);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:
+      radial-gradient(1100px 460px at 12% -8%, rgba(185,142,44,0.10), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+    font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+  }
+  .serif{ font-family:"Hiragino Mincho ProN","Yu Mincho","Klee One",serif; }
+  .wrap{ max-width:820px; margin:0 auto; padding:44px 24px 90px; }
+
+  .eyebrow{ font-size:11.5px; font-weight:800; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; margin:0 0 10px; }
+  h1{ font-size:clamp(24px,4vw,30px); margin:0 0 8px; text-wrap:balance; font-weight:700; }
+  .lede{ color:var(--ink-dim); font-size:14px; line-height:1.75; max-width:64ch; margin:0; }
+
+  .frame-badge{
+    display:inline-flex; align-items:center; gap:8px; margin-top:22px;
+    background:var(--card); border:1px solid var(--line); border-radius:999px;
+    padding:8px 16px; font-size:12.5px; font-weight:800; color:var(--ink-gold);
+  }
+  .frame-badge .step{ color:var(--gold); }
+
+  .field{ margin-top:32px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow); }
+  .field-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .field-title{ font-size:15px; font-weight:800; margin:0; }
+  .field-count{ font-size:12px; font-weight:800; padding:3px 10px; border-radius:999px; white-space:nowrap; }
+  .field-count.ok{ background:var(--olive-soft); color:#4a5738; }
+  .field-note{ font-size:12.5px; color:var(--ink-dim); margin:0 0 12px; line-height:1.7; }
+
+  .value{
+    background:var(--bg); border:1px solid var(--line-strong); border-radius:12px;
+    padding:14px 16px; font-size:14.5px; line-height:1.9; white-space:pre-wrap;
+  }
+  .value.tight{ font-size:15px; font-weight:700; }
+  .value.mono{ font-family:ui-monospace,Menlo,monospace; font-size:13px; line-height:1.8; }
+
+  .desc-body{ font-size:14.5px; line-height:2; white-space:pre-wrap; }
+  .desc-body .hook{ font-weight:800; font-size:16px; }
+
+  .cat-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .cat-chip{ background:var(--gold-soft); border:1px solid var(--line-strong); border-radius:10px; padding:10px 16px; font-size:13.5px; }
+  .cat-chip b{ color:var(--ink-gold); display:block; font-size:11px; letter-spacing:.04em; margin-bottom:3px; }
+
+  footer{ margin-top:52px; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-dim); }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">時粒 ｜ App Store Connect</p>
+  <h1 class="serif">説明文・キーワード下書き</h1>
+  <p class="lede">App Store掲載用のテキスト一式。すべて文字数制限をクリアしています。そのままコピーしてApp Store Connectに貼り付けられます。</p>
+
+  <div class="frame-badge"><span class="step">構成</span>：痛みの言語化 → 常識破壊 → 理想の未来（ブランド共通の型）</div>
+
+  <!-- App名 -->
+  <div class="field">
+    <div class="field-head">
+      <p class="field-title">App名（掲載用）</p>
+      <span class="field-count ok">14 / 30文字</span>
+    </div>
+    <p class="field-note">ホーム画面のアプリ名（app.json上は「時粒」のまま）とは別に、検索結果に出る掲載名にキーワードを足せます。</p>
+    <div class="value tight">時粒 - 声で残す家族の記録</div>
+  </div>
+
+  <!-- サブタイトル -->
+  <div class="field">
+    <div class="field-head">
+      <p class="field-title">サブタイトル</p>
+      <span class="field-count ok">19 / 30文字</span>
+    </div>
+    <p class="field-note">アプリ名の直下、検索結果で一番目立つ場所。「痛みの言語化→常識破壊」を1行で凝縮。</p>
+    <div class="value tight">写真より、声を残そう。家族の記録アプリ</div>
+  </div>
+
+  <!-- プロモーションテキスト -->
+  <div class="field">
+    <div class="field-head">
+      <p class="field-title">プロモーションテキスト</p>
+      <span class="field-count ok">87 / 170文字</span>
+    </div>
+    <p class="field-note">審査なしでいつでも更新可能な欄。キャンペーン文言や最新情報をここで機動的に差し替えられます。</p>
+    <div class="value">写真は何千枚あるのに、あの日の声はもう思い出せない。時粒は、子どもの「声」を残せる家族の記録アプリです。今日の一言が、何年後かの宝物になります。基本無料でご利用いただけます。</div>
+  </div>
+
+  <!-- キーワード -->
+  <div class="field">
+    <div class="field-head">
+      <p class="field-title">キーワード</p>
+      <span class="field-count ok">86 / 100文字</span>
+    </div>
+    <p class="field-note">検索用（画面には表示されない）。App名・サブタイトルに既に含まれる「時粒」「声」「家族」「記録」「残す」は重複回避のため除外し、別の検索語で埋めています。</p>
+    <div class="value mono">子育て,育児,育児日記,思い出,アルバム,写真,ボイスメモ,親子,誕生日,成長記録,習い事,日記,育児アプリ,共有,ファミリー,子どもの記録,親子時間,子供アプリ,赤ちゃん</div>
+  </div>
+
+  <!-- 説明文 -->
+  <div class="field">
+    <div class="field-head">
+      <p class="field-title">説明文</p>
+      <span class="field-count ok">上限4,000文字・十分に余裕あり</span>
+    </div>
+    <p class="field-note">冒頭で痛みを描写→「写真=記録」という思い込みを崩す→機能紹介→安心材料→CTA、の順で構成。</p>
+    <div class="value desc-body"><span class="hook">写真は何千枚もあるのに、
+あの日の「声」は、もう思い出せない。</span>
+
+子どもの成長は、写真に撮れば残ると思っていませんか。
+
+でも本当に恋しくなるのは、あの頃の話し方、笑い声、たどたどしい「今日ね、」から始まる報告——写真には写らない、"声"そのものです。
+
+時粒（ときつぶ）は、子どもとの毎日を「声」で残す家族の記録アプリです。
+
+タップして話すだけ。今日あった出来事も、練習や試合の一言も、そのまま声で残せます。
+
+■ こんな機能があります
+・声の宝物：録音した声を、写真・日付とセットで記録
+・ふりかえり：写真がゆっくり切り替わりながら、あの日の声がよみがえる、まるでムービーのような振り返り機能
+・家族と共有：配偶者と一緒に記録／祖父母には見るだけで共有、選べます
+・成長の記録：身長体重・習い事の記録・お出かけの思い出もまとめて管理
+・巣立ちまでカウントダウン：一緒に暮らせる時間を、数字で実感
+
+■ 安心してお使いいただけます
+・基本無料でご利用いただけます
+・データはご自身の端末とクラウドの両方に安全に保存
+・広告のためのトラッキングは一切行いません
+
+今日の1シーンを、時粒に。
+子どもの「今」を、声で残しませんか。</div>
+  </div>
+
+  <!-- カテゴリ -->
+  <div class="field">
+    <div class="field-head"><p class="field-title">カテゴリ</p></div>
+    <p class="field-note">家族の日々を記録する情緒的な体験が主軸のため「ライフスタイル」を第一に、写真・声という素材面から「写真/ビデオ」を第二候補として推奨します（判断が分かれるところなので、MOONさんの好みで入れ替え可）。</p>
+    <div class="cat-row">
+      <div class="cat-chip"><b>第一カテゴリ</b>ライフスタイル</div>
+      <div class="cat-chip"><b>第二カテゴリ</b>写真/ビデオ</div>
+    </div>
+  </div>
+
+  <footer>時粒（Tokitsubu）／ 2026-07-30 作成 ／ 文字数はPythonで実測済み（目視カウントではありません）</footer>
+</div>

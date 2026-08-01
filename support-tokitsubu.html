@@ -1,0 +1,94 @@
+<title>時粒（Tokitsubu）サポート</title>
+<style>
+  :root{
+    --bg:#f4ead4; --card:#f8efda; --card2:#efe4c9;
+    --ink:#382e1d; --ink-dim:#8a7a5b; --ink-gold:#9a7a2c;
+    --gold:#b98e2c; --gold-bright:#c89a30; --gold-soft:rgba(185,142,44,0.14);
+    --line:#e2d3ac; --line-strong:#d3c092;
+    --shadow:0 10px 30px rgba(56,46,29,0.10);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.85;
+  }
+  .serif{ font-family:"Hiragino Mincho ProN","Yu Mincho","Klee One",serif; }
+  .wrap{ max-width:680px; margin:0 auto; padding:56px 24px 90px; }
+
+  header{ text-align:center; margin-bottom:40px; }
+  .brand{ font-size:13px; font-weight:800; color:var(--gold); letter-spacing:.14em; margin-bottom:14px; }
+  h1{ font-size:clamp(24px,4vw,30px); margin:0 0 10px; font-weight:700; }
+  .lede{ color:var(--ink-dim); font-size:14.5px; }
+
+  .contact{
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:22px 24px; text-align:center; margin-bottom:40px; box-shadow:var(--shadow);
+  }
+  .contact-label{ font-size:12px; color:var(--ink-dim); font-weight:800; letter-spacing:.05em; margin-bottom:8px; }
+  .contact-email{ font-size:19px; font-weight:800; color:var(--ink-gold); }
+  .contact-email a{ color:inherit; text-decoration:none; }
+  .contact-note{ font-size:12.5px; color:var(--ink-dim); margin-top:10px; }
+
+  h2{ font-size:15px; font-weight:800; margin:34px 0 6px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+  .qa{ margin-bottom:22px; }
+  .q{ font-weight:800; font-size:14.5px; margin-bottom:6px; display:flex; gap:8px; }
+  .q::before{ content:"Q"; color:var(--gold); font-family:"Hiragino Mincho ProN","Yu Mincho",serif; flex:none; }
+  .a{ font-size:14px; color:var(--ink); padding-left:20px; }
+  .a code{ background:var(--card2); border:1px solid var(--line); border-radius:5px; padding:1.5px 6px; font-size:12.5px; font-family:ui-monospace,Menlo,monospace; }
+
+  footer{ margin-top:52px; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-dim); text-align:center; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand serif">時粒 ｜ Tokitsubu</div>
+    <h1 class="serif">サポート</h1>
+    <p class="lede">よくあるご質問と、お問い合わせ先です。</p>
+  </header>
+
+  <div class="contact">
+    <div class="contact-label">お問い合わせ</div>
+    <div class="contact-email"><a href="mailto:moon2021.biz@gmail.com">moon2021.biz@gmail.com</a></div>
+    <div class="contact-note">不具合のご報告・ご要望・ご質問など、お気軽にご連絡ください。</div>
+  </div>
+
+  <h2>アカウント・ログイン</h2>
+
+  <div class="qa">
+    <div class="q">ログインできなくなりました</div>
+    <div class="a">ログイン画面の「パスワードを忘れた方はこちら」から、メールに届く確認コードで再設定できます。それでも解決しない場合は、登録したメールアドレスを添えてお問い合わせください。</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">機種変更をしたら記録が消えてしまいました</div>
+    <div class="a">ログインした状態でお使いだった場合、新しい端末で同じアカウントにログインすると自動的に記録が復元されます。うまく戻らない場合は、設定 → ストレージ管理 → 「クラウドと同期」から手動で復元できます。</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">アカウントを削除したい</div>
+    <div class="a">設定 → アカウント → 「アカウントを削除」から、いつでもご自身でクラウド上の記録・写真・音声を完全に削除できます。この操作は取り消せません。</div>
+  </div>
+
+  <h2>記録・バックアップ</h2>
+
+  <div class="qa">
+    <div class="q">写真や声のデータは安全に保存されますか</div>
+    <div class="a">記録はまずお使いの端末に保存され、ログインするとクラウドにも自動でバックアップされます。設定 → ストレージ管理から、いつでも手元にZIPファイルとして書き出すこともできます。</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">家族と記録を共有できますか</div>
+    <div class="a">配偶者とは編集できる形で、祖父母などご親族には見るだけの形で共有できます。設定 → つながる・招待・共有 から、個人コードを使って招待してください。どちらもお互いが承認して初めて共有が始まります。</div>
+  </div>
+
+  <h2>その他</h2>
+
+  <div class="qa">
+    <div class="q">不具合を見つけました</div>
+    <div class="a">お手数ですが、起きたこと・端末の種類（iPhone/iPad）・可能であればスクリーンショットを添えて、上記メールアドレスまでご連絡ください。</div>
+  </div>
+
+  <footer>時粒（Tokitsubu）／ 運営：株式会社MOON</footer>
+</div>
