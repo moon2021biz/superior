@@ -295,6 +295,10 @@ function monthsInData(){
   SCHOOLS.forEach(l=>Object.keys((SCHED.data&&SCHED.data[l])||{}).forEach(d=>set.add(d.slice(0,7))));
   Object.keys(SCHED.events||{}).forEach(d=>set.add(d.slice(0,7)));
   let arr=[...set].sort();
+  // 1ヶ月前より古い月は表示しない（当月が無くても前月から表示）
+  const nw=new Date(), pv=new Date(nw.getFullYear(),nw.getMonth()-1,1);
+  const cutoff=pv.getFullYear()+'-'+String(pv.getMonth()+1).padStart(2,'0');
+  arr=arr.filter(ym=>ym>=cutoff);
   if(!arr.length){const n=new Date();arr=[n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')];}
   return arr;
 }
