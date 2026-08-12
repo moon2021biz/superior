@@ -27,7 +27,8 @@
       padding: 28px 20px 22px;
       text-align: center;
     }
-    header h1 { font-size: 1.7rem; letter-spacing: 0.12em; }
+    header h1 { font-size: 1.7rem; letter-spacing: 0.12em; display: flex; align-items: center; justify-content: center; gap: 14px; }
+    header h1 .brand-logo { height: 46px; width: auto; filter: brightness(0) invert(1); }
     header p { margin-top: 6px; font-size: 0.82rem; opacity: 0.82; }
 
     /* 場所凡例 */
@@ -250,7 +251,7 @@
 <body>
 
 <header>
-  <h1>🏃 SUPERIOR 予定表</h1>
+  <h1><img class="brand-logo" src="images/logo-line.png" alt="SUPERIOR">予定表</h1>
   <p id="subtitle">陸上クラブ スペリオール（Superior）</p>
 </header>
 
