@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Briefing 2026-08-21（金）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", "Hiragino Sans", sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #4299e1 100%); color: white; padding: 32px 24px; text-align: center; border-radius: 0 0 16px 16px; margin-bottom: 24px; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+.header .date { font-size: 1rem; opacity: 0.85; }
+.header .subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card h2 { font-size: 1rem; font-weight: 700; color: #2d3748; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
+/* ALERTS */
+.alert-section { background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.alert-section h3 { color: #c53030; font-size: 1rem; margin-bottom: 12px; }
+.alert-section p { font-size: 0.92rem; padding: 7px 0; border-bottom: 1px solid #fed7d7; }
+.alert-section p:last-child { border-bottom: none; }
+.alert-red { color: #c53030; font-weight: 700; }
+.alert-yellow { color: #b7791f; font-weight: 700; }
+/* PJ PROGRESS */
+.card p { font-size: 0.9rem; color: #4a5568; margin-bottom: 10px; line-height: 1.7; }
+.card p strong { color: #2d3748; }
+/* SNS TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table th { background: #edf2f7; color: #4a5568; font-weight: 700; padding: 8px 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+table td { padding: 8px 12px; border-bottom: 1px solid #edf2f7; color: #2d3748; }
+table tr:last-child td { border-bottom: none; }
+/* TRIAL SCHEDULE */
+.school-card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.school-header { font-weight: 700; color: #2b6cb0; margin-bottom: 10px; font-size: 0.95rem; }
+.trial-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
+.trial-row:last-child { border-bottom: none; }
+.trial-date { font-weight: 600; min-width: 160px; color: #4a5568; }
+.trial-name { font-weight: 700; color: #2d3748; min-width: 120px; }
+.trial-course { color: #718096; font-size: 0.85rem; }
+.no-schedule { color: #718096; font-size: 0.88rem; text-align: center; padding: 8px; }
+/* CDST */
+.card ul { list-style: none; }
+.card ul li { padding: 7px 0; border-bottom: 1px solid #edf2f7; font-size: 0.88rem; color: #4a5568; }
+.card ul li:last-child { border-bottom: none; }
+/* TASK ITEMS */
+.task-item { padding: 10px 14px; margin-bottom: 10px; border-radius: 8px; font-size: 0.9rem; background: #f7fafc; border-left: 4px solid #4299e1; }
+.task-item strong { display: block; margin-bottom: 4px; color: #2d3748; }
+/* SYNERGY */
+footer { text-align: center; color: #a0aec0; font-size: 0.8rem; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 Daily Morning Briefing</h1>
+  <div class="date">2026-08-21（金）</div>
+  <div class="subtitle">全10PJ自動チェック完了 ｜ SNS実測 / 体験スケジュール / CDST変更検知 / むーん行政確認</div>
+</div>
+<div class="container">
+
+<!-- ALERTS -->
+<div class="alert-section">
+  <h3>⚠️ 要対応事項（今日のアクション）</h3>
+  
+<p><span class="alert-red">【システム】本日の朝タスク群が定刻に走らず、16:14〜16:26に遅延実行されました</span> — daily-morning-briefing（定刻9:00）・caras-gbp-autoposter（10:00）・sns-buzz-research（8:00）・caras-instagram-weekly（9:00）・daily-file-organizer・cowork-daily-memory の6件が同時刻にまとめて起動＝<strong>午前中はMacがスリープ／オフラインだった可能性が高い</strong>です。このブリーフィング自体も約7時間遅れの実行です。</p>
+<p><span class="alert-red">【むーん】本日10:30のGBP自動投稿は空振り確定です</span> — <code>moon-gbp-autoposter</code> は <strong>lastRunAt が存在せず（一度も実行歴なし）、次回実行が8/25に飛んでいます</strong>＝本日8/21分の投稿は完全にスキップされました。加えて月次ファイル <code>202608_月次投稿文.md</code> は<strong>いまも「⏸ MOON承認待ち」</strong>のため、仮に起動していても投稿は中止される状態でした。8/19にGBP初投稿したばかりで、2件目が空いた形です。</p>
+<p><span class="alert-red">【システム】経理監査・成果物まとめ・奈良U12チェックの3タスクは本日まったく実行されていません</span> — <code>accounting-audit-daily</code>（定刻8:50／最終実行 8/20 10:36）・<code>seika-matome-update</code>（最終 8/20）・<code>nara-u12-daily-check</code>（最終 8/20）。遅延キャッチアップの対象から漏れています。<strong>本レポートの経理数値は8/20監査分</strong>である点にご注意ください。</p>
+<p><span class="alert-red">【関学】全カレ（全日本インカレ）エントリー漏れ確認が未解決のまま6日経過</span> — 8/15リミット超過。CDST上に完了記録なし。CDSTの「試合・合宿等」欄は<strong>8/24まで「夏合宿（長野）」</strong>が続く一方、8/20の備考(その他)には「大西　合宿終わり」とあり、<strong>大西さん個人は8/20で合宿を離脱した</strong>と読める記載です（＝連絡が取りやすい状態）。<strong>明日8/22は中国5県選手権（伊藤）と長野合宿が重複し、備考(荻田)に「荻田都合あり」</strong>＝帯同の切り分けが今日中に必要です。KGAD 7月分（提出期限8/15）の提出済み確認も同送を。</p>
+<p><span class="alert-red">【健康経営】申請の起点がMOONさん本人操作で止まったままです</span> — 締切 2026-10-16（金）17:00＝<strong>残56日</strong>。認定申請書(Excel)の入手には <a href="https://kenko-keiei.jp/newid/">kenko-keiei.jp/newid</a> での新規ID発行が必要で、これはClaude代行不可。あわせて<strong>回答待ち4件</strong>（①常時使用する従業員数 ②日本標準産業分類上の業種 ③健康宣言事業の参加形式 ④経営者ご自身の健診受診の有無）。特に④は必須項目で、未受診だと他が揃っても不認定です。</p>
+<p><span class="alert-yellow">【SORA】8/25（火）スタート講習の事前案内が未送付 — 残4日。実データで「未連絡」を確認しました</span> — やまもと はると（山本 悠斗・小4／小山コーチ 18:30〜20:00）。<strong>体験シートの「連絡」列が ✗（未連絡）</strong>のままです。初回から費用が発生する回のため、費用・場所・持ち物の案内は必須です。</p>
+<p><span class="alert-yellow">【むーん】行政3件が未着手のまま継続</span> — ①GビズID事前取得（7/2公開・<strong>発行に日数を要するため最優先</strong>）②こども性暴力防止法 対象事業者情報の登録（7/2公開）③令和7年度 福祉・介護職員等処遇改善加算の実績報告（6/24公開）。本日の大阪市サイト実測でも最新は7/10付のままで新規公開なし＝<strong>期限は迫っていませんが、着手できる日数だけが減り続けています</strong>。</p>
+<p><span class="alert-yellow">【SUPERIOR】10/18（日）東大阪記録会の告知が未着手／8/24箕面は本日「残り3名」で足踏み</span> — 記録会は「3人以上で実施」条件で、公開サイトには掲載済みですが告知しないままだと不成立です。箕面体験会は昨日から<strong>申込の増加なし（残り3名で横ばい）</strong>。8/6体験実施の松石竜空・松石恋奈（ともに小6）への入会クロージングと同じ連絡にまとめられます。</p>
+<p><span class="alert-yellow">【CARAS】Instagram投稿が3本滞留しています</span> — 本日のGBP投稿は<strong>✅自動で公開完了</strong>（姿勢改善・体型改善／242字・89点）。一方Instagramは生成のみで<strong>手動投稿待ちが8/7 RESULT・8/19 VOICE・8/21 RESULT（本日分）の計3本</strong>に増えました。MEO 1位を維持できている今が、投稿とクチコミ依頼を積むタイミングです。</p>
+<p><span class="alert-yellow">【経理】出張未精算 1件が48日滞留中</span> — 荻田大樹さん 7/4 ¥10,000「振込：未」。8/20監査時点で47日＝<strong>本日で48日</strong>。実害が確定しているのはこの1件のみです（重複計上疑い4件は全件シロ確定済み）。</p>
+<p><span class="alert-yellow">【SUPERIOR】superior-admin の <code>/api/data</code> が401＝6日連続で会員データを取得できません</span> — 原因は<strong>Clerk（認証）に未ログイン</strong>であることを本日特定しました。ブラウザのローカルキャッシュは読めましたが<strong>最終同期は8/12 10:58</strong>で9日前です。MOONさんが一度 <a href="https://superior-admin.pages.dev/">superior-admin.pages.dev</a> にサインインしていただければ、翌朝から自動取得が復旧します。</p>
+
+</div>
+
+<!-- PJ PROGRESS -->
+<div class="card">
+  <h2>📊 PJ進捗サマリー</h2>
+  
+<p><strong>【オギラボ】</strong>本日 <code>sns-buzz-research</code> が実行され（遅延16:14）、Gemini分析で<strong>差別化ポジションが1つ確定</strong>しました＝「<strong>AIを最高の"フィジカルコーチ"にする専門家</strong>」。競合フックは上位5本すべてPC完結型で、身体を足すだけで即差別化できる構図です。即投稿できる企画3案（A:AI超・体調管理術／B:鬼コーチAI育成法／C:AI誘導型ポモドーロ術）まで出ています。SNSはYouTube 151人/17本で<strong>3日連続横ばい</strong>（8/19・8/20・8/21）、noteフォロワー6人も停滞、TikTokは本日1,499人（8/20の1,502人から-3）。<strong>note公開記事は22本</strong>とAPI実測で判明（従来の「最大6記事」はメンバーシップ表示で別指標）。記事22本に対しフォロワー6人＝<strong>記事末尾のフォロー導線が機能していません</strong>。インタビュー企画は<strong>ステップ③で9日間停止中</strong>です。<br>🎯 次のアクション: 企画C（AI誘導型ポモドーロ術＝独自ポジションの本命）を今週1本目に。全投稿末尾のCTAを「note誘導」と「フォロー訴求」の2段に分けて、22本の記事資産をフォロワーに転換する。</p>
+
+<p><strong>【CARAS】</strong>全PJで最も自動化が効いているPJです。<strong>本日のGBP投稿は自動で公開完了</strong>（「姿勢改善・体型改善」242字・品質89点・ルール準拠チェック全項目✅）。<strong>MEO「夙川 パーソナルジム」は3日連続で1位を維持</strong>しました。ただし<strong>クチコミはCARAS 5件のまま3日間まったく増えていません</strong>（2位コバトレ17件・3位LEAD 24件）。Instagramは68人/108件で±0、TikTokは本日bot-checkで未取得（直近確定は8/20の24人・いいね186）。<br>🎯 次のアクション: 滞留している<strong>Instagram 3本（8/7 RESULT・8/19 VOICE・8/21 RESULT）を手動投稿</strong>。並行して、直近で成果が出た会員さんへクチコミ依頼を1件ずつ。1位の定着はクチコミ数の一点にかかっています。</p>
+
+<p><strong>【健康経営】</strong>8/19に申請要件を一次資料で確定させて以降、<strong>2日間まったく動いていません</strong>。申請期間 2026-08-17〜10-16（金）17:00＝残56日、申請料16,500円（税込）、内定は2027年2月下旬。全17項目のギャップ表は作成済みですが、実践期（4〜7月）の未完了項目（定期健診の実施・再検査追跡・ストレスチェック・ヘルスリテラシー教育・運動機会の増進・食生活改善）が多数残っています。<br>🎯 次のアクション: ①新規ID発行（MOONさん本人操作）②回答待ち4件の回収 — この2つが済むまで他の作業が全部後ろ倒しになります。所要は合わせて10分程度です。並行して9月中の証拠づくり（定期健診の実施 → 受診勧奨の記録／社内セミナー1回／階段うぉーくWEEKの記入済みチェック表7名分の回収と画像差替）。</p>
+
+<p><strong>【SORA】</strong>良いニュースがあります。<strong>体験申込スプレッドシートの自動取得が6日ぶりに復旧しました</strong>（<code>/u/0</code> パス＋<code>tqx=out:html</code> で解決／取得成功 361行）。実測値は申込累計<strong>358件</strong>・体験実施168件・入会80件/未入会88件・入会率47.62%で、8/17から<strong>新規申込ゼロ</strong>＝4日間動きなしです。Instagramは540人/293件で±0。会費・管理アプリは7月まで台帳と完全一致（差分0件）で整っています。<br>🎯 次のアクション: 8/25（火）スタート講習の事前案内を今日中に送付（有料回・残4日・シート上「未連絡」を実データで確認済み）。<strong>未入会88件へのまとめ再アプローチ</strong>が、新規申込ゼロを埋める最短手です。予定表ページ（sora-schedule.pages.dev）は4/23で更新停止したままです。</p>
+
+<p><strong>【SUPERIOR】</strong>Instagramフォロワーが<strong>7人→8人（+1）</strong>になりました。母数は小さいですが、直近1週間で初のフォロワー増です（投稿30件は±0）。一方<strong>8/24箕面 無料体験会は「残り3名」で昨日から動きなし</strong>（限定10名・公開サイト上は申込7名相当）。満席まではあと3枠です。生駒は松石竜空・松石恋奈（ともに小6）が8/6に体験実施済み・ステータス「連絡済」で、今いちばん温度の高い対象です。<strong>旧体験管理シートは本日取得に成功しましたが最終行が2025/03/25で、休眠状態であることが確定しました</strong>＝日常の差分はブリーフィングと管理アプリから取る運用が正解です。<br>🎯 次のアクション: 10/18東大阪記録会の告知開始（申込0件・このままだと中止）。松石兄妹の入会クロージングと8/24箕面の残3枠告知を1本の連絡にまとめると、3件同時に前進します。次回Instagramは8/26（水）Week2 COACHING。</p>
+
+<p><strong>【むーん】</strong>8/19にGBPオーナー確認と初投稿を終えたところですが、<strong>本日の2件目（C_5領域プログラム）が空振りしました</strong>。原因は2つで、①<code>moon-gbp-autoposter</code> に実行履歴がなく本日分がスキップされた ②月次投稿文3本が承認待ちのまま — どちらか一方が解消しても投稿は出ません。Instagramは170人/56件で±0。国保連入金は令和8年6月分 ¥3,359,734（前月比+¥142,526／+4.4%）で2か月連続増、定員は約9割稼働が続いています。8/20着手のLLMO対策（JSON-LD・robots.txt・sitemap.xml・llms.txt）は<strong>MOONさんの <code>bash push.sh</code> 実行待ち</strong>で、Cloudflare Managed robots.txt が主要AIクローラをブロックしたままです。<br>🎯 次のアクション: ①8月分GBP投稿文3本の承認（数分で終わります・次回8/25 10:30に間に合わせる）②GビズIDの申請着手（発行に日数がかかるため最優先）③<code>cd moon-lp && bash push.sh</code> の実行。</p>
+
+<p><strong>【関西学院大学陸上部】</strong>CDSTスプレッドシートは本日も取得成功（316行×25列）。<strong>8/20スナップショットと突き合わせて差分0件</strong>でした（過去化したのは8/20「大西　合宿終わり」の1行のみ）。昨日フラグを立てた9/6「U２０締め切り」も本日時点で変化なしです。KGAD月次活動報告書は7月分まで作成完了、8月分は9/5の自動実行予定。<br>🎯 次のアクション: 大西さんへ ①全カレエントリー漏れ確認（8/15リミットを6日経過）②<strong>明日8/22 中国5県選手権（伊藤）と長野合宿の帯同切り分け（実施は明日＝確定は今日まで）</strong> ③KGAD 7月分の提出済み確認 — この3点をまとめて連絡。8/22の切り分けだけは実施が明日のため先送りできません。</p>
+
+<p><strong>【TrustFit】</strong>最大の情報欠損PJです。<strong>CONTEXT.mdが2026-06-01から81日間更新停止</strong>しており、PRISM CUPのクラウドファンディング最終結果（目標¥500,000・All-in・終了6/14）と7/4アソビル開催の結果がどちらも未記録。CF告知スケジュール8件も全て期限超過のまま「⏳未完了」で残っています。index.mdには「PRISM CUP中止→食事会」、ongoing.mdには「TrustFit＝健康経営へ統合（凍結）だが未決」とあり、正本・実態・戦略方針の三者が食い違ったままです。<br>🎯 次のアクション: 判断より先に事実の記録を。CF最終結果と7/4開催結果をCONTEXT.mdに転記し、そのうえで「凍結／健康経営へ統合」の可否を確定する。TODO 3件（1枚モノ提案書・PFプロトタイプ・初回モニター企業アプローチ）は全て実績が前提なので、記録なしには着手できません。</p>
+
+<p><strong>【時粒（Tokitsubu）】</strong>情報が実態より低く見積もられていた側です。8/19のCode実地調査で <code>app/src/screens</code> に<strong>23画面</strong>あることが判明し、スクール向け機能（SchoolManage.tsx 416行・SchoolPostReview・PBCelebration・ParticipantManager・ChildGrowth/ChildTimeline）が既に実装済みでした。<strong>「クラブ向けOEM」のPhase0は追加開発ゼロで配布可能</strong>です。<br>🎯 次のアクション: ブロッカーは技術ではなくコマンド1本です — <code>cd lifedesign/app && npx convex dev</code>（MOONさん実行）。6/21から2か月止まっており、これが済まないと実機2アカウント検証もPhase2も動きません。</p>
+
+<p><strong>【ちょっコレ】</strong>8/19に正本化した新規PJ。定額制の若手シェアアシスタント（月額5,000〜10,000円／1タスク＝15分／大阪の店舗向け／実働は体育会系学生／窓口はLINE限定＋AI敬語変換）というコンセプトは確定、実行設計はこれからです。正本自身が「現状はWill×Can寄り＝独りよがりに落ちるリスク」と警告しています。<br>🎯 次のアクション: ①大阪の実在3店舗ヒアリング（何が面倒か／いくらなら払うか）＝Needs検証を飛ばさない ②<strong>月間タスク上限と商圏の密集条件を決める</strong> — ここが未定だと定額モデルは構造的に赤字化します ③SOP v1（やること／やらないことリスト：産廃法・運送法の線引き）。</p>
+
+</div>
+
+<!-- SNS STATUS -->
+<div class="card">
+  <h2>📱 SNSステータス（実測値）</h2>
+  
+<table>
+<tr><th>PJ / 媒体</th><th>フォロワー</th><th>投稿・動画</th><th>前回比（8/20）</th><th>取得</th></tr>
+<tr><td>オギラボ / TikTok</td><td>1,499人（いいね 24.5K）</td><td>—</td><td><strong>-3人</strong>（8/20=1,502人）</td><td>✅ 実測</td></tr>
+<tr><td>オギラボ / YouTube</td><td>151人</td><td>17本</td><td>±0（<strong>3日連続横ばい</strong>／8/19・8/20・8/21）</td><td>✅ 実測</td></tr>
+<tr><td>オギラボ / note</td><td>6人</td><td><strong>公開記事 22本</strong></td><td>フォロワー±0／記事数はAPI実測で正式化</td><td>✅ 実測</td></tr>
+<tr><td>CARAS / Instagram</td><td>68人</td><td>108件</td><td>±0</td><td>✅ 実測</td></tr>
+<tr><td>CARAS / TikTok</td><td colspan="2">本日<strong>未取得</strong>（bot-check「Please wait...」で3回リトライ失敗）</td><td>直近確定 24人・いいね186（8/20実測）</td><td>⚠️ 未取得</td></tr>
+<tr><td>SORA / Instagram</td><td>540人</td><td>293件</td><td>±0</td><td>✅ 実測</td></tr>
+<tr><td>SUPERIOR / Instagram</td><td>8人</td><td>30件</td><td><strong>フォロワー +1人</strong>（8/20=7人）／投稿±0</td><td>✅ 実測</td></tr>
+<tr><td>むーん / Instagram</td><td>170人</td><td>56件</td><td>±0</td><td>✅ 実測</td></tr>
+</table>
+<p style="margin-top:12px"><strong>📍 CARAS MEO順位（Google 地図パック・ログイン中Chromeで実測）</strong></p>
+<table>
+<tr><th>検索ワード</th><th>順位</th><th>前回（8/20）</th><th>上位の顔ぶれ</th></tr>
+<tr><td>夙川 パーソナルジム</td><td><strong>🥇 1位（3日連続維持）</strong></td><td>1位</td><td>1位 パーソナルジム CARAS夙川店 5.0(5) ／ 2位 コバトレ パーソナルジム西宮夙川店 4.9(17) ／ 3位 パーソナルジムLEAD 西宮夙川店 5.0(24)</td></tr>
+<tr><td>西宮 パーソナルジム</td><td>圏外</td><td>圏外</td><td>広告枠 PERSONAL GYM 匠ちゃん 西宮今津店 5.0(41) ／ 1位 ライトパーソナルジム シルエット今津店 5.0(27) ／ 2位 Dr.トレーニング 西宮店 4.9(7)</td></tr>
+</table>
+<p>「夙川 パーソナルジム」1位は<strong>3日連続で維持</strong>しています。ただし<strong>クチコミはCARAS 5件のまま3日間ゼロ増</strong>（競合17件・24件）で、順位が入れ替わりやすい状態は改善していません。「西宮 パーソナルジム」は上位の顔ぶれ自体が昨日から入れ替わっており（昨日1位のTHE PERSONAL GYM 西宮店が本日は地図パック外／シルエット今津店のクチコミが25→27件）、<strong>このワードは日次で変動が大きいエリア</strong>です。※測定はMOONさんのログイン中Chrome（前回と同一条件）。</p>
+<p style="margin-top:12px"><strong>💡 気づき：</strong>オギラボは<strong>note記事22本に対してフォロワー6人</strong>＝記事1本あたり0.27人しか転換していません。「発信量が足りない」のではなく<strong>記事末尾の導線が抜けている</strong>状態で、既存22本の末尾にフォロー訴求を1行足すだけで改善余地があります。同じ構図はSUPERIOR（投稿30件でフォロワー8人）にも当てはまります。</p>
+
+</div>
+
+<!-- TRIAL SCHEDULE -->
+<div class="card">
+  <h2>🏃 体験スケジュール（SORA / SUPERIOR）</h2>
+  
+<div class="school-card">
+  <div class="school-header">✅ データ取得状況（本日）— SORAが6日ぶりに復旧</div>
+  <div class="no-schedule" style="text-align:left;line-height:1.8">
+    <strong>SORA体験申込シートの自動取得に成功しました</strong>（<code>/u/0</code> パス＋<code>tqx=out:html</code> 形式で ACCESS_DENIED を回避／361行取得）。関学CDSTも同手順で成功しています。<br>
+    <strong>SUPERIOR は引き続き未取得</strong>：superior-admin <code>/api/data</code> が401（原因＝<strong>Clerk認証に未ログイン</strong>と本日特定）。旧スプレッドシートは取得できましたが<strong>最終行が2025/03/25＝休眠確定</strong>で、生きたデータはありません。以下のSUPERIOR分は<strong>いつ時点の値かを明記</strong>して掲載しています。
+  </div>
+</div>
+
+<div class="school-card">
+  <div class="school-header">📍 高松・観音寺（SORA） | 今後の体験・講習予定 — 本日実測 ✅</div>
+  <div class="trial-row"><span class="trial-date">8/25（火）18:30〜20:00</span><span class="trial-name">やまもと はると（山本 悠斗）</span><span class="trial-course">小4 ／ 小山コーチのスタート講習【初回より費用発生】</span></div>
+  <div class="no-schedule" style="text-align:left">
+    ⚠️ シートの<strong>「連絡」列が ✗（未連絡）</strong>のまま＝費用・場所・持ち物の事前案内が未送付（残4日）。申込は7/24受付分です。<br>
+    観音寺：予定なし。<br>
+    <strong>本日実測</strong>：申込累計 <strong>358件</strong> ／ 体験実施 168件 ／ 入会 80件・未入会 88件 ／ 入会率 47.62% — <strong>8/17から新規申込ゼロ（4日間動きなし）</strong>。
+  </div>
+</div>
+
+<div class="school-card">
+  <div class="school-header">🏢 箕面（SUPERIOR／むーん移管） | 8/24（月）無料体験会 — 公開サイト実測 ✅</div>
+  <div class="trial-row"><span class="trial-date">8/24（月）17:00〜18:00</span><span class="trial-name">限定10名「残り3名」</span><span class="trial-course">会場：RANDC（大阪府箕面市）／対象：小学生／無料</span></div>
+  <div class="no-schedule" style="text-align:left">
+    昨日8/20と同じ「残り3名」＝<strong>本日は申込の増加なし</strong>。限定10名に対して<strong>公開サイト上は申込7名相当</strong>です。<br>
+    ⚠️ 名前が分かっているのは<strong>6名まで</strong>（管理アプリのローカルキャッシュ・最終同期 2026-08-12 10:58／全員ステータス「連絡済」）：川上慧大（小4）／能町澄真（小2）／福島慎士（小5）／岡野令（小3）／村田暁彦（小3）＋口頭1名。<strong>残り1名分はキャッシュが8/12で止まっているため氏名を確認できません</strong>（superior-adminにサインインすれば判明します）。<br>
+    ※「3人以上で実施」の条件が付いているのは10/18東大阪記録会であり、箕面体験会に最少催行人数の記載はありません。<br>
+    箕面の在籍は4名（ほか退会2名）。
+  </div>
+</div>
+
+<div class="school-card">
+  <div class="school-header">🏔 生駒（SUPERIOR） | 今後の体験予定</div>
+  <div class="no-schedule" style="text-align:left">
+    本日もライブ取得は不可（401）。<strong>管理アプリのローカルキャッシュ・最終同期 2026-08-12 10:58</strong> の内容は以下のとおりです。<br>
+    ・在籍会員 <strong>19名</strong>（全員「在籍」・退会/休会0）<br>
+    ・体験4件：<strong>松石 竜空（小6）・松石 恋奈（小6）＝8/6実施・ステータス「連絡済」</strong>／袋谷 諒太（小4）・袋谷 泰己（小2）＝7/9実施・「見送り」<br>
+    → 松石兄妹が<strong>今いちばん温度の高い入会クロージング対象</strong>です。8/12以降の新規申込はアプリ未同期のため未確認。生駒は毎週木曜16:45〜17:45。
+  </div>
+</div>
+
+<div class="school-card">
+  <div class="school-header">🏟 10/18（日）東大阪記録会（SUPERIOR） — 公開サイト掲載済み ✅</div>
+  <div class="trial-row"><span class="trial-date">10/18（日）時間未定</span><span class="trial-name">申込状況：公開サイトに表示なし</span><span class="trial-course">トライスタジアム／初心者〜（100mのみ）／1,500円（エントリー費・帯同費込）</span></div>
+  <div class="no-schedule" style="text-align:left">
+    「3人以上で実施」条件。8/17時点で申込0件・<strong>告知は未着手</strong>のままです。松石兄妹への連絡と同送すれば1本で片付きます。
+  </div>
+</div>
+
+</div>
+
+<!-- CDST -->
+<div class="card">
+  <h2>🎓 関西学院大学陸上部 CDSTアップデート</h2>
+  
+<ul>
+<li>✅ <strong>gviz取得成功</strong>（316行×25列）。<code>cdst_snapshot_2026-08-20.json</code> と全項目を突き合わせて<strong>差分0件</strong>でした（グランド可能時間／共通メニュー／ポールメニュー／試合・合宿等／参加者／備考(荻田)／備考(その他)の7列すべて）。</li>
+<li>📌 過去化したのは1行のみ：8/20「備考(その他)＝大西　合宿終わり」。なお<strong>「試合・合宿等」欄の夏合宿（長野）は8/24まで続いている</strong>ため、この記載は<strong>大西さん個人の合宿終了</strong>を指すと読めます。</li>
+<li>✅ 昨日フラグを立てた <strong>9/6「共通メニュー＝U２０締め切り」も本日変化なし</strong>。8/20版に記録済みのため、今後は機械的に差分検知できます。</li>
+<li>🔥 <strong>明日8/22（土）が実施日＝確定は今日（8/21）まで</strong>：中国5県選手権（参加者＝伊藤）と夏合宿（長野）が重複し、備考(荻田)に「<strong>荻田都合あり</strong>」。どちらに帯同するかを今日中に決める必要があります。</li>
+<li>📅 直近の予定：8/21〜8/24 夏合宿（長野）／8/22 中国5県選手権（伊藤）／8/25 グランド12:30〜16:30（備考「8:30〜12:30中学部甲関戦／16:30〜高ラグビー公式戦」）／8/26 12:30〜20:20・備考「25日に実施されれば7:00から終日可）」「この週は水曜かな（おぎ）」＝<strong>荻田出勤候補</strong>／8/29 富永 留学（2027年7月まで）</li>
+<li>📅 9月以降：9/4 東大阪記録会／9/5〜9/7 全日本インカレ・近畿選手権（9/5 大西・渡邉？／9/6 北田）／<strong>9/6 U20締切</strong>／9/12・9/19・9/26 東大阪記録会／10/3〜10/4 U20日本選手権（大西・杉本）／10/18・11/15・11/23・12/5 東大阪記録会</li>
+<li>📄 KGAD月次活動報告書は7月分まで作成済み。8月分は9/5の <code>kgad-monthly-report</code> 自動実行予定です（前回実行 8/5・正常）。</li>
+</ul>
+
+</div>
+
+<!-- RECOMMENDED ACTIONS -->
+<div class="card">
+  <h2>🎯 推奨アクション</h2>
+  
+<div class="task-item"><strong>① 関学：大西さんへ3点まとめて連絡する（8/22の帯同切り分けは今日中に確定）</strong>
+①<strong>明日8/22 中国5県選手権（伊藤）と長野合宿の帯同切り分け</strong>（備考「荻田都合あり」）— 実施が明日なので、これだけは先送りできません ②全カレ（全日本インカレ）エントリー漏れの確認（8/15リミットを6日経過・完了記録なし） ③KGAD 7月分（提出期限8/15）の提出済み確認。夏合宿（長野）自体は8/24まで続きますが、8/20に「大西　合宿終わり」の記載があり連絡は取りやすいはずです。3件とも大西さん経由でしか確定できません。</div>
+
+<div class="task-item"><strong>② むーん：GBP投稿文3本の承認 ＋ 自動投稿タスクの実行履歴を確認する</strong>
+本日の投稿は<strong>2つの理由で空振り</strong>しました（タスク未実行＋投稿文未承認）。承認は数分で終わるので朝イチで片付けたうえで、<strong>次回8/25（火）10:30に本当に起動するかを見届ける</strong>のが今回の要点です。8/19に初投稿したばかりのGBPで、2回目が飛ぶとMEO推移の起点作りが1週間分遅れます。あわせてGビズID申請の着手（発行に日数がかかるため最優先）と <code>cd moon-lp && bash push.sh</code> の実行を。</div>
+
+<div class="task-item"><strong>③ SORA 8/25講習の案内送付（シート上「未連絡」を実データで確認済み）</strong>
+有料回の事前案内が未送付で残4日。<strong>体験シートの「連絡」列が ✗</strong> のままであることを本日の実測で確認しました。費用・場所・持ち物の3点だけでも今日中に。あわせて<strong>SORAは8/17から新規申込ゼロ（4日間）</strong>なので、未入会88件へのまとめ再アプローチを今週中に1本打つのが効きます。</div>
+
+<div class="task-item"><strong>④ SUPERIOR：10/18記録会の告知 ＋ 松石兄妹クロージング ＋ 8/24残3枠を1本の連絡にまとめる</strong>
+10/18記録会は申込0件で、告知しないまま3名に届かなければ中止です。松石竜空・松石恋奈（8/6体験実施・「連絡済」）が今いちばん温度が高く、8/24箕面は昨日から申込が増えていません。<strong>1回の連絡で3件同時に前進</strong>します。むーんInstagram（170人）はSUPERIOR（8人）の約21倍なので、箕面分はむーんアカウントから出すのが最短です。</div>
+
+<div class="task-item"><strong>⑤ CARAS：滞留しているInstagram 3本を投稿し、クチコミ依頼を出す</strong>
+本日のGBPは自動で公開済み。一方Instagramは<strong>8/7 RESULT・8/19 VOICE・8/21 RESULT の3本が手動投稿待ち</strong>で溜まっています。MEO 1位を3日維持できている今が投稿の効きどきで、同時に<strong>クチコミ5件→2桁化</strong>が1位定着の唯一の条件です。</div>
+
+<div class="task-item"><strong>【今週の実務期限カレンダー】</strong>
+8/22（土）関学・中国5県選手権（帯同切り分け）→ 8/23（日）18:00 <code>weekly-newbiz-pitch</code> 初回自動実行 → 8/24（月）17:00 箕面体験会（残3枠）・長野合宿最終日 → 8/25（火）SORAスタート講習18:30／むーんGBP投稿10:30／請求書リマインド9:00 → 8/26（水）SUPERIOR Instagram Week2 COACHING・荻田出勤候補 → 8/28（金）むーんGBP投稿10:30。<strong>このうち「8/22の切り分け」と「8/25の案内送付」は、今日打てば間に合います。</strong></div>
+
+<div class="task-item"><strong>【判断待ちで止まっているもの】</strong>
+健康経営：新規ID発行（MOONさん本人操作）＋回答4件／SUPERIOR：superior-admin へのサインイン（401解消・6日連続）／むーん：GBP投稿文3本の承認・<code>bash push.sh</code>・Cloudflare AI Crawl Control 解除／TrustFit：凍結・健康経営へ統合の可否（CF最終結果の記録が先）／時粒：<code>npx convex dev</code> 1コマンド（2か月停止中）／ちょっコレ：月間タスク上限と商圏の密集条件／経理：出張未精算 ¥10,000 の振込と、重複計上疑い4件の acknowledged 登録可否。</div>
+
+<div class="task-item"><strong>【経理タスク進捗・監査】</strong>
+📋 <strong>2026年8月分の経理4タスクは 4/4 すべて完了 ✅</strong>（出勤簿・出張管理・経費管理・請求書作成）。<br>
+📊 経理監査は<strong>本日未実行</strong>のため、直近は8/20分＝<strong>🔴critical 0 ／ 🟡warning 5 ／ 🟢info 2</strong>。実害は<strong>出張未精算 ¥10,000（荻田大樹・7/4）＝本日で48日滞留</strong>の1件のみで、重複計上疑い4件は全件照合済みのシロです。</div>
+
+</div>
+
+<!-- SYNERGY -->
+<div class="card">
+  <h2>🔗 シナジーチャンス</h2>
+  
+<ul>
+<li><strong>オギラボの新ポジション「AIを最高のフィジカルコーチにする専門家」→ CARAS・健康経営</strong>｜本日のバズリサーチで確定したこの立ち位置は、<strong>そのままCARASのInstagram（体の使い方×余力）と健康経営の社内セミナー題材になります</strong>。競合フック上位5本はすべてPC完結型で、身体を足すだけで差別化できる構図。期待効果：1つの企画を3PJで使い回せる＝オギラボの投稿本数不足とCARASのネタ切れが同時に解消。</li>
+<li><strong>むーんInstagram（170人）→ SUPERIOR箕面（8人）</strong>｜むーんは箕面を7月に移管済みで、リーチは約21倍。<strong>8/24体験会の残3枠告知をむーんアカウントから出せば満席が現実的</strong>です（本日は申込増なしで足踏み中）。期待効果：残枠即完＋むーん側の認知が「療育」から「運動教室」へ広がる。</li>
+<li><strong>8/24箕面体験会 → むーん ↔ SORA/SUPERIOR 相互送客の実データ化</strong>｜当日アンケートに「運動が苦手・不器用さが気になる」の設問を1問足すだけで、療育ニーズと運動教室ニーズの重なりを数字で取れます。むーん主体の初集客イベントなので、ここでデータを取らないと次の設計が勘になります。</li>
+<li><strong>「導線の転換率」という共通課題 → オギラボ・SUPERIOR で同時対処</strong>｜オギラボはnote記事22本でフォロワー6人、SUPERIORは投稿30件でフォロワー8人。<strong>どちらも「発信量不足」ではなく「末尾のフォロー導線が抜けている」</strong>という同じ症状です。1つのテンプレ（末尾2行：note誘導＋フォロー訴求）を作れば両PJに即適用できます。</li>
+<li><strong>健康経営の申請実務（8/17〜10/16）→ オギラボのコンテンツ</strong>｜「小さい会社が健康経営優良法人に実際に申請してみた」は、オギラボのGOODパターンである<strong>等身大×数字×実証型</strong>そのもの。ID発行でつまずいた話まで含めて連載にすれば、停滞中の投稿本数不足も同時に解消できます。</li>
+<li><strong>時粒のスクール向け機能 → SORA / SUPERIOR / むーん</strong>｜23画面のうちSchoolManage・ParticipantManager・ChildGrowth/ChildTimelineが実装済みで、<strong>自社3クラブが最初のOEM導入先になれます</strong>（追加開発ゼロ）。Convexデプロイさえ済めば、実運用のフィードバックを外販前に取れる構図です。</li>
+</ul>
+
+</div>
+
+<footer>generated by daily-morning-briefing skill ｜ 2026-08-21（金） ｜ 全PJ自動チェック完了</footer>
+</div>
+</body>
+</html>

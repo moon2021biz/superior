@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新規事業 進行サマリー｜2026-08-19</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--warn:#c2410c;--danger:#b91c1c;--hold:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:32px 20px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13.5px}
+.trace b{color:#8a5a00}
+h1{font-size:29px;margin:0 0 6px;letter-spacing:-.01em;line-height:1.35}
+.sub{color:var(--sub);font-size:14.5px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 30px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--sub)}
+.chip b{color:var(--ink)}
+h2{font-size:20px;margin:44px 0 12px;padding-bottom:9px;border-bottom:2px solid var(--ink)}
+p{margin:10px 0}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:620px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,25,40,.05)}
+.card.go{border-left:5px solid var(--ok)}
+.card.wait{border-left:5px solid var(--warn)}
+.card.hold{border-left:5px solid var(--hold);background:#fbfcfd}
+.ch{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.no{background:var(--ink);color:#fff;border-radius:8px;min-width:36px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none}
+.card.go .no{background:var(--ok)}.card.wait .no{background:var(--warn)}.card.hold .no{background:var(--hold)}
+.ct{font-size:18px;font-weight:800;flex:1;min-width:230px;letter-spacing:-.01em}
+.st{font-size:11.5px;font-weight:700;border-radius:5px;padding:4px 10px;color:#fff;flex:none;align-self:center;white-space:nowrap}
+.st.go{background:var(--ok)}.st.wait{background:var(--warn)}.st.hold{background:var(--hold)}
+.quote{background:#f0f4f9;border-radius:8px;padding:9px 14px;font-size:13.5px;color:var(--sub);margin:10px 0}
+.quote b{color:var(--ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.row div{flex:1;min-width:170px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12.5px;background:#fbfcfe}
+.row b{display:block;font-size:11px;color:var(--sub);margin-bottom:2px;letter-spacing:.05em}
+.block{background:#fff5f5;border:1px solid #fbd5d5;border-radius:8px;padding:10px 14px;font-size:13px;margin:12px 0 0}
+.block b{color:var(--danger)}
+.next{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:8px;padding:10px 14px;font-size:13px;margin:10px 0 0}
+.next b{color:var(--accent)}
+.done{background:#f4fbf7;border:1px solid #bfe6d3;border-radius:8px;padding:10px 14px;font-size:13px;margin:10px 0 0}
+.done b{color:var(--ok)}
+code{background:#eef1f6;border-radius:4px;padding:1px 6px;font-size:12.5px}
+ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+small{color:var(--sub);font-size:12.5px}
+.foot{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+ol.dec{counter-reset:d;list-style:none;padding-left:0}
+ol.dec li{counter-increment:d;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 56px;position:relative;margin:10px 0;font-size:14px}
+ol.dec li::before{content:counter(d);position:absolute;left:16px;top:14px;background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+@media print{body{background:#fff}.card{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="trace">
+  <div>📌 <b>この成果物を生んだ指示：</b>「いいといった内容を一旦まとめてもらっていい？」→「<b>それぞれの情報をまとめてhtml出して</b>」（2026-08-19）</div>
+  <div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>88点</b>（現状の正確さ:◎ ボールの明示:◎ 判断材料の網羅:○ 数値の裏取り:△＝想定値）｜ レベル：🟢ルーティン（状況整理）</div>
+</div>
+
+<h1>新規事業 進行サマリー</h1>
+<div class="sub">新規事業プレゼン 第01回（2026-08-17）に対するMOONさんの意思決定と、各案の現在地</div>
+<div class="meta">
+  <span class="chip">更新 <b>2026-08-19</b></span>
+  <span class="chip">承認 <b>4案</b></span>
+  <span class="chip">保留 <b>1案</b></span>
+  <span class="chip">未着手 <b>5案</b></span>
+  <span class="chip">ボール <b>全件 MOONさん</b></span>
+</div>
+
+<div class="box">
+<b>全体の状況：10案中4案にGOが出て、うち1案（③）は実装まで完了しています。</b><br>
+ただし<b>現時点で私の側にボールがある案は1つもありません</b>。4案すべてがMOONさんの確認・判断待ちで止まっています。下の「決める順番」の3つが片付けば、そこから先は私が動けます。
+</div>
+
+<!-- ============ 全体表 ============ -->
+<h2>1. 一覧</h2>
+<div class="tw">
+<table>
+<tr><th>案</th><th>MOONさんの言葉</th><th>状態</th><th>止まっている理由</th></tr>
+<tr>
+  <td><b>③ 福祉・スクール特化 MEO代行</b></td>
+  <td>「やれるね、一旦やろう」</td>
+  <td class="ok-t">実装完了</td>
+  <td>むーんGBPのオーナー登録が未確認</td>
+</tr>
+<tr>
+  <td><b>⑦ 指導者向け認定講座</b><br><small>オギラボのピボット</small></td>
+  <td>「いいね、商品化したいね」</td>
+  <td class="mid-t">構造案のみ</td>
+  <td>着手のGOが未。⑨の答えで位置づけが変わる</td>
+</tr>
+<tr>
+  <td><b>⑨ 中小企業向けAI業務自動化</b><br><small>＝MOONtec</small></td>
+  <td>「いいね。MOONtecは視野にあるビジネス」</td>
+  <td class="ng-t">中身が不明</td>
+  <td><b>MOONtecの定義が未ヒアリング</b></td>
+</tr>
+<tr>
+  <td><b>⑩ 時粒 クラブOEM</b></td>
+  <td>「進めてみたいので提案書くれ」</td>
+  <td class="ok-t">提案書提出済</td>
+  <td>Phase0のGO/NO判断が未</td>
+</tr>
+<tr>
+  <td><b>⑧ TrustFit ピボット</b></td>
+  <td>「どうやって営業する？」</td>
+  <td>保留</td>
+  <td>質問止まり。PF開発の凍結判断が未</td>
+</tr>
+<tr style="background:#fbfcfd;color:var(--sub)">
+  <td>① 児発・放デイ開業支援（88点）<br>② 管理アプリ外販（85点）<br>④ FCパッケージ ⑤ 健康経営 認定代行 ⑥ 部活動地域移行</td>
+  <td>—</td><td>未着手</td><td>言及なし</td>
+</tr>
+</table>
+</div>
+
+<!-- ============ 各案 ============ -->
+<h2>2. それぞれの中身</h2>
+
+<!-- 3 -->
+<div class="card go">
+<div class="ch"><span class="no">③</span><span class="ct">福祉・スクール特化 MEO／Web運用代行</span><span class="st go">実装完了・確認待ち</span></div>
+<div class="quote">MOONさん：<b>「3はやれるね。一旦やろう」</b></div>
+<p>CARASでGBP×AI自動投稿によりMEO1位を取った仕組みを、まず<b>むーん（運動療育・都島区）</b>に載せる。他社に売る前に自社2例目の実績を作る段取り。</p>
+
+<div class="row">
+  <div><b>初期コスト</b>0円（仕組みは稼働済）</div>
+  <div><b>単価想定</b>3〜5万円/月・社</div>
+  <div><b>損益分岐</b>1社目から黒字</div>
+  <div><b>スコア</b>82点（10案中3位）</div>
+</div>
+
+<div class="done"><b>✅ 完了していること</b>
+<ul>
+<li><code>むーん/CONTEXT.md</code> に <b>GBP運用ルール</b>を新設（必須キーワード・投稿フォーマット・4テーマのローテーション・承認フロー）</li>
+<li><b>福祉固有のNGルール</b>を明文化 — 効果の断定（「治る」）／診断名で子どもを括る表現／<b>子どもの顔写真・実名</b>／他施設との比較優位</li>
+<li>初回投稿<b>4本を生成</b>（<code>むーん/outputs/gbp_posts/20260817_*.md</code>）</li>
+<li>機械チェック済：<b>188〜212字</b>・電話番号なし・価格なし・URLなし・効果断定なし・必須KW全含有 → <b>全件ルール準拠</b></li>
+</ul></div>
+
+<div class="box warn" style="margin-top:12px">
+<b>この施策の目的は集客ではありません。</b> むーんは<b>定員の約9割が埋まっている</b>ため、集客の緊急度は高くありません。狙いは3つ：<br>
+① 空き枠（残り1割）と入れ替わり分　② 相談支援専門員・保健福祉センターなど<b>紹介元への露出</b>　③ ★ <b>「福祉分野でMEO1位を取った」という2例目の実績づくり</b>＝MEO代行を売るための営業材料
+</div>
+
+<div class="block"><b>🚧 止まっている理由：</b>むーんのGoogleビジネスプロフィールを<b>MOONさんがオーナー登録しているか、記録がどこにもありません</b>。未登録の場合はオーナー申請（ハガキ確認で1〜2週間）から必要になります。</div>
+<div class="next"><b>次の一手：</b>Googleビジネスプロフィールにログインし「運動療育むーん」が管理下にあるか確認 → あれば投稿4本を承認 → 投稿開始（火・金のローテーション）</div>
+</div>
+
+<!-- 7 -->
+<div class="card wait">
+<div class="ch"><span class="no">⑦</span><span class="ct">指導者向け認定講座（オギラボのピボット）</span><span class="st wait">構造案のみ</span></div>
+<div class="quote">MOONさん：<b>「7、いいね、商品化したいね」</b></div>
+<p>note メンバーシップ<b>980円 × 5人＝月4,900円</b>のB2Cを、<b>3〜5万円 × 人数</b>の講座に置き換える。売る相手を「情報が欲しい個人」から「<b>教える立場になりたい人</b>」に変えるだけで単価が約30倍になる。</p>
+
+<div class="tw"><table>
+<tr><th>階層</th><th>内容</th><th>単価（想定）</th><th>狙い</th></tr>
+<tr><td>ベーシック</td><td>動画講座（オンライン）</td><td class="num">3万円</td><td>入口・ストック収益</td></tr>
+<tr><td>実技認定</td><td>対面1日</td><td class="num">5万円</td><td>単価とファン化</td></tr>
+<tr><td><b>加盟</b></td><td><b>案④のFCへ接続</b></td><td class="num">加盟金 30〜50万</td><td class="ok-t">★ ここが本丸</td></tr>
+</table></div>
+
+<div class="row">
+  <div><b>初期コスト</b>10〜30万円（撮影・配信）</div>
+  <div><b>月次コスト</b>1万円前後</div>
+  <div><b>損益分岐</b>10人で回収</div>
+  <div><b>スコア</b>76点（10案中7位）</div>
+</div>
+
+<div class="box">
+<b>単体商品として設計しないでください。</b> 認定講座は<b>案④（SORA/SUPERIORのFC化）への入口</b>として置くのが正解です。「資格を取った人」の中から加盟者が出る導線になり、講座単体の売上より加盟の方がはるかに大きくなります。
+</div>
+
+<div class="block"><b>⚠️ 進め方に条件が1つ：ECCの研修資料は使わないでください。</b><br>
+監修成果物の権利がECC帰属だった場合、転用した時点で<b>監修契約そのものを失いかねません</b>。ただしこれは回避できます — <b>荻田さん自身の知見（バイオメカニクス・棒高跳・発達心理×スポーツ）でゼロから組めば、そもそも権利問題が発生しません</b>。ECCへの確認を待たずに着手できます。</div>
+<div class="next"><b>次の一手：</b>⑨（MOONtec）の答えが出てから着手順を決める。カリキュラム設計に入るならGOをください</div>
+</div>
+
+<!-- 9 -->
+<div class="card wait">
+<div class="ch"><span class="no">⑨</span><span class="ct">中小企業向け AI業務自動化 ＝ MOONtec</span><span class="st wait">定義待ち・最重要</span></div>
+<div class="quote">MOONさん：<b>「九はいいね。MOONtecは視野にあるビジネス」</b></div>
+<p>ランサーズに「生成AI活用・業務効率化」が常設カテゴリとして存在＝需要は顕在化済み。MOONは請求書生成・経理監査・朝ブリーフィング・GBP自動投稿を<b>実際に自社で回している</b>という強いショーケースを持つ。</p>
+
+<div class="row">
+  <div><b>初期コスト</b>0円</div>
+  <div><b>単価想定</b>導入30万〜＋保守5万/月</div>
+  <div><b>損益分岐</b>1社目で黒字</div>
+  <div><b>スコア</b>70点（10案中9位）</div>
+</div>
+
+<div class="block"><b>🚧 「MOONtec」の記録がファイルにも記憶にも一切ありません。</b> 推測で書くと事故る（教訓#005）ため、中身を聞かせてください：
+<ul>
+<li><b>何を売る会社ですか？</b> AI業務自動化の受託か、自社プロダクト（管理アプリ・時粒）を出す器か</li>
+<li><b>株式会社MOONとは別法人にする構想ですか？</b></li>
+<li><b>顧客は誰ですか？</b> 福祉・スポーツ事業者に絞るのか、業種を問わないのか</li>
+</ul></div>
+
+<div class="box">
+<b>これが一番効きます。</b> MOONtecの定義が決まれば、<b>案②（管理アプリ外販）・案⑨（AI自動化）・案⑩（時粒）はバラバラの新規事業ではなく、MOONtecという1つの事業の3プロダクトとして整理できます</b>。走る本数が減り、それぞれが互いの営業材料になります。
+</div>
+<div class="next"><b>次の一手：</b>MOONtecの3つの質問に答える（口頭でもメモでも可）</div>
+</div>
+
+<!-- 10 -->
+<div class="card go">
+<div class="ch"><span class="no">⑩</span><span class="ct">時粒 クラブ向けOEM</span><span class="st go">提案書提出済</span></div>
+<div class="quote">MOONさん：<b>「10もいい。進めてみたいので提案書くれ」</b></div>
+<p>個人向けアプリとして育てるのをやめ、<b>クラブが保護者に配るアプリ</b>にする。SORA・SUPERIOR・むーん・ECCの保護者＝<b>獲得コストゼロの数百人</b>が最初のユーザーになる。</p>
+
+<div class="box">
+<b>核心：時粒は単体では売れません。案②の武器として売ります。</b><br>
+他社のクラブ管理SaaSには保護者側アプリがありません。「保護者が毎日開きたくなるアプリが付いてくる管理システム」は他社にない差別化で、価格勝負から抜けられます。<b>時粒を売るのではなく、時粒があるから案②が高く売れる</b>という関係です。
+</div>
+
+<div class="tw"><table>
+<tr><th>フェーズ</th><th>やること</th><th>初期費用</th><th>通過条件（ゲート）</th></tr>
+<tr>
+  <td><b>Phase 0</b><br><small>8〜9月</small></td>
+  <td>今ある6画面のまま、SORA/SUPERIORの保護者<b>20名</b>に配って2週間使ってもらう。<b>新規開発ゼロ</b></td>
+  <td class="num ok-t">0円</td>
+  <td>20名中<b>8名（40%）</b>が2週間後も週1回以上起動<br><span class="ng-t">下回ったら凍結</span></td>
+</tr>
+<tr>
+  <td><b>Phase 1</b><br><small>10〜12月</small></td>
+  <td>テナント分岐（ロゴ・クラブ名）／管理アプリ連携／ストア申請</td>
+  <td class="num">20〜30万円</td>
+  <td>自社2クラブで3ヶ月安定・問い合わせ月5件以下</td>
+</tr>
+<tr>
+  <td><b>Phase 2</b><br><small>2027年1月〜</small></td>
+  <td>案②の上位プランに「保護者アプリ付き」として組込</td>
+  <td class="num">追加なし</td>
+  <td>有料クラブ3件</td>
+</tr>
+</table></div>
+
+<div class="box warn">
+<b>正直な補足：</b>私は第01回でこの案を<b>10案中最下位（60点）・凍結推奨</b>と評価しました。理由は「初期投資が30万を超え、回収が最も遅い」からです。<br>
+上のPhase構成は、その懸念を消すために<b>「作ってから検証する」を「作らずに検証する」に組み替えた</b>ものです。この形なら反対する理由はありません。
+</div>
+
+<div class="next"><b>次の一手：</b>決めるのは<b>Phase0をやるかどうかの1点だけ</b>。費用0円・開発0行。GOなら保護者向けLINE案内文と配布手順を私が用意します</div>
+</div>
+
+<!-- 8 -->
+<div class="card hold">
+<div class="ch"><span class="no">⑧</span><span class="ct">TrustFit → PF開発をやめ「派遣受託代行」へ</span><span class="st hold">保留・判断待ち</span></div>
+<div class="quote">MOONさん：<b>「8はどうやって営業する？ 簡単なリスト営業では取れなかった。AIで営業の自動化は？」</b></div>
+
+<p><b>結論：AIで自動化すべきは「送る量」ではありません。そこを増やしても結果は同じです。</b></p>
+<p>リスト営業が取れなかったのは送信数が足りなかったからではなく、<b>「なぜ今、御社に」の理由がなかった</b>からです。企業側に「トレーナー派遣が要る」という自覚がない＝<b>潜在ニーズ</b>で、これにコールドで売るのが最も難しい類のものです。テンプレを100社に送っても、1社ごとに理由がなければ0件のままです。</p>
+
+<div class="tw"><table>
+<tr><th>段階</th><th>AIにやらせること</th><th>効果</th></tr>
+<tr><td><b>① トリガー検知</b></td><td>「今まさに理由がある企業」を機械的に抽出<br>・健康経営優良法人の認定／申請企業（リストは公開）<br>・従業員50名以上＝ストレスチェック義務の対象規模<br>・求人を出している企業（人に金を使う余力の証拠）<br>・<b>新設法人</b> ← 今作っているリサーチ基盤がそのまま使える</td><td class="ok-t">ここが本命</td></tr>
+<tr><td>② パーソナライズ</td><td>1社ごとに「なぜ今御社か」の1文を生成</td><td>開封・返信率</td></tr>
+<tr><td>③ 送信</td><td><b>1日10社まで。</b>一斉配信をやめる</td><td>精度優先</td></tr>
+</table></div>
+
+<div class="box">
+<b>ただし、コールドである限り上限は1〜3%です。</b> MOONさんの本当の武器は別にあります — 佐々木さん・福壽さん・脇坂さん・青井さん・片野さん・籠谷の中野さん。<b>キャストの人脈は、そのまま企業への紹介ルートです。</b> 紹介経由なら初回接触の時点で信頼が乗っているため、成約率が桁で変わります。<b>AI営業は補助、主戦場は紹介</b>です。
+</div>
+<p><small>※ 法令面：法人が公表しているメールアドレス宛の広告メールは特定電子メール法の同意例外に該当し得ますが（受信拒否の表示がある場合は除く）、実施前に条文の確認をおすすめします。</small></p>
+<div class="block"><b>🚧 未確定：</b>ポイント制ウォレット等のPF開発を<b>凍結するかどうかの判断</b>が出ていません。これまでの設計資産を棚上げする決断になるため、私の側では決められません。</div>
+</div>
+
+<!-- ============ 気づき ============ -->
+<h2>3. 気づいたこと</h2>
+<div class="box warn">
+<b>選ばれた4案のうち3つ（⑦⑨⑩）は、すべて「これから作る」仕事です。</b><br>
+一方、私が1位・2位に挙げた①児発・放デイ開業支援（88点）と②管理アプリ外販（85点）は「<b>すでにあるものを売るだけ</b>」で、最も早く現金になる2案でした。そこがスルーされています。<br><br>
+これは悪いことではなく、<b>MOONさんのWillが出た結果</b>だと思います。ただ組み合わせとしては<b>「時間を食う仕事ばかりで、キャッシュが最も遠い4本」</b>になっているので、そこだけ自覚された上で進める形がいいかと。<br><br>
+<small>※ Will/Can/Needsで言えば、選ばれた4案はWillが強い側に寄っています。Willのない事業は続かないので方向として正しい一方、<b>Needs（＝すぐ払う人がいる）が薄い順に並んでいる</b>のも事実です。①②を「捨てる」のではなく「後で拾う」と決めておくと安全です。</small>
+</div>
+
+<!-- ============ 決める順番 ============ -->
+<h2>4. 決めていただきたい順番</h2>
+<ol class="dec">
+<li><b>MOONtecが何か（⑨）</b><br>これが一番効きます。決まれば②⑨⑩が1事業に束ねられ、走る本数が<b>4本から2本に減ります</b>。3つの質問に答えるだけで済みます。</li>
+<li><b>むーんGBPのオーナー登録（③）</b><br>ログインして確認するだけ、<b>15秒</b>です。ここが詰まると③が完全に止まります。すでに投稿4本は準備できています。</li>
+<li><b>時粒 Phase0 の GO / NO（⑩）</b><br><b>費用0円</b>なので、迷ったらやる方が情報が増えます。外れても失うのは時間だけです。</li>
+</ol>
+<p>⑦は⑨の答え次第で位置づけが変わるため、<b>最後で問題ありません</b>。⑧はPF凍結の判断が出るまで動かしません。</p>
+
+<div class="foot">
+株式会社MOON ／ 新規事業 進行サマリー ｜ 2026-08-19 時点<br>
+関連：<code>新規事業リサーチ/新規事業プレゼン_第01回_2026-08-17.html</code>／<code>新規事業リサーチ/提案書_時粒クラブOEM_2026-08-17.html</code><br>
+次回の自動更新：スケジュールタスク <code>weekly-newbiz-pitch</code>（毎週日曜18時・初回 2026-08-23）が第02回を発行し、上記4案の進捗を追跡します。<br>
+<b>金額・件数はすべて想定値</b>であり、実績や見積に基づくものではありません。
+</div>
+
+</div></body></html>

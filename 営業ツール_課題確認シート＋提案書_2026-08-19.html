@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>営業ツール｜課題確認シート＋提案書テンプレート</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--danger:#b91c1c;--warn:#c2410c;--gold:#c9a227;--red:#CC1B1A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:30px 20px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:22px;font-size:13.5px}
+.trace b{color:#8a5a00}
+h1{font-size:27px;margin:0 0 6px}
+.sub{color:var(--sub);font-size:14.5px;margin-bottom:24px}
+.flow{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flow span{background:#eef1f6;border-radius:6px;padding:6px 12px;white-space:nowrap}
+.flow span.now{background:var(--accent);color:#fff;font-weight:700}
+.flow span.done{background:#e6f5ec;color:var(--ok);font-weight:700}
+.flow i{color:var(--sub);font-style:normal}
+
+.doc{background:var(--card);border:2px solid var(--ink);border-radius:12px;margin:34px 0;overflow:hidden}
+.dh{background:#1c1b19;color:#fff;padding:18px 24px}
+.dh .lb{font-size:11.5px;letter-spacing:.16em;color:#e8c877;font-weight:700}
+.dh h2{margin:5px 0 3px;font-size:21px}
+.dh .ds{font-size:12.5px;color:#b8b4ac}
+.db{padding:22px 24px}
+h3{font-size:16px;margin:26px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3:first-child{margin-top:0}
+p{margin:10px 0}
+.box{background:#f9fafc;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:13px 17px;margin:12px 0;font-size:14px}
+.box.ok{border-left-color:var(--ok);background:#f4fbf7}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.box.danger{border-left-color:var(--danger);background:#fff5f5}
+.tw{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13.5px;min-width:520px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.fill{background:#fffdf0;color:var(--sub);font-size:12.5px}
+tr.hl td{background:#fffdf0}
+tr.tot td{background:#1c1b19;color:#fff;font-weight:700}
+.q{background:#fff;border:1px solid var(--line);border-radius:9px;padding:13px 17px;margin:9px 0}
+.q .qn{display:inline-block;background:var(--accent);color:#fff;border-radius:5px;padding:1px 9px;font-size:11.5px;font-weight:800;margin-right:8px}
+.q b.qt{font-size:15px}
+.q .ask{font-size:13.5px;color:#333;margin-top:6px;padding-left:2px}
+.q .why{font-size:12.5px;color:var(--sub);margin-top:7px;padding-top:7px;border-top:1px dashed var(--line)}
+.q.key{border:2px solid var(--gold);background:#fffdf5}
+.q.key .qn{background:var(--gold)}
+.ans{border:1px dashed #c9ccd3;border-radius:6px;padding:9px 12px;margin-top:8px;color:#9aa0aa;font-size:12.5px;background:#fcfcfd}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+small{color:var(--sub);font-size:12.5px}
+ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+code{background:#eef1f6;border-radius:4px;padding:1px 6px;font-size:12.5px}
+.foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}.doc{break-before:page;box-shadow:none}.doc:first-of-type{break-before:auto}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="trace">
+  <div>📌 <b>この成果物を生んだ指示：</b>「あと引っかかった事業所への<b>課題確認資料、提案資料</b>もいるよね？」（2026-08-19）</div>
+  <div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>88点</b>（ヒアリング設計:◎ 金額換算の論理:◎ 提案書の型:○ 料金は案の段階:△）｜ レベル：🟡重要</div>
+</div>
+
+<h1>営業ツール｜課題確認シート＋提案書</h1>
+<div class="sub">診断書に返信が来た後、契約までの2枚</div>
+
+<div class="flow">
+  <span class="done">① 無料診断書を送る</span><i>→</i>
+  <span class="done">② 返信</span><i>→</i>
+  <span class="now">③ 課題確認（この資料①）</span><i>→</i>
+  <span class="now">④ 提案・見積（この資料②）</span><i>→</i>
+  <span>⑤ 契約</span>
+</div>
+
+<div class="box gold">
+<b>③④が抜けていたのは、致命的でした。</b>診断書だけ用意して返信を待っても、<b>返ってきた瞬間に「で、何をしてくれるんですか？」で終わります。</b><br>
+そして③は単なる聞き取りではありません。<b>③で相手に「空き1枠あたり年間いくらか」を言ってもらうことが、④の提案を通す唯一の材料になります。</b>こちらが金額の話をするのではなく、相手の口から出た数字に対して見積を並べる。これが最も反論されない形です。
+</div>
+
+<!-- ========== 資料① ========== -->
+<div class="doc">
+<div class="dh">
+  <div class="lb">資料①　打ち合わせ用（自社控え）</div>
+  <h2>課題確認シート</h2>
+  <div class="ds">事業所名：＿＿＿＿＿＿＿＿＿＿　／　日付：＿＿＿＿　／　対応者：＿＿＿＿＿＿</div>
+</div>
+<div class="db">
+
+<div class="box warn">
+<b>最初の3分で言うこと（売り込まない）</b><br>
+「今日は<b>売り込みに来たのではありません。</b>先日お送りした診断は外から見える範囲だけで作ったものなので、<b>実際の状況を教えていただかないと、的外れな提案になってしまいます。</b>お話を伺って、必要がなさそうなら『必要ありません』とお伝えします。」<br>
+<small>▸ ここで押すと福祉の方は一気に引きます。<b>「やらない」も選択肢として提示することが、最も信用されます。</b></small>
+</div>
+
+<h3>A. 現状を知る</h3>
+
+<div class="q"><span class="qn">1</span><b class="qt">定員と、いまの利用状況</b>
+  <div class="ask">「定員は何名で、いま何名くらいご利用されていますか？　曜日によって差はありますか？」</div>
+  <div class="ans">定員：　　名／利用：　　名／空き：　　枠　　曜日の偏り：</div>
+  <div class="why">▸ <b>空き枠数が、提案の規模を決めます。</b>1枠なら小さく、5枠なら本気の提案になります</div>
+</div>
+
+<div class="q"><span class="qn">2</span><b class="qt">問い合わせの入口</b>
+  <div class="ask">「新しいお子さんは、どういう経路で来られることが多いですか？　相談支援専門員さんからのご紹介が中心ですか？」</div>
+  <div class="ans">相談支援：　　％／保護者直接：　　％／口コミ・紹介：　　％／その他：</div>
+  <div class="why">▸ <b>相談支援中心なら、Webの役割が変わります。</b>「保護者に見つけてもらう」ではなく「<b>紹介された後に見て安心してもらう</b>」ページが要る。ここを外すと提案が的外れになります</div>
+</div>
+
+<div class="q"><span class="qn">3</span><b class="qt">見学から契約までの歩留まり</b>
+  <div class="ask">「見学はひと月に何件くらいありますか？　そのうち何件くらいがご利用につながりますか？」</div>
+  <div class="ans">見学：月　　件／契約：月　　件（歩留まり　　％）</div>
+  <div class="why">▸ <b>歩留まりが高い（半分以上）なら、課題は明確に「見学が足りない」＝Webで解ける。</b>低いなら課題は現場側にあるので、<b>正直にそう伝えます</b>（＝Webでは解決しないと言う）</div>
+</div>
+
+<div class="q key"><span class="qn">4</span><b class="qt">★ お子さん1人が1年通うと、いくらになりますか</b>
+  <div class="ask">「差し支えなければ——お子さんお一人が週◯回で1年ご利用された場合、事業所さんの売上としてはどのくらいになりますか？」</div>
+  <div class="ans">1人あたり年間：　　　　　　円　　（週　　回利用の場合）</div>
+  <div class="why">▸ <b>この質問がこの資料の核心です。</b>こちらが金額を推測して言うと必ず「うちは違う」と言われます。<b>相手が自分で言った数字は、後で否定できません。</b>この1つの数字が、提案書のすべての根拠になります<br>
+  ▸ 言いづらそうなら「概算で構いません」「聞かなかったことにします」と引く。<b>無理に取らない</b></div>
+</div>
+
+<h3>B. これまでを知る</h3>
+
+<div class="q"><span class="qn">5</span><b class="qt">これまでのWeb施策</b>
+  <div class="ask">「ホームページやGoogleの登録は、これまで何かされましたか？　業者さんに頼まれたことは？」</div>
+  <div class="ans">HP：有／無　　制作時期：　　　　業者：　　　　　　結果・不満：</div>
+  <div class="why">▸ <b>過去に失敗している場合、その理由を潰さないと契約されません。</b>「作ったきり放置された」が最頻出。ここを聞けたら、月額プランの意味が自然に伝わります</div>
+</div>
+
+<div class="q"><span class="qn">6</span><b class="qt">更新できる人と時間</b>
+  <div class="ask">「もし更新が必要になったら、事業所さんの中でどなたが担当されそうですか？　お時間は取れそうですか？」</div>
+  <div class="ans">担当：　　　　　　／　月に割ける時間：　　　　／　PC・スマホの得意度：</div>
+  <div class="why">▸ 「誰も無理」という答えが<b>ほぼ確実に返ってきます。それが月額プランを必要とする理由</b>になります。こちらから言わず、相手に言わせる</div>
+</div>
+
+<h3>C. 素材を集める（制作に直結）</h3>
+
+<div class="q"><span class="qn">7</span><b class="qt">他の事業所と違うところ</b>
+  <div class="ask">「近隣にも事業所さんは多いと思うのですが、<b>御社を選んで通われている方は、何が決め手だったと言われますか？</b>」</div>
+  <div class="ans">強み1：　　　　　　　　強み2：　　　　　　　　強み3：</div>
+  <div class="why">▸ 「うちの強みは何ですか」と聞くと答えられない人が多い。<b>「利用者が何と言ったか」で聞くと具体的な言葉が出ます。</b>ここで出た言葉が、そのままサイトの見出しになります</div>
+</div>
+
+<div class="q"><span class="qn">8</span><b class="qt">写真・素材の有無</b>
+  <div class="ask">「施設の写真やプログラムの資料はお手元にありますか？　お子さんが写っているものは使えないので、<b>設備や道具の写真</b>が中心になります」</div>
+  <div class="ans">写真：有／無　　　パンフレット：有／無　　　ロゴ：有／無</div>
+  <div class="why">▸ <b>先に「子どもの顔は使えません」とこちらから言う。</b>この一言で「分かっている会社だ」と伝わります</div>
+</div>
+
+<h3>D. 決め方を知る</h3>
+
+<div class="q"><span class="qn">9</span><b class="qt">予算と決裁</b>
+  <div class="ask">「こうした費用は、どのくらいの規模までなら<b>その場でご判断いただけますか？</b>　法人の稟議が必要になりますか？」</div>
+  <div class="ans">即決可能額：　　　　　円　　稟議：要／不要　　決裁者：　　　　　　　次のタイミング：</div>
+  <div class="why">▸ <b>「予算はいくらですか」と聞かない。</b>「いくらまで即決できるか」と聞く。答えやすく、しかも欲しい情報が正確に取れます</div>
+</div>
+
+<h3 class="ok-t">E. 最後に一緒に計算する（相手の前で）</h3>
+<div class="box ok">
+<b>Q4で聞いた数字を使って、その場で電卓を出します。</b>
+<div class="tw"><table>
+<tr><th>項目</th><th>数値</th></tr>
+<tr><td>お子さん1人あたりの年間売上（Q4）</td><td class="fill">　　　　　　円</td></tr>
+<tr><td>いまの空き枠（Q1）</td><td class="fill">　　　枠</td></tr>
+<tr class="hl"><td><b>空きが埋まった場合の年間増収</b></td><td class="fill"><b>　　　　　　円</b></td></tr>
+<tr><td>ご提案の年間費用（初期129,800＋月額29,800×12）</td><td class="num">487,400円</td></tr>
+<tr class="tot"><td>差引</td><td class="fill">　　　　　　円</td></tr>
+</table></div>
+<b>この表を相手と一緒に埋めるだけで、価格交渉がほぼ終わります。</b><br>
+「1人埋まれば回収できる」という結論が<b>相手の数字から出てくる</b>ので、こちらは何も主張していません。<br>
+<span class="ng-t">※ 逆に、計算して割に合わないなら、正直に「今は必要ないと思います」と言ってください。</span>この一言で、その事業所は将来の紹介元になります。
+</div>
+
+</div></div>
+
+<!-- ========== 資料② ========== -->
+<div class="doc">
+<div class="dh">
+  <div class="lb">資料②　お客様提出用</div>
+  <h2>ご提案書テンプレート</h2>
+  <div class="ds">診断＋ヒアリングを踏まえて作成／A4で4〜5ページ／表紙にお客様名を入れる</div>
+</div>
+<div class="db">
+
+<div class="box danger">
+<b>提案書で最もやってはいけないこと：サービスの説明から始めること。</b><br>
+1ページ目は<b>「御社について、私たちが確認したこと」</b>から始めます。<b>相手の話から入り、こちらの話は3ページ目まで出さない。</b>
+</div>
+
+<h3>構成（この順番を守る）</h3>
+<div class="tw"><table>
+<tr><th>P</th><th>見出し</th><th>書く内容</th></tr>
+<tr><td class="num">表紙</td><td>◯◯様　Web集客のご提案</td><td>事業所名・日付・株式会社MOON。<b>ロゴは小さく</b></td></tr>
+<tr class="hl"><td class="num">1</td><td><b>確認したこと</b></td><td>診断結果＋ヒアリング内容の要約。<b>「◯◯とおっしゃっていました」と相手の言葉をそのまま引用する</b>。ここでこちらの意見は書かない</td></tr>
+<tr><td class="num">2</td><td><b>課題は3つです</b></td><td>4つ以上書かない。<b>「見つけてもらえていない」「見つけても情報が古い」「更新できる人がいない」</b>のように、相手が自覚している言葉で書く</td></tr>
+<tr><td class="num">3</td><td>ご提案</td><td>課題1つに対し施策1つ。<b>1対1で対応させる。</b>専門用語を使わない（「MEO」→「Googleマップでの見え方」）</td></tr>
+<tr class="hl"><td class="num">4</td><td><b>数字で見た場合</b></td><td>★ヒアリングQ4の数字を使った表。<b>相手が言った金額をそのまま載せる</b></td></tr>
+<tr><td class="num">5</td><td>お見積り</td><td>初期・月額・合計。<b>含まれるもの／含まれないものを必ず併記</b></td></tr>
+<tr><td class="num">6</td><td>進め方</td><td>着手から公開までのスケジュール。<b>お客様にやっていただくことも明記</b></td></tr>
+</table></div>
+
+<h3>P4「数字で見た場合」の型</h3>
+<div class="tw"><table>
+<tr><th>項目</th><th>金額</th><th>出典</th></tr>
+<tr><td>お子さま1人あたりの年間ご利用額</td><td class="fill">〔ヒアリングの数字〕</td><td>◯月◯日のお打ち合わせにて</td></tr>
+<tr><td>現在の空き枠</td><td class="fill">〔　〕枠</td><td>同上</td></tr>
+<tr class="hl"><td><b>1枠埋まった場合の年間増収</b></td><td class="fill"><b>〔　　　　〕円</b></td><td>—</td></tr>
+<tr><td>ご提案の初年度費用</td><td class="num">487,400円</td><td>初期129,800＋月額29,800×12</td></tr>
+<tr><td>2年目以降</td><td class="num">357,600円</td><td>月額29,800×12</td></tr>
+</table></div>
+<div class="box ok"><b>この表に添える一文はこれだけで足ります。</b><br>
+「<b>お一人ご利用が増えれば、費用は回収できる計算になります。</b>そのうえで、増えなかった場合にどうするかも、あわせてご相談させてください。」<br>
+<small>▸ 後半の一文が効きます。<b>都合の悪い可能性を自分から出す</b>と、一気に信用されます</small></div>
+
+<h3>P5「お見積り」の型</h3>
+<div class="tw"><table>
+<tr><th>区分</th><th>項目</th><th>金額（税別）</th></tr>
+<tr><td rowspan="3">初期</td><td>ホームページ制作（5ページ）</td><td class="num">99,800円</td></tr>
+<tr><td>Googleビジネスプロフィール初期整備</td><td class="num">49,800円</td></tr>
+<tr><td>セット割</td><td class="num ok-t">−19,800円</td></tr>
+<tr class="hl"><td colspan="2"><b>初期費用 合計</b></td><td class="num"><b>129,800円</b></td></tr>
+<tr><td>月額</td><td>スタンダードプラン（保守＋GBP運用＋月次レポート）</td><td class="num">29,800円／月</td></tr>
+<tr class="tot"><td colspan="2">初年度合計</td><td class="num">487,400円</td></tr>
+</table></div>
+<div class="box warn">
+<b>見積書に必ず併記する（トラブル防止）</b>
+<ul>
+<li><b>含むもの：</b>文言変更・写真差し替え・営業時間や料金の更新（月1回まで）</li>
+<li><b>含まないもの：</b>ページ追加（15,000円／P）・レイアウト変更・新機能の追加</li>
+<li><b>口コミへの返信は下書きまで。</b>投稿は事業所様にお願いします（利用者対応のため）</li>
+<li><b>対応：</b>平日3営業日以内に着手</li>
+<li><b>最低契約期間：</b>12ヶ月（制作費を抑えた価格のため）</li>
+<li><b>所有：</b>ドメインは御社名義で取得。GBPのオーナー権限は御社が保持し、当社は管理者として運用します</li>
+<li><b>解約時：</b>サイトデータ一式をお渡しします。ドメインは元々御社名義のため手続き不要。<b>他社サーバーへの移設代行は別途3万円</b></li>
+</ul>
+<small>▸ <b>この6行を口頭で済ませないでください。</b>1件目で書かなかった条件は、2件目以降も書けなくなります</small>
+</div>
+
+<h3>P6「進め方」の型</h3>
+<div class="tw"><table>
+<tr><th>時期</th><th>当社</th><th>事業所様</th></tr>
+<tr><td>1週目</td><td>構成案・原稿のご提示</td><td>ご確認・修正のご指示</td></tr>
+<tr><td>2週目</td><td>制作／GBP整備</td><td>写真のご提供（設備・道具）</td></tr>
+<tr><td>3週目</td><td>ご確認用ページのご提示</td><td>最終ご確認</td></tr>
+<tr><td>4週目</td><td>公開・GBP反映</td><td>—</td></tr>
+<tr><td>翌月〜</td><td>月次レポート・投稿運用</td><td>口コミ返信の投稿（下書きは当社）</td></tr>
+</table></div>
+
+<div class="box gold">
+<b>提案書を渡した後にやること：その場で決めさせない。</b><br>
+「持ち帰ってご検討ください。<b>1週間後にこちらから一度だけご連絡します。</b>それで必要なければ、その旨だけお伝えいただければ以後ご連絡しません。」<br>
+<small>▸ <b>「一度だけ」「以後連絡しない」を明言する</b>と、断る心理的コストが下がり、かえって返事が来ます。福祉分野は特にこれが効きます</small>
+</div>
+
+</div></div>
+
+<div class="box danger">
+<b>この2枚は確定料金（初期129,800円・月額29,800円／税別）を反映済みです。</b>今後の変更があれば、資料①のE計算表と資料②のP4・P5の数字を差し替える必要があります。<b>料金が確定してから清書版を作ります。</b>
+</div>
+
+<div class="foot">
+株式会社MOON ／ 営業ツール（課題確認シート・提案書テンプレート）｜2026-08-19<br>
+関連：<code>MOONtec_0-1テスト_東京23区_2026-08-19.html</code>（診断書）／<code>料金体系_2026-08-19.html</code>／<code>練馬区_ターゲットリスト_2026-08-19.html</code><br>
+金額はすべて<b>提案であり確定ではありません</b>。
+</div>
+
+</div></body></html>

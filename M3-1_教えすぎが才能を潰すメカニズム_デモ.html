@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3-1 教えすぎが才能を潰すメカニズム｜かけっこ指導者養成講座</title>
+<style>
+:root{--bg:#faf9f7;--card:#fff;--ink:#1c1b19;--sub:#63605a;--line:#e6e2db;--gold:#a8842c;--gold-l:#f5efdf;--red:#a33;--green:#2c6e49}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.95;-webkit-font-smoothing:antialiased}
+.sans{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 90px}
+
+/* demo bar */
+.demobar{background:#1c1b19;color:#f5efdf;text-align:center;padding:9px 16px;font-size:12.5px;letter-spacing:.04em;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+.demobar b{color:#e8c877}
+
+/* hero */
+.hero{padding:44px 0 30px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.crumb{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:12px;letter-spacing:.14em;color:var(--gold);font-weight:700;margin-bottom:12px}
+h1{font-size:31px;line-height:1.5;margin:0 0 14px;letter-spacing:.01em}
+.lede{font-size:15px;color:var(--sub);margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.facts span{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:12px;background:#fff;border:1px solid var(--line);border-radius:4px;padding:5px 11px;color:var(--sub)}
+.facts b{color:var(--ink)}
+
+/* goal */
+.goal{background:var(--gold-l);border:1px solid #e4d5a8;border-radius:6px;padding:20px 24px;margin:26px 0 38px}
+.goal h4{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:12.5px;letter-spacing:.1em;color:var(--gold);margin:0 0 12px}
+.goal ol{margin:0;padding-left:20px;font-size:15px}
+.goal li{margin:7px 0}
+
+/* sections */
+.sec{margin:46px 0}
+.secno{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:11.5px;letter-spacing:.16em;color:var(--gold);font-weight:700}
+h2{font-size:23px;margin:5px 0 18px;line-height:1.5;letter-spacing:.01em}
+h3{font-size:17px;margin:30px 0 10px}
+p{margin:15px 0;font-size:15.5px}
+strong{font-weight:700;background:linear-gradient(transparent 62%,#f7e9bf 62%)}
+
+blockquote{margin:24px 0;padding:18px 22px;background:#fff;border-left:3px solid var(--gold);border-radius:0 6px 6px 0;font-size:15.5px}
+blockquote p{margin:8px 0}
+blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+
+.def{background:#1c1b19;color:#f7f4ee;border-radius:8px;padding:24px 26px;margin:26px 0}
+.def h4{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:12px;letter-spacing:.12em;color:#e8c877;margin:0 0 12px}
+.def p{margin:10px 0;font-size:15.5px}
+.def strong{background:none;color:#e8c877}
+
+.tw{overflow-x:auto;margin:22px 0}
+table{border-collapse:collapse;width:100%;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:13.5px;min-width:520px;line-height:1.7}
+th,td{border:1px solid var(--line);padding:11px 13px;text-align:left;vertical-align:top}
+th{background:#f2efe9;font-weight:700;white-space:nowrap}
+.x{color:var(--red);font-weight:700}.o{color:var(--green);font-weight:700}
+
+/* drill */
+.drill{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin:18px 0}
+.drill .dh{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:12px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:10px}
+.swap{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.swap>div{flex:1;min-width:210px;border-radius:6px;padding:12px 15px;font-size:14px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+.swap .bad{background:#fdf3f3;border:1px solid #f0d5d5}
+.swap .good{background:#f2f9f5;border:1px solid #cfe6d9}
+.swap b{display:block;font-size:11.5px;letter-spacing:.08em;margin-bottom:5px}
+.swap .bad b{color:var(--red)}.swap .good b{color:var(--green)}
+.why{font-size:13.5px;color:var(--sub);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+
+/* sign checklist */
+.check{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 4px;margin:20px 0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+.check div{padding:12px 18px;border-bottom:1px solid var(--line);font-size:14.5px}
+.check div:last-child{border-bottom:none}
+.check .no{display:inline-block;background:var(--gold);color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:9px;flex:none}
+.check .alert{background:#fdf3f3}
+.check .alert .no{background:var(--red)}
+.check small{display:block;color:var(--sub);font-size:13px;margin-top:3px;margin-left:31px;line-height:1.7}
+
+/* assignment */
+.assign{background:#fff;border:2px solid var(--gold);border-radius:8px;padding:24px 26px;margin:34px 0}
+.assign h3{margin-top:0;color:var(--gold);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:16px;letter-spacing:.04em}
+.assign ol{padding-left:20px}
+.assign li{margin:9px 0;font-size:15px}
+.crit{background:var(--gold-l);border-radius:6px;padding:13px 17px;margin-top:16px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:13.5px}
+
+/* quiz */
+.quiz{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px 24px;margin:24px 0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+.quiz h3{margin-top:0;font-size:15.5px}
+.q{margin:16px 0;font-size:14.5px}
+.q b{display:block;margin-bottom:5px}
+.q label{display:block;padding:3px 0 3px 4px;color:var(--sub);font-size:14px}
+details{margin-top:8px;font-size:13.5px}
+summary{cursor:pointer;color:var(--gold);font-weight:700}
+details p{font-size:13.5px;margin:8px 0 0}
+
+/* profile */
+.prof{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px 24px;margin:40px 0 0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;font-size:13.5px;line-height:1.85}
+.prof h4{margin:0 0 8px;font-size:15px}
+.foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+@media(max-width:600px){h1{font-size:25px}h2{font-size:20px}}
+@media print{.demobar{position:static}}
+</style>
+</head>
+<body>
+
+<div class="demobar">これは <b>デモ版（全15コマ中 1コマ目・M3-1）</b> です ／ かけっこ指導者養成講座</div>
+
+<div class="wrap">
+
+<div class="hero">
+  <div class="crumb">MODULE 3 ─ 指導者の姿勢 ／ 第1講</div>
+  <h1>「教えすぎ」が<br>才能を潰すメカニズム</h1>
+  <p class="lede">なぜ、丁寧に教えられた子ほど遅くなるのか。<br>そして、良かれと思ってやっている指導から、どう降りるか。</p>
+  <div class="facts">
+    <span>所要 <b>45分</b></span>
+    <span>動画 <b>3本</b>＋テキスト</span>
+    <span>演習課題 <b>あり</b></span>
+    <span>対象 <b>指導者・コーチ・保育士・幼稚園教諭・トレーナー</b></span>
+  </div>
+</div>
+
+<div class="goal sans">
+  <h4>この1コマで持ち帰れること</h4>
+  <ol>
+    <li><b>「教える」と「引き出す」の境界線</b>を、自分の言葉で説明できるようになる</li>
+    <li>今日の練習で使っている<b>指示語を、そのまま課題に変換</b>できるようになる</li>
+    <li>担当している子が<b>「ちゃんと走ろうとしすぎている」状態か判定</b>できるようになる</li>
+  </ol>
+</div>
+
+<!-- 00 -->
+<div class="sec">
+<div class="secno sans">00 ─ はじめに</div>
+<h2>教えるほど遅くなる子が、必ず一定数いる</h2>
+
+<p>腕の振り方も、膝の上げ方も、姿勢も——フォームは確かにきれい。見た目には「走れそう」に見える。</p>
+<p>なのに、50m走のタイムを測ると、同学年の平均を下回る。<strong>むしろ、指導を重ねるたびに記録が伸び悩み、ときには落ちていく。</strong></p>
+<p>心当たりのある方が、いるかもしれません。これは現場で何度も目撃してきた、<strong>一定の割合で必ず出現するタイプ</strong>です。</p>
+
+<p>指導記録を丁寧に追い直していくと、ある共通点に気づきました。</p>
+
+<blockquote><p><strong>「綺麗だけど遅い子」の多くは、幼いころから大人に丁寧に指導されてきた子だった。</strong></p>
+<p>善意の、丁寧な、そして熱心な指導を、受けてきた子だった。</p></blockquote>
+
+<p>この講座は、その熱意を否定するためのものではありません。<strong>熱意を、子どもにとって最高のプレゼントに変えるため</strong>のものです。</p>
+</div>
+
+<!-- 01 -->
+<div class="sec">
+<div class="secno sans">01 ─ 定義</div>
+<h2>この講座で言う「教える」とは何か</h2>
+
+<p>先に言葉の定義を置きます。ここを曖昧にしたまま進むと、この講座全体が「結局は教えているじゃないか」「では何もしなければいいのか」とねじれて聞こえてしまうからです。</p>
+
+<div class="def">
+  <h4>定義</h4>
+  <p>この講座で<strong>「教える」</strong>と言ったとき、指しているのは——<br><strong>フォームを言葉で直接指示すること</strong>（「腕は90度に」「膝を高く」「姿勢を伸ばして」）です。</p>
+  <p>一方で、<strong>「動きが自然に出てくるような課題を子どもに与えること」</strong>は、教えるではなく<strong>きっかけ作りのための環境づくり</strong>として扱います。</p>
+  <p>前者は子どもの自然学習を<strong>止め</strong>、後者は自然学習を<strong>引き出す</strong>。この区別が、この講座の核心です。</p>
+</div>
+
+<p>大人から「教えられたこと」を、自分の身体に落とし込む——これは、子どもにとって意外なほどハードルの高い作業です。外から入ってきた言葉に、自分の姿勢・自分の感覚・自分のタイミングを合わせようとすること。<strong>大人が想像しているよりずっと難しい</strong>。</p>
+<p>だから、良かれと思ってやっている指導が、知らないうちに、子どもの能力や自然な成長を止めてしまうことが起きます。</p>
+</div>
+
+<!-- 02 -->
+<div class="sec">
+<div class="secno sans">02 ─ 症例</div>
+<h2>「綺麗に走る＝速い」の方程式が完成してしまった子</h2>
+
+<p>パーソナルレッスンには、ときどきこんな相談が来ます。<br>「自分たちで陸上の走り方を勉強して、家でやらせているんですけど」</p>
+
+<p>実際に見せてもらうと、確かに理にかなった、世にいう「綺麗な走り方」をしている子が多い。でも、ある男の子の走りを見ていて、気になりました。</p>
+
+<p><strong>綺麗に走ろうとするあまり、力が入るポイントがズレている。</strong>腕を前まで大きく振る、その動作に意識を取られて、本来「ここで力を出したい」という自分のタイミングや姿勢に、身体が慣れていない。だから、見た目は綺麗なのに、どこか力が抜けたままの走り方になっていた。</p>
+
+<p>「気にせず、思い切って好きに走ってみよう」と声をかけて崩そうとしました。でも、その子の中ではすでに<strong>「綺麗に走る＝速い」という方程式が完成していて、なかなか崩せなかった。</strong>限られた時間内では、修正しきれませんでした。</p>
+
+<blockquote><p><strong>家庭での声かけや関わり方が変わらない限り、レッスンの数十分で覆すのは難しい。逆に言えば、家庭の関わり方さえ変われば、子どもの走りは1〜2か月で目に見えて変わる</strong>——これは現場で何度も確認してきた事実です。</p></blockquote>
+
+<p class="sans" style="font-size:14px;color:var(--sub)">▸ ここが指導者にとって重要です。<b>あなたのレッスンの成果を決めているのは、レッスン外の23時間かもしれない</b>ということ。この講座の後半で、保護者にどう伝えるかを扱います。</p>
+</div>
+
+<!-- 03 -->
+<div class="sec">
+<div class="secno sans">03 ─ メカニズム</div>
+<h2>子どもの身体は「自然に走る」ようにできている</h2>
+
+<p>幼い子どもは、教わらなくても走ります。転び、起き上がり、また走る。その繰り返しの中で、身体は「効率よく動く方法」を<strong>自分で</strong>学んでいきます。運動学ではこれを<strong>「自然運動学習」</strong>と呼びます。</p>
+
+<blockquote><p>神経系が未熟な幼少期の脳は、外から「正しい型」を入力されるよりも、<strong>自分で失敗と修正を繰り返す方が、はるかに効率よく運動回路を組み上げていく</strong>——という性質を持っています。</p></blockquote>
+
+<p>言葉で直接フォームを指示してしまった瞬間に、走りがまるごと崩れた経験も、たくさんあります。「足を高く上げて」と言ったら、後ろに体が倒れた。姿勢が崩れた。</p>
+
+<h3>子どもには2つのタイプがいる。ただし対処は同じ</h3>
+<div class="tw"><table>
+<tr><th>タイプ</th><th>特徴</th><th>効く関わり方</th></tr>
+<tr><td><b>身体で覚える子</b></td><td>何でもとりあえずやってみる。伝えた瞬間にその場で試す。横で真似をしてくる。<b>動きが先、言葉は後</b></td><td rowspan="2" class="o" style="vertical-align:middle">どちらにも<br><b>「動きが自然に引き出される課題」</b><br>が効く。<br><br>言葉で直接フォームを指示する関わり方は、<b class="x">どちらのタイプにも効きにくい</b></td></tr>
+<tr><td><b>頭で覚える子</b></td><td>質問が返ってくる。「これってどういうこと？」。言葉で確認してから動こうとする。<b>理解が先、動きは後</b></td></tr>
+</table></div>
+<p>タイプの違いに優劣はありません。<strong>タイプを見分けて指示を変えるのではなく、どちらにも効く課題を渡す</strong>——これが現場で何年も繰り返し確認してきたことです。</p>
+</div>
+
+<!-- 04 -->
+<div class="sec">
+<div class="secno sans">04 ─ 実技</div>
+<h2>指示語を、課題に置き換える</h2>
+<p>ここがこの1コマの<strong>実務の中心</strong>です。明日の練習でそのまま使えます。</p>
+
+<div class="drill">
+  <div class="dh sans">実技 01 ── 足の接地</div>
+  <div class="swap">
+    <div class="bad"><b>✗ 教える（指示）</b>「足をまっすぐ下ろして」</div>
+    <div class="good"><b>○ 引き出す（課題）</b>ミニハードルの向こうにスポンジを置き、<b>「上から踏みつぶしてみて」</b></div>
+  </div>
+  <div class="why">子どもは上からドシンと、しっかり踏みつぶせるようになる。<b>地面に的確に力を加える感覚が、勝手に育つ。</b>「まっすぐ」という抽象語を、身体で分かる目標物に置き換えている。</div>
+</div>
+
+<div class="drill">
+  <div class="dh sans">実技 02 ── 足首の剛性・SSC</div>
+  <div class="swap">
+    <div class="bad"><b>✗ 教える（指示）</b>「足首を固めて」</div>
+    <div class="good"><b>○ 引き出す（課題）</b>ミニハードルの連続跳び越しを<b>ゲーム感覚でクリアさせる</b></div>
+  </div>
+  <div class="why">SSC（地面からの反発をバネのように使う動き）が勝手に引き出されてくる。<b>「固める」は本人が確認できない感覚。</b>連続でクリアするという外的な目標に置き換えると、身体が自分で解を見つける。</div>
+</div>
+
+<div class="drill">
+  <div class="dh sans">実技 03 ── スタートの姿勢</div>
+  <div class="swap">
+    <div class="bad"><b>✗ 教える（指示）</b>「低い姿勢で」→ <b class="x">下を向いてしまう子が多い</b></div>
+    <div class="good"><b>○ 引き出す（課題）</b><b>「天井がすごく低い建物の中を、ぶつからないように全力で走り抜けてみて」</b>＋手や柔らかいもので頭上の高さを実際に見せる</div>
+  </div>
+  <div class="why">これだけで、目線も姿勢も一気にいい状態になる。<b>「低く」と言うと、子どもは"低さ"を作りにいって下を向く。</b>制約（天井）を置くと、低さは結果として出てくる。</div>
+</div>
+
+<blockquote><p><strong>ポイントは「動きを言葉で説明する」のではなく、「動きが勝手に出てくる課題」を与えること。</strong></p></blockquote>
+</div>
+
+<!-- 05 -->
+<div class="sec">
+<div class="secno sans">05 ─ 判断基準</div>
+<h2>年齢によって、優先順位は変わる</h2>
+<p>「ではフォームはいつから教えるのか」——答えは年齢によってはっきり変わります。</p>
+<div class="tw"><table>
+<tr><th>年齢</th><th>優先すること</th><th>大人の役割</th></tr>
+<tr><td><b>〜小学2年生</b></td><td>走ることを楽しむ／自然な動きの蓄積</td><td>見守る・褒める・<b>邪魔しない</b></td></tr>
+<tr><td><b>小学3〜4年生</b></td><td>動きの「感覚」に自分で気づく</td><td>問いかける・観察する</td></tr>
+<tr><td><b>小学5〜6年生〜</b></td><td>具体的な技術の入力が少しずつ可能に</td><td>丁寧な指導を、少しずつ加える</td></tr>
+</table></div>
+<blockquote><p>幼少期にフォームを「教える」のではない。<strong>フォームは「育つ」のを待つ。</strong></p></blockquote>
+<p>この受け身に見える関わり方こそが、実は子どもの発達原理にもっとも忠実な、<strong>能動的な選択</strong>です。</p>
+</div>
+
+<!-- 06 -->
+<div class="sec">
+<div class="secno sans">06 ─ 観察</div>
+<h2>「ちゃんと走ろうとしすぎている」サインを見抜く</h2>
+<p>「綺麗だけど遅い子」パターンが進行している子には、共通したサインが現れます。<strong>担当している子を思い浮かべながら読んでください。</strong></p>
+
+<div class="check">
+  <div><span class="no">1</span><b>スタートで動けない・動きがゆっくりになる</b>
+    <small>ゴーの合図で勢いよく前へ出るはずが、なかなか出ない。「ちゃんとスタートしなきゃ」という意識が、最初の一歩を止めている。</small></div>
+  <div><span class="no">2</span><b>本来できていた動作が、急にできなくなる</b>
+    <small>普段の遊びでは普通にできていた動きが、「測られる場面」になると崩れる。本番で「ちゃんと走らなきゃ」のスイッチが入る典型。</small></div>
+  <div><span class="no">3</span><b>身体が小さくなる・目線が下がる</b>
+    <small>全身が縮こまった印象になる。自分の足を見たくなって目線が地面に落ちる。続くと推進力そのものが失われる。</small></div>
+  <div><span class="no">4</span><b>走り終わったあと、ネガティブな言葉が増える</b>
+    <small>走行中はワクワクしているのに、終わったあとに「難しい」「できない」が出てくる。</small></div>
+  <div class="alert"><span class="no">!</span><b>赤信号 ── 考えすぎてしょんぼり、チャレンジしなくなる</b>
+    <small>「もうやりたくない」「自分はできない」と行動そのものをやめる。<b>この段階では技術指導を完全にいったん止め、走ること自体への気持ちを取り戻すところからやり直す。</b></small></div>
+</div>
+
+<div class="def">
+  <h4>処方</h4>
+  <p>2つ以上のサインが当てはまったら——<strong>まず1か月、技術的な声かけを完全にゼロにする。</strong></p>
+  <p>「フォーム」「腕」「膝」「姿勢」。こういう言葉を、練習からまるごと消す。代わりに<strong>「楽しかった？」「今日いちばん気持ちよかった瞬間は？」だけ。</strong></p>
+  <p>たった1か月で、子どもの走りは目に見えて変わります。</p>
+</div>
+</div>
+
+<!-- 07 -->
+<div class="sec">
+<div class="secno sans">07 ─ 指導者の実務</div>
+<h2>「何かしたい」保護者に、何を渡すか</h2>
+<p>指導者が必ず直面するのが、熱心な保護者への対応です。「何もしないでください」と伝えると、多くの保護者はかえって不安になります。「本当に何もしなくていいのか」「うちの子だけ遅れるんじゃないか」。</p>
+<p>だから<strong>「何もしない」を渡してはいけません。「代わりにこれをしてください」を渡します。</strong></p>
+
+<div class="def">
+  <h4>保護者に渡す、たった一つの問いかけ</h4>
+  <p>子どもが走り終わった後に、こう聞いてもらう。</p>
+  <p style="font-size:19px;text-align:center;padding:8px 0"><strong>「今日の走り、自分でどうだった？」</strong></p>
+  <p>結果を評価するのでも、フォームを指摘するのでもない。子ども自身が「どう感じたか」を<strong>言語化する機会</strong>を作る。</p>
+</div>
+
+<p>「速かった」「気持ちよかった」「足がぐらついた」「呼吸が苦しかった」——どんな表現でも構いません。<strong>身体感覚を言語化する習慣こそが、自分の走りを自分で修正していく能力の土台になります。</strong></p>
+<p>技術を「教える」のではなく、子どもが「気づく」のを待つ。フォームを「直す」のではなく、本人の感覚を「引き出す」。</p>
+</div>
+
+<!-- 08 -->
+<div class="sec">
+<div class="secno sans">08 ─ 結び</div>
+<h2>善意の指導から、どう降りるか</h2>
+<p>ここまで読んで「自分はやってしまっていたかもしれない」と感じた方へ。</p>
+<p>丁寧に指導してきたことを、責めたいわけではありません。<strong>あなたは、子どものために、できることをしてきた。それは紛れもなく、愛情と熱意の結果です。</strong></p>
+<p>ただ、子どもの発達には<strong>順番</strong>があります。その順番を守ろうとするとき、大人ができる最高の関わり方は、「何もしないこと」ではなく<strong>「子どもが自分で気づくのを待つこと」</strong>です。</p>
+
+<blockquote><p><strong>その一言を口にできた瞬間、あなたは「指導者」から「応援者」に降りています。それが、子どもの10年後を変える、最初の一歩です。</strong></p></blockquote>
+</div>
+
+<!-- assignment -->
+<div class="assign">
+<h3>演習課題（認定要件・提出必須）</h3>
+<ol>
+<li><b>指示語の棚卸し：</b>直近3回の自分の練習で使った「フォームを直接指示する言葉」を<b>5つ</b>書き出す。</li>
+<li><b>課題への変換：</b>その5つを、実技01〜03の型にならって<b>「動きが勝手に出てくる課題」に変換</b>する。使う道具・声かけの文言・その課題で何が引き出されるかを明記する。</li>
+<li><b>観察記録：</b>担当している子1名について、06のサイン4項目＋赤信号を判定し、該当した場合の1か月プランを書く。</li>
+</ol>
+<div class="crit">
+<b>合格基準</b> ── ②の変換5件のうち<b>4件以上</b>が「①制約や目標物で置き換えられている ②子ども自身が達成を確認できる ③フォームの語を含まない」の3条件を満たすこと。<br>
+<b>不合格の典型：</b>「まっすぐ下ろすように意識させる」← 主語が指導者のまま。子どもが確認できない。
+</div>
+</div>
+
+<!-- quiz -->
+<div class="quiz">
+<h3>確認テスト</h3>
+
+<div class="q"><b>Q1. この講座の定義において「教える」に該当するのはどれか。</b>
+<label>a. ミニハードルを連続で跳び越させる</label>
+<label>b. 「腕は90度に曲げて振って」と伝える</label>
+<label>c. スポンジを置いて「踏みつぶしてみて」と言う</label>
+<details><summary>解答を見る</summary><p><b>b</b>。フォームを言葉で直接指示している。a・cは「動きが勝手に出てくる課題」＝環境づくりに該当する。</p></details></div>
+
+<div class="q"><b>Q2. 小学2年生に対する大人の役割として、この講座が推奨するものは。</b>
+<label>a. 丁寧な技術指導を少しずつ加える</label>
+<label>b. 動きの感覚に自分で気づけるよう問いかける</label>
+<label>c. 見守る・褒める・邪魔しない</label>
+<details><summary>解答を見る</summary><p><b>c</b>。〜小学2年生は「走ることを楽しむ／自然な動きの蓄積」が優先。bは3〜4年生、aは5〜6年生以降。</p></details></div>
+
+<div class="q"><b>Q3.「低い姿勢で」と伝えると多くの子が下を向いてしまう。なぜか。</b>
+<details><summary>解答を見る</summary><p>子どもが<b>「低さ」そのものを作りにいく</b>ため。低さは本来、全力で加速した結果として出てくるもので、目的にすると姿勢が崩れる。「天井が低い建物を走り抜ける」という<b>制約</b>に置き換えると、低さが結果として現れる。</p></details></div>
+
+<div class="q"><b>Q4. サインが2つ以上該当した子への処方は。</b>
+<details><summary>解答を見る</summary><p><b>1か月、技術的な声かけを完全にゼロにする。</b>「フォーム」「腕」「膝」「姿勢」を練習から消し、「楽しかった？」「今日いちばん気持ちよかった瞬間は？」だけにする。</p></details></div>
+
+<div class="q"><b>Q5.「身体で覚える子」と「頭で覚える子」で、関わり方をどう変えるべきか。</b>
+<details><summary>解答を見る</summary><p><b>変えない。</b>どちらにも「動きが自然に引き出される課題」が効く。タイプを見分けて指示を変えるのではなく、どちらにも効く課題を渡すのが正解。言葉での直接指示は、どちらのタイプにも効きにくい。</p></details></div>
+</div>
+
+<div class="prof">
+<h4>講師｜荻田 大樹（おぎた ひろき）</h4>
+棒高跳 元日本代表。リオデジャネイロオリンピック出場／世界選手権 3大会代表／アジア選手権 銀メダル／日本選手権 優勝／国民体育大会 優勝。自己ベスト 5m70（日本歴代5位）。<br>
+現在はパーソナルジムCARAS代表、陸上クラブSORA・SUPERIOR代表、運動療育むーん運営、関西学院大学陸上競技部コーチ。専門はバイオメカニクス・運動生理学・発達心理学×スポーツ。中高保健体育教員免許／NESTA認定パーソナルトレーナー。
+</div>
+
+<div class="foot">
+かけっこ指導者養成講座 ／ M3-1「教えすぎが才能を潰すメカニズム」デモ版<br>
+全15コマ構成（M1 発達を理解する3コマ／M2 走りのメカニクス4コマ／M3 指導者の姿勢4コマ／M4 コンディションと安全4コマ）<br>
+本デモはテキスト版です。製品版では実技01〜03の動画（各3〜5分）が付属します。
+</div>
+
+</div></body></html>

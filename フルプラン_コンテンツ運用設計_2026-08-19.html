@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フルプラン コンテンツ運用設計</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--danger:#b91c1c;--warn:#c2410c;--gold:#c9a227}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:30px 20px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:22px;font-size:13.5px}
+.trace b{color:#8a5a00}
+h1{font-size:27px;margin:0 0 6px}
+.sub{color:var(--sub);font-size:14.5px;margin-bottom:24px}
+h2{font-size:20px;margin:46px 0 12px;padding:11px 0 9px;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:26px 0 8px}
+p{margin:10px 0}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.ok{border-left-color:var(--ok);background:#f4fbf7}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.box.danger{border-left-color:var(--danger);background:#fff5f5}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:600px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.hl td{background:#fffdf0}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+small{color:var(--sub);font-size:12.5px}
+ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+code{background:#eef1f6;border-radius:4px;padding:1px 6px;font-size:12.5px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 54px;position:relative;margin:10px 0;font-size:14px}
+.step .n{position:absolute;left:15px;top:14px;background:var(--accent);color:#fff;width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.step b.t{display:block;font-size:15px;margin-bottom:3px}
+/* 記事の型 */
+.art{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:14px 0}
+.art .ah{background:#1c1b19;color:#fff;padding:11px 18px;font-size:14px;font-weight:700}
+.art .ab{display:flex;flex-wrap:wrap}
+.art .col{flex:1;min-width:230px;padding:15px 18px;font-size:13.5px}
+.art .col:first-child{background:#f4fbf7;border-right:1px solid var(--line)}
+.art .col b{display:block;font-size:11.5px;letter-spacing:.06em;margin-bottom:6px}
+.art .col:first-child b{color:var(--ok)}
+.art .col:last-child b{color:var(--accent)}
+.foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="trace">
+  <div>📌 <b>この成果物を生んだ指示：</b>「フルのブログ記事はヒアリングしてから<b>その施設にあった内容</b>にすべきかと思うので、AIでインタビューした内容を反映しつつ<b>福祉の情報を追加する構図</b>で」（2026-08-19）</div>
+  <div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>90点</b>（方針転換の妥当性:◎ 仕組み化:◎ 工数試算:○ 実測なし:△）｜ レベル：🟡重要</div>
+</div>
+
+<h1>フルプラン コンテンツ運用設計</h1>
+<div class="sub">施設の一次情報 × 福祉の専門情報 ／ ブログ月4本の作り方</div>
+
+<div class="box gold">
+<b>この指摘で、フルプランの価値がまったく別物になりました。</b><br>
+私が最初に提案したのは「オギラボの既存記事136本を、事業所名に書き換えて配信する」でした。工数は最小ですが、<b>致命的な欠陥があります。</b>
+<ul>
+<li><b>どの施設に配信しても同じ記事になる</b>＝独自性ゼロ。保護者が読んでも「この施設に行きたい」とは思わない</li>
+<li>複数の顧客に似た記事を配ると<b>検索エンジンに重複と見なされる</b>リスク</li>
+<li>そして何より、<b>いつでも他社に乗り換えられます。</b>汎用記事に囲い込み力はありません</li>
+</ul>
+<b>施設固有の情報を入れると、この3つが全部ひっくり返ります。</b>
+</div>
+
+<!-- 1 -->
+<h2>1. 記事の構図</h2>
+
+<div class="art">
+  <div class="ah">1本の記事＝「施設の生の言葉」＋「福祉の専門情報」</div>
+  <div class="ab">
+    <div class="col">
+      <b>① 施設から取る（一次情報）</b>
+      その施設だけが持っている中身。<br><br>
+      ・なぜこの道具を使うのか<br>
+      ・初めて来た子にどう声をかけるか<br>
+      ・保護者からよく聞かれること<br>
+      ・スタッフがこの仕事を選んだ理由<br>
+      ・去年の夏休みに何をしたか<br><br>
+      <small>▸ <b>ここが独自性の全部です。</b>他社は絶対に真似できません</small>
+    </div>
+    <div class="col">
+      <b>② MOONが足す（専門情報）</b>
+      福祉・子どもの運動の一般知識。<br><br>
+      ・5領域との対応<br>
+      ・粗大運動／感覚統合の基礎<br>
+      ・年齢ごとの発達の目安<br>
+      ・受給者証の手続き<br>
+      ・家庭でできる関わり方<br><br>
+      <small>▸ オギラボ配下<b>136ファイル</b>の蓄積から供給。<b>Web業者には書けません</b></small>
+    </div>
+  </div>
+</div>
+
+<div class="box ok">
+<b>この2層構造が効く理由。</b><br>
+①だけだと「日記」になり、検索から人は来ません。②だけだと「どこかで読んだ記事」になり、その施設に行く理由になりません。<br>
+<b>②で検索から人を連れてきて、①でその施設を選ばせる。</b>役割が違います。
+</div>
+
+<!-- 2 -->
+<h2>2. 仕組み — 施設に負担をかけない</h2>
+<p>いちばんの障害は<b>「施設が忙しくて取材に応じられない」</b>ことです。現場は毎日子どもを見ています。ここを軽くしないと3ヶ月で止まります。</p>
+
+<div class="step"><span class="n">1</span><b class="t">初回：まとめ取り（制作時に1回・60〜90分）</b>
+サイト制作のヒアリングと<b>同時に実施</b>する。訪問不要、オンラインまたは電話で可。<br>
+<b>この1回で3ヶ月分（12本）のネタを採ります。</b>あとから何度も聞きに行かない。<br>
+<small>▸ 質問はこちらが設計し、<b>前の答えを見て次の質問を変える一問一答形式</b>で深掘りします（オギラボのインタビュー企画で使っている方式をそのまま流用）</small></div>
+
+<div class="step"><span class="n">2</span><b class="t">月次：LINEで1問だけ送る</b>
+「今月、印象に残った出来事はありますか？　一言で結構です」<br>
+<b>返事がなければ、それでも記事は作れます</b>（初回の在庫があるため）。返事があれば、その月の記事が一段良くなる。<br>
+<small>▸ <b>返信を必須にしない設計が重要です。</b>必須にすると施設の負担になり、解約理由になります</small></div>
+
+<div class="step"><span class="n">3</span><b class="t">作成 → 確認 → 公開</b>
+AIが①②を統合して下書き。<b>事実確認だけをお願いする</b>（文章の good/bad は聞かない）。<br>
+<small>▸ 「どうですか？」と聞くと止まります。<b>「事実に誤りがなければこのまま公開します」</b>と送る</small></div>
+
+<!-- 3 -->
+<h2>3. 年間テーマ設計（12本の型）</h2>
+<div class="tw"><table>
+<tr><th>#</th><th>施設から取る一次情報</th><th>MOONが足す専門情報</th></tr>
+<tr class="hl"><td class="num">1</td><td><b>うちが大事にしていること</b>（療育の考え方）</td><td>5領域と、それが日常生活にどうつながるか</td></tr>
+<tr><td class="num">2</td><td>この道具・この遊びを使う理由</td><td>粗大運動／感覚統合の基礎</td></tr>
+<tr><td class="num">3</td><td>初めて来た日の様子・声のかけ方</td><td>慣らし期間に起きること（一般論）</td></tr>
+<tr class="hl"><td class="num">4</td><td><b>保護者からよく聞かれる質問</b></td><td>受給者証の取得手続き・費用の考え方</td></tr>
+<tr><td class="num">5</td><td>スタッフ紹介（資格・この仕事を選んだ理由）</td><td>児発管・保育士・PT/OTがそれぞれ何をする人か</td></tr>
+<tr><td class="num">6</td><td>1日の流れ（写真は設備のみ）</td><td>見通しを持たせる支援の意味</td></tr>
+<tr><td class="num">7</td><td>夏休み／長期休暇の過ごし方</td><td>生活リズムの崩れと戻し方</td></tr>
+<tr><td class="num">8</td><td>相談支援専門員さんとの連携</td><td>計画相談・モニタリングの仕組み</td></tr>
+<tr class="hl"><td class="num">9</td><td><b>できるようになった場面</b>（個人が特定されない形で）</td><td>スモールステップと成功体験の設計</td></tr>
+<tr><td class="num">10</td><td>就学・進級を控えたご家庭へ</td><td>就学相談の流れ・時期</td></tr>
+<tr><td class="num">11</td><td>家庭でもできること（施設の実践から）</td><td>家庭で無理なく続く関わり方</td></tr>
+<tr><td class="num">12</td><td>見学に来られる方へ（見学の流れ）</td><td>施設の選び方のポイント</td></tr>
+</table></div>
+<p><small>▸ <b>#1・#4・#9・#12 は特に問い合わせにつながりやすい</b>ので、契約直後の4本に配置します。</small></p>
+
+<!-- 4 -->
+<h2>4. 工数と採算</h2>
+<div class="tw"><table>
+<tr><th>作業</th><th>時間</th><th>備考</th></tr>
+<tr><td>初回インタビュー（3ヶ月に1回・90分）</td><td class="num">月あたり 30分</td><td>12本分のネタを一度に採取</td></tr>
+<tr><td>記事作成 4本（AI下書き＋編集）</td><td class="num">1時間</td><td>1本15分。②の素材が既にあるため速い</td></tr>
+<tr><td>確認対応・公開</td><td class="num">20分</td><td>事実確認のみ依頼</td></tr>
+<tr><td>スタンダード相当（GBP運用・レポート）</td><td class="num">2時間</td><td>—</td></tr>
+<tr class="hl"><td><b>フルプラン 合計</b></td><td class="num"><b>約3時間50分</b></td><td>—</td></tr>
+</table></div>
+
+<div class="tw"><table>
+<tr><th>プラン</th><th>月額（税別）</th><th>税込</th><th>工数</th><th>時間あたり（税別）</th></tr>
+<tr><td>ライト</td><td class="num">4,980円</td><td class="num">5,478円</td><td class="num">15分</td><td class="num ok-t">19,920円</td></tr>
+<tr><td>スタンダード</td><td class="num">29,800円</td><td class="num">32,780円</td><td class="num">2時間</td><td class="num">14,900円</td></tr>
+<tr class="hl"><td><b>フル</b></td><td class="num">49,800円</td><td class="num">54,780円</td><td class="num">3時間50分</td><td class="num mid-t">13,000円</td></tr>
+</table></div>
+
+<div class="box warn">
+<b>正直に申し上げると、フルは時間あたりでは依然いちばん低いです。</b>（税別13,000円／時）<br><br>
+<b>それでもフルを売る理由は、時間単価ではなく「解約されにくさ」です。</b>
+<ul>
+<li>施設固有の情報が蓄積されるほど、<b>他社に乗り換えるコストが上がります</b>（同じ記事を他社は作れない）</li>
+<li>毎月レポートと記事が届く＝<b>契約している実感が続く</b>。ライトは「何もしてくれない」と思われて切られます</li>
+<li>記事が増えるほど検索の入口が増え、<b>成果が出る＝続く</b></li>
+</ul>
+<b>単月の利益ではなくLTVで見る商品</b>だと割り切ってください。それが嫌なら、ブログを月2本に戻すか、フルを59,800円にする選択もあります。
+</div>
+
+<!-- 5 -->
+<h2>5. 絶対に守ること（福祉分野固有）</h2>
+<div class="box danger">
+<ul>
+<li><b>子どもの顔写真・実名・特定できるエピソードは載せない。</b>保護者の同意があっても推奨しません。使うのは設備・道具・活動の様子（後ろ姿や手元）まで</li>
+<li><b>「できるようになった話」は個人が特定されない形に加工する。</b>複数の事例を合成する、時期をぼかす、といった処理を必ず入れる</li>
+<li><b>効果の断定をしない。</b>「〜が改善します」「〜が治ります」は書かない（景表法・保護者の誤認）</li>
+<li><b>診断名で子どもを括らない。</b>特定の障害名を見出しに使わない</li>
+<li><b>他施設との比較優位を書かない。</b>「地域で一番」等は使わない</li>
+<li><b>公開前に必ず施設の事実確認を取る。</b>療育内容の記述は、こちらの推測で書かない</li>
+</ul>
+<small>▸ これは<b>むーんのGBP運用ルールと同じ基準</b>です（<code>むーん/CONTEXT.md</code>）。自社で守っているものを、そのまま顧客にも適用します</small>
+</div>
+
+<div class="box ok">
+<b>この6項目を提案書に載せてください。</b>「載せない理由」を先に説明できるWeb業者は、まずいません。<b>ここで一気に信用されます。</b>
+</div>
+
+<div class="foot">
+株式会社MOON ／ フルプラン コンテンツ運用設計｜2026-08-19<br>
+関連：<code>料金体系_2026-08-19.html</code>／<code>営業ツール_課題確認シート＋提案書_2026-08-19.html</code>／<code>むーん/CONTEXT.md</code>（福祉固有NGルールの原本）<br>
+工数はすべて<b>想定値</b>です。最初の3社で必ず実測してください。
+</div>
+
+</div></body></html>

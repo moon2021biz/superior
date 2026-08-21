@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOON Web支援 料金体系</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--danger:#b91c1c;--warn:#c2410c;--gold:#c9a227}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:30px 20px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13.5px}
+.trace b{color:#8a5a00}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--sub);font-size:14.5px;margin-bottom:26px}
+h2{font-size:20px;margin:46px 0 12px;padding:11px 0 9px;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:26px 0 8px}
+p{margin:10px 0}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.ok{border-left-color:var(--ok);background:#f4fbf7}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.danger{border-left-color:var(--danger);background:#fff5f5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:600px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.hl td{background:#fffdf0}
+tr.rec td{background:#f4fbf7}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+.price{font-family:ui-monospace,Menlo,monospace;font-weight:700}
+small{color:var(--sub);font-size:12.5px}
+ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 54px;position:relative;margin:10px 0;font-size:14px}
+.rule .n{position:absolute;left:15px;top:14px;background:var(--danger);color:#fff;width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.rule b.t{display:block;font-size:15px;margin-bottom:3px}
+.foot{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="trace">
+  <div>📌 <b>この成果物を生んだ指示：</b>「HP作成が高い。10万円にして、そこから維持費をもらうシステムにしたい。あと<b>全体の料金設定を決めておかないと危なくない？</b>」（2026-08-19）</div>
+  <div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>89点</b>（構造設計:◎ 危険の特定:◎ 採算試算:○ 相場の裏取り:△＝未実施）｜ レベル：🟡重要（価格の確定はMOON判断）</div>
+</div>
+
+<h1>Web支援 料金体系</h1>
+<div class="sub">制作を入口に、月額で回収する構造に組み替えました</div>
+
+<div class="box danger">
+<b>「危なくない？」への答え：危ないです。ただし危険は金額ではありません。</b><br>
+金額は後から変えられます。取り返しがつかないのは<b>「どこまでやるかを決めずに契約すること」</b>です。<br><br>
+福祉事業者は<b>Webの相場を知りません。</b>だから「ちょっと直して」が悪気なく無限に来ます。月3万円の契約で毎週2時間使われたら、<b>時給換算3,750円</b>。これが最も現実的な失敗の形です。<br>
+<b>この資料の本体は価格表ではなく、後半の「決めておくルール7つ」です。</b>
+</div>
+
+<!-- 1 -->
+<h2>1. 構造の変更</h2>
+<div class="tw"><table>
+<tr><th></th><th>変更前</th><th>変更後（MOON指示）</th></tr>
+<tr><td>HP制作</td><td class="num">20万円〜</td><td class="num ok-t">10万円</td></tr>
+<tr><td>月額</td><td class="num">3万円〜（MEOのみ）</td><td class="num ok-t">4,980円〜49,800円（3段階）</td></tr>
+<tr><td>収益の主軸</td><td>制作の一括</td><td class="ok-t"><b>月額のストック</b></td></tr>
+<tr><td>初年度1社あたり</td><td class="num">20万＋α</td><td class="num">10万＋月額×12</td></tr>
+</table></div>
+
+<div class="box gold">
+<b>この変更は正しいです。理由は3つあります。</b>
+<ul>
+<li><b>10万円は決裁が通る額。</b>福祉事業者にとって20万は稟議、10万は判断で済むことが多い。<b>入口の摩擦が消えます</b></li>
+<li><b>MOONに必要なのは一括収入ではなく安定収入。</b>経常−13.5万/月を埋めるのは、月額の積み上げです</li>
+<li><b>作って終わりだと、MEOの実績が作れません。</b>継続契約があって初めて「1位を取った」と言えるようになります</li>
+</ul>
+</div>
+
+<!-- 2 -->
+<h2>2. 料金表（案）</h2>
+
+<h3>初期費用</h3>
+<div class="tw"><table>
+<tr><th>項目</th><th>金額（税別）</th><th>含むもの</th></tr>
+<tr class="hl"><td><b>ホームページ制作</b></td><td class="num price">99,800円</td><td>5ページまで／スマホ対応／お問い合わせフォーム／SSL／Googleマップ埋込<br><small>※ 月額プランのご契約が前提（下記ルール①）</small></td></tr>
+<tr><td>Googleビジネスプロフィール 初期整備</td><td class="num price">49,800円</td><td>基本情報・カテゴリ・説明文の作成／写真10点の登録／投稿の初期設定</td></tr>
+<tr class="rec"><td><b>同時申込セット</b></td><td class="num price ok-t">129,800円</td><td>上記2点（<b>19,800円お得</b>）← 実質これが標準メニュー</td></tr>
+<tr><td>無料Web診断</td><td class="num">0円</td><td>営業の入口。ここで料金の話はしない</td></tr>
+</table></div>
+
+<h3>月額プラン（ここが本体）</h3>
+<div class="tw"><table>
+<tr><th>プラン</th><th>月額（税別）</th><th>含むもの</th><th>想定工数</th></tr>
+<tr><td><b>ライト</b></td><td class="num price">4,980円</td><td>サーバー・SSL維持／障害対応／<b>軽微修正 月1回まで</b></td><td class="num">15分</td></tr>
+<tr class="rec"><td><b>スタンダード</b><br><small>★標準</small></td><td class="num price ok-t">29,800円</td><td>ライトの全て<br>＋<b>GBP運用</b>（投稿 月4回・口コミ返信の下書き）<br>＋月次レポート（順位・閲覧数・問い合わせ）</td><td class="num">2時間</td></tr>
+<tr><td><b>フル</b></td><td class="num price">49,800円</td><td>スタンダードの全て<br>＋お知らせ／ブログ記事 <b>月4本</b>の作成<br>＋写真差し替え・季節更新<br>＋改善提案（四半期）</td><td class="num">4時間</td></tr>
+</table></div>
+
+<h3>スポット（月額外）</h3>
+<div class="tw"><table>
+<tr><th>項目</th><th>金額（税別）</th></tr>
+<tr><td>追加ページ制作</td><td class="num price">15,000円／ページ</td></tr>
+<tr><td>軽微修正の追加（月の回数超過分）</td><td class="num price">5,000円／件</td></tr>
+<tr><td>撮影・ロゴ・パンフレット等</td><td class="num">別途見積</td></tr>
+<tr><td>ドメイン費</td><td class="num">実費（年1,500〜4,000円程度）</td></tr>
+</table></div>
+
+<!-- 3 -->
+<h2>3. 決めておくルール（本題）</h2>
+<p>価格より、こちらを先に固めてください。<b>1件目の契約書に入れなかった条件は、2件目以降も入れられなくなります。</b></p>
+
+<div class="rule"><span class="n">1</span><b class="t">制作単体では受けない</b>
+HP制作99,800円は<b>月額プラン12ヶ月契約とセットの価格</b>。制作だけを希望される場合は<b>249,800円</b>とする。<br>
+<span class="ng-t">これを決めないと「10万で作ってもらって解約」が起きます。</span>そうなると完全な赤字案件です。</div>
+
+<div class="rule"><span class="n">2</span><b class="t">「軽微修正」の定義を書く</b>
+<b>含む：</b>文言の変更／写真の差し替え／営業時間・料金の更新<br>
+<b>含まない：</b>ページの追加／レイアウト変更／新機能／デザインの作り直し<br>
+<span class="ng-t">この一行がないと、リニューアル相当の作業が月額に飲まれます。</span></div>
+
+<div class="rule"><span class="n">3</span><b class="t">対応時間を明記する</b>
+「<b>平日3営業日以内に着手</b>」。即日対応を約束しない。<br>
+福祉事業所は現場が忙しく連絡が不規則です。<b>こちらのペースを最初に示さないと、常時待機を期待されます。</b></div>
+
+<div class="rule"><span class="n">4</span><b class="t">口コミ返信は「下書きまで」</b>
+返信文はこちらが作り、<b>投稿はお客様が行う</b>。<br>
+利用者対応は事業所の責任範囲であり、<b>第三者が直接返信すると事故になります</b>（個別の支援内容に触れる恐れ）。ここは絶対に代行しない。</div>
+
+<div class="rule"><span class="n">5</span><b class="t">所有権を最初から顧客側に置く（最重要）</b>
+<b>ドメインは顧客名義で取得。GBPのオーナーは顧客のまま、MOONは「管理者」として招待される。</b><br>
+こうしておけば解約時にドメインの移管作業は<b>不要</b>、GBPは<b>管理者から外すだけ</b>で済みます。<br>
+<span class="ng-t">※ GBPを業者がオーナー登録してしまい、解約時に顧客が自分の店舗情報を触れなくなる事故が業界で頻発しています。ここだけは絶対に間違えないこと。</span><br>
+サイトデータはZIPでお渡しし、<b>他社サーバーへの移設作業は別途見積（3万円程度）</b>と明記する。<br>
+<small>▸ 詳細は <code>納品と移管の設計_2026-08-19.html</code></small></div>
+
+<div class="rule"><span class="n">6</span><b class="t">値引きをしない代わりに、期間で調整する</b>
+「高い」と言われたら金額を下げず、<b>ライトプランから始める</b>提案に切り替える。<br>
+<span class="ng-t">1社に値引きすると、その額が次の商談の基準になります。</span></div>
+
+<div class="rule"><span class="n">7</span><b class="t">同時に持つ社数の上限を決める</b>
+スタンダード換算で<b>当面15社まで</b>。それ以上は人を入れるか、受注を止める。<br>
+<b>取れないことより、取りすぎて回らないことの方が事業を壊します。</b></div>
+
+<!-- 4 -->
+<h2>4. 採算の試算</h2>
+<div class="box ok">
+<b>表記は「税別」に統一しました（2026-08-19 MOON確定）。</b>すべて税別表示です。<br>
+ライトのみ<b>4,980円（税別）＝税込5,478円</b>。他プランは 29,800円（税込32,780円）／49,800円（税込54,780円）／初期セット129,800円（税込142,780円）。<br>
+<b>見積書・提案書では税込額を併記</b>してください。福祉事業者は税込で予算を組むことが多いためです。
+</div>
+<div class="tw"><table>
+<tr><th>契約社数<br><small>スタンダード換算</small></th><th>月商</th><th>月の作業時間<br><small>1社2時間想定</small></th><th>時間あたり</th><th>状態</th></tr>
+<tr><td class="num">3社</td><td class="num">89,400円</td><td class="num">6時間</td><td class="num">14,900円</td><td>検証フェーズ</td></tr>
+<tr class="rec"><td class="num">10社</td><td class="num">298,000円</td><td class="num">20時間</td><td class="num">14,900円</td><td class="ok-t"><b>経常赤字13.5万を単独で埋められる</b></td></tr>
+<tr><td class="num">15社</td><td class="num">447,000円</td><td class="num">30時間</td><td class="num">14,900円</td><td class="mid-t">上限。ここで人を入れる判断</td></tr>
+<tr><td class="num">30社</td><td class="num">894,000円</td><td class="num">60時間</td><td class="num">14,900円</td><td class="ng-t">MOONさん1人では不可能</td></tr>
+</table></div>
+
+<div class="box ok">
+<b>10社で黒字化ロードマップの穴が埋まります。</b><br>
+月商29.8万円は、MOONの経常赤字13.5万円を単独で超えます。<b>10社は、練馬区1区の対象事業所数で足りる数字です。</b><br>
+逆に言えば、<b>30社を目指す事業ではありません。</b>15社で頭打ちにして、そこから先は単価を上げるか人を入れるかの判断になります。
+</div>
+
+<h3>プラン別の時間あたり単価（重要）</h3>
+<div class="tw"><table>
+<tr><th>プラン</th><th>月額</th><th>想定工数</th><th>時間あたり</th><th>評価</th></tr>
+<tr><td>ライト</td><td class="num">4,980円</td><td class="num">15分</td><td class="num ok-t">19,920円</td><td class="ok-t">最も効率が良い</td></tr>
+<tr class="rec"><td>スタンダード</td><td class="num">29,800円</td><td class="num">2時間</td><td class="num">14,900円</td><td>標準</td></tr>
+<tr><td>フル</td><td class="num">49,800円</td><td class="num">4時間<br><small>ブログ4本込</small></td><td class="num mid-t">12,450円</td><td class="mid-t">上位ほど効率が落ちる</td></tr>
+</table></div>
+
+<div class="box gold">
+<b>⚠️ 上位プランほど時間あたりの利益が落ちる構造になっています。</b>ブログ4本が効いています。<br><br>
+<b>ただし、MOONに限ってはこれを解消できます。</b>オギラボ配下に運動・発達・子どもの身体づくりのコンテンツが<b>136ファイル</b>あります。<b>同じテーマを事業所向けに書き換えて配信すれば、1本あたり15分程度で回ります</b>（4本で1時間）。そうすると工数は計3時間・時間あたり<b>16,600円</b>となり、逆転が解消します。<br><br>
+<b>これは他社には絶対にできません。</b>福祉・子どもの運動のネタを大量に持っているWeb業者は存在しないからです。<b>フルプランは「MOONだけが売れる商品」になります。</b>
+</div>
+
+<div class="box danger">
+<b>⚠️ ライト5,500円には、別の危険があります。</b><br>
+スタンダード29,800円との差が<b>6.0倍</b>。並べて提示すると、<b>ほぼ全員がライトを選びます。</b>そうなると制作129,800＋4,980×12＝<b>年19万</b>にしかならず、しかも<b>GBP運用が売れない＝MEOの実績が作れません。</b><br><br>
+<b>対策：ライトを最初から見せない。</b>提案時は<b>スタンダードを標準として提示</b>し、価格を渋られたときだけ「ではライトから始めましょう」と出す。<b>値引きの代わりに使うカード</b>として持つ（ルール⑥の運用）。<br>
+Webの料金表でも<b>スタンダードを中央・推奨として目立たせ</b>、ライトは控えめに置きます。
+</div>
+
+<div class="box warn">
+<b>試算の前提について：</b>「1社あたり月2時間」はGBP自動投稿の仕組みが効いている前提の想定値です。<b>実際の工数は最初の3社で必ず実測してください。</b>ここが月4時間なら、時間あたりは7,450円まで落ちます。<b>3社目までは工数の記録を取ることを強くおすすめします。</b>
+</div>
+
+<!-- 5 -->
+<h2>5. 未確定事項（MOONさんの判断）</h2>
+<div class="tw"><table>
+<tr><th>項目</th><th>論点</th></tr>
+<tr><td><b>税別／税込</b></td><td>上記は税別で書いています。福祉事業者向けは<b>税込表示の方が親切</b>という考えもあります</td></tr>
+<tr><td><b>最低契約期間</b></td><td>12ヶ月で書きましたが、6ヶ月にすると入口はさらに軽くなります。<b>制作10万円を回収できるのは12ヶ月です</b>（129,800＋29,800×12＝約49万。<b>ライト4,980では12ヶ月でも約16万</b>）</td></tr>
+<tr><td><b>移設作業の代行費</b></td><td>解約時の他社サーバーへの移設を有償で受けるか。<b>3万円程度</b>を想定。無償にすると解約のハードルが下がりすぎます</td></tr>
+<tr><td><b>相場の裏取り</b></td><td>この価格は<b>競合調査をしていません</b>。福祉特化のWeb業者の相場は未確認です。必要なら調べます</td></tr>
+</table></div>
+
+<div class="foot">
+株式会社MOON ／ Web支援 料金体系（案）｜2026-08-19<br>
+金額はすべて<b>提案であり確定ではありません</b>。採算試算の工数は想定値であり、実測に基づくものではありません。<br>
+関連：<code>moonathlete-site/web.html</code>（サービス案内ページ・料金表の反映先）
+</div>
+
+</div></body></html>

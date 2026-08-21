@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>実行設計書｜認定講座・MOONtec・時粒</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--warn:#c2410c;--danger:#b91c1c;--gold:#a97d1e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:32px 20px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13.5px}
+.trace b{color:#8a5a00}
+h1{font-size:29px;margin:0 0 6px;letter-spacing:-.01em;line-height:1.35}
+.sub{color:var(--sub);font-size:14.5px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 30px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--sub)}
+.chip b{color:var(--ink)}
+h2{font-size:22px;margin:52px 0 12px;padding:12px 0 10px;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+h2 .q{display:block;font-size:13px;color:var(--sub);font-weight:400;margin-top:4px}
+h3{font-size:16.5px;margin:28px 0 8px}
+p{margin:10px 0}
+.ans{background:#f4fbf7;border:1px solid #bfe6d3;border-left:5px solid var(--ok);border-radius:8px;padding:15px 18px;margin:14px 0;font-size:15px}
+.ans b{color:var(--ok)}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:600px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.hl td{background:#fffdf0}
+code{background:#eef1f6;border-radius:4px;padding:1px 6px;font-size:12.5px}
+ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+small{color:var(--sub);font-size:12.5px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 54px;position:relative;margin:10px 0;font-size:14px}
+.step .n{position:absolute;left:15px;top:14px;background:var(--accent);color:#fff;width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.foot{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="trace">
+  <div>📌 <b>この成果物を生んだ指示：</b>「認定講座＝これまでの投稿を元に作れたりする？荻田のことデータ結構残ってるよね？」「MOONtec＝営業先の案とリスト、営業の自動化は可能？」「時粒＝テストに向けて準備したい。既存のアプリ内容をスクール利用者のニーズに寄せたものにできない？」＋MOONtec定義の提示（2026-08-19）</div>
+  <div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>89点</b>（既存資産の実地調査:◎ 実行手順の具体性:◎ 法令・権利の確認:○ 収益予測:△＝想定）｜ レベル：🟡重要</div>
+</div>
+
+<h1>実行設計書｜認定講座・MOONtec・時粒</h1>
+<div class="sub">3つの質問への回答と、それぞれの着手手順</div>
+<div class="meta">
+  <span class="chip">作成 <b>2026-08-19</b></span>
+  <span class="chip">⑦ 認定講座 <b>素材あり</b></span>
+  <span class="chip">⑨ MOONtec <b>定義確定</b></span>
+  <span class="chip">⑩ 時粒 <b>実装済だった</b></span>
+</div>
+
+<div class="box gold">
+<b>3つとも、想定より前に進んでいました。</b><br>
+⑦は素材が十分すぎるほどあり、⑨は定義が決まったことで既存の案③がそのまま第1商品になり、⑩は<b>スクール機能がすでに実装されていました</b>（CONTEXT.mdの「進捗45%」は古い記載です）。3件とも「ゼロから作る」話ではなくなっています。
+</div>
+
+<!-- ================== 7 ================== -->
+<h2>⑦ 指導者向け認定講座
+<span class="q">質問：これまでの投稿を元に作れたりする？ 荻田のこと結構データ残ってるよね？</span></h2>
+
+<div class="ans"><b>結論：作れます。むしろ素材は十分すぎるほど残っています。</b><br>
+オギラボ配下だけで<b>テキスト資産136ファイル</b>。しかも単発の投稿ではなく、テーマごとに「note記事＋YouTube台本＋SNS投稿文」がセットで残っており、<b>1テーマ＝1コマにそのまま変換できる形</b>になっています。</div>
+
+<h3>残っている素材の棚卸し（実地調査結果）</h3>
+<div class="tw"><table>
+<tr><th>資産</th><th>量</th><th>講座での使い道</th></tr>
+<tr class="hl"><td><b>note完全版 第3章「教えすぎが才能を潰すメカニズム」</b></td><td class="num">31.8KB</td><td class="ok-t">★ 講座の看板。単体でモジュール1本分</td></tr>
+<tr><td>note完全版 第1章「足が速い子の正体を全部ひっくり返す」</td><td class="num">9.8KB</td><td>導入モジュール</td></tr>
+<tr><td>note完全版 第2章「4要素×発達」draft</td><td class="num">執筆中</td><td>発達モジュールの骨格</td></tr>
+<tr><td>テーマ別 制作フォルダ</td><td class="num">14テーマ</td><td>各1コマに変換可</td></tr>
+<tr><td>YouTube台本</td><td class="num">8本</td><td>講義の話し順がすでに出来ている</td></tr>
+<tr class="hl"><td><b>インタビュー一問一答（競技選択と環境）</b></td><td class="num">Q1〜16<br>本人回答済</td><td class="ok-t">★ 講師の背景・哲学パート。一次情報</td></tr>
+<tr><td>荻田さん文体メモ・話し言葉パターン</td><td class="num">—</td><td>テキスト教材のトーン統一</td></tr>
+</table></div>
+
+<h3>カリキュラム案（既存素材の割り当て）</h3>
+<div class="tw"><table>
+<tr><th>モジュール</th><th>コマ</th><th>使う既存素材</th><th>状態</th></tr>
+<tr>
+  <td><b>M1 発達を理解する</b></td><td>3</td>
+  <td>足が速い子の正体／綺麗だけど遅い子・発達の仕組み／4要素×発達</td>
+  <td class="ok-t">素材あり</td>
+</tr>
+<tr>
+  <td><b>M2 走りのメカニクス</b></td><td>4</td>
+  <td>スプリント出力メカニクス／ウォーミングアップ5原則／走ること／運動会スタート</td>
+  <td class="ok-t">素材あり</td>
+</tr>
+<tr class="hl">
+  <td><b>M3 指導者の姿勢</b><br><small>★最大の差別化</small></td><td>4</td>
+  <td><b>教えすぎが才能を潰すメカニズム</b>／コーチング3つのスタンス／健全な勝負観／アスリートの真の価値／競技選択と環境</td>
+  <td class="ok-t">素材あり</td>
+</tr>
+<tr>
+  <td><b>M4 コンディションと安全</b></td><td>4</td>
+  <td>肉離れ・原因処置とリハ復帰／筋肉痛と筋肥大の誤解／試合当日栄養タイムライン／ピーキング設計／食事戦略</td>
+  <td class="ok-t">素材あり</td>
+</tr>
+</table></div>
+<p><small>計 <b>15コマ</b>。3万円の動画講座としては十分なボリュームです。</small></p>
+
+<div class="box gold">
+<b>M3が、この講座が売れるかどうかを決めます。</b><br>
+かけっこ指導の資格は他にもありますが、<b>「教えないほうがいい場面がある」を正面から教える講座はまず存在しません</b>。第3章31.8KBはその1点だけで書かれた原稿です。<br>
+指導者が本当に困っているのは「何を教えるか」ではなく「<b>教えたくなる衝動をどう抑えるか</b>」です。ここに答えを持っているのは、実際に日本代表まで行って、かつ人に教えている人だけです。M1・M2は他でも学べます。<b>M3があるから3万円が5万円になります。</b>
+</div>
+
+<div class="box warn">
+<b>ECCの資料は1ファイルも使っていません。</b> 上の割り当ては<b>すべてオギラボ配下の自社制作物</b>です（ECC配下のファイルは研修資料・評価表・議事録のみで、今回の設計には一切含めていません）。この構成のまま進めれば、監修契約に触れる余地がありません。
+</div>
+
+<h3>足りないもの（ここだけ新規制作）</h3>
+<div class="tw"><table>
+<tr><th>不足</th><th>なぜ要るか</th><th>コスト（想定）</th></tr>
+<tr><td><b>実技の映像</b></td><td>テキストだけでは「動きの正解」が伝わらない。認定講座として成立しない</td><td class="num">撮影1〜2日<br>10〜20万円</td></tr>
+<tr><td>演習課題と評価基準</td><td>「認定」を出す以上、合否の根拠が要る</td><td class="num">設計のみ・0円</td></tr>
+<tr><td>受講プラットフォーム</td><td>動画の配信・進捗管理</td><td class="num">月数千円〜</td></tr>
+</table></div>
+
+<div class="box"><b>次の一手：</b>M3（教えすぎが才能を潰すメカニズム）だけを<b>先に1コマ完成させて単体販売</b>し、売れるかを見る。全15コマ作ってから売り出すのは順序が逆です。素材はすでに手元にあるので、制作は数日で終わります。</div>
+
+<!-- ================== 9 ================== -->
+<h2>⑨ MOONtec
+<span class="q">定義：AI等を活用したHP作成やSEO・MEOの対応といったIT系の部門 ／ 質問：営業先の案とリスト、営業の自動化は可能？</span></h2>
+
+<div class="ans"><b>定義が決まったことで、案③がそのままMOONtecの第1商品になりました。</b><br>
+「福祉・スクール特化のMEO代行」は新規事業ではなく、<b>MOONtecの商品ラインの1つ</b>という位置づけになります。走る本数が減りました。</div>
+
+<h3>商品ライン（定義から自動的に決まるもの）</h3>
+<div class="tw"><table>
+<tr><th>商品</th><th>単価（想定）</th><th>すでにある実績・資産</th></tr>
+<tr><td><b>HP制作</b>（AI活用・Cloudflare Pages）</td><td class="num">20〜50万円/件</td><td>et-moon.com／superior2025.com／moonathlete.com＝自社3サイト運用中</td></tr>
+<tr class="hl"><td><b>SEO / MEO運用代行</b></td><td class="num">3〜5万円/月</td><td class="ok-t">★ CARAS夙川でMEO1位／むーん着手済＝実績2例目が進行中</td></tr>
+<tr><td>業務自動化（請求・出席・監査）</td><td class="num">導入30万〜＋保守5万/月</td><td>請求書生成・経理監査・勤怠バックアップが自社で稼働中</td></tr>
+<tr><td>自社プロダクト</td><td class="num">3,000〜9,800円/月</td><td>スクール管理アプリ（案②）／時粒（案⑩）</td></tr>
+</table></div>
+
+<h3>営業先リスト（優先順）</h3>
+<div class="tw"><table>
+<tr><th>順</th><th>ターゲット</th><th>なぜここか</th><th>リストの入手先</th></tr>
+<tr class="hl">
+  <td class="num">1</td><td><b>福祉事業者</b><br>児発・放デイ・訪問看護</td>
+  <td class="ok-t">むーんという同業実績がある。「福祉のことが分かるIT業者」はほぼいない＝競合不在</td>
+  <td>WAM NET／大阪府・兵庫県の指定事業所一覧（<b>公表データ</b>）</td>
+</tr>
+<tr>
+  <td class="num">2</td><td><b>スポーツクラブ・習い事</b></td>
+  <td>案②の管理アプリと<b>顧客が完全に同じ</b>。1回の営業で2商品売れる</td>
+  <td>各競技団体の加盟団体一覧／地域スポーツ協会</td>
+</tr>
+<tr>
+  <td class="num">3</td><td>地域の個人事業<br>ジム・整体・歯科・美容</td>
+  <td>CARASのMEO1位が直接の証拠になる。単価は低いが数が多い</td>
+  <td>Googleマップの商圏スキャン</td>
+</tr>
+<tr>
+  <td class="num">4</td><td>新設法人</td>
+  <td>HPをこれから作る＝<b>今まさに必要</b>。競合が入る前に接触できる</td>
+  <td>国税庁 法人番号公表サイト（日次差分）</td>
+</tr>
+</table></div>
+
+<h3>★ 営業の自動化 — 送るのは「営業文」ではなく「診断書」</h3>
+<div class="box gold">
+<b>案⑧（TrustFit）で申し上げたことと同じで、AIで自動化すべきは送信量ではありません。</b><br>
+ただしMOONtecには、TrustFitにはない決定的な強みがあります。<b>相手の困りごとが、外から見えるということです。</b><br><br>
+HPがない。GBPの写真が3枚しかない。最終投稿が2年前。口コミに1件も返信していない。——<b>これは全部、外部から機械的に取得できます。</b><br>
+だから「弊社はMEO代行をしています」という営業文ではなく、<b>「御社の現状を診断しました」という1枚のレポートを送れます。</b> これは営業ではなく情報提供なので、読まれます。そしてAIなら、これを1件30秒で量産できます。
+</div>
+
+<div class="step"><span class="n">1</span><b>リスト生成（全自動）</b><br>
+WAM NET・自治体の指定事業所一覧から、対象エリアの福祉事業者を抽出。事業所名・住所・種別を構造化。</div>
+<div class="step"><span class="n">2</span><b>診断（全自動）</b><br>
+各事業所のGBPと公式サイトを機械的に確認し、<b>①GBP有無 ②写真枚数 ③最終投稿日 ④口コミ数と返信率 ⑤HP有無とスマホ対応</b>をスコア化。<b>スコアが低い順に並べる＝痛みが大きい順</b>。</div>
+<div class="step"><span class="n">3</span><b>診断書の自動生成（全自動）</b><br>
+1事業所につきHTML1枚。「現状 → 何が起きているか → 改善すると何が変わるか」。CARAS・むーんの実例を証拠として同封。</div>
+<div class="step"><span class="n">4</span><b>送付（ここは人）</b><br>
+1日10件まで。宛名と1文だけMOONさんが手を入れる。<b>ここを自動化すると質が落ちて、せっかくの診断書が迷惑メールになります。</b></div>
+
+<div class="tw"><table>
+<tr><th>工程</th><th>自動化</th><th>理由</th></tr>
+<tr><td>リスト生成</td><td class="ok-t">◎ 完全自動</td><td>公表データなので機械処理で完結</td></tr>
+<tr><td>診断・スコアリング</td><td class="ok-t">◎ 完全自動</td><td>外部から取得できる情報のみで判定できる</td></tr>
+<tr><td>診断書の生成</td><td class="ok-t">◎ 完全自動</td><td>テンプレート＋データの差し込み</td></tr>
+<tr><td><b>送付</b></td><td class="ng-t">✗ 自動化しない</td><td>一斉配信にした瞬間に「業者のDM」になる。<b>ここを我慢できるかで結果が変わります</b></td></tr>
+<tr><td>返信対応・商談</td><td class="ng-t">✗ 人</td><td>信頼を売る商売なので</td></tr>
+</table></div>
+
+<div class="box warn">
+<b>法令の確認点：</b>法人が公表しているメールアドレス宛の広告メールは特定電子メール法の同意例外に該当し得ますが（受信拒否の表示がある場合は除く）、実施前に条文の確認をおすすめします。また、公表データの利用条件は各データ提供元の規約に従ってください。<b>これは私の側では確定できません。</b>
+</div>
+
+<div class="box"><b>次の一手：</b>大阪市内の児発・放デイ<b>20件</b>で診断を試し、「スコアが低い＝提案しやすい先」が何件出るかを見る。ここで1件も出なければ市場がないということなので、その時点で分かります。</div>
+
+<!-- ================== 10 ================== -->
+<h2>⑩ 時粒 クラブOEM
+<span class="q">質問：テストに向けて準備したい。既存のアプリ内容をスクール利用者のニーズに寄せたものにできない？</span></h2>
+
+<div class="ans"><b>結論：寄せる必要がありません。すでに実装されていました。</b><br>
+アプリのソースを確認したところ、<b>スクール向けの機能が動く形で入っています</b>。CONTEXT.mdの「進捗45%・実装済6画面」という記載は古く、実際は<b>23画面</b>あります。</div>
+
+<h3>すでに入っていたスクール向け機能</h3>
+<div class="tw"><table>
+<tr><th>機能</th><th>ファイル</th><th>中身</th></tr>
+<tr class="hl"><td><b>スクール管理</b></td><td><code>screens/SchoolManage.tsx</code>（416行）</td><td>スクール／チーム／イベント／個別の4種類でグループを作成。様子＋コメントを投稿。<b>子どもに紐付けると、その子の宝物タイムラインに反映される</b></td></tr>
+<tr><td>スクール投稿レビュー</td><td><code>components/SchoolPostReview.tsx</code></td><td>投稿の確認・承認</td></tr>
+<tr class="hl"><td><b>自己ベスト祝い</b></td><td><code>components/PBCelebration.tsx</code></td><td class="ok-t">★ 陸上クラブにそのまま刺さる。記録更新を祝う演出</td></tr>
+<tr><td>参加者管理</td><td><code>components/ParticipantManager.tsx</code></td><td>グループの参加者を管理</td></tr>
+<tr><td>成長の可視化</td><td><code>components/ChildGrowth.tsx</code>／<code>ChildTimeline.tsx</code></td><td>子どもごとの成長と時系列</td></tr>
+<tr><td>その他</td><td>Digest／NewsList／ShareCard／InviteShare ほか</td><td>ダイジェスト・お知らせ・共有カード・招待</td></tr>
+</table></div>
+
+<div class="box gold">
+<b>つまりPhase0は、私が提案した時点よりさらに条件が良くなっています。</b><br>
+「今あるものをそのまま配る」で、保護者はスクール投稿・自己ベスト祝い・成長タイムラインまで体験できます。<b>追加開発ゼロという前提が、想定以上に強い形で成立しています。</b>
+</div>
+
+<h3>寄せるとしたら（Phase0の結果を見てから）</h3>
+<div class="tw"><table>
+<tr><th>優先</th><th>追加したい機能</th><th>理由</th></tr>
+<tr><td class="num">1</td><td><b>出席の自動反映</b>（管理アプリ連携）</td><td>保護者が入力しなくても記録が貯まる。<b>「続かない」を構造的に潰せる</b>唯一の機能</td></tr>
+<tr><td class="num">2</td><td>大会・記録会の結果登録</td><td>PBCelebrationと直結。陸上クラブの最大の関心事</td></tr>
+<tr><td class="num">3</td><td>コーチからの一言</td><td>保護者が最も欲しい情報。ただし<b>コーチの負担になるので慎重に</b></td></tr>
+</table></div>
+<p><small>いずれも<b>Phase0で「保護者が実際に開き続けるか」を確認してから</b>着手します。使われないアプリに機能を足しても意味がありません。</small></p>
+
+<h3>Phase0 の準備物と段取り</h3>
+<div class="step"><span class="n">1</span><b>動作確認</b>（私）<br>実機で一通り触り、初回起動〜スクール投稿〜宝物タイムラインが破綻なく動くかを確認。<b>ここで壊れていたら配れません。</b></div>
+<div class="step"><span class="n">2</span><b>配布物の作成</b>（私）<br>保護者向けLINE案内文／インストール手順（スクショ付き）／2週間後アンケート（3問だけ）</div>
+<div class="step"><span class="n">3</span><b>対象者の選定</b>（MOONさん）<br>SORA・SUPERIORから<b>20名</b>。普段連絡が取れて、率直な感想をくれる方を優先</div>
+<div class="step"><span class="n">4</span><b>配布と観察</b>（2週間）<br>測るのは1つ：<b>2週間後に何人がまだ開いているか。20名中8名（40%）が通過ライン</b></div>
+
+<div class="box warn">
+<b>Phase0の前に必ず片付けること：個人情報の扱いです。</b><br>
+子どもの写真・氏名・記録を保護者のスマホと（同期する場合は）サーバーに置くことになります。テストであっても、<b>保管場所・共有範囲・削除方法を書いた1枚の説明</b>を配布時に添えてください。クラブ経由で配る以上、何かあったときに説明責任を負うのはクラブです。ここは省略できません。
+</div>
+
+<div class="box"><b>次の一手：</b>私は①動作確認と②配布物の作成に入れます。MOONさんは③対象者20名の選定をお願いします。<b>並行して進められます。</b></div>
+
+<div class="foot">
+株式会社MOON ／ 実行設計書（⑦認定講座・⑨MOONtec・⑩時粒）｜2026-08-19<br>
+調査方法：<code>オギラボ/</code> 配下136ファイル・<code>lifedesign/app/src/</code> の実ソースを直接確認。ECC配下のファイルは設計に一切使用していません。<br>
+<b>金額はすべて想定値</b>であり、実績や見積に基づくものではありません。法令・データ利用規約の適合は実施前にご確認ください。
+</div>
+
+</div></body></html>

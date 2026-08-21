@@ -1263,7 +1263,7 @@
   var WD=['日','月','火','水','木','金','土'];
   // 体験会の残席カウントダウン設定
   var TK_LIMIT=10;                 // 限定人数
-  var TK_EXTRA={'2026-08-24':1};   // 口頭参加(アプリ未登録)の加算：頓宮さん 8/24=1名
+  var TK_EXTRA={'2026-08-24':2};   // 口頭参加(アプリ未登録)の加算：頓宮さん・宿屋さん(別曜日会員の追加参加) 8/24=2名
   fetch('https://superior-admin.pages.dev/api/schedule?org=SUPERIOR&cb='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(j){
     if(!j||!j.eventsDetail)return;
     var det=j.eventsDetail, today=new Date(); today.setHours(0,0,0,0);

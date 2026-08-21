@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レビュー 2026-08-17（月）</title>
+<style>
+  :root{
+    --bg:#0f1419; --card:#1a222c; --card2:#212b37; --line:#2d3947;
+    --gold:#C4A45A; --txt:#eef2f6; --sub:#9fb0c0; --green:#4ade80;
+    --amber:#fbbf24; --red:#f87171; --blue:#60a5fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7;padding:28px 16px;max-width:1000px;margin:0 auto}
+  h1{font-size:26px;font-weight:800;letter-spacing:.02em}
+  h2{font-size:19px;color:var(--gold);margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);display:flex;align-items:center;gap:8px}
+  h3.sec{font-size:15px;color:var(--txt);margin:18px 0 8px}
+  .head{background:linear-gradient(135deg,#1a222c,#212b37);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:22px 24px}
+  .head .sub{color:var(--sub);font-size:13.5px;margin-top:6px}
+  .trace{background:#161f29;border:1px dashed var(--line);border-radius:10px;padding:12px 16px;margin-top:14px;font-size:13px;color:var(--sub)}
+  .trace b{color:var(--txt)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h3{font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .pct{font-size:13px;color:var(--gold);font-weight:700;border:1px solid var(--gold);border-radius:20px;padding:1px 10px}
+  .bar{height:7px;background:#0c1116;border-radius:6px;overflow:hidden;margin:9px 0 6px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#e6cd8a)}
+  .gauge{font-family:monospace;color:var(--gold);font-size:13px;letter-spacing:1px}
+  .card p{font-size:12.7px;color:var(--sub);margin-top:6px}
+  .list{list-style:none}
+  .list li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:9px;font-size:13.5px;display:flex;gap:11px;align-items:flex-start}
+  .num{flex:none;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#12181f;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;margin-left:6px}
+  .t-red{background:#3a1d1d;color:var(--red);border:1px solid #5c2a2a}
+  .t-amb{background:#3a301a;color:var(--amber);border:1px solid #5c4a2a}
+  .t-grn{background:#173a24;color:var(--green);border:1px solid #285c3a}
+  .t-blu{background:#1a2c3a;color:var(--blue);border:1px solid #2a465c}
+  .spread{background:linear-gradient(135deg,#241f14,#2b2517);border:1px solid var(--gold);border-radius:12px;padding:18px 20px}
+  .spread .row{display:flex;gap:12px;align-items:flex-start;margin-top:12px}
+  .medal{font-size:20px;flex:none}
+  .muted{color:var(--sub);font-size:12.5px}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--sub);font-size:12px}
+  .note{background:#161f29;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--sub)}
+  .win{color:var(--green)} .warn{color:var(--amber)} .crit{color:var(--red)}
+  table{width:100%;border-collapse:collapse;font-size:12.7px;margin-top:6px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#212b37;color:var(--gold);font-weight:700;font-size:12px}
+  td b{color:var(--txt)}
+  .r{text-align:right}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>🗓️ 週次レビュー｜2026年8月17日（月）</h1>
+  <div class="sub">対象期間：2026-08-10（月）〜 08-16（日）｜全9プロジェクト横断｜自動生成（weekly-review）</div>
+  <div class="trace">
+    📌 この成果物を生んだ指示：「毎週月曜 週次振り返り＋今週の優先アクション提案（スケジュールタスク weekly-review）」（2026-08-17 自動実行）<br>
+    🧭 判断：自動レポート（元指示トレースのみ・採否判断は任意）｜📚 CONTEXT読み込み完了（全10件：CLAUDE.md＋9PJ）
+  </div>
+</div>
+
+<div class="note" style="margin-top:16px;border-left:4px solid var(--amber)">
+  ⚠️ <b>前回レポートは 2026-08-03。8/10（月）分の weekly-review ファイルが存在しません</b>（`アーカイブ/ウィークリーレビュー/` に記録なし）＝2週分の空白。本レポートは 8/10〜8/16 を対象としますが、8/4〜8/9 の振り返りは未実施のままです。
+</div>
+
+<h2>① 先週の振り返り（2026-08-10 〜 08-16）</h2>
+
+<h3 class="sec">🏆 今週いちばんの成果</h3>
+<div class="note" style="border-left:4px solid var(--green)">
+  <b class="win">MOON黒字化ロードマップの最終確定（8/16）</b>｜正本＝<code>MOON/経営戦略・財務レポート/MOON_黒字化ロードマップ_2026-08-16.html</code>（92点）。<br>
+  黒字化は2施策に集約：①北岡愛華 むーん→りあん移動 <b>+255,000</b>（2027年1月・確定）／②成定さん 役員報酬→業務委託50万 <b>+368,763</b>（2027年7月開始・10月完了・売上連動）。ロードマップ上の最終着地は<b>経常+48.9万／年587万</b>（各施策の額は単純合算ではなく、相殺項目を織り込んだ後の数値です）。<br>
+  最低残高 2026/12末 568万 → 2027/12末 <b>952万</b>（目標500万クリア）、<b>債務超過の解消は2028年1月</b>。先行2本（未来戦略提案・りあん240万プラン）は破棄推奨。
+</div>
+
+<h3 class="sec">PJ別サマリー</h3>
+<div class="grid">
+  <div class="card">
+    <h3>🏃 SORA</h3>
+    <p><span class="warn">△横ばい</span> 申込累計 <b>358件</b>／体験実施168・入会80・未入会88（8/15時点）。Instagram 541人/293件（8/16実測・±0）。8/8観音寺2名の体験実施済み。<br><span class="crit">8/16以降シート gviz ACCESS_DENIED で実測停止中。</span></p>
+  </div>
+  <div class="card">
+    <h3>⭐ SUPERIOR</h3>
+    <p><span class="win">○</span> 8/12 Instagram Week4 TRIAL投稿を承認（90点）、投稿28→29件。<br><span class="crit">生駒の新規体験ゼロが6/26以降 継続中（CONTEXT記載：8/15時点で51日）。</span>箕面8/24無料体験会は残6枠のまま（8/12から変化なし）。IG 6人＝長期停滞。</p>
+  </div>
+  <div class="card">
+    <h3>💪 CARAS</h3>
+    <p><span class="win">◎活発</span> GBP 2本（8/11ゴルフ92点・8/14法人90点）、IG GOLF回公開・STUDIO回承認（91点）。8/15 Meta広告 Advantage+配置ON（最適化81→85）、CTR<b>1.51%</b>で全キャンペーン1位。<br><span class="crit">HPブログ9本が承認待ちで滞留・掲載予定日は全て経過。</span>MEO「夙川」2位が7/10から5週間不動、「西宮」圏外継続。</p>
+  </div>
+  <div class="card">
+    <h3>🎓 関西学院大学陸上部</h3>
+    <p><span class="crit">▲要対応</span> 8/16 CDST取得成功（315行25列）。<b>8/15の全日本インカレ エントリーリミットが経過したのに完了記録なし</b>＝大西さんへエントリー漏れの確認が必要（本日8/17に戻られる）。8/18〜24 長野夏合宿・8/22中国5県と日程重複の切り分け未了。</p>
+  </div>
+  <div class="card">
+    <h3>🌙 むーん</h3>
+    <p><span class="win">◎好調</span> 国保連 令和8年6月分 <b>¥3,359,734</b>（7/15入金・前月比+¥142,526／+4.4%）＝2か月連続増。<br><span class="warn">行政3件が未着手継続</span>：①GビズID事前取得【最優先】②こども性暴力防止法 事業者登録（6/9公開から2か月超）③処遇改善加算 実績報告の要否確認。</p>
+  </div>
+  <div class="card">
+    <h3>🤝 TrustFit</h3>
+    <p><span class="win">◎大きく前進</span> 8/14 法人GTM再設計＝成果物4本（GTM 88点／企業カルテ／DM4種90点／モニター提案書v2）。<b>🔴MOON承認済＝10倍ptキャンペーンをPRISM CUP招待用→単発体験モニターへ転用OK</b>。<br><span class="crit">ただしCONTEXT.mdは6/01から停止・7/4 PRISM CUP の開催結果が未記録。</span></p>
+  </div>
+  <div class="card">
+    <h3>🏢 健康経営</h3>
+    <p><span class="crit">🔴期限直前</span> 期間中の更新<b>なし</b>（直近8/07 健康診断予約 完了報告）。<b>申請期が明日8/18に開始</b>。証拠写真7名の回収は未完了、申請書DL以降は全て未着手。</p>
+  </div>
+  <div class="card">
+    <h3>📱 オギラボ</h3>
+    <p><span class="warn">△完全停滞</span> TikTok 1,503／YouTube 149／note 6 ＝<b>3媒体すべて横ばい</b>（8/16実測）。8/11・8/14 バズリサーチ実施。「競技選択と環境」インタビューはQ1〜Q16回答済みでステップ③停止中。8/17にテーマ5案提示（本命＝五輪本番で心が折れなかった理由）。</p>
+  </div>
+  <div class="card">
+    <h3>⏳ 時粒（lifedesign）</h3>
+    <p><span class="crit">⏸ 停止中</span> CONTEXT最終更新は <b>2026-06-21</b>（約2か月停止）。全体ブロッカー＝Convexデプロイ（MOON作業 <code>npx convex dev</code>）が未実施のため実機検証もPhase2も動けない。</p>
+  </div>
+</div>
+
+<h3 class="sec">全社・横断で動いたこと</h3>
+<ul class="list">
+  <li><span class="num">1</span><div><b>8/10 moonathlete.com 全ページダウン → 当日中に復旧。</b>原因はお名前.comの名義変更未承認による clientHold（NS・Cloudflareは無関係）。MOONが承認メール2通を承認し解消。</div></li>
+  <li><span class="num">2</span><div><b>8/14 財務の再計算。</b>むーん経費 約90万を配賦し直し、むーん+73万／外事業+33万＝事業計+106万。役員関連−134万を差し引いた最終着地が <b>経常−14万</b>（8/10時点の+186万は旧数字）。</div></li>
+  <li><span class="num">3</span><div><b>8/14 便利屋事業を清掃特化v4で確定（93点）</b>＝民泊清掃→賃貸清掃→不動産送客／学生は直接雇用の請負。ただし8/14以降の次工程は未着手・凍結の可否が未決。</div></li>
+  <li><span class="num">4</span><div><b>8/16 展開方針の決定。</b>部活動の地域展開は自分で運営せず<b>ECC型の監修・研修モデルのみ</b>／SORA・SUPERIORは直営でなく<b>FC・ライセンス</b>で展開（佐々木さん関東が1件目候補）／成定さんの取締役退任は提案しない（MOON明言）。</div></li>
+  <li><span class="num">5</span><div><b>8/17 新規事業リサーチ基盤を構築＋第01回プレゼン発行</b>（10案／推奨TOP3＝児発開業支援コンサル88・スクール管理アプリ外販85・福祉MEO代行82／前提＝初期投資30万円以下）。スケジュールタスク <code>weekly-newbiz-pitch</code>（毎週日曜18時）を新規登録・<b>初回8/23</b>。</div></li>
+  <li><span class="num">6</span><div><b>8/17 CLAUDE.md に Will / Can / Needs をPJ設計の基礎概念として登録</b>（MOON指示）。今後の新規PJ立ち上げ・既存PJ見直しは着手前にこの3円で検証する。</div></li>
+  <li><span class="num">7</span><div><b>経理タスク 2026-08 は 4/4 すべて完了</b>（出勤簿・出張管理・経費管理・請求書作成／8/15時点で完了確認済み）。経理監査は8/12以降 <b>🔴0件</b> を継続。</div></li>
+</ul>
+
+<h2>🌐 ② サイト流入（GA4・Clarity 実測）</h2>
+
+<h3 class="sec">GA4｜プロパティ全体（moonathlete.com + superior2025.com）｜8/10〜8/16 vs 8/3〜8/9</h3>
+<table>
+  <tr><th>指標</th><th class="r">今週 8/10-8/16</th><th class="r">前週 8/3-8/9</th><th class="r">増減</th></tr>
+  <tr><td>セッション</td><td class="r"><b>699</b></td><td class="r">724</td><td class="r warn">−25（−3.5%）</td></tr>
+  <tr><td>エンゲージのあったセッション</td><td class="r"><b>159</b></td><td class="r">204</td><td class="r crit">−45（−22.1%）</td></tr>
+  <tr><td>エンゲージメント率</td><td class="r"><b>22.7%</b></td><td class="r">28.2%</td><td class="r crit">−5.4pt</td></tr>
+</table>
+
+<h3 class="sec">流入チャネル別セッション</h3>
+<table>
+  <tr><th>チャネル</th><th class="r">今週</th><th class="r">構成比</th><th class="r">前週</th><th class="r">増減</th></tr>
+  <tr><td>Paid Other</td><td class="r">326</td><td class="r">46.6%</td><td class="r">235</td><td class="r win">+91</td></tr>
+  <tr><td>Paid Social</td><td class="r">217</td><td class="r">31.0%</td><td class="r">268</td><td class="r warn">−51</td></tr>
+  <tr><td>Direct</td><td class="r">103</td><td class="r">14.7%</td><td class="r">128</td><td class="r warn">−25</td></tr>
+  <tr><td><b>Organic Search</b></td><td class="r"><b>27</b></td><td class="r">3.9%</td><td class="r">61</td><td class="r crit">−34（−55.7%）</td></tr>
+  <tr><td>Organic Social</td><td class="r">17</td><td class="r">2.4%</td><td class="r">13</td><td class="r win">+4</td></tr>
+  <tr><td>Referral</td><td class="r">7</td><td class="r">1.0%</td><td class="r">18</td><td class="r warn">−11</td></tr>
+  <tr><td><b>有料合計</b></td><td class="r"><b>543</b></td><td class="r"><b>77.7%</b></td><td class="r">503（69.5%）</td><td class="r">+40（+8.2pt）</td></tr>
+</table>
+<div class="note" style="margin-top:8px">
+  📌 参考（GA4ホーム）：アクティブユーザー Japan <b>572人（↓7.7%）</b>／表示回数トップは「陸上クラブ SUPERIOR…」<b>532回（↑24.0%）</b>。<br>
+  ※ 今週はチャネル6行の合計が697で、GA4表示の総計699と2セッションの差があります（GA4側の丸め・未割当分）。前週は7行合計＝724で総計と一致。
+</div>
+
+<h3 class="sec">Clarity｜サイト別（過去7日）</h3>
+<table>
+  <tr><th>サイト</th><th class="r">セッション</th><th class="r">UU</th><th class="r">ページ/セッション</th><th class="r">スクロール到達</th><th class="r">アクティブ時間</th><th class="r">デッドクリック</th><th class="r">新規率</th></tr>
+  <tr><td><b>SORA</b>（moonathlete.com/sora）</td><td class="r">196<br><span class="muted">bot14除外</span></td><td class="r">184</td><td class="r">1.17</td><td class="r crit">24.07%</td><td class="r">37秒</td><td class="r warn">7.14%（14件）</td><td class="r">86.2%</td></tr>
+  <tr><td><b>SUPERIOR</b>（superior2025.com）</td><td class="r"><b>356</b><br><span class="muted">bot22除外</span></td><td class="r">323</td><td class="r">1.08</td><td class="r crit">25.67%</td><td class="r crit">17秒</td><td class="r">3.65%（13件）</td><td class="r">92.4%</td></tr>
+  <tr><td><b>MOON</b>（moonathlete.com 法人）</td><td class="r">36<br><span class="muted">bot23除外</span></td><td class="r">31</td><td class="r">1.08</td><td class="r warn">34.46%</td><td class="r">19秒</td><td class="r warn">8.33%（3件）</td><td class="r">86.1%</td></tr>
+</table>
+<div class="note" style="margin-top:8px">
+  ⚠️ <b>体験申込・お問い合わせ到達数は「未取得」</b>。GA4のコンバージョン列を今回のレポート画面から確認できませんでした（推測値・前回値では埋めません）。次回までにGA4側で「体験申込到達」「お問い合わせ到達」をキーイベント登録しておくと自動で拾えるようになります。<br>
+  ⚠️ Clarityの集計期間は「過去7日＝8/11〜8/17」、GA4は「8/10〜8/16」。1日ずれている点に注意。
+</div>
+
+<h3 class="sec">🎯 今週の改善提案（配置・文言）</h3>
+<ul class="list">
+  <li><span class="num">1</span><div><b class="crit">SUPERIOR：週356セッション来ているのに生駒の新規体験申込が6/26以降ゼロ（8/15時点で51日）。「告知不足」ではなく「着地ページで落ちている」。</b><br>
+  根拠＝スクロール到達 <b>25.67%</b>・アクティブ時間 <b>17秒</b>・ページ/セッション <b>1.08</b>。平均でページの1/4しか読まれず、次のページにもほぼ進んでいません。しかも新規率92.4%＝初見の人が大半で、有料流入（プロパティ全体で77.7%）を注ぎ込んでいる可能性が高い。<br>
+  <b>打ち手：ファーストビューに「8/24（月）17:00 箕面・無料体験会 先着10名／残6枠」を日付＋残枠つきで置き、すぐ下に申込ボタンを1つだけ置く。</b>17秒で意思決定させるには、スクロールさせないこと。CLAUDE.mdの順序に合わせるなら「今年の運動会こそ前で走りたい（痛み）→ 足の速さは才能ではなく走り方（常識破壊）→ 8/24に無料で試せる（理想＋行動）」をFV内に収める。</div></li>
+  <li><span class="num">2</span><div><b class="warn">SORA：デッドクリック 7.14%（14セッション）＝押せると思って押している箇所がある。</b>スクロール到達24.07%はSUPERIORより低い。<br>
+  <b>打ち手：Clarityのヒートマップでデッドクリック上位の要素を特定し、実際にリンク化する（またはリンクに見えない装飾に直す）。</b>あわせて、停止中の予定表ページ（sora-schedule.pages.dev・最終更新4/23で3〜5月のまま）を更新するか、リンクを一旦外す。古い予定表が見えている状態は信頼を落とす。</div></li>
+  <li><span class="num">3</span><div><b class="warn">全体：Organic Search が 61→27（−55.7%）。有料比率が69.5%→77.7%へ上昇。</b>有料を止めた瞬間に流入が消える構造に寄っている。エンゲージ率も28.2%→22.7%に低下＝「量は買えているが質が落ちている」。<br>
+  <b>打ち手：今週は新規施策を増やさず、上記①のFV改修だけに絞る。</b>広告費を増やす前に、着地の転換率を直すほうが効く（同じ356セッションで申込1件でも出れば、獲得単価は無限大から有限になる）。</div></li>
+</ul>
+
+<h2>③ 各PJ進捗 ＋ 収益化ゲージ</h2>
+<div class="grid">
+  <div class="card">
+    <h3>🌙 むーん <span class="pct">85%</span></h3>
+    <div class="bar"><i style="width:85%"></i></div>
+    <div class="gauge">[■■■■■] 20pt/20pt（MG-5 全達成）</div>
+    <p>定員9割稼働・国保連2か月連続増。収益化は完了フェーズ。<span class="warn">※CONTEXTヘッダーは80%、本文は85%で表記ゆれ。</span></p>
+  </div>
+  <div class="card">
+    <h3>⭐ SUPERIOR <span class="pct">70%</span></h3>
+    <div class="bar"><i style="width:70%"></i></div>
+    <div class="gauge">[■■□□□] 8pt/20pt（表記）</div>
+    <p><span class="crit">※実態と不一致。</span>進捗履歴[2026-07-01]で「MG-5達成（たかはしりょうた6/12入会）」と記録済みだが、MG表はMG-5「未達」のまま。体験累計28件＝MG-2も条件充足。<b>実態は20pt/20pt相当。</b></p>
+  </div>
+  <div class="card">
+    <h3>💪 CARAS <span class="pct">61%</span></h3>
+    <div class="bar"><i style="width:61%"></i></div>
+    <div class="gauge">[■□□□□] 4pt/20pt（MG-1達成）</div>
+    <p>MG-2・MG-3が「確認中」のまま数か月。月次売上・新規入会・体験実施の実数がCONTEXTに一切記載なし＝判定不能。<span class="warn">※CLAUDE.md一覧は64%で不一致。</span></p>
+  </div>
+  <div class="card">
+    <h3>🏃 SORA <span class="pct">53%</span></h3>
+    <div class="bar"><i style="width:53%"></i></div>
+    <div class="gauge">[■□□□□] 4pt/20pt（表記）</div>
+    <p><span class="crit">※実態と大きく乖離。</span>体験実施168件・入会80件の実績があるのにMG-2〜MG-5すべて「未達」表記。<b>実態は20pt/20pt相当。</b>※CLAUDE.md一覧は57%で不一致。</p>
+  </div>
+  <div class="card">
+    <h3>📱 オギラボ <span class="pct">42%</span></h3>
+    <div class="bar"><i style="width:42%"></i></div>
+    <div class="gauge">[■■□□□] 8pt/20pt（MG-2達成）</div>
+    <p>MG-1「noteメンバーシップページ公開」が未達表記だが、5/7に公開済み＝<span class="warn">達成のはず。要更新。</span>会員0人は変わらず。※CLAUDE.md一覧は65%で不一致。</p>
+  </div>
+  <div class="card">
+    <h3>⏳ 時粒 <span class="pct">45%</span></h3>
+    <div class="bar"><i style="width:45%"></i></div>
+    <div class="gauge">[□□□□□] 0pt/20pt</div>
+    <p>コア50%／集客導線10%／収益化0%／自動化30%。設計のみ確定（プレミアム¥300/月・無料枠1GB・物販¥3,000〜5,000）。6/21から停止。</p>
+  </div>
+  <div class="card">
+    <h3>🤝 TrustFit <span class="pct">37%</span></h3>
+    <div class="bar"><i style="width:37%"></i></div>
+    <div class="gauge">収益化ゲージ 記載なし（成約0件）</div>
+    <p>8/14のGTM再設計で営業の型は揃った。CF目標¥500,000・DM候補18社。<span class="warn">CONTEXTが6/01から停止＝7/4 PRISM CUP の結果も未記録。</span></p>
+  </div>
+  <div class="card">
+    <h3>🎓 関西学院大学陸上部 <span class="pct">22%</span></h3>
+    <div class="bar"><i style="width:22%"></i></div>
+    <div class="gauge">収益化対象外（法人受託業務）</div>
+    <p>KGAD報告書の自動生成・CDST監視は稼働中。次回は9/5に8月分自動生成（提出期限9/15）。</p>
+  </div>
+  <div class="card">
+    <h3>🏢 健康経営 <span class="pct">20%</span></h3>
+    <div class="bar"><i style="width:20%"></i></div>
+    <div class="gauge">[□□□□□] 0pt/20pt</div>
+    <p>法人契約0件。TrustFit経由の法人アプローチが実質の代替路になっている。5月以降 進捗変化なし。</p>
+  </div>
+</div>
+<div class="note" style="margin-top:12px">
+  📊 <b>今週の進捗%変更：なし（全9PJ ±0）。</b>MG段階に確認できる変化がなかったため、各CONTEXT.mdの進捗履歴への書き込みは行っていません。ただし下の「⑦ 検出した不整合」のとおり、<b>表記そのものが実態とズレているPJが複数あり</b>、次回 monthly-review（9/1）での再計算前にMOONさんの確認が必要です。
+</div>
+
+<h2>④ 今週の集中PJ提案（週次スプリント宣言）</h2>
+<div class="spread">
+  <div class="muted">前回宣言：<b>SORA / SUPERIOR</b>（2026-07-27・理由＝夏休みが最需要期）</div>
+  <div class="note" style="margin-top:10px;background:#2a2015;border-color:#5c4a2a">
+    ⚠️ <b>3週間の実績：目標は達成できていません。</b>SUPERIORのハンドオフには「【今週の集中PJ】夏休み短期教室告知＋週2投稿体制の着手」が <b>7/28・7/30・7/31・8/7・8/10・8/11・8/12・8/14・8/16 と9回連続で同一文言のまま</b>記載され、着手完了の記録がありません。この間の変化＝IG 5→6人（+1）・投稿26→29件（+3）・<b>生駒の新規体験はゼロのまま</b>。SORAも申込357〜359件で横ばい。<br>
+    → 「集中PJに指定する」だけでは動かないことが3週間で判明。今週は<b>タスク粒度まで落とした2件だけ</b>を提案します。
+  </div>
+
+  <div class="row"><div class="medal">🥇</div><div>
+    <b>SUPERIOR</b> — <b>今週が最後のチャンス</b>。8/24（月）箕面 無料体験会まで<b>残7日・残6枠</b>。しかも週356セッションが来ていて申込ゼロ＝流入ではなく<b>着地の問題</b>とClarityで裏が取れた。ここを直せば箕面だけでなく生駒の「6/26以降ゼロ」にも効く。<br>
+    <span class="muted">今週やること（3つだけ）：①superior2025.com のFVに「8/24 残6枠」＋申込ボタン1つを配置 ②Instagramストーリーズで残枠カウントダウン（8/18・8/21・8/23） ③過去体験者37世帯への再アプローチ送信（Gmail下書き・LINE文面は作成済み＝送るだけ）</span>
+  </div></div>
+
+  <div class="row"><div class="medal">🥈</div><div>
+    <b>CARAS</b> — <b>効き時が来ている</b>。8/15のMeta広告 Advantage+配置ONでCTR1.51%（全キャンペーン1位）＝流入の質が上がった直後。一方で<b>HPブログ9本（6月4本＋7月5本）が承認待ちで滞留</b>し、掲載予定日は全て経過。MEO「夙川」は7/10から5週間2位で不動、「西宮」は圏外継続。コンテンツを出せばMEOにもSEOにも効く局面で在庫が止まっている。<br>
+    <span class="muted">今週やること（2つだけ）：①滞留9本を一括で承認 or 修正指示（9本まとめて15分で判断できる形にして提示します） ②caraslp.com にMetaピクセル・申込イベントが入っているか調査（広告の効果測定が今できていない）</span>
+  </div></div>
+
+  <div class="note" style="margin-top:14px">
+    <b>SORAは今週の集中から外すことを提案します。</b>次の体験予定が8/25（やまもと はると・スタート講習）まで無く、3週連続で集中指定しても数値が横ばいだったため。8/25の事前案内（費用・場所・持ち物）だけ単発タスクとして残します。
+  </div>
+</div>
+
+<h2>⑤ 推奨アクション TOP5</h2>
+<ul class="list">
+  <li><span class="num">1</span><div><b class="crit">健康経営：申請期が「明日8/18」開始</b><span class="tag t-red">🔴期限</span><br>証拠写真7名の回収が未完了、申請書DL以降は全て未着手。今週唯一のハード期限。<b>まず申請書をDLして必要書類の一覧を確定する</b>ところから。</div></li>
+  <li><span class="num">2</span><div><b class="crit">SUPERIOR：8/24 箕面 無料体験会の残6枠を埋める</b><span class="tag t-red">🔴残7日</span><br>FV改修＋ストーリーズ告知＋過去体験者37世帯への送信（下書きは作成済み）。<b>送信はMOONさんの操作が必要です。</b></div></li>
+  <li><span class="num">3</span><div><b class="crit">関学：全日本インカレのエントリー漏れ確認</b><span class="tag t-red">🔴本日</span><br>8/15のリミットが経過し完了記録なし。大西さんが<b>本日8/17に戻られる</b>ため今日中の連絡が要。あわせて①KGAD7月分報告書の提出済み確認（期限8/15）②8/18〜長野合宿の帯同可否・持ち物 ③8/22 中国5県選手権と合宿の日程重複の切り分け。</div></li>
+  <li><span class="num">4</span><div><b class="warn">CARAS：滞留HPブログ9本の一括処理</b><span class="tag t-amb">🟡重要</span><br>6月4本＋7月5本。掲載予定日は全て経過済み。IG（RESULT/GOLF/VOICE回）の承認待ちも同時に。</div></li>
+  <li><span class="num">5</span><div><b class="warn">全社：8月の重大決定をDecision Log化する</b><span class="tag t-amb">🟡重要</span><br>8/16の黒字化ロードマップ2施策・FC/ライセンス展開方針・部活動の監修モデル化、8/14のTrustFit 10倍pt転用承認は、いずれも🔴重大決定なのに <code>outputs/decisions/</code> に記録がありません（詳細は⑥）。将来AIが矛盾した提案をしないために記録が必要です。</div></li>
+</ul>
+<div class="note" style="margin-top:6px">
+  <b>むーん・GビズID</b>は上位5件に入りませんでしたが、<b>発行に日数がかかるため申請だけ先行着手</b>が有効です（8/15検出から3日目）。
+</div>
+
+<h2>⑥ ブロック中タスク ／ 🔓 ブロック解除通知</h2>
+
+<h3 class="sec">🔓 ブロック解除（前提条件がクリア済みなのに未着手のもの）</h3>
+<ul class="list">
+  <li><span class="num">↑</span><div><b>CARAS「料金ページ（比較表）」</b>🔴高 — 前提「価格設定確定」は2026-03のディベートで確定済み。<b>着手可能です。</b></div></li>
+  <li><span class="num">↑</span><div><b>SUPERIOR「会費支払い方法変更」</b>🟡中 — 前提「主催変更合意」は達成済み（7月にむーんへ移管完了）。<b>着手可能です。</b></div></li>
+  <li><span class="num">↑</span><div><b>SUPERIOR「箕面スクール 契約主体変更手続き」</b>🟡中 — 6/1に「7月からむーん移管」を決定済みだが、チェックボックスが未更新のまま。<b>完了扱いにできるか確認をお願いします。</b></div></li>
+  <li><span class="num">↑</span><div><b>SORA「SNS投稿テンプレート作成」「SUPERIOR合同イベント企画」</b>／<b>SUPERIOR「TikTok情報発信開始」</b> — いずれも前提クリア済み or 前提なし。<b>着手可能です。</b></div></li>
+</ul>
+
+<h3 class="sec">🚧 ブロック中（前提が未完了）</h3>
+<table>
+  <tr><th>PJ</th><th>ブロックされているタスク</th><th>ボトルネック（これを1つ倒せば解ける）</th></tr>
+  <tr><td>CARAS</td><td><b>8件中7件</b>（LP／顧客事例／SNS戦略／IGテンプレ／法人PPT／体験申込LP改善 ほか）</td><td class="crit"><b>ターゲットペルソナ詳細設計</b>（🔴高・唯一のブロックなしタスク）。ここが3月26日から一度も動いていないため全部が止まっています。</td></tr>
+  <tr><td>健康経営</td><td>4件（LP制作／提案資料PPT／契約書テンプレ／サービスパッケージ設計）</td><td class="crit"><b>市場調査・競合分析レポート</b>（🔴高・前提なし）</td></tr>
+  <tr><td>TrustFit</td><td>2件（プロトタイプ設計／初回モニター企業アプローチ）</td><td class="warn"><b>正式プロジェクト名・ブランド名の決定</b>（🟡中・前提なし）</td></tr>
+  <tr><td>むーん</td><td>SK-4 公式LINE自動返信設定</td><td class="warn"><b>SK-3 相談支援専門員向け施設案内PDF</b>（🔴高・4月末から3か月半停滞）</td></tr>
+  <tr><td>時粒</td><td>実機2アカウント検証／Phase2すべて</td><td class="crit"><b>Convexデプロイ（MOON作業）</b>：<code>cd lifedesign/app && npx convex dev</code></td></tr>
+  <tr><td>SORA・SUPERIOR</td><td>スケジュール資料（Excel/PDF）</td><td>体験会日程の確定</td></tr>
+</table>
+
+<h2>⑦ Decision Log 再評価アラート</h2>
+<div class="note" style="border-left:4px solid var(--amber)">
+  <b>再評価期限が今月以内のもの：該当なし（0件）。</b><br>
+  理由＝<b>全9PJの <code>outputs/decisions/</code> が空、または未作成</b>で、Decision Logファイルは1件も存在しません。全ファイルを <code>grep "再評価日"</code> してもヒット0件でした。<span class="crit">つまり「再評価アラートが出ない」のではなく、記録運用そのものが稼働していません。</span>
+</div>
+<h3 class="sec">Decision Log を作るべきなのに未作成の🔴重大決定（直近1週間だけで4件）</h3>
+<table>
+  <tr><th>日付</th><th>決定内容</th><th>推奨する保存先</th></tr>
+  <tr><td>2026-08-16</td><td><b>黒字化ロードマップ2施策の確定</b>（北岡愛華 2027年1月移動 +255,000／成定さん業務委託50万 2027年7月開始 +368,763）</td><td><code>MOON/outputs/decisions/20260816_黒字化ロードマップ.md</code></td></tr>
+  <tr><td>2026-08-16</td><td><b>SORA・SUPERIORは直営でなくFC・ライセンスで展開</b>（1件目候補＝佐々木さん／関東）</td><td><code>SUPERIOR/outputs/decisions/20260816_FC展開方針.md</code></td></tr>
+  <tr><td>2026-08-16</td><td><b>部活動の地域展開は自分で運営せずECC型の監修・研修モデルのみ</b></td><td><code>関西学院大学陸上部/outputs/decisions/20260816_部活動地域移行の関与方針.md</code></td></tr>
+  <tr><td>2026-08-14</td><td><b>10倍ptキャンペーンをPRISM CUP招待用→単発体験モニターへ転用</b>（MOON承認済）</td><td><code>TrustFit/outputs/decisions/20260814_10倍ptキャンペーン転用.md</code></td></tr>
+</table>
+<div class="muted" style="margin-top:8px">※ 上記4件は「作成しますか？」の確認だけいただければ、次のセッションでフォーマットどおりに生成します（採用理由・却下理由・再評価日を含む）。</div>
+
+<h2>⑧ 検出した不整合・要MOON確認</h2>
+<ul class="list">
+  <li><span class="num">1</span><div><b class="crit">MG判定が実態と乖離している（3PJ）</b><br>
+  ・<b>SORA</b>：体験実施168件・入会80件の実績があるのに MG-2〜MG-5 すべて「未達」表記（ゲージ4pt）。実態は20pt相当。<br>
+  ・<b>SUPERIOR</b>：進捗履歴[2026-07-01]に「MG-5達成」と書かれているのにMG表は「未達」のまま（ゲージ8pt）。実態は20pt相当。<br>
+  ・<b>オギラボ</b>：MG-1「noteメンバーシップページ公開」が未達表記だが5/7に公開済み。<br>
+  → 勝手に書き換えず報告に留めています。<b>この3PJのMG表を実態に合わせて更新してよいか</b>ご判断ください。</div></li>
+  <li><span class="num">2</span><div><b class="warn">進捗%がCLAUDE.md一覧とCONTEXT.mdヘッダーで不一致（6PJ）</b><br>
+  オギラボ 65%／42%・CARAS 64%／61%・SORA 57%／53%・SUPERIOR 62%／70%・むーん 85%／80%（本文85%）・関学は履歴22%だがアーカイブ内に旧行45%が残置。<b>本レポートはCONTEXT.md側の数値を採用しています。</b></div></li>
+  <li><span class="num">3</span><div><b class="crit">SORA/SUPERIORの体験シートが8/16から取得できていません</b>（gviz ACCESS_DENIED／superior-admin API 401）。申込累計・会員登録・休会の把握が止まっています。<b>Googleシートの共有設定で「閲覧者のダウンロード・コピーを無効にする」がONになっていないか確認</b>をお願いします。</div></li>
+  <li><span class="num">4</span><div><b class="warn">CONTEXT.mdが長期停止しているPJ</b>：TrustFit＝<b>6/01から2か月半</b>（7/4 PRISM CUP の開催結果すら未記録）／時粒＝<b>6/21から約2か月</b>／健康経営＝8/07。</div></li>
+  <li><span class="num">5</span><div><b class="warn">Code側とCowork側の記憶同期が止まっています</b>。launchd <code>com.moon.codelogsync</code> がmacOSのTCC権限でDesktop・<code>~/.claude</code> にアクセスできず、ログ同期0件が継続。実際8/13〜8/16はCowork側dailyが「MOON対話0件」と記録した一方、Code側では重要な意思決定が複数ありました。<b>復旧にはシステム設定 &gt; プライバシーとセキュリティ &gt; フルディスクアクセス で /bin/bash を許可（MOONさん手動）が必要です。</b></div></li>
+  <li><span class="num">6</span><div><b class="warn">未回答のまま残っている確認事項</b>：①吉田圭造さん（デロイトMD）の記述「2026年より全国の部活動地域移行事業を受託・MOONさんが責任者・メンバー20〜30名」の真偽（接触前に要確定）②便利屋清掃v4の凍結可否 ③佐々木晴都さんの入会金を通常請求にした件 ④アースグランプリ 観音寺市総合運動公園¥126,620のうち内訳不明分¥77,400 ⑤Tシャツ107枚発注に対し販売24枚 ⑥りあんの賞与実額（むーん基準154,533で仮置き中）。</div></li>
+</ul>
+
+<h2>⑨ 経理・監査ステータス</h2>
+<table>
+  <tr><th>項目</th><th>状態</th></tr>
+  <tr><td>経理タスク 2026-08（4件）</td><td class="win">✅ 4/4 完了（出勤簿・出張管理・経費管理・請求書作成／8/15確認）</td></tr>
+  <tr><td>経理監査（8/16時点）</td><td>🔴0件 🟡4件 🟢2件。現金過不足の🔴は<b>8/12以降 解消状態を継続</b></td></tr>
+  <tr><td>🟡 重複計上の疑い</td><td>4件中3件は照合済＝<b>実害なし</b>（入金者名・対象月が別）。<b>新規1件（SORA 栁原 ¥5,500・8/10）のみ未照合</b> → note／receiptNo で照合して確定します</td></tr>
+  <tr><td>🟡 むーん現金 ¥5,600 の未記録入金</td><td>5/14〜8/10の現金入金の洗い出しが未着手</td></tr>
+  <tr><td>7/31実査の ¥300,000 ／ ¥-4,005</td><td class="warn">原因照合そのものは未完</td></tr>
+  <tr><td>税務・法務の未着手2件</td><td class="warn">①業務委託50万の役員給与認定リスク（法人税法34条・契約書／業務報告／対価妥当性の3点セットを税理士に事前確認）②会社法356条 競業取引の承認議事録の有無を司法書士に確認</td></tr>
+</table>
+
+<div class="foot">
+  生成: 2026-08-17（月）｜weekly-review 自動実行｜対象: 2026-08-10〜08-16<br>
+  データ出典: 各PJ CONTEXT.md（全9件・全文）／cowork_memory（ongoing.md・index.md・daily 8/08〜8/17）／GA4 プロパティ p548067896（Chrome実測 2026-08-17）／Microsoft Clarity u5wtr1k8rb・u5wwks1002・xw3pa1dw6d（Chrome実測 2026-08-17）／経理タスク_2026-08.md／経理監査 latest_audit.json<br>
+  ※ 取得できなかった数値（体験申込到達数・お問い合わせ到達数・SORA/SUPERIOR体験シート）は推測せず「未取得」と明記しています。<br>
+  ※ 今週は各CONTEXT.mdへの書き込み（進捗履歴・ハンドオフ更新）は行っていません。MG判定・進捗%の不整合が未解決のため、MOONさんの確認後に反映します。
+</div>
+
+</body>
+</html>
