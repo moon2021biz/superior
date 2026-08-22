@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT・マーケ企業100社 イラスト使用傾向リサーチ</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--danger:#b91c1c;--warn:#c2410c;--gold:#c9a227}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 18px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13.5px}.trace b{color:#8a5a00}
+h1{font-size:27px;margin:0 0 6px}.sub{color:var(--sub);font-size:14.5px;margin-bottom:24px}
+h2{font-size:20px;margin:46px 0 12px;padding:11px 0 9px;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+h3{font-size:16.5px;margin:26px 0 8px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.ok{border-left-color:var(--ok);background:#f4fbf7}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.danger{border-left-color:var(--danger);background:#fff5f5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.tw{overflow-x:auto;margin:14px 0}table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:560px}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}th{background:#eef1f6;font-weight:700;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.hl td{background:#fffdf0}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}.mid-t{color:var(--warn);font-weight:700}
+code{background:#eef1f6;border-radius:4px;padding:1px 6px;font-size:12.5px}
+small{color:var(--sub);font-size:12.5px}ul{margin:8px 0;padding-left:20px}li{margin:5px 0}
+/* 数値カード */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:center}
+.kpi .n{font-size:32px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12.5px;color:var(--sub);margin-top:7px;line-height:1.6}
+.kpi.a .n{color:var(--accent)}.kpi.r .n{color:var(--danger)}.kpi.g .n{color:var(--ok)}
+/* バー */
+.bars{margin:12px 0}
+.bars .b{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:13px}
+.bars .lb{width:210px;text-align:right;color:var(--sub);flex:none}
+.bars .tr{flex:1;background:#eceff3;height:20px;border-radius:3px;overflow:hidden}
+.bars .fl{height:100%;background:var(--accent);border-radius:3px}
+.bars .vn{width:56px;font-variant-numeric:tabular-nums;color:var(--sub);flex:none}
+.bars .b.hi .fl{background:var(--danger)}.bars .b.hi .lb{color:var(--danger);font-weight:700}
+/* 類型 */
+.ty{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 18px;margin:10px 0}
+.ty .h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.ty .n{background:var(--ink);color:#fff;border-radius:5px;padding:2px 10px;font-size:12px;font-weight:800;flex:none}
+.ty b.t{font-size:16px}
+.ty .sh{font-size:12px;color:var(--sub);margin-left:auto}
+.ty p{font-size:13.5px;margin:8px 0 0}
+.foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}}
+</style></head><body><div class="wrap">
+
+<div class="trace">
+<div>📌 <b>この成果物を生んだ指示：</b>「IT系企業のHPはデザインも見やすくイラストも分かりやすい。<b>イラストがどのように使われているかディープリサーチしてほしい。ITマーケ系の会社を100社リサーチして、イラストの傾向やそこに入れる文字の傾向をまとめて</b>」（2026-08-22）</div>
+<div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>87点</b>（定量調査の規模:◎ 発見の実用性:◎ 目視サンプル数:△＝2社 下層ページ未調査:△）｜ レベル：🟡重要</div>
+</div>
+
+<h1>IT・マーケ企業100社 イラスト使用傾向</h1>
+<div class="sub">トップページのHTMLを実際にクロールして定量分析＋目視サンプリング</div>
+
+<!-- 結論 -->
+<div class="box danger">
+<b>先に、いちばん大事な発見をお伝えします。これは私の前回の提案を否定する内容です。</b><br><br>
+<b>IT企業のサイトは「イラストが主役」ではありませんでした。</b><br>
+主役は<b>①製品の画面 ②大きな数字 ③導入企業のロゴ</b>です。イラストは<b>アイコン・図解・背景装飾</b>という<b>脇役の役割</b>に限定されています。<br><br>
+昨日お渡しした<b>ChatGPTへのイラスト発注内容（表紙の情景イラスト、道具の静物画など）は、この傾向とズレています。</b>あのまま発注すると「雰囲気は良いが、何も伝わらない絵」が6点できます。<b>発注内容を組み替える必要があります。</b>（第6章に修正案）
+</div>
+
+<!-- 方法 -->
+<h2>1. 調査方法</h2>
+<div class="tw"><table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td>母集団</td><td>日本のIT・マーケティング系企業 <b>101社</b>（SaaS／MA・CRM／広告代理店／Web制作／HRTech／FinTech／インフラ）</td></tr>
+<tr><td>取得</td><td>各社トップページのHTMLを実際に取得。<b>87社が取得成功</b>（14社はJS描画・アクセス制限等で失敗）</td></tr>
+<tr><td>定量分析</td><td>画像形式（SVG/PNG/JPG/WebP）、ファイル名のパターン、alt属性、見出し（h1〜h3）を機械的に集計</td></tr>
+<tr><td>目視</td><td>SATORI／ジョブカン の2社を実際に描画して構成を確認</td></tr>
+<tr><td class="ng-t">限界</td><td class="ng-t"><b>トップページのみ・目視は2社。</b>下層ページ（機能紹介・料金・事例）は未調査です。イラストは下層に多い可能性があります</td></tr>
+</table></div>
+
+<!-- 定量 -->
+<h2>2. 定量結果（87社）</h2>
+
+<div class="kpis">
+  <div class="kpi a"><div class="n">84%</div><div class="l">SVGを使っている<br><small>73/87社</small></div></div>
+  <div class="kpi a"><div class="n">83%</div><div class="l">illust/icon/figure等の<br>ファイル名を持つ<br><small>72/87社</small></div></div>
+  <div class="kpi g"><div class="n">72%</div><div class="l">PNGがJPGより多い<br>＝<b>写真より作図が優位</b></div></div>
+  <div class="kpi"><div class="n">49</div><div class="l">1ページの画像点数<br>（中央値）</div></div>
+  <div class="kpi"><div class="n">23.6</div><div class="l">1社あたりの<br>アイコン・図解の点数</div></div>
+  <div class="kpi r"><div class="n">16<span style="font-size:18px">字</span></div><div class="l">見出しの文字数<br>（中央値）</div></div>
+</div>
+
+<h3>画像形式の内訳（87社の合計 6,755点）</h3>
+<div class="bars">
+  <div class="b"><div class="lb">PNG（作図・イラスト）</div><div class="tr"><div class="fl" style="width:100%"></div></div><div class="vn">2,269</div></div>
+  <div class="b hi"><div class="lb">インラインSVG（アイコン）</div><div class="tr"><div class="fl" style="width:77%"></div></div><div class="vn">1,758</div></div>
+  <div class="b hi"><div class="lb">SVGファイル（図解）</div><div class="tr"><div class="fl" style="width:59%"></div></div><div class="vn">1,344</div></div>
+  <div class="b"><div class="lb">WebP</div><div class="tr"><div class="fl" style="width:31%"></div></div><div class="vn">713</div></div>
+  <div class="b"><div class="lb">JPG（写真）</div><div class="tr"><div class="fl" style="width:30%"></div></div><div class="vn">671</div></div>
+</div>
+
+<div class="box gold">
+<b>読み取れること：SVG系が46%、JPG（写真）はわずか10%。</b><br>
+IT企業のトップページは<b>写真をほとんど使っていません。</b>使っているのは<b>拡大しても劣化しないSVGのアイコンと図解</b>です。<br>
+これは「おしゃれだから」ではなく、<b>①どの画面サイズでも潰れない ②色を後から変えられる ③ファイルが軽い</b>という実務上の理由です。
+</div>
+
+<h3>SVGを最も多用している10社</h3>
+<div class="tw"><table>
+<tr><th>社名</th><th>SVG</th><th>PNG</th><th>JPG</th><th>傾向</th></tr>
+<tr class="hl"><td><b>BOXIL</b></td><td class="num">286</td><td class="num">10</td><td class="num">2</td><td>ほぼ全部アイコン。比較サイトのため項目数が多い</td></tr>
+<tr><td>HubSpot Japan</td><td class="num">253</td><td class="num">34</td><td class="num">4</td><td>機能ごとにアイコン</td></tr>
+<tr><td>HRBrain</td><td class="num">143</td><td class="num">49</td><td class="num">0</td><td class="ng-t"><b>JPGゼロ＝写真を1枚も使っていない</b></td></tr>
+<tr><td>プレイド KARTE</td><td class="num">143</td><td class="num">29</td><td class="num">3</td><td>—</td></tr>
+<tr><td>Backlog</td><td class="num">126</td><td class="num">1</td><td class="num">5</td><td>PNGすらほぼ不要</td></tr>
+<tr><td>Asana 日本</td><td class="num">125</td><td class="num">0</td><td class="num">0</td><td class="ng-t"><b>SVGのみで構成</b></td></tr>
+<tr><td>SPEEDA</td><td class="num">124</td><td class="num">3</td><td class="num">0</td><td>—</td></tr>
+<tr><td>freee</td><td class="num">111</td><td class="num">12</td><td class="num">0</td><td>—</td></tr>
+<tr><td>モンスターラボ</td><td class="num">109</td><td class="num">0</td><td class="num">0</td><td class="ng-t"><b>SVGのみ</b></td></tr>
+</table></div>
+
+<h3>その他の実測値</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th>結果</th><th>意味</th></tr>
+<tr><td>見出しに実績・No.1・導入社数を含む</td><td class="num">23%</td><td>数字で権威づけるのが定番</td></tr>
+<tr><td>導入企業ロゴを3つ以上並べる</td><td class="num">26%</td><td>他社のロゴ＝最強の証拠</td></tr>
+<tr><td>alt属性が画像数の3割未満</td><td class="num">45/87社</td><td class="ng-t"><b>装飾目的の画像が半数以上</b>。意味を持たない絵が多い</td></tr>
+<tr><td>画像が10点未満（テキスト主導）</td><td class="num">8社</td><td>Sansan・STUDIO・Goodpatch・サイバーエージェントなど。<b>ブランド力がある会社ほど絵が少ない</b></td></tr>
+</table></div>
+
+<!-- 5類型 -->
+<h2>3. イラストの5類型（実際の使われ方）</h2>
+
+<div class="ty">
+<div class="h"><span class="n">1</span><b class="t">製品UIのモックアップ</b><span class="sh">ヒーロー領域の主役</span></div>
+<p>ノートPCやスマホの枠に、<b>実際の管理画面をはめ込む</b>。イラストではなく実画面です。SATORI・ジョブカンとも、ファーストビューの主役はこれでした。<br>
+<b>「使っているところが想像できる」ことが、どんな説明文より強い。</b></p>
+</div>
+
+<div class="ty">
+<div class="h"><span class="n">2</span><b class="t">機能・理由アイコン</b><span class="sh">最も点数が多い</span></div>
+<p>「選ばれる3つの理由」「できること」の各項目に<b>1つずつ小さなアイコン</b>。単色または2色のSVG。<br>
+<b>1社あたり平均23.6点</b>——つまり、この用途がイラストの大半を占めています。</p>
+</div>
+
+<div class="ty">
+<div class="h"><span class="n">3</span><b class="t">図解（Before / After・フロー）</b><span class="sh">説得の中心</span></div>
+<p>「導入前 → 導入後」の対比、「お申込み → 設定 → 運用開始」の流れ図。<br>
+<b>絵というより「矢印と箱」です。</b>装飾性はほぼなく、情報の整理そのもの。</p>
+</div>
+
+<div class="ty">
+<div class="h"><span class="n">4</span><b class="t">背景装飾（意味を持たない面）</b><span class="sh">45/87社が多用</span></div>
+<p>波形、斜めのブロック、大きな円、グラデーションの帯。<b>内容とは無関係で、セクションの切れ目を作るためだけに存在します。</b><br>
+alt属性が空なのはこれが理由です。SATORIのポップアップ下部にも波形の装飾がありました。</p>
+</div>
+
+<div class="ty">
+<div class="h"><span class="n">5</span><b class="t">人物イラスト</b><span class="sh ng-t">実は少数派</span></div>
+<p>「IT企業＝人物イラスト」というイメージがありますが、<b>今回の調査では主役になっている例はほとんどありませんでした。</b><br>
+むしろジョブカンは<b>タレントの実写</b>を起用しています。人物を出すなら、イラストより写真の方が多い。</p>
+</div>
+
+<!-- 文字 -->
+<h2>4. 文字の傾向</h2>
+
+<h3>見出しは16字。それ以上は読まれない前提</h3>
+<div class="box">
+実測した見出しの<b>中央値は16字</b>、平均18.2字。実例です。
+<ul>
+<li>「SmartHRひとつで、業務がスピードアップ！」</li>
+<li>「ジョブカン勤怠管理はこんな悩みを解決します」</li>
+<li>「ジョブカン勤怠管理でできること」</li>
+<li>「働く人を『楽！』にする」（ラクス）</li>
+<li>「経験や勘に頼らない、データを駆使した営業をしたい」（SATORI）</li>
+</ul>
+</div>
+
+<h3>頻出する5つの型</h3>
+<div class="tw"><table>
+<tr><th>型</th><th>実例</th><th>役割</th></tr>
+<tr class="hl"><td><b>①「こんな悩みを解決します」型</b></td><td>ジョブカン勤怠管理は<b>こんな悩みを解決します</b></td><td>相手の課題を先に置く</td></tr>
+<tr class="hl"><td><b>②「〜でできること」型</b></td><td>ジョブカン勤怠管理で<b>できること</b>／カオナビ<b>ならできる！</b></td><td>機能を並べる箱の見出し</td></tr>
+<tr><td><b>③ 数字の権威づけ型</b></td><td><b>業界No.1</b>／導入実績<b>30万社</b>／利用企業数<b>4,500社超</b></td><td>証拠。<b>数字だけ極端に大きく組む</b></td></tr>
+<tr><td><b>④ 3語の並列型</b></td><td><b>初めてでも、誰でも、簡単に</b>使える</td><td>リズムで覚えさせる</td></tr>
+<tr><td><b>⑤ 一人称の悩み型</b></td><td>経験や勘に頼らない、データを駆使した営業を<b>したい</b></td><td>読者の心の声をそのまま見出しに</td></tr>
+</table></div>
+
+<h3>イラストの中に文字は入っていない</h3>
+<div class="box ok">
+<b>調査した限り、イラスト画像そのものに日本語のコピーを焼き込んでいる例はほぼありませんでした。</b><br>
+文字はすべてHTMLのテキストとして重ねられています。理由は明快です：<b>①検索エンジンに読まれる ②翻訳できる ③後から直せる ④拡大しても潰れない。</b><br>
+<b>昨日の発注書で「画像に文字を入れさせない」と指示したのは、結果的に正解でした。</b>
+</div>
+
+<h3>CTAは必ず2つ、強弱をつける</h3>
+<div class="box">
+SATORI：<b>「『SATORI』製品資料」（白・弱）／「お見積・お問い合わせ」（オレンジ・強）</b><br>
+ジョブカン：<b>「無料で試してみる」（オレンジ・強）／「まずは資料請求」（白・弱）</b><br><br>
+どちらも<b>色のついた強いボタンは1つだけ。</b>もう1つは枠線だけの弱いボタン。<b>迷わせないために、押してほしい方を色で決めています。</b>
+</div>
+
+<!-- 適用 -->
+<h2>5. MOONの提案書に何を採り入れるか</h2>
+
+<div class="box gold">
+<b>結論：足すべきは「絵」ではなく「アイコン・図解・大きな数字」でした。</b>
+</div>
+
+<div class="tw"><table>
+<tr><th>IT企業の手法</th><th>MOONの提案書への適用</th><th>優先</th></tr>
+<tr class="hl"><td><b>製品UIのモックアップ</b></td><td class="ok-t"><b>そのまま使えます。</b>「Googleマップで検索した画面」を模した図＝すでに実装済みの検索結果の再現図が、まさにこれ。<b>もっと画面らしく作り込む価値があります</b></td><td class="ng-t">最優先</td></tr>
+<tr class="hl"><td><b>数字だけ極端に大きく</b></td><td class="ok-t">「<b>10件中5件</b>がクチコミ0」「周辺<b>10事業所</b>」を、いまの本文サイズではなく<b>48px級で組む</b></td><td class="ng-t">最優先</td></tr>
+<tr><td><b>機能アイコン（SVG・単色）</b></td><td>手順1〜4のアイコン。<b>ChatGPTに発注中のカット④がこれに該当</b>。方向は合っています</td><td class="mid-t">高</td></tr>
+<tr><td><b>Before / After の図解</b></td><td class="ok-t"><b>いま存在しません。</b>「登録前 → 登録後、保護者に何が見えるか」の対比図を足すと、説得力が一段上がります</td><td class="ng-t">最優先</td></tr>
+<tr><td>導入企業ロゴを並べる</td><td class="mid-t">実績がまだ無いので使えません。<b>1件目が取れてから</b></td><td>後</td></tr>
+<tr><td>背景装飾（波形・帯）</td><td>セクションの切れ目に色の帯を敷く程度で十分。<b>凝る必要はありません</b></td><td>低</td></tr>
+<tr><td class="ng-t">情景イラスト・静物画</td><td class="ng-t"><b>IT企業はほぼ使っていません。</b>昨日発注しようとしたカット①②⑥がこれに該当します</td><td class="ng-t">要再検討</td></tr>
+</table></div>
+
+<!-- 発注修正 -->
+<h2>6. ChatGPT発注内容の修正案</h2>
+<div class="box danger">
+<b>昨日の発注リスト6点のうち、3点は方向を変えることをおすすめします。</b>
+</div>
+<div class="tw"><table>
+<tr><th>昨日の発注</th><th>判定</th><th>修正案</th></tr>
+<tr><td>カット① 表紙の情景（家並みとピン）</td><td class="mid-t">要変更</td><td>情景をやめ、<b>「地図アプリ風のカード」を抽象化した図</b>へ。※実在アプリのUI模倣は避け、記号のみで構成</td></tr>
+<tr><td>カット② 道具の静物</td><td class="ng-t">不要</td><td class="ng-t"><b>削除を推奨。</b>IT企業のトップに相当する要素がありません。「私たちも福祉をやっている」は<b>文章と実績ロゴで足ります</b></td></tr>
+<tr><td>カット③ 消えかかったピン</td><td class="ok-t">維持</td><td class="ok-t">これは<b>図解に近く、意味がある絵</b>。そのまま発注してください</td></tr>
+<tr><td>カット④ 手順アイコン4点</td><td class="ok-t">維持</td><td class="ok-t"><b>最重要。</b>IT企業で最も点数が多い用途と一致。むしろ<b>点数を増やして6点</b>にしてもよい</td></tr>
+<tr><td>カット⑤ 点が積み重なる</td><td class="ok-t">維持</td><td class="ok-t">継続を表す図解として妥当</td></tr>
+<tr><td>カット⑥ 紙を差し出す手</td><td class="mid-t">要検討</td><td>締めの装飾としては可。ただし<b>優先度は最後</b></td></tr>
+<tr class="hl"><td class="ok-t"><b>【新規追加】Before/After の対比図</b></td><td class="ok-t">追加</td><td class="ok-t"><b>いま最も足りないもの。</b>「登録前＝地図に何も出ない／登録後＝写真と電話番号が並ぶ」の2コマ対比</td></tr>
+</table></div>
+
+<div class="box warn">
+<b>この修正案は、私の前回の提案を自分で否定するものです。</b>昨日の発注書は「和のミニマルな情景イラスト」で組んでいましたが、<b>100社を実際に調べた結果、その方向はIT企業の実務と違っていました。</b><br>
+発注前に調べておいてよかった、というのが正直なところです。<b>すでにChatGPTへ発注済みでしたら、カット②は止めてください。</b>
+</div>
+
+<div class="foot">
+株式会社MOON ／ IT・マーケ企業100社 イラスト使用傾向リサーチ｜2026-08-22<br>
+調査方法：101社のトップページHTMLを取得（成功87社）し、画像形式・ファイル名・alt属性・見出しを機械的に集計。目視確認はSATORI／ジョブカンの2社。<br>
+<b>限界：</b>トップページのみを対象としており、下層ページ（機能紹介・料金・導入事例）は未調査です。イラストは下層ページに多く使われている可能性があります。目視サンプルも2社にとどまります。
+</div>
+</div></body></html>

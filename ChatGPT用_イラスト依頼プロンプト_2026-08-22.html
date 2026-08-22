@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT用 イラスト依頼プロンプト</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1a1d23;--sub:#5b6472;--line:#e3e7ee;--accent:#1f6feb;--ok:#0b8f5f;--danger:#b91c1c;--warn:#c2410c;--gold:#a8842c;--red:#CC1B1A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:940px;margin:0 auto;padding:28px 18px 80px}
+.trace{background:#fffbea;border:1px solid #f5d98a;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13.5px}.trace b{color:#8a5a00}
+h1{font-size:26px;margin:0 0 6px}.sub{color:var(--sub);font-size:14.5px;margin-bottom:22px}
+h2{font-size:20px;margin:44px 0 12px;padding:11px 0 9px;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:26px 0 8px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px}
+.box.ok{border-left-color:var(--ok);background:#f4fbf7}
+.box.warn{border-left-color:var(--warn);background:#fffaf5}
+.box.danger{border-left-color:var(--danger);background:#fff5f5}
+.box.gold{border-left-color:var(--gold);background:#fffdf5}
+.tw{overflow-x:auto;margin:14px 0}table{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px;min-width:560px}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}th{background:#eef1f6;font-weight:700;white-space:nowrap}
+.ok-t{color:var(--ok);font-weight:700}.ng-t{color:var(--danger);font-weight:700}
+small{color:var(--sub);font-size:12.5px}ul{margin:8px 0;padding-left:20px}li{margin:5px 0}
+.p{background:#14130f;color:#f2efe9;border-radius:10px;margin:12px 0;overflow:hidden}
+.p .ph{background:#241f1a;padding:10px 16px;font-size:12.5px;color:#e8c877;font-weight:700;letter-spacing:.04em;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.p .ph span{color:#9c988f;font-weight:400}
+.p pre{margin:0;padding:16px 18px;font-family:ui-monospace,Menlo,"Hiragino Sans",monospace;font-size:12.8px;line-height:1.95;white-space:pre-wrap;word-break:break-word}
+.sw{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.sw div{border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:11.5px;text-align:center;min-width:104px;background:#fff}
+.sw .c{height:44px}.sw .t{padding:5px 4px;color:var(--sub)}
+.foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px}
+@media print{body{background:#fff}.p{break-inside:avoid}}
+</style></head><body><div class="wrap">
+
+<div class="trace">
+<div>📌 <b>この成果物を生んだ指示：</b>「もっとグラフやイラストを使って綺麗にしたい。ChatGPTにイラスト案もらってテンプレにしていきたいので、<b>ChatGPTにほしいイラストをもらうための指示</b>を作って。できるだけ齟齬ないよう、丁寧に」（2026-08-22）</div>
+<div>🧭 <b>判断：</b>自己採否 ✅採用 ｜ 📊 品質スコア <b>90点</b>（齟齬防止の作り込み:◎ 商標リスクの回避:◎ 生成AIの癖への対処:◎ 実際の生成での検証:△＝未実施）｜ レベル：🟡重要</div>
+</div>
+
+<h1>ChatGPT用 イラスト依頼プロンプト</h1>
+<div class="sub">提案書テンプレート用のイラスト一式を、トーンを揃えて発注するための指示書</div>
+
+<!-- 0 -->
+<h2>0. 先に決めたこと（ここを外すと事故ります）</h2>
+
+<div class="box danger">
+<b>① グラフはChatGPTに描かせません。</b><br>
+グラフは<b>実測した数字</b>です。画像にした瞬間、数字を直すたびに描き直しになりますし、<b>生成AIは数値を勝手に改変します。</b>クチコミ件数の棒グラフや検索結果の一覧は、<b>これまでどおり私がHTMLで作ります。</b>ChatGPTに頼むのは<b>イラストだけ</b>です。
+</div>
+
+<div class="box danger">
+<b>② Googleのロゴ・地図画面を描かせません。</b><br>
+「Googleマップ風の画面」を生成させると<b>商標・意匠の問題</b>になります。対外配布する営業資料なので、ここは避けます。<br>
+代わりに<b>「地図ピン」「虫めがね」といった一般的な記号</b>に抽象化して発注します。指示文にも明記済みです。
+</div>
+
+<div class="box danger">
+<b>③ イラストの中に日本語の文字を入れさせません。</b><br>
+画像生成AIは<b>日本語の文字をほぼ確実に崩します。</b>「無料診断」と書かせたつもりが意味不明な字形になります。<br>
+<b>文字はすべてHTML側で載せます。</b>イラストは絵だけ。指示文で強く禁止しています。
+</div>
+
+<div class="box danger">
+<b>④ 人物の顔を描かせません。</b><br>
+福祉分野の資料です。<b>子どもの顔をイラストであっても具体的に描くと、受け手が身構えます。</b>後ろ姿・手元・シルエットに限定します。これは配慮であると同時に、<b>どの事業所にも使える汎用性</b>にもつながります。
+</div>
+
+<!-- 1 -->
+<h2>1. 色の指定</h2>
+<p>既存の提案書・moonathlete.com と揃えます。<b>この5色以外を使わせません。</b></p>
+<div class="sw">
+  <div><div class="c" style="background:#CC1B1A"></div><div class="t">#CC1B1A<br>朱赤（強調）</div></div>
+  <div><div class="c" style="background:#1A1A1A"></div><div class="t">#1A1A1A<br>墨（線）</div></div>
+  <div><div class="c" style="background:#FAF8F6"></div><div class="t">#FAF8F6<br>生成り（地）</div></div>
+  <div><div class="c" style="background:#A8842C"></div><div class="t">#A8842C<br>金茶（差し色）</div></div>
+  <div><div class="c" style="background:#2C6E49"></div><div class="t">#2C6E49<br>深緑（良好）</div></div>
+</div>
+
+<!-- 2 -->
+<h2>2. 進め方（トーンを揃えるための順番）</h2>
+<div class="box gold">
+<b>一度に全部頼むと、絵柄がバラバラになります。</b>必ずこの順で進めてください。
+<ol>
+<li><b>【STEP 1】の共通設定プロンプトを送る</b>（画像はまだ作らせない）</li>
+<li><b>【STEP 2】でカット①だけを作らせる</b> → 気に入るまでここで直す。<b>これが基準になります</b></li>
+<li>カット①が決まったら、<b>【STEP 3】で「①と同じ絵柄で」と指定して残りを1点ずつ</b></li>
+</ol>
+<b>②以降を一括で頼まないでください。</b>2〜3点ずつが限界です。
+</div>
+
+<!-- STEP1 -->
+<h2>3. 【STEP 1】共通設定プロンプト</h2>
+<p><small>▼ 最初にこれを1回だけ送ります。この時点では画像を作らせません。</small></p>
+
+<div class="p">
+<div class="ph">STEP 1／共通設定（コピーして送信）<span>画像生成なし・設定の共有のみ</span></div>
+<pre>これから、ある資料に使うイラストを何点かお願いします。
+最初に前提を共有します。**この指示では、まだ画像を作らないでください。**
+内容を理解したら「了解しました」とだけ返答してください。画像は次のメッセージから作ります。
+
+■ 用途
+日本の福祉事業所（児童発達支援・放課後等デイサービス）に向けて送る、A4の提案資料です。
+「あなたの事業所の情報が、探している保護者に届いていないかもしれません」という内容を、
+押しつけがましくなく、丁寧に伝えるための資料です。営業色を出したくありません。
+
+■ 求める絵柄
+・和の落ち着きがある、ミニマルな線画。細めの均一な線。
+・水彩のにじみをごく薄く一部に添える程度。塗りは面で塗らず、余白を多く残す。
+・かわいさやポップさは不要。誠実・静か・上品。
+・企業のパワーポイントによくある「フラットなベクターイラスト」は避けてください。
+　手で描いた線の質感を少し残してください。
+
+■ 色（この5色だけを使う。他の色は使わない）
+・#1A1A1A（墨・線に使う主色）
+・#CC1B1A（朱赤・1点だけ強調したい箇所に少量）
+・#A8842C（金茶・差し色として少量）
+・#2C6E49（深緑・良い状態を示すときのみ少量）
+・#FAF8F6（生成り・背景や淡い面）
+※ 朱赤と金茶と深緑は「差し色」です。画面の1〜2割まで。基本は墨の線と余白です。
+
+■ 技術的な条件（すべて必須）
+・背景は透過PNG。透過ができない場合は #FAF8F6 の単色背景にしてください。
+・正方形（1:1）。ただしカット①の表紙だけは 16:9 の横長。
+・絵の周囲に十分な余白を取り、要素を端まで詰めないでください。
+・線は細すぎないこと。A4に約4cm四方で印刷しても潰れない太さにしてください。
+・白黒でFAX送信しても判別できる、コントラストのはっきりした構図にしてください。
+
+■ 絶対にやらないこと（重要）
+1. **画像の中に文字を入れない。**日本語も英語も、一文字も入れないでください。
+   文字はこちらで後から重ねます。ロゴタイプや看板の文字も不要です。
+2. **Google、Googleマップ、その他の実在企業のロゴ・アプリ画面・UIを描かない。**
+   地図に関するものは、一般的な「地図のピン」「折りたたんだ紙の地図」「虫めがね」など、
+   どの企業にも属さない記号として描いてください。
+3. **人物の顔を描かない。**人物を出す場合は、後ろ姿・手元だけ・遠景のシルエットに限ります。
+   目鼻立ちのある顔は描かないでください。
+4. **子ども、障害、福祉を象徴的に記号化しない。**
+   車椅子、ハートを持つ手、寄り添う大人と子ども、といった定型的な福祉のモチーフは使いません。
+   代わりに、道具・場所・自然物といった「もの」で表現してください。
+5. 影を強く落とさない。立体的なグラデーションを多用しない。
+
+理解できたら「了解しました」とだけ返してください。</pre>
+</div>
+
+
+
+<!-- STEP2 -->
+<h2>4. 【STEP 2】カット①（表紙）— まずこれだけ作る</h2>
+<div class="p">
+<div class="ph">STEP 2／カット① 表紙キービジュアル<span>16:9 横長</span></div>
+<pre>では1点目をお願いします。**この1点が、以降すべての絵柄の基準になります。**
+
+【カット①：表紙のキービジュアル】比率 16:9（横長）
+
+描いてほしい情景：
+夕暮れ前の静かな住宅街を、少し高いところから見た遠景。
+低い家並みが数軒、細い道が一本。空には余白を大きく取ってください。
+その家並みの中の一軒の上に、**地図のピンが一つだけ、ふわりと浮いている。**
+そのピンだけが朱赤（#CC1B1A）で、他はすべて墨の細線と生成りの淡い面で描かれています。
+
+意図：
+「たくさんある中の、この一軒」を静かに指し示す絵です。
+賑やかさや成功のイメージではなく、**見つけてもらえた瞬間の静けさ**を表現してください。
+
+・文字は一切入れないでください。
+・実在する地図アプリのUIやロゴは描かないでください。ピンは一般的な涙型の記号で。
+・人物は登場させないでください。
+・背景は透過PNG（できない場合は #FAF8F6）。
+
+この1点ができたら、私が確認します。修正を伝えるので、それに対応してください。
+気に入ったら「確定」と伝えます。そのあとで2点目に進みます。</pre>
+</div>
+
+<!-- STEP3 -->
+<h2>5. 【STEP 3】カット②以降</h2>
+<div class="box">
+<b>カット①が確定してから、1〜2点ずつ送ってください。</b>各プロンプトの冒頭には必ず<br>
+<b>「先ほど確定したカット①と、線の太さ・色数・余白の取り方・水彩のにじみ具合を完全に揃えてください。」</b><br>
+という一文を入れてあります。<b>この一文を消さないでください。</b>これがないとトーンが崩れます。
+</div>
+
+<div class="p">
+<div class="ph">カット②／「私たちも同じ現場にいます」<span>1:1 正方形</span></div>
+<pre>先ほど確定したカット①と、線の太さ・色数・余白の取り方・水彩のにじみ具合を完全に揃えてください。
+
+【カット②】比率 1:1
+
+描いてほしいもの：
+運動あそびに使う道具を、床に無造作に置いた状態の静物。
+低いハードル、柔らかいボール、マット、輪っか。数は4〜5点まで。
+真上からではなく、少し斜め上から見た角度。
+朱赤は、ボール一つ分だけに使ってください。他は墨の線と生成り。
+
+意図：
+「私たちも同じ現場をやっています」という自己紹介の絵です。
+子どもや大人は描かず、**道具だけ**で現場の気配を出してください。使い込まれた感じが少しあると良いです。
+
+・文字なし。人物なし。顔なし。
+・車椅子など、障害を象徴する記号は入れないでください。
+・背景は透過PNG（できない場合は #FAF8F6）。</pre>
+</div>
+
+<div class="p">
+<div class="ph">カット③／「見つけてもらえていない」<span>1:1 正方形</span></div>
+<pre>先ほど確定したカット①と、線の太さ・色数・余白の取り方・水彩のにじみ具合を完全に揃えてください。
+
+【カット③】比率 1:1
+
+描いてほしいもの：
+地図のピンが5〜6本、ゆるやかに散らばって立っている。
+そのうち5本は墨の線ではっきり描かれ、**1本だけが極端に薄く、輪郭が消えかかっている。**
+薄い1本は、他より少し離れた位置に置いてください。
+
+意図：
+「同じ地域に事業所はあるのに、自分のところだけ見えていない」状態を表す絵です。
+かわいそうな印象ではなく、**ただ静かに、そこにあるのに見えていない**という表現にしてください。
+薄いピンにだけ、ごく淡く朱赤を残してもかまいません。
+
+・文字なし。人物なし。
+・実在する地図アプリの画面は描かないでください。ピンだけを白い空間に置いてください。
+・背景は透過PNG（できない場合は #FAF8F6）。</pre>
+</div>
+
+<div class="p">
+<div class="ph">カット④／手順アイコン 4点セット<span>1:1 ／ 4点まとめて1枚でも可</span></div>
+<pre>先ほど確定したカット①と、線の太さ・色数・余白の取り方を完全に揃えてください。
+今回はアイコン4点です。**4点は必ず同じ絵柄・同じ線の太さ・同じ大きさに揃えてください。**
+
+【カット④】比率 1:1（4点を1枚に横並びで出してもかまいません。その場合は等間隔で）
+
+1点目：地図のピン一本と、その隣に小さなチェックマーク（「登録する」の意味）
+2点目：小さなカメラ（「写真を載せる」の意味）
+3点目：吹き出しと、その上に置かれた短い鉛筆（「投稿する」の意味）
+4点目：封筒と、その脇に星ひとつ（「クチコミをお願いする」の意味）
+
+・すべて墨の細線で描き、**朱赤は各アイコンにつき1箇所だけ**、ごく小さく差してください。
+　（例：チェックマーク／シャッターボタン／鉛筆の先／星）
+・記号として読み取れることを最優先に、装飾は最小限に。
+・文字は入れないでください。
+・実在企業のアイコン（カメラアプリ、SNSのマーク等）に似せないでください。
+・背景は透過PNG（できない場合は #FAF8F6）。
+・A4上で1.5cm四方に縮小しても意味が分かる単純さにしてください。</pre>
+</div>
+
+<div class="p">
+<div class="ph">カット⑤／「続けることが効く」<span>1:1 正方形</span></div>
+<pre>先ほど確定したカット①と、線の太さ・色数・余白の取り方・水彩のにじみ具合を完全に揃えてください。
+
+【カット⑤】比率 1:1
+
+描いてほしいもの：
+小さな点が、左下から右上へ向かって少しずつ増えながら並んでいる。
+最初はまばらで薄く、進むにつれて数が増え、やがて一本の細い線のようにつながる。
+最後の数点だけが朱赤。それ以外は墨。
+
+意図：
+「一度やって終わりではなく、続けることで効いてくる」ことを表す絵です。
+グラフや矢印には見せないでください。**自然に積み重なった軌跡**のように描いてください。
+
+・文字なし。数字なし。目盛りなし。人物なし。
+・棒グラフ・折れ線グラフに見える表現は避けてください（別途データのグラフを載せるため、混同を避けます）。
+・背景は透過PNG（できない場合は #FAF8F6）。</pre>
+</div>
+
+<div class="p">
+<div class="ph">カット⑥／締めの一枚<span>1:1 正方形</span></div>
+<pre>先ほど確定したカット①と、線の太さ・色数・余白の取り方・水彩のにじみ具合を完全に揃えてください。
+
+【カット⑥】比率 1:1
+
+描いてほしいもの：
+一枚の紙を、手元だけで差し出している構図。手首から先だけを描いてください。
+紙は白紙で、何も書かれていません。少し斜めに、そっと置くような角度。
+朱赤は、紙の角にごく小さく一箇所だけ。
+
+意図：
+「よろしければ、これをお使いください」という、押しつけない終わり方の絵です。
+握手や契約を思わせる表現は避けてください。
+
+・文字なし。顔なし。腕全体や身体は描かないでください。手首から先だけです。
+・紙に文字・図・ロゴを描かないでください。白紙のままにしてください。
+・背景は透過PNG（できない場合は #FAF8F6）。</pre>
+</div>
+
+<!-- 修正 -->
+<h2>6. 修正を頼むときの言い方</h2>
+<p>生成AIは<b>「もう少し良くして」では直りません。</b>数値と部位で指示してください。そのまま使える例です。</p>
+<div class="tw"><table>
+<tr><th>直したいこと</th><th>そのまま送る文</th></tr>
+<tr><td>線が太い／細い</td><td>「線を今の7割の細さにしてください。他は変えないでください。」</td></tr>
+<tr><td>色が多い</td><td>「朱赤を使う箇所を1箇所だけに減らしてください。他の色は墨と生成りだけにしてください。」</td></tr>
+<tr><td>賑やかすぎる</td><td>「要素を2つ減らし、余白を全体の6割まで増やしてください。」</td></tr>
+<tr><td>文字が入った</td><td>「画像内の文字をすべて削除してください。一文字も入れないでください。」</td></tr>
+<tr><td>絵柄がズレた</td><td>「カット①と線の太さ・色数・余白の比率が合っていません。カット①に完全に合わせて描き直してください。」</td></tr>
+<tr><td>ポップすぎる</td><td>「かわいらしさを抑えて、静かで落ち着いた印象にしてください。曲線を減らし、直線的にしてください。」</td></tr>
+</table></div>
+
+<!-- 受領後 -->
+<h2>7. 受け取ったあと</h2>
+<div class="tw"><table>
+<tr><th></th><th>やること</th><th>担当</th></tr>
+<tr><td>1</td><td>画像を <code>新規事業リサーチ/MOONtec/illust/</code> に <code>01_cover.png</code> のような連番で保存</td><td>MOONさん</td></tr>
+<tr><td>2</td><td>提案書テンプレート（<code>gen.py</code>）に組み込み、6件すべてに自動反映</td><td>私</td></tr>
+<tr><td>3</td><td>白黒印刷・FAX送信時に潰れないかを確認</td><td>私</td></tr>
+<tr><td>4</td><td>グラフ部分（クチコミ件数・検索結果一覧）はHTMLのまま維持</td><td>私</td></tr>
+</table></div>
+
+<div class="box ok">
+<b>グラフは私が担当します。</b>いま棒グラフと検索結果の再現図はHTMLで作っていますが、<b>もっと見やすくできます。</b>イラストが揃ったら、グラフ側もトーンを合わせて作り直します。<b>そこはChatGPTに頼む必要がありません。</b>
+</div>
+
+<div class="box warn">
+<b>権利について：</b>ChatGPTで生成した画像の商用利用可否は、<b>利用中のプランと最新の利用規約によって変わります。</b>対外配布の営業資料に使うため、<b>OpenAIの利用規約をご確認ください。</b>ここは私の側では確定できません。
+</div>
+
+<div class="foot">
+株式会社MOON ／ ChatGPT用 イラスト依頼プロンプト｜2026-08-22<br>
+反映先：<code>新規事業リサーチ/MOONtec/提案書_練馬6件/gen.py</code>（6件の提案書を一括生成しているテンプレート）<br>
+グラフ・チェックマーク・スコア表示はHTML側で作成しており、イラスト発注の対象外です。
+</div>
+</div></body></html>
