@@ -1,0 +1,59 @@
+# ============================================================
+# html.ai = Cloudflare Pages の公開フォルダ
+#           （www.superior2025.com / superior-cud.pages.dev）
+#
+# ★ホワイトリスト方式★
+# push.sh は `git add .` でフォルダ全体を巻き込む。
+# そこで「既定で全部を非公開」にし、公開してよいものだけ "!" で許可する。
+#
+# 経緯: 2026-08-24、以下が一般公開されていたことが判明（計336件）。
+#   - 朝ブリーフィング130件（子どもの実名・学年・体験日時つき／2026-04-04から）
+#   - PRISM CUP 営業CRM・参加企業候補リスト18社（企業名/代表者実名/キラーワード）
+#   - TrustFit 籠谷様宛 提案書、デロイト打合せメモ
+#   - 新規事業プレゼン（経常赤字額・黒字化ロードマップ・役員報酬）
+#   CLAUDE.md 教訓#013（2026-08-22 練馬ターゲットリスト）の全面再発。
+#
+# ▼ 新しく公開したいものができたら、下に "!ファイル名" を1行足す。
+#   足さない限り公開されない。これが安全側の既定。
+# ============================================================
+
+# まず全部を非公開にする
+/*
+!.gitignore
+
+# --- SUPERIOR公式サイト（www.superior2025.com の実体） ---
+!/index.html
+!/superior-kitei.html
+!/sora-superior-note-matome.html
+
+# --- 保護者向け 予定表（LINE等で共有。?club=生駒/箕面 で出し分け） ---
+!/superior-schedule-2026.html
+!/sora-schedule-2026.html
+
+# --- 時粒アプリ App Store 必須ページ（tokitsubu.pages.dev は現在停止中のため、ここが唯一の公開先） ---
+!/privacy-tokitsubu.html
+!/support-tokitsubu.html
+
+# --- 画像（index.html が参照しているものだけ） ---
+!/images/
+/images/*
+!/images/article.jpg
+!/images/coach-hagio.jpg
+!/images/coach-ogita.jpg
+!/images/coach-ueda.jpg
+!/images/hashitobu.png
+!/images/line-qr.png
+!/images/logo-footer.png
+!/images/logo-line.png
+!/images/special-lecture.png
+!/images/venue-ikoma.jpg
+!/images/venue-minoh.jpg
+
+# --- note まとめページのサムネ ---
+!/note-thumbs/
+/note-thumbs/*
+!/note-thumbs/01_start.png
+!/note-thumbs/02_koekake.jpeg
+!/note-thumbs/03_osoi.jpeg
+!/note-thumbs/04_coaching.png
+!/note-thumbs/05_shoubu.png
