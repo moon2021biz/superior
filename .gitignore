@@ -35,6 +35,19 @@
 !/support-tokitsubu.html
 
 # --- 画像（index.html が参照しているものだけ） ---
+#
+# 🔴 2026-09-01 修正：2026-08-24 のホワイトリスト化（コミット a05cf43）で、
+#    index.html が実際に使っている写真5枚の許可行が漏れていた。
+#    その結果 8/24 08:38 の push 以降、本番 www.superior2025.com で
+#      ・FVの体育館写真（hero-8869.jpg）
+#      ・代表紹介の背景写真（ogita.png）
+#      ・会場カードの写真2枚（venue-ikoma-new / venue-minoh-new）
+#      ・イベント枠の背景（event-bg.jpg）
+#    が配信されず、ベタ塗り背景のまま表示されていた（2026-09-01にスクショで確認）。
+#
+# ★今後ここに画像を足すときは、必ず次のコマンドで漏れがないか確認すること：
+#    cd html.ai && git check-ignore --no-index -q <パス> && echo 除外 || echo 公開
+#
 !/images/
 /images/*
 !/images/article.jpg
@@ -45,9 +58,15 @@
 !/images/line-qr.png
 !/images/logo-footer.png
 !/images/logo-line.png
-!/images/special-lecture.png
+!/images/special-lecture.jpg
 !/images/venue-ikoma.jpg
 !/images/venue-minoh.jpg
+# ↓ 2026-09-01 追加（許可漏れで本番から消えていた5枚）
+!/images/hero-8869.jpg
+!/images/ogita.png
+!/images/event-bg.jpg
+!/images/venue-ikoma-new.jpg
+!/images/venue-minoh-new.jpg
 
 # --- note まとめページのサムネ ---
 !/note-thumbs/

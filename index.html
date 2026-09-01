@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== 表示速度対策（2026-09-01）=====
+       LCP要素はFVの背景画像 images/hero-8869.jpg。
+       CSS背景はブラウザのプリロードスキャナが見つけられず、CSS解析後まで読み込みが始まらない。
+       ここで明示的にpreloadしてHTML解析と同時にダウンロードを開始させる。 -->
+  <link rel="preload" as="image" href="images/hero-8869.jpg" fetchpriority="high">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.clarity.ms">
+
   <!-- Google Analytics 4（moonathlete.com全体プロパティ / superior2025.comはホスト名で分離） -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-98DJVN6D68"></script>
   <script>
@@ -10,6 +19,39 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-98DJVN6D68');
+  </script>
+  <script>
+  /* ===== 体験申込ボタンのクリック計測（2026-09-01 追加）=====
+     目的：「体験申込ボタンまで何人届いたか」を数えられるようにする。
+           これまでGA4のキーイベントが0件＝到達数が一度も測れていなかった。
+     送るイベント： trial_click（体験・講習の申込）／ line_click（LINE）
+     ※ GA4管理画面で trial_click を「キーイベント」に登録するまで
+       レポートのキーイベント欄は0のままです。
+       手順は ai実験用/計測設定手順_GA4_Clarity_2026-09-01.html を参照。 */
+  (function () {
+    var TRIAL = /superior-admin\.pages\.dev\/apply|forms\.gle|docs\.google\.com\/forms|\/taiken|\/entry/i;
+    var LINE  = /lin\.ee|line\.me/i;
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a') : null;
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (!href) return;
+      var cls = a.className || '';
+      var d = {
+        link_url: href,
+        link_text: (a.textContent || '').trim().slice(0, 40),
+        from_page: location.pathname,
+        button_class: cls
+      };
+      // ページ内リンク（#schedule など）＝FVの「無料体験を申し込む」を押した瞬間
+      if (href.charAt(0) === '#') {
+        if (/btn-hero|btn-trial/.test(cls)) gtag('event', 'trial_cta_click', d);
+        return;
+      }
+      if (TRIAL.test(href))      gtag('event', 'trial_click', d);
+      else if (LINE.test(href))  gtag('event', 'line_click',  d);
+    }, true);
+  })();
   </script>
   <title>陸上クラブ SUPERIOR（スペリオール）| 生駒市・箕面市</title>
   <meta name="description" content="オリンピアンの陸上クラブ「SUPERIOR（スペリオール）」です。生駒市（生駒市総合公園）、箕面市（RANDC）にて陸上教室を行っています。かけっこに興味がある方、足が速くなりたい小学生の方は是非一度無料体験へお越しください。">
@@ -852,7 +894,7 @@
       </div>
       <a href="https://note.com/ogilab/n/n8bbb5a429bb0?app_launch=false" target="_blank" rel="noopener" class="sns-card">
         <img
-          src="images/article.jpg"
+          src="images/article.jpg" loading="lazy" decoding="async" width="600" height="335"
           alt="子どもの走り方をマスターする記事">
         <div class="sns-card-body">
           note でも走りのコツや練習方法を発信しています。ぜひご覧ください。
@@ -1040,7 +1082,7 @@
     <div class="special-inner">
       <img
         class="special-img"
-        src="images/special-lecture.png"
+        src="images/special-lecture.jpg" loading="lazy" decoding="async" width="480" height="480"
         alt="箕面スクール 特別講習 告知">
       <h3 class="special-title">ー 詳細 ー</h3>
       <div class="special-detail">
@@ -1073,7 +1115,7 @@
     </h2>
     <img
       class="line-qr"
-      src="images/line-qr.png"
+      src="images/line-qr.png" loading="lazy" decoding="async" width="141" height="141"
       alt="SUPERIOR 公式LINE QRコード">
     <a href="https://lin.ee/yjGq40U" class="btn-line" target="_blank" rel="noopener">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
@@ -1089,7 +1131,7 @@
       <p class="section-label">COACHES</p>
       <h2 class="section-title">コーチ紹介</h2>
       <img
-        src="images/hashitobu.png"
+        src="images/hashitobu.png" loading="lazy" decoding="async" width="505" height="43"
         alt="走・跳・投"
         style="margin: 0 auto 48px; max-width:300px;">
       <div class="coaches-grid">
@@ -1097,7 +1139,7 @@
         <div class="coach-card">
           <img
             class="coach-photo"
-            src="images/coach-ogita.jpg"
+            src="images/coach-ogita.jpg" loading="lazy" decoding="async" width="200" height="204"
             alt="荻田大樹コーチ">
           <h3 class="coach-name-jp">荻田 大樹</h3>
           <p class="coach-name-en">Ogita Hiroki</p>
@@ -1113,7 +1155,7 @@
         <div class="coach-card">
           <img
             class="coach-photo"
-            src="images/coach-ueda.jpg"
+            src="images/coach-ueda.jpg" loading="lazy" decoding="async" width="200" height="204"
             alt="上田裕紀コーチ">
           <h3 class="coach-name-jp">上田 裕紀</h3>
           <p class="coach-name-en">Ueda Yuki</p>
@@ -1128,7 +1170,7 @@
         <div class="coach-card">
           <img
             class="coach-photo"
-            src="images/coach-hagio.jpg"
+            src="images/coach-hagio.jpg" loading="lazy" decoding="async" width="200" height="204"
             alt="萩尾脩斗コーチ">
           <h3 class="coach-name-jp">萩尾 脩斗</h3>
           <p class="coach-name-en">Hagio Shuto</p>
@@ -1154,7 +1196,7 @@
         <div class="venue-card">
           <img
             class="venue-img"
-            src="images/venue-ikoma.jpg"
+            src="images/venue-ikoma.jpg" loading="lazy" decoding="async" width="380" height="355"
             alt="生駒市立総合公園体育館">
           <h3 class="venue-name">生駒スクール</h3>
           <p class="venue-address">
@@ -1167,7 +1209,7 @@
         <div class="venue-card">
           <img
             class="venue-img"
-            src="images/venue-minoh.jpg"
+            src="images/venue-minoh.jpg" loading="lazy" decoding="async" width="380" height="355"
             alt="RANDC 箕面">
           <h3 class="venue-name">箕面スクール</h3>
           <p class="venue-address">
@@ -1243,7 +1285,7 @@
   <footer>
     <img
       class="footer-logo-img"
-      src="images/logo-footer.png"
+      src="images/logo-footer.png" loading="lazy" decoding="async"
       alt="SUPERIOR スペリオール フッターロゴ">
     <p class="footer-name">SUPERIOR</p>
     <p class="footer-sub">ー スペリオール ー</p>
