@@ -8,10 +8,8 @@
 #
 # 経緯: 2026-08-24、以下が一般公開されていたことが判明（計336件）。
 #   - 朝ブリーフィング130件（子どもの実名・学年・体験日時つき／2026-04-04から）
-#   - PRISM CUP 営業CRM・参加企業候補リスト18社（企業名/代表者実名/キラーワード）
-#   - TrustFit 籠谷様宛 提案書、デロイト打合せメモ
-#   - 新規事業プレゼン（経常赤字額・黒字化ロードマップ・役員報酬）
-#   CLAUDE.md 教訓#013（2026-08-22 練馬ターゲットリスト）の全面再発。
+#   - 社外秘の営業資料・打合せメモ・経営数値を含む資料が複数（詳細は CLAUDE.md 教訓#013）
+#   ※ このファイル自体が公開URLから読めるため、ここに固有名詞は書かない（2026-09-08）
 #
 # ▼ 新しく公開したいものができたら、下に "!ファイル名" を1行足す。
 #   足さない限り公開されない。これが安全側の既定。
@@ -63,10 +61,12 @@
 !/images/venue-minoh.jpg
 # ↓ 2026-09-01 追加（許可漏れで本番から消えていた5枚）
 !/images/hero-8869.jpg
-!/images/ogita.png
 !/images/event-bg.jpg
 !/images/venue-ikoma-new.jpg
 !/images/venue-minoh-new.jpg
+# ogita は透過PNG(390KB)を減色したらザラついたため、白背景に合成したJPEGへ差し替え（47KB・元と見分けがつかない）
+!/images/ogita.jpg
+!/images/undokai-report.jpg
 
 # --- note まとめページのサムネ ---
 !/note-thumbs/
@@ -76,3 +76,4 @@
 !/note-thumbs/03_osoi.jpeg
 !/note-thumbs/04_coaching.png
 !/note-thumbs/05_shoubu.png
+!/note-thumbs/06_undokai.jpg
