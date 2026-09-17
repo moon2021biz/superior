@@ -1316,7 +1316,10 @@
       if(dObj<today)return; // 過去のイベントは出さない
       var wd=WD[dObj.getDay()];
       (det[dt]||[]).forEach(function(e){
-        var club=e.loc||'';
+        // 🔴 2026-09-17: 会場から拠点を決める。管理アプリはSUPERIOR共通イベントの loc を
+        //    作成時に選んでいたスクールに関わらず「生駒」で書き出すことがあり（10/26体験会で実機確認）、
+        //    e.loc をそのまま使うと箕面(RANDC)の体験会の申込が生駒フォームに飛ぶ。
+        var club=/RANDC/i.test(e.venue||'')?'箕面':(e.loc||'');
         var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
         var applied=(+e.applied||0)+(TK_EXTRA[dt]||0);
         var minLine=/体験/.test(e.name||'')?('限定'+TK_LIMIT+'名（残り'+Math.max(0,TK_LIMIT-applied)+'名）'):(e.min||'');
