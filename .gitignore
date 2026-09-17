@@ -27,6 +27,8 @@
 # --- 保護者向け 予定表（LINE等で共有。?club=生駒/箕面 で出し分け） ---
 !/superior-schedule-2026.html
 !/sora-schedule-2026.html
+# ↓ 2026-09-17 追加（2026-08-24 のホワイトリスト化で許可行が漏れ、公開から落ちていた）
+!/superior-minoh-annual-2026-2027.html
 
 # --- 時粒アプリ App Store 必須ページ（tokitsubu.pages.dev は現在停止中のため、ここが唯一の公開先） ---
 !/privacy-tokitsubu.html
