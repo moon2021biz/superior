@@ -839,6 +839,7 @@
     .ev-ban-info{font-size:.88rem;color:var(--gray2);line-height:1.9;margin-bottom:14px}
     .ev-ban-btn{display:inline-block;background:var(--gold);color:#fff;font-weight:800;font-size:.92rem;padding:11px 30px;border-radius:8px;text-decoration:none;transition:opacity .2s}
     .ev-ban-btn:hover{opacity:.85}
+    .ev-ban-img{display:block;width:100%;max-width:520px;height:auto;border-radius:10px;margin:0 0 14px}
   </style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
@@ -1306,6 +1307,8 @@
   // 体験会の残席カウントダウン設定
   var TK_LIMIT=10;                 // 限定人数
   var TK_EXTRA={'2026-08-24':2};   // 口頭参加(アプリ未登録)の加算：頓宮さん・宿屋さん(別曜日会員の追加参加) 8/24=2名
+  // イベント告知画像（日付_拠点 → 画像）。日付が過ぎればイベントごと自動で消える
+  var EV_IMG={'2026-10-26_箕面':'images/event-20261026-minoh.jpg'};
   fetch('https://superior-admin.pages.dev/api/schedule?org=SUPERIOR&cb='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(j){
     if(!j||!j.eventsDetail)return;
     var det=j.eventsDetail, today=new Date(); today.setHours(0,0,0,0);
@@ -1324,7 +1327,7 @@
         var applied=(+e.applied||0)+(TK_EXTRA[dt]||0);
         var minLine=/体験/.test(e.name||'')?('限定'+TK_LIMIT+'名（残り'+Math.max(0,TK_LIMIT-applied)+'名）'):(e.min||'');
         var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+String(e.fee).replace(/[（(][^）)]*2回目[^）)]*[）)]/,'').trim():'', minLine].filter(Boolean);
-        rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div><div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
+        rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div>'+(EV_IMG[dt+'_'+club]?'<img class="ev-ban-img" src="'+EV_IMG[dt+'_'+club]+'" alt="'+esc(m+'月'+d+'日 '+club+' 無料体験会（RANDCフットサルコート）')+'" loading="lazy" width="1080" height="1080">':'')+'<div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
       });
     });
     if(!rows.length)return;
