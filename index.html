@@ -861,6 +861,14 @@
     .ev-ban-btn{display:inline-block;background:var(--gold);color:#fff;font-weight:800;font-size:.92rem;padding:11px 30px;border-radius:8px;text-decoration:none;transition:opacity .2s}
     .ev-ban-btn:hover{opacity:.85}
     .ev-ban-img{display:block;width:100%;max-width:520px;height:auto;border-radius:10px;margin:0 0 14px}
+    /* 画像つきのイベント：PCは画像を小さく左、文字と申込ボタンを右に並べる */
+    .ev-ban-body{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:center}
+    .ev-ban-body .ev-ban-img{max-width:none;margin:0;box-shadow:0 4px 14px rgba(0,0,0,.10)}
+    .ev-ban-body .ev-ban-info{margin-bottom:16px}
+    @media(max-width:640px){
+      .ev-ban-body{grid-template-columns:1fr;gap:14px}
+      .ev-ban-body .ev-ban-img{max-width:360px}
+    }
   </style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
@@ -1376,7 +1384,9 @@
         var tkLeft=TK_LIMIT-applied, tkStatus=tkLeft<=0?'満員':(tkLeft<=5?'残りわずか':'空きあり');
         var minLine=/体験/.test(e.name||'')?('限定'+TK_LIMIT+'名（'+tkStatus+'）'):(e.min||'');
         var info=[e.time?'時間：'+e.time:'', e.venue?'会場：'+e.venue+(/RANDC/i.test(e.venue)?'（大阪府箕面市）':''):'', e.target?'対象：'+e.target:'', e.fee?'料金：'+String(e.fee).replace(/[（(][^）)]*2回目[^）)]*[）)]/,'').trim():'', minLine].filter(Boolean);
-        rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div>'+(EV_IMG[dt+'_'+club]?'<img class="ev-ban-img" src="'+EV_IMG[dt+'_'+club]+'" alt="'+esc(m+'月'+d+'日 '+club+' 無料体験会（RANDCフットサルコート）')+'" loading="lazy" width="1080" height="1080">':'')+'<div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a></div>');
+        var img=EV_IMG[dt+'_'+club]?'<img class="ev-ban-img" src="'+EV_IMG[dt+'_'+club]+'" alt="'+esc(m+'月'+d+'日 '+club+' 無料体験会（RANDCフットサルコート）')+'" loading="lazy" width="1080" height="1080">':'';
+        var txt='<div class="ev-ban-info">'+info.map(esc).join('<br>')+'</div><a class="ev-ban-btn" href="'+applyUrl+'" target="_blank" rel="noopener">体験申し込み</a>';
+        rows.push('<div class="ev-ban-item"><div class="ev-ban-head">'+esc(e.name)+'<span class="ev-ban-date">'+m+'/'+d+'（'+wd+'）</span></div>'+(img?'<div class="ev-ban-body">'+img+'<div class="ev-ban-txt">'+txt+'</div></div>':txt)+'</div>');
       });
     });
     if(!rows.length)return;
