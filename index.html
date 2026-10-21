@@ -749,6 +749,29 @@
       line-height: 2;
     }
 
+
+    /* コーチのポップアップ（スマホで中身を畳むため・2026-10-21） */
+    .coach-card{background:none;border:0;padding:0;font:inherit;color:inherit;width:100%;cursor:pointer}
+    .coaches-note{display:none}
+    .cdlg{
+      border:0;padding:0;margin:auto;border-radius:14px;background:var(--white);color:var(--gray1);
+      max-width:460px;width:calc(100% - 32px);max-height:86vh;overflow:auto;
+      box-shadow:0 30px 80px rgba(0,0,0,.30);
+    }
+    .cdlg::backdrop{background:rgba(13,13,13,.62)}
+    .cdlg-x{
+      position:sticky;top:12px;left:100%;transform:translateX(-50px);
+      width:38px;height:38px;border:1px solid var(--gray4);border-radius:50%;background:var(--white);
+      font-size:19px;line-height:1;color:var(--gray3);cursor:pointer;transition:.2s;z-index:2;
+    }
+    .cdlg-x:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+    .cdlg-in{padding:0 34px 36px;text-align:center}
+    .cdlg-in .coach-photo{width:150px;height:150px;margin:0 auto 18px}
+    .cdlg-in .coach-name-jp{font-size:22px;margin-bottom:4px}
+    .cdlg-in .coach-name-en{font-size:11px;margin-bottom:12px}
+    .cdlg-in .coach-sport{font-size:12.5px;margin-bottom:14px}
+    .cdlg-in .coach-records{font-size:13.5px;line-height:2.1;color:var(--gray2)}
+
     /* ===== VENUES ===== */
     .venues-section { background: var(--gray5); }
 
@@ -866,6 +889,16 @@
     .ev-ban-body .ev-ban-img{max-width:none;margin:0;box-shadow:0 4px 14px rgba(0,0,0,.10)}
     .ev-ban-body .ev-ban-info{margin-bottom:16px}
     @media(max-width:640px){
+      /* コーチ：3人横並び。中身はカードを押すとポップアップで出す（2026-10-21） */
+      .coaches-grid{grid-template-columns:repeat(3,1fr);gap:10px;max-width:none}
+      .coach-photo{width:74px;height:74px;margin:0 auto 10px;border-width:1px}
+      .coach-name-jp{font-size:13px;letter-spacing:1px;margin-bottom:1px}
+      .coach-name-en{font-size:8px;letter-spacing:1px;margin-bottom:5px}
+      .coach-sport{font-size:9px;letter-spacing:.5px;margin-bottom:0;line-height:1.6}
+      .coaches-grid .coach-records{display:none}  /* ポップアップ内の複製には効かせない */
+      .coaches-note{display:block;margin-top:18px;font-size:11px;color:var(--gray3)}
+      .cdlg-in{padding:0 22px 28px}
+      .cdlg-in .coach-photo{width:128px;height:128px}
       .ev-ban-body{grid-template-columns:1fr;gap:14px}
       .ev-ban-body .ev-ban-img{max-width:360px}
     }
@@ -1192,7 +1225,7 @@
         style="margin: 0 auto 48px; max-width:300px;">
       <div class="coaches-grid">
 
-        <div class="coach-card">
+        <button type="button" class="coach-card" aria-haspopup="dialog">
           <img
             class="coach-photo"
             src="images/coach-ogita.jpg" loading="lazy" decoding="async" width="200" height="204"
@@ -1206,9 +1239,9 @@
             世界選手権 3大会代表<br>
             日本選手権 優勝
           </div>
-        </div>
+        </button>
 
-        <div class="coach-card">
+        <button type="button" class="coach-card" aria-haspopup="dialog">
           <img
             class="coach-photo"
             src="images/coach-ueda.jpg" loading="lazy" decoding="async" width="200" height="204"
@@ -1221,9 +1254,9 @@
             国民体育大会 入賞<br>
             全日本インカレ 出場
           </div>
-        </div>
+        </button>
 
-        <div class="coach-card">
+        <button type="button" class="coach-card" aria-haspopup="dialog">
           <img
             class="coach-photo"
             src="images/coach-hagio.jpg" loading="lazy" decoding="async" width="200" height="204"
@@ -1236,11 +1269,17 @@
             西日本インカレ 優勝<br>
             関西インカレ 優勝
           </div>
-        </div>
+        </button>
 
       </div>
+      <p class="coaches-note">カードを押すと、競技・自己ベスト・戦績が開きます。</p>
     </div>
   </section>
+
+  <dialog class="cdlg" id="coach-dlg" aria-labelledby="coach-dlg-t">
+    <button type="button" class="cdlg-x" aria-label="閉じる">×</button>
+    <div class="cdlg-in"></div>
+  </dialog>
 
   <!-- 会場 -->
   <section class="section venues-section" id="venues">
@@ -1424,6 +1463,31 @@
       if(hl&&hl.nextSibling)body.insertBefore(box,hl.nextSibling); else body.insertBefore(box,body.firstChild);
     });
   }).catch(function(){/* 取得できないときは何も出さない（従来の見た目のまま） */});
+})();
+</script>
+<script>
+/* コーチのカード → ポップアップ（2026-10-21） */
+(function(){
+  var d = document.getElementById('coach-dlg');
+  if(!d) return;
+  function show(){ if(d.showModal){d.showModal();}else{d.setAttribute('open','');} document.documentElement.style.overflow='hidden'; }
+  function hide(){ if(d.close){d.close();}else{d.removeAttribute('open');} document.documentElement.style.overflow=''; }
+  document.querySelectorAll('.coach-card').forEach(function(b){
+    b.addEventListener('click', function(){
+      var box = d.querySelector('.cdlg-in');
+      box.innerHTML = '';
+      b.querySelectorAll('.coach-photo, .coach-name-jp, .coach-name-en, .coach-sport, .coach-records').forEach(function(el){
+        var c = el.cloneNode(true);
+        if(c.tagName === 'IMG'){ c.removeAttribute('loading'); }
+        box.appendChild(c);
+      });
+      var h = box.querySelector('.coach-name-jp'); if(h) h.id = 'coach-dlg-t';
+      show();
+    });
+  });
+  d.querySelector('.cdlg-x').addEventListener('click', hide);
+  d.addEventListener('click', function(e){ if(e.target===d) hide(); });
+  d.addEventListener('close', function(){ document.documentElement.style.overflow=''; });
 })();
 </script>
 </body>
