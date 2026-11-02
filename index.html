@@ -1091,7 +1091,7 @@
             </p>
             <a href="https://superior-cud.pages.dev/superior-schedule-2026"
                class="news-link" target="_blank" rel="noopener">活動予定はこちら</a>
-            <a href="https://superior-admin.pages.dev/apply.html?club=%E7%94%9F%E9%A7%92"
+            <a href="https://superior-admin.pages.dev/apply.html?club=%E7%94%9F%E9%A7%92&amp;src=hp"
                class="btn-trial" target="_blank" rel="noopener">体験申し込み</a>
           </div>
         </article>
@@ -1119,7 +1119,7 @@
             </p>
             <a href="https://superior-cud.pages.dev/superior-schedule-2026"
                class="news-link" target="_blank" rel="noopener">活動予定はこちら</a>
-            <a href="https://superior-admin.pages.dev/apply.html?club=%E7%AE%95%E9%9D%A2"
+            <a href="https://superior-admin.pages.dev/apply.html?club=%E7%AE%95%E9%9D%A2&amp;src=hp"
                class="btn-trial" target="_blank" rel="noopener">体験申し込み</a>
           </div>
         </article>
@@ -1379,11 +1379,11 @@
       <h2 class="section-title">無料体験・お問い合わせ</h2>
       <p class="apply-lead">「まずは一度、体験してみたい」——そんな方はこちらから。ご不明な点は公式LINEでお気軽にご相談いただけます。</p>
       <div class="apply-grid">
-        <a class="apply-btn is-trial" href="https://superior-admin.pages.dev/apply.html?club=%E7%94%9F%E9%A7%92" target="_blank" rel="noopener">
+        <a class="apply-btn is-trial" href="https://superior-admin.pages.dev/apply.html?club=%E7%94%9F%E9%A7%92&amp;src=hp" target="_blank" rel="noopener">
           <div class="ab-t">生駒スクール 体験申込</div>
           <div class="ab-d">奈良・生駒市／毎週木曜</div>
         </a>
-        <a class="apply-btn is-trial" href="https://superior-admin.pages.dev/apply.html?club=%E7%AE%95%E9%9D%A2" target="_blank" rel="noopener">
+        <a class="apply-btn is-trial" href="https://superior-admin.pages.dev/apply.html?club=%E7%AE%95%E9%9D%A2&amp;src=hp" target="_blank" rel="noopener">
           <div class="ab-t">箕面スクール 体験申込</div>
           <div class="ab-d">大阪・箕面市 RANDC／火曜 月3回</div>
         </a>
@@ -1439,7 +1439,7 @@
         //    作成時に選んでいたスクールに関わらず「生駒」で書き出すことがあり（10/26体験会で実機確認）、
         //    e.loc をそのまま使うと箕面(RANDC)の体験会の申込が生駒フォームに飛ぶ。
         var club=/RANDC/i.test(e.venue||'')?'箕面':(e.loc||'');
-        var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club);
+        var applyUrl='https://superior-admin.pages.dev/apply.html?club='+encodeURIComponent(club)+'&src=hp'; // 経路計測 2026-11-02
         var applied=(+e.applied||0)+(TK_EXTRA[dt]||0);
         // 残席は人数を出さず3段階で表示：残り6名以上＝空きあり／1〜5名＝残りわずか／0名＝満員（2026-10-11 MOON指示）
         var tkLeft=TK_LIMIT-applied, tkStatus=tkLeft<=0?'満員':(tkLeft<=5?'残りわずか':'空きあり');
