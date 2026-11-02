@@ -306,6 +306,10 @@
     .faq-item[open] summary::after{content:"−"}
     .faq-item .faq-a{padding:0 8px 20px 30px;font-size:13px;color:var(--gray2);line-height:2}
     .faq-item .faq-a strong{color:var(--black)}
+    .fee-tabs{display:flex;gap:8px;margin:10px 0 12px}
+    .fee-tab{font:inherit;font-size:13px;font-weight:700;padding:8px 14px;border:1px solid var(--gold);border-radius:4px;background:transparent;color:var(--black);cursor:pointer}
+    .fee-tab[aria-pressed="true"]{background:var(--gold);color:#fff}
+    .fee-panel{background:var(--gray5);border-left:2px solid var(--gold);padding:10px 14px;margin-bottom:10px;border-radius:0 4px 4px 0}
 
     /* ===== 各種お申し込みCTA ===== */
     .apply-section{background:var(--black);color:#fff;text-align:center;padding-bottom:40px}
@@ -1073,12 +1077,10 @@
               小学生コース　16:45〜17:45<br>
               追加専門コース　18:00〜18:25
             </div>
-            <p class="news-fee">月会費 <strong>6,600円</strong>（税込・小学生コース）<br>入会金 <strong>5,500円</strong>（税込・入会時のみ）</p>
             <div style="background:rgba(255,255,255,0.35);border-left:2px solid var(--gold);padding:10px 14px;margin-bottom:12px;border-radius:0 4px 4px 0;">
               <p style="font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:4px;color:var(--black);">追加専門コースについて</p>
               <p style="font-size:11px;color:var(--gray2);line-height:1.8;">
                 小学生コース終了後の25分間、より専門的なトレーニングを行います。<br>
-                <strong style="color:var(--black);">¥3,300 ／ 4回券</strong>（回数制）<br>
                 ご希望の方はお申し込み時にご相談ください。
               </p>
             </div>
@@ -1106,7 +1108,6 @@
               火曜 月3回<br>
               小学生コース　18:30〜19:30
             </div>
-            <p class="news-fee">月会費 <strong>7,700円</strong>（税込・小学生コース）<br>入会金 <strong>5,500円</strong>（税込・入会時のみ）</p>
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(184,154,90,0.12);border:1px dashed var(--gold);border-radius:6px;padding:9px 10px;margin-bottom:12px;">
               <span style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:#fff;background:var(--gold);padding:3px 7px;border-radius:3px;white-space:nowrap;">COMING SOON</span>
               <span style="font-size:13px;font-weight:800;color:#C0392B;">月曜コース 17:00〜 開講準備中！</span>
@@ -1156,7 +1157,6 @@
     </div>
 
     <p class="plan-note">
-      ※ 料金はすべて税込です。入会金にはオリジナルTシャツ代・保険料を含みます。<br>
       ※ 無料体験は2回目以降、料金が発生します。<br>
       ※ お友だち紹介で、紹介者は翌月の月会費が無料、入会者は入会金が無料になります。
     </p>
@@ -1346,6 +1346,26 @@
         <div class="faq-a">はい、<strong>無料体験を随時受付中</strong>です。まずはお気軽にお申し込みください。※2回目以降の体験は料金が発生します。</div>
       </details>
       <details class="faq-item">
+        <summary>月会費・入会金はいくらですか？</summary>
+        <div class="faq-a">
+          通うスクールを選んでください。
+          <div class="fee-tabs" role="group" aria-label="スクールを選ぶ">
+            <button type="button" class="fee-tab" data-fee="ikoma" aria-pressed="false">生駒スクール</button>
+            <button type="button" class="fee-tab" data-fee="minoh" aria-pressed="false">箕面スクール</button>
+          </div>
+          <div class="fee-panel" data-fee="ikoma" hidden>
+            <strong>月会費</strong>：6,600円（小学生コース）<br>
+            <strong>入会金</strong>：5,500円（入会時のみ）<br>
+            <strong>追加専門コース</strong>（25分）：3,300円／4回券
+          </div>
+          <div class="fee-panel" data-fee="minoh" hidden>
+            <strong>月会費</strong>：7,700円（小学生コース）<br>
+            <strong>入会金</strong>：5,500円（入会時のみ）
+          </div>
+          ※ 料金はすべて税込です。入会金にはオリジナルTシャツ代・保険料を含みます。
+        </div>
+      </details>
+      <details class="faq-item">
         <summary>年度の途中からでも入会できますか？</summary>
         <div class="faq-a">はい、<strong>随時受け付けています</strong>。定員に達し次第、募集を締め切る場合がありますので、お早めにご相談ください。</div>
       </details>
@@ -1490,6 +1510,19 @@
   d.querySelector('.cdlg-x').addEventListener('click', hide);
   d.addEventListener('click', function(e){ if(e.target===d) hide(); });
   d.addEventListener('close', function(){ document.documentElement.style.overflow=''; });
+})();
+</script>
+<script>
+/* Q&A 会費 → 選んだスクールだけ表示（2026-11-02） */
+(function(){
+  var tabs = document.querySelectorAll('.fee-tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var k = t.getAttribute('data-fee');
+      tabs.forEach(function(x){ x.setAttribute('aria-pressed', x===t ? 'true' : 'false'); });
+      document.querySelectorAll('.fee-panel').forEach(function(p){ p.hidden = p.getAttribute('data-fee') !== k; });
+    });
+  });
 })();
 </script>
 </body>
