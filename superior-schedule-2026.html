@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SUPERIOR 予定表 2026年6〜8月</title>
+  <title>SUPERIOR 予定表｜最新の活動予定と無料体験</title>
   <style>
     :root {
       --ikoma: #5c2d91;
@@ -235,6 +235,18 @@
     .cal-ev.tbd{background:#f0f0f2;color:#666}
     .cal-ev.event{background:#fff3e0;color:#e65100}
 
+
+    /* ===== CTA（2026-11-02 追加：予定表を「申込への通過点」に） ===== */
+    .cta-bar{background:#fff;border-bottom:1px solid #e0d8f5;padding:12px 14px;text-align:center}
+    .cta-bar .cta-lead{font-size:.82rem;color:#3d1f6b;font-weight:700;margin-bottom:8px}
+    .cta-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    .cta-btn{display:inline-block;padding:11px 18px;border-radius:999px;color:#fff !important;font-weight:800;font-size:.88rem;text-decoration:none}
+    .cta-btn.ikoma{background:var(--ikoma)}.cta-btn.minoh{background:var(--minoh)}
+    .cta-month{text-align:center;padding:2px 14px 18px}
+    .cta-month .cta-lead{font-size:.8rem;color:#555;margin-bottom:8px}
+    .back-top{display:inline-block;margin:10px 14px;font-size:.82rem;color:var(--ikoma);font-weight:700;text-decoration:none}
+    .back-wrap{text-align:center}
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.3rem; }
       .tab { font-size: 0.88rem; padding: 11px 4px; }
@@ -247,6 +259,14 @@
       .cal-ev .sch{font-size:.56rem}
     }
   </style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "u5wwks1002");
+</script>
 </head>
 <body>
 
@@ -255,6 +275,9 @@
   <p id="subtitle">陸上クラブ スペリオール（Superior）</p>
 </header>
 
+<div class="back-wrap" style="background:#fff"><a class="back-top" href="/">← SUPERIOR トップへ戻る</a></div>
+<div class="cta-bar"><div class="cta-lead">いつ・どこで練習しているかを確認して、まずは無料体験へ</div><div id="ctaTop"></div></div>
+
 <div class="legend">
   <div class="legend-title">▼ 場所の略称</div>
   <div class="legend-grid" id="legendGrid"></div>
@@ -262,6 +285,9 @@
 
 <div class="tabs" id="tabs"></div>
 <div id="months"><p style="text-align:center;color:#888;padding:40px 10px">予定を読み込み中…</p></div>
+
+<div class="cta-bar" style="border-top:1px solid #e0d8f5;margin-top:12px"><div class="cta-lead">予定を確認したら、次は体験へ</div><div id="ctaBottom"></div>
+  <div class="back-wrap"><a class="back-top" href="/">← SUPERIOR トップへ戻る</a></div></div>
 
 <footer>
   陸上クラブ SUPERIOR ｜ 株式会社MOON<br>
@@ -278,6 +304,11 @@ function locHtml(loc){
 }
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function venueClass(v){v=v||'';if(v.indexOf('RANDC')>=0)return 'randc';if(v.indexOf('グランド')>=0||v.indexOf('グラウンド')>=0)return 'ground';if(v.indexOf('体育館')>=0)return 'gym';return 'gym';}
+function ctaBtns(){
+  return SCHOOLS.map(s=>{const k=s==='生駒'?'ikoma':'minoh';const c=encodeURIComponent(s==='箕面'?'箕面':'生駒');
+    return `<a class="cta-btn ${k}" target="_blank" rel="noopener" href="https://superior-admin.pages.dev/apply.html?club=${c}&src=%SRC%">${s}スクール 無料体験を申し込む</a>`;}).join('');
+}
+function ctaHtml(src,lead){return `<div class="cta-btns" data-src="${src}">${ctaBtns().replace(/%SRC%/g,src)}</div>`;}
 let SCHED={data:{},events:{},locs:[]};
 // ?club=生駒/箕面 で1スクールだけ表示（無指定は両方）
 const CLUB=(new URLSearchParams(location.search).get('club')||'').trim();
@@ -363,14 +394,17 @@ function render(){
   months.forEach((ym,i)=>{
     const m=Number(ym.split('-')[1]);
     tabs+=`<div class="tab ${i===active?'active':''}" onclick="showMonth('${ym}')">${m}月</div>`;
-    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}">${buildCalendar(ym)}${eventBoxHtml(ym)}</div>`;
+    conts+=`<div id="mo_${ym}" class="month-content ${i===active?'active':''}">${buildCalendar(ym)}${eventBoxHtml(ym)}<div class="cta-month"><div class="cta-lead">気になる日があれば、まずは無料体験から</div>${ctaHtml('schedule')}</div></div>`;
   });
   const lg=document.getElementById('legendGrid');
   if(lg)lg.innerHTML=LEGEND.filter(x=>SCHOOLS.includes(x.s)).map(x=>`<div class="legend-item"><div class="ldot" style="background:${x.dot}"></div>${x.t}</div>`).join('');
+  const tb=document.getElementById('ctaTop');if(tb)tb.innerHTML=ctaHtml('schedule');
+  const tb2=document.getElementById('ctaBottom');if(tb2)tb2.innerHTML=ctaHtml('schedule');
   document.getElementById('tabs').innerHTML=tabs;
   document.getElementById('months').innerHTML=conts;
   const first=Number(months[0].split('-')[1]), last=Number(months[months.length-1].split('-')[1]);
   const label=(CLUB&&ALL_SCHOOLS.includes(CLUB))?(CLUB+'スクール'):'スペリオール（Superior）';
+  document.title='SUPERIOR 予定表｜'+months[0].split('-')[0]+'年'+first+'月〜'+last+'月の活動予定';
   document.getElementById('subtitle').textContent='陸上クラブ '+label+(months.length?(' '+months[0].split('-')[0]+'年 '+first+'月〜'+last+'月'):'');
 }
 function showMonth(ym){
