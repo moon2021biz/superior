@@ -1126,6 +1126,15 @@
 
       </div>
     </div>
+
+    <!-- SPIA（公式マスコット）配置①：スクール紹介に到達したとき、下から1回だけ出て約3秒で消える -->
+    <div class="spia spia-peek" id="spiaPeek" aria-hidden="true">
+      <picture>
+        <source media="(prefers-reduced-motion: reduce)" srcset="images/spia/spia-run-still.png" type="image/png">
+        <source srcset="images/spia/spia-run.webp" type="image/webp">
+        <img src="images/spia/spia-run.gif" width="512" height="512" alt="" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+    </div>
   </section>
 
   <!-- 料金・入会案内 -->
@@ -1133,6 +1142,22 @@
     <div class="inner section-center">
       <p class="section-label">GUIDE</p>
       <h2 class="section-title">ご入会について</h2>
+    </div>
+
+    <!-- SPIA（公式マスコット）配置②-1：ご入会案内（GUIDE） -->
+    <div class="spia-play">
+      <button type="button" class="spia spia-cheer spia-cheer--guide spia-tap" id="spiaTap" aria-label="スピアをタップする">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/spia/spia-cheer-still.png" type="image/png">
+          <source srcset="images/spia/spia-cheer.webp" type="image/webp">
+          <img src="images/spia/spia-cheer-still.png" width="384" height="384" alt="" loading="lazy" decoding="async" fetchpriority="low">
+        </picture>
+      </button>
+      <div class="spia-bubwrap">
+        <div class="spia-bub" id="spiaBub" role="status" aria-live="polite">
+          <span class="spia-bub-n" id="spiaBubN" hidden></span><span id="spiaBubT">タップしてみて</span>
+        </div>
+      </div>
     </div>
 
     <div class="plan-enroll">
@@ -1378,6 +1403,17 @@
       <p class="section-label">CONTACT</p>
       <h2 class="section-title">無料体験・お問い合わせ</h2>
       <p class="apply-lead">「まずは一度、体験してみたい」——そんな方はこちらから。ご不明な点は公式LINEでお気軽にご相談いただけます。</p>
+      <!-- SPIA（公式マスコット）配置②-2：無料体験申込（CONTACT）／申込ボタンの上 -->
+      <div class="spia spia-cta" aria-hidden="true">
+        <div class="spia-cheer">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="images/spia/spia-cheer-still.png" type="image/png">
+            <source srcset="images/spia/spia-cheer.webp" type="image/webp">
+            <img src="images/spia/spia-cheer-still.png" width="384" height="384" alt="" loading="lazy" decoding="async" fetchpriority="low">
+          </picture>
+        </div>
+        <p class="spia-bubble">いっしょに走ろう！</p>
+      </div>
       <div class="apply-grid">
         <a class="apply-btn is-trial" href="https://superior-admin.pages.dev/apply.html?club=%E7%94%9F%E9%A7%92&amp;src=hp" target="_blank" rel="noopener">
           <div class="ab-t">生駒スクール 体験申込</div>
@@ -1522,6 +1558,236 @@
       tabs.forEach(function(x){ x.setAttribute('aria-pressed', x===t ? 'true' : 'false'); });
       document.querySelectorAll('.fee-panel').forEach(function(p){ p.hidden = p.getAttribute('data-fee') !== k; });
     });
+  });
+})();
+</script>
+<!-- ===== SPIA（公式マスコット）2026-11-07 ===== -->
+<style>
+  /* 既存の文章・ボタンには触れない。SPIAは装飾（aria-hidden・クリック不可） */
+  .spia{pointer-events:none;-webkit-user-select:none;user-select:none}
+  .spia img{display:block;width:100%;height:auto;image-rendering:pixelated}
+
+  /* --- 配置① SCHEDULE：下から出て約3秒で消える（1ページ1回） --- */
+  .news-section{position:relative}
+  /* bottom を負にして、キャラの見える部分が本文（.inner）に入らないようにする＝カードや申込ボタンと重ならない */
+  .spia-peek{position:absolute;right:clamp(4px,3vw,36px);bottom:-40px;width:120px;z-index:3;
+             opacity:0;visibility:hidden;transform:translateY(112%)}
+  .spia-peek.is-in{visibility:visible;animation:spia-peek-io 3.4s ease forwards}
+  @keyframes spia-peek-io{
+    0%  {opacity:0;transform:translateY(112%)}
+    14% {opacity:1;transform:translateY(0)}
+    80% {opacity:1;transform:translateY(0)}
+    100%{opacity:0;transform:translateY(112%)}
+  }
+
+  /* --- 配置② GUIDE / CONTACT：その場に置く（レイアウトシフトなし） --- */
+  .spia-cheer{width:104px;margin:0 auto}
+  .spia-cheer--guide{margin:0}
+
+  /* --- タップ遊び（GUIDEのSPIAだけ。CONTACTは申込ボタンの真上なので装飾のまま触れない） --- */
+  .spia-play{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 auto 6px}
+  .spia-tap{pointer-events:auto;cursor:pointer;background:none;border:0;padding:0;display:block;
+            -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+            -webkit-touch-callout:none}
+  .spia-tap:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:10px}
+  .spia-tap.is-hop{animation:spia-hop .45s cubic-bezier(.3,1.5,.5,1)}
+  @keyframes spia-hop{
+    0%  {transform:translateY(0)}
+    32% {transform:translateY(-18px)}
+    58% {transform:translateY(0) scaleY(.93)}
+    76% {transform:translateY(0) scaleY(1.03)}
+    100%{transform:translateY(0)}
+  }
+  /* 吹き出し：白背景・黒文字・小さめ。高さを先に確保してレイアウトのズレを防ぐ */
+  .spia-bubwrap{min-height:52px;display:flex;align-items:flex-start;justify-content:center;width:100%}
+  .spia-bub{position:relative;max-width:min(300px,86vw);margin-top:8px;padding:8px 14px;
+            background:var(--white);color:var(--black);border:1px solid rgba(0,0,0,.10);
+            border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);
+            font-size:12.5px;line-height:1.65;letter-spacing:.6px;text-align:center;
+            opacity:0;transform:translateY(-3px);transition:opacity .2s ease,transform .2s ease}
+  .spia-bub.is-on{opacity:1;transform:translateY(0)}
+  .spia-bub::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;width:10px;height:10px;
+                    background:var(--white);border-left:1px solid rgba(0,0,0,.10);border-top:1px solid rgba(0,0,0,.10);
+                    transform:rotate(45deg)}
+  .spia-bub-n{display:inline-block;margin-right:7px;padding:2px 7px;border-radius:999px;
+              background:var(--gold);color:#fff;font-size:10px;font-weight:800;letter-spacing:.5px;vertical-align:1px}
+  /* display指定があると hidden 属性が効かないので明示する（節目以外はバッジを出さない） */
+  .spia-bub-n[hidden]{display:none}
+  /* 30・50・100 だけの控えめな演出（金のリングがふわっと1回だけ広がる） */
+  .spia-tap.is-special::after{content:"";position:absolute;inset:-8px;border-radius:50%;
+                              border:2px solid var(--gold);opacity:0;animation:spia-ring .9s ease-out}
+  .spia-tap{position:relative}
+  @keyframes spia-ring{0%{opacity:.75;transform:scale(.72)}100%{opacity:0;transform:scale(1.18)}}
+  .spia-cta{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:0 auto 18px}
+  .spia-cta .spia-cheer{margin:0;width:96px}
+  /* 和文はSUPERIORの承認済み書体に合わせて明朝（ゴシック太字は既存基準と合わない） */
+  .spia-bubble{position:relative;margin-bottom:16px;padding:8px 14px;border-radius:999px;
+               font-family:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;
+               background:var(--gold);color:#fff;font-size:12px;font-weight:600;letter-spacing:1.5px;
+               line-height:1;white-space:nowrap}
+  .spia-bubble::after{content:"";position:absolute;left:-5px;bottom:9px;width:0;height:0;
+                      border:5px solid transparent;border-right-color:var(--gold);border-left:0}
+
+  @media (max-width:768px){
+    .spia-peek{width:84px;bottom:-30px}
+    .spia-cheer{width:84px}
+    .spia-bub{font-size:11.5px;padding:7px 12px}
+    .spia-bubwrap{min-height:50px}
+    .spia-cta .spia-cheer{width:78px}
+    .spia-bubble{font-size:10.5px;padding:6px 11px;margin-bottom:12px}
+  }
+
+  /* --- 動きを減らす設定：静止画PNGに差し替え、移動なし --- */
+  @media (prefers-reduced-motion: reduce){
+    /* 画像の差し替えは <picture> の <source media> 側で行う（隠し<img>を置かない） */
+    .spia-tap.is-hop{animation:none}
+    .spia-tap.is-special::after{animation:none;display:none}
+    .spia-bub{transition:none}
+    .spia-peek{transform:none}
+    .spia-peek.is-in{animation:spia-peek-fade 3.4s linear forwards}
+    @keyframes spia-peek-fade{0%{opacity:0}14%{opacity:1}80%{opacity:1}100%{opacity:0}}
+  }
+</style>
+<script>
+/* 配置①：SCHEDULEが画面に入ったら1回だけ再生して、そのまま監視をやめる */
+(function(){
+  var el = document.getElementById('spiaPeek');
+  if(!el || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      el.classList.add('is-in');
+      io.disconnect();
+      setTimeout(function(){ el.classList.remove('is-in'); }, 3600);
+    });
+  }, {threshold:0, rootMargin:'0px 0px -40% 0px'});   /* セクションの上端が画面の6割まで来たら＝「到達した」とみなす */
+  io.observe(el.parentNode);
+})();
+
+/* ===== SPIAのタップ遊び（2026-11-07 MOON仕様）=====
+   ・1〜25回＝MOONさん作の物語セリフを順番に
+   ・30/50/100回＝特別なセリフ＋控えめな演出（金のリング・回数バッジ）
+   ・それ以外＝短い日常のセリフをランダム（同じ言葉が続かないようにする）
+   ・吹き出しは約3秒で消える。次にタップしたら即座に差し替わる
+   ・回数はその人の端末（localStorage）だけに残る＝サーバーには一切送らない */
+(function(){
+  var btn  = document.getElementById('spiaTap');
+  var bub  = document.getElementById('spiaBub');
+  var bubN = document.getElementById('spiaBubN');
+  var bubT = document.getElementById('spiaBubT');
+  if(!btn || !bub) return;
+
+  /* ★セリフはこの3つを直せば変わる（STORY＝1〜25／SPECIAL＝節目／DAILY＝それ以外） */
+  var STORY = [
+    'お、見つかった。',
+    'ぼくに何か用？',
+    '実は、ひみつがあるんだ。',
+    'まだ教えない。',
+    '速いって、なんだと思う？',
+    'タイムのこと？',
+    'それだけじゃない気がする。',
+    'ぼく、昔は走るのが怖かった。',
+    '笑われると思ってたから。',
+    'でも、ある日気づいたんだ。',
+    '誰も見てなくても、走っていいって。',
+    'そしたら、風が気持ちよかった。',
+    '速くなった？ まだ全然。',
+    'でも、次の日も走りたくなった。',
+    'それが、ぼくの最初の勝利。',
+    '……ここまで聞いてくれたんだね。',
+    'じゃあ、もうひとつだけ。',
+    '本当に強い子って、誰だと思う？',
+    '負けない子？ 違うよ。',
+    '負けても、またスタートに立つ子。',
+    '速さより先に、走る楽しさを。',
+    'これは、ぼくの大切な言葉。',
+    'きみの大切な言葉は、何？',
+    'いつか、聞かせてね。',
+    'ここまで来たきみには、秘密の称号を。'
+  ];
+  var SPECIAL = {
+    30:  '称号：あきらめない挑戦者',
+    50:  '……まだいるの？ ぼくたち、もう仲間だね。',
+    100: '100回も会いに来てくれたんだ。ありがとう。'
+  };
+  /* かわいさ5／意味深5／ユーモア3。すべて①の設定原文かSTORYに接地させている */
+  var DAILY = [
+    'やあ。',
+    'くすぐったいよ。',
+    'しっぽ、踏まないでね。',
+    'ちょっと休憩中。',
+    'また会えたね。',
+    '風、吹いてきたね。',
+    'スタートラインは、いつでも引ける。',
+    '昨日のぼくより、少しだけ。',
+    '転ぶのは、進んでる証拠。',
+    'きみは、どこまで走れると思う？',
+    '今、いいとこだったのに。',
+    'しっぽ、たまに自分で踏む。',
+    'かくれんぼは、得意じゃないみたい。'
+  ];
+
+  var KEY = 'spia.taps';
+  var n = 0;
+  try { n = parseInt(localStorage.getItem(KEY) || '0', 10) || 0; } catch(e){}
+  if (!(n >= 0) || n > 1e7) n = 0;          /* 壊れた値が入っていても止まらないように */
+
+  var hideTimer, hopTimer, ringTimer;
+  var lastDaily = -1;
+  function pickDaily(){
+    if (DAILY.length < 2) return DAILY[0] || '';
+    var i;
+    do { i = Math.floor(Math.random() * DAILY.length); } while (i === lastDaily);
+    lastDaily = i;
+    return DAILY[i];
+  }
+  function lineFor(count){
+    if (count >= 1 && count <= STORY.length) return {text: STORY[count-1], special:false};
+    if (SPECIAL[count]) return {text: SPECIAL[count], special:true};
+    return {text: pickDaily(), special:false};
+  }
+
+  function show(line, count){
+    clearTimeout(hideTimer);
+    if (line.special){ bubN.textContent = count + '回'; bubN.hidden = false; }
+    else { bubN.hidden = true; bubN.textContent = ''; }
+    bubT.textContent = line.text;
+    bub.classList.add('is-on');                       /* 連打中は消さずに中身だけ差し替える */
+    hideTimer = setTimeout(function(){ bub.classList.remove('is-on'); }, 3000);
+  }
+
+  /* 初めて来た人にだけ、GUIDEが画面に入ったとき1回だけ「タップしてみて」を3秒出す。
+     （吹き出しは既定で見えないので、これが無いとスマホでは誰もタップできると気づけない） */
+  if (n === 0 && 'IntersectionObserver' in window){
+    var hintIO = new IntersectionObserver(function(es){
+      if(!es[0].isIntersecting) return;
+      hintIO.disconnect();
+      if (n !== 0) return;                            /* もう押していたら出さない */
+      bub.classList.add('is-on');
+      hideTimer = setTimeout(function(){ bub.classList.remove('is-on'); }, 3000);
+    }, {threshold:0.6});
+    hintIO.observe(btn);
+  }
+
+  btn.addEventListener('click', function(){
+    n++;
+    try { localStorage.setItem(KEY, String(n)); } catch(e){}
+
+    btn.classList.remove('is-hop');
+    void btn.offsetWidth;                             /* 連打しても毎回跳ねるようにやり直す */
+    btn.classList.add('is-hop');
+    clearTimeout(hopTimer);
+    hopTimer = setTimeout(function(){ btn.classList.remove('is-hop'); }, 460);
+
+    var line = lineFor(n);
+    if (line.special){
+      btn.classList.remove('is-special');
+      void btn.offsetWidth;
+      btn.classList.add('is-special');
+      clearTimeout(ringTimer);
+      ringTimer = setTimeout(function(){ btn.classList.remove('is-special'); }, 950);
+    }
+    show(line, n);
   });
 })();
 </script>

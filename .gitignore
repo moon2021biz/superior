@@ -83,3 +83,13 @@
 !/note-thumbs/06_undokai.jpg
 # 活動レポート画像（2026-10-12・集合写真を強ぼかし加工／大会名なし・EXIFなし・security-privacy-agent CLEAR）
 !/images/topic-20261012-result.jpg
+
+# --- SPIA（公式マスコット）2026-11-07。index.html が参照しているものだけ ---
+!/images/spia/
+# ★次の1行で既定を非公開に戻す（これが無いと spia/ に置いたものが全部公開される）
+/images/spia/*
+!/images/spia/spia-run.webp
+!/images/spia/spia-run.gif
+!/images/spia/spia-run-still.png
+!/images/spia/spia-cheer.webp
+!/images/spia/spia-cheer-still.png
