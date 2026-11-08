@@ -1129,6 +1129,7 @@
 
     <!-- SPIA（公式マスコット）配置①：スクール紹介に到達したとき、下から1回だけ出て約3秒で消える -->
     <div class="spia spia-peek" id="spiaPeek" aria-hidden="true">
+      <p class="spia-peek-say">ぼくを見つけて</p>
       <picture>
         <source media="(prefers-reduced-motion: reduce)" srcset="images/spia/spia-run-still.png" type="image/png">
         <source srcset="images/spia/spia-run.webp" type="image/webp">
@@ -1155,9 +1156,10 @@
       </button>
       <div class="spia-bubwrap">
         <div class="spia-bub" id="spiaBub" role="status" aria-live="polite">
-          <span class="spia-bub-n" id="spiaBubN" hidden></span><span id="spiaBubT">タップしてみて</span>
+          <span class="spia-bub-n" id="spiaBubN" hidden></span><span id="spiaBubT">ぼくのひみつ、知りたい？</span>
         </div>
       </div>
+      <p class="spia-gate" id="spiaGate" hidden><a class="spia-gate-btn" href="/spia-himitsu-base">✦ スピアのひみつ基地へ</a></p>
     </div>
 
     <div class="plan-enroll">
@@ -1573,6 +1575,14 @@
   .spia-peek{position:absolute;right:clamp(4px,3vw,36px);bottom:-40px;width:120px;z-index:3;
              opacity:0;visibility:hidden;transform:translateY(112%)}
   .spia-peek.is-in{visibility:visible;animation:spia-peek-io 3.4s ease forwards}
+  /* 右下のSPIAの左側に出す吹き出し。peekの中に入れているので一緒に出て一緒に消える */
+  .spia-peek-say{position:absolute;right:calc(100% + 8px);top:16px;white-space:nowrap;
+                 padding:7px 13px;border-radius:14px;background:var(--white);color:var(--black);
+                 border:1px solid rgba(0,0,0,.10);box-shadow:0 2px 10px rgba(0,0,0,.06);
+                 font-size:12px;letter-spacing:.6px;line-height:1.4}
+  .spia-peek-say::after{content:"";position:absolute;right:-6px;top:50%;margin-top:-5px;width:10px;height:10px;
+                        background:var(--white);border-right:1px solid rgba(0,0,0,.10);border-top:1px solid rgba(0,0,0,.10);
+                        transform:rotate(45deg)}
   @keyframes spia-peek-io{
     0%  {opacity:0;transform:translateY(112%)}
     14% {opacity:1;transform:translateY(0)}
@@ -1621,6 +1631,16 @@
               background:var(--gold);color:#fff;font-size:10px;font-weight:800;letter-spacing:.5px;vertical-align:1px}
   /* display指定があると hidden 属性が効かないので明示する（節目以外はバッジを出さない） */
   .spia-bub-n[hidden]{display:none}
+  /* 入口の表示制御（2026-11-09） */
+  .spia-gate{margin:10px 0 0}
+  .spia-gate[hidden]{display:none}
+  .spia-gate-btn{display:inline-block;padding:9px 20px;border-radius:999px;
+                 background:var(--black);color:var(--white);border:1px solid var(--gold);
+                 font-size:12px;font-weight:700;letter-spacing:1.5px;text-decoration:none;
+                 transition:background .2s ease,color .2s ease}
+  .spia-gate-btn:hover{background:var(--gold);color:var(--black)}
+  .spia-gate-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
   /* 30・50・100 だけの控えめな演出（金のリングがふわっと1回だけ広がる） */
   .spia-tap.is-special::after{content:"";position:absolute;inset:-8px;border-radius:50%;
                               border:2px solid var(--gold);opacity:0;animation:spia-ring .9s ease-out}
@@ -1638,6 +1658,7 @@
 
   @media (max-width:768px){
     .spia-peek{width:84px;bottom:-30px}
+    .spia-peek-say{font-size:11px;padding:6px 10px;right:calc(100% + 6px);top:10px}
     .spia-cheer{width:84px}
     .spia-bub{font-size:11.5px;padding:7px 12px}
     .spia-bubwrap{min-height:62px}   /* 節目のセリフが2行になっても下がずれない高さ（実測55.5px） */
@@ -1773,7 +1794,7 @@
     hideTimer = setTimeout(function(){ bub.classList.remove('is-on'); }, hideMs(line.text));
   }
 
-  /* 初めて来た人にだけ、GUIDEが画面に入ったとき1回だけ「タップしてみて」を3秒出す。
+  /* 初めて来た人にだけ、GUIDEが画面に入ったとき1回だけ「ぼくのひみつ、知りたい？」を3秒出す。
      （吹き出しは既定で見えないので、これが無いとスマホでは誰もタップできると気づけない） */
   if (n === 0 && 'IntersectionObserver' in window){
     var hintIO = new IntersectionObserver(function(es){
@@ -1785,6 +1806,15 @@
     }, {threshold:0.6});
     hintIO.observe(btn);
   }
+
+  /* 入口の表示制御（2026-11-09） */
+  var GATE_AT = 30;
+  var gate = document.getElementById('spiaGate');
+  function openGate(delay){
+    if(!gate) return;
+    setTimeout(function(){ gate.hidden = false; }, delay || 0);
+  }
+  if (n >= GATE_AT) openGate(0);
 
   btn.addEventListener('click', function(){
     /* 節目の直後だけ、約1秒は受け付けない（読んでいる間に回数が進まないように） */
@@ -1810,6 +1840,7 @@
       ringTimer = setTimeout(function(){ btn.classList.remove('is-special'); }, 950);
     }
     show(line, n);
+    if (n === GATE_AT) openGate(LOCK_MS + 400);
   });
 })();
 </script>

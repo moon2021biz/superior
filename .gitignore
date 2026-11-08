@@ -93,3 +93,6 @@
 !/images/spia/spia-run-still.png
 !/images/spia/spia-cheer.webp
 !/images/spia/spia-cheer-still.png
+
+# --- 隠しページ（2026-11-09・noindex必須） ---
+!/spia-himitsu-base.html
