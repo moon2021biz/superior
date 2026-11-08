@@ -1599,12 +1599,20 @@
     100%{transform:translateY(0)}
   }
   /* 吹き出し：白背景・黒文字・小さめ。高さを先に確保してレイアウトのズレを防ぐ */
-  .spia-bubwrap{min-height:52px;display:flex;align-items:flex-start;justify-content:center;width:100%}
+  .spia-bubwrap{min-height:62px;display:flex;align-items:flex-start;justify-content:center;width:100%}
   .spia-bub{position:relative;max-width:min(300px,86vw);margin-top:8px;padding:8px 14px;
             background:var(--white);color:var(--black);border:1px solid rgba(0,0,0,.10);
             border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);
             font-size:12.5px;line-height:1.65;letter-spacing:.6px;text-align:center;
+            /* 日本語の改行をきれいに（2026-11-08 MOON指示・そらまる側と同じ考え方）
+               line-break:strict … 行頭に 、。っ ゃ ー が来ないようにする（禁則処理）
+               ★auto-phrase（文節で折る）と balance（行の長さをそろえる）は必ずセット。
+                 balance だけ効くブラウザでは語の途中で折れることを実測している */
+            line-break:strict;overflow-wrap:break-word;word-break:normal;text-wrap:pretty;
             opacity:0;transform:translateY(-3px);transition:opacity .2s ease,transform .2s ease}
+  @supports (word-break: auto-phrase){
+    .spia-bub{word-break:auto-phrase;text-wrap:balance}
+  }
   .spia-bub.is-on{opacity:1;transform:translateY(0)}
   .spia-bub::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;width:10px;height:10px;
                     background:var(--white);border-left:1px solid rgba(0,0,0,.10);border-top:1px solid rgba(0,0,0,.10);
@@ -1632,7 +1640,7 @@
     .spia-peek{width:84px;bottom:-30px}
     .spia-cheer{width:84px}
     .spia-bub{font-size:11.5px;padding:7px 12px}
-    .spia-bubwrap{min-height:50px}
+    .spia-bubwrap{min-height:62px}   /* 節目のセリフが2行になっても下がずれない高さ（実測55.5px） */
     .spia-cta .spia-cheer{width:78px}
     .spia-bubble{font-size:10.5px;padding:6px 11px;margin-bottom:12px}
   }
@@ -1734,6 +1742,15 @@
 
   var hideTimer, hopTimer, ringTimer;
   var lastDaily = -1;
+
+  /* 吹き出しが消えるまでの時間は文字の量で変える（MOON指示 2026-11-08）
+     読む速さを1秒あたり約6文字とみて、読み終わってから少し余韻を残す */
+  function hideMs(text){
+    var len = (text || '').length;
+    return Math.min(8000, Math.max(2800, 1500 + len * 175));
+  }
+  /* 節目のセリフは、読み切る前に次が出ないよう約1秒だけ受け付けない（回数も進めない） */
+  var LOCK_MS = 1000, lockUntil = 0;
   function pickDaily(){
     if (DAILY.length < 2) return DAILY[0] || '';
     var i;
@@ -1753,7 +1770,7 @@
     else { bubN.hidden = true; bubN.textContent = ''; }
     bubT.textContent = line.text;
     bub.classList.add('is-on');                       /* 連打中は消さずに中身だけ差し替える */
-    hideTimer = setTimeout(function(){ bub.classList.remove('is-on'); }, 3000);
+    hideTimer = setTimeout(function(){ bub.classList.remove('is-on'); }, hideMs(line.text));
   }
 
   /* 初めて来た人にだけ、GUIDEが画面に入ったとき1回だけ「タップしてみて」を3秒出す。
@@ -1770,6 +1787,10 @@
   }
 
   btn.addEventListener('click', function(){
+    /* 節目の直後だけ、約1秒は受け付けない（読んでいる間に回数が進まないように） */
+    var now = (window.Date && Date.now) ? Date.now() : new Date().getTime();
+    if (now < lockUntil) return;
+
     n++;
     try { localStorage.setItem(KEY, String(n)); } catch(e){}
 
@@ -1781,6 +1802,7 @@
 
     var line = lineFor(n);
     if (line.special){
+      lockUntil = now + LOCK_MS;
       btn.classList.remove('is-special');
       void btn.offsetWidth;
       btn.classList.add('is-special');
@@ -1789,6 +1811,33 @@
     }
     show(line, n);
   });
+})();
+</script>
+<!-- 申込の経路（src）をHPの申込ボタンへ引き継ぐ 2026-11-08
+     例：広告から https://www.superior2025.com/?src=meta_ikoma#schedule で来た人が
+     「体験申し込み」を押すと apply.html?club=...&src=meta_ikoma になる。
+     src が無い・形式が違うときは従来どおり src=hp のまま。 -->
+<script>
+(function(){
+  var m=(location.search.match(/[?&]src=([^&#]*)/)||[])[1];
+  if(!m)return;
+  var src;
+  try{ src=decodeURIComponent(m).trim().toLowerCase(); }catch(e){ return; } // 壊れた%符号は無視
+  if(!/^[a-z0-9_-]{1,20}$/.test(src))return;
+  function isApply(a){ return a.hostname==='superior-admin.pages.dev' && a.pathname.indexOf('/apply')===0; }
+  function fix(a){
+    if(!a||!a.href||!isApply(a))return;
+    a.href=a.href.replace(/([?&]src=)[^&#]*/,'$1'+encodeURIComponent(src));
+    if(!/[?&]src=/.test(a.href))a.href+=(a.href.indexOf('?')<0?'?':'&')+'src='+encodeURIComponent(src);
+  }
+  function fixAll(){ Array.prototype.forEach.call(document.querySelectorAll('a[href]'),fix); }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixAll);
+  else fixAll();
+  // お知らせコーナーのイベントは後から差し込まれるので、押された瞬間にも直す
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;
+    fix(a);
+  },true);
 })();
 </script>
 </body>
