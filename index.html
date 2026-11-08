@@ -1569,10 +1569,11 @@
   .spia{pointer-events:none;-webkit-user-select:none;user-select:none}
   .spia img{display:block;width:100%;height:auto;image-rendering:pixelated}
 
-  /* --- 配置① SCHEDULE：下から出て約3秒で消える（1ページ1回） --- */
+  /* --- 配置① SCHEDULE：画面の右下に貼り付いて、下から出て約3秒で消える（1ページ1回） ---
+     position:fixed にしているので、出ているあいだはスクロールしても付いてくる（そらまると同じ作り）。
+     z-index はヘッダー(100)より下。触れない装飾なので pointer-events:none のまま。 */
   .news-section{position:relative}
-  /* bottom を負にして、キャラの見える部分が本文（.inner）に入らないようにする＝カードや申込ボタンと重ならない */
-  .spia-peek{position:absolute;right:clamp(4px,3vw,36px);bottom:-40px;width:120px;z-index:3;
+  .spia-peek{position:fixed;right:clamp(8px,3vw,24px);bottom:0;width:120px;z-index:90;
              opacity:0;visibility:hidden;transform:translateY(112%)}
   .spia-peek.is-in{visibility:visible;animation:spia-peek-io 3.4s ease forwards}
   /* 右下のSPIAの左側に出す吹き出し。peekの中に入れているので一緒に出て一緒に消える */
@@ -1657,7 +1658,7 @@
                       border:5px solid transparent;border-right-color:var(--gold);border-left:0}
 
   @media (max-width:768px){
-    .spia-peek{width:84px;bottom:-30px}
+    .spia-peek{width:88px;right:8px;bottom:calc(4px + env(safe-area-inset-bottom, 0px))}
     .spia-peek-say{font-size:11px;padding:6px 10px;right:calc(100% + 6px);top:10px}
     .spia-cheer{width:84px}
     .spia-bub{font-size:11.5px;padding:7px 12px}
@@ -1667,8 +1668,13 @@
   }
 
   /* --- 動きを減らす設定：静止画PNGに差し替え、移動なし --- */
+  /* 画面が低いとき（横向きなど）は本文に被らないよう控えめに */
+  @media (max-height:460px){ .spia-peek{width:92px} }
+
   @media (prefers-reduced-motion: reduce){
     /* 画像の差し替えは <picture> の <source media> 側で行う（隠し<img>を置かない） */
+    /* 画面に出入りする右下の1体は演出そのものなので出さない（そらまると同じ判断） */
+    .spia-peek{display:none !important}
     .spia-tap.is-hop{animation:none}
     .spia-tap.is-special::after{animation:none;display:none}
     .spia-bub{transition:none}
