@@ -1745,7 +1745,14 @@
     50:  '……まだいるの？ ぼくたち、もう仲間だね。',
     100: '100回も会いに来てくれたんだ。ありがとう。'
   };
-  /* かわいさ5／意味深5／ユーモア3。すべて①の設定原文かSTORYに接地させている */
+  /* --- 26回目以降に出すもの（2026-11-09 MOON「両方やる」）---
+     ・STORY（MOONさん作の25本）を最初から順に繰り返す
+     ・その合間に「タメになる話」と「ふだんのひとこと」を混ぜる
+     ・どちらも袋方式：袋が空になるまで同じものは二度と出ない
+     ★EXTRA の数字・コーチの戦績は、すべて公式サイトのコーチ紹介に公開済みのものだけ。
+       新しい事実は作らない（教訓#005）。クイズは Q の次のタップで必ず A が出る。 */
+
+  /* ふだんのひとこと */
   var DAILY = [
     'やあ。',
     'くすぐったいよ。',
@@ -1762,13 +1769,44 @@
     'かくれんぼは、得意じゃないみたい。'
   ];
 
+  /* タメになる話。[出典] は実装メモで、画面には出ない */
+  var EXTRA = [
+    /* 走り方のコツ（SUPERIORの承認済み投稿文より） */
+    '足の速さは才能じゃない。走り方は技術だよ',
+    '地面をどう押すかで、一歩が変わる',
+    '「腕を振って」と言われても、変わらないよね',
+    'お手本を見ても、真似できないことがある',
+    /* 常識をひっくり返す（同上） */
+    '「できた？」より「何が違った？」',
+    '答えを教わらないほうが、伸びることがある',
+    '教えすぎると、伸びしろが止まるんだって',
+    '速い子だけが来る場所じゃないんだ',
+    /* クラブの豆知識（公式サイト・CONTEXTに公開済み） */
+    '生駒は毎週木曜、箕面は火曜に月3回',
+    '荻田代表は、リオオリンピックに出た人',
+    '萩尾コーチは関西インカレで優勝してる',
+    '上田コーチは国体で入賞してるんだ',
+    'SUPERIORは走って、跳んで、投げるんだ',
+    '体験は1回目、お金がかからないよ',
+    /* やってみて */
+    'その場で10回ジャンプ。音は出た？',
+    '立ったまま前にかがんで、指は床につく？'
+  ];
+
+  /* クイズ。Qを出したら、次のタップで必ずAを出す */
+  var QUIZ = [
+    ['クイズ。萩尾コーチの100m、何秒だと思う？', '答えは10秒31。ぼくより速いかも'],
+    ['クイズ。荻田代表は棒を持って何mとぶ？', '5m70。バスケットゴールより、ずっと上'],
+    ['クイズ。上田コーチの走り高跳びの記録は？', '2m14。バーの高さだよ。見上げる高さだ'],
+    ['クイズ。速く走るコツって、どこだと思う？', '……ぼくも知りたい。コーチに聞いてみて']
+  ];
+
   var KEY = 'spia.taps';
   var n = 0;
   try { n = parseInt(localStorage.getItem(KEY) || '0', 10) || 0; } catch(e){}
   if (!(n >= 0) || n > 1e7) n = 0;          /* 壊れた値が入っていても止まらないように */
 
   var hideTimer, hopTimer, ringTimer;
-  var lastDaily = -1;
 
   /* 吹き出しが消えるまでの時間は文字の量で変える（MOON指示 2026-11-08）
      読む速さを1秒あたり約6文字とみて、読み終わってから少し余韻を残す */
@@ -1778,17 +1816,72 @@
   }
   /* 節目のセリフは、読み切る前に次が出ないよう約1秒だけ受け付けない（回数も進めない） */
   var LOCK_MS = 1000, lockUntil = 0;
-  function pickDaily(){
-    if (DAILY.length < 2) return DAILY[0] || '';
+  /* ===== 袋方式 =====
+     袋にぜんぶ入れて、空になるまで引く。空になったら混ぜて入れ直す。
+     袋の中身も端末に残すので、ページを開き直しても続きから（重複が戻らない）。 */
+  var BAG_KEY = 'spia.bag';
+  var POOL = [];                                   /* 0..DAILY-1 = ふだん / 次に EXTRA / 次に QUIZ */
+  (function(){
     var i;
-    do { i = Math.floor(Math.random() * DAILY.length); } while (i === lastDaily);
-    lastDaily = i;
-    return DAILY[i];
+    for (i = 0; i < DAILY.length; i++) POOL.push({t:'d', i:i});
+    for (i = 0; i < EXTRA.length; i++) POOL.push({t:'e', i:i});
+    for (i = 0; i < QUIZ.length;  i++) POOL.push({t:'q', i:i});
+  })();
+
+  var bag = [], pendingAnswer = null, storyLoop = 0;
+  try {
+    var saved = JSON.parse(localStorage.getItem(BAG_KEY) || '{}');
+    if (Object.prototype.toString.call(saved.bag) === '[object Array]') {
+      bag = saved.bag.filter(function(n){ return n >= 0 && n < POOL.length; });
+    }
+    if (typeof saved.pa === 'number' && saved.pa >= 0 && saved.pa < QUIZ.length) pendingAnswer = saved.pa;
+    if (typeof saved.sl === 'number' && saved.sl >= 0) storyLoop = saved.sl % STORY.length;
+  } catch(e){}
+
+  function saveBag(){
+    try { localStorage.setItem(BAG_KEY, JSON.stringify({bag:bag, pa:pendingAnswer, sl:storyLoop})); } catch(e){}
   }
+  function refill(){
+    bag = [];
+    for (var i = 0; i < POOL.length; i++) bag.push(i);
+    for (var j = bag.length - 1; j > 0; j--) {        /* よく混ぜる */
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = bag[j]; bag[j] = bag[k]; bag[k] = tmp;
+    }
+  }
+  function drawFromBag(){
+    if (pendingAnswer !== null) {                      /* クイズの答えが先 */
+      var a = QUIZ[pendingAnswer][1];
+      pendingAnswer = null;
+      return a;
+    }
+    if (!bag.length) refill();
+    var p = POOL[bag.pop()];
+    if (p.t === 'd') return DAILY[p.i];
+    if (p.t === 'e') return EXTRA[p.i];
+    pendingAnswer = p.i;                               /* クイズを出したら次は答え */
+    return QUIZ[p.i][0];
+  }
+
   function lineFor(count){
     if (count >= 1 && count <= STORY.length) return {text: STORY[count-1], special:false};
     if (SPECIAL[count]) return {text: SPECIAL[count], special:true};
-    return {text: pickDaily(), special:false};
+    /* 26回目以降：物語をもう一度あたまから順に回しつつ、合間にタメになる話を挟む。
+       ただしクイズを出した直後だけは、物語を挟まずに必ず答えを先に出す */
+    if (pendingAnswer !== null) {
+      var ans = drawFromBag();
+      saveBag();
+      return {text: ans, special:false};
+    }
+    if (count % 2 === 0) {
+      var line = STORY[storyLoop];
+      storyLoop = (storyLoop + 1) % STORY.length;
+      saveBag();
+      return {text: line, special:false};
+    }
+    var t = drawFromBag();
+    saveBag();
+    return {text: t, special:false};
   }
 
   function show(line, count){

@@ -25,6 +25,10 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
 /* ===== 本番用の調整（2026-11-09） ===== */
+/* 画像に width/height 属性を付けた（レイアウトのズレ防止）ので、
+   CSS側で高さを自動にしないと縦に伸びる。2026-11-09 修正 */
+img{max-width:100%}
+.spia-in-room{height:auto}
 .close-button{white-space:nowrap}
 @media (max-width:420px){ .dialog-bottom{gap:10px} .close-button{padding-left:14px;padding-right:14px;font-size:12px} }
 body{margin:0}
