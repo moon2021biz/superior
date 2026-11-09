@@ -1794,10 +1794,11 @@
   ];
 
   /* クイズ。Qを出したら、次のタップで必ずAを出す */
+  /* [問い, 答え, そのあとの続き]。続きが無いものは2つだけ */
   var QUIZ = [
-    ['クイズ。萩尾コーチの100m、何秒だと思う？', '答えは10秒31。ぼくより速いかも'],
-    ['クイズ。荻田代表は棒を持って何mとぶ？', '5m70。バスケットゴールより、ずっと上'],
-    ['クイズ。上田コーチの走り高跳びの記録は？', '2m14。バーの高さだよ。見上げる高さだ'],
+    ['クイズ。萩尾コーチの100m、何秒だと思う？', '答えは10秒31。ぼくより速いかも', '西日本の大学生で一番速く走ったんだよ！'],
+    ['クイズ。荻田代表は棒を持って何mとぶ？', '5m70。バスケットゴールより、ずっと上', '信号機でもなんと5m！'],
+    ['クイズ。上田コーチの走り高跳びの記録は？', '2m14。バーの高さだよ。見上げる高さだ', '自動販売機も越えられるらしいよ！'],
     ['クイズ。速く走るコツって、どこだと思う？', '……ぼくも知りたい。コーチに聞いてみて']
   ];
 
@@ -1828,18 +1829,21 @@
     for (i = 0; i < QUIZ.length;  i++) POOL.push({t:'q', i:i});
   })();
 
-  var bag = [], pendingAnswer = null, storyLoop = 0;
+  var bag = [], pendingLines = [], storyLoop = 0, phase = 'story';
   try {
     var saved = JSON.parse(localStorage.getItem(BAG_KEY) || '{}');
     if (Object.prototype.toString.call(saved.bag) === '[object Array]') {
       bag = saved.bag.filter(function(n){ return n >= 0 && n < POOL.length; });
     }
-    if (typeof saved.pa === 'number' && saved.pa >= 0 && saved.pa < QUIZ.length) pendingAnswer = saved.pa;
+    if (Object.prototype.toString.call(saved.pl) === '[object Array]') {
+      pendingLines = saved.pl.filter(function(x){ return typeof x === 'string'; }).slice(0, 3);
+    }
     if (typeof saved.sl === 'number' && saved.sl >= 0) storyLoop = saved.sl % STORY.length;
+    if (saved.ph === 'story' || saved.ph === 'extra') phase = saved.ph;
   } catch(e){}
 
   function saveBag(){
-    try { localStorage.setItem(BAG_KEY, JSON.stringify({bag:bag, pa:pendingAnswer, sl:storyLoop})); } catch(e){}
+    try { localStorage.setItem(BAG_KEY, JSON.stringify({bag:bag, pl:pendingLines, sl:storyLoop, ph:phase})); } catch(e){}
   }
   function refill(){
     bag = [];
@@ -1850,36 +1854,41 @@
     }
   }
   function drawFromBag(){
-    if (pendingAnswer !== null) {                      /* クイズの答えが先 */
-      var a = QUIZ[pendingAnswer][1];
-      pendingAnswer = null;
-      return a;
-    }
+    if (pendingLines.length) return pendingLines.shift();   /* クイズの続きが先 */
     if (!bag.length) refill();
     var p = POOL[bag.pop()];
     if (p.t === 'd') return DAILY[p.i];
     if (p.t === 'e') return EXTRA[p.i];
-    pendingAnswer = p.i;                               /* クイズを出したら次は答え */
+    pendingLines = QUIZ[p.i].slice(1);                      /* 答え（と続き）を順に出す */
     return QUIZ[p.i][0];
   }
 
   function lineFor(count){
     if (count >= 1 && count <= STORY.length) return {text: STORY[count-1], special:false};
     if (SPECIAL[count]) return {text: SPECIAL[count], special:true};
-    /* 26回目以降：物語をもう一度あたまから順に回しつつ、合間にタメになる話を挟む。
-       ただしクイズを出した直後だけは、物語を挟まずに必ず答えを先に出す */
-    if (pendingAnswer !== null) {
+    /* 26回目以降（2026-11-09 MOON「物語は続けて出るようにして」）
+       ・まず物語25本を**途中で切らずに続けて**出す
+       ・1周し終わったら、タメになる話を袋が空になるまで出す
+       ・空になったら、また物語の1本目から
+       ＝物語の中にコーチの記録などが割り込むことはない */
+    if (pendingLines.length) {             /* クイズの答えと続きは必ず先に出す */
       var ans = drawFromBag();
       saveBag();
       return {text: ans, special:false};
     }
-    if (count % 2 === 0) {
+    if (phase === 'story') {
       var line = STORY[storyLoop];
-      storyLoop = (storyLoop + 1) % STORY.length;
+      storyLoop += 1;
+      if (storyLoop >= STORY.length) {     /* 25本出し切ったら、次はタメになる話へ */
+        storyLoop = 0;
+        phase = 'extra';
+        refill();                          /* 袋を入れ直す */
+      }
       saveBag();
       return {text: line, special:false};
     }
     var t = drawFromBag();
+    if (!bag.length && !pendingLines.length) phase = 'story';     /* 袋が空いたら物語へ戻る */
     saveBag();
     return {text: t, special:false};
   }
