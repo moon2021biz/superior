@@ -1745,9 +1745,9 @@
     50:  '……まだいるの？ ぼくたち、もう仲間だね。',
     100: '100回も会いに来てくれたんだ。ありがとう。'
   };
-  /* --- 26回目以降に出すもの（2026-11-09 MOON「両方やる」）---
-     ・STORY（MOONさん作の25本）を最初から順に繰り返す
-     ・その合間に「タメになる話」と「ふだんのひとこと」を混ぜる
+  /* --- 26回目以降に出すもの（2026-11-09 MOON「両方やる」「25まで行ったらクイズに」）---
+     ・26回目からクイズ・タメになる話（袋が空になるまで重複なし）
+     ・袋を使い切ったら STORY（MOONさん作の25本）をもう一度1本目から
      ・どちらも袋方式：袋が空になるまで同じものは二度と出ない
      ★EXTRA の数字・コーチの戦績は、すべて公式サイトのコーチ紹介に公開済みのものだけ。
        新しい事実は作らない（教訓#005）。クイズは Q の次のタップで必ず A が出る。 */
@@ -1796,7 +1796,7 @@
   /* クイズ。Qを出したら、次のタップで必ずAを出す */
   /* [問い, 答え, そのあとの続き]。続きが無いものは2つだけ */
   var QUIZ = [
-    ['クイズ。萩尾コーチの100m、何秒だと思う？', '答えは10秒31。ぼくより速いかも', '西日本の大学生で一番速く走ったんだよ！'],
+    ['クイズ。萩尾コーチの100m、何秒だと思う？', '答えは10秒31。ぼくより速いかも', '西日本の大会で優勝したんだよ！'],
     ['クイズ。荻田代表は棒を持って何mとぶ？', '5m70。バスケットゴールより、ずっと上', '信号機でもなんと5m！'],
     ['クイズ。上田コーチの走り高跳びの記録は？', '2m14。バーの高さだよ。見上げる高さだ', '自動販売機も越えられるらしいよ！'],
     ['クイズ。速く走るコツって、どこだと思う？', '……ぼくも知りたい。コーチに聞いてみて']
@@ -1829,7 +1829,7 @@
     for (i = 0; i < QUIZ.length;  i++) POOL.push({t:'q', i:i});
   })();
 
-  var bag = [], pendingLines = [], storyLoop = 0, phase = 'story';
+  var bag = [], pendingLines = [], storyLoop = 0, phase = 'extra';   /* 25回まで物語 → 26回目からクイズ側へ */
   try {
     var saved = JSON.parse(localStorage.getItem(BAG_KEY) || '{}');
     if (Object.prototype.toString.call(saved.bag) === '[object Array]') {
@@ -1852,11 +1852,27 @@
       var k = Math.floor(Math.random() * (j + 1));
       var tmp = bag[j]; bag[j] = bag[k]; bag[k] = tmp;
     }
+    /* 袋の1本目は必ずクイズにする（物語を読み終えた直後がクイズで始まるように）。
+       bag は pop() で後ろから引くので、クイズを末尾へ移す。 */
+    for (var q = bag.length - 1; q >= 0; q--) {
+      if (POOL[bag[q]].t === 'q') {
+        var pick = bag.splice(q, 1)[0];
+        bag.push(pick);
+        break;
+      }
+    }
   }
-  function drawFromBag(){
+  function drawFromBag(avoidQuiz){
     if (pendingLines.length) return pendingLines.shift();   /* クイズの続きが先 */
     if (!bag.length) refill();
-    var p = POOL[bag.pop()];
+    var at = bag.length - 1;
+    if (avoidQuiz) {                 /* 節目が2つ先までに来るときは、クイズを始めない
+                                        （問い→答え→＋続き が節目のセリフで分断されないように） */
+      for (var k = bag.length - 1; k >= 0; k--) {
+        if (POOL[bag[k]].t !== 'q') { at = k; break; }
+      }
+    }
+    var p = POOL[bag.splice(at, 1)[0]];
     if (p.t === 'd') return DAILY[p.i];
     if (p.t === 'e') return EXTRA[p.i];
     pendingLines = QUIZ[p.i].slice(1);                      /* 答え（と続き）を順に出す */
@@ -1866,13 +1882,16 @@
   function lineFor(count){
     if (count >= 1 && count <= STORY.length) return {text: STORY[count-1], special:false};
     if (SPECIAL[count]) return {text: SPECIAL[count], special:true};
-    /* 26回目以降（2026-11-09 MOON「物語は続けて出るようにして」）
-       ・まず物語25本を**途中で切らずに続けて**出す
-       ・1周し終わったら、タメになる話を袋が空になるまで出す
-       ・空になったら、また物語の1本目から
-       ＝物語の中にコーチの記録などが割り込むことはない */
+    /* 26回目以降（2026-11-09 MOON「25まで行ったらクイズに行こう」「揃える」）
+       ・物語を25本読み終えたら、まずクイズ・タメになる話へ（袋が空になるまで重複なし）
+       ・袋が空いたら、物語をもう一度1本目から25本つづけて
+       ・読み終わったら、また袋へ。以降くりかえし
+       ＝物語の中にコーチの記録などが割り込むことはない（そらまると同じ形） */
     if (pendingLines.length) {             /* クイズの答えと続きは必ず先に出す */
       var ans = drawFromBag();
+      /* 続きを出し切った時点で袋も空なら、次は物語へ戻す。
+         ここで見ないと「袋の最後の1本がクイズ」のとき物語の再放送が飛ぶ。 */
+      if (!bag.length && !pendingLines.length) phase = 'story';
       saveBag();
       return {text: ans, special:false};
     }
@@ -1887,7 +1906,7 @@
       saveBag();
       return {text: line, special:false};
     }
-    var t = drawFromBag();
+    var t = drawFromBag(!!SPECIAL[count + 1] || !!SPECIAL[count + 2]);
     if (!bag.length && !pendingLines.length) phase = 'story';     /* 袋が空いたら物語へ戻る */
     saveBag();
     return {text: t, special:false};
