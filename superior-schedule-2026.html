@@ -286,7 +286,8 @@
 <div class="tabs" id="tabs"></div>
 <div id="months"><p style="text-align:center;color:#888;padding:40px 10px">予定を読み込み中…</p></div>
 
-<div class="cta-bar" style="border-top:1px solid #e0d8f5;margin-top:12px"><div class="cta-lead">予定を確認したら、次は体験へ</div><div id="ctaBottom"></div>
+<!-- 2026-11-11 下部の申込ボタンを削除（月ごとの「気になる日があれば…」と並んで同じボタンが2組出ていたため）。戻るリンクのみ残す -->
+<div class="cta-bar" style="border-top:1px solid #e0d8f5;margin-top:12px">
   <div class="back-wrap"><a class="back-top" href="/">← SUPERIOR トップへ戻る</a></div></div>
 
 <footer>
@@ -399,7 +400,6 @@ function render(){
   const lg=document.getElementById('legendGrid');
   if(lg)lg.innerHTML=LEGEND.filter(x=>SCHOOLS.includes(x.s)).map(x=>`<div class="legend-item"><div class="ldot" style="background:${x.dot}"></div>${x.t}</div>`).join('');
   const tb=document.getElementById('ctaTop');if(tb)tb.innerHTML=ctaHtml('schedule');
-  const tb2=document.getElementById('ctaBottom');if(tb2)tb2.innerHTML=ctaHtml('schedule');
   document.getElementById('tabs').innerHTML=tabs;
   document.getElementById('months').innerHTML=conts;
   const first=Number(months[0].split('-')[1]), last=Number(months[months.length-1].split('-')[1]);
