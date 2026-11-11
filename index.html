@@ -701,56 +701,84 @@
     .btn-line:hover { background: #05b84c; }
 
     /* ===== COACHES ===== */
-    .coaches-section { background: var(--white); }
+    /* 2026-11-11 コンパクト化（SORA公式サイトのスタッフ欄を参考）
+       ・余白と写真を詰めて縦を短く ・競技名はSORAと同じ囲みタグ ・戦績は「—」付きの左揃え */
+    .coaches-section { background: var(--white); padding-top: 62px; padding-bottom: 62px; }
 
     .coaches-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 40px;
-      max-width: 760px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      max-width: 720px;
       margin: 0 auto;
+      align-items: start;   /* 戦績の行数が違っても3人の写真の高さをそろえる */
     }
 
     .coach-card { text-align: center; }
 
     .coach-photo {
-      width: 120px;
-      height: 120px;
+      width: 92px;
+      height: 92px;
       object-fit: cover;
       border-radius: 50%;
-      margin: 0 auto 16px;
-      border: 2px solid var(--gray4);
+      margin: 0 auto 11px;
+      border: 1px solid var(--gray4);
       filter: grayscale(15%);
       transition: filter 0.3s;
     }
     .coach-card:hover .coach-photo { filter: grayscale(0%); }
 
     .coach-name-jp {
-      font-size: 17px;
+      font-size: 15.5px;
       font-weight: 800;
-      letter-spacing: 3px;
-      margin-bottom: 2px;
+      letter-spacing: 2px;
+      margin-bottom: 1px;
     }
 
     .coach-name-en {
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--gray3);
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       margin-bottom: 8px;
     }
 
     .coach-sport {
-      font-size: 11px;
+      display: inline-block;
+      font-size: 10.5px;
       color: var(--gold);
       font-weight: 700;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
+      letter-spacing: 1px;
+      border: 1px solid var(--gray4);
+      background: var(--gray5);
+      padding: 2px 10px;
+      margin-bottom: 11px;
+    }
+
+    .coach-pb {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gray2);
+      letter-spacing: .3px;
+      margin-bottom: 7px;
     }
 
     .coach-records {
       font-size: 11px;
       color: var(--gray3);
-      line-height: 2;
+      line-height: 1.8;
+      text-align: left;
+      display: inline-block;
+    }
+    .coach-records .rec {
+      display: block;
+      padding-left: 1.2em;   /* 文字サイズに追随（ポップアップでも「—」と文字がくっつかない） */
+      position: relative;
+    }
+    .coach-records .rec::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
     }
 
 
@@ -773,7 +801,8 @@
     .cdlg-in .coach-photo{width:150px;height:150px;margin:0 auto 18px}
     .cdlg-in .coach-name-jp{font-size:22px;margin-bottom:4px}
     .cdlg-in .coach-name-en{font-size:11px;margin-bottom:12px}
-    .cdlg-in .coach-sport{font-size:12.5px;margin-bottom:14px}
+    .cdlg-in .coach-sport{font-size:12.5px;margin-bottom:12px}
+    .cdlg-in .coach-pb{font-size:14px;margin-bottom:12px}
     .cdlg-in .coach-records{font-size:13.5px;line-height:2.1;color:var(--gray2)}
 
     /* ===== VENUES ===== */
@@ -898,8 +927,9 @@
       .coach-photo{width:74px;height:74px;margin:0 auto 10px;border-width:1px}
       .coach-name-jp{font-size:13px;letter-spacing:1px;margin-bottom:1px}
       .coach-name-en{font-size:8px;letter-spacing:1px;margin-bottom:5px}
-      .coach-sport{font-size:9px;letter-spacing:.5px;margin-bottom:0;line-height:1.6}
-      .coaches-grid .coach-records{display:none}  /* ポップアップ内の複製には効かせない */
+      .coach-sport{font-size:9px;letter-spacing:.5px;margin-bottom:0;line-height:1.6;border:0;background:none;padding:0;display:block}
+      .coaches-grid .coach-records,
+      .coaches-grid .coach-pb{display:none}  /* ポップアップ内の複製には効かせない */
       .coaches-note{display:block;margin-top:18px;font-size:11px;color:var(--gray3)}
       .cdlg-in{padding:0 22px 28px}
       .cdlg-in .coach-photo{width:128px;height:128px}
@@ -1248,8 +1278,8 @@
       <h2 class="section-title">コーチ紹介</h2>
       <img
         src="images/hashitobu.png" loading="lazy" decoding="async" width="505" height="43"
-        alt="走・跳・投"
-        style="margin: 0 auto 48px; max-width:300px;">
+        alt="コーチ陣はトップアスリート"
+        style="margin: 0 auto 26px; max-width:230px;">
       <div class="coaches-grid">
 
         <button type="button" class="coach-card" aria-haspopup="dialog">
@@ -1260,11 +1290,11 @@
           <h3 class="coach-name-jp">荻田 大樹</h3>
           <p class="coach-name-en">Ogita Hiroki</p>
           <p class="coach-sport">棒高跳び</p>
+          <p class="coach-pb">自己ベスト 5m70</p>
           <div class="coach-records">
-            自己ベスト：5m70<br>
-            リオオリンピック代表<br>
-            世界選手権 3大会代表<br>
-            日本選手権 優勝
+            <span class="rec">リオオリンピック代表</span>
+            <span class="rec">世界選手権 3大会代表</span>
+            <span class="rec">日本選手権 優勝</span>
           </div>
         </button>
 
@@ -1276,10 +1306,10 @@
           <h3 class="coach-name-jp">上田 裕紀</h3>
           <p class="coach-name-en">Ueda Yuki</p>
           <p class="coach-sport">短距離・走り高跳び</p>
+          <p class="coach-pb">自己ベスト 2m14</p>
           <div class="coach-records">
-            自己ベスト：2m14<br>
-            国民体育大会 入賞<br>
-            全日本インカレ 出場
+            <span class="rec">国民体育大会 入賞</span>
+            <span class="rec">全日本インカレ 出場</span>
           </div>
         </button>
 
@@ -1291,10 +1321,10 @@
           <h3 class="coach-name-jp">萩尾 脩斗</h3>
           <p class="coach-name-en">Hagio Shuto</p>
           <p class="coach-sport">100m・200m</p>
+          <p class="coach-pb">自己ベスト 10"31 / 20"90</p>
           <div class="coach-records">
-            自己ベスト：10"31 / 20"90<br>
-            西日本インカレ 優勝<br>
-            関西インカレ 優勝
+            <span class="rec">西日本インカレ 優勝</span>
+            <span class="rec">関西インカレ 優勝</span>
           </div>
         </button>
 
@@ -1536,7 +1566,7 @@
     b.addEventListener('click', function(){
       var box = d.querySelector('.cdlg-in');
       box.innerHTML = '';
-      b.querySelectorAll('.coach-photo, .coach-name-jp, .coach-name-en, .coach-sport, .coach-records').forEach(function(el){
+      b.querySelectorAll('.coach-photo, .coach-name-jp, .coach-name-en, .coach-sport, .coach-pb, .coach-records').forEach(function(el){
         var c = el.cloneNode(true);
         if(c.tagName === 'IMG'){ c.removeAttribute('loading'); }
         box.appendChild(c);
